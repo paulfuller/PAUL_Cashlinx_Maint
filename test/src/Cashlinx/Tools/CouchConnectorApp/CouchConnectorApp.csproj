@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D2F5D618-A5DE-443C-88E4-12AC12ADA3F9}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CouchConsoleApp</RootNamespace>
+    <AssemblyName>Couch Connector</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>CouchConsoleApp.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\Common\Libraries\External\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="JsonFx.Json">
+      <HintPath>..\..\Common\Libraries\External\JsonFx.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>bin\Debug\thirdparty\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.DataAccess, Version=2.112.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="couch\ConcurrentCookieDictionary.cs" />
+    <Compile Include="couch\CouchArchiverAddHelper.cs" />
+    <Compile Include="couch\CouchArchiverDeleteHelper.cs" />
+    <Compile Include="couch\CouchArchiverGetHelper.cs" />
+    <Compile Include="couch\CouchExprHelper.cs" />
+    <Compile Include="couch\CouchUtil.cs" />
+    <Compile Include="couch\PawnCouchConcurrentAccessSecurity.cs" />
+    <Compile Include="couch\SecuredCouchArchiver.cs" />
+    <Compile Include="db\ArchLogDAO.cs" />
+    <Compile Include="db\CouchDAO.cs" />
+    <Compile Include="db\DocumentProcDAO.cs" />
+    <Compile Include="db\ErrorMsgDAO.cs" />
+    <Compile Include="db\PwnArchLogDAO.cs" />
+    <Compile Include="events\AddTempDocEventHandler.cs" />
+    <Compile Include="form\CouchWebTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\CouchWebTestForm.Designer.cs">
+      <DependentUpon>CouchWebTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="test\AddTestDocThread.cs" />
+    <Compile Include="test\TestDocumentDAOThread.cs" />
+    <Compile Include="test\TestPopulateData.cs" />
+    <Compile Include="test\TestPopulateData2.cs" />
+    <Compile Include="thread\ArchiveJob1.cs" />
+    <Compile Include="thread\ArchiveJob2.cs" />
+    <Compile Include="thread\ArchiveJob3.cs" />
+    <Compile Include="thread\ArchJobErrorDesc.cs" />
+    <Compile Include="thread\JobAllocationHandler2.cs" />
+    <Compile Include="thread\JobAllocationHandler3.cs" />
+    <Compile Include="thread\JobAllocationHandlerMain.cs" />
+    <Compile Include="thread\JobAllocationHandler5.cs" />
+    <Compile Include="vo\CouchVO.cs" />
+    <Compile Include="data\DataClass.cs" />
+    <Compile Include="db\ConnDAO.cs" />
+    <Compile Include="db\DBConnector.cs" />
+    <Compile Include="db\DocRegListDAO.cs" />
+    <Compile Include="db\DocumentDAO.cs" />
+    <Compile Include="db\SourceDocByDateDAO.cs" />
+    <Compile Include="db\TargetDocByDateDAO.cs" />
+    <Compile Include="events\BgWorkerJobAllocationEventHandler.cs" />
+    <Compile Include="events\ListDocsFormEvents.cs" />
+    <Compile Include="file\FileHandler.cs" />
+    <Compile Include="file\SimpleHash.cs" />
+    <Compile Include="form\ArchProcessForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\ArchProcessForm.Designer.cs">
+      <DependentUpon>ArchProcessForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="form\DBParamsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\DBParamsForm.Designer.cs">
+      <DependentUpon>DBParamsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="form\ListDocsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\ListDocsForm.Designer.cs">
+      <DependentUpon>ListDocsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="form\MainForm.cs">
+      <SubType>Form</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="form\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="log\CConnectorCustomAppender.cs" />
+    <Compile Include="log\CConnLogHelper.cs" />
+    <Compile Include="vo\PawnDocRegArchStatVO.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="form\StartupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\StartupForm.Designer.cs">
+      <DependentUpon>StartupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="events\GoEventHandler.cs" />
+    <Compile Include="thread\ArchiveJob.cs" />
+    <Compile Include="thread\ArchiveJobError.cs" />
+    <Compile Include="thread\JobAllocationHandler.cs" />
+    <Compile Include="thread\ThreadBean.cs" />
+    <Compile Include="thread\ThreadForDocList.cs" />
+    <Compile Include="thread\ThreadForDocListTree.cs" />
+    <Compile Include="thread\ThreadJob.cs" />
+    <Compile Include="vo\ArchiveVO.cs" />
+    <Compile Include="vo\PawnDocRegErrorVO.cs" />
+    <Compile Include="vo\PawnDocRegVO.cs" />
+    <Compile Include="vo\PreviousArchStatVO.cs" />
+    <Compile Include="vo\PwnDocArchDBRepVO.cs" />
+    <Compile Include="vo\SourceDocTreeVO.cs" />
+    <EmbeddedResource Include="form\ArchProcessForm.resx">
+      <DependentUpon>ArchProcessForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\CouchWebTestForm.resx">
+      <DependentUpon>CouchWebTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\DBParamsForm.resx">
+      <DependentUpon>DBParamsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\ListDocsForm.resx">
+      <DependentUpon>ListDocsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="form\StartupForm.resx">
+      <DependentUpon>StartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="arch\arch_diag.cd" />
+    <None Include="bin\Debug\Log.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="bin\Debug\test\sample.pdf" />
+    <None Include="Log.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="test\sample.pdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="lib\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1326229917_tick-circle-frame.png" />
+    <None Include="Resources\1326230427_cross_circle_frame.png" />
+    <None Include="Resources\Image1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\thirdparty\Oracle.DataAccess.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.csproj">
+      <Project>{FE916264-3E31-433B-B458-048342150DFE}</Project>
+      <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

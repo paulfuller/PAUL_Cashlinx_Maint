@@ -1,0 +1,591 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CellNumberNotEnteredError" xml:space="preserve">
+    <value>Cell phone number cannot be blank if area code is entered</value>
+  </data>
+  <data name="CountryDataFetchError" xml:space="preserve">
+    <value>Could not fetch eye color data from session instance</value>
+  </data>
+  <data name="CountryNoData" xml:space="preserve">
+    <value>Country data could not be populated</value>
+  </data>
+  <data name="CustCreationSuccess" xml:space="preserve">
+    <value>Customer successfully created</value>
+  </data>
+  <data name="CustIdentUpdateFailure" xml:space="preserve">
+    <value>Adding new Customer Identification Failed. Please retry or cancel</value>
+  </data>
+  <data name="CustIdentPrimaryFlagUpdateFailure" xml:space="preserve">
+    <value>Updating Customer Identification Primary Flag Failed. Please retry or cancel</value>
+  </data>
+  <data name="CustIdentUpdateSuccess" xml:space="preserve">
+    <value>Successfully added the new Identification data for the customer</value>
+  </data>
+  <data name="CustPersInfoUpdateFailure" xml:space="preserve">
+    <value>Updating Customer Personal Information Failed. Please retry or cancel</value>
+  </data>
+  <data name="CustPersInfoUpdateSuccess" xml:space="preserve">
+    <value>Successfully updated customer personal information</value>
+  </data>
+  <data name="CustPhoneUpdateFailure" xml:space="preserve">
+    <value>Updating Customer Phone details Failed. Please retry or cancel</value>
+  </data>
+  <data name="CustPhoneUpdateSuccess" xml:space="preserve">
+    <value>Successfully updated phone details for the customer</value>
+  </data>
+  <data name="CustPhysicalDescUpdateFailure" xml:space="preserve">
+    <value>Updating Customer Physical Description Failed. Please retry or cancel</value>
+  </data>
+  <data name="CustPhysicalDescUpdateSuccess" xml:space="preserve">
+    <value>Successfully updated personal description of the customer</value>
+  </data>
+  <data name="ExistingCustomerHeader" xml:space="preserve">
+    <value>The Entered Customer's Information is associated to an Existing Customer</value>
+  </data>
+  <data name="FormErrorSubmitAgain" xml:space="preserve">
+    <value>Fix the errors in the form and submit again</value>
+  </data>
+  <data name="FormRequiredFieldsFilledError" xml:space="preserve">
+    <value>Fill in the required fields in the form and submit</value>
+  </data>
+  <data name="HomeNumberNotEnteredError" xml:space="preserve">
+    <value>Home phone number cannot be blank if area code is entered</value>
+  </data>
+  <data name="IDMatchMessage" xml:space="preserve">
+    <value>You can Continue with Existing Customer or Update his/her information or Select the new customer and go Back to update the ID Information</value>
+  </data>
+  <data name="InvalidDateOfBirth" xml:space="preserve">
+    <value>Invalid Date of Birth entered.</value>
+  </data>
+  <data name="InvalidHeightFeet" xml:space="preserve">
+    <value>Height in Feet should be a number from 2 to 9</value>
+  </data>
+  <data name="InvalidHeightInches" xml:space="preserve">
+    <value>Inches can only be a number between 1 and 11</value>
+  </data>
+  <data name="InvalidPhoneAreaCode" xml:space="preserve">
+    <value>Area code should be a 3 digit number</value>
+  </data>
+  <data name="InvalidPhoneNumber" xml:space="preserve">
+    <value>Phone Number should be a 7 digit number</value>
+  </data>
+  <data name="InvalidWeight" xml:space="preserve">
+    <value>Weight can only be a number from 1 to 999</value>
+  </data>
+  <data name="LoanIdCreationError" xml:space="preserve">
+    <value>Loan Number could not be generated. Customer information was saved. Please Retry or Cancel</value>
+  </data>
+  <data name="LookupCustNumberError" xml:space="preserve">
+    <value>Enter a Customer number to search</value>
+  </data>
+  <data name="LookupFormCriteriaError" xml:space="preserve">
+    <value>At least 2 criteria should be selected for searching using customer Information</value>
+  </data>
+  <data name="LookupIDError" xml:space="preserve">
+    <value>ID Search requires ID Type, ID Number and ID Issuer</value>
+  </data>
+  <data name="LookupLoanNumberError" xml:space="preserve">
+    <value>Enter Customer Loan Number for the search</value>
+  </data>
+  <data name="LookupPhoneNumberError" xml:space="preserve">
+    <value>Invalid phone number entered</value>
+  </data>
+  <data name="LookupResultsExceptionError" xml:space="preserve">
+    <value>Error in lookup search results screen</value>
+  </data>
+  <data name="LookupSearchCriteriaError" xml:space="preserve">
+    <value>Please select a search criteria and submit</value>
+  </data>
+  <data name="MultipleCustSearchResults" xml:space="preserve">
+    <value>Found over 15 customer records. Please refine the search and search again or select a customer to view.</value>
+  </data>
+  <data name="NameMatchMessage" xml:space="preserve">
+    <value>You can Continue with Existing Customer or Update his/her information or Select the new customer and continue to add as new customer</value>
+  </data>
+  <data name="PawnLoanAgeError" xml:space="preserve">
+    <value>Customer is not eligible for Pawn Loan</value>
+  </data>
+  <data name="PicklistNoData" xml:space="preserve">
+    <value>Could not get picklist details</value>
+  </data>
+  <data name="ProcessingError" xml:space="preserve">
+    <value>An error occurred in processing your request. Please try again or cancel</value>
+  </data>
+  <data name="SelectedCustomerLoadError" xml:space="preserve">
+    <value>Error loading the selected customer from search results</value>
+  </data>
+  <data name="SSNError" xml:space="preserve">
+    <value>Invalid Social Security Number entered.</value>
+  </data>
+  <data name="WorkNumberNotEnteredError" xml:space="preserve">
+    <value>Work phone number cannot be blank if area code is entered</value>
+  </data>
+  <data name="ZeroCustSearchResults" xml:space="preserve">
+    <value>Search resulted in 0 records for</value>
+  </data>
+  <data name="ManageOverrideDescMercMsg2" xml:space="preserve">
+    <value>the recommended loan amount by $</value>
+  </data>
+  <data name="ManageOverrideDescMercMsgLess" xml:space="preserve">
+    <value>for this item is less than</value>
+  </data>
+  <data name="ManageOverrideDescMercMsgMore" xml:space="preserve">
+    <value>for this item is more than</value>
+  </data>
+  <data name="ManageOverrideLoanMsg" xml:space="preserve">
+    <value>The loan amount of $</value>
+  </data>
+  <data name="ManageOverrideLoanMsg2" xml:space="preserve">
+    <value> is over your authorized limit!</value>
+  </data>
+  <data name="ManageOverridePurchaseMsg" xml:space="preserve">
+    <value>The Buy amount of $</value>
+  </data>
+  <data name="ManageOverridePurchaseMsg2" xml:space="preserve">
+    <value> is over your authorized limit!</value>
+  </data>
+  <data name="ManageOverrideLoginFailed" xml:space="preserve">
+    <value>Unable to login - check the user name and password and try again</value>
+  </data>
+  <data name="ManageOverrideMgrMsg" xml:space="preserve">
+    <value>Manager's Authorization Required</value>
+  </data>
+  <data name="ManageOverridePFIMsg" xml:space="preserve">
+    <value>The loan is being PFIed!</value>
+  </data>
+  <data name="ManageOverrideUsernotAllowerd" xml:space="preserve">
+    <value>User is not authorized to perform override</value>
+  </data>
+  <data name="CancelConfirmMessage" xml:space="preserve">
+    <value>All the data entered will be lost.Do you wish to cancel?</value>
+  </data>
+  <data name="LookupWildcardsearchErrorMsg" xml:space="preserve">
+    <value>For wild card search please make sure to enter a minimum of three characters in either First Name or Last Name</value>
+  </data>
+  <data name="CellAreaCodeNotEntered" xml:space="preserve">
+    <value>Cell Phone Area code is  not entered but a phone number is entered.</value>
+  </data>
+  <data name="HomeAreaCodeNotEntered" xml:space="preserve">
+    <value>Home Area code is not entered but a phone number is entered. </value>
+  </data>
+  <data name="PhoneAreaCodeNotEntered" xml:space="preserve">
+    <value>Phone area code is not entered but a phone number is entered. </value>
+  </data>
+  <data name="WorkAreaCodeNotEntered" xml:space="preserve">
+    <value>Work Phone Area code is not entered but a phone number is entered. </value>
+  </data>
+  <data name="PrimaryPhoneError" xml:space="preserve">
+    <value>Phone number not entered for phone type selected as primary. Do you wish to continue?</value>
+  </data>
+  <data name="CustCommentsUpdateFailure" xml:space="preserve">
+    <value>Editing comments failed. Please retry or cancel. </value>
+  </data>
+  <data name="NoChangesInForm" xml:space="preserve">
+    <value>No changes were done in the form for update.</value>
+  </data>
+  <data name="InvalidDate" xml:space="preserve">
+    <value>Invalid Date entered.</value>
+  </data>
+  <data name="IDIssuerRequired" xml:space="preserve">
+    <value>ID Issuer cannot be left blank</value>
+  </data>
+  <data name="IDNumberRequired" xml:space="preserve">
+    <value>ID Number cannot be left blank</value>
+  </data>
+  <data name="IDTypeAndIssuerRequired" xml:space="preserve">
+    <value>ID Type and ID Issuer cannot be left blank</value>
+  </data>
+  <data name="IDTypeRequired" xml:space="preserve">
+    <value>ID Type cannot be left blank</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>Email Address format is not correct</value>
+  </data>
+  <data name="CustContactInfoUpdateFailure" xml:space="preserve">
+    <value>Updating Customer contact info details failed. Please retry or cancel</value>
+  </data>
+  <data name="CustContactInfoUpdateSuccess" xml:space="preserve">
+    <value>Successfully updated contact information</value>
+  </data>
+  <data name="AgeError" xml:space="preserve">
+    <value>Customer should be at least 18 years of age</value>
+  </data>
+  <data name="CommentsEmptyMessage" xml:space="preserve">
+    <value>Comments cannot be empty</value>
+  </data>
+  <data name="DuplicateIDMessage" xml:space="preserve">
+    <value>The Government Identification you submitted is associated to another customer</value>
+  </data>
+  <data name="DuplicateNameMessage" xml:space="preserve">
+    <value>The name and date of birth are associated to another customer. Do you want to continue?</value>
+  </data>
+  <data name="DuplicateIDSameCustomer" xml:space="preserve">
+    <value>The identification you entered already exists for this customer</value>
+  </data>
+  <data name="DuplicateIDSameCustomerDiffExpiryDt" xml:space="preserve">
+    <value>The identification you entered already exists for this customer but with a different expiration date. Update that identification with this expiration date.</value>
+  </data>
+  <data name="NoLostTicketLoans" xml:space="preserve">
+    <value>No lost ticket loans to process.</value>
+  </data>
+  <data name="ViewCustProdDetailsFirearmMsg" xml:space="preserve">
+    <value>Please verify all information and select or enter the customer's identification to pickup firearm.</value>
+  </data>
+  <data name="ProcessLostPawnTktNoCustLoans" xml:space="preserve">
+    <value>Information needed to process lost pawn ticket fee is not available</value>
+  </data>
+  <data name="CustMailingAddrUpdateFail" xml:space="preserve">
+    <value>Updating Customer Mailing Address Failed. Please retry or cancel.</value>
+  </data>
+  <data name="CustPhysicalAddrUpdateFail" xml:space="preserve">
+    <value>Updating Customer Physical Address Failed. Please retry or cancel.</value>
+  </data>
+  <data name="CustWorkAddrUpdateFail" xml:space="preserve">
+    <value>Updating Customer Work Address Failed. Please retry or cancel.</value>
+  </data>
+  <data name="ProcessLostTktFeeError" xml:space="preserve">
+    <value>Failed to update the loan to set the ticket as lost. Please retry or cancel.</value>
+  </data>
+  <data name="CustDataAddFailure" xml:space="preserve">
+    <value>Customer Data could not be added. Please retry or cancel.</value>
+  </data>
+  <data name="FaxAreaCodeNotEntered" xml:space="preserve">
+    <value>Fax Area Code is not entered but a number is entered.</value>
+  </data>
+  <data name="PagerAreaCodeNotEntered" xml:space="preserve">
+    <value>Pager Area Code is not entered but a number is entered.</value>
+  </data>
+  <data name="LookupTicketContinuePromptMsg" xml:space="preserve">
+    <value>Loan redemption transactions by a person who is not the pledgor must be accompanied by the customer's copy of the pawn ticket</value>
+  </data>
+  <data name="InactiveTicketMessage" xml:space="preserve">
+    <value>This ticket number is inactive. Please refer to Customer History.</value>
+  </data>
+  <data name="InvalidTicketMessage" xml:space="preserve">
+    <value>Invalid Ticket Number. Please Enter Again!!!</value>
+  </data>
+  <data name="LookupTicketInvalidMessage" xml:space="preserve">
+    <value>Invalid/In-Active Ticket</value>
+  </data>
+  <data name="LookupTicketNoCustomerMessage" xml:space="preserve">
+    <value>Customer Number associated with the loan is invalid. Please retry or cancel.</value>
+  </data>
+  <data name="LookupTicketStoreNumberMsg" xml:space="preserve">
+    <value>Store Number cannot be empty</value>
+  </data>
+  <data name="LookupTicketTicketNumberMsg" xml:space="preserve">
+    <value>Ticket Number cannot be empty and should at least have 3 digits</value>
+  </data>
+  <data name="FaxNumberNotEnteredError" xml:space="preserve">
+    <value>Fax Number cannot be blank if area code is entered.</value>
+  </data>
+  <data name="PagerNumberNotEnteredError" xml:space="preserve">
+    <value>Pager Number cannot be blank if area code is entered.</value>
+  </data>
+  <data name="DuplicateSSNMessage" xml:space="preserve">
+    <value>This Social Security Number already exists with someone's name. Please Check Number Again</value>
+  </data>
+  <data name="IDorDOBEnterMessage" xml:space="preserve">
+    <value>Please enter either date of birth or identification for the customer.</value>
+  </data>
+  <data name="InvalidSSN" xml:space="preserve">
+    <value>Invalid SSN entered.</value>
+  </data>
+  <data name="TagReprintIcnNumberInvalid" xml:space="preserve">
+    <value>The ICN# entered is not a valid number. Please try again.</value>
+  </data>
+  <data name="TagReprintIcnNumberMsg" xml:space="preserve">
+    <value>No valid records found.  Please enter another number.</value>
+  </data>
+  <data name="TagReprintDuplicateShortCodeMsg" xml:space="preserve">
+    <value>The short code entered is a duplicate. Please make your selection from the list.</value>
+  </data>
+  <data name="TagReprintFeatureTagMsg" xml:space="preserve">
+    <value>The Print Features Tag msut be "Y" or "N".</value>
+  </data>
+  <data name="TagReprintBarCodePrintNumber" xml:space="preserve">
+    <value>Please provide the number of Bar Code Tags to reprint.</value>
+  </data>
+  <data name="TagReprintSelectIcnNumberMsg" xml:space="preserve">
+    <value>Please select ICN number for the Bar Code Tag reprint.</value>
+  </data>
+  <data name="CustHoldsNoTransactions" xml:space="preserve">
+    <value>No Transactions Found</value>
+  </data>
+  <data name="MissingCustData" xml:space="preserve">
+    <value>No Active customer in session.</value>
+  </data>
+  <data name="ManageOverrideDefaultMessage" xml:space="preserve">
+    <value>Manager Authorization Required</value>
+  </data>
+  <data name="CustomerFirearmMessage" xml:space="preserve">
+    <value>Customer does not meet the age criteria for firearm transactions. This Loan can not be Picked up.</value>
+  </data>
+  <data name="PickupOverrideFailedMessage" xml:space="preserve">
+    <value>Some of the selected Transactions need manager override but the override did not happen. Cannot proceed with pickup</value>
+  </data>
+  <data name="OverrideReasonLegalDoc" xml:space="preserve">
+    <value>Legal Documentation Required</value>
+  </data>
+  <data name="OverrideReasonPFIEligible" xml:space="preserve">
+    <value>Eligible for PFI</value>
+  </data>
+  <data name="OverrideReasonPFIInProcess" xml:space="preserve">
+    <value>PFI In Process</value>
+  </data>
+  <data name="BankruptcyHoldPickupIneligibleMsg" xml:space="preserve">
+    <value>This loan is ineligible for service due to a Bankruptcy Hold. Please Call CAI Legal services with any questions.</value>
+  </data>
+  <data name="PickupLegalDocRequiredMsg" xml:space="preserve">
+    <value>Notarized Authorization from the pledgor is required to redeem this loan.</value>
+  </data>
+  <data name="PoliceHoldPickupIneligibleMsg" xml:space="preserve">
+    <value>This loan is ineligible for pickup due to a Police Hold. Please see Store Manager for details.</value>
+  </data>
+  <data name="TempStatusExtend" xml:space="preserve">
+    <value>Loan marked for Extend</value>
+  </data>
+  <data name="TempStatusPFI" xml:space="preserve">
+    <value>Loan in PFI Processing</value>
+  </data>
+  <data name="TempStatusPickup" xml:space="preserve">
+    <value>Loan marked for Pickup</value>
+  </data>
+  <data name="TempStatusRollover" xml:space="preserve">
+    <value>Loan marked for Rollover</value>
+  </data>
+  <data name="LockedRecordMessage" xml:space="preserve">
+    <value>This record is locked for PFI processing. Please try again later</value>
+  </data>
+  <data name="InvalidTXLicense" xml:space="preserve">
+    <value>Texas Driver's License should have 8 digits</value>
+  </data>
+  <data name="OverrideReasonOutOfStateID" xml:space="preserve">
+    <value>Gun Pick up using out of state ID</value>
+  </data>
+  <data name="InvalidAmount" xml:space="preserve">
+    <value>Invalid Amount entered.</value>
+  </data>
+  <data name="ExtendDateAdjustedMessage" xml:space="preserve">
+    <value>Last day to Pickup updated to next valid date</value>
+  </data>
+  <data name="OverrideReasonPoliceHold" xml:space="preserve">
+    <value>Loan has existing Police Hold.</value>
+  </data>
+  <data name="ValidationForServicesFailedMessage" xml:space="preserve">
+    <value>Do you want to continue with the others?</value>
+  </data>
+  <data name="ExtensionPickupDateError" xml:space="preserve">
+    <value>Last day to pickup cannot be less than the current pickup date</value>
+  </data>
+  <data name="WaiveFeesOverrideMessage" xml:space="preserve">
+    <value>A Manager's Authorization is required to Waive/Prorate Fees</value>
+  </data>
+  <data name="AmountToExtendLessThanDailyAmt" xml:space="preserve">
+    <value>Amount to Extend cannot be less than the daily amount</value>
+  </data>
+  <data name="AmountToExtendLessThanMonthlyAmount" xml:space="preserve">
+    <value>Amount to Extend cannot be less than the monthly amount</value>
+  </data>
+  <data name="InvalidAmountToExtend" xml:space="preserve">
+    <value>Invalid Amount to extend entered</value>
+  </data>
+  <data name="InvalidDaysToExtend" xml:space="preserve">
+    <value>Invalid Number of Days to extend entered</value>
+  </data>
+  <data name="InvalidMonthsToExtend" xml:space="preserve">
+    <value>Invalid Months to extend entered</value>
+  </data>
+  <data name="ZeroDaysToExtendError" xml:space="preserve">
+    <value>Number of days to extend cannot be less than 0</value>
+  </data>
+  <data name="ZeroMonthsToExtendError" xml:space="preserve">
+    <value>Number of Months to extend cannot be less than 0</value>
+  </data>
+  <data name="RollOverWaiveFeeMessage" xml:space="preserve">
+    <value>Waiving the indicated  fee(s) will cause the new loan to fall below the minimum amount required</value>
+  </data>
+  <data name="LookupVendorNameError" xml:space="preserve">
+    <value>Enter the Vendor Name to search</value>
+  </data>
+  <data name="EM01CloseCashDrawers" xml:space="preserve">
+    <value>The Master Cash Drawer cannot be balanced until all cash drawers are closed. The following cash drawers are still open: </value>
+  </data>
+  <data name="LookupVendorTaxIDError" xml:space="preserve">
+    <value>Enter the Tax ID to search</value>
+  </data>
+  <data name="EM05CDClosedUnverified" xml:space="preserve">
+    <value>The previous day's cash for all drawers must be verified to balance the safe. The following Drawers must be balanced :</value>
+  </data>
+  <data name="ZeroVendSearchResults" xml:space="preserve">
+    <value>Search resulted in 0 records for</value>
+  </data>
+  <data name="EM07ShopTransferPending" xml:space="preserve">
+    <value>You have one or more shop transfers pending. Do you want to continue?</value>
+  </data>
+  <data name="MultipleVendSearchResults" xml:space="preserve">
+    <value>Found over 15 vendor records. Please refine the search and search again or select a customer to view.</value>
+  </data>
+  <data name="WF01OpenCashDrawers" xml:space="preserve">
+    <value>There are cash drawers open at this time. Is this a trial balance?</value>
+  </data>
+  <data name="SelectedVendorLoadError" xml:space="preserve">
+    <value>Error loading the selected vendor from search results</value>
+  </data>
+  <data name="WM02RebalanceDrawerRequired" xml:space="preserve">
+    <value>This transaction will require you to rebalance drawer</value>
+  </data>
+  <data name="EM03BalanceSafe" xml:space="preserve">
+    <value>The previous day's shop cash was not verified. The safe must be balanced before this transaction can be completed.</value>
+  </data>
+  <data name="ICNInvalid" xml:space="preserve">
+    <value>The ICN# entered is not a valid number. Please try again.</value>
+  </data>
+  <data name="TicketInvalid" xml:space="preserve">
+    <value>The ticket number entered was not valid.  Please try again.</value>
+  </data>
+  <data name="WrongStore" xml:space="preserve">
+    <value>Items for Ticket Number Entered are not in this store, but are in store #</value>
+  </data>
+  <data name="PurchaseReturnFirearmMessage" xml:space="preserve">
+    <value>Firearm Background check failed. Cannot proceed with return.</value>
+  </data>
+  <data name="UniqueCashDrawer" xml:space="preserve">
+    <value>User already has a cash drawer.</value>
+  </data>
+  <data name="VoidForfeitureFailure" xml:space="preserve">
+    <value>Shop credit from layaway forfeiture has been used. Cannot void forfeiture</value>
+  </data>
+  <data name="FormPartialAddressEntered" xml:space="preserve">
+    <value>A partial address cannot be entered.</value>
+  </data>
+  <data name="AmountToExtendMoreThanDailyAmt" xml:space="preserve">
+    <value>The amount to extend has been updated to be exact multiple of daily amount.</value>
+  </data>
+  <data name="AmountToExtendMoreThanMonthlyAmt" xml:space="preserve">
+    <value>The amount to extend has been updated to be exact multiple of monthly amount.</value>
+  </data>
+  <data name="GunEditError" xml:space="preserve">
+    <value>This gun record cannot be edited. Please call Firearm Compliance.</value>
+  </data>
+  <data name="SameDayLoanPrompt" xml:space="preserve">
+    <value>Customer has previous pawn ticket(s) today. Customer MUST initial back side of pawn ticket.</value>
+  </data>
+</root>

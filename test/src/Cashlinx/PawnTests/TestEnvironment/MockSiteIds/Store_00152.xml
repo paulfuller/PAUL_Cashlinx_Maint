@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SiteId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Alias>TX</Alias>
+  <StoreNumber>00152</StoreNumber>
+  <Company>1</Company>
+  <State>TX</State>
+  <TerminalId>asset3360</TerminalId>
+  <Date>2012-03-28T00:00:00-05:00</Date>
+  <LoanAmount>0.00</LoanAmount>
+  <StoreId>00000000000000017621_00000001205153140405_00023</StoreId>
+  <StoreName>CASH AMERICA PAWN OF DFW</StoreName>
+  <StoreAddress1>6066 SOUTH HULEN STREET  </StoreAddress1>
+  <StoreAddress2 />
+  <StoreCityName>FORT WORTH</StoreCityName>
+  <StoreZipCode>76132</StoreZipCode>
+  <LocalTimeZone>CST</LocalTimeZone>
+  <Market>13</Market>
+  <Region>3</Region>
+  <BusinessUnit>CA</BusinessUnit>
+  <CountryCode />
+  <StoreTax1>0</StoreTax1>
+  <StoreTax2>0</StoreTax2>
+  <StoreTax3>0</StoreTax3>
+  <StoreNickName>DFW52</StoreNickName>
+  <StoreBrandName />
+  <StoreOpenDate>2008-07-26T00:00:00</StoreOpenDate>
+  <StoreTaxID />
+  <StoreEffin>75-2403944</StoreEffin>
+  <StoreLocator />
+  <EffDateChange>9999-12-31T23:59:59.9999999</EffDateChange>
+  <StoreManager>PAMELA EISENBACHER</StoreManager>
+  <StorePhoneNo>(817)3708597</StorePhoneNo>
+  <StoreFaxNo>(817)3708569</StoreFaxNo>
+  <StoreModemNo />
+  <StoreEmail />
+  <StorePhoneNo1 />
+  <StorePhoneNo2 />
+  <StorePhoneNo3 />
+  <DaylightSavings>true</DaylightSavings>
+  <Collection800>+1(800)Collection</Collection800>
+  <DeferScanning>false</DeferScanning>
+  <CompanyNumber>1</CompanyNumber>
+  <AchFileName />
+  <DeferScanDate>9999-12-31T23:59:59.9999999</DeferScanDate>
+  <ConversionDate>9999-12-31T23:59:59.9999999</ConversionDate>
+  <AliasID>1</AliasID>
+  <IsTopsExist>false</IsTopsExist>
+  <IsTopsSafe>false</IsTopsSafe>
+  <IsIntegrated>true</IsIntegrated>
+  <IsPawnPrimary>true</IsPawnPrimary>
+  <AvailableButtons>
+    <string>PawnButton</string>
+    <string>DescribeMerchandiseButton</string>
+    <string>NewPawnLoanButton</string>
+    <string>ServicePawnLoansButton</string>
+    <string>RetailButton</string>
+    <string>BuyButton</string>
+    <string>CustomerBuyButton</string>
+    <string>BuyLookupButton</string>
+    <string>BuyDescribeButton</string>
+    <string>VendorBuyButton</string>
+    <string>LookupButton</string>
+    <string>LookupCustomerButton</string>
+    <string>LookupDocumentsButton</string>
+    <string>LookupTicketButton</string>
+    <string>ManualButton</string>
+    <string>NFSCButton</string>
+    <string>UtilityButton</string>
+    <string>AssignItemPhysicalLocationButton</string>
+    <string>PFIButton</string>
+    <string>PFICreateListButton</string>
+    <string>PFIVerifyButton</string>
+    <string>PFIPostButton</string>
+    <string>TransferButton</string>
+    <string>Police_ActivitiesButton</string>
+    <string>PoliceHoldButton</string>
+    <string>PoliceSeizeButton</string>
+    <string>ItemReleaseButton</string>
+    <string>CustomerHoldsButton</string>
+    <string>CustomerHoldsAddHoldButton</string>
+    <string>CustomerHoldsEditReleaseHoldButton</string>
+    <string>Update_security_profileButton</string>
+    <string>Gun_Book_UtilitiesButton</string>
+    <string>VoidTransactionButton</string>
+    <string>VoidLoanButton</string>
+    <string>VoidBuyButton</string>
+    <string>VoidBuyReturnsButton</string>
+    <string>VoidCashTransferButton</string>
+    <string>VoidShopToShopTransferButton</string>
+    <string>Manage_cashButton</string>
+    <string>BalanceButton</string>
+    <string>ShopCashManagementButton</string>
+    <string>refundbutton</string>
+    <string>ReturnCustomerBuyButton</string>
+    <string>ReturnVendorBuyButton</string>
+    <string>InternalTransferButton</string>
+    <string>BankTransferOutButton</string>
+    <string>BankTransferInButton</string>
+    <string>ShopTransferOutButton</string>
+    <string>ShopTransferInButton</string>
+    <string>ReportsButton</string>
+    <string>Loan_AuditButton</string>
+    <string>Gun_AuditButton</string>
+    <string>In_Pawn_jewelry_LocationsButton</string>
+    <string>Full_LocationsButton</string>
+    <string>TransferCashButton</string>
+    <string>MerchandiseTransferOutButton</string>
+    <string>CashTransfer</string>
+    <string>VoidBankTransferButton</string>
+    <string>SaleRefundButton</string>
+    <string>RefundSaleButton</string>
+    <string>VoidSaleButton</string>
+    <string>VoidSaleRefundButton</string>
+    <string>VoidLayawayButton</string>
+    <string>BalanceCashDrawerButton</string>
+    <string>BalanceSafeButton</string>
+    <string>RefundLayawayButton</string>
+    <string>ManageInventoryButton</string>
+    <string>ChangePricingButton</string>
+    <string>LayawayForfeitureButton</string>
+    <string>MerchandiseTransferINButton</string>
+    <string>ChangeRetailPriceButton</string>
+    <string>ChangeItemAssignTypeButton</string>
+    <string>ChargeOffButton</string>
+    <string>balanceotherdrawersButton</string>
+    <string>cashdrawerButton</string>
+    <string>cashdrawermanagementButton</string>
+    <string>cashdrawertransferButton</string>
+    <string>managecashButton</string>
+    <string>safeoperationsButton</string>
+    <string>shoptransferinButton</string>
+    <string>shoptransferoutButton</string>
+    <string>gunbookeditButton</string>
+    <string>gunbookprintButton</string>
+    <string>masspricereductionButton</string>
+    <string>merchandisecostrevisionsButton</string>
+  </AvailableButtons>
+  <StoreTaxes>
+    <StoreTaxVO>
+      <TaxAuth>CITY</TaxAuth>
+      <TaxCode>CITY</TaxCode>
+      <TaxRate>0</TaxRate>
+      <TaxAmount>0</TaxAmount>
+    </StoreTaxVO>
+    <StoreTaxVO>
+      <TaxAuth>COUNTY</TaxAuth>
+      <TaxCode>CNTY</TaxCode>
+      <TaxRate>8.25</TaxRate>
+      <TaxAmount>0</TaxAmount>
+    </StoreTaxVO>
+    <StoreTaxVO>
+      <TaxAuth>STATE</TaxAuth>
+      <TaxCode>STAT</TaxCode>
+      <TaxRate>0</TaxRate>
+      <TaxAmount>0</TaxAmount>
+    </StoreTaxVO>
+  </StoreTaxes>
+  <FireArmLicenceNo>5-75-497-02-2K-04958</FireArmLicenceNo>
+  <ForceCloseTime>2012-03-28T15:05:27.830501</ForceCloseTime>
+  <PartyRoleId>00000000000000017636_00000001205153140391_00307</PartyRoleId>
+</SiteId>

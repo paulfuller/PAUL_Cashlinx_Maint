@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Root>
+<SafeOperations>
+<Operation>ShopTransferIn</Operation>
+<Operation>ShopTransferOut</Operation>
+<Operation>BankTransferIn</Operation>
+<Operation>BankTransferOut</Operation>
+<Operation>BalanceSafe</Operation>
+<Operation>InternalSafeTransfer</Operation>
+</SafeOperations>
+</Root>

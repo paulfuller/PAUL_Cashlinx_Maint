@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SiteId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Alias>OH</Alias>
+  <StoreNumber>00901</StoreNumber>
+  <Company>1</Company>
+  <State>OH</State>
+  <TerminalId>asset3360</TerminalId>
+  <Date>2012-03-28T00:00:00-05:00</Date>
+  <LoanAmount>0.00</LoanAmount>
+  <StoreId>00000000000000017642_00000001205153301712_00200</StoreId>
+  <StoreName>CASH AMERICA PAWN OF CINCINNATI #1</StoreName>
+  <StoreAddress1>4875 READING ROAD  </StoreAddress1>
+  <StoreAddress2 />
+  <StoreCityName>CINCINNATI</StoreCityName>
+  <StoreZipCode>45237</StoreZipCode>
+  <LocalTimeZone>EST</LocalTimeZone>
+  <Market>24</Market>
+  <Region>4</Region>
+  <BusinessUnit>CA</BusinessUnit>
+  <CountryCode />
+  <StoreTax1>0</StoreTax1>
+  <StoreTax2>0</StoreTax2>
+  <StoreTax3>0</StoreTax3>
+  <StoreNickName>Cin01</StoreNickName>
+  <StoreBrandName />
+  <StoreOpenDate>1990-12-05T00:00:00</StoreOpenDate>
+  <StoreTaxID />
+  <StoreEffin>75-2332646</StoreEffin>
+  <StoreLocator />
+  <EffDateChange>9999-12-31T23:59:59.9999999</EffDateChange>
+  <StoreManager>SABRINA HIBBETT</StoreManager>
+  <StorePhoneNo>(513)6413806</StorePhoneNo>
+  <StoreFaxNo>(513)6413807</StoreFaxNo>
+  <StoreModemNo />
+  <StoreEmail />
+  <StorePhoneNo1>(513)6411735</StorePhoneNo1>
+  <StorePhoneNo2 />
+  <StorePhoneNo3 />
+  <DaylightSavings>true</DaylightSavings>
+  <Collection800>+1(800)Collection</Collection800>
+  <DeferScanning>false</DeferScanning>
+  <CompanyNumber>1</CompanyNumber>
+  <AchFileName />
+  <DeferScanDate>9999-12-31T23:59:59.9999999</DeferScanDate>
+  <ConversionDate>9999-12-31T23:59:59.9999999</ConversionDate>
+  <AliasID>1</AliasID>
+  <IsTopsExist>false</IsTopsExist>
+  <IsTopsSafe>false</IsTopsSafe>
+  <IsIntegrated>true</IsIntegrated>
+  <IsPawnPrimary>true</IsPawnPrimary>
+  <AvailableButtons>
+    <string>PawnButton</string>
+    <string>DescribeMerchandiseButton</string>
+    <string>NewPawnLoanButton</string>
+    <string>ServicePawnLoansButton</string>
+    <string>RetailButton</string>
+    <string>BuyButton</string>
+    <string>CustomerBuyButton</string>
+    <string>BuyLookupButton</string>
+    <string>BuyDescribeButton</string>
+    <string>VendorBuyButton</string>
+    <string>LookupButton</string>
+    <string>LookupCustomerButton</string>
+    <string>LookupDocumentsButton</string>
+    <string>LookupTicketButton</string>
+    <string>ManualButton</string>
+    <string>NFSCButton</string>
+    <string>UtilityButton</string>
+    <string>AssignItemPhysicalLocationButton</string>
+    <string>PFIButton</string>
+    <string>PFICreateListButton</string>
+    <string>PFIVerifyButton</string>
+    <string>PFIPostButton</string>
+    <string>TransferButton</string>
+    <string>Police_ActivitiesButton</string>
+    <string>PoliceHoldButton</string>
+    <string>PoliceSeizeButton</string>
+    <string>ItemReleaseButton</string>
+    <string>CustomerHoldsButton</string>
+    <string>CustomerHoldsAddHoldButton</string>
+    <string>CustomerHoldsEditReleaseHoldButton</string>
+    <string>Update_security_profileButton</string>
+    <string>Gun_Book_UtilitiesButton</string>
+    <string>VoidTransactionButton</string>
+    <string>VoidLoanButton</string>
+    <string>VoidBuyButton</string>
+    <string>VoidBuyReturnsButton</string>
+    <string>VoidCashTransferButton</string>
+    <string>VoidShopToShopTransferButton</string>
+    <string>Manage_cashButton</string>
+    <string>BalanceButton</string>
+    <string>ShopCashManagementButton</string>
+    <string>refundbutton</string>
+    <string>ReturnCustomerBuyButton</string>
+    <string>ReturnVendorBuyButton</string>
+    <string>InternalTransferButton</string>
+    <string>BankTransferOutButton</string>
+    <string>BankTransferInButton</string>
+    <string>ShopTransferOutButton</string>
+    <string>ShopTransferInButton</string>
+    <string>ReportsButton</string>
+    <string>Loan_AuditButton</string>
+    <string>Gun_AuditButton</string>
+    <string>In_Pawn_jewelry_LocationsButton</string>
+    <string>Full_LocationsButton</string>
+    <string>TransferCashButton</string>
+    <string>MerchandiseTransferOutButton</string>
+    <string>CashTransfer</string>
+    <string>VoidBankTransferButton</string>
+    <string>SaleRefundButton</string>
+    <string>RefundSaleButton</string>
+    <string>VoidSaleButton</string>
+    <string>VoidSaleRefundButton</string>
+    <string>VoidLayawayButton</string>
+    <string>BalanceCashDrawerButton</string>
+    <string>BalanceSafeButton</string>
+    <string>RefundLayawayButton</string>
+    <string>ManageInventoryButton</string>
+    <string>ChangePricingButton</string>
+    <string>LayawayForfeitureButton</string>
+    <string>MerchandiseTransferINButton</string>
+    <string>ChangeRetailPriceButton</string>
+    <string>ChangeItemAssignTypeButton</string>
+    <string>ChargeOffButton</string>
+    <string>balanceotherdrawersButton</string>
+    <string>cashdrawerButton</string>
+    <string>cashdrawermanagementButton</string>
+    <string>cashdrawertransferButton</string>
+    <string>managecashButton</string>
+    <string>safeoperationsButton</string>
+    <string>shoptransferinButton</string>
+    <string>shoptransferoutButton</string>
+    <string>gunbookeditButton</string>
+    <string>gunbookprintButton</string>
+    <string>masspricereductionButton</string>
+    <string>merchandisecostrevisionsButton</string>
+    <string>PrintPFIMailersButton</string>
+  </AvailableButtons>
+  <StoreTaxes>
+    <StoreTaxVO>
+      <TaxAuth>CITY</TaxAuth>
+      <TaxCode>CITY</TaxCode>
+      <TaxRate>0</TaxRate>
+      <TaxAmount>0</TaxAmount>
+    </StoreTaxVO>
+    <StoreTaxVO>
+      <TaxAuth>COUNTY</TaxAuth>
+      <TaxCode>CNTY</TaxCode>
+      <TaxRate>0</TaxRate>
+      <TaxAmount>0</TaxAmount>
+    </StoreTaxVO>
+    <StoreTaxVO>
+      <TaxAuth>STATE</TaxAuth>
+      <TaxCode>STAT</TaxCode>
+      <TaxRate>6.5</TaxRate>
+      <TaxAmount>0</TaxAmount>
+    </StoreTaxVO>
+  </StoreTaxes>
+  <FireArmLicenceNo>4-31-061-02-4K-33809</FireArmLicenceNo>
+  <ForceCloseTime>0001-01-01T00:00:00</ForceCloseTime>
+  <PartyRoleId>00000000000000017639_00000001205153301693_00879</PartyRoleId>
+</SiteId>

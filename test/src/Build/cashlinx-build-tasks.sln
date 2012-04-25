@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cashlinx Build Tasks", "cashlinx-build-tasks\Cashlinx Build Tasks.csproj", "{DFAC9DC0-9642-43A4-BC80-C08FE71D9F8B}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 2
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = cashlinx-build-tasks\\Cashlinx\u0020Build\u0020Tasks.csproj
+		SccLocalPath1 = cashlinx-build-tasks
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DFAC9DC0-9642-43A4-BC80-C08FE71D9F8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFAC9DC0-9642-43A4-BC80-C08FE71D9F8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFAC9DC0-9642-43A4-BC80-C08FE71D9F8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFAC9DC0-9642-43A4-BC80-C08FE71D9F8B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,33 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Audit.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PawnSecDBUser" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Ny2VIxVYqnA=</Value>
+    </Setting>
+    <Setting Name="PawnSecDBPassword" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">jZekk5GlbvfnRVTll7RpCw==</Value>
+    </Setting>
+    <Setting Name="PawnSecDBSchema" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Ny2VIxVYqnA=</Value>
+    </Setting>
+    <Setting Name="PawnSecDBPort" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">c5oa+iWxTPs=</Value>
+    </Setting>
+    <Setting Name="PawnSecDBHost" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">1xaOn6Ot6HRjXbIPl7E2WJ3Bs9SmWpEy</Value>
+    </Setting>
+    <Setting Name="PawnSecDBService" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">tN2vG1Y6pleVpj7+YIrMdxtI3uI0kDL1</Value>
+    </Setting>
+    <Setting Name="FtpHost" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="FtpUser" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ftpuser</Value>
+    </Setting>
+    <Setting Name="FtpPassword" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">lpauditor</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

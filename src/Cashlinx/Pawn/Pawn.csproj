@@ -1,0 +1,3428 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7A7A8F27-FCCC-46C5-A1BF-AE77624199AC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Pawn</RootNamespace>
+    <AssemblyName>Pawn</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>414, 169, 219, 162, 168</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Common - Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Common - Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Common - Release|x86'">
+    <OutputPath>bin\x86\Common - Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>blueroundglossy.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="itextsharp">
+      <HintPath>..\Common\Libraries\External\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.DataAccess, Version=2.112.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web">
+      <HintPath>..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_32\System.Web\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ButtonResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ButtonResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Flows\AppController\Impl\CommonAppBlocks.cs" />
+    <Compile Include="Flows\AppController\Impl\Common\IsBuyMerchandiseLookedUp.cs" />
+    <Compile Include="Flows\AppController\Impl\Common\IsCustomerLookedUp.cs" />
+    <Compile Include="Flows\AppController\Impl\Common\IsLoanMerchandiseLookedUp.cs" />
+    <Compile Include="Flows\AppController\Impl\Common\IsMerchandiseLookedUp.cs" />
+    <Compile Include="Flows\AppController\Impl\Common\LoadCustomerLoanKeys.cs" />
+    <Compile Include="Flows\AppController\Impl\InquiryFlows\LoanInquiryFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\ChangeRetailPriceFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\CustomerHoldFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\CustomerHoldReleaseFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\CustomerPurchaseFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\GunBookEditFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\GunBookUtilityFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\LayawayReturnFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\LoanInquiryFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\LookupCustomerFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\LookupReceiptFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\LookupTicketFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\MMPIFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\NewPawnLoanFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\PawnCustInformationFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\PFIVerifyFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\PoliceHoldFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\PoliceHoldReleaseFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\PoliceSeizeFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\ProductServicesFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\PurchaseReturnFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\RetailReturnFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\SaleFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\SecurityFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\ServicePawnLoanFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\ShopCashManagementFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\TransferInFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\VendorPurchaseFlowExecutor.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Admin\AdminSection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\AdminSection.Designer.cs">
+      <DependentUpon>AdminSection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Admin\Resets.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\Resets.Designer.cs">
+      <DependentUpon>Resets.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Admin\SecurityBarCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Admin\SecurityBarCode.designer.cs">
+      <DependentUpon>SecurityBarCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Admin\TerminalClient.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GunUtilities\EditGunBook\CustomerReplace.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GunUtilities\EditGunBook\CustomerReplace.Designer.cs">
+      <DependentUpon>CustomerReplace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GunUtilities\EditGunBook\EditGunBookRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GunUtilities\EditGunBook\EditGunBookRecord.Designer.cs">
+      <DependentUpon>EditGunBookRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GunUtilities\EditGunBook\GunBookCustomer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GunUtilities\EditGunBook\GunBookCustomer.Designer.cs">
+      <DependentUpon>GunBookCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GunUtilities\EditGunBook\GunBookSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GunUtilities\EditGunBook\GunBookSearch.Designer.cs">
+      <DependentUpon>GunBookSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GunUtilities\GunBook\DoubleBufferedTableLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\GunUtilities\GunBook\GunBookPrintOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GunUtilities\GunBook\GunBookPrintOptions.Designer.cs">
+      <DependentUpon>GunBookPrintOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InfoDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InfoDialog.Designer.cs">
+      <DependentUpon>InfoDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InformationMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InformationMessage.designer.cs">
+      <DependentUpon>InformationMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\ExtInquiry\ExtensionDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\ExtInquiry\ExtensionDetails.Designer.cs">
+      <DependentUpon>ExtensionDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\ExtInquiry\ExtensionInquirySearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\ExtInquiry\ExtensionInquirySearch.Designer.cs">
+      <DependentUpon>ExtensionInquirySearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\ExtInquiry\ExtensionSearchResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\ExtInquiry\ExtensionSearchResults.Designer.cs">
+      <DependentUpon>ExtensionSearchResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\ExtInquiry\PawnExtInquiry.cs" />
+    <Compile Include="Forms\Inquiry\Inquiry.cs" />
+    <Compile Include="Forms\Inquiry\PartialPaymentInquiry\PartialPaymentDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\PartialPaymentInquiry\PartialPaymentDetails.designer.cs">
+      <DependentUpon>PartialPaymentDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\PartialPaymentInquiry\PartialPaymentInquiry.cs" />
+    <Compile Include="Forms\Inquiry\PartialPaymentInquiry\PartialPaymentInquirySearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\PartialPaymentInquiry\PartialPaymentInquirySearch.designer.cs">
+      <DependentUpon>PartialPaymentInquirySearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\PartialPaymentInquiry\PartialPaymentSearchResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\PartialPaymentInquiry\PartialPaymentSearchResults.designer.cs">
+      <DependentUpon>PartialPaymentSearchResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\Retail\RetailInquiry.cs" />
+    <Compile Include="Forms\Inquiry\Retail\RetailDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\Retail\RetailDetails.Designer.cs">
+      <DependentUpon>RetailDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\Retail\RetailInquirySearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\Retail\RetailInquirySearch.Designer.cs">
+      <DependentUpon>RetailInquirySearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\Retail\RetailResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\Retail\RetailResults.Designer.cs">
+      <DependentUpon>RetailResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\CategorySelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\CategorySelect.Designer.cs">
+      <DependentUpon>CategorySelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\CustomerInquiry.cs" />
+    <Compile Include="Forms\Inquiry\InventoryInquiry\InventoryInquiry.cs" />
+    <Compile Include="Forms\Inquiry\InventoryInquiry\InventoryInquirySearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\InventoryInquirySearch.Designer.cs">
+      <DependentUpon>InventoryInquirySearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\InventoryResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\ItemCostRevisionHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\ItemCostRevisionHistory.Designer.cs">
+      <DependentUpon>ItemCostRevisionHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\MsdeDescriptionRevisionHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\MsdeDescriptionRevisionHistory.Designer.cs">
+      <DependentUpon>MsdeDescriptionRevisionHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\ReportType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\ReportType.Designer.cs">
+      <DependentUpon>ReportType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\RetailPriceRevisionHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\RetailPriceRevisionHistory.Designer.cs">
+      <DependentUpon>RetailPriceRevisionHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\RevisionsType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\RevisionsType.Designer.cs">
+      <DependentUpon>RevisionsType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\StatusChangeRevisionHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\InventoryInquiry\StatusChangeRevisionHistory.Designer.cs">
+      <DependentUpon>StatusChangeRevisionHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\LoanInquiry\ItemDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\LoanInquiry\ItemDetails.Designer.cs">
+      <DependentUpon>ItemDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\LoanInquiry\LoanDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\LoanInquiry\LoanDetails.Designer.cs">
+      <DependentUpon>LoanDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\LoanInquiry\LoanInquirySearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\LoanInquiry\LoanInquirySearch.Designer.cs">
+      <DependentUpon>LoanInquirySearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\LoanInquiry\LoanResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\LoanInquiry\LoanResults.Designer.cs">
+      <DependentUpon>LoanResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\LoanInquiry\PawnInquiry.cs" />
+    <Compile Include="Forms\Inquiry\SearchResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\SearchResults.Designer.cs">
+      <DependentUpon>SearchResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Layaway\LayawayDetailViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Layaway\LayawayDetailViewer.Designer.cs">
+      <DependentUpon>LayawayDetailViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Layaway\LayawayForfeitureResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Layaway\LayawayForfeitureResults.Designer.cs">
+      <DependentUpon>LayawayForfeitureResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Layaway\LayawayForfeitureSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Layaway\LayawayForfeitureSearch.Designer.cs">
+      <DependentUpon>LayawayForfeitureSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Layaway\LayawayPaymentHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Layaway\LayawayPaymentHistory.Designer.cs">
+      <DependentUpon>LayawayPaymentHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Layaway\LayawayPaymentValues.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Layaway\LayawayPaymentValues.Designer.cs">
+      <DependentUpon>LayawayPaymentValues.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Layaway\LayawayRefund.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Layaway\LayawayRefund.Designer.cs">
+      <DependentUpon>LayawayRefund.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Layaway\LayawaySearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Layaway\LayawaySearch.Designer.cs">
+      <DependentUpon>LayawaySearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LoanInquiry\LoanInquiry.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoanInquiry\LoanInquiry.Designer.cs">
+      <DependentUpon>LoanInquiry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LoanInquiry\LoanInquiryShops.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoanInquiry\LoanInquiryShops.designer.cs">
+      <DependentUpon>LoanInquiryShops.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\CashTransferInquiry\CashTransferDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\CashTransferInquiry\CashTransferDetails.designer.cs">
+      <DependentUpon>CashTransferDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\CashTransferInquiry\CashTransferInquirySearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\CashTransferInquiry\CashTransferInquirySearch.designer.cs">
+      <DependentUpon>CashTransferInquirySearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\CashTransferInquiry\CashTransferInquiry.cs" />
+    <Compile Include="Forms\Inquiry\CashTransferInquiry\CashTransferSearchResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NewDesktop.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NewDesktop.designer.cs">
+      <DependentUpon>NewDesktop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\BuyMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\BuyMenuPanel.Designer.cs">
+      <DependentUpon>BuyMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\CashDrawerMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\CashDrawerMenuPanel.Designer.cs">
+      <DependentUpon>CashDrawerMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\ChangePricingMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\ChangePricingMenuPanel.Designer.cs">
+      <DependentUpon>ChangePricingMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\CustomerBuyMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\CustomerBuyMenuPanel.Designer.cs">
+      <DependentUpon>CustomerBuyMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\CustomerHoldsMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\CustomerHoldsMenuPanel.Designer.cs">
+      <DependentUpon>CustomerHoldsMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\GunBookMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\GunBookMenuPanel.Designer.cs">
+      <DependentUpon>GunBookMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\IMenuPanel.cs" />
+    <Compile Include="Forms\Panels\MenuPanels\LookupMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\LookupMenuPanel.Designer.cs">
+      <DependentUpon>LookupMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\MainMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\MainMenuPanel.Designer.cs">
+      <DependentUpon>MainMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\ManageCashMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\ManageCashMenuPanel.Designer.cs">
+      <DependentUpon>ManageCashMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\ManageInventoryMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\ManageInventoryMenuPanel.Designer.cs">
+      <DependentUpon>ManageInventoryMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\PawnMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\PawnMenuPanel.Designer.cs">
+      <DependentUpon>PawnMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\PFIMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\PFIMenuPanel.Designer.cs">
+      <DependentUpon>PFIMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\PoliceMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\PoliceMenuPanel.Designer.cs">
+      <DependentUpon>PoliceMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\RefundReturnMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\RefundReturnMenuPanel.Designer.cs">
+      <DependentUpon>RefundReturnMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\ReportsMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\ReportsMenuPanel.Designer.cs">
+      <DependentUpon>ReportsMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\SafeOperationsMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\SafeOperationsMenuPanel.Designer.cs">
+      <DependentUpon>SafeOperationsMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\TransferMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\TransferMenuPanel.Designer.cs">
+      <DependentUpon>TransferMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\UtilitiesMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\UtilitiesMenuPanel.Designer.cs">
+      <DependentUpon>UtilitiesMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\VoidMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\VoidMenuPanel.Designer.cs">
+      <DependentUpon>VoidMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\CreateCustomer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\CreateCustomer.Designer.cs">
+      <DependentUpon>CreateCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\CreateVendor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\CreateVendor.Designer.cs">
+      <DependentUpon>CreateVendor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ExistingCustomer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ExistingCustomer.Designer.cs">
+      <DependentUpon>ExistingCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\Holds\CustomerHoldInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\Holds\CustomerHoldInfo.Designer.cs">
+      <DependentUpon>CustomerHoldInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\Holds\CustomerHoldItemDescription.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\Holds\CustomerHoldItemDescription.Designer.cs">
+      <DependentUpon>CustomerHoldItemDescription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\Holds\CustomerHoldsList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\Holds\CustomerHoldsList.Designer.cs">
+      <DependentUpon>CustomerHoldsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\Holds\MultiJewelryCaseNumber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\Holds\MultiJewelryCaseNumber.Designer.cs">
+      <DependentUpon>MultiJewelryCaseNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\Holds\PoliceHoldInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\Holds\PoliceHoldInfo.Designer.cs">
+      <DependentUpon>PoliceHoldInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\Holds\PoliceHoldsList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\Holds\PoliceHoldsList.Designer.cs">
+      <DependentUpon>PoliceHoldsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ItemRelease\CustomerHoldReleaseInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ItemRelease\CustomerHoldReleaseInfo.Designer.cs">
+      <DependentUpon>CustomerHoldReleaseInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ItemRelease\CustomerHoldReleaseList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ItemRelease\CustomerHoldReleaseList.Designer.cs">
+      <DependentUpon>CustomerHoldReleaseList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ItemRelease\HoldUpdateReleaseDate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ItemRelease\HoldUpdateReleaseDate.Designer.cs">
+      <DependentUpon>HoldUpdateReleaseDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ItemRelease\PoliceHoldRelease.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ItemRelease\PoliceHoldRelease.Designer.cs">
+      <DependentUpon>PoliceHoldRelease.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ItemRelease\PoliceHoldReleaseList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ItemRelease\PoliceHoldReleaseList.Designer.cs">
+      <DependentUpon>PoliceHoldReleaseList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\LookupCustomer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\LookupCustomer.Designer.cs">
+      <DependentUpon>LookupCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\LookupCustomerResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\LookupCustomerResults.Designer.cs">
+      <DependentUpon>LookupCustomerResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\LookupVendor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\LookupVendor.Designer.cs">
+      <DependentUpon>LookupVendor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\LookupVendorResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\LookupVendorResults.Designer.cs">
+      <DependentUpon>LookupVendorResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ManagePawnApplication.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ManagePawnApplication.Designer.cs">
+      <DependentUpon>ManagePawnApplication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\MemoofExrension.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\MemoofExrension.Designer.cs">
+      <DependentUpon>MemoofExrension.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\MultiJewelryCaseNumber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\MultiJewelryCaseNumber.Designer.cs">
+      <DependentUpon>MultiJewelryCaseNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\Stats\Controller_Stats.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\Stats\Controller_Stats.Designer.cs">
+      <DependentUpon>Controller_Stats.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\UpdateAddress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\UpdateAddress.Designer.cs">
+      <DependentUpon>UpdateAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\UpdateCommentsandNotes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\UpdateCommentsandNotes.Designer.cs">
+      <DependentUpon>UpdateCommentsandNotes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\UpdateCustomerContactDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\UpdateCustomerContactDetails.Designer.cs">
+      <DependentUpon>UpdateCustomerContactDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\UpdateCustomerDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\UpdateCustomerDetails.Designer.cs">
+      <DependentUpon>UpdateCustomerDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\UpdateCustomerIdentification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\UpdateCustomerIdentification.Designer.cs">
+      <DependentUpon>UpdateCustomerIdentification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\UpdatePhysicalDesc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\UpdatePhysicalDesc.Designer.cs">
+      <DependentUpon>UpdatePhysicalDesc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ViewCustomerInformation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Customer\ViewCustomerInformation.Designer.cs">
+      <DependentUpon>ViewCustomerInformation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ItemHistory\Controller_ItemHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ItemHistory\Controller_ItemHistory.Designer.cs">
+      <DependentUpon>Controller_ItemHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Loan\LoanComponent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Loan\LoanComponent.Designer.cs">
+      <DependentUpon>LoanComponent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Loan\LoanSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Loan\LoanSummary.Designer.cs">
+      <DependentUpon>LoanSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Loan\ManageOverrides.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Loan\ManageOverrides.Designer.cs">
+      <DependentUpon>ManageOverrides.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Loan\ProcessTender\DisbursementDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Loan\ProcessTender\DisbursementDetails.Designer.cs">
+      <DependentUpon>DisbursementDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Loan\ProcessTender\ProcessTender.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Loan\ProcessTender\ProcessTender.Designer.cs">
+      <DependentUpon>ProcessTender.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Loan\TenderCash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Loan\TenderCash.Designer.cs">
+      <DependentUpon>TenderCash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\AssignPhysicalLocation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\AssignPhysicalLocation.Designer.cs">
+      <DependentUpon>AssignPhysicalLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ManageMultiplePawnItems\EditMerchandise.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ManageMultiplePawnItems\EditMerchandise.Designer.cs">
+      <DependentUpon>EditMerchandise.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ManageMultiplePawnItems\ManageMultiplePawnItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ManageMultiplePawnItems\ManageMultiplePawnItems.designer.cs">
+      <DependentUpon>ManageMultiplePawnItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\AddTickets.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\AddTickets.Designer.cs">
+      <DependentUpon>AddTickets.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\Controller_ProductServices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\Controller_ProductServices.Designer.cs">
+      <DependentUpon>Controller_ProductServices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\FailedBackGroundCheckForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\FailedBackGroundCheckForm.Designer.cs">
+      <DependentUpon>FailedBackGroundCheckForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\FirearmBuyoutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\FirearmBuyoutForm.Designer.cs">
+      <DependentUpon>FirearmBuyoutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\InformationMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\InformationMessage.designer.cs">
+      <DependentUpon>InformationMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\OverrideReason.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\OverrideReason.Designer.cs">
+      <DependentUpon>OverrideReason.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\PartialPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\PartialPayment.Designer.cs">
+      <DependentUpon>PartialPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\RenewalDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\RenewalDialog.Designer.cs">
+      <DependentUpon>RenewalDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\ValidationMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductDetails\ValidationMessage.designer.cs">
+      <DependentUpon>ValidationMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\Controller_ProductHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\Controller_ProductHistory.Designer.cs">
+      <DependentUpon>Controller_ProductHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\DynamicProductHistory_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\DynamicProductHistory_Dialog.Designer.cs">
+      <DependentUpon>DynamicProductHistory_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\Extension_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\Extension_Dialog.Designer.cs">
+      <DependentUpon>Extension_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\Layaway_dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\Layaway_dialog.Designer.cs">
+      <DependentUpon>Layaway_dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\PartialPawnPaymentHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\PartialPawnPaymentHistory.Designer.cs">
+      <DependentUpon>PartialPawnPaymentHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\ProductHistoryDynamicPanel_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\ProductHistoryDynamicPanel_Dialog.Designer.cs">
+      <DependentUpon>ProductHistoryDynamicPanel_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\ProductHistory_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\ProductHistory_Dialog.Designer.cs">
+      <DependentUpon>ProductHistory_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\PurchaseHistory_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\PurchaseHistory_Dialog.Designer.cs">
+      <DependentUpon>PurchaseHistory_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\ReturnHistory_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\ReturnHistory_Dialog.Designer.cs">
+      <DependentUpon>ReturnHistory_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\SaleRefund_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\SaleRefund_Dialog.Designer.cs">
+      <DependentUpon>SaleRefund_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\Sale_dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\Sale_dialog.Designer.cs">
+      <DependentUpon>Sale_dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\VoidSaleRefund_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\VoidSaleRefund_Dialog.Designer.cs">
+      <DependentUpon>VoidSaleRefund_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\VoidSale_dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Products\ProductHistory\VoidSale_dialog.Designer.cs">
+      <DependentUpon>VoidSale_dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\ChargeOff\ChargeOffCharityData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\ChargeOff\ChargeOffCharityData.Designer.cs">
+      <DependentUpon>ChargeOffCharityData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\ChargeOff\ChargeOffDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\ChargeOff\ChargeOffDetails.Designer.cs">
+      <DependentUpon>ChargeOffDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\ChargeOff\ChargeOffItemSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\ChargeOff\ChargeOffItemSelection.Designer.cs">
+      <DependentUpon>ChargeOffItemSelection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\ChargeOff\ChargeOffPoliceInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\ChargeOff\ChargeOffPoliceInfo.Designer.cs">
+      <DependentUpon>ChargeOffPoliceInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\ChargeOff\ChargeOffReplacementData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\ChargeOff\ChargeOffReplacementData.Designer.cs">
+      <DependentUpon>ChargeOffReplacementData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\ChargeOff\InventoryChargeOffSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\ChargeOff\InventoryChargeOffSearch.Designer.cs">
+      <DependentUpon>InventoryChargeOffSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Extend\ExtendPawnLoan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Extend\ExtendPawnLoan.Designer.cs">
+      <DependentUpon>ExtendPawnLoan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\LookupReceipt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\LookupReceipt.Designer.cs">
+      <DependentUpon>LookupReceipt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\LookupTicket.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\LookupTicket.Designer.cs">
+      <DependentUpon>LookupTicket.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\LookupTicketResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\LookupTicketResults.Designer.cs">
+      <DependentUpon>LookupTicketResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\JewelryCaseDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\JewelryCaseDetails.Designer.cs">
+      <DependentUpon>JewelryCaseDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\JewleryCaseDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\JewleryCaseDetails.Designer.cs">
+      <DependentUpon>JewleryCaseDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\ManageTransferIn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\ManageTransferIn.Designer.cs">
+      <DependentUpon>ManageTransferIn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\ManageTransferOut.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\ManageTransferOut.Designer.cs">
+      <DependentUpon>ManageTransferOut.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\MerchandiseComments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\MerchandiseComments.Designer.cs">
+      <DependentUpon>MerchandiseComments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\SelectDuplicateTransferItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\SelectDuplicateTransferItems.Designer.cs">
+      <DependentUpon>SelectDuplicateTransferItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\SelectTransferInItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\SelectTransferInItems.Designer.cs">
+      <DependentUpon>SelectTransferInItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\SelectTransferInMethod.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\SelectTransferInMethod.Designer.cs">
+      <DependentUpon>SelectTransferInMethod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\SelectTransferItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\SelectTransferItems.Designer.cs">
+      <DependentUpon>SelectTransferItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\TransferRejectComment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\MerchandiseTransfer\TransferRejectComment.Designer.cs">
+      <DependentUpon>TransferRejectComment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\PFI\PFI_AssignmentTypeRefurb.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\PFI\PFI_AssignmentTypeRefurb.Designer.cs">
+      <DependentUpon>PFI_AssignmentTypeRefurb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\PFI\PFI_ChargeOffList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\PFI\PFI_ChargeOffList.Designer.cs">
+      <DependentUpon>PFI_ChargeOffList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\PFI\PFI_Mailers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\PFI\PFI_Mailers.Designer.cs">
+      <DependentUpon>PFI_Mailers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\PFI\PFI_Posting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\PFI\PFI_Posting.Designer.cs">
+      <DependentUpon>PFI_Posting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\PFI\PFI_RefurbList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\PFI\PFI_RefurbList.Designer.cs">
+      <DependentUpon>PFI_RefurbList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\PFI\PFI_SelectLoan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\PFI\PFI_SelectLoan.Designer.cs">
+      <DependentUpon>PFI_SelectLoan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\PFI\PFI_Verify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\PFI\PFI_Verify.Designer.cs">
+      <DependentUpon>PFI_Verify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Pickup\FirearmsBackgroundCheck.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Pickup\FirearmsBackgroundCheck.Designer.cs">
+      <DependentUpon>FirearmsBackgroundCheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Pickup\PickupAmountDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Pickup\PickupAmountDetails.Designer.cs">
+      <DependentUpon>PickupAmountDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Pickup\ProrateWaiveFees.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Pickup\ProrateWaiveFees.Designer.cs">
+      <DependentUpon>ProrateWaiveFees.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Pickup\ViewPickupAmount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Pickup\ViewPickupAmount.Designer.cs">
+      <DependentUpon>ViewPickupAmount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Pickup\WaiveProrateFees.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Pickup\WaiveProrateFees.Designer.cs">
+      <DependentUpon>WaiveProrateFees.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\ProcessLostPawnTicketFee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\ProcessLostPawnTicketFee.Designer.cs">
+      <DependentUpon>ProcessLostPawnTicketFee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Receipt\LookupReceipt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Receipt\LookupReceipt.designer.cs">
+      <DependentUpon>LookupReceipt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Receipt\ViewReceipt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Receipt\ViewReceipt.designer.cs">
+      <DependentUpon>ViewReceipt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Receipt\ViewRenderReceipt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Receipt\ViewRenderReceipt.Designer.cs">
+      <DependentUpon>ViewRenderReceipt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Receipt\VoidReceiptSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Receipt\VoidReceiptSummary.designer.cs">
+      <DependentUpon>VoidReceiptSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Return\BuyReturn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Return\BuyReturn.Designer.cs">
+      <DependentUpon>BuyReturn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Return\BuyReturnItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Return\BuyReturnItems.Designer.cs">
+      <DependentUpon>BuyReturnItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Rollover\LoanFees.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Rollover\LoanFees.Designer.cs">
+      <DependentUpon>LoanFees.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Rollover\RolloverLoan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Rollover\RolloverLoan.Designer.cs">
+      <DependentUpon>RolloverLoan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Rollover\ViewNewLoanDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Rollover\ViewNewLoanDetails.Designer.cs">
+      <DependentUpon>ViewNewLoanDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\TagReprint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\TagReprint.Designer.cs">
+      <DependentUpon>TagReprint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\TagReprintSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\TagReprintSelect.Designer.cs">
+      <DependentUpon>TagReprintSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Ticket\LookupTicket.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Ticket\LookupTicket.Designer.cs">
+      <DependentUpon>LookupTicket.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Ticket\LookupTicketResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Ticket\LookupTicketResults.Designer.cs">
+      <DependentUpon>LookupTicketResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Ticket\ProcessLostPawnTicketFee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Ticket\ProcessLostPawnTicketFee.Designer.cs">
+      <DependentUpon>ProcessLostPawnTicketFee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Void\VoidBankTransfer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Void\VoidBankTransfer.Designer.cs">
+      <DependentUpon>VoidBankTransfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Void\VoidLayawayActivity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Void\VoidLayawayActivity.Designer.cs">
+      <DependentUpon>VoidLayawayActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Void\VoidLoanForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Void\VoidLoanForm.Designer.cs">
+      <DependentUpon>VoidLoanForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Void\VoidMdseTransfer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Void\VoidMdseTransfer.Designer.cs">
+      <DependentUpon>VoidMdseTransfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Void\VoidPurchaseReturn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Void\VoidPurchaseReturn.Designer.cs">
+      <DependentUpon>VoidPurchaseReturn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Void\VoidTransactionDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Void\VoidTransactionDetail.Designer.cs">
+      <DependentUpon>VoidTransactionDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Void\VoidTransactionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Services\Void\VoidTransactionForm.Designer.cs">
+      <DependentUpon>VoidTransactionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\AddCashDrawer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\AddCashDrawer.Designer.cs">
+      <DependentUpon>AddCashDrawer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\AddWorkstation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\AddWorkstation.Designer.cs">
+      <DependentUpon>AddWorkstation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\Assignments\EmployeeAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\Assignments\EmployeeAdd.Designer.cs">
+      <DependentUpon>EmployeeAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\Assignments\EmployeeSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\Assignments\EmployeeSearch.Designer.cs">
+      <DependentUpon>EmployeeSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\Assignments\SecurityProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\Assignments\SecurityProfile.Designer.cs">
+      <DependentUpon>SecurityProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\Assignments\SelectEmployee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\Assignments\SelectEmployee.Designer.cs">
+      <DependentUpon>SelectEmployee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\BalanceCash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\BalanceCash.Designer.cs">
+      <DependentUpon>BalanceCash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\CashDrawerStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\CashDrawerStatus.Designer.cs">
+      <DependentUpon>CashDrawerStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\CDBalanceOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\CDBalanceOptions.Designer.cs">
+      <DependentUpon>CDBalanceOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ExitOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ExitOptions.Designer.cs">
+      <DependentUpon>ExitOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ManageWorkstations.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ManageWorkstations.Designer.cs">
+      <DependentUpon>ManageWorkstations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\SafeLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\SafeLogin.designer.cs">
+      <DependentUpon>SafeLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCashMgr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCashMgr.Designer.cs">
+      <DependentUpon>ShopCashMgr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\BankTransferFrom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\BankTransferFrom.Designer.cs">
+      <DependentUpon>BankTransferFrom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\BankTransferInitial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\BankTransferInitial.Designer.cs">
+      <DependentUpon>BankTransferInitial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\BankTransferTo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\BankTransferTo.Designer.cs">
+      <DependentUpon>BankTransferTo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\InternalTransfer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\InternalTransfer.Designer.cs">
+      <DependentUpon>InternalTransfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\ShopTransferIn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\ShopTransferIn.Designer.cs">
+      <DependentUpon>ShopTransferIn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\ShopTransferOut.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\ShopTransferOut.Designer.cs">
+      <DependentUpon>ShopTransferOut.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\TransferPendingList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\TransferPendingList.Designer.cs">
+      <DependentUpon>TransferPendingList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\TransferReject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ShopCash\TransferReject.Designer.cs">
+      <DependentUpon>TransferReject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\TOPSTransferDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\TOPSTransferDialog.Designer.cs">
+      <DependentUpon>TOPSTransferDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ViewCashDrawerAssignments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ViewCashDrawerAssignments.Designer.cs">
+      <DependentUpon>ViewCashDrawerAssignments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ViewCashDrawerTransactions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\ShopAdministration\ViewCashDrawerTransactions.Designer.cs">
+      <DependentUpon>ViewCashDrawerTransactions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\Base\TenderEntryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\Base\TenderEntryForm.Designer.cs">
+      <DependentUpon>TenderEntryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\Base\TenderForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\Base\TenderForm.Designer.cs">
+      <DependentUpon>TenderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\Base\TenderTablePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\Base\TenderTablePanel.Designer.cs">
+      <DependentUpon>TenderTablePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\Base\TenderTypePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\Base\TenderTypePanel.Designer.cs">
+      <DependentUpon>TenderTypePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\ContinueCustomer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\ContinueCustomer.Designer.cs">
+      <DependentUpon>ContinueCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\DisbursementConfirmation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\DisbursementConfirmation.Designer.cs">
+      <DependentUpon>DisbursementConfirmation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\DisbursementDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\DisbursementDetailsForm.Designer.cs">
+      <DependentUpon>DisbursementDetailsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\DuplicateTicketNumber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\DuplicateTicketNumber.Designer.cs">
+      <DependentUpon>DuplicateTicketNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\ManualTicketNumber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\ManualTicketNumber.Designer.cs">
+      <DependentUpon>ManualTicketNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\ReceiptConfirmation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\ReceiptConfirmation.Designer.cs">
+      <DependentUpon>ReceiptConfirmation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\TenderCoupon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\TenderCoupon.Designer.cs">
+      <DependentUpon>TenderCoupon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\TenderIn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\TenderIn.Designer.cs">
+      <DependentUpon>TenderIn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\TenderOut.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Pawn\Tender\TenderOut.Designer.cs">
+      <DependentUpon>TenderOut.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Report\CreateReportObject.cs" />
+    <Compile Include="Forms\Report\LayawayCreateReportObject.cs" />
+    <Compile Include="Forms\Report\Reports.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Report\Reports.Designer.cs">
+      <DependentUpon>Reports.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReprintDocument.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReprintDocument.Designer.cs">
+      <DependentUpon>ReprintDocument.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReprintTag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReprintTag.Designer.cs">
+      <DependentUpon>ReprintTag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\ApplyCoupon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\ApplyCoupon.Designer.cs">
+      <DependentUpon>ApplyCoupon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\ChangeItemAssignmentDuplicateItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\ChangeItemAssignmentDuplicateItems.Designer.cs">
+      <DependentUpon>ChangeItemAssignmentDuplicateItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\ChangeItemAssignmentType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\ChangeItemAssignmentType.Designer.cs">
+      <DependentUpon>ChangeItemAssignmentType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\InternetSaleInformation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\InternetSaleInformation.Designer.cs">
+      <DependentUpon>InternetSaleInformation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\IssueCustomerCommentsCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\IssueCustomerCommentsCard.Designer.cs">
+      <DependentUpon>IssueCustomerCommentsCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\ItemSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\ItemSearch.Designer.cs">
+      <DependentUpon>ItemSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\ItemSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\ItemSelect.Designer.cs">
+      <DependentUpon>ItemSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\JewelryCase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\JewelryCase.Designer.cs">
+      <DependentUpon>JewelryCase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\LayawayDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\LayawayDetails.Designer.cs">
+      <DependentUpon>LayawayDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\NxtComments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\NxtComments.Designer.cs">
+      <DependentUpon>NxtComments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\OutTheDoor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\OutTheDoor.Designer.cs">
+      <DependentUpon>OutTheDoor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\ReceiptSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\ReceiptSearch.Designer.cs">
+      <DependentUpon>ReceiptSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\RefundQuantity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\RefundQuantity.Designer.cs">
+      <DependentUpon>RefundQuantity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\SalesTaxExclusion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\SalesTaxExclusion.Designer.cs">
+      <DependentUpon>SalesTaxExclusion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Retail\UserItemCommentsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Retail\UserItemCommentsForm.Designer.cs">
+      <DependentUpon>UserItemCommentsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RTCform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RTCform.Designer.cs">
+      <DependentUpon>RTCform.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ShopOffset.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ShopOffset.Designer.cs">
+      <DependentUpon>ShopOffset.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\Carrier.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Carrier.Designer.cs">
+      <DependentUpon>Carrier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\CashTransferReports\CashTransferHeader.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\CashTransferReports\CashTransferHeader.Designer.cs">
+      <DependentUpon>CashTransferHeader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\Country.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Country.Designer.cs">
+      <DependentUpon>Country.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\CurrencyEntry.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\CurrencyEntry.Designer.cs">
+      <DependentUpon>CurrencyEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\Date.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Date.Designer.cs">
+      <DependentUpon>Date.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\DateCalendar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\DateCalendar.Designer.cs">
+      <DependentUpon>DateCalendar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\DetailedItemSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\DetailedItemSearch.Designer.cs">
+      <DependentUpon>DetailedItemSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\Eyecolor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Eyecolor.Designer.cs">
+      <DependentUpon>Eyecolor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\FirearmBuyoutItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\FirearmBuyoutItem.Designer.cs">
+      <DependentUpon>FirearmBuyoutItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\Gender.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Gender.Designer.cs">
+      <DependentUpon>Gender.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\GunRoomType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\GunRoomType.Designer.cs">
+      <DependentUpon>GunRoomType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\Haircolor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Haircolor.Designer.cs">
+      <DependentUpon>Haircolor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\HearAboutUs.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\HearAboutUs.Designer.cs">
+      <DependentUpon>HearAboutUs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\Identification.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Identification.Designer.cs">
+      <DependentUpon>Identification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\IDType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\IDType.Designer.cs">
+      <DependentUpon>IDType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\JewleryCase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\JewleryCase.Designer.cs">
+      <DependentUpon>JewleryCase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanBasicInfoPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanBasicInfoPanel.Designer.cs">
+      <DependentUpon>LoanBasicInfoPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanChargesPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanChargesPanel.Designer.cs">
+      <DependentUpon>LoanChargesPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanDetailBasePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanDetailBasePanel.designer.cs">
+      <DependentUpon>LoanDetailBasePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanExtensionInfoPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanExtensionInfoPanel.designer.cs">
+      <DependentUpon>LoanExtensionInfoPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanFireamPickupPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanFireamPickupPanel.designer.cs">
+      <DependentUpon>LoanFireamPickupPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanGenericPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanGenericPanel.designer.cs">
+      <DependentUpon>LoanGenericPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanPFIPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanPFIPanel.designer.cs">
+      <DependentUpon>LoanPFIPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanPickupPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanPickupPanel.designer.cs">
+      <DependentUpon>LoanPickupPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanRenewPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailPanels\LoanRenewPanel.designer.cs">
+      <DependentUpon>LoanRenewPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailsBasePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanDetailsBasePanel.Designer.cs">
+      <DependentUpon>LoanDetailsBasePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanInquiryCriteria.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanInquiryCriteria.Designer.cs">
+      <DependentUpon>LoanInquiryCriteria.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanStatusInfoPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\LoanStatusInfoPanel.Designer.cs">
+      <DependentUpon>LoanStatusInfoPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\OtherTender.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\OtherTender.Designer.cs">
+      <DependentUpon>OtherTender.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\OutOfShop.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\OutOfShop.Designer.cs">
+      <DependentUpon>OutOfShop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\PagedGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\PagedGridView.Designer.cs">
+      <DependentUpon>PagedGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\PhoneData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\PhoneData.Designer.cs">
+      <DependentUpon>PhoneData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\PickingSlipControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\PickingSlipControl.Designer.cs">
+      <DependentUpon>PickingSlipControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\PickSlipPrintControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\PickSlipPrintControl.Designer.cs">
+      <DependentUpon>PickSlipPrintControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\ProductHistoryPanels\LoanBasicInfoPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\ProductHistoryPanels\LoanBasicInfoPanel.Designer.cs">
+      <DependentUpon>LoanBasicInfoPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\ProductHistoryPanels\LoanChargesPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\ProductHistoryPanels\LoanChargesPanel.Designer.cs">
+      <DependentUpon>LoanChargesPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\ProductHistoryPanels\LoanDetailBasePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\ProductHistoryPanels\LoanDetailBasePanel.Designer.cs">
+      <DependentUpon>LoanDetailBasePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\ProductHistoryPanels\LoanExtensionInfoPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\ProductHistoryPanels\LoanExtensionInfoPanel.Designer.cs">
+      <DependentUpon>LoanExtensionInfoPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\ProductHistoryPanels\LoanPFIPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\ProductHistoryPanels\LoanPFIPanel.Designer.cs">
+      <DependentUpon>LoanPFIPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\ProductTypeList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\ProductTypeList.Designer.cs">
+      <DependentUpon>ProductTypeList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\Race.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Race.Designer.cs">
+      <DependentUpon>Race.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\RefundQuantityItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\RefundQuantityItem.Designer.cs">
+      <DependentUpon>RefundQuantityItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\Reports\DailySales_criteria.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Reports\DailySales_criteria.Designer.cs">
+      <DependentUpon>DailySales_criteria.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\RetailCost.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\RetailCost.Designer.cs">
+      <DependentUpon>RetailCost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\RetailItems.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\RetailItems.Designer.cs">
+      <DependentUpon>RetailItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\SafeCurrencyEntry.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\SafeCurrencyEntry.Designer.cs">
+      <DependentUpon>SafeCurrencyEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\ShopNumber.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\ShopNumber.Designer.cs">
+      <DependentUpon>ShopNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\ShopsTreenode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\ShopsTreenode.Designer.cs">
+      <DependentUpon>ShopsTreenode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\SocialSecurityNumber.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\SocialSecurityNumber.Designer.cs">
+      <DependentUpon>SocialSecurityNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\State.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\State.Designer.cs">
+      <DependentUpon>State.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\TerminalControl\AlgorithmSupport.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\Base64.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\BigInteger.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\Blowfish.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\CipherUtil.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\ConnectionInfo.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\ConnectionParameter.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\ConnectionRoot.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\CRC.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\DES.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\DSA.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\LibraryClient.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\PKIBase.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\PrimeSieve.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\ReaderWriter.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\Rijndael.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\RSA.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\Socket.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\SSH1Connection.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\SSH1Packet.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\SSH1UserAuthKey.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\SSH1Util.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\SSH2Connection.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\SSH2Packet.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\SSH2UserAuthKey.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\SSH2Util.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\SSHUtil.cs" />
+    <Compile Include="Forms\UserControls\TerminalControl\StringResource.cs" />
+    <Compile Include="Forms\UserControls\TerminalEmulator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Title.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Title.Designer.cs">
+      <DependentUpon>Title.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\TitleSuffix.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\TitleSuffix.Designer.cs">
+      <DependentUpon>TitleSuffix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\TransferOutCount.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\TransferOutCount.Designer.cs">
+      <DependentUpon>TransferOutCount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\TransferTo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\TransferTo.Designer.cs">
+      <DependentUpon>TransferTo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\TransferType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\TransferType.Designer.cs">
+      <DependentUpon>TransferType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\UserItemCommentsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\UserItemCommentsControl.Designer.cs">
+      <DependentUpon>UserItemCommentsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\VendorSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\VendorSearch.Designer.cs">
+      <DependentUpon>VendorSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\Zipcode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\Zipcode.Designer.cs">
+      <DependentUpon>Zipcode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ViewPrintDocument.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ViewPrintDocument.designer.cs">
+      <DependentUpon>ViewPrintDocument.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\VoidSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VoidSelector.Designer.cs">
+      <DependentUpon>VoidSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\ButtonResourceManagerHelper.cs" />
+    <Compile Include="Logic\CashlinxDesktopSession.cs" />
+    <Compile Include="Logic\DesktopProcedures\ExtensionMemoPrint.cs" />
+    <Compile Include="Logic\DesktopProcedures\OutTheDoorCalculator.cs" />
+    <Compile Include="Logic\DesktopProcedures\PfiPickupCalculator.cs" />
+    <Compile Include="Logic\DesktopProcedures\PFIProcedures.cs" />
+    <Compile Include="Logic\DesktopProcedures\PrintPFIUtilities.cs" />
+    <Compile Include="Logic\DesktopProcedures\ProcessTenderController.cs" />
+    <Compile Include="Logic\DesktopProcedures\PurchaseProcedures.cs" />
+    <Compile Include="Logic\DesktopProcedures\ReportsProcedures.cs" />
+    <Compile Include="Logic\DesktopProcedures\StoreLoans.cs" />
+    <Compile Include="Logic\DesktopProcedures\VoidProcedures.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\BankAndInternalCashTransfer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\BankAndInternalCashTransfer.Designer.cs">
+      <DependentUpon>BankAndInternalCashTransfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\LostTicketStatementPrint.cs" />
+    <Compile Include="Logic\PrintQueue\ManualCheckDepositSlipPrint.cs" />
+    <Compile Include="Logic\PrintQueue\PickSlipPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\PickSlipPrint.Designer.cs">
+      <DependentUpon>PickSlipPrint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\PoliceHoldform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\PoliceHoldform.Designer.cs">
+      <DependentUpon>PoliceHoldform.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\PoliceSeizeform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\PoliceSeizeform.Designer.cs">
+      <DependentUpon>PoliceSeizeform.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\PrintGunBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\PrintGunBook.Designer.cs">
+      <DependentUpon>PrintGunBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\PrintLedger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\PrintLedger.Designer.cs">
+      <DependentUpon>PrintLedger.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\Print_AssignPhysicalLocation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\Print_AssignPhysicalLocation.designer.cs">
+      <DependentUpon>Print_AssignPhysicalLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\Print_PfiChargeOffList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\Print_PfiChargeOffList.designer.cs">
+      <DependentUpon>Print_PfiChargeOffList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\Print_PfiPost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\Print_PfiPost.designer.cs">
+      <DependentUpon>Print_PfiPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\Print_PfiRefurbList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\Print_PfiRefurbList.designer.cs">
+      <DependentUpon>Print_PfiRefurbList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\RTCform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\RTCform.Designer.cs">
+      <DependentUpon>RTCform.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\ShopToShopCashTransfer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\ShopToShopCashTransfer.Designer.cs">
+      <DependentUpon>ShopToShopCashTransfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\TransferOutScrapsReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\PrintQueue\TransferOutScrapsReport.Designer.cs">
+      <DependentUpon>TransferOutScrapsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ButtonResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ButtonResources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\AdminSection.resx">
+      <DependentUpon>AdminSection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\Resets.resx">
+      <DependentUpon>Resets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\SecurityBarCode.resx">
+      <DependentUpon>SecurityBarCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Admin\TerminalClient.resx">
+      <DependentUpon>TerminalClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GunUtilities\EditGunBook\CustomerReplace.resx">
+      <DependentUpon>CustomerReplace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GunUtilities\EditGunBook\EditGunBookRecord.resx">
+      <DependentUpon>EditGunBookRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GunUtilities\EditGunBook\GunBookCustomer.resx">
+      <DependentUpon>GunBookCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GunUtilities\EditGunBook\GunBookSearch.resx">
+      <DependentUpon>GunBookSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GunUtilities\GunBook\GunBookPrintOptions.resx">
+      <DependentUpon>GunBookPrintOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InfoDialog.resx">
+      <DependentUpon>InfoDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InformationMessage.resx">
+      <DependentUpon>InformationMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\CashTransferInquiry\CashTransferDetails.resx">
+      <DependentUpon>CashTransferDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\CashTransferInquiry\CashTransferInquirySearch.resx">
+      <DependentUpon>CashTransferInquirySearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\ExtInquiry\ExtensionDetails.resx">
+      <DependentUpon>ExtensionDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\ExtInquiry\ExtensionInquirySearch.resx">
+      <DependentUpon>ExtensionInquirySearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\InventoryInquiry\CategorySelect.resx">
+      <DependentUpon>CategorySelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\InventoryInquiry\InventoryInquirySearch.resx">
+      <DependentUpon>InventoryInquirySearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\InventoryInquiry\ItemCostRevisionHistory.resx">
+      <DependentUpon>ItemCostRevisionHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\InventoryInquiry\MsdeDescriptionRevisionHistory.resx">
+      <DependentUpon>MsdeDescriptionRevisionHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\InventoryInquiry\ReportType.resx">
+      <DependentUpon>ReportType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\InventoryInquiry\RetailPriceRevisionHistory.resx">
+      <DependentUpon>RetailPriceRevisionHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\InventoryInquiry\RevisionsType.resx">
+      <DependentUpon>RevisionsType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\InventoryInquiry\StatusChangeRevisionHistory.resx">
+      <DependentUpon>StatusChangeRevisionHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\LoanInquiry\ItemDetails.resx">
+      <DependentUpon>ItemDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\LoanInquiry\LoanDetails.resx">
+      <DependentUpon>LoanDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\LoanInquiry\LoanInquirySearch.resx">
+      <DependentUpon>LoanInquirySearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\PartialPaymentInquiry\PartialPaymentDetails.resx">
+      <DependentUpon>PartialPaymentDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\PartialPaymentInquiry\PartialPaymentInquirySearch.resx">
+      <DependentUpon>PartialPaymentInquirySearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\SearchResults.resx">
+      <DependentUpon>SearchResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\Retail\RetailDetails.resx">
+      <DependentUpon>RetailDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\Retail\RetailInquirySearch.resx">
+      <DependentUpon>RetailInquirySearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Layaway\LayawayDetailViewer.resx">
+      <DependentUpon>LayawayDetailViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Layaway\LayawayForfeitureResults.resx">
+      <DependentUpon>LayawayForfeitureResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Layaway\LayawayForfeitureSearch.resx">
+      <DependentUpon>LayawayForfeitureSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Layaway\LayawayPaymentHistory.resx">
+      <DependentUpon>LayawayPaymentHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Layaway\LayawayPaymentValues.resx">
+      <DependentUpon>LayawayPaymentValues.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Layaway\LayawayRefund.resx">
+      <DependentUpon>LayawayRefund.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Layaway\LayawaySearch.resx">
+      <DependentUpon>LayawaySearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoanInquiry\LoanInquiry.resx">
+      <DependentUpon>LoanInquiry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoanInquiry\LoanInquiryShops.resx">
+      <DependentUpon>LoanInquiryShops.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewDesktop.resx">
+      <DependentUpon>NewDesktop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\BuyMenuPanel.resx">
+      <DependentUpon>BuyMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\CashDrawerMenuPanel.resx">
+      <DependentUpon>CashDrawerMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\ChangePricingMenuPanel.resx">
+      <DependentUpon>ChangePricingMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\CustomerBuyMenuPanel.resx">
+      <DependentUpon>CustomerBuyMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\CustomerHoldsMenuPanel.resx">
+      <DependentUpon>CustomerHoldsMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\GunBookMenuPanel.resx">
+      <DependentUpon>GunBookMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\LookupMenuPanel.resx">
+      <DependentUpon>LookupMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\MainMenuPanel.resx">
+      <DependentUpon>MainMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\ManageCashMenuPanel.resx">
+      <DependentUpon>ManageCashMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\ManageInventoryMenuPanel.resx">
+      <DependentUpon>ManageInventoryMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\PawnMenuPanel.resx">
+      <DependentUpon>PawnMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\PFIMenuPanel.resx">
+      <DependentUpon>PFIMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\PoliceMenuPanel.resx">
+      <DependentUpon>PoliceMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\RefundReturnMenuPanel.resx">
+      <DependentUpon>RefundReturnMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\ReportsMenuPanel.resx">
+      <DependentUpon>ReportsMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\SafeOperationsMenuPanel.resx">
+      <DependentUpon>SafeOperationsMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\TransferMenuPanel.resx">
+      <DependentUpon>TransferMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\UtilitiesMenuPanel.resx">
+      <DependentUpon>UtilitiesMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\VoidMenuPanel.resx">
+      <DependentUpon>VoidMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\CreateCustomer.resx">
+      <DependentUpon>CreateCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\CreateVendor.resx">
+      <DependentUpon>CreateVendor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\ExistingCustomer.resx">
+      <DependentUpon>ExistingCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\Holds\CustomerHoldInfo.resx">
+      <DependentUpon>CustomerHoldInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\Holds\CustomerHoldItemDescription.resx">
+      <DependentUpon>CustomerHoldItemDescription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\Holds\CustomerHoldsList.resx">
+      <DependentUpon>CustomerHoldsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\Holds\MultiJewelryCaseNumber.resx">
+      <DependentUpon>MultiJewelryCaseNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\Holds\PoliceHoldInfo.resx">
+      <DependentUpon>PoliceHoldInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\Holds\PoliceHoldsList.resx">
+      <DependentUpon>PoliceHoldsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\ItemRelease\CustomerHoldReleaseInfo.resx">
+      <DependentUpon>CustomerHoldReleaseInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\ItemRelease\CustomerHoldReleaseList.resx">
+      <DependentUpon>CustomerHoldReleaseList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\ItemRelease\HoldUpdateReleaseDate.resx">
+      <DependentUpon>HoldUpdateReleaseDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\ItemRelease\PoliceHoldRelease.resx">
+      <DependentUpon>PoliceHoldRelease.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\ItemRelease\PoliceHoldReleaseList.resx">
+      <DependentUpon>PoliceHoldReleaseList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\LookupCustomer.resx">
+      <DependentUpon>LookupCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\LookupCustomerResults.resx">
+      <DependentUpon>LookupCustomerResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\LookupVendor.resx">
+      <DependentUpon>LookupVendor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\LookupVendorResults.resx">
+      <DependentUpon>LookupVendorResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\ManagePawnApplication.resx">
+      <DependentUpon>ManagePawnApplication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\MemoofExrension.resx">
+      <DependentUpon>MemoofExrension.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\MultiJewelryCaseNumber.resx">
+      <DependentUpon>MultiJewelryCaseNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\Stats\Controller_Stats.resx">
+      <DependentUpon>Controller_Stats.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\UpdateAddress.resx">
+      <DependentUpon>UpdateAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\UpdateCommentsandNotes.resx">
+      <DependentUpon>UpdateCommentsandNotes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\UpdateCustomerContactDetails.resx">
+      <DependentUpon>UpdateCustomerContactDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\UpdateCustomerDetails.resx">
+      <DependentUpon>UpdateCustomerDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\UpdateCustomerIdentification.resx">
+      <DependentUpon>UpdateCustomerIdentification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\UpdatePhysicalDesc.resx">
+      <DependentUpon>UpdatePhysicalDesc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Customer\ViewCustomerInformation.resx">
+      <DependentUpon>ViewCustomerInformation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ItemHistory\Controller_ItemHistory.resx">
+      <DependentUpon>Controller_ItemHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Loan\LoanComponent.resx">
+      <DependentUpon>LoanComponent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Loan\LoanSummary.resx">
+      <DependentUpon>LoanSummary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Loan\ManageOverrides.resx">
+      <DependentUpon>ManageOverrides.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Loan\ProcessTender\DisbursementDetails.resx">
+      <DependentUpon>DisbursementDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Loan\ProcessTender\ProcessTender.resx">
+      <DependentUpon>ProcessTender.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Loan\TenderCash.resx">
+      <DependentUpon>TenderCash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\AssignPhysicalLocation.resx">
+      <DependentUpon>AssignPhysicalLocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ManageMultiplePawnItems\EditMerchandise.resx">
+      <DependentUpon>EditMerchandise.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ManageMultiplePawnItems\ManageMultiplePawnItems.resx">
+      <DependentUpon>ManageMultiplePawnItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductDetails\AddTickets.resx">
+      <DependentUpon>AddTickets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductDetails\Controller_ProductServices.resx">
+      <DependentUpon>Controller_ProductServices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductDetails\FailedBackGroundCheckForm.resx">
+      <DependentUpon>FailedBackGroundCheckForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductDetails\FirearmBuyoutForm.resx">
+      <DependentUpon>FirearmBuyoutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductDetails\InformationMessage.resx">
+      <DependentUpon>InformationMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductDetails\OverrideReason.resx">
+      <DependentUpon>OverrideReason.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductDetails\PartialPayment.resx">
+      <DependentUpon>PartialPayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductDetails\RenewalDialog.resx">
+      <DependentUpon>RenewalDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductDetails\ValidationMessage.resx">
+      <DependentUpon>ValidationMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductHistory\Controller_ProductHistory.resx">
+      <DependentUpon>Controller_ProductHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductHistory\Extension_Dialog.resx">
+      <DependentUpon>Extension_Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductHistory\Layaway_dialog.resx">
+      <DependentUpon>Layaway_dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductHistory\PartialPawnPaymentHistory.resx">
+      <DependentUpon>PartialPawnPaymentHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductHistory\ProductHistoryDynamicPanel_Dialog.resx">
+      <DependentUpon>ProductHistoryDynamicPanel_Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductHistory\ProductHistory_Dialog.resx">
+      <DependentUpon>ProductHistory_Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductHistory\PurchaseHistory_Dialog.resx">
+      <DependentUpon>PurchaseHistory_Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductHistory\ReturnHistory_Dialog.resx">
+      <DependentUpon>ReturnHistory_Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductHistory\SaleRefund_Dialog.resx">
+      <DependentUpon>SaleRefund_Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductHistory\Sale_dialog.resx">
+      <DependentUpon>Sale_dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductHistory\VoidSaleRefund_Dialog.resx">
+      <DependentUpon>VoidSaleRefund_Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Products\ProductHistory\VoidSale_dialog.resx">
+      <DependentUpon>VoidSale_dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\ChargeOff\ChargeOffCharityData.resx">
+      <DependentUpon>ChargeOffCharityData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\ChargeOff\ChargeOffDetails.resx">
+      <DependentUpon>ChargeOffDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\ChargeOff\ChargeOffItemSelection.resx">
+      <DependentUpon>ChargeOffItemSelection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\ChargeOff\ChargeOffPoliceInfo.resx">
+      <DependentUpon>ChargeOffPoliceInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\ChargeOff\ChargeOffReplacementData.resx">
+      <DependentUpon>ChargeOffReplacementData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\ChargeOff\InventoryChargeOffSearch.resx">
+      <DependentUpon>InventoryChargeOffSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Extend\ExtendPawnLoan.resx">
+      <DependentUpon>ExtendPawnLoan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\LookupReceipt.resx">
+      <DependentUpon>LookupReceipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\LookupTicket.resx">
+      <DependentUpon>LookupTicket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\LookupTicketResults.resx">
+      <DependentUpon>LookupTicketResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\MerchandiseTransfer\JewelryCaseDetails.resx">
+      <DependentUpon>JewelryCaseDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\MerchandiseTransfer\JewleryCaseDetails.resx">
+      <DependentUpon>JewleryCaseDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\MerchandiseTransfer\ManageTransferIn.resx">
+      <DependentUpon>ManageTransferIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\MerchandiseTransfer\ManageTransferOut.resx">
+      <DependentUpon>ManageTransferOut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\MerchandiseTransfer\MerchandiseComments.resx">
+      <DependentUpon>MerchandiseComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\MerchandiseTransfer\SelectDuplicateTransferItems.resx">
+      <DependentUpon>SelectDuplicateTransferItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\MerchandiseTransfer\SelectTransferInItems.resx">
+      <DependentUpon>SelectTransferInItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\MerchandiseTransfer\SelectTransferInMethod.resx">
+      <DependentUpon>SelectTransferInMethod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\MerchandiseTransfer\SelectTransferItems.resx">
+      <DependentUpon>SelectTransferItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\MerchandiseTransfer\TransferRejectComment.resx">
+      <DependentUpon>TransferRejectComment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\PFI\PFI_AssignmentTypeRefurb.resx">
+      <DependentUpon>PFI_AssignmentTypeRefurb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\PFI\PFI_ChargeOffList.resx">
+      <DependentUpon>PFI_ChargeOffList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\PFI\PFI_Mailers.resx">
+      <DependentUpon>PFI_Mailers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\PFI\PFI_Posting.resx">
+      <DependentUpon>PFI_Posting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\PFI\PFI_RefurbList.resx">
+      <DependentUpon>PFI_RefurbList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\PFI\PFI_SelectLoan.resx">
+      <DependentUpon>PFI_SelectLoan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\PFI\PFI_Verify.resx">
+      <DependentUpon>PFI_Verify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Pickup\FirearmsBackgroundCheck.resx">
+      <DependentUpon>FirearmsBackgroundCheck.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Pickup\PickupAmountDetails.resx">
+      <DependentUpon>PickupAmountDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Pickup\ProrateWaiveFees.resx">
+      <DependentUpon>ProrateWaiveFees.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Pickup\ViewPickupAmount.resx">
+      <DependentUpon>ViewPickupAmount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Pickup\WaiveProrateFees.resx">
+      <DependentUpon>WaiveProrateFees.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\ProcessLostPawnTicketFee.resx">
+      <DependentUpon>ProcessLostPawnTicketFee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Receipt\LookupReceipt.resx">
+      <DependentUpon>LookupReceipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Receipt\ViewReceipt.resx">
+      <DependentUpon>ViewReceipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Receipt\ViewRenderReceipt.resx">
+      <DependentUpon>ViewRenderReceipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Receipt\VoidReceiptSummary.resx">
+      <DependentUpon>VoidReceiptSummary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Return\BuyReturn.resx">
+      <DependentUpon>BuyReturn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Return\BuyReturnItems.resx">
+      <DependentUpon>BuyReturnItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Rollover\LoanFees.resx">
+      <DependentUpon>LoanFees.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Rollover\RolloverLoan.resx">
+      <DependentUpon>RolloverLoan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Rollover\ViewNewLoanDetails.resx">
+      <DependentUpon>ViewNewLoanDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\TagReprint.resx">
+      <DependentUpon>TagReprint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\TagReprintSelect.resx">
+      <DependentUpon>TagReprintSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Ticket\LookupTicket.resx">
+      <DependentUpon>LookupTicket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Ticket\LookupTicketResults.resx">
+      <DependentUpon>LookupTicketResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Ticket\ProcessLostPawnTicketFee.resx">
+      <DependentUpon>ProcessLostPawnTicketFee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Void\VoidBankTransfer.resx">
+      <DependentUpon>VoidBankTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Void\VoidLayawayActivity.resx">
+      <DependentUpon>VoidLayawayActivity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Void\VoidLoanForm.resx">
+      <DependentUpon>VoidLoanForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Void\VoidMdseTransfer.resx">
+      <DependentUpon>VoidMdseTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Void\VoidPurchaseReturn.resx">
+      <DependentUpon>VoidPurchaseReturn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Void\VoidTransactionDetail.resx">
+      <DependentUpon>VoidTransactionDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Services\Void\VoidTransactionForm.resx">
+      <DependentUpon>VoidTransactionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\AddCashDrawer.resx">
+      <DependentUpon>AddCashDrawer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\AddWorkstation.resx">
+      <DependentUpon>AddWorkstation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\Assignments\EmployeeAdd.resx">
+      <DependentUpon>EmployeeAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\Assignments\EmployeeSearch.resx">
+      <DependentUpon>EmployeeSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\Assignments\SecurityProfile.resx">
+      <DependentUpon>SecurityProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\Assignments\SelectEmployee.resx">
+      <DependentUpon>SelectEmployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\BalanceCash.resx">
+      <DependentUpon>BalanceCash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\CashDrawerStatus.resx">
+      <DependentUpon>CashDrawerStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\CDBalanceOptions.resx">
+      <DependentUpon>CDBalanceOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\ExitOptions.resx">
+      <DependentUpon>ExitOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\ManageWorkstations.resx">
+      <DependentUpon>ManageWorkstations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\SafeLogin.resx">
+      <DependentUpon>SafeLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\ShopCashMgr.resx">
+      <DependentUpon>ShopCashMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\ShopCash\BankTransferFrom.resx">
+      <DependentUpon>BankTransferFrom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\ShopCash\BankTransferInitial.resx">
+      <DependentUpon>BankTransferInitial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\ShopCash\BankTransferTo.resx">
+      <DependentUpon>BankTransferTo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\ShopCash\InternalTransfer.resx">
+      <DependentUpon>InternalTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\ShopCash\ShopTransferIn.resx">
+      <DependentUpon>ShopTransferIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\ShopCash\ShopTransferOut.resx">
+      <DependentUpon>ShopTransferOut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\ShopCash\TransferPendingList.resx">
+      <DependentUpon>TransferPendingList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\ShopCash\TransferReject.resx">
+      <DependentUpon>TransferReject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\TOPSTransferDialog.resx">
+      <DependentUpon>TOPSTransferDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\ViewCashDrawerAssignments.resx">
+      <DependentUpon>ViewCashDrawerAssignments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\ShopAdministration\ViewCashDrawerTransactions.resx">
+      <DependentUpon>ViewCashDrawerTransactions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Tender\Base\TenderEntryForm.resx">
+      <DependentUpon>TenderEntryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Tender\Base\TenderForm.resx">
+      <DependentUpon>TenderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Tender\Base\TenderTablePanel.resx">
+      <DependentUpon>TenderTablePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Tender\Base\TenderTypePanel.resx">
+      <DependentUpon>TenderTypePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Tender\ContinueCustomer.resx">
+      <DependentUpon>ContinueCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Tender\DisbursementConfirmation.resx">
+      <DependentUpon>DisbursementConfirmation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Tender\DisbursementDetailsForm.resx">
+      <DependentUpon>DisbursementDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Tender\DuplicateTicketNumber.resx">
+      <DependentUpon>DuplicateTicketNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Tender\ManualTicketNumber.resx">
+      <DependentUpon>ManualTicketNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Tender\ReceiptConfirmation.resx">
+      <DependentUpon>ReceiptConfirmation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Tender\TenderCoupon.resx">
+      <DependentUpon>TenderCoupon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Tender\TenderIn.resx">
+      <DependentUpon>TenderIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Pawn\Tender\TenderOut.resx">
+      <DependentUpon>TenderOut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Report\Reports.resx">
+      <DependentUpon>Reports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReprintDocument.resx">
+      <DependentUpon>ReprintDocument.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReprintTag.resx">
+      <DependentUpon>ReprintTag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Retail\ApplyCoupon.resx">
+      <DependentUpon>ApplyCoupon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Retail\ChangeItemAssignmentType.resx">
+      <DependentUpon>ChangeItemAssignmentType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Retail\InternetSaleInformation.resx">
+      <DependentUpon>InternetSaleInformation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Retail\IssueCustomerCommentsCard.resx">
+      <DependentUpon>IssueCustomerCommentsCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Retail\ItemSearch.resx">
+      <DependentUpon>ItemSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Retail\ItemSelect.resx">
+      <DependentUpon>ItemSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Retail\JewelryCase.resx">
+      <DependentUpon>JewelryCase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Retail\LayawayDetails.resx">
+      <DependentUpon>LayawayDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Retail\NxtComments.resx">
+      <DependentUpon>NxtComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Retail\OutTheDoor.resx">
+      <DependentUpon>OutTheDoor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Retail\ReceiptSearch.resx">
+      <DependentUpon>ReceiptSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Retail\RefundQuantity.resx">
+      <DependentUpon>RefundQuantity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Retail\SalesTaxExclusion.resx">
+      <DependentUpon>SalesTaxExclusion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Retail\UserItemCommentsForm.resx">
+      <DependentUpon>UserItemCommentsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RTCform.resx">
+      <DependentUpon>RTCform.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ShopOffset.resx">
+      <DependentUpon>ShopOffset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Carrier.resx">
+      <DependentUpon>Carrier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\CashTransferReports\CashTransferHeader.resx">
+      <DependentUpon>CashTransferHeader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Country.resx">
+      <DependentUpon>Country.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\CurrencyEntry.resx">
+      <DependentUpon>CurrencyEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Date.resx">
+      <DependentUpon>Date.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\DateCalendar.resx">
+      <DependentUpon>DateCalendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\DetailedItemSearch.resx">
+      <DependentUpon>DetailedItemSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Eyecolor.resx">
+      <DependentUpon>Eyecolor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\FirearmBuyoutItem.resx">
+      <DependentUpon>FirearmBuyoutItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Gender.resx">
+      <DependentUpon>Gender.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\GunRoomType.resx">
+      <DependentUpon>GunRoomType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Haircolor.resx">
+      <DependentUpon>Haircolor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\HearAboutUs.resx">
+      <DependentUpon>HearAboutUs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Identification.resx">
+      <DependentUpon>Identification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\IDType.resx">
+      <DependentUpon>IDType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\JewleryCase.resx">
+      <DependentUpon>JewleryCase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\LoanDetailPanels\LoanBasicInfoPanel.resx">
+      <DependentUpon>LoanBasicInfoPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\LoanDetailPanels\LoanChargesPanel.resx">
+      <DependentUpon>LoanChargesPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\LoanDetailPanels\LoanExtensionInfoPanel.resx">
+      <DependentUpon>LoanExtensionInfoPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\LoanDetailPanels\LoanFireamPickupPanel.resx">
+      <DependentUpon>LoanFireamPickupPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\LoanDetailPanels\LoanGenericPanel.resx">
+      <DependentUpon>LoanGenericPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\LoanDetailPanels\LoanPFIPanel.resx">
+      <DependentUpon>LoanPFIPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\LoanDetailPanels\LoanPickupPanel.resx">
+      <DependentUpon>LoanPickupPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\LoanDetailPanels\LoanRenewPanel.resx">
+      <DependentUpon>LoanRenewPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\LoanInquiryCriteria.resx">
+      <DependentUpon>LoanInquiryCriteria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\LoanStatusInfoPanel.resx">
+      <DependentUpon>LoanStatusInfoPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\OtherTender.resx">
+      <DependentUpon>OtherTender.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\OutOfShop.resx">
+      <DependentUpon>OutOfShop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\PhoneData.resx">
+      <DependentUpon>PhoneData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\PickingSlipControl.resx">
+      <DependentUpon>PickingSlipControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\PickSlipPrintControl.resx">
+      <DependentUpon>PickSlipPrintControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\ProductHistoryPanels\LoanBasicInfoPanel.resx">
+      <DependentUpon>LoanBasicInfoPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\ProductHistoryPanels\LoanChargesPanel.resx">
+      <DependentUpon>LoanChargesPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\ProductHistoryPanels\LoanExtensionInfoPanel.resx">
+      <DependentUpon>LoanExtensionInfoPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\ProductHistoryPanels\LoanPFIPanel.resx">
+      <DependentUpon>LoanPFIPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\ProductTypeList.resx">
+      <DependentUpon>ProductTypeList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Race.resx">
+      <DependentUpon>Race.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\RefundQuantityItem.resx">
+      <DependentUpon>RefundQuantityItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Reports\DailySales_criteria.resx">
+      <DependentUpon>DailySales_criteria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\RetailCost.resx">
+      <DependentUpon>RetailCost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\RetailItems.resx">
+      <DependentUpon>RetailItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\SafeCurrencyEntry.resx">
+      <DependentUpon>SafeCurrencyEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\ShopNumber.resx">
+      <DependentUpon>ShopNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\ShopsTreenode.resx">
+      <DependentUpon>ShopsTreenode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\SocialSecurityNumber.resx">
+      <DependentUpon>SocialSecurityNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\State.resx">
+      <DependentUpon>State.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\TerminalControl\strings.resx" />
+    <EmbeddedResource Include="Forms\UserControls\TerminalEmulator.resx">
+      <DependentUpon>TerminalEmulator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Title.resx">
+      <DependentUpon>Title.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\TitleSuffix.resx">
+      <DependentUpon>TitleSuffix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\TransferOutCount.resx">
+      <DependentUpon>TransferOutCount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\TransferTo.resx">
+      <DependentUpon>TransferTo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\TransferType.resx">
+      <DependentUpon>TransferType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\UserItemCommentsControl.resx">
+      <DependentUpon>UserItemCommentsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\VendorSearch.resx">
+      <DependentUpon>VendorSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\Zipcode.resx">
+      <DependentUpon>Zipcode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ViewPrintDocument.resx">
+      <DependentUpon>ViewPrintDocument.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VoidSelector.resx">
+      <DependentUpon>VoidSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\PrintQueue\BankAndInternalCashTransfer.resx">
+      <DependentUpon>BankAndInternalCashTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\PrintQueue\PickSlipPrint.resx">
+      <DependentUpon>PickSlipPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\PrintQueue\PoliceHoldform.resx">
+      <DependentUpon>PoliceHoldform.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\PrintQueue\PoliceSeizeform.resx">
+      <DependentUpon>PoliceSeizeform.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\PrintQueue\PrintGunBook.resx">
+      <DependentUpon>PrintGunBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\PrintQueue\PrintLedger.resx">
+      <DependentUpon>PrintLedger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\PrintQueue\Print_AssignPhysicalLocation.resx">
+      <DependentUpon>Print_AssignPhysicalLocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\PrintQueue\Print_PfiChargeOffList.resx">
+      <DependentUpon>Print_PfiChargeOffList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\PrintQueue\Print_PfiPost.resx">
+      <DependentUpon>Print_PfiPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\PrintQueue\Print_PfiRefurbList.resx">
+      <DependentUpon>Print_PfiRefurbList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\PrintQueue\RTCform.resx">
+      <DependentUpon>RTCform.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\PrintQueue\ShopToShopCashTransfer.resx">
+      <DependentUpon>ShopToShopCashTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logic\PrintQueue\TransferOutScrapsReport.resx">
+      <DependentUpon>TransferOutScrapsReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Cashlinx.build" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{FE916264-3E31-433B-B458-048342150DFE}</Project>
+      <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Reports\Reports.csproj">
+      <Project>{76730532-DBCE-4000-BA96-657E001D41BD}</Project>
+      <Name>Reports %28Reports\Reports%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="blueroundglossy.ico" />
+    <Content Include="Resources\assignitemphysicallocation_button_depressed1.png" />
+    <Content Include="Resources\assignitemphysicallocation_button_disabled1.png" />
+    <Content Include="Resources\assignitemphysicallocation_button_hover1.png" />
+    <Content Include="Resources\assignitemphysicallocation_button_normal1.png" />
+    <Content Include="Resources\balancecashdrawer_button_depressed.png" />
+    <Content Include="Resources\balancecashdrawer_button_disabled.png" />
+    <Content Include="Resources\balancecashdrawer_button_hover.png" />
+    <Content Include="Resources\balancecashdrawer_button_normal.png" />
+    <Content Include="Resources\balanceotherdrawers_button_depressed.png" />
+    <Content Include="Resources\balanceotherdrawers_button_disabled.png" />
+    <Content Include="Resources\balanceotherdrawers_button_hover.png" />
+    <Content Include="Resources\balanceotherdrawers_button_normal.png" />
+    <Content Include="Resources\balancesafe_button_depressed.png" />
+    <Content Include="Resources\balancesafe_button_disabled.png" />
+    <Content Include="Resources\balancesafe_button_hover.png" />
+    <Content Include="Resources\balancesafe_button_normal.png" />
+    <Content Include="Resources\balance_button_depressed.png" />
+    <Content Include="Resources\balance_button_disabled.png" />
+    <Content Include="Resources\balance_button_hover.png" />
+    <Content Include="Resources\balance_button_normal.png" />
+    <Content Include="Resources\banktransferin_button_depressed.png" />
+    <Content Include="Resources\banktransferin_button_disabled.png" />
+    <Content Include="Resources\banktransferin_button_hover.png" />
+    <Content Include="Resources\banktransferin_button_normal.png" />
+    <Content Include="Resources\banktransferout_button_depressed.png" />
+    <Content Include="Resources\banktransferout_button_disabled.png" />
+    <Content Include="Resources\banktransferout_button_hover.png" />
+    <Content Include="Resources\banktransferout_button_normal.png" />
+    <Content Include="Resources\blank.jpg" />
+    <Content Include="Resources\blank.png" />
+    <Content Include="Resources\blueglossy.png" />
+    <Content Include="Resources\blueglossywhitebackground.png" />
+    <Content Include="Resources\blueglossy_edit.png" />
+    <Content Include="Resources\blueglossy_edit2.png" />
+    <Content Include="Resources\blueglossy_edit_fixed.png" />
+    <Content Include="Resources\blueglossy_edit_small.png" />
+    <Content Include="Resources\blueglossy_select.png" />
+    <Content Include="Resources\blueglossy_select2.png" />
+    <Content Include="Resources\bluerectangleglossy.png" />
+    <Content Include="Resources\blueroundglossy.png" />
+    <Content Include="Resources\blue_border.png" />
+    <Content Include="Resources\blue_menu_move_base_button_down.png" />
+    <Content Include="Resources\blue_menu_move_base_button_up.png" />
+    <Content Include="Resources\blue_white_panel.png" />
+    <Content Include="Resources\buydescribe_button_depressed.png" />
+    <Content Include="Resources\buydescribe_button_disabled.png" />
+    <Content Include="Resources\buydescribe_button_hover.png" />
+    <Content Include="Resources\buydescribe_button_normal.png" />
+    <Content Include="Resources\buylookup_button_depressed.png" />
+    <Content Include="Resources\buylookup_button_disabled.png" />
+    <Content Include="Resources\buylookup_button_hover.png" />
+    <Content Include="Resources\buylookup_button_normal.png" />
+    <Content Include="Resources\cashdrawer.png" />
+    <Content Include="Resources\cashdrawermanagement_button_depressed.png" />
+    <Content Include="Resources\cashdrawermanagement_button_disabled.png" />
+    <Content Include="Resources\cashdrawermanagement_button_hover.png" />
+    <Content Include="Resources\cashdrawermanagement_button_normal.png" />
+    <Content Include="Resources\cashdrawertransfer_button_depressed.png" />
+    <Content Include="Resources\cashdrawertransfer_button_disabled.png" />
+    <Content Include="Resources\cashdrawertransfer_button_hover.png" />
+    <Content Include="Resources\cashdrawertransfer_button_normal.png" />
+    <Content Include="Resources\cashdrawer_button_depressed.png" />
+    <Content Include="Resources\cashdrawer_button_disabled.png" />
+    <Content Include="Resources\cashdrawer_button_hover.png" />
+    <Content Include="Resources\cashdrawer_button_normal.png" />
+    <Content Include="Resources\CashlinxDesktop2.png" />
+    <Content Include="Resources\CashlinxDesktop6.png" />
+    <Content Include="Resources\CashlinxDesktop7.png" />
+    <Content Include="Resources\CashlinxDesktop8.png" />
+    <Content Include="Resources\CashlinxDesktop9.png" />
+    <Content Include="Resources\CashlinxDesktop9a.png" />
+    <Content Include="Resources\CashlinxDesktop9a_3.png" />
+    <Content Include="Resources\changeitemassigntype_button_depressed.png" />
+    <Content Include="Resources\changeitemassigntype_button_disabled.png" />
+    <Content Include="Resources\changeitemassigntype_button_hover.png" />
+    <Content Include="Resources\changeitemassigntype_button_normal.png" />
+    <Content Include="Resources\changepricing_button_depressed.png" />
+    <Content Include="Resources\changepricing_button_disabled.png" />
+    <Content Include="Resources\changepricing_button_hover.png" />
+    <Content Include="Resources\changepricing_button_normal.png" />
+    <Content Include="Resources\changeretailprice_button_depressed.png" />
+    <Content Include="Resources\changeretailprice_button_disabled.png" />
+    <Content Include="Resources\changeretailprice_button_hover.png" />
+    <Content Include="Resources\changeretailprice_button_normal.png" />
+    <Content Include="Resources\chargeoff_button_depressed.png" />
+    <Content Include="Resources\chargeoff_button_disabled.png" />
+    <Content Include="Resources\chargeoff_button_hover.png" />
+    <Content Include="Resources\chargeoff_button_normal.png" />
+    <Content Include="Resources\customerbuy_button_depressed.png" />
+    <Content Include="Resources\customerbuy_button_disabled.png" />
+    <Content Include="Resources\customerbuy_button_hover.png" />
+    <Content Include="Resources\customerbuy_button_normal.png" />
+    <Content Include="Resources\customerholdsaddhold_button_depressed.png" />
+    <Content Include="Resources\customerholdsaddhold_button_disabled.png" />
+    <Content Include="Resources\customerholdsaddhold_button_hover.png" />
+    <Content Include="Resources\customerholdsaddhold_button_normal.png" />
+    <Content Include="Resources\customerholdseditreleasehold_button_depressed.png" />
+    <Content Include="Resources\customerholdseditreleasehold_button_disabled.png" />
+    <Content Include="Resources\customerholdseditreleasehold_button_hover.png" />
+    <Content Include="Resources\customerholdseditreleasehold_button_normal.png" />
+    <Content Include="Resources\customerholds_button_depressed.png" />
+    <Content Include="Resources\customerholds_button_disabled.png" />
+    <Content Include="Resources\customerholds_button_hover.png" />
+    <Content Include="Resources\customerholds_button_normal.png" />
+    <Content Include="Resources\dark_dialog_frame.png" />
+    <Content Include="Resources\DemoBackground.png" />
+    <Content Include="Resources\describemerchandise_button_depressed.png" />
+    <Content Include="Resources\describemerchandise_button_depressed_hover.png" />
+    <Content Include="Resources\describemerchandise_button_disabled.png" />
+    <Content Include="Resources\describemerchandise_button_hover.png" />
+    <Content Include="Resources\describemerchandise_button_normal.png" />
+    <Content Include="Resources\desktopUpperLeftPanel.png" />
+    <Content Include="Resources\DP.png" />
+    <Content Include="Resources\full_locations_button_depressed.png" />
+    <Content Include="Resources\full_locations_button_disabled.png" />
+    <Content Include="Resources\full_locations_button_hover.png" />
+    <Content Include="Resources\full_locations_button_normal.png" />
+    <Content Include="Resources\Gradient.png" />
+    <Content Include="Resources\Gradient1.png" />
+    <Content Include="Resources\GradientHorizontal.png" />
+    <Content Include="Resources\gunbookedit_button_depressed.png" />
+    <Content Include="Resources\gunbookedit_button_disabled.png" />
+    <Content Include="Resources\gunbookedit_button_hover.png" />
+    <Content Include="Resources\gunbookedit_button_normal.png" />
+    <Content Include="Resources\gunbookprint_button_depressed.png" />
+    <Content Include="Resources\gunbookprint_button_disabled.png" />
+    <Content Include="Resources\gunbookprint_button_hover.png" />
+    <Content Include="Resources\gunbookprint_button_normal.png" />
+    <Content Include="Resources\gun_audit_button_depressed.png" />
+    <Content Include="Resources\gun_audit_button_disabled.png" />
+    <Content Include="Resources\gun_audit_button_hover.png" />
+    <Content Include="Resources\gun_audit_button_normal.png" />
+    <Content Include="Resources\gun_book_utilities_button_depressed.png" />
+    <Content Include="Resources\gun_book_utilities_button_disabled.png" />
+    <Content Include="Resources\gun_book_utilities_button_hover.png" />
+    <Content Include="Resources\gun_book_utilities_button_normal.png" />
+    <Content Include="Resources\gun_disposition_button_depressed.png" />
+    <Content Include="Resources\gun_disposition_button_disabled.png" />
+    <Content Include="Resources\gun_disposition_button_hover.png" />
+    <Content Include="Resources\gun_disposition_button_normal.png" />
+    <Content Include="Resources\HB.png" />
+    <Content Include="Resources\HP.png" />
+    <Content Include="Resources\internaltransfer_button_depressed.png" />
+    <Content Include="Resources\internaltransfer_button_disabled.png" />
+    <Content Include="Resources\internaltransfer_button_hover.png" />
+    <Content Include="Resources\internaltransfer_button_normal.png" />
+    <Content Include="Resources\in_pawn_jewelry_locations_button_depressed.png" />
+    <Content Include="Resources\in_pawn_jewelry_locations_button_disabled.png" />
+    <Content Include="Resources\in_pawn_jewelry_locations_button_hover.png" />
+    <Content Include="Resources\in_pawn_jewelry_locations_button_normal.png" />
+    <Content Include="Resources\itemrelease_button_depressed.png" />
+    <Content Include="Resources\itemrelease_button_disabled.png" />
+    <Content Include="Resources\itemrelease_button_hover.png" />
+    <Content Include="Resources\itemrelease_button_normal.png" />
+    <Content Include="Resources\layawayforfeiture_button_depressed.png" />
+    <Content Include="Resources\layawayforfeiture_button_disabled.png" />
+    <Content Include="Resources\layawayforfeiture_button_hover.png" />
+    <Content Include="Resources\layawayforfeiture_button_normal.png" />
+    <Content Include="Resources\line.png" />
+    <Content Include="Resources\loan_audit_button_depressed.png" />
+    <Content Include="Resources\loan_audit_button_disabled.png" />
+    <Content Include="Resources\loan_audit_button_hover.png" />
+    <Content Include="Resources\loan_audit_button_normal.png" />
+    <Content Include="Resources\logo.png" />
+    <Content Include="Resources\logo3.png" />
+    <Content Include="Resources\logo31.png" />
+    <Content Include="Resources\lookupcustomer_button_depressed.png" />
+    <Content Include="Resources\lookupcustomer_button_depressed_hover.png" />
+    <Content Include="Resources\lookupcustomer_button_disabled.png" />
+    <Content Include="Resources\lookupcustomer_button_hover.png" />
+    <Content Include="Resources\lookupcustomer_button_normal.png" />
+    <Content Include="Resources\lookupdocuments_button_depressed.png" />
+    <Content Include="Resources\lookupdocuments_button_disabled.png" />
+    <Content Include="Resources\lookupdocuments_button_hover.png" />
+    <Content Include="Resources\lookupdocuments_button_normal.png" />
+    <Content Include="Resources\lookupreceipt_button_depressed.png" />
+    <Content Include="Resources\lookupreceipt_button_depressed_hover.png" />
+    <Content Include="Resources\lookupreceipt_button_disabled.png" />
+    <Content Include="Resources\lookupreceipt_button_hover.png" />
+    <Content Include="Resources\lookupreceipt_button_normal.png" />
+    <Content Include="Resources\lookupticket_button_depressed.png" />
+    <Content Include="Resources\lookupticket_button_depressed_hover.png" />
+    <Content Include="Resources\lookupticket_button_disabled.png" />
+    <Content Include="Resources\lookupticket_button_hover.png" />
+    <Content Include="Resources\lookupticket_button_normal.png" />
+    <Content Include="Resources\lookupvendor_button_depressed.png" />
+    <Content Include="Resources\lookupvendor_button_depressed_hover.png" />
+    <Content Include="Resources\lookupvendor_button_disabled.png" />
+    <Content Include="Resources\lookupvendor_button_hover.png" />
+    <Content Include="Resources\lookupvendor_button_normal.png" />
+    <Content Include="Resources\managecash_button_depressed.png" />
+    <Content Include="Resources\managecash_button_disabled.png" />
+    <Content Include="Resources\managecash_button_hover.png" />
+    <Content Include="Resources\managecash_button_normal.png" />
+    <Content Include="Resources\manageinventory_button_depressed.png" />
+    <Content Include="Resources\manageinventory_button_disabled.png" />
+    <Content Include="Resources\manageinventory_button_hover.png" />
+    <Content Include="Resources\manageinventory_button_normal.png" />
+    <Content Include="Resources\masspricereduction_button_depressed.png" />
+    <Content Include="Resources\masspricereduction_button_disabled.png" />
+    <Content Include="Resources\masspricereduction_button_hover.png" />
+    <Content Include="Resources\masspricereduction_button_normal.png" />
+    <Content Include="Resources\merchandisecostrevisions_button_depressed.png" />
+    <Content Include="Resources\merchandisecostrevisions_button_disabled.png" />
+    <Content Include="Resources\merchandisecostrevisions_button_hover.png" />
+    <Content Include="Resources\merchandisecostrevisions_button_normal.png" />
+    <Content Include="Resources\merchandisetransferin_button_depressed.png" />
+    <Content Include="Resources\merchandisetransferin_button_disabled.png" />
+    <Content Include="Resources\merchandisetransferin_button_hover.png" />
+    <Content Include="Resources\merchandisetransferin_button_normal.png" />
+    <Content Include="Resources\merchandisetransferout_button_depressed.png" />
+    <Content Include="Resources\merchandisetransferout_button_disabled.png" />
+    <Content Include="Resources\merchandisetransferout_button_hover.png" />
+    <Content Include="Resources\merchandisetransferout_button_normal.png" />
+    <Content Include="Resources\newDialog_256_GreyScale.png" />
+    <Content Include="Resources\newDialog_320_GreyScale.png" />
+    <Content Include="Resources\newDialog_400_GreyScale.png" />
+    <Content Include="Resources\newDialog_440_GreyScale.png" />
+    <Content Include="Resources\newDialog_480_GreyScale.png" />
+    <Content Include="Resources\newDialog_512_GreyScale.png" />
+    <Content Include="Resources\newDialog_600_GreyScale.png" />
+    <Content Include="Resources\newDialog_640_GreyScale.png" />
+    <Content Include="Resources\newDialog_768_GreyScale.png" />
+    <Content Include="Resources\newpawnloan_button_depressed.png" />
+    <Content Include="Resources\newpawnloan_button_depressed_hover.png" />
+    <Content Include="Resources\newpawnloan_button_disabled.png" />
+    <Content Include="Resources\newpawnloan_button_hover.png" />
+    <Content Include="Resources\newpawnloan_button_normal.png" />
+    <Content Include="Resources\nfsc_button_depressed.png" />
+    <Content Include="Resources\nfsc_button_disabled.png" />
+    <Content Include="Resources\nfsc_button_hover.png" />
+    <Content Include="Resources\nfsc_button_normal.png" />
+    <Content Include="Resources\oldvistabutton_blue.png" />
+    <Content Include="Resources\Pearl.png" />
+    <Content Include="Resources\pficreatelist_button_depressed.png" />
+    <Content Include="Resources\pficreatelist_button_disabled.png" />
+    <Content Include="Resources\pficreatelist_button_hover.png" />
+    <Content Include="Resources\pficreatelist_button_normal.png" />
+    <Content Include="Resources\pfipost_button_depressed.png" />
+    <Content Include="Resources\pfipost_button_disabled.png" />
+    <Content Include="Resources\pfipost_button_hover.png" />
+    <Content Include="Resources\pfipost_button_normal.png" />
+    <Content Include="Resources\pfiverify_button_depressed.png" />
+    <Content Include="Resources\pfiverify_button_disabled.png" />
+    <Content Include="Resources\pfiverify_button_hover.png" />
+    <Content Include="Resources\pfiverify_button_normal.png" />
+    <Content Include="Resources\pfi_button_depressed.png" />
+    <Content Include="Resources\pfi_button_disabled.png" />
+    <Content Include="Resources\pfi_button_hover.png" />
+    <Content Include="Resources\pfi_button_normal.png" />
+    <Content Include="Resources\policehold_button_depressed.png" />
+    <Content Include="Resources\policehold_button_disabled.png" />
+    <Content Include="Resources\policehold_button_hover.png" />
+    <Content Include="Resources\policehold_button_normal.png" />
+    <Content Include="Resources\policeseize_button_depressed.png" />
+    <Content Include="Resources\policeseize_button_disabled.png" />
+    <Content Include="Resources\policeseize_button_hover.png" />
+    <Content Include="Resources\policeseize_button_normal.png" />
+    <Content Include="Resources\police_activities_button_depressed.png" />
+    <Content Include="Resources\police_activities_button_disabled.png" />
+    <Content Include="Resources\police_activities_button_hover.png" />
+    <Content Include="Resources\police_activities_button_normal.png" />
+    <Content Include="Resources\police_button_depressed.png" />
+    <Content Include="Resources\police_button_disabled.png" />
+    <Content Include="Resources\police_button_hover.png" />
+    <Content Include="Resources\police_button_normal.png" />
+    <Content Include="Resources\printpfimailers_button_depressed.png" />
+    <Content Include="Resources\printpfimailers_button_disabled.png" />
+    <Content Include="Resources\printpfimailers_button_hover.png" />
+    <Content Include="Resources\printpfimailers_button_normal.png" />
+    <Content Include="Resources\refundlayawaypayment_button_depressed.png" />
+    <Content Include="Resources\refundlayawaypayment_button_disabled.png" />
+    <Content Include="Resources\refundlayawaypayment_button_hover.png" />
+    <Content Include="Resources\refundlayawaypayment_button_normal.png" />
+    <Content Include="Resources\refundlayaway_button_depressed.png" />
+    <Content Include="Resources\refundlayaway_button_disabled.png" />
+    <Content Include="Resources\refundlayaway_button_hover.png" />
+    <Content Include="Resources\refundlayaway_button_normal.png" />
+    <Content Include="Resources\refundsale_button_depressed.png" />
+    <Content Include="Resources\refundsale_button_disabled.png" />
+    <Content Include="Resources\refundsale_button_hover.png" />
+    <Content Include="Resources\refundsale_button_normal.png" />
+    <Content Include="Resources\refund_button_depressed.png" />
+    <Content Include="Resources\refund_button_disabled.png" />
+    <Content Include="Resources\refund_button_hover.png" />
+    <Content Include="Resources\refund_button_normal.png" />
+    <Content Include="Resources\releasetoclaimant_button_depressed.png" />
+    <Content Include="Resources\releasetoclaimant_button_disabled.png" />
+    <Content Include="Resources\releasetoclaimant_button_hover.png" />
+    <Content Include="Resources\releasetoclaimant_button_normal.png" />
+    <Content Include="Resources\returncustomerbuy_button_depressed.png" />
+    <Content Include="Resources\returncustomerbuy_button_disabled.png" />
+    <Content Include="Resources\returncustomerbuy_button_hover.png" />
+    <Content Include="Resources\returncustomerbuy_button_normal.png" />
+    <Content Include="Resources\returnvendorbuy_button_depressed.png" />
+    <Content Include="Resources\returnvendorbuy_button_disabled.png" />
+    <Content Include="Resources\returnvendorbuy_button_hover.png" />
+    <Content Include="Resources\returnvendorbuy_button_normal.png" />
+    <Content Include="Resources\safeoperations_button_depressed.png" />
+    <Content Include="Resources\safeoperations_button_disabled.png" />
+    <Content Include="Resources\safeoperations_button_hover.png" />
+    <Content Include="Resources\safeoperations_button_normal.png" />
+    <Content Include="Resources\servicepawnloans_button_depressed.png" />
+    <Content Include="Resources\servicepawnloans_button_depressed_hover.png" />
+    <Content Include="Resources\servicepawnloans_button_disabled.png" />
+    <Content Include="Resources\servicepawnloans_button_hover.png" />
+    <Content Include="Resources\servicepawnloans_button_normal.png" />
+    <Content Include="Resources\ShinyBlackBorder_transdown.png" />
+    <Content Include="Resources\ShinyBlackBorder_transdown_26.png" />
+    <Content Include="Resources\ShinyBlackBorder_transup.png" />
+    <Content Include="Resources\ShinyBlackBorder_transup_26.png" />
+    <Content Include="Resources\ShinyBlueBorder_transdown.png" />
+    <Content Include="Resources\ShinyBlueBorder_transdown_26.png" />
+    <Content Include="Resources\ShinyBlueBorder_transup.png" />
+    <Content Include="Resources\ShinyBlueBorder_transup_26.png" />
+    <Content Include="Resources\shopcashmanagement_button_depressed.png" />
+    <Content Include="Resources\shopcashmanagement_button_disabled.png" />
+    <Content Include="Resources\shopcashmanagement_button_hover.png" />
+    <Content Include="Resources\shopcashmanagement_button_normal.png" />
+    <Content Include="Resources\shoptransferin_button_depressed.png" />
+    <Content Include="Resources\shoptransferin_button_disabled.png" />
+    <Content Include="Resources\shoptransferin_button_hover.png" />
+    <Content Include="Resources\shoptransferin_button_normal.png" />
+    <Content Include="Resources\shoptransferout_button_depressed.png" />
+    <Content Include="Resources\shoptransferout_button_disabled.png" />
+    <Content Include="Resources\shoptransferout_button_hover.png" />
+    <Content Include="Resources\shoptransferout_button_normal.png" />
+    <Content Include="Resources\shop_cash_management_button_depressed.png" />
+    <Content Include="Resources\shop_cash_management_button_disabled.png" />
+    <Content Include="Resources\shop_cash_management_button_hover.png" />
+    <Content Include="Resources\shop_cash_management_button_normal.png" />
+    <Content Include="Resources\squareblueglossy.png" />
+    <Content Include="Resources\TenderTypeBorder.png" />
+    <Content Include="Resources\topstransfer_button_depressed.png" />
+    <Content Include="Resources\topstransfer_button_disabled.png" />
+    <Content Include="Resources\topstransfer_button_hover.png" />
+    <Content Include="Resources\topstransfer_button_normal.png" />
+    <Content Include="Resources\transfercash_button_depressed.png" />
+    <Content Include="Resources\transfercash_button_disabled.png" />
+    <Content Include="Resources\transfercash_button_hover.png" />
+    <Content Include="Resources\transfercash_button_normal.png" />
+    <Content Include="Resources\transfer_button_depressed.png" />
+    <Content Include="Resources\transfer_button_disabled.png" />
+    <Content Include="Resources\transfer_button_hover.png" />
+    <Content Include="Resources\transfer_button_normal.png" />
+    <Content Include="Resources\update_security_profile_button_depressed.png" />
+    <Content Include="Resources\update_security_profile_button_disabled.png" />
+    <Content Include="Resources\update_security_profile_button_hover.png" />
+    <Content Include="Resources\update_security_profile_button_normal.png" />
+    <Content Include="Resources\vendorbuy_depressed.png" />
+    <Content Include="Resources\vendorbuy_disabled.png" />
+    <Content Include="Resources\vendorbuy_hover.png" />
+    <Content Include="Resources\vendorbuy_normal.png" />
+    <Content Include="Resources\vistabutton_blue.png" />
+    <Content Include="Resources\vistabutton_rollover_shadow_cropped.png" />
+    <Content Include="Resources\vistabutton_rollover_shadow_cropped1.png" />
+    <Content Include="Resources\vistabutton_shadow.png" />
+    <Content Include="Resources\vistabutton_shadow_crop.png" />
+    <Content Include="Resources\voidbanktransfer_button_depressed.png" />
+    <Content Include="Resources\voidbanktransfer_button_disabled.png" />
+    <Content Include="Resources\voidbanktransfer_button_hover.png" />
+    <Content Include="Resources\voidbanktransfer_button_normal.png" />
+    <Content Include="Resources\voidbuyreturns_button_depressed.png" />
+    <Content Include="Resources\voidbuyreturns_button_disabled.png" />
+    <Content Include="Resources\voidbuyreturns_button_hover.png" />
+    <Content Include="Resources\voidbuyreturns_button_normal.png" />
+    <Content Include="Resources\voidbuy_button_depressed.png" />
+    <Content Include="Resources\voidbuy_button_disabled.png" />
+    <Content Include="Resources\voidbuy_button_hover.png" />
+    <Content Include="Resources\voidbuy_button_normal.png" />
+    <Content Include="Resources\voidlayawaypayment_button_depressed.png" />
+    <Content Include="Resources\voidlayawaypayment_button_disabled.png" />
+    <Content Include="Resources\voidlayawaypayment_button_hover.png" />
+    <Content Include="Resources\voidlayawaypayment_button_normal.png" />
+    <Content Include="Resources\voidlayaway_button_depressed.png" />
+    <Content Include="Resources\voidlayaway_button_disabled.png" />
+    <Content Include="Resources\voidlayaway_button_hover.png" />
+    <Content Include="Resources\voidlayaway_button_normal.png" />
+    <Content Include="Resources\voidloan_button_depressed.png" />
+    <Content Include="Resources\voidloan_button_disabled.png" />
+    <Content Include="Resources\voidloan_button_hover.png" />
+    <Content Include="Resources\voidloan_button_normal.png" />
+    <Content Include="Resources\voidmerchandisetransfers_button_depressed.png" />
+    <Content Include="Resources\voidmerchandisetransfers_button_disabled.png" />
+    <Content Include="Resources\voidmerchandisetransfers_button_hover.png" />
+    <Content Include="Resources\voidmerchandisetransfers_button_normal.png" />
+    <Content Include="Resources\voidsalerefund_button_depressed.png" />
+    <Content Include="Resources\voidsalerefund_button_disabled.png" />
+    <Content Include="Resources\voidsalerefund_button_hover.png" />
+    <Content Include="Resources\voidsalerefund_button_normal.png" />
+    <Content Include="Resources\voidsale_button_depressed.png" />
+    <Content Include="Resources\voidsale_button_disabled.png" />
+    <Content Include="Resources\voidsale_button_hover.png" />
+    <Content Include="Resources\voidsale_button_normal.png" />
+    <Content Include="Resources\voidshoptoshoptransfer_button_depressed.png" />
+    <Content Include="Resources\voidshoptoshoptransfer_button_disabled.png" />
+    <Content Include="Resources\voidshoptoshoptransfer_button_hover.png" />
+    <Content Include="Resources\voidshoptoshoptransfer_button_normal.png" />
+    <Content Include="Resources\voidtransaction_button_depressed.png" />
+    <Content Include="Resources\voidtransaction_button_disabled.png" />
+    <Content Include="Resources\voidtransaction_button_hover.png" />
+    <Content Include="Resources\voidtransaction_button_normal.png" />
+    <Content Include="Resources\void_button_depressed.png" />
+    <Content Include="Resources\void_button_disabled.png" />
+    <Content Include="Resources\void_button_hover.png" />
+    <Content Include="Resources\void_button_normal.png" />
+    <Content Include="rules.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Forms\Pawn\Customer\HoldRelease\" />
+    <Folder Include="Forms\Pawn\Products\DescribeMerchandise\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y $(TargetDir)Libraries\External\*.* $(TargetDir)
+copy /Y $(TargetDir)Libraries\Resources\*.* $(TargetDir)
+del /Q /F "c:\Program Files\Phase2App"
+mkdir "c:\Program Files\Phase2App"
+mkdir "c:\Program Files\Phase2App\logs"
+mkdir "c:\Program Files\Phase2App\templates"
+copy /Y $(TargetDir) "c:\Program Files\Phase2App"
+copy /Y $(TargetDir)Libraries\External\*.* "c:\Program Files\Phase2App"
+copy /Y $(TargetDir)Libraries\Resources\*.* "c:\Program Files\Phase2App"
+copy /Y $(TargetDir)Libraries\External\*.* "c:\Program Files\Phase2App\templates"
+copy /Y $(TargetDir)Libraries\Resources\*.* "c:\Program Files\Phase2App\templates"
+exit 0</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

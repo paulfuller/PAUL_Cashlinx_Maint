@@ -15,6 +15,45 @@ namespace Common.Controllers.Database.Procedures
     public static class ExtensionProcedures
     {
 
+        /*Eligibility for extension:
+
+current date = CurrDate
+Loan month = LM1, LM2, LM3.......
+Latest partial payment date = L_PartPmt_Date
+Daily mode period = PFI_DATE - 30 days
+if(L_PartPmt_Date is null){ ==> No prior partial payments
+                if(CurrDate >= LM2 ){
+                                Extension = 'YES'
+                                Monthly_Mode = 'Yes'
+                }
+
+}else if(L_PartPmt_Date IS NOT NULL){ ==> Implies partial payment is made
+
+                if(CurrDate == L_PartPmt_Date)  //Extension is allowed only if atleast 1 day interest is accrued and other daily mode cond.
+                {
+                                Extension = 'No';
+                }               
+
+                if (L_PartPmt_Date is NOT in Daily mode period OR CurrDate > PFI_Date+1month)
+                {
+                                Date1 =. This date will be L_PartPmt_Date if the date is the loan month date ;
+(OR) Next immediate Loan Month Date after L_PartPmt_Date
+                                Date2 = Loan Month date after Date1                             
+
+                                if(CURRDATE >= Date2){
+                                                Extension = 'Yes';
+                                                Monthly_Mode = 'Yes';
+                                }
+
+                if (L_PartPmt_Date is in Daily mode period AND CurrDate <= PFI_Date+1 month)
+                {
+                                Extension = 'Yes';
+                                Daily_Mode = 'Yes';                              
+
+                }              
+
+}*/
+
 
         public static bool ExtensionEligibility(
             DateTime loanDateMade,
@@ -57,23 +96,14 @@ namespace Common.Controllers.Database.Procedures
             {
                 //partial payment is made and it is not in the daily mode period
                 //or it is in the daily mode period but the extension date is greater than the pfi date
-                if (extensionDate >= pfiDate.AddMonths(1) || !(partialPmtDate <= pfiDate && partialPmtDate >= dailyModePeriod))
+                if (extensionDate > pfiDate.AddMonths(1) || (partialPmtDate < dailyModePeriod || partialPmtDate > pfiDate))
                 {
-                    DateTime first_cycle_end = DateTime.MaxValue;
+                    DateTime first_cycle_end = loanDateMade;
                     DateTime next_cycle_end = DateTime.MaxValue;
-                    if (partialPmtDate == LM1.endDate || partialPmtDate == LM2.endDate || partialPmtDate == LM3.endDate)
-                        first_cycle_end = partialPmtDate;
-                    else
-                    {
-                        if (partialPmtDate < LM1.endDate)
-                            first_cycle_end = LM1.endDate;
-                        else if (partialPmtDate < LM2.endDate)
-                            first_cycle_end = LM2.endDate;
-                        else if (partialPmtDate < LM3.endDate)
-                            first_cycle_end = LM3.endDate;
-                    }
-                    if (first_cycle_end != DateTime.MaxValue)
-                        next_cycle_end = first_cycle_end.AddMonths(1);
+                    while (partialPmtDate.Date > first_cycle_end.Date)
+                        first_cycle_end = first_cycle_end.AddMonths(1);
+ 
+                    next_cycle_end = first_cycle_end.AddMonths(1);
 
                     if (extensionDate >= next_cycle_end)
                     {
@@ -82,7 +112,7 @@ namespace Common.Controllers.Database.Procedures
                     }
 
                 }
-                if (extensionDate < pfiDate.AddMonths(1) && (partialPmtDate <= pfiDate && partialPmtDate >= dailyModePeriod))
+                if (extensionDate <= pfiDate.AddMonths(1) && (partialPmtDate >= dailyModePeriod && partialPmtDate < pfiDate))
                 {
                     //partial payment date is in daily mode period and extension date is less than 1 month from pfi date
                     extensionType = ExtensionTerms.DAILY;

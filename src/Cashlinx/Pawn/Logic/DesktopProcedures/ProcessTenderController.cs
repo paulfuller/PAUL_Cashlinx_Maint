@@ -5834,6 +5834,7 @@ namespace Pawn.Logic.DesktopProcedures
                                 lateFeeFinAmount = (from f in pfiCalculator.ApplicableFees
                                                          where f.FeeType == FeeTypes.INTEREST
                                                          select f.Value).FirstOrDefault();
+                                totalFeeAmount += custloanfee.Value;
                             }
 
                             else if (custloanfee.FeeType == FeeTypes.STORAGE)
@@ -5841,9 +5842,9 @@ namespace Pawn.Logic.DesktopProcedures
                                 lateFeeServAmount = (from f in pfiCalculator.ApplicableFees
                                                      where f.FeeType == FeeTypes.STORAGE
                                                      select f.Value).FirstOrDefault();
+                                totalFeeAmount += custloanfee.Value;
 
                             }
-                            totalFeeAmount += custloanfee.Value;
                         }
                         newFeeTypes.Add(custloanfee.FeeType.ToString());
 

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Common.Controllers.Application;
+using Common.Controllers.Database.Procedures;
 using Common.Libraries.Objects.Pawn;
 using Common.Libraries.Utility.Shared;
 using Common.Libraries.Objects;
@@ -58,6 +60,23 @@ namespace Pawn.Logic.DesktopProcedures
                 refundAmount = PawnLoan.ExtensionAmount;
             }
 
+            Fee lateFee = (from f in PawnLoan.OriginalFees
+                          where f.FeeType == FeeTypes.LATE
+                          select f).FirstOrDefault();
+            if (lateFee.FeeRef == 0 && lateFee.OriginalAmount == 0 && refundAmount > 0)
+            {
+                PawnLoan.OriginalFees.Add(new Fee
+                                       {
+                                           FeeType = FeeTypes.LATE,
+                                           FeeDate = ShopDateTime.Instance.ShopDate,
+                                           FeeRef = PawnLoan.TicketNumber,
+                                           FeeRefType = FeeRefTypes.PAWN,
+                                           FeeState = FeeStates.ASSESSED,
+                                           OriginalAmount = 0,
+                                           Value = 0
+                                       });
+            }
+
             foreach (var fee in PawnLoan.OriginalFees)
             {
                 if (fee.Waived || fee.FeeState == FeeStates.VOID)
@@ -99,7 +118,7 @@ namespace Pawn.Logic.DesktopProcedures
 
         public void DeterminePartialPaymentInfo()
         {
-            HasPartialPayment = CurrentSiteId.State.Equals(States.Ohio) && PawnLoan.PartialPayments != null && PawnLoan.PartialPayments.Count > 0 && PawnLoan.PartialPayments[0].Date_Made != DateTime.MaxValue;
+            HasPartialPayment = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(CurrentSiteId) && PawnLoan.PartialPayments != null && PawnLoan.PartialPayments.Count > 0 && PawnLoan.PartialPayments[0].Date_Made != DateTime.MaxValue;
 
             if (HasPartialPayment)
             {

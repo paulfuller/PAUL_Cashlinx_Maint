@@ -1,17 +1,40 @@
 ﻿<Window x:Class="DSTRViewer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="DSTRViewer" Height="350" Width="525" Name="DSTRViewer" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" Initialized="DSTRViewer_Initialized" Loaded="DSTRViewer_Loaded">
+        Title="DSTRViewer" Height="350" Width="525" Name="DSTRViewer" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" Initialized="DSTRViewer_Initialized" Loaded="DSTRViewer_Loaded" ForceCursor="False" Foreground="{x:Null}">
     <Grid>
-        <Label Content="Environment:" Height="28" HorizontalAlignment="Left" Margin="81,103,0,0" Name="label1" VerticalAlignment="Top" />
-        <ComboBox Height="25" HorizontalAlignment="Left" Margin="167,103,0,0" Name="environmentComboBox" VerticalAlignment="Top" Width="226" SelectionChanged="environmentComboBox_SelectionChanged">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFBBBBDC" Offset="0" />
+                <GradientStop Color="White" Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Label Content="Environment:" Height="28" HorizontalAlignment="Left" Margin="81,79,0,0" Name="label1" VerticalAlignment="Top" />
+        <ComboBox Height="25" HorizontalAlignment="Left" Margin="167,79,0,0" Name="environmentComboBox" VerticalAlignment="Top" Width="226" SelectionChanged="environmentComboBox_SelectionChanged" SelectedIndex="0" TabIndex="1" ToolTip="Select the environment you would like to search.">
+            <ComboBoxItem Content="Select environment..." />
             <ComboBoxItem Content="CLXD3" />
             <ComboBoxItem Content="CLXT2" />
             <ComboBoxItem Content="CLXI" />
             <ComboBoxItem Content="CLXT" />
-            <ComboBoxItem Content="CLXP" />
+            <ComboBoxItem Content="CLXP" /> 
         </ComboBox>
-        <Button Content="Connect" Height="43" HorizontalAlignment="Left" Margin="359,256,0,0" Name="loginButton" VerticalAlignment="Top" Width="132" Click="loginButton_Click" />
+        <Button Content="Connect" Height="43" HorizontalAlignment="Left" Margin="359,256,0,0" Name="loginButton" VerticalAlignment="Top" Width="132" Click="loginButton_Click" TabIndex="4" UseLayoutRounding="False" Foreground="Black">
+        </Button>
         <Button Content="Cancel" Height="43" HorizontalAlignment="Left" Margin="12,256,0,0" Name="cancelButton" VerticalAlignment="Top" Width="132" Click="cancelButton_Click" />
+        <Grid Margin="0,135,78,78" UseLayoutRounding="True" HorizontalAlignment="Right" Width="365" Name="credentialsGroupGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="38*" />
+                <ColumnDefinition Width="278*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44*" />
+                <RowDefinition Height="33*" />
+            </Grid.RowDefinitions>
+            <Label Content="User Name:" Height="28" HorizontalAlignment="Right" Margin="0,6,273,0" Name="label2" VerticalAlignment="Top" Grid.ColumnSpan="2" />
+            <Label Content="Password:" Height="28" HorizontalAlignment="Right" Margin="0,37,273,0" Name="label3" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.RowSpan="2" />
+            <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="62,8,0,0" Name="userNameTextBox" VerticalAlignment="Top" Width="227" TextChanged="userNameTextBox_TextChanged" FontFamily="Segoe UI" TabIndex="2" />
+            <PasswordBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="62,39,0,0" Name="passwordBox" VerticalAlignment="Top" Width="227" PasswordChanged="passwordBox_PasswordChanged" Grid.RowSpan="2" TabIndex="3" />
+            <Label Content="NOTE: You must use your Lawson or Cashlinx credentials to log in" Grid.Column="1" Grid.Row="1" Height="24" HorizontalAlignment="Left" Margin="10,7,0,0" Name="label4" VerticalAlignment="Top" Width="279" FontSize="9" FontStyle="Italic" />
+        </Grid>
     </Grid>
 </Window>

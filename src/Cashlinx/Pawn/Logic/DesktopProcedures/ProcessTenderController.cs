@@ -8541,7 +8541,10 @@ namespace Pawn.Logic.DesktopProcedures
             List<string> icnRetailPrice = GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems.Select(item => item.NegotiatedPrice.ToString()).ToList();
             List<string> icnToAdd = icn.Where(s => s.Substring(12, 1) == "8").ToList();
             List<int> qty = GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems.Select(item => item.Quantity).ToList();
-            List<string> jewelryCase = GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems.Select(item => item.JeweleryCaseNumber).ToList();
+            //List<string> jewelryCase = GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems.Select(item => item.JeweleryCaseNumber).ToList();
+            List<string> jewelryCase = GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems.Select(item => (string.IsNullOrEmpty(item.NxtComments)) ? item.JeweleryCaseNumber : item.NxtComments).ToList();
+
+
             for (var i = 0; i < jewelryCase.Count; i++)
             {
                 if (jewelryCase[i] == null)

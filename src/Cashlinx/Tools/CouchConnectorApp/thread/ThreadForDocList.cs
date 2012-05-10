@@ -148,7 +148,9 @@ namespace CouchConsoleApp.thread
                     table.Rows.Add(pawnDocRegVO.DocID, pawnDocRegVO.StorageID, pawnDocRegVO.CreationDate);
                 }
             }catch(Exception e)
-            {}
+            {
+                return (table);
+            }
             return table;
         }
 

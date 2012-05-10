@@ -7,10 +7,11 @@ using System.Windows;
 
 namespace DSTRViewer
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
+    // 
+    // Interaction logic for App.xaml
+    //
     public partial class App : Application
     {
+
     }
 }

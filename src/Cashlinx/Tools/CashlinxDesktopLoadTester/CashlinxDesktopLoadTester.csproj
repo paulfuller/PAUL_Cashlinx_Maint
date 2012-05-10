@@ -28,11 +28,14 @@
     <AssemblyName>CashlinxDesktopLoadTester</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>Perforce Project</SccProjectName>
-    <SccLocalPath>..</SccLocalPath>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
     <SccAuxPath>
     </SccAuxPath>
-    <SccProvider>MSSCCI:Perforce SCM</SccProvider>
+    <SccProvider>
+    </SccProvider>
     <StartupObject>CashlinxDesktopLoadTester.Program</StartupObject>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>

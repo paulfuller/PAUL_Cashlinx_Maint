@@ -842,6 +842,8 @@ namespace Pawn.Forms.Retail
                 {
                     return;
                 }
+
+                item.UserItemComments = item.NxtComments;
             }
 
             if (!retailCost1.AddItem(item))

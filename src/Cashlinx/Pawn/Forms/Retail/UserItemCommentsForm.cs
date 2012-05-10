@@ -64,6 +64,8 @@ namespace Pawn.Forms.Retail
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
            bool updated = false;
+           string errorMsg = string.Empty;
+
            foreach (RetailItem item in listRetailItem)
            {
                //item.UserItemComments = item.TempUserItemComments;
@@ -73,9 +75,39 @@ namespace Pawn.Forms.Retail
                {
                    GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems[index].UserItemComments =
                        item.TempUserItemComments;
+
+                   if (!string.IsNullOrEmpty(GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems[index].NxtComments))
+                   {
+                       if (String.IsNullOrEmpty(item.TempUserItemComments))
+                       {
+                           errorMsg = "NXT Comments cannot be cleared.   Those cleared have been reverted. ";
+                           item.TempUserItemComments = GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems[index].NxtComments;
+                           item.UserItemComments = GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems[index].NxtComments;
+                           continue;
+                       }
+                       else
+                       {
+                           if (item.TempUserItemComments.Length > 30)
+                           {
+                               GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems[index].NxtComments =
+                                   item.TempUserItemComments.Substring(0, 29);
+
+                               errorMsg = "NXT Comments can be only 30 characters long, comment has been truncated.";
+                           }
+                           else
+                           {
+                               GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems[index].NxtComments = item.TempUserItemComments;
+                           }
+                       }
+                   }
+
                    updated = true;
                }
            }
+
+           if (!string.IsNullOrEmpty(errorMsg))
+               MessageBox.Show(errorMsg);
+
            if(updated)
            {
                //fire off event to publishusercontrols

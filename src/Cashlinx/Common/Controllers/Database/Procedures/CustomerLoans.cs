@@ -893,7 +893,7 @@ namespace Common.Controllers.Database.Procedures
                                            && (rcpt.ReferenceReceiptNumber == null || string.IsNullOrEmpty(rcpt.ReferenceReceiptNumber))
                                            select rcpt;
                         storedPawnLoan.ExtensionAmount = rcptData.Sum(r => r.Amount)-rcptVoidData.Sum(r=>r.Amount);
-                        storedPawnLoan.LastExtensionPaid = rcptData.OrderByDescending(r=>r.Date).FirstOrDefault().Date;
+                        storedPawnLoan.LastExtensionPaid = rcptData.OrderByDescending(r=>r.RefTime).FirstOrDefault().RefTime;
 
 
                         //Get all the fee data
@@ -973,7 +973,7 @@ namespace Common.Controllers.Database.Procedures
                             currentPrincipal = Utilities.GetDecimalValue(lastPartialPayment.CUR_AMOUNT);
                             if (storedPawnLoan.PartialPayments.Count > 0)
                             {
-                                storedPawnLoan.LastPartialPaymentDate = lastPartialPayment.Date_Made;
+                                storedPawnLoan.LastPartialPaymentDate = lastPartialPayment.Time_Made;
                                 storedPawnLoan.ServiceCharge = lastPartialPayment.Cur_Srv_Chg;
                                 storedPawnLoan.InterestAmount = lastPartialPayment.CUR_FIN_CHG;
                             }

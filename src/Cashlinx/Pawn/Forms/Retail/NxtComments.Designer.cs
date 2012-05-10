@@ -30,12 +30,13 @@ namespace Pawn.Forms.Retail
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NxtComments));
             this.titleLabel = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Button();
             this.continueButton = new System.Windows.Forms.Button();
-            this.txtComments = new CustomTextBox();
-            this.customLabel1 = new CustomLabel();
-            this.customLabel2 = new CustomLabel();
+            this.txtComments = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.customLabel1 = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabel2 = new Common.Libraries.Forms.Components.CustomLabel();
             this.SuspendLayout();
             // 
             // titleLabel
@@ -56,7 +57,7 @@ namespace Pawn.Forms.Retail
             this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cancelButton.AutoSize = true;
             this.cancelButton.BackColor = System.Drawing.Color.Transparent;
-            this.cancelButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.cancelButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cancelButton.BackgroundImage")));
             this.cancelButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
@@ -79,7 +80,7 @@ namespace Pawn.Forms.Retail
             this.continueButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.continueButton.AutoSize = true;
             this.continueButton.BackColor = System.Drawing.Color.Transparent;
-            this.continueButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.continueButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("continueButton.BackgroundImage")));
             this.continueButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.continueButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.continueButton.Enabled = false;
@@ -104,6 +105,7 @@ namespace Pawn.Forms.Retail
             this.txtComments.ErrorMessage = global::Pawn.Properties.Resources.OverrideMachineName;
             this.txtComments.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtComments.Location = new System.Drawing.Point(18, 85);
+            this.txtComments.MaxLength = 30;
             this.txtComments.Multiline = true;
             this.txtComments.Name = "txtComments";
             this.txtComments.Size = new System.Drawing.Size(400, 88);
@@ -136,7 +138,7 @@ namespace Pawn.Forms.Retail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Common.Properties.Resources.newDialog_320_BlueScale;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(430, 237);
             this.ControlBox = false;

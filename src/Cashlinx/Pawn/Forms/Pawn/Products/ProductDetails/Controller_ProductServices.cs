@@ -1836,7 +1836,22 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                     }
                     else
                     {
-                        UndoPawnTransactions(selectedLoans);
+                        //If the extension was cancelled the only thing to do is cancel the temp status on the loan in the
+                        //database and in session
+                        string errorCode;
+                        string errorMsg;
+                        var selectedServiceLoanNumbers = selectedLoans.Select(pl => pl.TicketNumber).ToList();
+                        //Ref types of all products will be loans
+                        List<string> lstRefTypes = selectedServiceLoanNumbers.Select(t => "1").ToList();
+                        //UndoPawnTransactions(selectedLoans);
+                        bool retVal = StoreLoans.UpdateTempStatus(selectedServiceLoanNumbers, StateStatus.BLNK, strStoreNumber, true, lstRefTypes, out errorCode, out errorMsg);
+                        if (retVal)
+                        {
+                            foreach (var t in selectedLoans)
+                            {
+                                t.TempStatus = StateStatus.BLNK;
+                            }
+                        }
                     }
                 }
                 else

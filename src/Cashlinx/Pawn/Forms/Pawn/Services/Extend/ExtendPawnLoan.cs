@@ -274,7 +274,7 @@ namespace Pawn.Forms.Pawn.Services.Extend
                         customTextBoxAmtToExtend.Text = (daysToPay * dailyAmount).ToString("f2");
                         customTextBoxNumDaystoExtend.Text = (interestAmount + serviceAmount).ToString("f2");
                         labelAdjustedDueDate.Text =
-                            new BusinessRulesProcedures(DS).GetValidDueDate(LastCycleEnd.AddDays(1).AddMonths(1), siteID);
+                            new BusinessRulesProcedures(DS).GetValidDueDate(LastCycleEnd.AddMonths(1), siteID);
                         dateCalendarLastPickupDate.SelectedDate =
                                      new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetValidPFIDate(
                                          pl.PfiEligible.AddMonths(1),

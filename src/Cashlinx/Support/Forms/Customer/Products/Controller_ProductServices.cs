@@ -47,6 +47,7 @@ using Common.Libraries.Utility.Collection;
 using Common.Libraries.Utility.Exception;
 using Common.Libraries.Utility.Logger;
 using Common.Libraries.Utility.Shared;
+using Common.Libraries.Utility.Shared;
 using Common.Libraries.Utility.Type;
 //using Pawn.Forms.Layaway;
 using Support.Flows.AppController.Impl.Common;
@@ -54,8 +55,11 @@ using Support.Forms.Customer.Pawn.Loan;
 using Support.Forms.Customer.Products.Layaway;
 using Support.Forms.Customer.Services.Pickup;
 using Support.Forms.Customer.Services.Rollover;
+using Support.Libraries.Objects.PDLoan;
+using Support.Libraries.Utility;
 using Support.Logic;
 using Support.Logic.DesktopProcedures;
+using Support.Libraries.Objects.PDLoan;
 /*using Pawn.Forms.Pawn.Loan;
 using Pawn.Forms.Pawn.Loan.ProcessTender;
 using Pawn.Forms.Pawn.Services.Extend;
@@ -72,27 +76,41 @@ namespace Support.Forms.Customer.Products
 {
     public partial class Controller_ProductServices : Form
     {
+        #region PRIVATES
         public NavBox NavControlBox;
+
         private List<Document> _ActiveLoanDocuments;
         private List<PawnLoan> _AuxillaryLoanKeys = new List<PawnLoan>();
-        private bool _continuePickupProcess;
-        private int _currentTicketNumber = 0;
-        private ReceiptLookupInfo _currReceiptLookupInfo = null;
-        private bool _gunItem = false;
-        private bool _gunItemIdValidated = false;
         private List<PawnLoan> _LoanKeys;
         private List<LayawayVO> _SelectedLayaways;
         private List<int> _selectedLoanNumbers = new List<int>();
         private List<PawnLoan> _SelectedLoans;
+        private List<PDLoan> _PDLoanKeys;
+        private List<PDLoan> PDLLoanList = CashlinxPawnSupportSession.Instance.PDLoanKeys;
+
+        List<int> overrideTransactionNumbers = new List<int>();
+        List<CouchDbUtils.PawnDocInfo> pawnDocs;
+
+        private ReceiptLookupInfo _currReceiptLookupInfo = null;
+        private SiteId currentStoreSiteId;
+        private string strStoreNumber = "";
+
         private bool _Setup;
+        private bool _continuePickupProcess;
+        private bool _gunItem = false;
+        private bool _gunItemIdValidated = false;
+
+
+        private int _currentTicketNumber = 0;
         private int _TicketNumber = 0;
+
         private decimal _totalExtensionAmount = 0.0M;
         private decimal _totalPaydownAmount = 0.0M;
         private decimal _totalPickupAmount = 0.0M;
         private decimal _totalRenewalAmount = 0.0M;
         private decimal _totalServiceAmount;
+
         private bool ctrlKeyPressed;
-        private SiteId currentStoreSiteId;
         private bool extensionServiceAllowed;
         private bool paydownAllowed;
         private bool renewalAllowed;
@@ -100,14 +118,14 @@ namespace Support.Forms.Customer.Products
         private bool loanRemoved;
         private bool loanupServiceAllowed;
         private int lookedUpTicketIndex;
-        List<int> overrideTransactionNumbers = new List<int>();
-        List<CouchDbUtils.PawnDocInfo> pawnDocs;
+        
         private bool showRefreshIcon;
-        private string strStoreNumber = "";
+        
         private bool ticketSearched;
         private string lastLayawayPayment = string.Empty;
-
+        #endregion
         #region CONSTRUCTOR
+        /*__________________________________________________________________________________________*/
         public Controller_ProductServices(int iTicketNumber)
         {
             _Setup = false;
@@ -121,7 +139,7 @@ namespace Support.Forms.Customer.Products
             }
             Setup();
         }
-
+        /*__________________________________________________________________________________________*/
         public Controller_ProductServices()
         {
             _Setup = false;
@@ -156,9 +174,9 @@ namespace Support.Forms.Customer.Products
             if (_TicketNumber == 0)
                 _TicketNumber = GlobalDataAccessor.Instance.DesktopSession.TicketLookedUp;
 
-            switch (GlobalDataAccessor.Instance.DesktopSession.TicketTypeLookedUp)
+            switch (Support.Logic.CashlinxPawnSupportSession.Instance.TicketTypeLookedUp)
             {
-                case ProductType.LAYAWAY:
+                case SupportProductType.LAYAWAY:
                     PS_ShowComboBox.SelectedIndex = 1;
                     break;
                 default: // default to Pawn
@@ -166,16 +184,6 @@ namespace Support.Forms.Customer.Products
                     break;
             }
 
-            PS_ExtendButton.Enabled = false;
-            PS_PickUpButton.Enabled = false;
-            PS_WaiveProrate.Enabled = false;
-            PS_RollOverButton.Enabled = false;
-            PS_ViewNewLoanDetailsButton.Enabled = false;
-            PS_LostPawnTicketButton.Enabled = false;
-            PS_UnDoButton.Enabled = false;
-
-            LW_LayawayPaymentButton.Enabled = false;
-            LW_LayawayTerminateButton.Enabled = false;
             LW_DetailsLayoutPanel.Visible = false;
 
             PS_PawnLoanLabel.Visible = false;
@@ -204,6 +212,18 @@ namespace Support.Forms.Customer.Products
                 this.customButtonCancel.Visible = true;
 
             _Setup = true;
+        }
+        /*__________________________________________________________________________________________*/
+        private void Controller_ProductServices_Shown(object sender, EventArgs e)
+        {
+            if (_Setup)
+            {
+                //if (GlobalDataAccessor.Instance.DesktopSession.PawnLoanKeys.Count() != PS_TicketsDataGridView.Rows.Count)
+                if (Support.Logic.CashlinxPawnSupportSession.Instance.PawnLoanKeys.Count() != PS_TicketsDataGridView.Rows.Count)
+                    LoadData(GetSelectedProductType());
+                else if (GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.Count != PS_AddTicketsDataGridView.Rows.Count)
+                    LoadAdditionalTicketsData();
+            }
         }
         /*__________________________________________________________________________________________*/
         private void ShowPawnPanels()
@@ -247,42 +267,84 @@ namespace Support.Forms.Customer.Products
             }
             //End of changes SR
         }
-        /*__________________________________________________________________________________________*/
-        private void Controller_ProductServices_Shown(object sender, EventArgs e)
+    /*__________________________________________________________________________________________*/
+        private bool SearchGrid(string loan, DataGridView grid)
         {
-            if (_Setup)
+            //no ticket SMurphy 3/16/2010 don't add to Additional Tickets if it's already in the original or Additional lists
+            //this looks thru gridviews so a message box can be displayed when attempting to add duplicates
+            bool found = false;
+
+            foreach (DataGridViewRow row in grid.Rows)
             {
-                //if (GlobalDataAccessor.Instance.DesktopSession.PawnLoanKeys.Count() != PS_TicketsDataGridView.Rows.Count)
-                if (Support.Logic.CashlinxPawnSupportSession.Instance.PawnLoanKeys.Count() != PS_TicketsDataGridView.Rows.Count)
-                    LoadData(GetSelectedProductType());
-                else if (GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.Count != PS_AddTicketsDataGridView.Rows.Count)
-                    LoadAdditionalTicketsData();
-            }
-        }
-        #endregion
-        /*__________________________________________________________________________________________*/
-        public bool ContinuePickup
-        {
-            get
-            {
-                return _continuePickupProcess;
-            }
-            set
-            {
-                _continuePickupProcess = value;
-                if (_continuePickupProcess)
-                {
-                    if (GetSelectedProductType() == ProductType.LAYAWAY)
+                if (row.Cells[2].Value != null)
+                    if (row.Cells[2].Value.ToString().Substring(5) == loan)
                     {
-                        this.LayawayCheckout();
+                        found = true;
+                        break;
                     }
-                    else
+            }
+
+            return found;
+        }
+        /*__________________________________________________________________________________________*/
+        private bool ShouldEnableUndoButton()
+        {
+            if (GetSelectedProductType() == SupportProductType.PAWN)
+            {
+                if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count == 0 || _SelectedLoans.Count == 0)
+                {
+                    return false;
+                }
+
+                bool hasPawnInService = false;
+                foreach (PawnLoan loan in _SelectedLoans)
+                {
+                    bool loanExists = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Exists(pl => pl.TicketNumber == loan.TicketNumber);
+                    if (loanExists)
                     {
-                        this.ContinuePawnPickupProcess();
+                        hasPawnInService = true;
+                        break;
                     }
                 }
+
+                return hasPawnInService;
+            }
+            else
+            {
+                if (GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.Count == 0 || _SelectedLayaways.Count == 0)
+                {
+                    return false;
+                }
+
+                bool hasLayawayInService = false;
+                foreach (LayawayVO layaway in _SelectedLayaways)
+                {
+                    bool layawayExists = GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.Exists(lw => lw.TicketNumber == layaway.TicketNumber);
+                    if (layawayExists)
+                    {
+                        hasLayawayInService = true;
+                        break;
+                    }
+                }
+
+                return hasLayawayInService;
             }
         }
+        /*__________________________________________________________________________________________*/
+        private void ShowLayawayPanels()
+        {
+            LW_LayawayButtonsPanel.Location = PS_PawnButtonsPanel.Location;
+            PS_PawnButtonsPanel.Visible = false;
+            LW_LayawayButtonsPanel.Visible = true;
+            LW_LayawayButtonsPanel.BringToFront();
+
+            LW_DetailsLayoutPanel.Location = PS_LoanStatsLayoutPanel.Location;
+            PS_LoanStatsLayoutPanel.Visible = false;
+            LW_DetailsLayoutPanel.Visible = true;
+            LW_DetailsLayoutPanel.BringToFront();
+        }
+        #endregion
+        #region MEMBER PROPERTIES
         /*__________________________________________________________________________________________*/
         public decimal ServiceAmount
         {
@@ -298,87 +360,440 @@ namespace Support.Forms.Customer.Products
             }
         }
         /*__________________________________________________________________________________________*/
-        public bool SearchGrid(string loan)
+        public bool ContinuePickup
         {
-            //no ticket SMurphy 3/16/2010 don't add to Additional Tickets if it's already in the original or Additional lists
-            //this looks thru gridviews so a message box can be displayed when attempting to add duplicates
-            bool found = false;
-
-            foreach (DataGridViewRow row in PS_TicketsDataGridView.Rows)
+            get
             {
-                if (row.Cells[2].Value != null)
-                    if (row.Cells[2].Value.ToString().Substring(5) == loan)
+                return _continuePickupProcess;
+            }
+            set
+            {
+                _continuePickupProcess = value;
+                if (_continuePickupProcess)
+                {
+                    if (GetSelectedProductType() == SupportProductType.LAYAWAY)
                     {
-                        found = true;
-                        break;
+                        this.LayawayCheckout();
                     }
-            }
-
-            foreach (DataGridViewRow row in PS_AddTicketsDataGridView.Rows)
-            {
-                if (row.Cells[2].Value != null)
-                    if (row.Cells[2].Value.ToString().Substring(5) == loan)
+                    else
                     {
-                        found = true;
-                        break;
+                        this.ContinuePawnPickupProcess();
                     }
+                }
             }
-
-            return found;
         }
+        #endregion
+        #region GETDATA
         /*__________________________________________________________________________________________*/
-        protected override Boolean ProcessDialogKey(Keys keyData)
+        private void LoadData(SupportProductType productType)
         {
-            if (GlobalDataAccessor.Instance.DesktopSession.LockProductsTab && keyData == Keys.Escape)
+            PS_TicketsDataGridView.Rows.Clear();
+            PS_AddTicketsDataGridView.Rows.Clear();
+
+            Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLoans = new List<PawnLoan>();
+            Support.Logic.CashlinxPawnSupportSession.Instance.Layaways = new List<LayawayVO>();
+            Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLayaways = new List<LayawayVO>();
+
+            lookedUpTicketIndex = 0;
+
+            this.PS_Ticket_Status.Visible = false;
+            this.PS_Ticket_Type.Visible = false;
+            this.PS_Staus_Date.Visible = false;
+
+            if (productType == SupportProductType.PAWN)
             {
-                //If there are any loans set for service undo them
-                if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count > 0)
-                    UndoPawnTransactions(GlobalDataAccessor.Instance.DesktopSession.ServiceLoans);
-                this.NavControlBox.Action = NavBox.NavAction.BACK;
-                //return true to indicate that the key has been handled
-                return true;
+                _LoanKeys = (from loankey in Support.Logic.CashlinxPawnSupportSession.Instance.PawnLoanKeys
+                             where loankey.LoanStatus == ProductStatus.IP
+                             select loankey).ToList();
+                _AuxillaryLoanKeys = (from loankey in Support.Logic.CashlinxPawnSupportSession.Instance.PawnLoanKeysAuxillary
+                                      where loankey.LoanStatus == ProductStatus.IP
+                                      select loankey).ToList();
+
+            }
+            else if (productType == SupportProductType.LAYAWAY)
+            {
+                _LoanKeys = (from loankey in Support.Logic.CashlinxPawnSupportSession.Instance.PawnLoanKeys
+                             where loankey.LoanStatus == ProductStatus.ACT && loankey.DocType == 4
+                             select loankey).ToList();
+                _AuxillaryLoanKeys = (from loankey in Support.Logic.CashlinxPawnSupportSession.Instance.PawnLoanKeysAuxillary
+                                      where loankey.LoanStatus == ProductStatus.LAY && loankey.DocType == 4
+                                      select loankey).ToList();
+            }
+            else if (productType == SupportProductType.PDL)
+            {
+                this.PS_Ticket_Status.Visible = true;
+                this.PS_Ticket_Type.Visible = true;
+                this.PS_Staus_Date.Visible = true;
+                
+                this.PS_Tickets_LastDayColumn.Visible = false;
+                this.PS_Tickets_Refresh.Visible = false;
+                this.PS_Tickets_Extend.Visible = false;
+                this.PS_Tickets_ServiceIndicatorColumn.Visible = false;
+                this.PS_AddTicketsLabel.Visible = false;
+                this.PS_AddTicketsDataGridView.Visible = false;
+            }
+            else
+            {
+                _LoanKeys = new List<PawnLoan>();
+                _AuxillaryLoanKeys = new List<PawnLoan>();
+                _PDLoanKeys = new List<PDLoan>();
             }
 
-            return base.ProcessDialogKey(keyData);
-        }
-        /*__________________________________________________________________________________________*/
-        private static void calculateAmountsForLoan(ref PawnLoan pawnLoan)
-        {
-            //decimal feeAmount = 0.0M;
-            //foreach (Fee fee in pawnLoan.Fees)
-            //{
-            //    if (!fee.Waived && fee.FeeState != FeeStates.VOID)
-            //        feeAmount += fee.Value;
-            //}
 
-            //pawnLoan.PickupAmount = pawnLoan.Amount + feeAmount;
+            if (productType == SupportProductType.PDL)
+            {
+                var _PDLoanKeys = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys;
+                for (int i = 0; i < _PDLoanKeys.Count(); i++)
+                {
+                    int gvIdx = PS_TicketsDataGridView.Rows.Add();
 
-            var pickupCalculator = new PfiPickupCalculator(pawnLoan, GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId, ShopDateTime.Instance.FullShopDateTime);
-            pickupCalculator.Calculate();
-            pawnLoan.PickupAmount = pickupCalculator.PickupAmount;
+                    DataGridViewRow myRow = PS_TicketsDataGridView.Rows[gvIdx];
+
+                    myRow.Cells["PS_Tickets_TicketNumberColumn"].Value = _PDLoanKeys[i].PDLLoanNumber;
+                    myRow.Cells["PS_Staus_Date"].Value = _PDLoanKeys[i].StatusDate.FormatDate();
+                    myRow.Cells["PS_Ticket_Type"].Value = _PDLoanKeys[i].Type;
+                    myRow.Cells["PS_Ticket_Status"].Value = _PDLoanKeys[i].Status;
+                }
+            }
+            else
+            {
+
+                for (int i = 0; i < _LoanKeys.Count(); i++)
+                {
+                    int gvIdx = PS_TicketsDataGridView.Rows.Add();
+
+                    DataGridViewRow myRow = PS_TicketsDataGridView.Rows[gvIdx];
+                    //myRow.Cells["PS_Tickets_SelectColumn"].Value = false;
+                    if (_LoanKeys[i].IsExtended)
+                        myRow.Cells["PS_Tickets_Extend"].Value = "E";
+
+                    myRow.Cells["PS_Tickets_TicketNumberColumn"].Value = Utilities.GetStringValue(
+                        _LoanKeys[i].OrgShopNumber, "").PadLeft(
+                            5, '0') +
+                                                                         Utilities.GetStringValue(
+                                                                             _LoanKeys[i].TicketNumber, "");
+                    DateTime dtLastDayGrace = Utilities.GetDateTimeValue(_LoanKeys[i].PfiEligible, DateTime.MinValue);
+                    if (dtLastDayGrace != DateTime.MinValue)
+                        myRow.Cells["PS_Tickets_LastDayColumn"].Value = dtLastDayGrace;
+                    else
+                        myRow.Cells["PS_Tickets_LastDayColumn"].Value = string.Empty;
+
+                    //TODO: This should be a rule!!
+                    if (productType != SupportProductType.LAYAWAY)
+                    {
+                        if (dtLastDayGrace <= ShopDateTime.Instance.ShopDate.AddDays(-5))
+                            PS_TicketsDataGridView.Rows[gvIdx].DefaultCellStyle.ForeColor = Color.Red;
+                    }
+
+                    //_OrigTicketNumber = Utilities.GetIntegerValue(_LoanKeys[i].OrigTicketNumber, 0);
+
+                    if (_TicketNumber == Utilities.GetIntegerValue(_LoanKeys[i].TicketNumber, 0))
+                    {
+                        lookedUpTicketIndex = i;
+                        PS_TicketsDataGridView.CurrentCell = PS_TicketsDataGridView.Rows[gvIdx].Cells[0];
+                        ticketSearched = true;
+                        //_ActiveLoanIndex = i;
+                    }
+                }
+                //Check if the store state allows Extension, renewal, paydown and loan up services
+                //extensionServiceAllowed = new BusinessRulesProcedures(Support.Logic.CashlinxPawnSupportSession.Instance).IsExtensionAllowed(currentStoreSiteId);
+                //loanupServiceAllowed = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsLoanUpAllowed(currentStoreSiteId);
+                //paydownAllowed = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPayDownAllowed(currentStoreSiteId);
+                //renewalAllowed = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsRenewalAllowed(currentStoreSiteId);
+                //partialPaymentAllowed = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(currentStoreSiteId);
+
+                //Show details of the looked up ticket row
+                //If not coming here through lookup ticket show the first row
+                if (_LoanKeys.Count > 0)
+                {
+                    if (_LoanKeys.Count > lookedUpTicketIndex && IsLayawayPawnKey(_LoanKeys[lookedUpTicketIndex]))
+                    {
+                        ApplyLayawayBusinessRules(_LoanKeys[lookedUpTicketIndex].OrgShopNumber, _LoanKeys[lookedUpTicketIndex].TicketNumber, true);
+
+                        if (ticketSearched)
+                        {
+                            UpdateActiveLayawayInformation(_LoanKeys[lookedUpTicketIndex].TicketNumber);
+                            PS_TicketsDataGridView.Rows[PS_TicketsDataGridView.CurrentCell.RowIndex].Selected = true;
+
+                        }
+                        else
+                        {
+                            UpdateTicketSelections();
+                        }
+
+                    }
+                    else
+                    {
+                        if (!ticketSearched)
+                        {
+                            //ApplyBusinessRules(_LoanKeys[lookedUpTicketIndex], _LoanKeys[lookedUpTicketIndex].OrgShopNumber, _LoanKeys[lookedUpTicketIndex].TicketNumber,
+                            //                   false, true);
+                            UpdateTicketSelections();
+                        }
+                        else
+                        {
+                            ApplyBusinessRules(
+                                _LoanKeys[lookedUpTicketIndex], _LoanKeys[lookedUpTicketIndex].OrgShopNumber, _LoanKeys[lookedUpTicketIndex].TicketNumber,
+                                true, true);
+                            UpdateActivePawnInformation(_LoanKeys[lookedUpTicketIndex].TicketNumber);
+                            PS_TicketsDataGridView.Rows[PS_TicketsDataGridView.CurrentCell.RowIndex].Selected = true;
+                        }
+                    }
+
+                    //TLR - not making the documents accessible even though we're loading up ticket info.
+                    //This will make the document appears as well.
+                    LoadDocuments(_LoanKeys[lookedUpTicketIndex].TicketNumber, productType);
+                }
+                LoadAdditionalTicketsData();
+            }
         }
         /*__________________________________________________________________________________________*/
-        private bool AllowLostTicket(PawnLoan pawnLoan)
+        private void UpdateTicketSelections()
         {
-            int loanindex = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.FindIndex(pl => pl.TicketNumber == pawnLoan.TicketNumber && (pl.TempStatus == StateStatus.P || pl.TempStatus == StateStatus.RN || pl.TempStatus == StateStatus.PD));
-            if (loanindex >= 0)
-                return true;
-            return false;
+            foreach (DataGridViewRow dgvr in PS_TicketsDataGridView.Rows)
+            {
+                dgvr.Selected = false;
+                dgvr.DefaultCellStyle.SelectionBackColor = Color.White;
+            }
+            foreach (DataGridViewRow dgvr in PS_AddTicketsDataGridView.Rows)
+            {
+                dgvr.Selected = false;
+                dgvr.DefaultCellStyle.SelectionBackColor = Color.White;
+            }
+            //Reset the selected loans list
+            _SelectedLoans = new List<PawnLoan>();
+            _SelectedLayaways = new List<LayawayVO>();
+            if (_LoanKeys != null && _LoanKeys.Count > 0)
+            {
+                PawnLoan loankey = _LoanKeys[0];
+
+                if (ticketSearched)
+                {
+                    loankey = _LoanKeys[lookedUpTicketIndex];
+                }
+
+                if (loankey.LoanStatus == ProductStatus.ACT && loankey.DocType == 4)
+                {
+                    ApplyLayawayBusinessRules(loankey.OrgShopNumber, loankey.TicketNumber, false);
+                    UpdateActiveLayawayInformation(loankey.TicketNumber);
+                }
+                else
+                {
+                    ApplyBusinessRules(loankey, loankey.OrgShopNumber, loankey.TicketNumber, false, true);
+                    UpdateActivePawnInformation(loankey.TicketNumber);
+                }
+            }
         }
         /*__________________________________________________________________________________________*/
-        private void ApplyBusinessRules(PawnLoan pawnLoanKey, string sStoreNumber, int iTicketNumber, bool bSelected, bool bFromPrimaryPawnLoanTable)
+        private void UpdateActiveLayawayInformation(int iTicketNumber)
         {
-        /*    PawnLoan pawnLoan = null;
-            PawnAppVO pawnAppVO;
-            CustomerVO customerVO;
-            var sErrorCode = string.Empty;
-            var sErrorText = string.Empty;
-            bool serviceLoan = false;
-            PawnLoan rolloverLoan = null;
+            LayawayVO layaway = new LayawayVO();
+
+            PS_PawnLoanLabel.Visible = false;
+            PS_PawnNameLabel.Visible = false;
+            PS_ItemDescriptionDataGridView.Visible = false;
+            PS_LoanStatsLayoutPanel.Visible = false;
+            LW_DetailsLayoutPanel.Visible = false;
+            PS_TicketsDataGridView.Columns[2].HeaderText = "Layaway Number";
+            PS_TicketsDataGridView.Columns[3].HeaderText = "Last Payment Date";
+            PS_ItemDescriptionDataGridView.Columns[colItemAmount.Index].HeaderText = "Sale Amount";
+
+            int iDx = -1;
+            if (GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.Count > 0)
+            {
+                iDx = GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.FindIndex(pl => pl.TicketNumber == iTicketNumber);
+                if (iDx >= 0)
+                {
+                    layaway = GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways[iDx];
+                }
+            }
+
+            //If the loan is not in the service loans list
+            if (iDx < 0)
+            {
+                iDx = GlobalDataAccessor.Instance.DesktopSession.Layaways.FindIndex(pl => pl.TicketNumber == iTicketNumber);
+                if (iDx >= 0)
+                    layaway = GlobalDataAccessor.Instance.DesktopSession.Layaways[iDx];
+            }
+
+            if (_SelectedLayaways.Count > 1)
+            {
+                PS_ItemDescriptionDataGridView.Rows.Clear();
+                PS_ItemDescriptionDataGridView.Visible = true;
+                PS_ItemDescriptionDataGridView.Columns[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Visible = true;
+                PS_ItemDescriptionDataGridView.Columns[PS_ItemDescriptionDataGridView_SelectedLoan.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
+                PS_ItemDescriptionDataGridView.Columns[PS_Description_ICNColumn.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
+                PS_ItemDescriptionDataGridView.Columns[PS_Description_TicketDescriptionColumn.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
+                PS_ItemDescriptionDataGridView.Columns[colStatus.Index].Visible = true;
+                PS_ItemDescriptionDataGridView.Columns[colLocation.Index].Visible = true;
+                PS_ItemDescriptionDataGridView.Columns[colItemAmount.Index].Visible = true;
+
+                foreach (LayawayVO lw in _SelectedLayaways)
+                {
+                    bool printLoanNumber = true;
+                    foreach (RetailItem pItem in lw.RetailItems)
+                    {
+                        int gvIdx = PS_ItemDescriptionDataGridView.Rows.Add();
+                        DataGridViewRow myRow = PS_ItemDescriptionDataGridView.Rows[gvIdx];
+                        //Show the loan number only once for a set of items belonging to the loan
+                        myRow.Cells[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Value = lw.TicketNumber;
+                        if (printLoanNumber)
+                        {
+                            printLoanNumber = false;
+                        }
+                        //To do: Hide the cell contents if printloannumber is false
+                        myRow.Cells[PS_Description_ICNColumn.Index].Value = pItem.Icn;
+                        myRow.Cells[PS_Description_TicketDescriptionColumn.Index].Value = pItem.TicketDescription;
+                        myRow.Cells[colStatus.Index].Value = pItem.ItemStatus.ToString();
+                        myRow.Cells[colLocation.Index].Value = pItem.Location;
+                        myRow.Cells[colItemAmount.Index].Value = pItem.RetailPrice.ToString("c");
+                    }
+                }
+
+                LW_DetailsLayoutPanel.Visible = false;
+            }
+            else if (layaway.TicketNumber != 0)
+            {
+                var sFirstName = string.Empty;
+                var sMiddleName = string.Empty;
+                var sLastName = string.Empty;
+                var sErrorCode = string.Empty;
+                var sErrorText = string.Empty;
+
+                PS_ItemDescriptionDataGridView.Rows.Clear();
+                PS_ItemDescriptionDataGridView.Visible = true;
+                PS_ItemDescriptionDataGridView.Rows.Clear();
+                PS_ItemDescriptionDataGridView.Columns[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Visible = false;
+                PS_ItemDescriptionDataGridView.Columns[PS_Description_ICNColumn.Index].SortMode = DataGridViewColumnSortMode.Automatic;
+                PS_ItemDescriptionDataGridView.Columns[PS_Description_TicketDescriptionColumn.Index].SortMode = DataGridViewColumnSortMode.Automatic;
+                PS_ItemDescriptionDataGridView.Columns[colStatus.Index].Visible = true;
+                PS_ItemDescriptionDataGridView.Columns[colLocation.Index].Visible = true;
+                PS_ItemDescriptionDataGridView.Columns[colItemAmount.Index].Visible = true;
+
+                for (int i = 0; i < layaway.RetailItems.Count; i++)
+                {
+                    RetailItem retailItem = layaway.RetailItems[i];
+
+                    int gvIdx = PS_ItemDescriptionDataGridView.Rows.Add();
+                    DataGridViewRow myRow = PS_ItemDescriptionDataGridView.Rows[gvIdx];
+                    myRow.Cells[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Value = layaway.TicketNumber;
+                    myRow.Cells[PS_Description_ICNColumn.Index].Value = retailItem.Icn;
+                    myRow.Cells[PS_Description_TicketDescriptionColumn.Index].Value = retailItem.TicketDescription;
+                    myRow.Cells[colStatus.Index].Value = retailItem.ItemStatus.ToString();
+                    myRow.Cells[colLocation.Index].Value = retailItem.Location;
+                    myRow.Cells[colItemAmount.Index].Value = retailItem.RetailPrice.ToString("c");
+                }
+                if (layaway.CustomerNumber != GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerNumber)
+                {
+                    CustomerLoans.GetCustomerName(
+                        Utilities.GetStringValue(layaway.OrgShopNumber, "").PadLeft(5, '0'),
+                        Utilities.GetIntegerValue(layaway.TicketNumber, 0), SupportProductType.PAWN.ToString(),
+                        out sFirstName, out sMiddleName, out sLastName, out sErrorCode, out sErrorText);
+                }
+                else
+                {
+                    CustomerVO activeCustomer = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer;
+                    sFirstName = activeCustomer.FirstName + " " + activeCustomer.MiddleInitial + " " +
+                                 activeCustomer.LastName;
+                }
+
+                PS_PawnNameLabel.Visible = true;
+                PS_ItemDescriptionDataGridView.Visible = true;
+                PS_LoanStatsLayoutPanel.Visible = false;
+                LW_DetailsLayoutPanel.Visible = true;
+
+                LayawayPaymentHistoryBuilder paymentBuilder;
+
+                try
+                {
+                    paymentBuilder = new LayawayPaymentHistoryBuilder(layaway);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show("Error building the payment schedule");
+                    FileLogger.Instance.logMessage(LogLevel.ERROR, this, "UpdateActiveLayawayInformation errored:  " + exc.Message);
+                    return;
+                }
+                decimal delinquentAmount = paymentBuilder.GetDelinquentAmount(ShopDateTime.Instance.FullShopDateTime);
+
+                PS_ReceiptNoValue.Text = "";
+                if (CollectionUtilities.isNotEmpty(layaway.Receipts))
+                {
+                    int inDx = layaway.Receipts.FindLastIndex(delegate(Receipt r)
+                    {
+                        return r.Date ==
+                               layaway.Receipts.Min(m => m.Date);
+                    });
+
+                    PS_ReceiptNoValue.Text = layaway.Receipts[inDx].ReceiptNumber;
+                }
+
+                if (CollectionUtilities.isNotEmpty(layaway.Receipts))
+                {
+                    int idx = layaway.Receipts.FindLastIndex(r => r.Date == layaway.Receipts.Max(m => m.Date) && r.Event == "LAYPMT");
+                    if (idx >= 0)
+                        lastLayawayPayment = layaway.Receipts[idx].Date.ToShortDateString();
+                }
+
+
+                PS_PawnLoanLabel.Text = "Layaway " + layaway.TicketNumber;
+                PS_PawnLoanLabel.Visible = true;
+                LW_NumberValue.Text = layaway.TicketNumber.ToString();
+                PS_PawnNameLabel.Text = (sFirstName + " " + sMiddleName + " " + sLastName).Replace("  ", " ");
+                LW_FirstPaymentDueDateValue.Text = layaway.FirstPayment.ToString("d");
+                LW_PaidToDateValue.Text = layaway.GetAmountPaid().ToString("c");
+                LW_PaymentAmountDueValue.Text = paymentBuilder.GetTotalDueNextPayment(ShopDateTime.Instance.FullShopDateTime).ToString("c");
+                LW_CreatedOnValue.Text = layaway.DateMade.ToString("d");
+                LW_TotalAmountOfLayawayValue.Text = (layaway.Amount + layaway.SalesTaxAmount).ToString("c");
+                LW_OutstandingValue.Text = paymentBuilder.GetBalanceOwed().ToString("c");
+                LW_NumberOfPaymentsValue.Text = layaway.NumberOfPayments.ToString();
+                LW_ByValue.Text = layaway.CreatedBy;
+                LW_DownPaymentValue.Text = layaway.DownPayment.ToString("c");
+                LW_DelinquentValue.Text = delinquentAmount.ToString("c");
+
+
+                LW_ServiceFeeIncludingTaxValue.Text = layaway.GetLayawayFees().ToString("c");
+            }
+            else
+            {
+                PS_ItemDescriptionDataGridView.Rows.Clear();
+                PH_ReceiptsDataGridView.Rows.Clear();
+                PS_PawnNameLabel.Visible = true;
+                PS_ItemDescriptionDataGridView.Visible = true;
+                PS_LoanStatsLayoutPanel.Visible = false;
+                LW_DetailsLayoutPanel.Visible = true;
+
+                LW_NumberValue.Text = string.Empty;
+                PS_PawnNameLabel.Text = string.Empty;
+                LW_FirstPaymentDueDateValue.Text = string.Empty;
+                LW_PaidToDateValue.Text = string.Empty;
+                LW_PaymentAmountDueValue.Text = string.Empty;
+                LW_CreatedOnValue.Text = string.Empty;
+                LW_TotalAmountOfLayawayValue.Text = string.Empty;
+                LW_OutstandingValue.Text = string.Empty;
+                LW_NumberOfPaymentsValue.Text = string.Empty;
+                LW_ByValue.Text = string.Empty;
+                LW_DownPaymentValue.Text = string.Empty;
+                LW_DelinquentValue.Text = string.Empty;
+                LW_ServiceFeeIncludingTaxValue.Text = string.Empty;
+            }
+        }
+        /*__________________________________________________________________________________________*/
+        private void UpdateActivePawnInformation(int iTicketNumber)
+        {
+            PawnLoan pawnLoan = new PawnLoan();
+
+            PS_PawnLoanLabel.Visible = false;
+            PS_PawnNameLabel.Visible = false;
+            PS_ItemDescriptionDataGridView.Visible = false;
+            PS_LoanStatsLayoutPanel.Visible = false;
+            PS_ItemDescriptionDataGridView.Columns[colItemAmount.Index].HeaderText = "Item Amount";
+            bool gunFound = false;
 
             int iDx = -1;
             //if the pawn loan being viewed is already marked for some sort of service get
             //the details of the loan from service loans else get from pawnloans list
+            //But if the service marked on the loan is Paydown or renew it should show the old loan
             if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count > 0)
             {
                 iDx = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.FindIndex(pl => pl.TicketNumber == iTicketNumber);
@@ -386,26 +801,18 @@ namespace Support.Forms.Customer.Products
                 {
                     if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[iDx].TempStatus == StateStatus.RN ||
                         GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[iDx].TempStatus == StateStatus.PD)
-                    {
-                        rolloverLoan = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[iDx];
                         iDx = -1;
-                    }
                     else
-                    {
                         pawnLoan = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[iDx];
-                    }
-                    serviceLoan = true;
                 }
             }
             //If the loan is not in the service loans list
             if (iDx < 0)
             {
-                if (bFromPrimaryPawnLoanTable)
-                {
-                    iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans.FindIndex(pl => pl.TicketNumber == iTicketNumber);
-                    if (iDx >= 0)
-                        pawnLoan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans[iDx];
-                }
+                iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans.FindIndex(pl => pl.TicketNumber == iTicketNumber);
+                if (iDx >= 0)
+                    pawnLoan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans[iDx];
+
                 else
                 {
                     iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.FindIndex(
@@ -415,773 +822,224 @@ namespace Support.Forms.Customer.Products
                         pawnLoan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary[iDx];
                     }
                 }
-
-                if (iDx < 0)
-                {
-                    bool retVal = CustomerLoans.GetPawnLoan(GlobalDataAccessor.Instance.DesktopSession, Convert.ToInt32(sStoreNumber), iTicketNumber, "0",
-                                                            StateStatus.BLNK,
-                                                            false, out pawnLoan, out pawnAppVO, out customerVO,
-                                                            out sErrorCode, out sErrorText);
-                    if (!retVal)
-                        BasicExceptionHandler.Instance.AddException(
-                            "Error getting loan information for the selected loan",
-                            new ApplicationException("GetPawnLoan Failed for " + iTicketNumber));
-                }
-            }
-            if (!serviceLoan)
-            {
-                if (pawnLoan != null && pawnLoan.OriginalFees.Count == 0)
-                {
-                    UnderwritePawnLoanVO underwritePawnLoanVO;
-                    pawnLoan = ServiceLoanProcedures.GetLoanFees(currentStoreSiteId, ServiceTypes.PICKUP,
-                                                                 pawnLoanKey.PickupLateFinAmount, pawnLoanKey.PickupLateServAmount,
-                                                                 pawnLoanKey.OtherTranLateFinAmount, pawnLoanKey.OtherTranLateServAmount,
-                                                                 pawnLoan, out underwritePawnLoanVO);
-                    pawnLoan.OriginalFees = Utilities.CloneObject(pawnLoan.Fees);
-
-                    if (bFromPrimaryPawnLoanTable)
-                    {
-                        if (iDx >= 0)
-                        {
-                            GlobalDataAccessor.Instance.DesktopSession.PawnLoans.RemoveAt(iDx);
-                            GlobalDataAccessor.Instance.DesktopSession.PawnLoans.Insert(iDx, pawnLoan);
-                        }
-                        else
-                        {
-                            GlobalDataAccessor.Instance.DesktopSession.PawnLoans.Add(pawnLoan);
-                        }
-                    }
-                    else
-                    {
-                        if (iDx >= 0)
-                        {
-                            GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.RemoveAt(iDx);
-                            GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.Insert(iDx, pawnLoan);
-                        }
-                        else
-                        {
-                            GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.Add(pawnLoan);
-                        }
-                    }
-                }
             }
 
-            if (pawnLoan != null)
+            if (_SelectedLoans.Count > 1)
             {
-                //Set PFI message
-                switch (pawnLoan.TempStatus)
+                PS_ItemDescriptionDataGridView.Rows.Clear();
+                PS_ItemDescriptionDataGridView.Visible = true;
+                PS_ItemDescriptionDataGridView.Columns[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Visible = true;
+                PS_ItemDescriptionDataGridView.Columns[PS_ItemDescriptionDataGridView_SelectedLoan.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
+                PS_ItemDescriptionDataGridView.Columns[PS_Description_ICNColumn.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
+                PS_ItemDescriptionDataGridView.Columns[PS_Description_TicketDescriptionColumn.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
+                PS_ItemDescriptionDataGridView.Columns[colStatus.Index].Visible = true;
+                PS_ItemDescriptionDataGridView.Columns[colLocation.Index].Visible = true;
+                PS_ItemDescriptionDataGridView.Columns[colItemAmount.Index].Visible = false;
+
+                foreach (PawnLoan pl in _SelectedLoans)
                 {
-                    case StateStatus.PFI:
-                    case StateStatus.PFIW:
-                    case StateStatus.PFIS:
-                        pawnLoan.ServiceMessage = Commons.GetMessageString("TempStatusPFI") + System.Environment.NewLine;
-                        break;
-                    case StateStatus.PFIE:
-                        showRefreshIcon = true;
-                        break;
-                }
-
-                //Add all the fees to the pickup amount 
-                //Calculate the pickup amount and renewal amount
-                if (!serviceLoan)
-                    calculateAmountsForLoan(ref pawnLoan);
-
-                if (!serviceLoan || pawnLoan.RenewalAmount == 0)
-                    pawnLoan.RenewalAmount = pawnLoan.RenewalAllowed ? pawnLoan.PickupAmount - pawnLoan.Amount : 0.0M;
-
-                int loanindex = _SelectedLoans.FindIndex(
-                    pl => pl.TicketNumber == pawnLoan.TicketNumber);
-
-                if (bSelected)
-                {
-                    if (loanindex < 0)
-                    //If the loan not found but the ctrl key was not pressed do
-                    //not add it
+                    bool printLoanNumber = true;
+                    foreach (Item pItem in pl.Items)
                     {
-                        PawnLoan ploan = Utilities.CloneObject(pawnLoan);
-                        if (string.Equals(
-                            Properties.Resources.MultipleLoanSelection,
-                            Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
+                        int gvIdx = PS_ItemDescriptionDataGridView.Rows.Add();
+                        DataGridViewRow myRow = PS_ItemDescriptionDataGridView.Rows[gvIdx];
+                        //Show the loan number only once for a set of items belonging to the loan
+                        myRow.Cells[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Value = pl.TicketNumber;
+                        if (printLoanNumber)
                         {
-                            if (_SelectedLoans.Count > 0 && ctrlKeyPressed)
-                            {
-                                _SelectedLoans.Add(ploan);
-                            }
-                            if (_SelectedLoans.Count > 0 && !ctrlKeyPressed)
-                            {
-                                //If the ctrl key was not pressed remove all the 
-                                //selected loans and place the newly selected loan
-                                //as the only selected loan
-                                _SelectedLoans.RemoveRange(0, _SelectedLoans.Count);
-                                _SelectedLoans.Insert(0, ploan);
-                            }
-                            if (_SelectedLoans.Count == 0)
-                                _SelectedLoans.Add(ploan);
+                            printLoanNumber = false;
                         }
-                        else
-                        {
-                            _SelectedLoans.RemoveRange(0, _SelectedLoans.Count);
-                            _SelectedLoans.Insert(0, ploan);
-                        }
-                        loanRemoved = false;
-                    }
-                    else
-                    {
-                        _SelectedLoans.RemoveAt(loanindex);
-                        loanRemoved = true;
+                        //To do: Hide the cell contents if printloannumber is false
+                        myRow.Cells[PS_Description_ICNColumn.Index].Value = pItem.Icn;
+                        myRow.Cells[PS_Description_TicketDescriptionColumn.Index].Value = pItem.TicketDescription;
+                        if (pItem.IsGun && !pl.IsExtended)
+                            gunFound = true;
                     }
                 }
-
-                UpdateButtonsStates(false);
-                //If pickup service was performed on a loan and lost ticket is not already
-                //set on the loan the button is enabled. If the customer is not the pledgor the
-                //button is disabled
-                //SR 6/2/2010 If the loan is marked for rollover the lost ticket button rule should be calculated against the service loan data.
-                if (rolloverLoan == null)
-                    PS_LostPawnTicketButton.Enabled = AllowLostTicket(pawnLoan) && (pawnLoan.LostTicketInfo == null || !pawnLoan.LostTicketInfo.TicketLost) && (GlobalDataAccessor.Instance.DesktopSession.CustomerNotPledgor == false);
-                else
-                    PS_LostPawnTicketButton.Enabled = AllowLostTicket(rolloverLoan) && (rolloverLoan.LostTicketInfo == null || !rolloverLoan.LostTicketInfo.TicketLost) && (GlobalDataAccessor.Instance.DesktopSession.CustomerNotPledgor == false);
-            } */
-        }
-        /*__________________________________________________________________________________________*/
-        private void ApplyLayawayBusinessRules(string sStoreNumber, int iTicketNumber, bool bSelected)
-        {
-            LayawayVO layaway = null;
-            CustomerVO customerVO;
-            var sErrorCode = string.Empty;
-            var sErrorText = string.Empty;
-            bool serviceLayaway = false;
-
-            int iDx = -1;
-            List<LayawayVO> serviceLayaways = GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways;
-
-            //if the layaway being viewed is already marked for some sort of service get
-            //the details of the loan from service layaways else get from pawnloans list
-            if (serviceLayaways.Count > 0)
-            {
-                iDx = serviceLayaways.FindIndex(pl => pl.TicketNumber == iTicketNumber);
-                if (iDx >= 0)
-                {
-                    layaway = serviceLayaways[iDx];
-                    serviceLayaway = true;
-                }
-            }
-            //If the loan is not in the service layaways list
-            if (iDx < 0)
-            {
-                iDx = GlobalDataAccessor.Instance.DesktopSession.Layaways.FindIndex(pl => pl.TicketNumber == iTicketNumber);
-                if (iDx >= 0)
-                    layaway = GlobalDataAccessor.Instance.DesktopSession.Layaways[iDx];
-
-                if (iDx < 0)
-                {
-                    bool retVal = RetailProcedures.GetLayawayData(GlobalDataAccessor.Instance.DesktopSession, GlobalDataAccessor.Instance.OracleDA, Convert.ToInt32(sStoreNumber),
-                                                                  iTicketNumber, "0", StateStatus.BLNK, "LAY", true, out layaway, out customerVO, out sErrorCode, out sErrorText);
-
-                    if (!retVal)
-                        BasicExceptionHandler.Instance.AddException(
-                            "Error getting loan information for the selected loan",
-                            new ApplicationException("GetPawnLoan Failed for " + iTicketNumber));
-                }
-            }
-
-            if (!serviceLayaway)
-            {
-                if (layaway != null)
-                {
-                    if (iDx >= 0)
-                    {
-                        GlobalDataAccessor.Instance.DesktopSession.Layaways.RemoveAt(iDx);
-                        GlobalDataAccessor.Instance.DesktopSession.Layaways.Insert(iDx, layaway);
-                    }
-                    else
-                    {
-                        GlobalDataAccessor.Instance.DesktopSession.Layaways.Add(layaway);
-                    }
-                }
-            }
-
-            if (layaway != null)
-            {
-                int loanindex = _SelectedLayaways.FindIndex(
-                    pl => pl.TicketNumber == layaway.TicketNumber);
-
-                if (loanindex >= 0)
-                {
-                    _SelectedLayaways.RemoveAt(loanindex);
-                    loanRemoved = true;
-                }
-
-                if (bSelected)
-                {
-                    //If the loan not found but the ctrl key was not pressed do
-                    //not add it
-                    {
-                        LayawayVO lway = Utilities.CloneObject(layaway);
-                        if (string.Equals(
-                            Properties.Resources.MultipleLoanSelection,
-                            Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
-                        {
-                            if (_SelectedLayaways.Count > 0 && ctrlKeyPressed)
-                            {
-                                _SelectedLayaways.Add(lway);
-                            }
-                            if (_SelectedLayaways.Count > 0 && !ctrlKeyPressed)
-                            {
-                                //If the ctrl key was not pressed remove all the 
-                                //selected loans and place the newly selected loan
-                                //as the only selected loan
-                                _SelectedLayaways.RemoveRange(0, _SelectedLayaways.Count);
-                                _SelectedLayaways.Insert(0, lway);
-                            }
-                            if (_SelectedLayaways.Count == 0)
-                                _SelectedLayaways.Add(lway);
-                        }
-                        else
-                        {
-                            _SelectedLayaways.RemoveRange(0, _SelectedLoans.Count);
-                            _SelectedLayaways.Insert(0, lway);
-                        }
-                        loanRemoved = false;
-                    }
-                }
-            }
-
-            UpdateButtonsStates(true);
-        }
-
-        /// <summary>
-        /// Lock the products tab so that only the products
-        /// and services tab is enabled and others are not
-        /// The only way to exit at the point would be to click escape
-        /// </summary>
-        /*__________________________________________________________________________________________*/         
-        private void callLockProductsTab()
-        {
-            GlobalDataAccessor.Instance.DesktopSession.LockProductsTab = true;
-
-            this.NavControlBox.IsCustom = true;
-            this.NavControlBox.CustomDetail = "LoanService";
-            this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
-        }
-
-        /// <summary>
-        /// UnLock the products tab so that all tabs are available
-        /// </summary>
-        private void callUnLockProductsTab()
-        {
-            GlobalDataAccessor.Instance.DesktopSession.LockProductsTab = false;
-            this.customButtonCancel.Visible = true;
-            this.NavControlBox.IsCustom = true;
-            this.NavControlBox.CustomDetail = "LoanService";
-            this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
-        }
-
-/*        private void CallViewReceipt(string sReceiptNumber)
-        {
-            // View Receipt Form
-            List<Receipt> receipts;
-            string errorMsg;
-            if (!LookupReceipt.LoadReceiptData(sReceiptNumber, out receipts, out errorMsg))
-            {
-                MessageBox.Show("Cannot view receipt.");
-                return;
+                PS_LoanStatsLayoutPanel.Visible = false;
             }
             else
             {
-                this.NavControlBox.IsCustom = true;
-                this.NavControlBox.CustomDetail = "ViewReceipt";
-                this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
-                //ViewReceipt myForm = new ViewReceipt(sReceiptNumber);
-                //myForm.ShowDialog();
-            }
-        }
-*/
-        /*__________________________________________________________________________________________*/
-        private void CelMouseUpActions(int rowIndex, int columnIndex)
-        {
-            int i = rowIndex;
-            showRefreshIcon = false;
-            DataGridViewRow myRow = PS_TicketsDataGridView.Rows[i];
-
-            string sCellTicket = Utilities.GetStringValue(myRow.Cells["PS_Tickets_TicketNumberColumn"].Value, "");
-            string sStoreNumber = sCellTicket.Substring(0, 5);
-            int iTicketNumber = Convert.ToInt32(sCellTicket.Substring(5));
-            _currentTicketNumber = Convert.ToInt32(sCellTicket.Substring(5));
-            //_OrigTicketNumber = Utilities.GetIntegerValue(_LoanKeys[i].OrigTicketNumber, 0);
-            PS_TicketsDataGridView.EndEdit();
-
-            if (columnIndex == 4)
-            {
-                RefreshTempStatus(iTicketNumber, sStoreNumber);
-                //TODO revisit this - Madhu
-                //myRow.Cells["PS_Tickets_Refresh"].Value = Properties.Resources.blank;
-            }
-            else
-            {
-                PawnLoan selectedRow = _LoanKeys[i];
-                if (IsLayawayPawnKey(selectedRow)) // Layaway
+                if (pawnLoan.TicketNumber != 0)
                 {
-                    ApplyLayawayBusinessRules(sStoreNumber, iTicketNumber, true);
-                    PS_TicketsDataGridView.Rows[rowIndex].DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(51, 153, 255); ;
-                    UpdateActiveLayawayInformation(iTicketNumber);
-                    PS_TicketsDataGridView.Rows[rowIndex].Cells[3].Value = lastLayawayPayment;
-                    LoadDocuments(iTicketNumber, ProductType.LAYAWAY);
-                }
-                else
-                {
-                    ApplyBusinessRules(selectedRow, sStoreNumber, iTicketNumber, true, true);
-                    if (loanRemoved)
-                        PS_TicketsDataGridView.Rows[rowIndex].DefaultCellStyle.SelectionBackColor = Color.White;
-                    else
-                        PS_TicketsDataGridView.Rows[rowIndex].DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(51, 153, 255); ;
-                    if (showRefreshIcon)
-                        myRow.Cells["PS_Tickets_Refresh"].Value =
-                        global::Common.Properties.Resources.refresh_icon;
+                    var sFirstName = string.Empty;
+                    var sMiddleName = string.Empty;
+                    var sLastName = string.Empty;
+                    var sErrorCode = string.Empty;
+                    var sErrorText = string.Empty;
 
-                    UpdateActivePawnInformation(iTicketNumber);
-                    //SR 6/15/2010 Load all the documents associated to the selected ticket
-                    LoadDocuments(iTicketNumber, ProductType.PAWN);
-                }
-            }
-        }
-        /*__________________________________________________________________________________________*/
-        private bool CheckCustomerNumber(string customerNumber)
-        {
-            bool found = false;
-            if (_LoanKeys != null)
-            {
-                for (int i = 0; i < _LoanKeys.Count(); i++)
-                {
-                    if (_LoanKeys[i].CustomerNumber == customerNumber)
+                    PS_ItemDescriptionDataGridView.Rows.Clear();
+                    PS_ItemDescriptionDataGridView.Columns[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Visible = false;
+                    PS_ItemDescriptionDataGridView.Columns[PS_Description_ICNColumn.Index].SortMode = DataGridViewColumnSortMode.Automatic;
+                    PS_ItemDescriptionDataGridView.Columns[PS_Description_TicketDescriptionColumn.Index].SortMode = DataGridViewColumnSortMode.Automatic;
+                    PS_ItemDescriptionDataGridView.Columns[colStatus.Index].Visible = true;
+                    PS_ItemDescriptionDataGridView.Columns[colLocation.Index].Visible = true;
+                    PS_ItemDescriptionDataGridView.Columns[colItemAmount.Index].Visible = false;
+
+                    for (int i = 0; i < pawnLoan.Items.Count; i++)
                     {
-                        found = true;
-                        break;
+                        Item pawnItem = pawnLoan.Items[i];
+
+                        int gvIdx = PS_ItemDescriptionDataGridView.Rows.Add();
+                        DataGridViewRow myRow = PS_ItemDescriptionDataGridView.Rows[gvIdx];
+                        myRow.Cells[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Value = pawnLoan.TicketNumber;
+                        myRow.Cells[PS_Description_ICNColumn.Index].Value = pawnItem.Icn;
+                        myRow.Cells[colStatus.Index].Value = pawnItem.ItemStatus;
+                        string itemLocation = string.Empty;
+                        if (!string.IsNullOrEmpty(pawnItem.Location_Aisle))
+                            itemLocation = "Aisle: " + pawnItem.Location_Aisle;
+                        if (!string.IsNullOrEmpty(pawnItem.Location_Shelf))
+                            itemLocation += " Shelf: " + pawnItem.Location_Shelf;
+                        if (!string.IsNullOrEmpty(pawnItem.Location))
+                            itemLocation += " Other: " + pawnItem.Location;
+                        myRow.Cells[colLocation.Index].Value = itemLocation;
+                        myRow.Cells[PS_Description_TicketDescriptionColumn.Index].Value = pawnItem.TicketDescription;
+                        if (pawnItem.IsGun && !pawnLoan.IsExtended)
+                            gunFound = true;
                     }
-                }
-            }
-            return found;
-        }
-        /*__________________________________________________________________________________________*/
-        private bool ContinueAfterBackgroundChecked()
-        {
-            CustomerVO currentCustomer = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer;
-
-            if (GlobalDataAccessor.Instance.DesktopSession.BackgroundCheckCompleted || !_gunItem)
-            {
-                return true;
-            }
-
-            /* DateTime currentDate = ShopDateTime.Instance.ShopDate;
-             string strStoreState = GlobalDataAccessor.Instance.CurrentSiteId.State;
-             if (currentCustomer.HasValidConcealedWeaponsPermitInState(strStoreState, currentDate))
-             {
-                 if (CustomerProcedures.IsBackgroundCheckRequired())
-                 {
-                     FirearmsBackgroundCheck backgroundcheckFrm = new FirearmsBackgroundCheck();
-                     backgroundcheckFrm.ShowDialog(this);
-                 }
-                 else
-                 {
-                     Support.Logic.CashlinxPawnSupportSession.Instance.BackgroundCheckCompleted = true; //If the background check is not needed
-                 }
-             }
-             //else if they do not have CWP or not a CWP in the store state or expired 
-             //then show the background check form
-             else
-             {
-                 FirearmsBackgroundCheck backgroundcheckFrm = new FirearmsBackgroundCheck();
-                 backgroundcheckFrm.ShowDialog(this);
-             }*/
-            //commencted - madhu
-            /*FirearmsBackgroundCheck backgroundcheckFrm = new FirearmsBackgroundCheck();
-            backgroundcheckFrm.ShowDialog(this);
-             */
-            return GlobalDataAccessor.Instance.DesktopSession.BackgroundCheckCompleted;
-
-        }
-
-        /// <summary>
-        /// Update temp status and the other processes in pickup
-        /// </summary>
-        /*__________________________________________________________________________________________*/
-        private void ContinueBuyoutProcess()
-        {
-            try
-            {
-                List<PawnLoan> serviceLoans = GlobalDataAccessor.Instance.DesktopSession.BuyoutLoans;
-                //Check if the customer has a valid concealed weapons permit in the store state
-                //If they do, check if background reference number is required
-                if (serviceLoans.Count == 0)
-                    return;
-                bool _updateBuyoutStatus = true;
-
-                //To proceed either the background check should have been completed
-                //or _updatePickupStatus should be true. If the item being picked up is not a gun
-                //pickupbackgroundcheckcompleted will  be false but the other one will be true hence
-                //the user will be able to proceed
-                if (GlobalDataAccessor.Instance.DesktopSession.BackgroundCheckCompleted || _updateBuyoutStatus)
-                {
-                    string strUserId = GlobalDataAccessor.Instance.DesktopSession.UserName;
-                    List<PawnLoan> selectedLoans = GlobalDataAccessor.Instance.DesktopSession.BuyoutLoans;
-                    //After the override check if there are still selected loans to process then proceed
-                    if (!(selectedLoans.Count > 0))
+                    if (pawnLoan.CustomerNumber != GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerNumber)
                     {
-                        UpdateTicketSelections();
-                        return;
-                    }
-
-                    ServiceLoanProcedures.CheckCurrentTempStatus(ref selectedLoans, strUserId, ServiceTypes.BUYOUT);
-                    if (selectedLoans.Count > 0)
-                    {
-                        //update the pickup allowed and temp status of the selected loans
-                        //which were picked up
-                        StringBuilder loansPickedup = new StringBuilder();
-                        for (int i = 0; i < selectedLoans.Count; i++)
-                        {
-                            PawnLoan loanToUpdate = selectedLoans[i];
-                            loanToUpdate.TempStatus = StateStatus.BYOUT;
-                            loanToUpdate.PickupAllowed = false;
-                            ShowStatusValue(loanToUpdate);
-                            loansPickedup.Append(loanToUpdate.TicketNumber.ToString());
-                            loansPickedup.Append(System.Environment.NewLine);
-                            UpdateServiceIndicator(loanToUpdate.TicketNumber, ServiceIndicators.Buyout.ToString());
-                        }
-                        GlobalDataAccessor.Instance.DesktopSession.ServiceLoans = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Union(selectedLoans).ToList();
-                        DisableAllServiceButtons();
-                        UpdateTicketSelections();
-                        if (GlobalDataAccessor.Instance.DesktopSession.TotalBuyoutAmount != 0 || GlobalDataAccessor.Instance.DesktopSession.TotalOtherPickupItems != 0)
-                        {
-                            ServiceAmount = GlobalDataAccessor.Instance.DesktopSession.TotalOtherPickupItems + GlobalDataAccessor.Instance.DesktopSession.TotalBuyoutAmount;
-                            GlobalDataAccessor.Instance.DesktopSession.TotalServiceAmount = ServiceAmount;
-                            //Support.Logic.CashlinxPawnSupportSession.Instance.TotalPickupAmount = _totalPickupAmount;
-                        }
+                        CustomerLoans.GetCustomerName(
+                            Utilities.GetStringValue(pawnLoan.OrgShopNumber, "").PadLeft(5, '0'),
+                            Utilities.GetIntegerValue(pawnLoan.TicketNumber, 0), SupportProductType.PAWN.ToString(),
+                            out sFirstName, out sMiddleName, out sLastName, out sErrorCode, out sErrorText);
                     }
                     else
                     {
-                        MessageBox.Show("No loans to process for Buyout");
+                        CustomerVO activeCustomer = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer;
+                        sFirstName = activeCustomer.FirstName + " " + activeCustomer.MiddleInitial + " " +
+                                     activeCustomer.LastName;
                     }
-                }
-            }
-            catch (Exception ex)
-            {
-                BasicExceptionHandler.Instance.AddException("Error in the pickup process", new ApplicationException(ex.Message));
-            }
-            finally
-            {
-                _continuePickupProcess = false;
-                GlobalDataAccessor.Instance.DesktopSession.PickupProcessContinue = false;
-            }
-        }
-        /*__________________________________________________________________________________________*/
-        private void ContinuePawnPickupProcess()
-        {
-  /*          try
-            {
-                List<PawnLoan> serviceLoans = GlobalDataAccessor.Instance.DesktopSession.PickupLoans;
-                if (serviceLoans.Count == 0)
-                    return;
 
-                if (!ContinueAfterBackgroundChecked())
-                {
-                    return;
-                }
-                string strUserId = GlobalDataAccessor.Instance.DesktopSession.UserName;
-                bool overrideCheck = false;
-                var overrideFailedMessage = string.Empty;
-                List<PawnLoan> selectedLoans = GlobalDataAccessor.Instance.DesktopSession.PickupLoans;
+                    PS_PawnLoanLabel.Text = "Pawn Loan " + pawnLoan.TicketNumber;
+                    PS_PawnNameLabel.Text = (sFirstName + " " + sMiddleName + " " + sLastName).Replace("  ", " ");
 
-                //Check overrides
-                overrideCheck = ServiceLoanProcedures.CheckForOverrides(ServiceTypes.PICKUP, GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerNumber,
-                                                                        ref selectedLoans, ref overrideFailedMessage);
-                if (!overrideCheck)
-                {
-                    InfoDialog infoFrm = new InfoDialog();
-                    infoFrm.MessageToShow = overrideFailedMessage;
-                    infoFrm.ShowDialog();
-                }
-                //After the override check if there are still selected loans to process then proceed
-                if (!(selectedLoans.Count > 0))
-                {
-                    UpdateTicketSelections();
-                    return;
-                }
+                    PS_OriginationDateValue.Text =
+                    Utilities.GetDateTimeValue(pawnLoan.OriginationDate, DateTime.MinValue).ToShortDateString();
+                    PS_DueDateValue.Text =
+                    Utilities.GetDateTimeValue(pawnLoan.DueDate, DateTime.MinValue).ToShortDateString();
+                    ShowStatusValue(pawnLoan);
+                    PS_LastDayOfGraceValue.Text =
+                    Utilities.GetDateTimeValue(pawnLoan.LastDayOfGrace, DateTime.MinValue).ToShortDateString();
+                    PS_ReceiptNoValue.Text = "";
 
-                ServiceLoanProcedures.CheckCurrentTempStatus(ref selectedLoans, strUserId, ServiceTypes.PICKUP);
-
-                if (selectedLoans.Count > 0)
-                {
-                    //update the pickup allowed and temp status of the selected loans
-                    //which were picked up
-                    StringBuilder loansPickedup = new StringBuilder();
-                    _totalPickupAmount = 0;
-                    for (int i = 0; i < selectedLoans.Count; i++)
+                    if (CollectionUtilities.isNotEmpty(pawnLoan.Receipts))
                     {
-                        PawnLoan loanToUpdate = selectedLoans[i];
-                        loanToUpdate.TempStatus = StateStatus.P;
-                        loanToUpdate.PickupAllowed = false;
-                        ShowStatusValue(loanToUpdate);
-                        loansPickedup.Append(loanToUpdate.TicketNumber.ToString());
-                        loansPickedup.Append(System.Environment.NewLine);
-                        _totalPickupAmount += loanToUpdate.PickupAmount;
-                        //Update the service indicator to indicate Pickup
-                        UpdateServiceIndicator(loanToUpdate.TicketNumber, ServiceIndicators.Pickup.ToString());
-                    }
-                    GlobalDataAccessor.Instance.DesktopSession.ServiceLoans = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Union(selectedLoans).ToList();
-
-                    DisableAllServiceButtons();
-                    UpdateTicketSelections();
-
-                    if (_totalPickupAmount != 0)
-                    {
-                        ServiceAmount += _totalPickupAmount;
-                        GlobalDataAccessor.Instance.DesktopSession.TotalServiceAmount = ServiceAmount;
-                        GlobalDataAccessor.Instance.DesktopSession.TotalPickupAmount = _totalPickupAmount;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("No loans to process for Pickup");
-                }
-            }
-            catch (Exception ex)
-            {
-                BasicExceptionHandler.Instance.AddException("Error in the pickup process", new ApplicationException(ex.Message));
-            }
-            finally
-            {
-                _continuePickupProcess = false;
-                GlobalDataAccessor.Instance.DesktopSession.PickupProcessContinue = false;
-            } */
-        }
-
-
-
-        /*__________________________________________________________________________________________*/
-        private void customButtonCancel_Click(object sender, EventArgs e)
-        {
-            //If there are any loans set for service undo them
-            if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count > 0)
-            {
-                DialogResult dgr = MessageBox.Show("All loans set for service will be cancelled.Do you want to Continue?", "Prompt", MessageBoxButtons.YesNo);
-                if (dgr == DialogResult.No)
-                    return;
-
-                UndoPawnTransactions(GlobalDataAccessor.Instance.DesktopSession.ServiceLoans);
-            }
-            DialogResult dR = MessageBox.Show("Do you want to continue processing this customer?", "Products and Services", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dR == DialogResult.No)
-            {
-                GlobalDataAccessor.Instance.DesktopSession.ClearCustomerList();
-            }
-
-            //1/29/2010 According to QA requirement Cancel should take you to ring menu!
-            this.NavControlBox.IsCustom = true;
-            this.NavControlBox.CustomDetail = "Menu";
-            this.NavControlBox.Action = NavBox.NavAction.BACK;
-        }
-        /*__________________________________________________________________________________________*/
-        private void DisableAllServiceButtons()
-        {
-            PS_ExtendButton.Enabled = false;
-            PS_PickUpButton.Enabled = false;
-            PS_RollOverButton.Enabled = false;
-            PS_ViewNewLoanDetailsButton.Enabled = false;
-            PS_LostPawnTicketButton.Enabled = false;
-            PS_CheckoutButton.Enabled = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count > 0;
-            PS_UnDoButton.Enabled = ShouldEnableUndoButton();
-            PS_AddMoreTicketsButton.Enabled = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count == 0;
-            //PS_WaiveProrate.Enabled = Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLoans.Count > 0;
-            //SR 02/08/2010 Disable waive for Pilot
-            PS_WaiveProrate.Enabled = false;
-
-            LW_LayawayPaymentButton.Enabled = false;
-            LW_LayawayTerminateButton.Enabled = false;
-        }
-        /*__________________________________________________________________________________________*/
-        private int GetFirstRowTicketNumber()
-        {
-            int ticketNumber = 0;
-            DataGridViewRow myRow = PS_TicketsDataGridView.Rows[0];
-            string sCellTicket = Utilities.GetStringValue(myRow.Cells["PS_Tickets_TicketNumberColumn"].Value, "");
-            ticketNumber = Convert.ToInt32(sCellTicket.Substring(5));
-            return ticketNumber;
-        }
-        /*__________________________________________________________________________________________*/
-        private ProductType GetSelectedProductType()
-        {
-            if (PS_ShowComboBox.SelectedIndex == 0)
-            {
-                return ProductType.PAWN;
-            }
-            else if (PS_ShowComboBox.SelectedIndex == 1)
-            {
-                return ProductType.LAYAWAY;
-            }
-
-            return ProductType.NONE;
-        }
-        /*__________________________________________________________________________________________*/
-        private bool IsAtLeastOneSelectedLayawayNotServiced()
-        {
-            return _SelectedLayaways.Any(selectedLayaway => !IsLayawayBeingServicedOrAlreadyBeenServiced(selectedLayaway));
-        }
-        /*__________________________________________________________________________________________*/
-        private bool IsExactlyOneSelectedLayawayNotServiced()
-        {
-            if (_SelectedLayaways.Count != 1)
-            {
-                return false;
-            }
-
-            return !IsLayawayBeingServicedOrAlreadyBeenServiced(_SelectedLayaways[0]);
-        }
-        /*__________________________________________________________________________________________*/
-        private bool IsLayawayBeingServicedOrAlreadyBeenServiced(LayawayVO selectedLayaway)
-        {
-            if (selectedLayaway.LoanStatus == ProductStatus.TERM || selectedLayaway.LoanStatus == ProductStatus.FORF)
-            {
-                return true;
-            }
-
-            return GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.Any(
-                serviceLayaway => serviceLayaway.TicketNumber == selectedLayaway.TicketNumber);
-        }
-        /*__________________________________________________________________________________________*/
-        private bool IsLayawayPawnKey(PawnLoan pawnKey)
-        {
-            return pawnKey.LoanStatus == ProductStatus.ACT && pawnKey.DocType == 4;
-        }
-        /*__________________________________________________________________________________________*/
-        private void LayawayCheckout()
-        {
-            _gunItemIdValidated = false;
-            _gunItem = false;
-
-            //List<LayawayVO> servicedLayaways = Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLayaways;
-            List<LayawayVO> servicedLayaways = Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLayaways;
-            //List<LayawayVO> pickupLayaways = Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLayaways.FindAll(l => l.LoanStatus == ProductStatus.PU).ToList();
-            List<LayawayVO> pickupLayaways = Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLayaways.FindAll(l => l.LoanStatus == ProductStatus.PU).ToList();
-
-            if (pickupLayaways.Count > 0)
-            {
-                List<LayawayVO> pickupLayawaysWithGun = new List<LayawayVO>();
-
-                if (!Support.Logic.CashlinxPawnSupportSession.Instance.CompleteLayaway)
-                {
-                    foreach (LayawayVO layaway in pickupLayaways)
-                    {
-                        var gunItems = layaway.RetailItems.FindAll(r => r.IsGun);
-                        if (gunItems.Count > 0)
+                        int inDx = pawnLoan.Receipts.FindLastIndex(delegate(Receipt r)
                         {
-                            _gunItem = true;
-                            pickupLayawaysWithGun.Add(layaway);
+                            return r.Date ==
+                                   pawnLoan.Receipts.Min(m => m.Date);
+                        });
 
-                            if (!LayawayProcedures.CustomerPassesFirearmAgeCheckForItems(layaway, Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer))
+                        PS_ReceiptNoValue.Text = pawnLoan.Receipts[inDx].ReceiptNumber;
+                    }
+                    if (PS_ReceiptNoValue.Text.Length == 0)
+                        PS_ReceiptNoLabel.Visible = false;
+                    else
+                        PS_ReceiptNoLabel.Visible = true;
+                    PS_OriginationShopValue.Text = Utilities.GetStringValue(pawnLoan.OrgShopNumber, "").PadLeft(5,
+                                                                                                                '0');
+                    if (PS_OriginationShopValue.Text != GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber)
+                        PS_OriginationShopValue.ForeColor = Color.Red;
+                    else
+                        PS_OriginationShopValue.ForeColor = Color.Black;
+                    PS_LoanAmountValue.Text = string.Format("{0:C}", pawnLoan.Amount);
+
+                    if (new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(GlobalDataAccessor.Instance.CurrentSiteId))
+                    {
+                        lblCurrentPrincipalAmount.Text = string.Format("{0:C}", pawnLoan.CurrentPrincipalAmount);
+                    }
+                    else
+                    {
+                        lblCurrentPrincipalAmountTitle.Visible = false;
+                        lblCurrentPrincipalAmount.Visible = false;
+                    }
+
+                    PS_PickupAmountValue.Links[0].LinkData = iTicketNumber;
+                    //SR - Commented the following lines since we do
+                    //not want to show the data when the loan is selected but
+                    //add this logic in validateselectedloans when the service button is clicked
+                    /*PS_PickupAllowedLinkLabel.Text =
+                    PS_RenewalAmountValue.Text = string.Format("{0:C}", pawnLoan.RenewalAmount);
+                    PS_RenewalAllowedValue.Text = Utilities.GetBooleanValue(pawnLoan.RenewalAllowed, false) ? "Yes" : "No";
+                    if (pawnLoan.PickupAllowed)
+                    {
+                    PS_PickupAllowedLinkLabel.Text = "Yes";
+                    PS_PickupAllowedLinkLabel.Links[0].LinkData = "";
+                    PS_PickupAllowedLinkLabel.LinkBehavior = LinkBehavior.NeverUnderline;
+                    }
+                    else
+                    {
+                    PS_PickupAllowedLinkLabel.Text = "No";
+                    PS_PickupAllowedLinkLabel.LinkBehavior = LinkBehavior.AlwaysUnderline;
+                    PS_PickupAllowedLinkLabel.Links[0].LinkData = pawnLoan.PickupNotAllowedReason;
+                    }
+                    if (pawnLoan.IsExtensionAllowed)
+                    {
+                    PS_ExtensionAllowedLinkLabel.Text = "Yes";
+                    PS_ExtensionAllowedLinkLabel.Links[0].LinkData = "";
+                    PS_ExtensionAllowedLinkLabel.LinkBehavior = LinkBehavior.NeverUnderline;
+                    }
+                    else
+                    {
+                    PS_ExtensionAllowedLinkLabel.Text = "No";
+                    PS_ExtensionAllowedLinkLabel.Links[0].LinkData = pawnLoan.ExtensionNotAllowedReason;
+                    PS_ExtensionAllowedLinkLabel.LinkBehavior = LinkBehavior.AlwaysUnderline;
+                    }*/
+
+                    if (pawnLoan.ServiceMessage.Length > 0)
+                    {
+                        PS_ServiceMessageLabel.Text = pawnLoan.ServiceMessage;
+                        PS_ServiceMessageLabel.Visible = true;
+                    }
+                    else
+                    {
+                        PS_ServiceMessageLabel.Visible = false;
+                    }
+                    PS_PawnLoanLabel.Visible = true;
+                    PS_PawnNameLabel.Visible = true;
+                    PS_ItemDescriptionDataGridView.Visible = true;
+                    PS_LoanStatsLayoutPanel.Visible = true;
+
+                    if (pawnLoan.Receipts != null)
+                    {
+                        PH_ReceiptsDataGridView.Rows.Clear();
+
+                        foreach (Receipt myReceipt in pawnLoan.Receipts)
+                        {
+                            int gvIdx = PH_ReceiptsDataGridView.Rows.Add();
+                            DataGridViewRow myRow = PH_ReceiptsDataGridView.Rows[gvIdx];
+                            myRow.Cells["PH_Receipt_DateColumn"].Value = myReceipt.Date.ToShortDateString();
+                            if ((myReceipt.Event == ReceiptEventTypes.Renew.ToString() || myReceipt.Event == ReceiptEventTypes.Paydown.ToString())
+                                && myReceipt.Amount == 0)
                             {
-                                Support.Logic.CashlinxPawnSupportSession.Instance.CompleteLayaway = false;
-                                MessageBox.Show("Customer does not meet age criteria for the sale of guns");
-                                return;
+                                myRow.Cells["PH_Receipt_AmountColumn"].Value = String.Format(
+                                    "{0:C}", pawnLoan.Amount);
+                                myRow.Cells["PH_Receipt_EventColumn"].Value = "New Loan";
                             }
+                            else
+                            {
+                                myRow.Cells["PH_Receipt_AmountColumn"].Value = String.Format(
+                                    "{0:C}", myReceipt.Amount);
+                                myRow.Cells["PH_Receipt_EventColumn"].Value = myReceipt.TypeDescription;
+                            }
+
+                            //myRow.Cells["PH_Receipt_EventColumn"].Value = myReceipt.Event;
+                            //if (myReceipt.Event == ReceiptEventTypes.Renew.ToString() || myReceipt.Event == ReceiptEventTypes.Paydown.ToString())
+                            //    myRow.Cells["PH_Receipt_AmountColumn"].Value = String.Format("{0:C}", pawnLoan.Amount);
+                            //else
+                            //myRow.Cells["PH_Receipt_AmountColumn"].Value = string.Format("{0:C}", myReceipt.Amount);
+                            myRow.Cells["PH_Receipt_EntIDColumn"].Value = myReceipt.EntID;
+                            myRow.Cells["PH_Receipt_ReceiptColumn"].Value = myReceipt.ReceiptNumber;
                         }
                     }
-
-                    if (_gunItem && !ContinuePickup)
+                    else
                     {
-                        _gunItemIdValidated = true;
-                        //This session data will be used by manager pawn application
-                        //in case a manager override is needed for out of state ID
-                        Support.Logic.CashlinxPawnSupportSession.Instance.OverrideTransactionNumbers = overrideTransactionNumbers;
-                        this.NavControlBox.IsCustom = true;
-                        this.NavControlBox.CustomDetail = "ManagePawnApplication";
-                        this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
-                        return;
-                    }
-                }
-
-                if (!ContinueAfterBackgroundChecked())
-                {
-                    return;
-                }
-
-                if (_gunItem && Support.Logic.CashlinxPawnSupportSession.Instance.BackgroundCheckFeeValue > 0)
-                {
-                    decimal[] feeValues = Utilities.GetDistributeValuesForCurrencyOverItems(Support.Logic.CashlinxPawnSupportSession.Instance.BackgroundCheckFeeValue, pickupLayawaysWithGun.Count);
-                    for (int i = 0; i < pickupLayawaysWithGun.Count; i++)
-                    {
-                        LayawayProcedures.SetBackgroundCheckFee(pickupLayawaysWithGun[i], feeValues[i]);
+                        PH_ReceiptsDataGridView.Rows.Clear();
                     }
                 }
             }
-
-            Support.Logic.CashlinxPawnSupportSession.Instance.CompleteLayaway = true;
-
-            decimal totalServiceAmount = servicedLayaways.SelectMany(lay => lay.Payments).Sum(layPmt => layPmt.Amount) + Support.Logic.CashlinxPawnSupportSession.Instance.BackgroundCheckFeeValue;
-            Support.Logic.CashlinxPawnSupportSession.Instance.TenderTransactionAmount.TotalAmount = totalServiceAmount;
-            Support.Logic.CashlinxPawnSupportSession.Instance.TenderTransactionAmount.SubTotalAmount = totalServiceAmount;
-            Support.Logic.CashlinxPawnSupportSession.Instance.TenderTransactionAmount.SalesTaxPercentage = 0.0M;
-            Support.Logic.CashlinxPawnSupportSession.Instance.DisableCoupon = true;
-            NavControlBox.IsCustom = true;
-            NavControlBox.CustomDetail = "ProcessTender";
-            NavControlBox.Action = NavBox.NavAction.SUBMIT;
         }
-        /*__________________________________________________________________________________________*/
-        private void LoanCheckout()
-        {
-            bool cashProcessed = false;
-
-            if (Support.Logic.CashlinxPawnSupportSession.Instance.TotalServiceAmount > 0)
-            {
-                TenderCash cashTenderForm = new TenderCash();
-                cashTenderForm.ShowDialog();
-                if (Support.Logic.CashlinxPawnSupportSession.Instance.CashTenderFromCustomer > 0)
-                    cashProcessed = true;
-            }
-            else
-            {
-                cashProcessed = true;
-            }
-
-            //Commented - Madhu
-            //if (cashProcessed)
-            //{
-            //    //Call process tender
-            //    var processTender = new ProcessTender(ProcessTenderProcedures.ProcessTenderMode.SERVICELOAN);
-            //    processTender.ShowDialog();
-
-            //    Support.Logic.CashlinxPawnSupportSession.Instance.ClearPawnLoan();
-            //    Support.Logic.CashlinxPawnSupportSession.Instance.ActivePawnLoan = null;
-
-            //    DialogResult dR = MessageBox.Show("Do you want to continue processing this customer?", "Prompt",
-            //                                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            //    if (dR == DialogResult.No)
-            //    {
-            //        Support.Logic.CashlinxPawnSupportSession.Instance.ClearCustomerList();
-            //        NavControlBox.IsCustom = false;
-            //        this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
-            //    }
-            //    else
-            //    {
-            //        //Clear the logged in user
-            //        Support.Logic.CashlinxPawnSupportSession.Instance.ClearLoggedInUser();
-            //        Support.Logic.CashlinxPawnSupportSession.Instance.PerformAuthorization();
-            //        if (!string.IsNullOrEmpty(Support.Logic.CashlinxPawnSupportSession.Instance.LoggedInUserSecurityProfile.UserName))
-            //        //reload
-            //        {
-            //            NavControlBox.IsCustom = true;
-            //            NavControlBox.CustomDetail = "Reload";
-            //            NavControlBox.Action = NavBox.NavAction.SUBMIT;
-            //        }
-            //        else
-            //        {
-            //            Support.Logic.CashlinxPawnSupportSession.Instance.ClearCustomerList();
-            //            NavControlBox.IsCustom = false;
-            //            this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
-            //        }
-            //    }
-            //}
-        }
-        #region GETDATA
         /*__________________________________________________________________________________________*/
         private void LoadAdditionalTicketsData()
         {
@@ -1193,9 +1051,9 @@ namespace Support.Forms.Customer.Products
                 //Fixed an issue wherein if the customer being looked at has no loans and if he is 
                 //selected a non original pledgor to process a loan
                 GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.Sort(delegate(PawnLoan pk1, PawnLoan pk2)
-                                                                         {
-                                                                             return pk1.TicketNumber.CompareTo(pk2.TicketNumber);
-                                                                         });
+                {
+                    return pk1.TicketNumber.CompareTo(pk2.TicketNumber);
+                });
                 List<PawnLoan> fixAuxLoans = new List<PawnLoan>();
                 DataGridView gridViewTemp = PS_AddTicketsDataGridView;
                 for (int i = 0; i < GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.Count; i++)
@@ -1285,137 +1143,98 @@ namespace Support.Forms.Customer.Products
             }
         }
         /*__________________________________________________________________________________________*/
-        private void LoadData(ProductType productType)
+        private void MapPDL_LoanStatsFromProperties(PDLoanDetails Record)
         {
-            PS_TicketsDataGridView.Rows.Clear();
-            PS_AddTicketsDataGridView.Rows.Clear();
+            this.lblCustomerSSNData.Text = Record.CustomerSSN;
+            this.lblUWNameData.Text = Record.UWName;
+            this.lblLoanRequestDateData.Text = Record.LoanRequestDate == DateTime.MaxValue ? "" : (Record.LoanRequestDate).FormatDate();
 
-            //GlobalDataAccessor.Instance.DesktopSession.ServiceLoans = new List<PawnLoan>();
-            //GlobalDataAccessor.Instance.DesktopSession.Layaways = new List<LayawayVO>();
-            //GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways = new List<LayawayVO>();
+            this.lblLoanAmtData.Text = Record.LoanAmt.ToString();
+            this.lblLoanPayOffAmtData.Text = Record.LoanPayOffAmt.ToString();
+            this.lblActualLoanAmtData.Text = Record.ActualLoanAmt.ToString();
 
-            Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLoans = new List<PawnLoan>();
-            Support.Logic.CashlinxPawnSupportSession.Instance.Layaways = new List<LayawayVO>();
-            Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLayaways = new List<LayawayVO>();
+            this.TxbLoanNumberOrig.Text = Record.LoanNumberOrig;
+            this.TxbLoanNumberPrev.Text = Record.LoanNumberPrev;
+            this.TxbLoanRolloverNotes.Text = Record.LoanRolloverNotes;
+            this.TxbLoanRollOverAmt.Text = Record.LoanRollOverAmt.ToString();
+            this.TxbRevokeACH.Text = Record.RevokeACH.ToString();// == Record.RevokeACH ? "Yes" : "No";
+            this.TxbXPPAvailable.Text = Record.XPPAvailable.ToString();// == Record.XPPAvailable ? "Yes" : "No";
+            this.TxbActualFinanceChrgAmt.Text = Record.ActualFinanceChrgAmt.ToString();
+            this.TxbAcutalServiceChrgAmt.Text = Record.AcutalServiceChrgAmt.ToString();
+            this.TxbAccruedFinanceAmt.Text = Record.AccruedFinanceAmt.ToString();
+            this.TxbLateFeeAmt.Text = Record.LateFeeAmt.ToString();
+            this.TxbNSFFeeAmt.Text = Record.NSFFeeAmt.ToString();
+            this.TxbACHWaitingToClear.Text = Record.ACHWaitingToClear; // == Record.ACHWaitingToClear ? "Yes" : "No";
+            this.TxbEstRolloverAmt.Text = Record.EstRolloverAmt.ToString();
+        }
 
-            lookedUpTicketIndex = 0;
-
-            // Populate _LoanKeys
-            if (productType == ProductType.PAWN)
+        /*__________________________________________________________________________________________*/
+        private void MapPDL_xppLoanScheduleFromProperties(List<PDLoanXPPScheduleList> Records)
+        {
+            for (int index = 0; index < Records.Count(); index++)
             {
-                _LoanKeys = (from loankey in Support.Logic.CashlinxPawnSupportSession.Instance.PawnLoanKeys
-                             where loankey.LoanStatus == ProductStatus.IP
-                             select loankey).ToList();
-                _AuxillaryLoanKeys = (from loankey in Support.Logic.CashlinxPawnSupportSession.Instance.PawnLoanKeysAuxillary
-                                      where loankey.LoanStatus == ProductStatus.IP
-                                      select loankey).ToList();
+                int gvIdx = DGVxxpPaySchedule.Rows.Add();
+                DataGridViewRow LineItem = DGVxxpPaySchedule.Rows[gvIdx];
+                LineItem.Cells["DgvColxppLineItem"].Value = "StartDate";
+                LineItem.Cells["DgvColxppPaymentSeqNumber"].Value = Records[index].xppPaymentSeqNumber.ToString();
+                LineItem.Cells["DgvColxppPaymentNumber"].Value = Records[index].xppPaymentNumber;
+                LineItem.Cells["DgvColxppPaymentDate"].Value = Records[index].xppDate == DateTime.MaxValue ? "" : (Records[index].xppDate).FormatDate();
+                LineItem.Cells["DgvColxppPaymentAmt"].Value = Records[index].xppAmount.ToString();
             }
-            else if (productType == ProductType.LAYAWAY)
-            {
-                _LoanKeys = (from loankey in Support.Logic.CashlinxPawnSupportSession.Instance.PawnLoanKeys
-                             where loankey.LoanStatus == ProductStatus.ACT && loankey.DocType == 4
-                             select loankey).ToList();
-                _AuxillaryLoanKeys = (from loankey in Support.Logic.CashlinxPawnSupportSession.Instance.PawnLoanKeysAuxillary
-                                      where loankey.LoanStatus == ProductStatus.LAY && loankey.DocType == 4
-                                      select loankey).ToList();
-            }
-            else
-            {
-                _LoanKeys = new List<PawnLoan>();
-                _AuxillaryLoanKeys = new List<PawnLoan>();
-            }
-
-            // End Populate _LoanKeys
-
-            for (int i = 0; i < _LoanKeys.Count(); i++)
-            {
-                int gvIdx = PS_TicketsDataGridView.Rows.Add();
-
-                DataGridViewRow myRow = PS_TicketsDataGridView.Rows[gvIdx];
-                //myRow.Cells["PS_Tickets_SelectColumn"].Value = false;
-                if (_LoanKeys[i].IsExtended)
-                    myRow.Cells["PS_Tickets_Extend"].Value = "E";
-
-                myRow.Cells["PS_Tickets_TicketNumberColumn"].Value = Utilities.GetStringValue(
-                                                                         _LoanKeys[i].OrgShopNumber, "").PadLeft(
-                                                                         5, '0') +
-                                                                     Utilities.GetStringValue(
-                                                         _LoanKeys[i].TicketNumber, "");
-                DateTime dtLastDayGrace = Utilities.GetDateTimeValue(_LoanKeys[i].PfiEligible, DateTime.MinValue);
-                if (dtLastDayGrace != DateTime.MinValue)
-                    myRow.Cells["PS_Tickets_LastDayColumn"].Value = dtLastDayGrace;
-                else
-                    myRow.Cells["PS_Tickets_LastDayColumn"].Value = string.Empty;
-
-                //TODO: This should be a rule!!
-                if (productType != ProductType.LAYAWAY)
-                {
-                    if (dtLastDayGrace <= ShopDateTime.Instance.ShopDate.AddDays(-5))
-                        PS_TicketsDataGridView.Rows[gvIdx].DefaultCellStyle.ForeColor = Color.Red;
-                }
-
-                //_OrigTicketNumber = Utilities.GetIntegerValue(_LoanKeys[i].OrigTicketNumber, 0);
-
-                if (_TicketNumber == Utilities.GetIntegerValue(_LoanKeys[i].TicketNumber, 0))
-                {
-                    lookedUpTicketIndex = i;
-                    PS_TicketsDataGridView.CurrentCell = PS_TicketsDataGridView.Rows[gvIdx].Cells[0];
-                    ticketSearched = true;
-                    //_ActiveLoanIndex = i;
-                }
-            }
-            //Check if the store state allows Extension, renewal, paydown and loan up services
-            //extensionServiceAllowed = new BusinessRulesProcedures(Support.Logic.CashlinxPawnSupportSession.Instance).IsExtensionAllowed(currentStoreSiteId);
-            //loanupServiceAllowed = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsLoanUpAllowed(currentStoreSiteId);
-            //paydownAllowed = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPayDownAllowed(currentStoreSiteId);
-            //renewalAllowed = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsRenewalAllowed(currentStoreSiteId);
-            //partialPaymentAllowed = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(currentStoreSiteId);
-
-            //Show details of the looked up ticket row
-            //If not coming here through lookup ticket show the first row
-            if (_LoanKeys.Count > 0)
-            {
-                if (_LoanKeys.Count > lookedUpTicketIndex && IsLayawayPawnKey(_LoanKeys[lookedUpTicketIndex]))
-                {
-                    ApplyLayawayBusinessRules(_LoanKeys[lookedUpTicketIndex].OrgShopNumber, _LoanKeys[lookedUpTicketIndex].TicketNumber, true);
-
-                    if (ticketSearched)
-                    {
-                        UpdateActiveLayawayInformation(_LoanKeys[lookedUpTicketIndex].TicketNumber);
-                        PS_TicketsDataGridView.Rows[PS_TicketsDataGridView.CurrentCell.RowIndex].Selected = true;
-
-                    }
-                    else
-                    {
-                        UpdateTicketSelections();
-                    }
-
-                }
-                else
-                {
-                    if (!ticketSearched)
-                    {
-                        //ApplyBusinessRules(_LoanKeys[lookedUpTicketIndex], _LoanKeys[lookedUpTicketIndex].OrgShopNumber, _LoanKeys[lookedUpTicketIndex].TicketNumber,
-                        //                   false, true);
-                        UpdateTicketSelections();
-                    }
-                    else
-                    {
-                        ApplyBusinessRules(_LoanKeys[lookedUpTicketIndex], _LoanKeys[lookedUpTicketIndex].OrgShopNumber, _LoanKeys[lookedUpTicketIndex].TicketNumber,
-                                           true, true);
-                        UpdateActivePawnInformation(_LoanKeys[lookedUpTicketIndex].TicketNumber);
-                        PS_TicketsDataGridView.Rows[PS_TicketsDataGridView.CurrentCell.RowIndex].Selected = true;
-                    }
-                }
-
-                //TLR - not making the documents accessible even though we're loading up ticket info.
-                //This will make the document appears as well.
-                LoadDocuments(_LoanKeys[lookedUpTicketIndex].TicketNumber, productType);
-            }
-            LoadAdditionalTicketsData();
         }
         /*__________________________________________________________________________________________*/
-        private void LoadDocuments(int iTicketNumber, ProductType productType)
+        private void MapPDL_EventsFromProperties(PDLoanDetails Record)
+        {
+            this.TxbOriginationDate.Text = Record.OrginationDate == DateTime.MaxValue ? "" : (Record.OrginationDate).FormatDate();
+            this.TxbDueDate.Text = Record.DueDate == DateTime.MaxValue ? "" : (Record.DueDate).FormatDate();
+            this.TxbOrigDepDate.Text = Record.OrigDepDate == DateTime.MaxValue ? "" : (Record.OrigDepDate).FormatDate();
+            this.TxbExtendedDate.Text = Record.ExtendedDate == DateTime.MaxValue ? "" : (Record.ExtendedDate).FormatDate();
+            this.TxbLastUpdatedBy.Text = Record.LastUpdatedBy;
+            this.TxbShopNo.Text = Record.ShopNo;
+            this.TxbShopName.Text = Record.ShopName;
+            this.TxbShopState.Text = Record.ShopState;
+        }
+        /*__________________________________________________________________________________________*/
+        private void MapPDL_HistoryFromProperties()
+        {
+            foreach (var PDLRecord in PDLLoanList)
+            {
+                List<PDLoanHistoryList> Records;
+                Records = PDLRecord.GetPDLoanHistoryList;
+
+                for (int index = 0; index < Records.Count(); index++)
+                {
+                    int gvIdx = DgvHistoryLoanEvents.Rows.Add();
+                    DataGridViewRow GridRow = DgvHistoryLoanEvents.Rows[gvIdx];
+                    GridRow.Cells["DgvColHistDate"].Value = Records[index].Date == DateTime.MaxValue ? "" : (Records[index].Date).FormatDate(); ;
+                    GridRow.Cells["DgvColHistEventType"].Value = Records[index].EventType;
+                    GridRow.Cells["DgvColHistDetails"].Value = Records[index].Details;
+                    GridRow.Cells["DgvColHistAmount"].Value = Records[index].Amount.ToString();
+                    GridRow.Cells["DgvColHistSource"].Value = Records[index].Source;
+                    GridRow.Cells["DgvColHistReceipt"].Value = Records[index].Receipt;
+                }
+            }
+        }
+        /*__________________________________________________________________________________________*/
+        private SupportProductType GetSelectedProductType()
+        {
+            if (PS_ShowComboBox.SelectedIndex == 0)
+            {
+                return SupportProductType.PAWN;
+            }
+            else if (PS_ShowComboBox.SelectedIndex == 1)
+            {
+                return SupportProductType.LAYAWAY;
+            }
+            else if (PS_ShowComboBox.SelectedIndex == 2)
+            {
+                return SupportProductType.PDL;
+            }
+
+            return SupportProductType.NONE;
+        }
+        /*__________________________________________________________________________________________*/
+        private void LoadDocuments(int iTicketNumber, SupportProductType productType)
         {
             string errString;
             tlpDocuments.Visible = false;
@@ -1440,7 +1259,7 @@ namespace Support.Forms.Customer.Products
                         if (CheckCustomerNumber(document.CustomerNumber))
                         {
                             string rowEventType = string.Empty;
-                            if (productType == ProductType.PAWN)
+                            if (productType == SupportProductType.PAWN)
                             {
                                 PawnLoan pLoan = null;
                                 int idx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans.FindIndex(i => i.TicketNumber == iTicketNumber);
@@ -1577,7 +1396,1485 @@ namespace Support.Forms.Customer.Products
             }
         }
         #endregion
+        #region BOOL
 
+        /*__________________________________________________________________________________________*/
+        public bool SearchGrid(string loan)
+        {
+            //no ticket SMurphy 3/16/2010 don't add to Additional Tickets if it's already in the original or Additional lists
+            //this looks thru gridviews so a message box can be displayed when attempting to add duplicates
+            bool found = false;
+
+            foreach (DataGridViewRow row in PS_TicketsDataGridView.Rows)
+            {
+                if (row.Cells[2].Value != null)
+                    if (row.Cells[2].Value.ToString().Substring(5) == loan)
+                    {
+                        found = true;
+                        break;
+                    }
+            }
+
+            foreach (DataGridViewRow row in PS_AddTicketsDataGridView.Rows)
+            {
+                if (row.Cells[2].Value != null)
+                    if (row.Cells[2].Value.ToString().Substring(5) == loan)
+                    {
+                        found = true;
+                        break;
+                    }
+            }
+
+            return found;
+        }
+        /*__________________________________________________________________________________________*/
+        protected override Boolean ProcessDialogKey(Keys keyData)
+        {
+            if (GlobalDataAccessor.Instance.DesktopSession.LockProductsTab && keyData == Keys.Escape)
+            {
+                //If there are any loans set for service undo them
+                if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count > 0)
+                    UndoPawnTransactions(GlobalDataAccessor.Instance.DesktopSession.ServiceLoans);
+                this.NavControlBox.Action = NavBox.NavAction.BACK;
+                //return true to indicate that the key has been handled
+                return true;
+            }
+
+            return base.ProcessDialogKey(keyData);
+        }
+        /*__________________________________________________________________________________________*/
+        private bool AllowLostTicket(PawnLoan pawnLoan)
+        {
+            int loanindex = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.FindIndex(pl => pl.TicketNumber == pawnLoan.TicketNumber && (pl.TempStatus == StateStatus.P || pl.TempStatus == StateStatus.RN || pl.TempStatus == StateStatus.PD));
+            if (loanindex >= 0)
+                return true;
+            return false;
+        }
+        /*__________________________________________________________________________________________*/
+        private bool CheckCustomerNumber(string customerNumber)
+        {
+            bool found = false;
+            if (_LoanKeys != null)
+            {
+                for (int i = 0; i < _LoanKeys.Count(); i++)
+                {
+                    if (_LoanKeys[i].CustomerNumber == customerNumber)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            return found;
+        }
+        /*__________________________________________________________________________________________*/
+        private bool ContinueAfterBackgroundChecked()
+        {
+            CustomerVO currentCustomer = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer;
+
+            if (GlobalDataAccessor.Instance.DesktopSession.BackgroundCheckCompleted || !_gunItem)
+            {
+                return true;
+            }
+
+            /* DateTime currentDate = ShopDateTime.Instance.ShopDate;
+             string strStoreState = GlobalDataAccessor.Instance.CurrentSiteId.State;
+             if (currentCustomer.HasValidConcealedWeaponsPermitInState(strStoreState, currentDate))
+             {
+                 if (CustomerProcedures.IsBackgroundCheckRequired())
+                 {
+                     FirearmsBackgroundCheck backgroundcheckFrm = new FirearmsBackgroundCheck();
+                     backgroundcheckFrm.ShowDialog(this);
+                 }
+                 else
+                 {
+                     Support.Logic.CashlinxPawnSupportSession.Instance.BackgroundCheckCompleted = true; //If the background check is not needed
+                 }
+             }
+             //else if they do not have CWP or not a CWP in the store state or expired 
+             //then show the background check form
+             else
+             {
+                 FirearmsBackgroundCheck backgroundcheckFrm = new FirearmsBackgroundCheck();
+                 backgroundcheckFrm.ShowDialog(this);
+             }*/
+            //commencted - madhu
+            /*FirearmsBackgroundCheck backgroundcheckFrm = new FirearmsBackgroundCheck();
+            backgroundcheckFrm.ShowDialog(this);
+             */
+            return GlobalDataAccessor.Instance.DesktopSession.BackgroundCheckCompleted;
+
+        }
+        /*__________________________________________________________________________________________*/
+        private bool IsLayawayPawnKey(PawnLoan pawnKey)
+        {
+            return pawnKey.LoanStatus == ProductStatus.ACT && pawnKey.DocType == 4;
+        }
+        /*__________________________________________________________________________________________*/
+        private bool IsAtLeastOneSelectedLayawayNotServiced()
+        {
+            return _SelectedLayaways.Any(selectedLayaway => !IsLayawayBeingServicedOrAlreadyBeenServiced(selectedLayaway));
+        }
+        /*__________________________________________________________________________________________*/
+        private bool IsExactlyOneSelectedLayawayNotServiced()
+        {
+            if (_SelectedLayaways.Count != 1)
+            {
+                return false;
+            }
+
+            return !IsLayawayBeingServicedOrAlreadyBeenServiced(_SelectedLayaways[0]);
+        }
+        /*__________________________________________________________________________________________*/
+        private bool IsLayawayBeingServicedOrAlreadyBeenServiced(LayawayVO selectedLayaway)
+        {
+            if (selectedLayaway.LoanStatus == ProductStatus.TERM || selectedLayaway.LoanStatus == ProductStatus.FORF)
+            {
+                return true;
+            }
+
+            return GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.Any(
+                serviceLayaway => serviceLayaway.TicketNumber == selectedLayaway.TicketNumber);
+        }
+        //SR 04/22/2011 BZ 609
+        //Check to see that all the layaway that are selected for service belong to the store where the service is being done
+        /*__________________________________________________________________________________________*/
+        private bool selectedLayawayInStore()
+        {
+            return !_SelectedLayaways.Any(sLayaway => sLayaway.StoreNumber != GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber);
+        }
+
+        //SR 05/09/2011 BZ 663
+        //Check to see that all the loans that are selected for service belong to the store where the service is being done
+        /*__________________________________________________________________________________________*/
+        private bool selectedLoanInStore()
+        {
+            return !_SelectedLoans.Any(sLoan => sLoan.OrgShopNumber != GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber);
+        }
+        /*__________________________________________________________________________________________*/
+        private bool validateSelectedLoans(ServiceTypes typeOfService)
+        {
+            //messages for the different checks
+            var pfieLoanMessage = new StringBuilder();
+            var ineligibleLoanMessage = new StringBuilder();
+            var markedforServiceMessage = new StringBuilder();
+            var lockedLoanMessage = new StringBuilder();
+            var firearmCheckMessage = new StringBuilder();
+            //The list of loans to validate
+            var selectedLoans = _SelectedLoans;
+            //List of ineligible loans and pfieloans
+            var ineligibleLoans = new List<PawnLoan>();
+            var pfieLoans = new List<PawnLoan>();
+            //Go through the list of loans selected
+            //Step 1- Check if any of the loans are already set for service. Remove from selection.
+            //Step 2 - Check if any of the loans are in PFIE status. Allow user to refresh to see if 
+            //status has changed. Continue refresh until the user wishes to continue with the others
+            //or the status changed from PFIE
+            //Step 3 - Evaluate the business rules on them to see if they
+            //are eligible. If not remove from selection
+            //Step 4 - check if any of the loans are locked. Remove from selection
+            //Step 5 - Perform age check if any of the loan item is firearm and service is pickup
+            //If check fails remove loan from selection
+            foreach (PawnLoan ploan in selectedLoans)
+            {
+                //step 1 - check to see if the loan is already in the service loans list
+                PawnLoan loan = ploan;
+                int idx = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.FindIndex(pl => pl.TicketNumber == loan.TicketNumber);
+                if (idx >= 0)
+                {
+                    markedforServiceMessage.Append(loan.TicketNumber.ToString() + " is already set for service" + System.Environment.NewLine);
+                    ineligibleLoans.Add(loan);
+                    continue;
+                }
+                //Step 2 - check if the loan has temp status of PFIE
+                if (loan.TempStatus == StateStatus.PFIE)
+                {
+                    pfieLoans.Add(loan);
+                    pfieLoanMessage.Append(loan.TicketNumber.ToString() + " is being processed by PFI." + System.Environment.NewLine);
+                }
+                //Step 3 - Check if business rules passed for the loan
+                var siteID = new SiteId()
+                {
+                    Alias = GlobalDataAccessor.Instance.CurrentSiteId.Alias,
+                    Company = GlobalDataAccessor.Instance.CurrentSiteId.Company,
+                    Date = ShopDateTime.Instance.ShopDate,
+                    LoanAmount = loan.Amount,
+                    State = loan.OrgShopState,
+                    StoreNumber = loan.OrgShopNumber,
+                    TerminalId = GlobalDataAccessor.Instance.CurrentSiteId.TerminalId
+                };
+
+                ServiceLoanProcedures.SetBusinessRules(ref loan, siteID, strStoreNumber,
+                                                       typeOfService);
+
+                if (!loan.ServiceAllowed)
+                {
+                    ineligibleLoans.Add(loan);
+                    ineligibleLoanMessage.Append(loan.TicketNumber.ToString() + " " + loan.ServiceMessage + System.Environment.NewLine);
+                    continue;
+                }
+                //In some cases the service might be allowed but there may be some service messages
+                //to show
+                if (loan.ServiceAllowed && loan.ServiceMessage.Length > 0)
+                {
+                    ineligibleLoanMessage.Append(loan.TicketNumber.ToString() + " " + loan.ServiceMessage +
+                                                 System.Environment.NewLine);
+                }
+                //Step 4 Check if the loan is locked by some other process
+                var lockedProcess = string.Empty;
+                if (loan.TempStatus != StateStatus.PFIE && Commons.IsLockedStatus(loan.TempStatus.ToString(), ref lockedProcess))
+                {
+                    ineligibleLoans.Add(loan);
+                    lockedLoanMessage.Append(loan.TicketNumber + " Record locked for processing by " + lockedProcess + " process." + System.Environment.NewLine);
+                }
+
+                //Step 5 Do Firearm check if type of service is pickup, rollover, renew, and/or paydown
+                if (typeOfService == ServiceTypes.PICKUP ||
+                    typeOfService == ServiceTypes.ROLLOVER ||
+                    typeOfService == ServiceTypes.RENEW ||
+                    typeOfService == ServiceTypes.PAYDOWN)
+                {
+                    bool ageCheckPassed = true;
+
+                    for (int j = 0; j < ploan.Items.Count; j++)
+                    {
+                        Item _pawnItem = ploan.Items[j];
+                        if (_pawnItem.IsGun)
+                        {
+                            _gunItem = true;
+                            overrideTransactionNumbers.Add(ploan.TicketNumber);
+                            CustomerVO customerToCheck = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer;
+                            ageCheckPassed = CustomerProcedures.isValidAgeForGuns(GlobalDataAccessor.Instance.DesktopSession, _pawnItem, customerToCheck);
+                            if (!ageCheckPassed)
+                            {
+                                ineligibleLoans.Add(loan);
+                                firearmCheckMessage.Append(ploan.TicketNumber.ToString() + " " + Commons.GetMessageString("CustomerFirearmMessage") + System.Environment.NewLine);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            ValidationMessage infoFrm = null;
+            if (ineligibleLoans.Count > 0)
+            {
+                selectedLoans = selectedLoans.Except(ineligibleLoans).ToList();
+                _SelectedLoans = selectedLoans;
+                var MessageToShow = markedforServiceMessage.ToString() + ineligibleLoanMessage.ToString()
+                                       + firearmCheckMessage.ToString() + lockedLoanMessage.ToString();
+
+                infoFrm = new ValidationMessage
+                {
+                    IneligibleLoanMessage = MessageToShow,
+                    SelectedLoansCount = this._SelectedLoans.Count
+                };
+                if (pfieLoans.Count > 0)
+                {
+                    infoFrm.PFIELoans = pfieLoans;
+                    infoFrm.PFIELoanMessage = pfieLoanMessage.ToString();
+                }
+                infoFrm.ShowDialog();
+            }
+            else if (ineligibleLoans.Count == 0 && ineligibleLoanMessage.Length > 0)
+            {
+                var infoForm = new InfoDialog
+                {
+                    MessageToShow = ineligibleLoanMessage.ToString()
+                };
+                infoForm.ShowDialog();
+            }
+            else if (pfieLoans.Count > 0)
+            {
+                //Show the validation message form for just the pfie loans
+                infoFrm = new ValidationMessage
+                {
+                    PFIELoans = pfieLoans,
+                    PFIELoanMessage = pfieLoanMessage.ToString(),
+                    SelectedLoansCount = this._SelectedLoans.Count
+                };
+                infoFrm.ShowDialog();
+            }
+            if (infoFrm != null)
+            {
+                if (infoFrm.ContinueService)
+                {
+                    //if continue service is a yes but there are still some PFIELoans remove them
+                    //from the selected list
+                    if (infoFrm.PFIELoans != null && infoFrm.PFIELoans.Count > 0)
+                    {
+                        selectedLoans = selectedLoans.Except(infoFrm.PFIELoans).ToList();
+                        _SelectedLoans = selectedLoans;
+                    }
+                    return true;
+                }
+                //If continue service is a no, return false
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+        #region ACTIONS
+        /*__________________________________________________________________________________________*/
+        private void CelMouseUpActions(int rowIndex, int columnIndex)
+        {
+            int i = rowIndex;
+            showRefreshIcon = false;
+            DataGridViewRow myRow = PS_TicketsDataGridView.Rows[i];
+            string sCellTicket = Utilities.GetStringValue(myRow.Cells["PS_Tickets_TicketNumberColumn"].Value, "");
+
+            if (GetSelectedProductType() == SupportProductType.PDL)
+            {
+                PDLoan pdLoan = new PDLoan();
+                int iDx = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys.FindIndex(delegate(PDLoan p)
+                {
+                    return p.PDLLoanNumber.Equals(sCellTicket);
+                });
+                if (iDx >= 0)
+                    pdLoan = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx];
+
+                string errorCode;
+                string errorDesc;
+
+                var PDLoanKeys = new List<PDLoan>();
+
+                bool returnVal = Support.Controllers.Database.Procedures.CustomerLoans.GetPDLoanDetails(
+                    pdLoan, out errorCode, out errorDesc);
+
+                if(returnVal)
+                {
+                    //var loanDetails = pdLoan.GetPDLoanDetails;
+                    MapPDL_LoanStatsFromProperties(pdLoan.GetPDLoanDetails);
+                    MapPDL_EventsFromProperties(pdLoan.GetPDLoanDetails);
+                    MapPDL_xppLoanScheduleFromProperties(pdLoan.GetPDLoanXPPScheduleList);
+                }
+            }
+            //TODO revisit this - Madhu
+            /*
+            string sStoreNumber = sCellTicket.Substring(0, 5);
+            int iTicketNumber = Convert.ToInt32(sCellTicket.Substring(5));
+            _currentTicketNumber = Convert.ToInt32(sCellTicket.Substring(5));
+            //_OrigTicketNumber = Utilities.GetIntegerValue(_LoanKeys[i].OrigTicketNumber, 0);
+            PS_TicketsDataGridView.EndEdit();
+
+            if (columnIndex == 4)
+            {
+                RefreshTempStatus(iTicketNumber, sStoreNumber);
+                //TODO revisit this - Madhu
+                //myRow.Cells["PS_Tickets_Refresh"].Value = Properties.Resources.blank;
+            }
+            else
+            {
+
+                PawnLoan selectedRow = _LoanKeys[i];
+                if (IsLayawayPawnKey(selectedRow)) // Layaway
+                {
+                    ApplyLayawayBusinessRules(sStoreNumber, iTicketNumber, true);
+                    PS_TicketsDataGridView.Rows[rowIndex].DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(51, 153, 255); ;
+                    UpdateActiveLayawayInformation(iTicketNumber);
+                    PS_TicketsDataGridView.Rows[rowIndex].Cells[3].Value = lastLayawayPayment;
+                    LoadDocuments(iTicketNumber, SupportProductType.LAYAWAY);
+                }
+                else
+                {
+                    ApplyBusinessRules(selectedRow, sStoreNumber, iTicketNumber, true, true);
+                    if (loanRemoved)
+                        PS_TicketsDataGridView.Rows[rowIndex].DefaultCellStyle.SelectionBackColor = Color.White;
+                    else
+                        PS_TicketsDataGridView.Rows[rowIndex].DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(51, 153, 255); ;
+                    if (showRefreshIcon)
+                        myRow.Cells["PS_Tickets_Refresh"].Value =
+                        global::Common.Properties.Resources.refresh_icon;
+
+                    UpdateActivePawnInformation(iTicketNumber);
+                    //SR 6/15/2010 Load all the documents associated to the selected ticket
+                    LoadDocuments(iTicketNumber, SupportProductType.PAWN);
+                }
+                 
+            }*/
+        }
+        /*__________________________________________________________________________________________*/
+        private int GetFirstRowTicketNumber()
+        {
+            int ticketNumber = 0;
+            DataGridViewRow myRow = PS_TicketsDataGridView.Rows[0];
+            string sCellTicket = Utilities.GetStringValue(myRow.Cells["PS_Tickets_TicketNumberColumn"].Value, "");
+            ticketNumber = Convert.ToInt32(sCellTicket.Substring(5));
+            return ticketNumber;
+        }
+        /*__________________________________________________________________________________________*/
+        private static void calculateAmountsForLoan(ref PawnLoan pawnLoan)
+        {
+            //decimal feeAmount = 0.0M;
+            //foreach (Fee fee in pawnLoan.Fees)
+            //{
+            //    if (!fee.Waived && fee.FeeState != FeeStates.VOID)
+            //        feeAmount += fee.Value;
+            //}
+
+            //pawnLoan.PickupAmount = pawnLoan.Amount + feeAmount;
+
+            var pickupCalculator = new PfiPickupCalculator(pawnLoan, GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId, ShopDateTime.Instance.FullShopDateTime);
+            pickupCalculator.Calculate();
+            pawnLoan.PickupAmount = pickupCalculator.PickupAmount;
+        }
+        /*__________________________________________________________________________________________*/
+        private void ApplyBusinessRules(PawnLoan pawnLoanKey, string sStoreNumber, int iTicketNumber, bool bSelected, bool bFromPrimaryPawnLoanTable)
+        {
+            /*    PawnLoan pawnLoan = null;
+                PawnAppVO pawnAppVO;
+                CustomerVO customerVO;
+                var sErrorCode = string.Empty;
+                var sErrorText = string.Empty;
+                bool serviceLoan = false;
+                PawnLoan rolloverLoan = null;
+
+                int iDx = -1;
+                //if the pawn loan being viewed is already marked for some sort of service get
+                //the details of the loan from service loans else get from pawnloans list
+                if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count > 0)
+                {
+                    iDx = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.FindIndex(pl => pl.TicketNumber == iTicketNumber);
+                    if (iDx >= 0)
+                    {
+                        if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[iDx].TempStatus == StateStatus.RN ||
+                            GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[iDx].TempStatus == StateStatus.PD)
+                        {
+                            rolloverLoan = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[iDx];
+                            iDx = -1;
+                        }
+                        else
+                        {
+                            pawnLoan = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[iDx];
+                        }
+                        serviceLoan = true;
+                    }
+                }
+                //If the loan is not in the service loans list
+                if (iDx < 0)
+                {
+                    if (bFromPrimaryPawnLoanTable)
+                    {
+                        iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans.FindIndex(pl => pl.TicketNumber == iTicketNumber);
+                        if (iDx >= 0)
+                            pawnLoan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans[iDx];
+                    }
+                    else
+                    {
+                        iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.FindIndex(
+                            pl => pl.TicketNumber == iTicketNumber);
+                        if (iDx >= 0)
+                        {
+                            pawnLoan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary[iDx];
+                        }
+                    }
+
+                    if (iDx < 0)
+                    {
+                        bool retVal = CustomerLoans.GetPawnLoan(GlobalDataAccessor.Instance.DesktopSession, Convert.ToInt32(sStoreNumber), iTicketNumber, "0",
+                                                                StateStatus.BLNK,
+                                                                false, out pawnLoan, out pawnAppVO, out customerVO,
+                                                                out sErrorCode, out sErrorText);
+                        if (!retVal)
+                            BasicExceptionHandler.Instance.AddException(
+                                "Error getting loan information for the selected loan",
+                                new ApplicationException("GetPawnLoan Failed for " + iTicketNumber));
+                    }
+                }
+                if (!serviceLoan)
+                {
+                    if (pawnLoan != null && pawnLoan.OriginalFees.Count == 0)
+                    {
+                        UnderwritePawnLoanVO underwritePawnLoanVO;
+                        pawnLoan = ServiceLoanProcedures.GetLoanFees(currentStoreSiteId, ServiceTypes.PICKUP,
+                                                                     pawnLoanKey.PickupLateFinAmount, pawnLoanKey.PickupLateServAmount,
+                                                                     pawnLoanKey.OtherTranLateFinAmount, pawnLoanKey.OtherTranLateServAmount,
+                                                                     pawnLoan, out underwritePawnLoanVO);
+                        pawnLoan.OriginalFees = Utilities.CloneObject(pawnLoan.Fees);
+
+                        if (bFromPrimaryPawnLoanTable)
+                        {
+                            if (iDx >= 0)
+                            {
+                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans.RemoveAt(iDx);
+                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans.Insert(iDx, pawnLoan);
+                            }
+                            else
+                            {
+                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans.Add(pawnLoan);
+                            }
+                        }
+                        else
+                        {
+                            if (iDx >= 0)
+                            {
+                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.RemoveAt(iDx);
+                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.Insert(iDx, pawnLoan);
+                            }
+                            else
+                            {
+                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.Add(pawnLoan);
+                            }
+                        }
+                    }
+                }
+
+                if (pawnLoan != null)
+                {
+                    //Set PFI message
+                    switch (pawnLoan.TempStatus)
+                    {
+                        case StateStatus.PFI:
+                        case StateStatus.PFIW:
+                        case StateStatus.PFIS:
+                            pawnLoan.ServiceMessage = Commons.GetMessageString("TempStatusPFI") + System.Environment.NewLine;
+                            break;
+                        case StateStatus.PFIE:
+                            showRefreshIcon = true;
+                            break;
+                    }
+
+                    //Add all the fees to the pickup amount 
+                    //Calculate the pickup amount and renewal amount
+                    if (!serviceLoan)
+                        calculateAmountsForLoan(ref pawnLoan);
+
+                    if (!serviceLoan || pawnLoan.RenewalAmount == 0)
+                        pawnLoan.RenewalAmount = pawnLoan.RenewalAllowed ? pawnLoan.PickupAmount - pawnLoan.Amount : 0.0M;
+
+                    int loanindex = _SelectedLoans.FindIndex(
+                        pl => pl.TicketNumber == pawnLoan.TicketNumber);
+
+                    if (bSelected)
+                    {
+                        if (loanindex < 0)
+                        //If the loan not found but the ctrl key was not pressed do
+                        //not add it
+                        {
+                            PawnLoan ploan = Utilities.CloneObject(pawnLoan);
+                            if (string.Equals(
+                                Properties.Resources.MultipleLoanSelection,
+                                Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
+                            {
+                                if (_SelectedLoans.Count > 0 && ctrlKeyPressed)
+                                {
+                                    _SelectedLoans.Add(ploan);
+                                }
+                                if (_SelectedLoans.Count > 0 && !ctrlKeyPressed)
+                                {
+                                    //If the ctrl key was not pressed remove all the 
+                                    //selected loans and place the newly selected loan
+                                    //as the only selected loan
+                                    _SelectedLoans.RemoveRange(0, _SelectedLoans.Count);
+                                    _SelectedLoans.Insert(0, ploan);
+                                }
+                                if (_SelectedLoans.Count == 0)
+                                    _SelectedLoans.Add(ploan);
+                            }
+                            else
+                            {
+                                _SelectedLoans.RemoveRange(0, _SelectedLoans.Count);
+                                _SelectedLoans.Insert(0, ploan);
+                            }
+                            loanRemoved = false;
+                        }
+                        else
+                        {
+                            _SelectedLoans.RemoveAt(loanindex);
+                            loanRemoved = true;
+                        }
+                    }
+
+                    UpdateButtonsStates(false);
+                    //If pickup service was performed on a loan and lost ticket is not already
+                    //set on the loan the button is enabled. If the customer is not the pledgor the
+                    //button is disabled
+                    //SR 6/2/2010 If the loan is marked for rollover the lost ticket button rule should be calculated against the service loan data.
+                    if (rolloverLoan == null)
+                        PS_LostPawnTicketButton.Enabled = AllowLostTicket(pawnLoan) && (pawnLoan.LostTicketInfo == null || !pawnLoan.LostTicketInfo.TicketLost) && (GlobalDataAccessor.Instance.DesktopSession.CustomerNotPledgor == false);
+                    else
+                        PS_LostPawnTicketButton.Enabled = AllowLostTicket(rolloverLoan) && (rolloverLoan.LostTicketInfo == null || !rolloverLoan.LostTicketInfo.TicketLost) && (GlobalDataAccessor.Instance.DesktopSession.CustomerNotPledgor == false);
+                } */
+        }
+        /*__________________________________________________________________________________________*/
+        private void ApplyLayawayBusinessRules(string sStoreNumber, int iTicketNumber, bool bSelected)
+        {
+            LayawayVO layaway = null;
+            CustomerVO customerVO;
+            var sErrorCode = string.Empty;
+            var sErrorText = string.Empty;
+            bool serviceLayaway = false;
+
+            int iDx = -1;
+            List<LayawayVO> serviceLayaways = GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways;
+
+            //if the layaway being viewed is already marked for some sort of service get
+            //the details of the loan from service layaways else get from pawnloans list
+            if (serviceLayaways.Count > 0)
+            {
+                iDx = serviceLayaways.FindIndex(pl => pl.TicketNumber == iTicketNumber);
+                if (iDx >= 0)
+                {
+                    layaway = serviceLayaways[iDx];
+                    serviceLayaway = true;
+                }
+            }
+            //If the loan is not in the service layaways list
+            if (iDx < 0)
+            {
+                iDx = GlobalDataAccessor.Instance.DesktopSession.Layaways.FindIndex(pl => pl.TicketNumber == iTicketNumber);
+                if (iDx >= 0)
+                    layaway = GlobalDataAccessor.Instance.DesktopSession.Layaways[iDx];
+
+                if (iDx < 0)
+                {
+                    bool retVal = RetailProcedures.GetLayawayData(GlobalDataAccessor.Instance.DesktopSession, GlobalDataAccessor.Instance.OracleDA, Convert.ToInt32(sStoreNumber),
+                                                                  iTicketNumber, "0", StateStatus.BLNK, "LAY", true, out layaway, out customerVO, out sErrorCode, out sErrorText);
+
+                    if (!retVal)
+                        BasicExceptionHandler.Instance.AddException(
+                            "Error getting loan information for the selected loan",
+                            new ApplicationException("GetPawnLoan Failed for " + iTicketNumber));
+                }
+            }
+
+            if (!serviceLayaway)
+            {
+                if (layaway != null)
+                {
+                    if (iDx >= 0)
+                    {
+                        GlobalDataAccessor.Instance.DesktopSession.Layaways.RemoveAt(iDx);
+                        GlobalDataAccessor.Instance.DesktopSession.Layaways.Insert(iDx, layaway);
+                    }
+                    else
+                    {
+                        GlobalDataAccessor.Instance.DesktopSession.Layaways.Add(layaway);
+                    }
+                }
+            }
+
+            if (layaway != null)
+            {
+                int loanindex = _SelectedLayaways.FindIndex(
+                    pl => pl.TicketNumber == layaway.TicketNumber);
+
+                if (loanindex >= 0)
+                {
+                    _SelectedLayaways.RemoveAt(loanindex);
+                    loanRemoved = true;
+                }
+
+                if (bSelected)
+                {
+                    //If the loan not found but the ctrl key was not pressed do
+                    //not add it
+                    {
+                        LayawayVO lway = Utilities.CloneObject(layaway);
+                        if (string.Equals(
+                            Properties.Resources.MultipleLoanSelection,
+                            Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (_SelectedLayaways.Count > 0 && ctrlKeyPressed)
+                            {
+                                _SelectedLayaways.Add(lway);
+                            }
+                            if (_SelectedLayaways.Count > 0 && !ctrlKeyPressed)
+                            {
+                                //If the ctrl key was not pressed remove all the 
+                                //selected loans and place the newly selected loan
+                                //as the only selected loan
+                                _SelectedLayaways.RemoveRange(0, _SelectedLayaways.Count);
+                                _SelectedLayaways.Insert(0, lway);
+                            }
+                            if (_SelectedLayaways.Count == 0)
+                                _SelectedLayaways.Add(lway);
+                        }
+                        else
+                        {
+                            _SelectedLayaways.RemoveRange(0, _SelectedLoans.Count);
+                            _SelectedLayaways.Insert(0, lway);
+                        }
+                        loanRemoved = false;
+                    }
+                }
+            }
+
+            UpdateButtonsStates(true);
+        }
+        /*__________________________________________________________________________________________*/
+        private void callLockProductsTab()
+        {
+            GlobalDataAccessor.Instance.DesktopSession.LockProductsTab = true;
+
+            this.NavControlBox.IsCustom = true;
+            this.NavControlBox.CustomDetail = "LoanService";
+            this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
+        }
+        /*__________________________________________________________________________________________*/
+        private void callUnLockProductsTab()
+        {
+            GlobalDataAccessor.Instance.DesktopSession.LockProductsTab = false;
+            this.customButtonCancel.Visible = true;
+            this.NavControlBox.IsCustom = true;
+            this.NavControlBox.CustomDetail = "LoanService";
+            this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
+        }
+        /*__________________________________________________________________________________________*/
+        /*        private void CallViewReceipt(string sReceiptNumber)
+                {
+                    // View Receipt Form
+                    List<Receipt> receipts;
+                    string errorMsg;
+                    if (!LookupReceipt.LoadReceiptData(sReceiptNumber, out receipts, out errorMsg))
+                    {
+                        MessageBox.Show("Cannot view receipt.");
+                        return;
+                    }
+                    else
+                    {
+                        this.NavControlBox.IsCustom = true;
+                        this.NavControlBox.CustomDetail = "ViewReceipt";
+                        this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
+                        //ViewReceipt myForm = new ViewReceipt(sReceiptNumber);
+                        //myForm.ShowDialog();
+                    }
+                }
+        */
+        /*__________________________________________________________________________________________*/
+        /// <summary>
+        /// Update temp status and the other processes in pickup
+        /// </summary>
+        /*__________________________________________________________________________________________*/
+        private void ContinueBuyoutProcess()
+        {
+            try
+            {
+                List<PawnLoan> serviceLoans = GlobalDataAccessor.Instance.DesktopSession.BuyoutLoans;
+                //Check if the customer has a valid concealed weapons permit in the store state
+                //If they do, check if background reference number is required
+                if (serviceLoans.Count == 0)
+                    return;
+                bool _updateBuyoutStatus = true;
+
+                //To proceed either the background check should have been completed
+                //or _updatePickupStatus should be true. If the item being picked up is not a gun
+                //pickupbackgroundcheckcompleted will  be false but the other one will be true hence
+                //the user will be able to proceed
+                if (GlobalDataAccessor.Instance.DesktopSession.BackgroundCheckCompleted || _updateBuyoutStatus)
+                {
+                    string strUserId = GlobalDataAccessor.Instance.DesktopSession.UserName;
+                    List<PawnLoan> selectedLoans = GlobalDataAccessor.Instance.DesktopSession.BuyoutLoans;
+                    //After the override check if there are still selected loans to process then proceed
+                    if (!(selectedLoans.Count > 0))
+                    {
+                        UpdateTicketSelections();
+                        return;
+                    }
+
+                    ServiceLoanProcedures.CheckCurrentTempStatus(ref selectedLoans, strUserId, ServiceTypes.BUYOUT);
+                    if (selectedLoans.Count > 0)
+                    {
+                        //update the pickup allowed and temp status of the selected loans
+                        //which were picked up
+                        StringBuilder loansPickedup = new StringBuilder();
+                        for (int i = 0; i < selectedLoans.Count; i++)
+                        {
+                            PawnLoan loanToUpdate = selectedLoans[i];
+                            loanToUpdate.TempStatus = StateStatus.BYOUT;
+                            loanToUpdate.PickupAllowed = false;
+                            ShowStatusValue(loanToUpdate);
+                            loansPickedup.Append(loanToUpdate.TicketNumber.ToString());
+                            loansPickedup.Append(System.Environment.NewLine);
+                            UpdateServiceIndicator(loanToUpdate.TicketNumber, ServiceIndicators.Buyout.ToString());
+                        }
+                        GlobalDataAccessor.Instance.DesktopSession.ServiceLoans = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Union(selectedLoans).ToList();
+                        //DisableAllServiceButtons();
+                        UpdateTicketSelections();
+                        if (GlobalDataAccessor.Instance.DesktopSession.TotalBuyoutAmount != 0 || GlobalDataAccessor.Instance.DesktopSession.TotalOtherPickupItems != 0)
+                        {
+                            ServiceAmount = GlobalDataAccessor.Instance.DesktopSession.TotalOtherPickupItems + GlobalDataAccessor.Instance.DesktopSession.TotalBuyoutAmount;
+                            GlobalDataAccessor.Instance.DesktopSession.TotalServiceAmount = ServiceAmount;
+                            //Support.Logic.CashlinxPawnSupportSession.Instance.TotalPickupAmount = _totalPickupAmount;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No loans to process for Buyout");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                BasicExceptionHandler.Instance.AddException("Error in the pickup process", new ApplicationException(ex.Message));
+            }
+            finally
+            {
+                _continuePickupProcess = false;
+                GlobalDataAccessor.Instance.DesktopSession.PickupProcessContinue = false;
+            }
+        }
+        /*__________________________________________________________________________________________*/
+        private void ContinuePawnPickupProcess()
+        {
+            /*          try
+                      {
+                          List<PawnLoan> serviceLoans = GlobalDataAccessor.Instance.DesktopSession.PickupLoans;
+                          if (serviceLoans.Count == 0)
+                              return;
+
+                          if (!ContinueAfterBackgroundChecked())
+                          {
+                              return;
+                          }
+                          string strUserId = GlobalDataAccessor.Instance.DesktopSession.UserName;
+                          bool overrideCheck = false;
+                          var overrideFailedMessage = string.Empty;
+                          List<PawnLoan> selectedLoans = GlobalDataAccessor.Instance.DesktopSession.PickupLoans;
+
+                          //Check overrides
+                          overrideCheck = ServiceLoanProcedures.CheckForOverrides(ServiceTypes.PICKUP, GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerNumber,
+                                                                                  ref selectedLoans, ref overrideFailedMessage);
+                          if (!overrideCheck)
+                          {
+                              InfoDialog infoFrm = new InfoDialog();
+                              infoFrm.MessageToShow = overrideFailedMessage;
+                              infoFrm.ShowDialog();
+                          }
+                          //After the override check if there are still selected loans to process then proceed
+                          if (!(selectedLoans.Count > 0))
+                          {
+                              UpdateTicketSelections();
+                              return;
+                          }
+
+                          ServiceLoanProcedures.CheckCurrentTempStatus(ref selectedLoans, strUserId, ServiceTypes.PICKUP);
+
+                          if (selectedLoans.Count > 0)
+                          {
+                              //update the pickup allowed and temp status of the selected loans
+                              //which were picked up
+                              StringBuilder loansPickedup = new StringBuilder();
+                              _totalPickupAmount = 0;
+                              for (int i = 0; i < selectedLoans.Count; i++)
+                              {
+                                  PawnLoan loanToUpdate = selectedLoans[i];
+                                  loanToUpdate.TempStatus = StateStatus.P;
+                                  loanToUpdate.PickupAllowed = false;
+                                  ShowStatusValue(loanToUpdate);
+                                  loansPickedup.Append(loanToUpdate.TicketNumber.ToString());
+                                  loansPickedup.Append(System.Environment.NewLine);
+                                  _totalPickupAmount += loanToUpdate.PickupAmount;
+                                  //Update the service indicator to indicate Pickup
+                                  UpdateServiceIndicator(loanToUpdate.TicketNumber, ServiceIndicators.Pickup.ToString());
+                              }
+                              GlobalDataAccessor.Instance.DesktopSession.ServiceLoans = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Union(selectedLoans).ToList();
+
+                              DisableAllServiceButtons();
+                              UpdateTicketSelections();
+
+                              if (_totalPickupAmount != 0)
+                              {
+                                  ServiceAmount += _totalPickupAmount;
+                                  GlobalDataAccessor.Instance.DesktopSession.TotalServiceAmount = ServiceAmount;
+                                  GlobalDataAccessor.Instance.DesktopSession.TotalPickupAmount = _totalPickupAmount;
+                              }
+                          }
+                          else
+                          {
+                              MessageBox.Show("No loans to process for Pickup");
+                          }
+                      }
+                      catch (Exception ex)
+                      {
+                          BasicExceptionHandler.Instance.AddException("Error in the pickup process", new ApplicationException(ex.Message));
+                      }
+                      finally
+                      {
+                          _continuePickupProcess = false;
+                          GlobalDataAccessor.Instance.DesktopSession.PickupProcessContinue = false;
+                      } */
+        }
+        /*__________________________________________________________________________________________*/
+        private void RefreshTempStatus(int iTicketNumber, string sStoreNumber)
+        {
+            //If the refresh button is clicked get the latest temp status of the loan
+            List<int> pfieTicketNumbers = new List<int>();
+            List<string> pfieStoreNumbers = new List<string>();
+            pfieTicketNumbers.Add(iTicketNumber);
+            pfieStoreNumbers.Add(sStoreNumber);
+
+            DataTable currentTempStatus;
+            var errorCode = string.Empty;
+            var errorMsg = string.Empty;
+
+            CustomerLoans.CheckForTempStatus(pfieTicketNumbers, pfieStoreNumbers, out currentTempStatus, out errorCode, out errorMsg);
+            if (currentTempStatus != null && currentTempStatus.Rows.Count > 0)
+            {
+                foreach (DataRow dr in currentTempStatus.Rows)
+                {
+                    //check if the loan still has PFIE status
+                    //If it does not, update the temp status in the pawnloans or pawnloans auxillary 
+                    //depending on where the ticket number exists
+                    if (!(dr[Tempstatuscursor.TEMPSTATUS].ToString().Contains("PFIE")))
+                    {
+                        int iDx = -1;
+                        //update the loan object in pawn loans or pawn loans auxillary list
+                        PawnLoan ploan = null;
+                        bool additionalTicket = false;
+                        iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans.FindIndex(pl => pl.TicketNumber == iTicketNumber);
+                        if (iDx >= 0)
+                            ploan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans[iDx];
+                        else
+                        {
+                            iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.FindIndex(
+                                pl => pl.TicketNumber == iTicketNumber);
+                            if (iDx >= 0)
+                            {
+                                ploan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary[iDx];
+                                additionalTicket = true;
+                            }
+                        }
+                        if (ploan != null)
+                        {
+                            ploan.TempStatus = (StateStatus)Enum.Parse(typeof(StateStatus),
+                                                                       Utilities.GetStringValue(dr[Tempstatuscursor.TEMPSTATUS]) != ""
+                                                                       ? Utilities.GetStringValue(dr[Tempstatuscursor.TEMPSTATUS])
+                                                                       : StateStatus.BLNK.ToString());
+                            if (!(additionalTicket))
+                            {
+                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans.RemoveAt(iDx);
+                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans.Insert(iDx, ploan);
+                            }
+                            else
+                            {
+                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.RemoveAt(iDx);
+                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.Insert(iDx, ploan);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                FileLogger.Instance.logMessage(LogLevel.WARN, this, "Refresh temp status for PFIE loans failed to yield rows");
+            }
+        }
+ 
+
+        /*__________________________________________________________________________________________*/
+        private void LayawayCheckout()
+        {
+            _gunItemIdValidated = false;
+            _gunItem = false;
+
+            //List<LayawayVO> servicedLayaways = Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLayaways;
+            List<LayawayVO> servicedLayaways = Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLayaways;
+            //List<LayawayVO> pickupLayaways = Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLayaways.FindAll(l => l.LoanStatus == ProductStatus.PU).ToList();
+            List<LayawayVO> pickupLayaways = Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLayaways.FindAll(l => l.LoanStatus == ProductStatus.PU).ToList();
+
+            if (pickupLayaways.Count > 0)
+            {
+                List<LayawayVO> pickupLayawaysWithGun = new List<LayawayVO>();
+
+                if (!Support.Logic.CashlinxPawnSupportSession.Instance.CompleteLayaway)
+                {
+                    foreach (LayawayVO layaway in pickupLayaways)
+                    {
+                        var gunItems = layaway.RetailItems.FindAll(r => r.IsGun);
+                        if (gunItems.Count > 0)
+                        {
+                            _gunItem = true;
+                            pickupLayawaysWithGun.Add(layaway);
+
+                            if (!LayawayProcedures.CustomerPassesFirearmAgeCheckForItems(layaway, Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer))
+                            {
+                                Support.Logic.CashlinxPawnSupportSession.Instance.CompleteLayaway = false;
+                                MessageBox.Show("Customer does not meet age criteria for the sale of guns");
+                                return;
+                            }
+                        }
+                    }
+
+                    if (_gunItem && !ContinuePickup)
+                    {
+                        _gunItemIdValidated = true;
+                        //This session data will be used by manager pawn application
+                        //in case a manager override is needed for out of state ID
+                        Support.Logic.CashlinxPawnSupportSession.Instance.OverrideTransactionNumbers = overrideTransactionNumbers;
+                        this.NavControlBox.IsCustom = true;
+                        this.NavControlBox.CustomDetail = "ManagePawnApplication";
+                        this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
+                        return;
+                    }
+                }
+
+                if (!ContinueAfterBackgroundChecked())
+                {
+                    return;
+                }
+
+                if (_gunItem && Support.Logic.CashlinxPawnSupportSession.Instance.BackgroundCheckFeeValue > 0)
+                {
+                    decimal[] feeValues = Utilities.GetDistributeValuesForCurrencyOverItems(Support.Logic.CashlinxPawnSupportSession.Instance.BackgroundCheckFeeValue, pickupLayawaysWithGun.Count);
+                    for (int i = 0; i < pickupLayawaysWithGun.Count; i++)
+                    {
+                        LayawayProcedures.SetBackgroundCheckFee(pickupLayawaysWithGun[i], feeValues[i]);
+                    }
+                }
+            }
+
+            Support.Logic.CashlinxPawnSupportSession.Instance.CompleteLayaway = true;
+
+            decimal totalServiceAmount = servicedLayaways.SelectMany(lay => lay.Payments).Sum(layPmt => layPmt.Amount) + Support.Logic.CashlinxPawnSupportSession.Instance.BackgroundCheckFeeValue;
+            Support.Logic.CashlinxPawnSupportSession.Instance.TenderTransactionAmount.TotalAmount = totalServiceAmount;
+            Support.Logic.CashlinxPawnSupportSession.Instance.TenderTransactionAmount.SubTotalAmount = totalServiceAmount;
+            Support.Logic.CashlinxPawnSupportSession.Instance.TenderTransactionAmount.SalesTaxPercentage = 0.0M;
+            Support.Logic.CashlinxPawnSupportSession.Instance.DisableCoupon = true;
+            NavControlBox.IsCustom = true;
+            NavControlBox.CustomDetail = "ProcessTender";
+            NavControlBox.Action = NavBox.NavAction.SUBMIT;
+        }
+        /*__________________________________________________________________________________________*/
+        private void LoanCheckout()
+        {
+            bool cashProcessed = false;
+
+            if (Support.Logic.CashlinxPawnSupportSession.Instance.TotalServiceAmount > 0)
+            {
+                TenderCash cashTenderForm = new TenderCash();
+                cashTenderForm.ShowDialog();
+                if (Support.Logic.CashlinxPawnSupportSession.Instance.CashTenderFromCustomer > 0)
+                    cashProcessed = true;
+            }
+            else
+            {
+                cashProcessed = true;
+            }
+
+            //Commented - Madhu
+            //if (cashProcessed)
+            //{
+            //    //Call process tender
+            //    var processTender = new ProcessTender(ProcessTenderProcedures.ProcessTenderMode.SERVICELOAN);
+            //    processTender.ShowDialog();
+
+            //    Support.Logic.CashlinxPawnSupportSession.Instance.ClearPawnLoan();
+            //    Support.Logic.CashlinxPawnSupportSession.Instance.ActivePawnLoan = null;
+
+            //    DialogResult dR = MessageBox.Show("Do you want to continue processing this customer?", "Prompt",
+            //                                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            //    if (dR == DialogResult.No)
+            //    {
+            //        Support.Logic.CashlinxPawnSupportSession.Instance.ClearCustomerList();
+            //        NavControlBox.IsCustom = false;
+            //        this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
+            //    }
+            //    else
+            //    {
+            //        //Clear the logged in user
+            //        Support.Logic.CashlinxPawnSupportSession.Instance.ClearLoggedInUser();
+            //        Support.Logic.CashlinxPawnSupportSession.Instance.PerformAuthorization();
+            //        if (!string.IsNullOrEmpty(Support.Logic.CashlinxPawnSupportSession.Instance.LoggedInUserSecurityProfile.UserName))
+            //        //reload
+            //        {
+            //            NavControlBox.IsCustom = true;
+            //            NavControlBox.CustomDetail = "Reload";
+            //            NavControlBox.Action = NavBox.NavAction.SUBMIT;
+            //        }
+            //        else
+            //        {
+            //            Support.Logic.CashlinxPawnSupportSession.Instance.ClearCustomerList();
+            //            NavControlBox.IsCustom = false;
+            //            this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
+            //        }
+            //    }
+            //}
+        }
+        /*__________________________________________________________________________________________*/
+        private void UndoLayawayTransactions(List<LayawayVO> layaways)
+        {
+            foreach (LayawayVO layaway in layaways)
+            {
+                GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.Remove(layaway);
+                ServiceAmount -= layaway.Payments.Last().Amount;
+                layaway.Payments.Remove(layaway.Payments.Last());
+                UpdateServiceIndicator(layaway.TicketNumber, ServiceIndicators.Blank.ToString());
+            }
+        }
+        /*__________________________________________________________________________________________*/
+        private void UndoPawnTransactions(List<PawnLoan> loansToUndo)
+        {
+            /*
+            var selectedLoans = loansToUndo;
+            var selectedServiceLoanNumbers = new List<int>();
+            var loanTempStatus = new List<TupleType<int, StateStatus, decimal>>();
+            var amountToDeductFromServiceAmount = 0.0M;
+            var pickupAmountTodeduct = 0.0M;
+            var extensionAmountToDeduct = 0.0M;
+            var renewalAmountToDeduct = 0.0M;
+            var paydownAmountToDeduct = 0.0M;
+            var ppmtAmountToDeduct = 0.0M;
+            //Only used if loan is still marked RO and no distinction has been made to renew or paydown
+            var rolloverAmountToDeduct = 0.0M;
+
+            foreach (var pl in selectedLoans)
+            {
+                selectedServiceLoanNumbers.Add(pl.TicketNumber);
+                TupleType<int, StateStatus, decimal> loanTempData = null;
+                switch (pl.TempStatus)
+                {
+                    case StateStatus.P:
+                        loanTempData = new TupleType<int, StateStatus, decimal>(
+                            pl.TicketNumber, pl.TempStatus, pl.PickupAmount);
+                        break;
+                    case StateStatus.E:
+                        loanTempData = new TupleType<int, StateStatus, decimal>(
+                            pl.TicketNumber, pl.TempStatus, pl.ExtensionAmount);
+                        break;
+                    case StateStatus.RN:
+                        loanTempData = new TupleType<int, StateStatus, decimal>(
+                            pl.TicketNumber, pl.TempStatus, pl.RenewalAmount);
+                        break;
+                    case StateStatus.PD:
+                        loanTempData = new TupleType<int, StateStatus, decimal>(
+                            pl.TicketNumber, pl.TempStatus, pl.PaydownAmount);
+                        break;
+                    case StateStatus.RO:
+                        loanTempData = new TupleType<int, StateStatus, decimal>(
+                            pl.TicketNumber, pl.TempStatus,
+                            (pl.RenewalAmount <= 0.0M) ? pl.PaydownAmount : pl.RenewalAmount);
+                        break;
+                    case StateStatus.PPMNT:
+                        decimal partialPmtAmt= pl.PartialPayments.Where(ppmt => ppmt.Status_cde == "New").Sum(ppmt => ppmt.PMT_AMOUNT);
+                        loanTempData = new TupleType<int, StateStatus, decimal>(
+                            pl.TicketNumber, pl.TempStatus,partialPmtAmt);
+                        break;
+
+                }
+                if (loanTempData != null)
+                    loanTempStatus.Add(loanTempData);
+            }
+            if (selectedLoans.Count > 0)
+            {
+                var errorCode = string.Empty;
+                var errorMsg = string.Empty;
+                //Ret types of all products will be loans
+                List<string> lstRefTypes = new List<string>();
+                for (int i = 0; i < selectedServiceLoanNumbers.Count; i++)
+                    lstRefTypes.Add("1");
+                bool retVal = StoreLoans.UpdateTempStatus(selectedServiceLoanNumbers, StateStatus.BLNK, strStoreNumber, true, lstRefTypes, out errorCode, out errorMsg);
+
+                if (retVal)
+                {
+                    foreach (int tktNumber in selectedServiceLoanNumbers)
+                    {
+                        UpdateServiceIndicator(tktNumber, ServiceIndicators.Blank.ToString());
+                        int number = tktNumber;
+                        var loanToUpdate = new TupleType<int, StateStatus, decimal>(0, StateStatus.BLNK, 0.0M);
+
+                        try
+                        {
+                            IEnumerable<TupleType<int, StateStatus, decimal>> loansToUpdate = (loanTempStatus.Where(loan => loan.Left == number));
+                            if (loansToUpdate != null && loansToUpdate.Count() > 0)
+                            {
+                                loanToUpdate = loansToUpdate.First();
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+                        if (loanToUpdate.Mid == StateStatus.P)
+                        {
+                            pickupAmountTodeduct += loanToUpdate.Right;
+                        }
+                        else if (loanToUpdate.Mid == StateStatus.E)
+                        {
+                            extensionAmountToDeduct += loanToUpdate.Right;
+                        }
+                        else if (loanToUpdate.Mid == StateStatus.PD)
+                        {
+                            paydownAmountToDeduct += loanToUpdate.Right;
+                        }
+                        else if (loanToUpdate.Mid == StateStatus.RN)
+                        {
+                            renewalAmountToDeduct += loanToUpdate.Right;
+                        }
+                        else if (loanToUpdate.Mid == StateStatus.RO)
+                        {
+                            rolloverAmountToDeduct += loanToUpdate.Right;
+                        }
+                        else if (loanToUpdate.Mid == StateStatus.PPMNT)
+                        {
+                            ppmtAmountToDeduct += loanToUpdate.Right;
+                        }
+                        amountToDeductFromServiceAmount += loanToUpdate.Right;
+                        //Remove the loan from service loan
+                        int loanNo = tktNumber;
+                        int index = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.FindIndex(loan => loan.TicketNumber == loanNo);
+                        if (index >= 0)
+                        {
+                            GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.RemoveAt(index);
+                        }
+                        //Set the temp status to blank on the loan in the PawnLoans or PawnLoans_Auxillary loan list
+                        //Since we cannot revert to what it was as the temp status in DB has now been changed to blank
+                        int iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans.FindIndex(pl => pl.TicketNumber == loanNo);
+                        if (iDx >= 0)
+                        {
+                            GlobalDataAccessor.Instance.DesktopSession.PawnLoans[iDx].TempStatus =
+                            StateStatus.BLNK;
+                        }
+                        else
+                        {
+                            iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.FindIndex(
+                                pl => pl.TicketNumber == loanNo);
+                            if (iDx >= 0)
+                            {
+                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary[iDx].TempStatus = StateStatus.BLNK;
+                            }
+                        }
+                    }
+                    if (renewalAmountToDeduct > 0.0M)
+                    {
+                        GlobalDataAccessor.Instance.DesktopSession.TotalRenewalAmount -= renewalAmountToDeduct;
+                    }
+                    if (paydownAmountToDeduct > 0.00M)
+                    {
+                        GlobalDataAccessor.Instance.DesktopSession.TotalPaydownAmount -= paydownAmountToDeduct;
+                    }
+                    if (renewalAmountToDeduct <= 0.00M && paydownAmountToDeduct <= 0.00M)
+                    {
+                        GlobalDataAccessor.Instance.DesktopSession.TotalRolloverAmount -=
+                        rolloverAmountToDeduct;
+                    }
+                    if (extensionAmountToDeduct > 0.00M)
+                    {
+                        GlobalDataAccessor.Instance.DesktopSession.TotalExtendAmount -= extensionAmountToDeduct;
+                    }
+                    if (pickupAmountTodeduct > 0.00M)
+                    {
+                        GlobalDataAccessor.Instance.DesktopSession.TotalPickupAmount -= pickupAmountTodeduct;
+                    }
+                    
+                    if (ServiceAmount > 0)
+                    ServiceAmount -= amountToDeductFromServiceAmount;
+                    //Remove the selected flag on all the rows
+                    UpdateTicketSelections();
+                    DisableAllServiceButtons();
+                    //If there are no more service loans show all tabs
+                    if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count == 0)
+                        callUnLockProductsTab();
+                }
+                else
+                {
+                    MessageBox.Show("Error in the undo process");
+                    BasicExceptionHandler.Instance.AddException("Calling update temp status to undo pickup failed",
+                                                                new ApplicationException());
+                }
+            } */
+        }
+        /*__________________________________________________________________________________________*/
+        private void UndoSkippedLoans(List<PawnLoan> selectedLoans)
+        {
+            List<int> skippedTicketNumbers = GlobalDataAccessor.Instance.DesktopSession.SkippedTicketNumbers;
+            List<PawnLoan> skippedLoans = new List<PawnLoan>();
+            foreach (int tktNo in skippedTicketNumbers)
+            {
+                int i = tktNo;
+                int idx = selectedLoans.FindIndex(loan => loan.TicketNumber == i);
+                if (idx >= 0)
+                    skippedLoans.Add(selectedLoans[idx]);
+            }
+            if (skippedLoans.Count > 0)
+                UndoPawnTransactions(skippedLoans);
+        }
+
+
+        /*__________________________________________________________________________________________*/
+        private void UpdateButtonsStates(bool isLayaway)
+        {
+            DesktopSession cds = GlobalDataAccessor.Instance.DesktopSession;
+            /*
+                        // Set the buttons
+                        //If there are any service loans checkout is enabled
+                        if (cds.ServiceLoans != null)
+                            PS_CheckoutButton.Enabled = cds.ServiceLoans.Count > 0;
+                        if (!PS_CheckoutButton.Enabled)
+                        {
+                            if (cds.ServiceLayaways != null)
+                                PS_CheckoutButton.Enabled = cds.ServiceLayaways.Count > 0;
+                        }
+                        //If there are any service loans waive prorate button is enabled
+                        //SR 02/08/2010 Disable for pilot
+                        //PS_WaiveProrate.Enabled = Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLoans.Count > 0;
+                        PS_WaiveProrate.Enabled = false;
+
+                        //check if logged in user can do services
+                        bool servicesAllowed = false;
+                        UserVO currUser = cds.LoggedInUserSecurityProfile;
+                        if (currUser != null)
+                        {
+                            if (SecurityProfileProcedures.CanUserViewResource("SERVICES", currUser, GlobalDataAccessor.Instance.DesktopSession))
+                                servicesAllowed = true;
+                        }
+                        if (servicesAllowed)
+                        {
+                            //If extension is allowed in the store state button is enabled
+                            PS_ExtendButton.Enabled = (extensionServiceAllowed && !isLayaway && selectedLoanInStore()) ? true : false;
+                            //Pickup button is enabled always unless the logged in user
+                            //does not have permissions to do pickup
+                            PS_PickUpButton.Enabled = !isLayaway;
+                            PS_RollOverButton.Enabled = (paydownAllowed || renewalAllowed) && !isLayaway;
+                            PS_PartPmntButton.Enabled = (partialPaymentAllowed && !isLayaway && selectedLoanInStore()) ? true : false;
+
+                            LW_LayawayPaymentButton.Enabled = isLayaway && IsAtLeastOneSelectedLayawayNotServiced() && selectedLayawayInStore();
+                            LW_LayawayTerminateButton.Enabled = isLayaway && IsExactlyOneSelectedLayawayNotServiced() && selectedLayawayInStore();
+                        }
+                        else
+                        {
+                            PS_ExtendButton.Enabled = false;
+                            PS_PickUpButton.Enabled = false;
+                            PS_RollOverButton.Enabled = false;
+                            PS_PartPmntButton.Enabled = false;
+                            LW_LayawayPaymentButton.Enabled = false;
+                            LW_LayawayTerminateButton.Enabled = false;
+                        }
+                        //if loan up service is allowed in the store state button is enabled
+                        PS_ViewNewLoanDetailsButton.Enabled = loanupServiceAllowed ? true : false;
+
+                        //Add more tickets is enabled only when no service loans exist
+                        if (cds.ServiceLoans != null)
+                        {
+                            this.PS_AddMoreTicketsButton.Enabled = cds.ServiceLoans.Count == 0 && !isLayaway;
+                        }
+                        //If any loans are selected for service undo, waive buttons are enabled
+                        PS_UnDoButton.Enabled = ShouldEnableUndoButton();
+            */
+            if (GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways != null)
+            {
+                this.PS_ShowComboBox.Enabled = GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.Count == 0 && GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count == 0 && !GlobalDataAccessor.Instance.DesktopSession.ServicePawnLoans;
+            }
+
+            if (isLayaway)
+            {
+                ShowLayawayPanels();
+            }
+            else
+            {
+                ShowPawnPanels();
+            }
+        }
+        /// <summary>
+        /// Update the service amount whenever the total service amount is updated
+        /// </summary>
+        /*__________________________________________________________________________________________*/
+        private void UpdateServiceAmountLabel()
+        {
+            labelServiceAmount.Text = String.Format("{0:C}", _totalServiceAmount);
+        }
+        /// <summary>
+        /// call to update the service indicator to show
+        /// the type of service being processed on the loan
+        /// </summary>
+        /// <param name="ticketNumber"></param>
+        /// <param name="serviceIndicator"></param>
+        /*__________________________________________________________________________________________*/
+        private void UpdateServiceIndicator(int ticketNumber, string serviceIndicator)
+        {
+            var indicatorSet = false;
+            foreach (DataGridViewRow dgvr in PS_TicketsDataGridView.Rows)
+            {
+                var ticketValue = dgvr.Cells["PS_Tickets_TicketNumberColumn"].Value.ToString();
+                if (Utilities.GetIntegerValue(ticketValue.Substring(5, (ticketValue.Length - 5))) == ticketNumber)
+                {
+                    if (serviceIndicator == ServiceIndicators.Blank.ToString())
+                        dgvr.Cells["PS_Tickets_ServiceIndicatorColumn"].Value = string.Empty;
+                    else
+                    {
+                        dgvr.Cells["PS_Tickets_ServiceIndicatorColumn"].Value += serviceIndicator;
+                    }
+
+                    indicatorSet = true;
+
+                    break;
+                }
+            }
+            if (!indicatorSet)
+            {
+                foreach (DataGridViewRow dgvr in PS_AddTicketsDataGridView.Rows)
+                {
+                    var ticketValue = dgvr.Cells["PS_AddTickets_TicketNumberColumn"].Value.ToString();
+                    if (Utilities.GetIntegerValue(ticketValue.Substring(5, (ticketValue.Length - 5))) == ticketNumber)
+                    {
+                        if (serviceIndicator == ServiceIndicators.Blank.ToString())
+                            dgvr.Cells["PS_AddTickets_ServiceIndicator"].Value = string.Empty;
+                        else
+                        {
+                            dgvr.Cells["PS_AddTickets_ServiceIndicator"].Value += serviceIndicator;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+ 
+        /// <summary>
+        /// Method to check if all the selected loans are eligible for the service selected
+        /// </summary>
+        /// <returns></returns>
+
+
+#endregion
+        #region EVENTS
+        /*__________________________________________________________________________________________*/
+        private void customButtonCancel_Click(object sender, EventArgs e)
+        {
+            //If there are any loans set for service undo them
+            //if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count > 0)
+            //{
+            //    DialogResult dgr = MessageBox.Show("All loans set for service will be cancelled.Do you want to Continue?", "Prompt", MessageBoxButtons.YesNo);
+            //    if (dgr == DialogResult.No)
+            //        return;
+
+            //    UndoPawnTransactions(GlobalDataAccessor.Instance.DesktopSession.ServiceLoans);
+            //}
+            //DialogResult dR = MessageBox.Show("Do you want to continue processing this customer?", "Products and Services", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            //if (dR == DialogResult.No)
+            //{
+            //    GlobalDataAccessor.Instance.DesktopSession.ClearCustomerList();
+            //}
+
+            //1/29/2010 According to QA requirement Cancel should take you to ring menu!
+            this.NavControlBox.IsCustom = true;
+            this.NavControlBox.CustomDetail = "ViewPersonalInformationHistory";
+            this.NavControlBox.Action = NavBox.NavAction.BACK;
+        }
+        /*__________________________________________________________________________________________*/
+        private void PS_ShowComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PS_PawnLoanLabel.Visible = false;
+            PS_PawnNameLabel.Visible = false;
+            PS_ItemDescriptionDataGridView.Visible = false;
+            PS_LoanStatsLayoutPanel.Visible = false;
+            tlpDocuments.Visible = false;
+
+            if (_Setup)
+            {
+                LoadData(GetSelectedProductType());
+            }
+        }
+        #region DGV MOUSE CONTROL
+        /*__________________________________________________________________________________________*/
+        private void PS_TicketsDataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                CelMouseUpActions(e.RowIndex, e.ColumnIndex);
+            }
+        }
+        /*__________________________________________________________________________________________*/
         private void PH_ReceiptsDataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.ColumnIndex == 4 && e.RowIndex >= 0)
@@ -1640,47 +2937,110 @@ namespace Support.Forms.Customer.Products
                 }
             }
         }
-
-        void pic_Click(object sender, EventArgs e)
+        /*__________________________________________________________________________________________*/
+        private void PS_ItemDescriptionDataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            int ticketNumber = this._currentTicketNumber;
-
-            //If a legit ticket number was pulled, then continue.
-            if (ticketNumber > 0)
+            if (e.ColumnIndex == 1 && e.RowIndex >= 0)
             {
-                //Instantiate docinfo which will return info we need to be able to 
-                //call reprint ticket.
-                CouchDbUtils.PawnDocInfo docInfo = new CouchDbUtils.PawnDocInfo();
-                docInfo.SetDocumentSearchType(CouchDbUtils.DocSearchType.RECEIPT);
-                docInfo.StoreNumber = GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber;
-                docInfo.TicketNumber = ticketNumber;
-                int receiptNumber = 0;
-                if (!string.IsNullOrEmpty(PS_ReceiptNoValue.Text))
-                    receiptNumber = Convert.ToInt32(PS_ReceiptNoValue.Text);
-                docInfo.ReceiptNumber = receiptNumber;
-                try
+                DataGridViewRow myRow = PS_ItemDescriptionDataGridView.Rows[e.RowIndex];
+                int itemTicketNumber = 0;
+                itemTicketNumber = Utilities.GetIntegerValue(myRow.Cells[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Value);
+
+                if (GetSelectedProductType() == SupportProductType.PAWN)
                 {
-                    string storageId = ((PictureBox)sender).Name.ToString();
-                    //ReprintDocument docViewPrint = new ReprintDocument(documentName, storageId, docType);
-                    ViewPrintDocument docViewPrint = new ViewPrintDocument("Receipt# ", docInfo.ReceiptNumber.ToString(), storageId, docInfo.DocumentType, docInfo);
-                    docViewPrint.ShowDialog();
+                    PawnLoan pawnLoan = new PawnLoan();
+                    int iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans.FindIndex(delegate(PawnLoan p)
+                    {
+                        return p.TicketNumber == itemTicketNumber;
+                    });
+
+                    if (iDx >= 0)
+                        pawnLoan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans[iDx];
+                    else
+                    {
+                        iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.FindIndex(delegate(PawnLoan p)
+                        {
+                            return p.TicketNumber == itemTicketNumber;
+                        });
+                        if (iDx >= 0)
+                            pawnLoan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary[iDx];
+                    }
+
+                    string sICN = Utilities.GetStringValue(myRow.Cells[PS_Description_ICNColumn.Index].Value, "");
+
+                    if (iDx >= 0)
+                    {
+                        PawnLoan activePawnLoan = null;
+                        if (GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan != null)
+                        {
+                            activePawnLoan = Utilities.CloneObject(GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan);
+                        }
+
+                        int iPawnItemIdx = pawnLoan.Items.FindIndex(delegate(Item pi)
+                        {
+                            return pi.Icn == sICN;
+                        });
+
+                        // Need to populate pawnLoan from GetCat5
+                        int iCategoryMask = GlobalDataAccessor.Instance.DesktopSession.CategoryXML.GetCategoryMask(pawnLoan.Items[iPawnItemIdx].CategoryCode);
+                        DescribedMerchandise dmPawnItem = new DescribedMerchandise(iCategoryMask);
+                        Item pawnItem = pawnLoan.Items[iPawnItemIdx];
+                        Item.PawnItemMerge(ref pawnItem, dmPawnItem.SelectedPawnItem, true);
+                        pawnLoan.Items.RemoveAt(iPawnItemIdx);
+                        pawnLoan.Items.Insert(iPawnItemIdx, pawnItem);
+                        // End GetCat5 populate
+                        //Add the current loan as the active pawn loan
+                        GlobalDataAccessor.Instance.DesktopSession.PawnLoans.Insert(0, pawnLoan);
+                        // Placeholder for ReadOnly DescribedItem.cs
+                        DescribeItem myForm = new DescribeItem(GlobalDataAccessor.Instance.DesktopSession, CurrentContext.READ_ONLY, iPawnItemIdx)
+                        {
+                            SelectedProKnowMatch = pawnLoan.Items[iPawnItemIdx].SelectedProKnowMatch
+                        };
+                        myForm.ShowDialog(this);
+
+                        // Reset Active Pawn Loan back to Original
+                        if (activePawnLoan != null)
+                            GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan = activePawnLoan;
+                        else
+                            GlobalDataAccessor.Instance.DesktopSession.PawnLoans.RemoveAt(0);
+                    }
                 }
-                catch (Exception)
+                else
                 {
-                    FileLogger.Instance.logMessage(LogLevel.ERROR, this, "Could not load the customer document");
+                    LayawayVO layaway = new LayawayVO();
+                    int iDx = GlobalDataAccessor.Instance.DesktopSession.Layaways.FindIndex(delegate(LayawayVO l)
+                    {
+                        return l.TicketNumber == itemTicketNumber;
+                    });
+                    string sICN = Utilities.GetStringValue(myRow.Cells[PS_Description_ICNColumn.Index].Value, "");
+                    if (iDx >= 0)
+                    {
+                        layaway = GlobalDataAccessor.Instance.DesktopSession.Layaways[iDx];
+
+                        int iPawnItemIdx = layaway.RetailItems.FindIndex(pi => pi.Icn == sICN);
+
+                        int iItemIdx = iPawnItemIdx;
+                        if (iItemIdx >= 0 && GlobalDataAccessor.Instance.DesktopSession.ActiveLayaway != null)
+                        {
+                            //Show describe item form as show dialog
+                            int iCategoryMask = GlobalDataAccessor.Instance.DesktopSession.CategoryXML.GetCategoryMask(layaway.RetailItems[iItemIdx].CategoryCode);
+                            DescribedMerchandise dmPawnItem = new DescribedMerchandise(iCategoryMask);
+                            Item pawnItem = layaway.RetailItems[iItemIdx];
+                            Item.PawnItemMerge(ref pawnItem, dmPawnItem.SelectedPawnItem, true);
+                            ((CustomerProductDataVO)GlobalDataAccessor.Instance.DesktopSession.ActiveLayaway).Items.Insert(0, pawnItem);
+                            // End GetCat5 populate
+                            // Placeholder for ReadOnly DescribedItem.cs
+                            DescribeItem myForm = new DescribeItem(GlobalDataAccessor.Instance.DesktopSession, CurrentContext.READ_ONLY, 0)
+                            {
+                                SelectedProKnowMatch = ((CustomerProductDataVO)GlobalDataAccessor.Instance.DesktopSession.ActiveLayaway).Items[0].SelectedProKnowMatch
+                            };
+                            myForm.ShowDialog(this);
+                        }
+                    }
                 }
             }
         }
-
-        private void PS_AddMoreTicketsButton_Click(object sender, EventArgs e)
-        {
-            //Madhu BZ # 147 - passing the current object to child window.
-           //TODO - revisit 
-            //AddTickets myForm = new AddTickets(this);
-            //myForm.AddPawnLoans += myForm_AddPawnLoans;
-            //myForm.ShowDialog(this);
-        }
-
+        /*__________________________________________________________________________________________*/
         private void PS_AddTicketsDataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
@@ -1724,12 +3084,39 @@ namespace Support.Forms.Customer.Products
                         //_ActiveLoanIndex = PS_AddTicketsDataGridView.Rows.Count + i;
                         UpdateActivePawnInformation(iTicketNumber);
                         //SR 6/15/2010 Load all the documents associated to the selected ticket
-                        LoadDocuments(iTicketNumber, ProductType.PAWN);
+                        LoadDocuments(iTicketNumber, SupportProductType.PAWN);
                     }
                 }
             }
         }
-
+        #endregion
+        #region KEY CONTROL
+        /*__________________________________________________________________________________________*/
+        private void PS_TicketsDataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Control || e.Shift) && string.Equals(
+                Properties.Resources.MultipleLoanSelection,
+                Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
+            {
+                ctrlKeyPressed = true;
+                PS_TicketsDataGridView.MultiSelect = true;
+                e.Handled = false;
+            }
+            else
+                PS_TicketsDataGridView.MultiSelect = false;
+        }
+        /*__________________________________________________________________________________________*/
+        private void PS_TicketsDataGridView_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (ctrlKeyPressed && (e.KeyValue == 16 || e.KeyValue == 17) && string.Equals(
+                Properties.Resources.MultipleLoanSelection,
+                Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
+            {
+                ctrlKeyPressed = false;
+                e.Handled = false;
+            }
+        }
+        /*__________________________________________________________________________________________*/
         private void PS_AddTicketsDataGridView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Control && string.Equals(
@@ -1743,7 +3130,7 @@ namespace Support.Forms.Customer.Products
             else
                 PS_AddTicketsDataGridView.MultiSelect = false;
         }
-
+        /*__________________________________________________________________________________________*/
         private void PS_AddTicketsDataGridView_KeyUp(object sender, KeyEventArgs e)
         {
             if (ctrlKeyPressed && e.KeyValue == 17 && string.Equals(
@@ -1754,7 +3141,121 @@ namespace Support.Forms.Customer.Products
                 e.Handled = false;
             }
         }
+        #endregion
+        #region BUTTON CONTROL
+        /*__________________________________________________________________________________________*/
+        private void PS_LostPawnTicketButton_Click(object sender, EventArgs e)
+        {
+            /*
+            List<CustLoanLostTicketFee> ticketFees = new List<CustLoanLostTicketFee>(0);
 
+            for (int i = 0; i < _SelectedLoans.Count; i++)
+            {
+                int index = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.FindIndex(pl => pl.TicketNumber == _SelectedLoans[i].TicketNumber);
+                if (index >= 0)
+                {
+                    CustLoanLostTicketFee ticketFee = new CustLoanLostTicketFee();
+                    ticketFee.LoanNumber = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[index].TicketNumber.ToString();
+                    ticketFee.StoreNumber = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[index].OrgShopNumber.PadLeft(5, '0');
+                    ticketFee.TicketLost = true;
+                    ticketFee.LSDTicket = CustLoanLostTicketFee.LOSTTICKETTYPE;
+                    ticketFee.LostTicketFee = 0;
+                    ticketFees.Add(ticketFee);
+                }
+            }
+            if (ticketFees.Count > 0)
+            {
+                ProcessLostPawnTicketFee myForm = new ProcessLostPawnTicketFee();
+                myForm.CustomerLoans = ticketFees;
+                myForm.ShowDialog(this);
+
+                for (int i = 0; i < _SelectedLoans.Count; i++)
+                {
+                    PawnLoan pawnLoan;
+                    int index = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.FindIndex(pl => pl.TicketNumber == _SelectedLoans[i].TicketNumber);
+                    if (index < 0)
+                    {
+                        continue;
+                    }
+                    pawnLoan = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[index];
+
+                    int iDx = ticketFees.FindIndex(
+                        cf => cf.LoanNumber == pawnLoan.TicketNumber.ToString());
+
+                    if (iDx >= 0)
+                    {
+                        pawnLoan.LostTicketInfo = ticketFees[iDx];
+                        if (pawnLoan.LostTicketInfo.TicketLost)
+                        {
+                            string feedate = ShopDateTime.Instance.ShopDate.ToShortDateString() + " " +
+                                             ShopDateTime.Instance.ShopTime.ToString();
+
+                            //Add the fees to the fee property of pawn loan
+                            Fee lostTicketFee = new Fee
+                            {
+                                FeeType = FeeTypes.LOST_TICKET,
+                                Value = ticketFees[iDx].LostTicketFee,
+                                FeeDate = Utilities.GetDateTimeValue(feedate, DateTime.Now),
+                                OriginalAmount = ticketFees[iDx].LostTicketFee,
+                                FeeState = FeeStates.ASSESSED
+                            };
+                            int idx = pawnLoan.OriginalFees.FindIndex(fee => fee.FeeType == FeeTypes.LOST_TICKET);
+                            if (idx >= 0)
+                            {
+                                pawnLoan.OriginalFees.RemoveAt(idx);
+                            }
+                            pawnLoan.OriginalFees.Add(lostTicketFee);
+                            decimal feeAmt = lostTicketFee.OriginalAmount;
+                            if (pawnLoan.TempStatus == StateStatus.P)
+                            {
+                                pawnLoan.PickupAmount += feeAmt;
+                                _totalPickupAmount += feeAmt;
+                            }
+                            else if (pawnLoan.TempStatus == StateStatus.PD)
+                            {
+                                _totalPaydownAmount += feeAmt;
+                                pawnLoan.PaydownAmount += feeAmt;
+                            }
+                            else if (pawnLoan.TempStatus == StateStatus.RN)
+                            {
+                                _totalRenewalAmount += feeAmt;
+                                pawnLoan.RenewalAmount += feeAmt;
+                            }
+                            ServiceAmount += feeAmt;
+                            GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.RemoveAt(index);
+                            GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Insert(index, pawnLoan);
+
+                            //Update the service indicator to indicate lost ticket
+                            UpdateServiceIndicator(pawnLoan.TicketNumber, ServiceIndicators.LT.ToString());
+                            UpdateTicketSelections();
+                        }
+                    }
+                }
+            }
+            GlobalDataAccessor.Instance.DesktopSession.TotalPickupAmount = _totalPickupAmount;
+            GlobalDataAccessor.Instance.DesktopSession.TotalRenewalAmount = _totalRenewalAmount;
+            GlobalDataAccessor.Instance.DesktopSession.TotalPaydownAmount = _totalPaydownAmount;
+            */
+        }
+        /*__________________________________________________________________________________________*/
+        private void ps_PickupAmountValue_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            //no need for nav action since the form is opened only from here and
+            //the only action from the view pickup amount form is to close the form
+            int tktNumber = Utilities.GetIntegerValue(e.Link.LinkData);
+            var pickupamtForm = new PickupAmountDetails(tktNumber);
+            pickupamtForm.ShowDialog();
+        }
+        /*__________________________________________________________________________________________*/
+        private void PS_AddMoreTicketsButton_Click(object sender, EventArgs e)
+        {
+            //Madhu BZ # 147 - passing the current object to child window.
+            //TODO - revisit 
+            //AddTickets myForm = new AddTickets(this);
+            //myForm.AddPawnLoans += myForm_AddPawnLoans;
+            //myForm.ShowDialog(this);
+        }
+        /*__________________________________________________________________________________________*/
         private void PS_CheckoutButton_Click(object sender, EventArgs e)
         {
             if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count > 0)
@@ -1767,7 +3268,7 @@ namespace Support.Forms.Customer.Products
                 LayawayCheckout();
             }
         }
-
+        /*__________________________________________________________________________________________*/
         private void PS_ExtendButton_Click(object sender, EventArgs e)
         {
             /*
@@ -1872,218 +3373,12 @@ namespace Support.Forms.Customer.Products
                 }
             } */
         }
-
-        private void PS_ItemDescriptionDataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.ColumnIndex == 1 && e.RowIndex >= 0)
-            {
-                DataGridViewRow myRow = PS_ItemDescriptionDataGridView.Rows[e.RowIndex];
-                int itemTicketNumber = 0;
-                itemTicketNumber = Utilities.GetIntegerValue(myRow.Cells[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Value);
-
-                if (GetSelectedProductType() == ProductType.PAWN)
-                {
-                    PawnLoan pawnLoan = new PawnLoan();
-                    int iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans.FindIndex(delegate(PawnLoan p)
-                                                                                  {
-                                                                                      return p.TicketNumber == itemTicketNumber;
-                                                                                  });
-
-                    if (iDx >= 0)
-                        pawnLoan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans[iDx];
-                    else
-                    {
-                        iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.FindIndex(delegate(PawnLoan p)
-                                                                                            {
-                                                                                                return p.TicketNumber == itemTicketNumber;
-                                                                                            });
-                        if (iDx >= 0)
-                            pawnLoan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary[iDx];
-                    }
-
-                    string sICN = Utilities.GetStringValue(myRow.Cells[PS_Description_ICNColumn.Index].Value, "");
-
-                    if (iDx >= 0)
-                    {
-                        PawnLoan activePawnLoan = null;
-                        if (GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan != null)
-                        {
-                            activePawnLoan = Utilities.CloneObject(GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan);
-                        }
-
-                        int iPawnItemIdx = pawnLoan.Items.FindIndex(delegate(Item pi)
-                                                                    {
-                                                                        return pi.Icn == sICN;
-                                                                    });
-
-                        // Need to populate pawnLoan from GetCat5
-                        int iCategoryMask = GlobalDataAccessor.Instance.DesktopSession.CategoryXML.GetCategoryMask(pawnLoan.Items[iPawnItemIdx].CategoryCode);
-                        DescribedMerchandise dmPawnItem = new DescribedMerchandise(iCategoryMask);
-                        Item pawnItem = pawnLoan.Items[iPawnItemIdx];
-                        Item.PawnItemMerge(ref pawnItem, dmPawnItem.SelectedPawnItem, true);
-                        pawnLoan.Items.RemoveAt(iPawnItemIdx);
-                        pawnLoan.Items.Insert(iPawnItemIdx, pawnItem);
-                        // End GetCat5 populate
-                        //Add the current loan as the active pawn loan
-                        GlobalDataAccessor.Instance.DesktopSession.PawnLoans.Insert(0, pawnLoan);
-                        // Placeholder for ReadOnly DescribedItem.cs
-                        DescribeItem myForm = new DescribeItem(GlobalDataAccessor.Instance.DesktopSession, CurrentContext.READ_ONLY, iPawnItemIdx)
-                        {
-                            SelectedProKnowMatch = pawnLoan.Items[iPawnItemIdx].SelectedProKnowMatch
-                        };
-                        myForm.ShowDialog(this);
-
-                        // Reset Active Pawn Loan back to Original
-                        if (activePawnLoan != null)
-                            GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan = activePawnLoan;
-                        else
-                            GlobalDataAccessor.Instance.DesktopSession.PawnLoans.RemoveAt(0);
-                    }
-                }
-                else
-                {
-                    LayawayVO layaway = new LayawayVO();
-                    int iDx = GlobalDataAccessor.Instance.DesktopSession.Layaways.FindIndex(delegate(LayawayVO l)
-                                                                                 {
-                                                                                     return l.TicketNumber == itemTicketNumber;
-                                                                                 });
-                    string sICN = Utilities.GetStringValue(myRow.Cells[PS_Description_ICNColumn.Index].Value, "");
-                    if (iDx >= 0)
-                    {
-                        layaway = GlobalDataAccessor.Instance.DesktopSession.Layaways[iDx];
-
-                        int iPawnItemIdx = layaway.RetailItems.FindIndex(pi => pi.Icn == sICN);
-
-                        int iItemIdx = iPawnItemIdx;
-                        if (iItemIdx >= 0 && GlobalDataAccessor.Instance.DesktopSession.ActiveLayaway != null)
-                        {
-                            //Show describe item form as show dialog
-                            int iCategoryMask = GlobalDataAccessor.Instance.DesktopSession.CategoryXML.GetCategoryMask(layaway.RetailItems[iItemIdx].CategoryCode);
-                            DescribedMerchandise dmPawnItem = new DescribedMerchandise(iCategoryMask);
-                            Item pawnItem = layaway.RetailItems[iItemIdx];
-                            Item.PawnItemMerge(ref pawnItem, dmPawnItem.SelectedPawnItem, true);
-                            ((CustomerProductDataVO)GlobalDataAccessor.Instance.DesktopSession.ActiveLayaway).Items.Insert(0, pawnItem);
-                            // End GetCat5 populate
-                            // Placeholder for ReadOnly DescribedItem.cs
-                            DescribeItem myForm = new DescribeItem(GlobalDataAccessor.Instance.DesktopSession, CurrentContext.READ_ONLY, 0)
-                            {
-                                SelectedProKnowMatch = ((CustomerProductDataVO)GlobalDataAccessor.Instance.DesktopSession.ActiveLayaway).Items[0].SelectedProKnowMatch
-                            };
-                            myForm.ShowDialog(this);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void PS_LostPawnTicketButton_Click(object sender, EventArgs e)
-        {
-            /*
-            List<CustLoanLostTicketFee> ticketFees = new List<CustLoanLostTicketFee>(0);
-
-            for (int i = 0; i < _SelectedLoans.Count; i++)
-            {
-                int index = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.FindIndex(pl => pl.TicketNumber == _SelectedLoans[i].TicketNumber);
-                if (index >= 0)
-                {
-                    CustLoanLostTicketFee ticketFee = new CustLoanLostTicketFee();
-                    ticketFee.LoanNumber = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[index].TicketNumber.ToString();
-                    ticketFee.StoreNumber = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[index].OrgShopNumber.PadLeft(5, '0');
-                    ticketFee.TicketLost = true;
-                    ticketFee.LSDTicket = CustLoanLostTicketFee.LOSTTICKETTYPE;
-                    ticketFee.LostTicketFee = 0;
-                    ticketFees.Add(ticketFee);
-                }
-            }
-            if (ticketFees.Count > 0)
-            {
-                ProcessLostPawnTicketFee myForm = new ProcessLostPawnTicketFee();
-                myForm.CustomerLoans = ticketFees;
-                myForm.ShowDialog(this);
-
-                for (int i = 0; i < _SelectedLoans.Count; i++)
-                {
-                    PawnLoan pawnLoan;
-                    int index = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.FindIndex(pl => pl.TicketNumber == _SelectedLoans[i].TicketNumber);
-                    if (index < 0)
-                    {
-                        continue;
-                    }
-                    pawnLoan = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[index];
-
-                    int iDx = ticketFees.FindIndex(
-                        cf => cf.LoanNumber == pawnLoan.TicketNumber.ToString());
-
-                    if (iDx >= 0)
-                    {
-                        pawnLoan.LostTicketInfo = ticketFees[iDx];
-                        if (pawnLoan.LostTicketInfo.TicketLost)
-                        {
-                            string feedate = ShopDateTime.Instance.ShopDate.ToShortDateString() + " " +
-                                             ShopDateTime.Instance.ShopTime.ToString();
-
-                            //Add the fees to the fee property of pawn loan
-                            Fee lostTicketFee = new Fee
-                            {
-                                FeeType = FeeTypes.LOST_TICKET,
-                                Value = ticketFees[iDx].LostTicketFee,
-                                FeeDate = Utilities.GetDateTimeValue(feedate, DateTime.Now),
-                                OriginalAmount = ticketFees[iDx].LostTicketFee,
-                                FeeState = FeeStates.ASSESSED
-                            };
-                            int idx = pawnLoan.OriginalFees.FindIndex(fee => fee.FeeType == FeeTypes.LOST_TICKET);
-                            if (idx >= 0)
-                            {
-                                pawnLoan.OriginalFees.RemoveAt(idx);
-                            }
-                            pawnLoan.OriginalFees.Add(lostTicketFee);
-                            decimal feeAmt = lostTicketFee.OriginalAmount;
-                            if (pawnLoan.TempStatus == StateStatus.P)
-                            {
-                                pawnLoan.PickupAmount += feeAmt;
-                                _totalPickupAmount += feeAmt;
-                            }
-                            else if (pawnLoan.TempStatus == StateStatus.PD)
-                            {
-                                _totalPaydownAmount += feeAmt;
-                                pawnLoan.PaydownAmount += feeAmt;
-                            }
-                            else if (pawnLoan.TempStatus == StateStatus.RN)
-                            {
-                                _totalRenewalAmount += feeAmt;
-                                pawnLoan.RenewalAmount += feeAmt;
-                            }
-                            ServiceAmount += feeAmt;
-                            GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.RemoveAt(index);
-                            GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Insert(index, pawnLoan);
-
-                            //Update the service indicator to indicate lost ticket
-                            UpdateServiceIndicator(pawnLoan.TicketNumber, ServiceIndicators.LT.ToString());
-                            UpdateTicketSelections();
-                        }
-                    }
-                }
-            }
-            GlobalDataAccessor.Instance.DesktopSession.TotalPickupAmount = _totalPickupAmount;
-            GlobalDataAccessor.Instance.DesktopSession.TotalRenewalAmount = _totalRenewalAmount;
-            GlobalDataAccessor.Instance.DesktopSession.TotalPaydownAmount = _totalPaydownAmount;
-            */
-        }
-
-        private void ps_PickupAmountValue_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            //no need for nav action since the form is opened only from here and
-            //the only action from the view pickup amount form is to close the form
-            int tktNumber = Utilities.GetIntegerValue(e.Link.LinkData);
-            var pickupamtForm = new PickupAmountDetails(tktNumber);
-            pickupamtForm.ShowDialog();
-        }
-
         /// <summary>
         /// SR 8/24/09 - Item Pickup Functionality
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /*__________________________________________________________________________________________*/
         private void PS_PickUpButton_Click(object sender, EventArgs e)
         {
             _gunItemIdValidated = false;
@@ -2131,7 +3426,8 @@ namespace Support.Forms.Customer.Products
                 ContinuePawnPickupProcess();
             }
         }
-
+        #endregion
+        /*__________________________________________________________________________________________*/
         private void PS_ReceiptNoValue_Click(object sender, EventArgs e)
         {
             int ticketNumber = 0;
@@ -2185,12 +3481,12 @@ namespace Support.Forms.Customer.Products
                 }
             }
         }
-
+        /*__________________________________________________________________________________________*/
         private void PS_ReceiptNoValue_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             //CallViewReceipt(PS_ReceiptNoValue.Text);
         }
-
+        /*__________________________________________________________________________________________*/
         private void PS_RollOverButton_Click(object sender, EventArgs e)
         {
             /*
@@ -2365,56 +3661,10 @@ namespace Support.Forms.Customer.Products
             } */
         }
 
-        private void PS_ShowComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            PS_PawnLoanLabel.Visible = false;
-            PS_PawnNameLabel.Visible = false;
-            PS_ItemDescriptionDataGridView.Visible = false;
-            PS_LoanStatsLayoutPanel.Visible = false;
-            tlpDocuments.Visible = false;
-
-            if (_Setup)
-            {
-                LoadData(GetSelectedProductType());
-            }
-        }
-
-        private void PS_TicketsDataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                CelMouseUpActions(e.RowIndex, e.ColumnIndex);
-            }
-        }
-
-        private void PS_TicketsDataGridView_KeyDown(object sender, KeyEventArgs e)
-        {
-            if ((e.Control || e.Shift) && string.Equals(
-                Properties.Resources.MultipleLoanSelection,
-                Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
-            {
-                ctrlKeyPressed = true;
-                PS_TicketsDataGridView.MultiSelect = true;
-                e.Handled = false;
-            }
-            else
-                PS_TicketsDataGridView.MultiSelect = false;
-        }
-
-        private void PS_TicketsDataGridView_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (ctrlKeyPressed && (e.KeyValue == 16 || e.KeyValue == 17) && string.Equals(
-                Properties.Resources.MultipleLoanSelection,
-                Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
-            {
-                ctrlKeyPressed = false;
-                e.Handled = false;
-            }
-        }
-
+        /*__________________________________________________________________________________________*/
         private void PS_UnDoButton_Click(object sender, EventArgs e)
         {
-            if (GetSelectedProductType() == ProductType.LAYAWAY)
+            if (GetSelectedProductType() == SupportProductType.LAYAWAY)
             {
                 if (_SelectedLayaways.Count == 0)
                 {
@@ -2476,7 +3726,7 @@ namespace Support.Forms.Customer.Products
                 }
             }
         }
-
+        /*__________________________________________________________________________________________*/
         private void PS_ViewNewLoanDetailsButton_Click(object sender, EventArgs e)
         {
             List<PawnLoan> selectedLoans = _SelectedLoans;
@@ -2491,7 +3741,7 @@ namespace Support.Forms.Customer.Products
                 myForm.ShowDialog();
             }
         }
-
+        /*__________________________________________________________________________________________*/
         private void PS_WaiveProrate_Click(object sender, EventArgs e)
         {
             /*WaiveProrateFees waivefees = new WaiveProrateFees();
@@ -2515,1165 +3765,6 @@ namespace Support.Forms.Customer.Products
             //Add logic for rollover and paydown amounts
              */
         }
-
-        private void RefreshTempStatus(int iTicketNumber, string sStoreNumber)
-        {
-            //If the refresh button is clicked get the latest temp status of the loan
-            List<int> pfieTicketNumbers = new List<int>();
-            List<string> pfieStoreNumbers = new List<string>();
-            pfieTicketNumbers.Add(iTicketNumber);
-            pfieStoreNumbers.Add(sStoreNumber);
-
-            DataTable currentTempStatus;
-            var errorCode = string.Empty;
-            var errorMsg = string.Empty;
-
-            CustomerLoans.CheckForTempStatus(pfieTicketNumbers, pfieStoreNumbers, out currentTempStatus, out errorCode, out errorMsg);
-            if (currentTempStatus != null && currentTempStatus.Rows.Count > 0)
-            {
-                foreach (DataRow dr in currentTempStatus.Rows)
-                {
-                    //check if the loan still has PFIE status
-                    //If it does not, update the temp status in the pawnloans or pawnloans auxillary 
-                    //depending on where the ticket number exists
-                    if (!(dr[Tempstatuscursor.TEMPSTATUS].ToString().Contains("PFIE")))
-                    {
-                        int iDx = -1;
-                        //update the loan object in pawn loans or pawn loans auxillary list
-                        PawnLoan ploan = null;
-                        bool additionalTicket = false;
-                        iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans.FindIndex(pl => pl.TicketNumber == iTicketNumber);
-                        if (iDx >= 0)
-                            ploan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans[iDx];
-                        else
-                        {
-                            iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.FindIndex(
-                                pl => pl.TicketNumber == iTicketNumber);
-                            if (iDx >= 0)
-                            {
-                                ploan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary[iDx];
-                                additionalTicket = true;
-                            }
-                        }
-                        if (ploan != null)
-                        {
-                            ploan.TempStatus = (StateStatus)Enum.Parse(typeof(StateStatus),
-                                                                       Utilities.GetStringValue(dr[Tempstatuscursor.TEMPSTATUS]) != ""
-                                                                       ? Utilities.GetStringValue(dr[Tempstatuscursor.TEMPSTATUS])
-                                                                       : StateStatus.BLNK.ToString());
-                            if (!(additionalTicket))
-                            {
-                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans.RemoveAt(iDx);
-                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans.Insert(iDx, ploan);
-                            }
-                            else
-                            {
-                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.RemoveAt(iDx);
-                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.Insert(iDx, ploan);
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                FileLogger.Instance.logMessage(LogLevel.WARN, this, "Refresh temp status for PFIE loans failed to yield rows");
-            }
-        }
-
-        private bool SearchGrid(string loan, DataGridView grid)
-        {
-            //no ticket SMurphy 3/16/2010 don't add to Additional Tickets if it's already in the original or Additional lists
-            //this looks thru gridviews so a message box can be displayed when attempting to add duplicates
-            bool found = false;
-
-            foreach (DataGridViewRow row in grid.Rows)
-            {
-                if (row.Cells[2].Value != null)
-                    if (row.Cells[2].Value.ToString().Substring(5) == loan)
-                    {
-                        found = true;
-                        break;
-                    }
-            }
-
-            return found;
-        }
-
-
-
-        private bool ShouldEnableUndoButton()
-        {
-            if (GetSelectedProductType() == ProductType.PAWN)
-            {
-                if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count == 0 || _SelectedLoans.Count == 0)
-                {
-                    return false;
-                }
-
-                bool hasPawnInService = false;
-                foreach (PawnLoan loan in _SelectedLoans)
-                {
-                    bool loanExists = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Exists(pl => pl.TicketNumber == loan.TicketNumber);
-                    if (loanExists)
-                    {
-                        hasPawnInService = true;
-                        break;
-                    }
-                }
-
-                return hasPawnInService;
-            }
-            else
-            {
-                if (GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.Count == 0 || _SelectedLayaways.Count == 0)
-                {
-                    return false;
-                }
-
-                bool hasLayawayInService = false;
-                foreach (LayawayVO layaway in _SelectedLayaways)
-                {
-                    bool layawayExists = GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.Exists(lw => lw.TicketNumber == layaway.TicketNumber);
-                    if (layawayExists)
-                    {
-                        hasLayawayInService = true;
-                        break;
-                    }
-                }
-
-                return hasLayawayInService;
-            }
-        }
-
-        private void ShowLayawayPanels()
-        {
-            LW_LayawayButtonsPanel.Location = PS_PawnButtonsPanel.Location;
-            PS_PawnButtonsPanel.Visible = false;
-            LW_LayawayButtonsPanel.Visible = true;
-            LW_LayawayButtonsPanel.BringToFront();
-
-            LW_DetailsLayoutPanel.Location = PS_LoanStatsLayoutPanel.Location;
-            PS_LoanStatsLayoutPanel.Visible = false;
-            LW_DetailsLayoutPanel.Visible = true;
-            LW_DetailsLayoutPanel.BringToFront();
-        }
-
-
-        private void UndoLayawayTransactions(List<LayawayVO> layaways)
-        {
-            foreach (LayawayVO layaway in layaways)
-            {
-                GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.Remove(layaway);
-                ServiceAmount -= layaway.Payments.Last().Amount;
-                layaway.Payments.Remove(layaway.Payments.Last());
-                UpdateServiceIndicator(layaway.TicketNumber, ServiceIndicators.Blank.ToString());
-            }
-        }
-
-        private void UndoPawnTransactions(List<PawnLoan> loansToUndo)
-        {
-            /*
-            var selectedLoans = loansToUndo;
-            var selectedServiceLoanNumbers = new List<int>();
-            var loanTempStatus = new List<TupleType<int, StateStatus, decimal>>();
-            var amountToDeductFromServiceAmount = 0.0M;
-            var pickupAmountTodeduct = 0.0M;
-            var extensionAmountToDeduct = 0.0M;
-            var renewalAmountToDeduct = 0.0M;
-            var paydownAmountToDeduct = 0.0M;
-            var ppmtAmountToDeduct = 0.0M;
-            //Only used if loan is still marked RO and no distinction has been made to renew or paydown
-            var rolloverAmountToDeduct = 0.0M;
-
-            foreach (var pl in selectedLoans)
-            {
-                selectedServiceLoanNumbers.Add(pl.TicketNumber);
-                TupleType<int, StateStatus, decimal> loanTempData = null;
-                switch (pl.TempStatus)
-                {
-                    case StateStatus.P:
-                        loanTempData = new TupleType<int, StateStatus, decimal>(
-                            pl.TicketNumber, pl.TempStatus, pl.PickupAmount);
-                        break;
-                    case StateStatus.E:
-                        loanTempData = new TupleType<int, StateStatus, decimal>(
-                            pl.TicketNumber, pl.TempStatus, pl.ExtensionAmount);
-                        break;
-                    case StateStatus.RN:
-                        loanTempData = new TupleType<int, StateStatus, decimal>(
-                            pl.TicketNumber, pl.TempStatus, pl.RenewalAmount);
-                        break;
-                    case StateStatus.PD:
-                        loanTempData = new TupleType<int, StateStatus, decimal>(
-                            pl.TicketNumber, pl.TempStatus, pl.PaydownAmount);
-                        break;
-                    case StateStatus.RO:
-                        loanTempData = new TupleType<int, StateStatus, decimal>(
-                            pl.TicketNumber, pl.TempStatus,
-                            (pl.RenewalAmount <= 0.0M) ? pl.PaydownAmount : pl.RenewalAmount);
-                        break;
-                    case StateStatus.PPMNT:
-                        decimal partialPmtAmt= pl.PartialPayments.Where(ppmt => ppmt.Status_cde == "New").Sum(ppmt => ppmt.PMT_AMOUNT);
-                        loanTempData = new TupleType<int, StateStatus, decimal>(
-                            pl.TicketNumber, pl.TempStatus,partialPmtAmt);
-                        break;
-
-                }
-                if (loanTempData != null)
-                    loanTempStatus.Add(loanTempData);
-            }
-            if (selectedLoans.Count > 0)
-            {
-                var errorCode = string.Empty;
-                var errorMsg = string.Empty;
-                //Ret types of all products will be loans
-                List<string> lstRefTypes = new List<string>();
-                for (int i = 0; i < selectedServiceLoanNumbers.Count; i++)
-                    lstRefTypes.Add("1");
-                bool retVal = StoreLoans.UpdateTempStatus(selectedServiceLoanNumbers, StateStatus.BLNK, strStoreNumber, true, lstRefTypes, out errorCode, out errorMsg);
-
-                if (retVal)
-                {
-                    foreach (int tktNumber in selectedServiceLoanNumbers)
-                    {
-                        UpdateServiceIndicator(tktNumber, ServiceIndicators.Blank.ToString());
-                        int number = tktNumber;
-                        var loanToUpdate = new TupleType<int, StateStatus, decimal>(0, StateStatus.BLNK, 0.0M);
-
-                        try
-                        {
-                            IEnumerable<TupleType<int, StateStatus, decimal>> loansToUpdate = (loanTempStatus.Where(loan => loan.Left == number));
-                            if (loansToUpdate != null && loansToUpdate.Count() > 0)
-                            {
-                                loanToUpdate = loansToUpdate.First();
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            continue;
-                        }
-                        if (loanToUpdate.Mid == StateStatus.P)
-                        {
-                            pickupAmountTodeduct += loanToUpdate.Right;
-                        }
-                        else if (loanToUpdate.Mid == StateStatus.E)
-                        {
-                            extensionAmountToDeduct += loanToUpdate.Right;
-                        }
-                        else if (loanToUpdate.Mid == StateStatus.PD)
-                        {
-                            paydownAmountToDeduct += loanToUpdate.Right;
-                        }
-                        else if (loanToUpdate.Mid == StateStatus.RN)
-                        {
-                            renewalAmountToDeduct += loanToUpdate.Right;
-                        }
-                        else if (loanToUpdate.Mid == StateStatus.RO)
-                        {
-                            rolloverAmountToDeduct += loanToUpdate.Right;
-                        }
-                        else if (loanToUpdate.Mid == StateStatus.PPMNT)
-                        {
-                            ppmtAmountToDeduct += loanToUpdate.Right;
-                        }
-                        amountToDeductFromServiceAmount += loanToUpdate.Right;
-                        //Remove the loan from service loan
-                        int loanNo = tktNumber;
-                        int index = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.FindIndex(loan => loan.TicketNumber == loanNo);
-                        if (index >= 0)
-                        {
-                            GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.RemoveAt(index);
-                        }
-                        //Set the temp status to blank on the loan in the PawnLoans or PawnLoans_Auxillary loan list
-                        //Since we cannot revert to what it was as the temp status in DB has now been changed to blank
-                        int iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans.FindIndex(pl => pl.TicketNumber == loanNo);
-                        if (iDx >= 0)
-                        {
-                            GlobalDataAccessor.Instance.DesktopSession.PawnLoans[iDx].TempStatus =
-                            StateStatus.BLNK;
-                        }
-                        else
-                        {
-                            iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.FindIndex(
-                                pl => pl.TicketNumber == loanNo);
-                            if (iDx >= 0)
-                            {
-                                GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary[iDx].TempStatus = StateStatus.BLNK;
-                            }
-                        }
-                    }
-                    if (renewalAmountToDeduct > 0.0M)
-                    {
-                        GlobalDataAccessor.Instance.DesktopSession.TotalRenewalAmount -= renewalAmountToDeduct;
-                    }
-                    if (paydownAmountToDeduct > 0.00M)
-                    {
-                        GlobalDataAccessor.Instance.DesktopSession.TotalPaydownAmount -= paydownAmountToDeduct;
-                    }
-                    if (renewalAmountToDeduct <= 0.00M && paydownAmountToDeduct <= 0.00M)
-                    {
-                        GlobalDataAccessor.Instance.DesktopSession.TotalRolloverAmount -=
-                        rolloverAmountToDeduct;
-                    }
-                    if (extensionAmountToDeduct > 0.00M)
-                    {
-                        GlobalDataAccessor.Instance.DesktopSession.TotalExtendAmount -= extensionAmountToDeduct;
-                    }
-                    if (pickupAmountTodeduct > 0.00M)
-                    {
-                        GlobalDataAccessor.Instance.DesktopSession.TotalPickupAmount -= pickupAmountTodeduct;
-                    }
-                    
-                    if (ServiceAmount > 0)
-                    ServiceAmount -= amountToDeductFromServiceAmount;
-                    //Remove the selected flag on all the rows
-                    UpdateTicketSelections();
-                    DisableAllServiceButtons();
-                    //If there are no more service loans show all tabs
-                    if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count == 0)
-                        callUnLockProductsTab();
-                }
-                else
-                {
-                    MessageBox.Show("Error in the undo process");
-                    BasicExceptionHandler.Instance.AddException("Calling update temp status to undo pickup failed",
-                                                                new ApplicationException());
-                }
-            } */
-        }
-
-        private void UndoSkippedLoans(List<PawnLoan> selectedLoans)
-        {
-            List<int> skippedTicketNumbers = GlobalDataAccessor.Instance.DesktopSession.SkippedTicketNumbers;
-            List<PawnLoan> skippedLoans = new List<PawnLoan>();
-            foreach (int tktNo in skippedTicketNumbers)
-            {
-                int i = tktNo;
-                int idx = selectedLoans.FindIndex(loan => loan.TicketNumber == i);
-                if (idx >= 0)
-                    skippedLoans.Add(selectedLoans[idx]);
-            }
-            if (skippedLoans.Count > 0)
-                UndoPawnTransactions(skippedLoans);
-        }
-
-        private void UpdateActiveLayawayInformation(int iTicketNumber)
-        {
-            LayawayVO layaway = new LayawayVO();
-
-            PS_PawnLoanLabel.Visible = false;
-            PS_PawnNameLabel.Visible = false;
-            PS_ItemDescriptionDataGridView.Visible = false;
-            PS_LoanStatsLayoutPanel.Visible = false;
-            LW_DetailsLayoutPanel.Visible = false;
-            PS_TicketsDataGridView.Columns[2].HeaderText = "Layaway Number";
-            PS_TicketsDataGridView.Columns[3].HeaderText = "Last Payment Date";
-            PS_ItemDescriptionDataGridView.Columns[colItemAmount.Index].HeaderText = "Sale Amount";
-
-            int iDx = -1;
-            if (GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.Count > 0)
-            {
-                iDx = GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.FindIndex(pl => pl.TicketNumber == iTicketNumber);
-                if (iDx >= 0)
-                {
-                    layaway = GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways[iDx];
-                }
-            }
-
-            //If the loan is not in the service loans list
-            if (iDx < 0)
-            {
-                iDx = GlobalDataAccessor.Instance.DesktopSession.Layaways.FindIndex(pl => pl.TicketNumber == iTicketNumber);
-                if (iDx >= 0)
-                    layaway = GlobalDataAccessor.Instance.DesktopSession.Layaways[iDx];
-            }
-
-            if (_SelectedLayaways.Count > 1)
-            {
-                PS_ItemDescriptionDataGridView.Rows.Clear();
-                PS_ItemDescriptionDataGridView.Visible = true;
-                PS_ItemDescriptionDataGridView.Columns[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Visible = true;
-                PS_ItemDescriptionDataGridView.Columns[PS_ItemDescriptionDataGridView_SelectedLoan.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
-                PS_ItemDescriptionDataGridView.Columns[PS_Description_ICNColumn.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
-                PS_ItemDescriptionDataGridView.Columns[PS_Description_TicketDescriptionColumn.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
-                PS_ItemDescriptionDataGridView.Columns[colStatus.Index].Visible = true;
-                PS_ItemDescriptionDataGridView.Columns[colLocation.Index].Visible = true;
-                PS_ItemDescriptionDataGridView.Columns[colItemAmount.Index].Visible = true;
-
-                foreach (LayawayVO lw in _SelectedLayaways)
-                {
-                    bool printLoanNumber = true;
-                    foreach (RetailItem pItem in lw.RetailItems)
-                    {
-                        int gvIdx = PS_ItemDescriptionDataGridView.Rows.Add();
-                        DataGridViewRow myRow = PS_ItemDescriptionDataGridView.Rows[gvIdx];
-                        //Show the loan number only once for a set of items belonging to the loan
-                        myRow.Cells[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Value = lw.TicketNumber;
-                        if (printLoanNumber)
-                        {
-                            printLoanNumber = false;
-                        }
-                        //To do: Hide the cell contents if printloannumber is false
-                        myRow.Cells[PS_Description_ICNColumn.Index].Value = pItem.Icn;
-                        myRow.Cells[PS_Description_TicketDescriptionColumn.Index].Value = pItem.TicketDescription;
-                        myRow.Cells[colStatus.Index].Value = pItem.ItemStatus.ToString();
-                        myRow.Cells[colLocation.Index].Value = pItem.Location;
-                        myRow.Cells[colItemAmount.Index].Value = pItem.RetailPrice.ToString("c");
-                    }
-                }
-
-                LW_DetailsLayoutPanel.Visible = false;
-            }
-            else if (layaway.TicketNumber != 0)
-            {
-                var sFirstName = string.Empty;
-                var sMiddleName = string.Empty;
-                var sLastName = string.Empty;
-                var sErrorCode = string.Empty;
-                var sErrorText = string.Empty;
-
-                PS_ItemDescriptionDataGridView.Rows.Clear();
-                PS_ItemDescriptionDataGridView.Visible = true;
-                PS_ItemDescriptionDataGridView.Rows.Clear();
-                PS_ItemDescriptionDataGridView.Columns[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Visible = false;
-                PS_ItemDescriptionDataGridView.Columns[PS_Description_ICNColumn.Index].SortMode = DataGridViewColumnSortMode.Automatic;
-                PS_ItemDescriptionDataGridView.Columns[PS_Description_TicketDescriptionColumn.Index].SortMode = DataGridViewColumnSortMode.Automatic;
-                PS_ItemDescriptionDataGridView.Columns[colStatus.Index].Visible = true;
-                PS_ItemDescriptionDataGridView.Columns[colLocation.Index].Visible = true;
-                PS_ItemDescriptionDataGridView.Columns[colItemAmount.Index].Visible = true;
-
-                for (int i = 0; i < layaway.RetailItems.Count; i++)
-                {
-                    RetailItem retailItem = layaway.RetailItems[i];
-
-                    int gvIdx = PS_ItemDescriptionDataGridView.Rows.Add();
-                    DataGridViewRow myRow = PS_ItemDescriptionDataGridView.Rows[gvIdx];
-                    myRow.Cells[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Value = layaway.TicketNumber;
-                    myRow.Cells[PS_Description_ICNColumn.Index].Value = retailItem.Icn;
-                    myRow.Cells[PS_Description_TicketDescriptionColumn.Index].Value = retailItem.TicketDescription;
-                    myRow.Cells[colStatus.Index].Value = retailItem.ItemStatus.ToString();
-                    myRow.Cells[colLocation.Index].Value = retailItem.Location;
-                    myRow.Cells[colItemAmount.Index].Value = retailItem.RetailPrice.ToString("c");
-                }
-                if (layaway.CustomerNumber != GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerNumber)
-                {
-                    CustomerLoans.GetCustomerName(
-                        Utilities.GetStringValue(layaway.OrgShopNumber, "").PadLeft(5, '0'),
-                        Utilities.GetIntegerValue(layaway.TicketNumber, 0), ProductType.PAWN.ToString(),
-                        out sFirstName, out sMiddleName, out sLastName, out sErrorCode, out sErrorText);
-                }
-                else
-                {
-                    CustomerVO activeCustomer = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer;
-                    sFirstName = activeCustomer.FirstName + " " + activeCustomer.MiddleInitial + " " +
-                                 activeCustomer.LastName;
-                }
-
-                PS_PawnNameLabel.Visible = true;
-                PS_ItemDescriptionDataGridView.Visible = true;
-                PS_LoanStatsLayoutPanel.Visible = false;
-                LW_DetailsLayoutPanel.Visible = true;
-
-                LayawayPaymentHistoryBuilder paymentBuilder;
-
-                try
-                {
-                    paymentBuilder = new LayawayPaymentHistoryBuilder(layaway);
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show("Error building the payment schedule");
-                    FileLogger.Instance.logMessage(LogLevel.ERROR, this, "UpdateActiveLayawayInformation errored:  " + exc.Message);
-                    return;
-                }
-                decimal delinquentAmount = paymentBuilder.GetDelinquentAmount(ShopDateTime.Instance.FullShopDateTime);
-
-                PS_ReceiptNoValue.Text = "";
-                if (CollectionUtilities.isNotEmpty(layaway.Receipts))
-                {
-                    int inDx = layaway.Receipts.FindLastIndex(delegate(Receipt r)
-                                                              {
-                                                                  return r.Date ==
-                                                                         layaway.Receipts.Min(m => m.Date);
-                                                              });
-
-                    PS_ReceiptNoValue.Text = layaway.Receipts[inDx].ReceiptNumber;
-                }
-
-                if (CollectionUtilities.isNotEmpty(layaway.Receipts))
-                {
-                    int idx = layaway.Receipts.FindLastIndex(r => r.Date == layaway.Receipts.Max(m => m.Date) && r.Event == "LAYPMT");
-                    if (idx >= 0)
-                        lastLayawayPayment = layaway.Receipts[idx].Date.ToShortDateString();
-                }
-
-
-                PS_PawnLoanLabel.Text = "Layaway " + layaway.TicketNumber;
-                PS_PawnLoanLabel.Visible = true;
-                LW_NumberValue.Text = layaway.TicketNumber.ToString();
-                PS_PawnNameLabel.Text = (sFirstName + " " + sMiddleName + " " + sLastName).Replace("  ", " ");
-                LW_FirstPaymentDueDateValue.Text = layaway.FirstPayment.ToString("d");
-                LW_PaidToDateValue.Text = layaway.GetAmountPaid().ToString("c");
-                LW_PaymentAmountDueValue.Text = paymentBuilder.GetTotalDueNextPayment(ShopDateTime.Instance.FullShopDateTime).ToString("c");
-                LW_CreatedOnValue.Text = layaway.DateMade.ToString("d");
-                LW_TotalAmountOfLayawayValue.Text = (layaway.Amount + layaway.SalesTaxAmount).ToString("c");
-                LW_OutstandingValue.Text = paymentBuilder.GetBalanceOwed().ToString("c");
-                LW_NumberOfPaymentsValue.Text = layaway.NumberOfPayments.ToString();
-                LW_ByValue.Text = layaway.CreatedBy;
-                LW_DownPaymentValue.Text = layaway.DownPayment.ToString("c");
-                LW_DelinquentValue.Text = delinquentAmount.ToString("c");
-
-
-                LW_ServiceFeeIncludingTaxValue.Text = layaway.GetLayawayFees().ToString("c");
-            }
-            else
-            {
-                PS_ItemDescriptionDataGridView.Rows.Clear();
-                PH_ReceiptsDataGridView.Rows.Clear();
-                PS_PawnNameLabel.Visible = true;
-                PS_ItemDescriptionDataGridView.Visible = true;
-                PS_LoanStatsLayoutPanel.Visible = false;
-                LW_DetailsLayoutPanel.Visible = true;
-
-                LW_NumberValue.Text = string.Empty;
-                PS_PawnNameLabel.Text = string.Empty;
-                LW_FirstPaymentDueDateValue.Text = string.Empty;
-                LW_PaidToDateValue.Text = string.Empty;
-                LW_PaymentAmountDueValue.Text = string.Empty;
-                LW_CreatedOnValue.Text = string.Empty;
-                LW_TotalAmountOfLayawayValue.Text = string.Empty;
-                LW_OutstandingValue.Text = string.Empty;
-                LW_NumberOfPaymentsValue.Text = string.Empty;
-                LW_ByValue.Text = string.Empty;
-                LW_DownPaymentValue.Text = string.Empty;
-                LW_DelinquentValue.Text = string.Empty;
-                LW_ServiceFeeIncludingTaxValue.Text = string.Empty;
-            }
-        }
-
-        private void UpdateActivePawnInformation(int iTicketNumber)
-        {
-            PawnLoan pawnLoan = new PawnLoan();
-
-            PS_PawnLoanLabel.Visible = false;
-            PS_PawnNameLabel.Visible = false;
-            PS_ItemDescriptionDataGridView.Visible = false;
-            PS_LoanStatsLayoutPanel.Visible = false;
-            PS_ItemDescriptionDataGridView.Columns[colItemAmount.Index].HeaderText = "Item Amount";
-            bool gunFound = false;
-
-            int iDx = -1;
-            //if the pawn loan being viewed is already marked for some sort of service get
-            //the details of the loan from service loans else get from pawnloans list
-            //But if the service marked on the loan is Paydown or renew it should show the old loan
-            if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count > 0)
-            {
-                iDx = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.FindIndex(pl => pl.TicketNumber == iTicketNumber);
-                if (iDx >= 0)
-                {
-                    if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[iDx].TempStatus == StateStatus.RN ||
-                        GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[iDx].TempStatus == StateStatus.PD)
-                        iDx = -1;
-                    else
-                        pawnLoan = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans[iDx];
-                }
-            }
-            //If the loan is not in the service loans list
-            if (iDx < 0)
-            {
-                iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans.FindIndex(pl => pl.TicketNumber == iTicketNumber);
-                if (iDx >= 0)
-                    pawnLoan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans[iDx];
-
-                else
-                {
-                    iDx = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.FindIndex(
-                        pl => pl.TicketNumber == iTicketNumber);
-                    if (iDx >= 0)
-                    {
-                        pawnLoan = GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary[iDx];
-                    }
-                }
-            }
-
-            if (_SelectedLoans.Count > 1)
-            {
-                PS_ItemDescriptionDataGridView.Rows.Clear();
-                PS_ItemDescriptionDataGridView.Visible = true;
-                PS_ItemDescriptionDataGridView.Columns[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Visible = true;
-                PS_ItemDescriptionDataGridView.Columns[PS_ItemDescriptionDataGridView_SelectedLoan.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
-                PS_ItemDescriptionDataGridView.Columns[PS_Description_ICNColumn.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
-                PS_ItemDescriptionDataGridView.Columns[PS_Description_TicketDescriptionColumn.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
-                PS_ItemDescriptionDataGridView.Columns[colStatus.Index].Visible = true;
-                PS_ItemDescriptionDataGridView.Columns[colLocation.Index].Visible = true;
-                PS_ItemDescriptionDataGridView.Columns[colItemAmount.Index].Visible = false;
-
-                foreach (PawnLoan pl in _SelectedLoans)
-                {
-                    bool printLoanNumber = true;
-                    foreach (Item pItem in pl.Items)
-                    {
-                        int gvIdx = PS_ItemDescriptionDataGridView.Rows.Add();
-                        DataGridViewRow myRow = PS_ItemDescriptionDataGridView.Rows[gvIdx];
-                        //Show the loan number only once for a set of items belonging to the loan
-                        myRow.Cells[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Value = pl.TicketNumber;
-                        if (printLoanNumber)
-                        {
-                            printLoanNumber = false;
-                        }
-                        //To do: Hide the cell contents if printloannumber is false
-                        myRow.Cells[PS_Description_ICNColumn.Index].Value = pItem.Icn;
-                        myRow.Cells[PS_Description_TicketDescriptionColumn.Index].Value = pItem.TicketDescription;
-                        if (pItem.IsGun && !pl.IsExtended)
-                            gunFound = true;
-                    }
-                }
-                PS_LoanStatsLayoutPanel.Visible = false;
-            }
-            else
-            {
-                if (pawnLoan.TicketNumber != 0)
-                {
-                    var sFirstName = string.Empty;
-                    var sMiddleName = string.Empty;
-                    var sLastName = string.Empty;
-                    var sErrorCode = string.Empty;
-                    var sErrorText = string.Empty;
-
-                    PS_ItemDescriptionDataGridView.Rows.Clear();
-                    PS_ItemDescriptionDataGridView.Columns[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Visible = false;
-                    PS_ItemDescriptionDataGridView.Columns[PS_Description_ICNColumn.Index].SortMode = DataGridViewColumnSortMode.Automatic;
-                    PS_ItemDescriptionDataGridView.Columns[PS_Description_TicketDescriptionColumn.Index].SortMode = DataGridViewColumnSortMode.Automatic;
-                    PS_ItemDescriptionDataGridView.Columns[colStatus.Index].Visible = true;
-                    PS_ItemDescriptionDataGridView.Columns[colLocation.Index].Visible = true;
-                    PS_ItemDescriptionDataGridView.Columns[colItemAmount.Index].Visible = false;
-
-                    for (int i = 0; i < pawnLoan.Items.Count; i++)
-                    {
-                        Item pawnItem = pawnLoan.Items[i];
-
-                        int gvIdx = PS_ItemDescriptionDataGridView.Rows.Add();
-                        DataGridViewRow myRow = PS_ItemDescriptionDataGridView.Rows[gvIdx];
-                        myRow.Cells[PS_ItemDescriptionDataGridView_SelectedLoan.Index].Value = pawnLoan.TicketNumber;
-                        myRow.Cells[PS_Description_ICNColumn.Index].Value = pawnItem.Icn;
-                        myRow.Cells[colStatus.Index].Value = pawnItem.ItemStatus;
-                        string itemLocation = string.Empty;
-                        if (!string.IsNullOrEmpty(pawnItem.Location_Aisle))
-                            itemLocation = "Aisle: " + pawnItem.Location_Aisle;
-                        if (!string.IsNullOrEmpty(pawnItem.Location_Shelf))
-                            itemLocation += " Shelf: " + pawnItem.Location_Shelf;
-                        if (!string.IsNullOrEmpty(pawnItem.Location))
-                            itemLocation += " Other: " + pawnItem.Location;
-                        myRow.Cells[colLocation.Index].Value = itemLocation;
-                        myRow.Cells[PS_Description_TicketDescriptionColumn.Index].Value = pawnItem.TicketDescription;
-                        if (pawnItem.IsGun && !pawnLoan.IsExtended)
-                            gunFound = true;
-                    }
-                    if (pawnLoan.CustomerNumber != GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerNumber)
-                    {
-                        CustomerLoans.GetCustomerName(
-                            Utilities.GetStringValue(pawnLoan.OrgShopNumber, "").PadLeft(5, '0'),
-                            Utilities.GetIntegerValue(pawnLoan.TicketNumber, 0), ProductType.PAWN.ToString(),
-                            out sFirstName, out sMiddleName, out sLastName, out sErrorCode, out sErrorText);
-                    }
-                    else
-                    {
-                        CustomerVO activeCustomer = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer;
-                        sFirstName = activeCustomer.FirstName + " " + activeCustomer.MiddleInitial + " " +
-                                     activeCustomer.LastName;
-                    }
-
-                    PS_PawnLoanLabel.Text = "Pawn Loan " + pawnLoan.TicketNumber;
-                    PS_PawnNameLabel.Text = (sFirstName + " " + sMiddleName + " " + sLastName).Replace("  ", " ");
-
-                    PS_OriginationDateValue.Text =
-                    Utilities.GetDateTimeValue(pawnLoan.OriginationDate, DateTime.MinValue).ToShortDateString();
-                    PS_DueDateValue.Text =
-                    Utilities.GetDateTimeValue(pawnLoan.DueDate, DateTime.MinValue).ToShortDateString();
-                    ShowStatusValue(pawnLoan);
-                    PS_LastDayOfGraceValue.Text =
-                    Utilities.GetDateTimeValue(pawnLoan.LastDayOfGrace, DateTime.MinValue).ToShortDateString();
-                    PS_ReceiptNoValue.Text = "";
-
-                    if (CollectionUtilities.isNotEmpty(pawnLoan.Receipts))
-                    {
-                        int inDx = pawnLoan.Receipts.FindLastIndex(delegate(Receipt r)
-                                                                   {
-                                                                       return r.Date ==
-                                                                              pawnLoan.Receipts.Min(m => m.Date);
-                                                                   });
-
-                        PS_ReceiptNoValue.Text = pawnLoan.Receipts[inDx].ReceiptNumber;
-                    }
-                    if (PS_ReceiptNoValue.Text.Length == 0)
-                        PS_ReceiptNoLabel.Visible = false;
-                    else
-                        PS_ReceiptNoLabel.Visible = true;
-                    PS_OriginationShopValue.Text = Utilities.GetStringValue(pawnLoan.OrgShopNumber, "").PadLeft(5,
-                                                                                                                '0');
-                    if (PS_OriginationShopValue.Text != GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber)
-                        PS_OriginationShopValue.ForeColor = Color.Red;
-                    else
-                        PS_OriginationShopValue.ForeColor = Color.Black;
-                    PS_LoanAmountValue.Text = string.Format("{0:C}", pawnLoan.Amount);
-
-                    if (new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(GlobalDataAccessor.Instance.CurrentSiteId))
-                    {
-                        lblCurrentPrincipalAmount.Text = string.Format("{0:C}", pawnLoan.CurrentPrincipalAmount);
-                    }
-                    else
-                    {
-                        lblCurrentPrincipalAmountTitle.Visible = false;
-                        lblCurrentPrincipalAmount.Visible = false;
-                    }
-
-                    PS_PickupAmountValue.Links[0].LinkData = iTicketNumber;
-                    //SR - Commented the following lines since we do
-                    //not want to show the data when the loan is selected but
-                    //add this logic in validateselectedloans when the service button is clicked
-                    /*PS_PickupAllowedLinkLabel.Text =
-                    PS_RenewalAmountValue.Text = string.Format("{0:C}", pawnLoan.RenewalAmount);
-                    PS_RenewalAllowedValue.Text = Utilities.GetBooleanValue(pawnLoan.RenewalAllowed, false) ? "Yes" : "No";
-                    if (pawnLoan.PickupAllowed)
-                    {
-                    PS_PickupAllowedLinkLabel.Text = "Yes";
-                    PS_PickupAllowedLinkLabel.Links[0].LinkData = "";
-                    PS_PickupAllowedLinkLabel.LinkBehavior = LinkBehavior.NeverUnderline;
-                    }
-                    else
-                    {
-                    PS_PickupAllowedLinkLabel.Text = "No";
-                    PS_PickupAllowedLinkLabel.LinkBehavior = LinkBehavior.AlwaysUnderline;
-                    PS_PickupAllowedLinkLabel.Links[0].LinkData = pawnLoan.PickupNotAllowedReason;
-                    }
-                    if (pawnLoan.IsExtensionAllowed)
-                    {
-                    PS_ExtensionAllowedLinkLabel.Text = "Yes";
-                    PS_ExtensionAllowedLinkLabel.Links[0].LinkData = "";
-                    PS_ExtensionAllowedLinkLabel.LinkBehavior = LinkBehavior.NeverUnderline;
-                    }
-                    else
-                    {
-                    PS_ExtensionAllowedLinkLabel.Text = "No";
-                    PS_ExtensionAllowedLinkLabel.Links[0].LinkData = pawnLoan.ExtensionNotAllowedReason;
-                    PS_ExtensionAllowedLinkLabel.LinkBehavior = LinkBehavior.AlwaysUnderline;
-                    }*/
-
-                    if (pawnLoan.ServiceMessage.Length > 0)
-                    {
-                        PS_ServiceMessageLabel.Text = pawnLoan.ServiceMessage;
-                        PS_ServiceMessageLabel.Visible = true;
-                    }
-                    else
-                    {
-                        PS_ServiceMessageLabel.Visible = false;
-                    }
-                    PS_PawnLoanLabel.Visible = true;
-                    PS_PawnNameLabel.Visible = true;
-                    PS_ItemDescriptionDataGridView.Visible = true;
-                    PS_LoanStatsLayoutPanel.Visible = true;
-
-                    if (pawnLoan.Receipts != null)
-                    {
-                        PH_ReceiptsDataGridView.Rows.Clear();
-
-                        foreach (Receipt myReceipt in pawnLoan.Receipts)
-                        {
-                            int gvIdx = PH_ReceiptsDataGridView.Rows.Add();
-                            DataGridViewRow myRow = PH_ReceiptsDataGridView.Rows[gvIdx];
-                            myRow.Cells["PH_Receipt_DateColumn"].Value = myReceipt.Date.ToShortDateString();
-                            if ((myReceipt.Event == ReceiptEventTypes.Renew.ToString() || myReceipt.Event == ReceiptEventTypes.Paydown.ToString())
-                                && myReceipt.Amount == 0)
-                            {
-                                myRow.Cells["PH_Receipt_AmountColumn"].Value = String.Format(
-                                    "{0:C}", pawnLoan.Amount);
-                                myRow.Cells["PH_Receipt_EventColumn"].Value = "New Loan";
-                            }
-                            else
-                            {
-                                myRow.Cells["PH_Receipt_AmountColumn"].Value = String.Format(
-                                    "{0:C}", myReceipt.Amount);
-                                myRow.Cells["PH_Receipt_EventColumn"].Value = myReceipt.TypeDescription;
-                            }
-
-                            //myRow.Cells["PH_Receipt_EventColumn"].Value = myReceipt.Event;
-                            //if (myReceipt.Event == ReceiptEventTypes.Renew.ToString() || myReceipt.Event == ReceiptEventTypes.Paydown.ToString())
-                            //    myRow.Cells["PH_Receipt_AmountColumn"].Value = String.Format("{0:C}", pawnLoan.Amount);
-                            //else
-                            //myRow.Cells["PH_Receipt_AmountColumn"].Value = string.Format("{0:C}", myReceipt.Amount);
-                            myRow.Cells["PH_Receipt_EntIDColumn"].Value = myReceipt.EntID;
-                            myRow.Cells["PH_Receipt_ReceiptColumn"].Value = myReceipt.ReceiptNumber;
-                        }
-                    }
-                    else
-                    {
-                        PH_ReceiptsDataGridView.Rows.Clear();
-                    }
-                }
-            }
-            BuyoutButton.Enabled = gunFound;
-        }
-
-        private void UpdateButtonsStates(bool isLayaway)
-        {
-            DesktopSession cds = GlobalDataAccessor.Instance.DesktopSession;
-
-            // Set the buttons
-            //If there are any service loans checkout is enabled
-            if (cds.ServiceLoans != null)
-                PS_CheckoutButton.Enabled = cds.ServiceLoans.Count > 0;
-            if (!PS_CheckoutButton.Enabled)
-            {
-                if (cds.ServiceLayaways != null)
-                    PS_CheckoutButton.Enabled = cds.ServiceLayaways.Count > 0;
-            }
-            //If there are any service loans waive prorate button is enabled
-            //SR 02/08/2010 Disable for pilot
-            //PS_WaiveProrate.Enabled = Support.Logic.CashlinxPawnSupportSession.Instance.ServiceLoans.Count > 0;
-            PS_WaiveProrate.Enabled = false;
-
-            //check if logged in user can do services
-            bool servicesAllowed = false;
-            UserVO currUser = cds.LoggedInUserSecurityProfile;
-            if (currUser != null)
-            {
-                if (SecurityProfileProcedures.CanUserViewResource("SERVICES", currUser, GlobalDataAccessor.Instance.DesktopSession))
-                    servicesAllowed = true;
-            }
-            if (servicesAllowed)
-            {
-                //If extension is allowed in the store state button is enabled
-                PS_ExtendButton.Enabled = (extensionServiceAllowed && !isLayaway && selectedLoanInStore()) ? true : false;
-                //Pickup button is enabled always unless the logged in user
-                //does not have permissions to do pickup
-                PS_PickUpButton.Enabled = !isLayaway;
-                PS_RollOverButton.Enabled = (paydownAllowed || renewalAllowed) && !isLayaway;
-                PS_PartPmntButton.Enabled = (partialPaymentAllowed && !isLayaway && selectedLoanInStore()) ? true : false;
-
-                LW_LayawayPaymentButton.Enabled = isLayaway && IsAtLeastOneSelectedLayawayNotServiced() && selectedLayawayInStore();
-                LW_LayawayTerminateButton.Enabled = isLayaway && IsExactlyOneSelectedLayawayNotServiced() && selectedLayawayInStore();
-            }
-            else
-            {
-                PS_ExtendButton.Enabled = false;
-                PS_PickUpButton.Enabled = false;
-                PS_RollOverButton.Enabled = false;
-                PS_PartPmntButton.Enabled = false;
-                LW_LayawayPaymentButton.Enabled = false;
-                LW_LayawayTerminateButton.Enabled = false;
-            }
-            //if loan up service is allowed in the store state button is enabled
-            PS_ViewNewLoanDetailsButton.Enabled = loanupServiceAllowed ? true : false;
-
-            //Add more tickets is enabled only when no service loans exist
-            if (cds.ServiceLoans != null)
-            {
-                this.PS_AddMoreTicketsButton.Enabled = cds.ServiceLoans.Count == 0 && !isLayaway;
-            }
-            //If any loans are selected for service undo, waive buttons are enabled
-            PS_UnDoButton.Enabled = ShouldEnableUndoButton();
-
-            if (GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways != null)
-            {
-                this.PS_ShowComboBox.Enabled = GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.Count == 0 && GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count == 0 && !GlobalDataAccessor.Instance.DesktopSession.ServicePawnLoans;
-            }
-
-            if (isLayaway)
-            {
-                ShowLayawayPanels();
-            }
-            else
-            {
-                ShowPawnPanels();
-            }
-        }
-        #region BOOL
-        //SR 04/22/2011 BZ 609
-        //Check to see that all the layaway that are selected for service belong to the store where the service is being done
-        private bool selectedLayawayInStore()
-        {
-            return !_SelectedLayaways.Any(sLayaway => sLayaway.StoreNumber != GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber);
-        }
-
-        //SR 05/09/2011 BZ 663
-        //Check to see that all the loans that are selected for service belong to the store where the service is being done
-        private bool selectedLoanInStore()
-        {
-            return !_SelectedLoans.Any(sLoan => sLoan.OrgShopNumber != GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber);
-        }
-        #endregion
-        #region ACTIONS
-        /// <summary>
-        /// Update the service amount whenever the total service amount is updated
-        /// </summary>
-        private void UpdateServiceAmountLabel()
-        {
-            labelServiceAmount.Text = String.Format("{0:C}", _totalServiceAmount);
-        }
-
-        /// <summary>
-        /// call to update the service indicator to show
-        /// the type of service being processed on the loan
-        /// </summary>
-        /// <param name="ticketNumber"></param>
-        /// <param name="serviceIndicator"></param>
-        private void UpdateServiceIndicator(int ticketNumber, string serviceIndicator)
-        {
-            var indicatorSet = false;
-            foreach (DataGridViewRow dgvr in PS_TicketsDataGridView.Rows)
-            {
-                var ticketValue = dgvr.Cells["PS_Tickets_TicketNumberColumn"].Value.ToString();
-                if (Utilities.GetIntegerValue(ticketValue.Substring(5, (ticketValue.Length - 5))) == ticketNumber)
-                {
-                    if (serviceIndicator == ServiceIndicators.Blank.ToString())
-                        dgvr.Cells["PS_Tickets_ServiceIndicatorColumn"].Value = string.Empty;
-                    else
-                    {
-                        dgvr.Cells["PS_Tickets_ServiceIndicatorColumn"].Value += serviceIndicator;
-                    }
-
-                    indicatorSet = true;
-
-                    break;
-                }
-            }
-            if (!indicatorSet)
-            {
-                foreach (DataGridViewRow dgvr in PS_AddTicketsDataGridView.Rows)
-                {
-                    var ticketValue = dgvr.Cells["PS_AddTickets_TicketNumberColumn"].Value.ToString();
-                    if (Utilities.GetIntegerValue(ticketValue.Substring(5, (ticketValue.Length - 5))) == ticketNumber)
-                    {
-                        if (serviceIndicator == ServiceIndicators.Blank.ToString())
-                            dgvr.Cells["PS_AddTickets_ServiceIndicator"].Value = string.Empty;
-                        else
-                        {
-                            dgvr.Cells["PS_AddTickets_ServiceIndicator"].Value += serviceIndicator;
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-
-        private void UpdateTicketSelections()
-        {
-            foreach (DataGridViewRow dgvr in PS_TicketsDataGridView.Rows)
-            {
-                dgvr.Selected = false;
-                dgvr.DefaultCellStyle.SelectionBackColor = Color.White;
-            }
-            foreach (DataGridViewRow dgvr in PS_AddTicketsDataGridView.Rows)
-            {
-                dgvr.Selected = false;
-                dgvr.DefaultCellStyle.SelectionBackColor = Color.White;
-            }
-            //Reset the selected loans list
-            _SelectedLoans = new List<PawnLoan>();
-            _SelectedLayaways = new List<LayawayVO>();
-            if (_LoanKeys != null && _LoanKeys.Count > 0)
-            {
-                PawnLoan loankey = _LoanKeys[0];
-
-                if (ticketSearched)
-                {
-                    loankey = _LoanKeys[lookedUpTicketIndex];
-                }
-
-                if (loankey.LoanStatus == ProductStatus.ACT && loankey.DocType == 4)
-                {
-                    ApplyLayawayBusinessRules(loankey.OrgShopNumber, loankey.TicketNumber, false);
-                    UpdateActiveLayawayInformation(loankey.TicketNumber);
-                }
-                else
-                {
-                    ApplyBusinessRules(loankey, loankey.OrgShopNumber, loankey.TicketNumber, false, true);
-                    UpdateActivePawnInformation(loankey.TicketNumber);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Method to check if all the selected loans are eligible for the service selected
-        /// </summary>
-        /// <returns></returns>
-        private bool validateSelectedLoans(ServiceTypes typeOfService)
-        {
-            //messages for the different checks
-            var pfieLoanMessage = new StringBuilder();
-            var ineligibleLoanMessage = new StringBuilder();
-            var markedforServiceMessage = new StringBuilder();
-            var lockedLoanMessage = new StringBuilder();
-            var firearmCheckMessage = new StringBuilder();
-            //The list of loans to validate
-            var selectedLoans = _SelectedLoans;
-            //List of ineligible loans and pfieloans
-            var ineligibleLoans = new List<PawnLoan>();
-            var pfieLoans = new List<PawnLoan>();
-            //Go through the list of loans selected
-            //Step 1- Check if any of the loans are already set for service. Remove from selection.
-            //Step 2 - Check if any of the loans are in PFIE status. Allow user to refresh to see if 
-            //status has changed. Continue refresh until the user wishes to continue with the others
-            //or the status changed from PFIE
-            //Step 3 - Evaluate the business rules on them to see if they
-            //are eligible. If not remove from selection
-            //Step 4 - check if any of the loans are locked. Remove from selection
-            //Step 5 - Perform age check if any of the loan item is firearm and service is pickup
-            //If check fails remove loan from selection
-            foreach (PawnLoan ploan in selectedLoans)
-            {
-                //step 1 - check to see if the loan is already in the service loans list
-                PawnLoan loan = ploan;
-                int idx = GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.FindIndex(pl => pl.TicketNumber == loan.TicketNumber);
-                if (idx >= 0)
-                {
-                    markedforServiceMessage.Append(loan.TicketNumber.ToString() + " is already set for service" + System.Environment.NewLine);
-                    ineligibleLoans.Add(loan);
-                    continue;
-                }
-                //Step 2 - check if the loan has temp status of PFIE
-                if (loan.TempStatus == StateStatus.PFIE)
-                {
-                    pfieLoans.Add(loan);
-                    pfieLoanMessage.Append(loan.TicketNumber.ToString() + " is being processed by PFI." + System.Environment.NewLine);
-                }
-                //Step 3 - Check if business rules passed for the loan
-                var siteID = new SiteId()
-                {
-                    Alias = GlobalDataAccessor.Instance.CurrentSiteId.Alias,
-                    Company = GlobalDataAccessor.Instance.CurrentSiteId.Company,
-                    Date = ShopDateTime.Instance.ShopDate,
-                    LoanAmount = loan.Amount,
-                    State = loan.OrgShopState,
-                    StoreNumber = loan.OrgShopNumber,
-                    TerminalId = GlobalDataAccessor.Instance.CurrentSiteId.TerminalId
-                };
-
-                ServiceLoanProcedures.SetBusinessRules(ref loan, siteID, strStoreNumber,
-                                                       typeOfService);
-
-                if (!loan.ServiceAllowed)
-                {
-                    ineligibleLoans.Add(loan);
-                    ineligibleLoanMessage.Append(loan.TicketNumber.ToString() + " " + loan.ServiceMessage + System.Environment.NewLine);
-                    continue;
-                }
-                //In some cases the service might be allowed but there may be some service messages
-                //to show
-                if (loan.ServiceAllowed && loan.ServiceMessage.Length > 0)
-                {
-                    ineligibleLoanMessage.Append(loan.TicketNumber.ToString() + " " + loan.ServiceMessage +
-                                                 System.Environment.NewLine);
-                }
-                //Step 4 Check if the loan is locked by some other process
-                var lockedProcess = string.Empty;
-                if (loan.TempStatus != StateStatus.PFIE && Commons.IsLockedStatus(loan.TempStatus.ToString(), ref lockedProcess))
-                {
-                    ineligibleLoans.Add(loan);
-                    lockedLoanMessage.Append(loan.TicketNumber + " Record locked for processing by " + lockedProcess + " process." + System.Environment.NewLine);
-                }
-
-                //Step 5 Do Firearm check if type of service is pickup, rollover, renew, and/or paydown
-                if (typeOfService == ServiceTypes.PICKUP ||
-                    typeOfService == ServiceTypes.ROLLOVER ||
-                    typeOfService == ServiceTypes.RENEW ||
-                    typeOfService == ServiceTypes.PAYDOWN)
-                {
-                    bool ageCheckPassed = true;
-
-                    for (int j = 0; j < ploan.Items.Count; j++)
-                    {
-                        Item _pawnItem = ploan.Items[j];
-                        if (_pawnItem.IsGun)
-                        {
-                            _gunItem = true;
-                            overrideTransactionNumbers.Add(ploan.TicketNumber);
-                            CustomerVO customerToCheck = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer;
-                            ageCheckPassed = CustomerProcedures.isValidAgeForGuns(GlobalDataAccessor.Instance.DesktopSession, _pawnItem, customerToCheck);
-                            if (!ageCheckPassed)
-                            {
-                                ineligibleLoans.Add(loan);
-                                firearmCheckMessage.Append(ploan.TicketNumber.ToString() + " " + Commons.GetMessageString("CustomerFirearmMessage") + System.Environment.NewLine);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-            ValidationMessage infoFrm = null;
-            if (ineligibleLoans.Count > 0)
-            {
-                selectedLoans = selectedLoans.Except(ineligibleLoans).ToList();
-                _SelectedLoans = selectedLoans;
-                var MessageToShow = markedforServiceMessage.ToString() + ineligibleLoanMessage.ToString()
-                                       + firearmCheckMessage.ToString() + lockedLoanMessage.ToString();
-
-                infoFrm = new ValidationMessage
-                          {
-                              IneligibleLoanMessage = MessageToShow,
-                              SelectedLoansCount = this._SelectedLoans.Count
-                          };
-                if (pfieLoans.Count > 0)
-                {
-                    infoFrm.PFIELoans = pfieLoans;
-                    infoFrm.PFIELoanMessage = pfieLoanMessage.ToString();
-                }
-                infoFrm.ShowDialog();
-            }
-            else if (ineligibleLoans.Count == 0 && ineligibleLoanMessage.Length > 0)
-            {
-                var infoForm = new InfoDialog
-                               {
-                                   MessageToShow = ineligibleLoanMessage.ToString()
-                               };
-                infoForm.ShowDialog();
-            }
-            else if (pfieLoans.Count > 0)
-            {
-                //Show the validation message form for just the pfie loans
-                infoFrm = new ValidationMessage
-                          {
-                              PFIELoans = pfieLoans,
-                              PFIELoanMessage = pfieLoanMessage.ToString(),
-                              SelectedLoansCount = this._SelectedLoans.Count
-                          };
-                infoFrm.ShowDialog();
-            }
-            if (infoFrm != null)
-            {
-                if (infoFrm.ContinueService)
-                {
-                    //if continue service is a yes but there are still some PFIELoans remove them
-                    //from the selected list
-                    if (infoFrm.PFIELoans != null && infoFrm.PFIELoans.Count > 0)
-                    {
-                        selectedLoans = selectedLoans.Except(infoFrm.PFIELoans).ToList();
-                        _SelectedLoans = selectedLoans;
-                    }
-                    return true;
-                }
-                //If continue service is a no, return false
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Used to track a recipts lookup info for couch DB.
-        /// </summary>
-        public class ReceiptLookupInfo
-        {
-            public string DocumentName { get; set; }
-
-            public Document.DocTypeNames DocumentType { get; set; }
-
-            public string StorageID { get; set; }
-        }
-#endregion
-        #region EVENTS
         /*__________________________________________________________________________________________*/
         private void LW_LayawayPaymentButton_Click(object sender, EventArgs e)
         {
@@ -3728,7 +3819,7 @@ namespace Support.Forms.Customer.Products
             UpdateButtonsStates(true);
             */
         }
-
+        /*__________________________________________________________________________________________*/
         private void LW_LayawayTerminateButton_Click(object sender, EventArgs e)
         {
             /*
@@ -3783,7 +3874,7 @@ namespace Support.Forms.Customer.Products
                 MessageBox.Show("An error occurred while terminating the layaways.");
             } */
         }
-
+        /*__________________________________________________________________________________________*/
         private void LW_PaymentScheduleHistory_Click(object sender, EventArgs e)
         {
             if (_SelectedLayaways.Count == 0)
@@ -3795,13 +3886,12 @@ namespace Support.Forms.Customer.Products
             LayawayPaymentHistory layawayPaymentHistory = new LayawayPaymentHistory(layaway);
             layawayPaymentHistory.ShowDialog();
         }
-
+        /*__________________________________________________________________________________________*/
         private void myForm_AddPawnLoans(List<PawnLoan> addedPawnLoans)
         {
             GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.AddRange(addedPawnLoans);
             LoadAdditionalTicketsData();
         }
-
         //Madhu BZ # 147 - duplicate check - this will be called from AddTickets.cs to
         //check duplicate ticket numbers.
         //Checks whether the pawnloan is set for service in this session
@@ -3814,6 +3904,7 @@ namespace Support.Forms.Customer.Products
         //to enable multiple selection of loans
         //Uncheck the transactions
         //Called when a service is completed
+        /*__________________________________________________________________________________________*/
         private void BuyoutButton_Click(object sender, EventArgs e)
         {
  /*           if (_SelectedLoans.Count > 1)
@@ -3828,7 +3919,7 @@ namespace Support.Forms.Customer.Products
             }
   */ 
         }
-
+        /*__________________________________________________________________________________________*/
         private void PS_PartPmntButton_Click(object sender, EventArgs e)
         {
             /*
@@ -3906,7 +3997,51 @@ namespace Support.Forms.Customer.Products
                 }
             } */
 
-        } 
+        }
+        /*__________________________________________________________________________________________*/
+        void pic_Click(object sender, EventArgs e)
+        {
+            int ticketNumber = this._currentTicketNumber;
+
+            //If a legit ticket number was pulled, then continue.
+            if (ticketNumber > 0)
+            {
+                //Instantiate docinfo which will return info we need to be able to 
+                //call reprint ticket.
+                CouchDbUtils.PawnDocInfo docInfo = new CouchDbUtils.PawnDocInfo();
+                docInfo.SetDocumentSearchType(CouchDbUtils.DocSearchType.RECEIPT);
+                docInfo.StoreNumber = GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber;
+                docInfo.TicketNumber = ticketNumber;
+                int receiptNumber = 0;
+                if (!string.IsNullOrEmpty(PS_ReceiptNoValue.Text))
+                    receiptNumber = Convert.ToInt32(PS_ReceiptNoValue.Text);
+                docInfo.ReceiptNumber = receiptNumber;
+                try
+                {
+                    string storageId = ((PictureBox)sender).Name.ToString();
+                    //ReprintDocument docViewPrint = new ReprintDocument(documentName, storageId, docType);
+                    ViewPrintDocument docViewPrint = new ViewPrintDocument("Receipt# ", docInfo.ReceiptNumber.ToString(), storageId, docInfo.DocumentType, docInfo);
+                    docViewPrint.ShowDialog();
+                }
+                catch (Exception)
+                {
+                    FileLogger.Instance.logMessage(LogLevel.ERROR, this, "Could not load the customer document");
+                }
+            }
+        }
+
 #endregion
+        /// <summary>
+        /// Used to track a recipts lookup info for couch DB.
+        /// </summary>
+        /*__________________________________________________________________________________________*/
+        public class ReceiptLookupInfo
+        {
+            public string DocumentName { get; set; }
+
+            public Document.DocTypeNames DocumentType { get; set; }
+
+            public string StorageID { get; set; }
+        }
     }
 }

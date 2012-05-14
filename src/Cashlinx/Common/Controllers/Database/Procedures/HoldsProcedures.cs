@@ -36,7 +36,7 @@ namespace Common.Controllers.Database.Procedures
         public static readonly string PAWN_GUN_LIST = "o_pawn_gunlist_m";
         public static readonly string PAWN_OTHERDSC_LIST = "o_pawn_otherdsclist_m";
         public static readonly string POLICE_HOLD_DATA = "o_police_data";
-
+        public static readonly string RELEASE_AUTHORIZATION_DATA = "o_fingerprint_auth";
         public static bool ExecuteGetHolds(
             string storeNumber,
             string customerNumber,
@@ -268,7 +268,7 @@ namespace Common.Controllers.Database.Procedures
             string errorMsg = "";
             bool retVal = false;
             List<string> mdseICN = new List<string>();
-            
+
             string customerNumber = "";
             string storeNumber = "";
             string userId = "";
@@ -362,7 +362,7 @@ namespace Common.Controllers.Database.Procedures
                 refNumber[i] = holdData.TicketNumber.ToString();
                 for (int j = 0; j < holdData.Items.Count; j++)
                     mdseIcn.Add(holdData.Items[j].Icn);
-                
+
                 i++;
             }
 
@@ -678,7 +678,7 @@ namespace Common.Controllers.Database.Procedures
                 }
                 i++;
             }
-           
+
             OracleDataAccessor dA = GlobalDataAccessor.Instance.OracleDA;
 
             if (GlobalDataAccessor.Instance == null ||
@@ -779,7 +779,7 @@ namespace Common.Controllers.Database.Procedures
                 ReceiptDetailsVO rDVO = new ReceiptDetailsVO();
                 if (!insertPoliceReceipt(policeHolds, ref rDVO))
                     FileLogger.Instance.logMessage(LogLevel.ERROR, null, "Receipt details could not be entered for release to claimant");
-                
+
                 return (true);
             }
 
@@ -863,9 +863,9 @@ namespace Common.Controllers.Database.Procedures
 
             inParams.Add(new OracleProcParam("p_store_number", true, storeNumber));
             inParams.Add(new OracleProcParam("p_customer_number", currentCustomer.CustomerNumber));
-            string sIdValue=string.Empty;
-            string sIdType=string.Empty;
-            string sIdIssuerCode=string.Empty;
+            string sIdValue = string.Empty;
+            string sIdType = string.Empty;
+            string sIdIssuerCode = string.Empty;
             IdentificationVO id = currentCustomer.getFirstIdentity();
             if (id != null)
             {
@@ -873,10 +873,10 @@ namespace Common.Controllers.Database.Procedures
                 sIdType = id.IdType;
                 sIdIssuerCode = id.IdIssuerCode;
             }
-                inParams.Add(new OracleProcParam("p_cust_id_num", sIdValue));
-                inParams.Add(new OracleProcParam("p_cust_id_type", sIdType));
-                inParams.Add(new OracleProcParam("p_cust_id_agency", sIdIssuerCode));
-            
+            inParams.Add(new OracleProcParam("p_cust_id_num", sIdValue));
+            inParams.Add(new OracleProcParam("p_cust_id_type", sIdType));
+            inParams.Add(new OracleProcParam("p_cust_id_agency", sIdIssuerCode));
+
 
             inParams.Add(new OracleProcParam("p_user_id", userId));
             inParams.Add(new OracleProcParam("p_status_cd", ProductStatus.PS.ToString()));
@@ -944,6 +944,90 @@ namespace Common.Controllers.Database.Procedures
             }
             seizeNumber = 0;
             return (retVal);
+        }
+
+        public static bool AddReleaseFingerprints(ReleaseFingerprintsInfo releaseFingerprintsInfo, out int seizeNumber)
+        {
+            bool retVal = false;
+            seizeNumber = 0;
+
+            OracleDataAccessor dA = GlobalDataAccessor.Instance.OracleDA;
+            if (GlobalDataAccessor.Instance == null ||
+                GlobalDataAccessor.Instance.OracleDA == null)
+            {
+                seizeNumber = 0;
+                return (false);
+            }
+
+            var inParams = new List<OracleProcParam>();
+
+            //Setup input params
+            inParams.Add(new OracleProcParam("p_ref_type", releaseFingerprintsInfo.RefType));
+            inParams.Add(new OracleProcParam("p_ref_number", releaseFingerprintsInfo.RefNumber));
+            inParams.Add(new OracleProcParam("p_comment", releaseFingerprintsInfo.Comment));
+            inParams.Add(new OracleProcParam("p_store_number", releaseFingerprintsInfo.StoreNumber));
+            inParams.Add(new OracleProcParam("p_subpoena_no", releaseFingerprintsInfo.SubpoenaNumber));
+            inParams.Add(new OracleProcParam("p_officer_first_name", releaseFingerprintsInfo.OfficerFirstName));
+            inParams.Add(new OracleProcParam("p_officer_last_name", releaseFingerprintsInfo.OfficerLastName));
+            inParams.Add(new OracleProcParam("p_badge", releaseFingerprintsInfo.BadgeNumber));
+            inParams.Add(new OracleProcParam("p_case_number", releaseFingerprintsInfo.CaseNumber));
+            inParams.Add(new OracleProcParam("p_agency", releaseFingerprintsInfo.Agency));
+            inParams.Add(new OracleProcParam("p_user_id", GlobalDataAccessor.Instance.DesktopSession.UserName));
+            inParams.Add(new OracleProcParam("p_seize_status", "FPRNT"));
+            inParams.Add(new OracleProcParam("p_tran_date", releaseFingerprintsInfo.TransactionDate));
+
+            inParams.Add(new OracleProcParam("o_seize_number", OracleDbType.Int32, DBNull.Value, ParameterDirection.Output, 1));
+
+            GlobalDataAccessor.Instance.beginTransactionBlock();
+
+            if (inParams.Count > 0)
+            {
+                List<PairType<string, string>> refCursArr = new List<PairType<string, string>>();
+                DataSet outputDataSet;
+
+                try
+                {
+                    retVal = dA.issueSqlStoredProcCommand(
+                        "ccsowner", "pawn_manage_holds",
+                        "insert_release_fingerprints", inParams,
+                        refCursArr, "o_return_code",
+                        "o_return_text",
+                        out outputDataSet);
+                }
+                catch (Exception oEx)
+                {
+                    GlobalDataAccessor.Instance.endTransactionBlock(EndTransactionType.ROLLBACK);
+                    BasicExceptionHandler.Instance.AddException("Calling insert_release_fingerprints stored procedure failed when trying to add data", oEx);
+                    seizeNumber = 0;
+                    return (false);
+                }
+
+                if (retVal == false)
+                {
+                    GlobalDataAccessor.Instance.endTransactionBlock(EndTransactionType.ROLLBACK);
+                    seizeNumber = 0;
+                    return (false);
+                }
+                GlobalDataAccessor.Instance.endTransactionBlock(EndTransactionType.COMMIT);
+                //Get seize number
+                DataTable outputDt = outputDataSet.Tables["OUTPUT"];
+                if (outputDt != null && outputDt.IsInitialized && outputDt.Rows != null && outputDt.Rows.Count > 0)
+                {
+                    DataRow dr = outputDt.Rows[0];
+                    if (dr != null && dr.ItemArray.Length > 0)
+                    {
+                        object obj = dr.ItemArray.GetValue(1);
+                        if (obj.ToString() != "null")
+                        {
+                            var nextNumStr = (string)obj;
+                            seizeNumber = Int32.Parse(nextNumStr);
+                            return (true);
+                        }
+                    }
+                }
+            }
+            seizeNumber = 0;
+            return (false);
         }
 
         public static bool GetPawnLoanHolds(
@@ -1354,6 +1438,80 @@ namespace Common.Controllers.Database.Procedures
             errorCode = "ExecuteAutoReleaseHoldsFail";
             errorMsg = "No valid input parameters given";
             return (false);
+        }
+
+        public static ReleaseFingerprintsInfo GetReleaseFingerprintAuthorization(
+            string seizeNumber,
+            string storeNumber,
+            out string errorCode,
+            out string errorText)
+        {
+            ReleaseFingerprintsInfo retval = new ReleaseFingerprintsInfo();
+            var oDa = GlobalDataAccessor.Instance.OracleDA;
+            var inParams = new List<OracleProcParam>
+                                   {
+                                       new OracleProcParam("p_seize_number", seizeNumber),
+                                       new OracleProcParam("p_store_number", storeNumber),
+                                   };
+
+
+            var refCursArr = new List<PairType<string, string>>
+                             {
+                                 new PairType<string, string>("o_fingerprint_auth", RELEASE_AUTHORIZATION_DATA),
+                                
+                             };
+
+            try
+            {
+                DataSet outputDataSet;
+                bool wasSuccessful = oDa.issueSqlStoredProcCommand(
+                    "ccsowner", "Service_Pawn_Loans",
+                    "get_release_fingerprint_auth", inParams,
+                    refCursArr, "o_return_code",
+                    "o_return_text",
+                    out outputDataSet);
+
+                if (wasSuccessful)
+                {
+
+                    if (outputDataSet.Tables[0].Rows.Count > 0)
+                    {
+                        // There is a seize to work with
+                        retval = new ReleaseFingerprintsInfo();
+                        DataRow row = outputDataSet.Tables[0].Rows[0];
+                        retval.SeizeNumber = int.Parse(row["Seize_no"].ToString());
+                        retval.RefNumber = int.Parse(row["ref_Number"].ToString());
+                        retval.RefType = row["ref_type"].ToString();
+                        retval.SeizeStatus = (row["seize_status"] ?? "").ToString();
+                        retval.Comment = (row["sz_comment"] ?? "").ToString();
+                        retval.StoreNumber = storeNumber;
+                        retval.SubpoenaNumber = row["subpoena_no"].ToString();
+                        retval.OfficerFirstName = row["Officer_First_Name"].ToString();
+                        retval.OfficerLastName = row["Officer_Last_Name"].ToString();
+                        retval.BadgeNumber = row["Badge"].ToString();
+                        retval.Agency = row["Agency"].ToString();
+                        retval.CaseNumber = row["Case_Number"].ToString();
+
+                    }
+                }
+                else
+                {
+                    retval = null;
+                }
+
+                errorCode = oDa.ErrorCode;
+                errorText = oDa.ErrorDescription;
+            }
+            catch (Exception oEx)
+            {
+                BasicExceptionHandler.Instance.AddException("Calling voidPartialPayment stored procedure", oEx);
+                errorCode = "VoidReleaseFingerprints";
+                errorText = "Exception: " + oEx.Message;
+                retval = null;
+            }
+
+
+            return retval;
         }
     }
 }

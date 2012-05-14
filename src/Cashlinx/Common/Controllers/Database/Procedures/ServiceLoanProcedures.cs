@@ -170,7 +170,7 @@ namespace Common.Controllers.Database.Procedures
             return true;
         }
 
-        private static void RemoveTickets<T>(IList<int> ticketNumbers, ref List<T> selectedLoans) where T : PawnLoan
+        private static void RemoveTickets<T>(IList<int> ticketNumbers, ref List<T> selectedLoans) where T : CustomerProductDataVO
         {
             for (int j = 0; j < ticketNumbers.Count; j++)
             {
@@ -182,19 +182,24 @@ namespace Common.Controllers.Database.Procedures
         }
 
         public static bool CheckCurrentTempStatus<T>(ref List<T> selectedLoans,
-                                                     string strUserId, ServiceTypes typeOfService) where T : PawnLoan
+                                                     string strUserId, ServiceTypes typeOfService) where T : CustomerProductDataVO
         {
             List<int> tktNumbers = new List<int>();
             List<string> currTempStatus = new List<string>();
             List<string> storeNumbers = new List<string>();
 
-            foreach (PawnLoan pl in selectedLoans)
+            //foreach (PawnLoan pl in selectedLoans)
+            //{
+            //    tktNumbers.Add(pl.TicketNumber);
+            //    currTempStatus.Add(pl.TempStatus.ToString());
+            //    storeNumbers.Add(pl.OrgShopNumber);
+            //}
+            foreach (T pl in selectedLoans)
             {
                 tktNumbers.Add(pl.TicketNumber);
                 currTempStatus.Add(pl.TempStatus.ToString());
                 storeNumbers.Add(pl.OrgShopNumber);
             }
-
             DataTable tempStatus = null;
 
             bool retVal = false;
@@ -235,6 +240,15 @@ namespace Common.Controllers.Database.Procedures
                                                                                                             dr[Tempstatuscursor.TICKETNUMBER], 0), dr[Tempstatuscursor.TEMPSTATUS].ToString(),
                                                                                                         dr[Tempstatuscursor.STORENUMBER].ToString());
                             pfiTicketNumbers.Add(newPair);
+                        }
+                        else if (dr[Tempstatuscursor.TEMPSTATUS].ToString().Equals("LYPMT"))
+                        {
+                            tktNoMessage.Append(dr["Ticket_Number"].ToString());
+                            tktNoMessage.Append(" is locked by Layaway Payment");
+                            tktNoMessage.Append(System.Environment.NewLine);
+                            MessageBox.Show(tktNoMessage.ToString());
+                            return false;
+
                         }
                     }
                     if (tktNoMessage.Length > 0)
@@ -340,6 +354,13 @@ namespace Common.Controllers.Database.Procedures
                     retVal = true;
             } while (!retVal);
             return true;
+        }
+
+        public static bool UpdateLayawayTempStatus()
+        {
+            bool retval = true;
+
+            return retval;
         }
 
         public static bool IsOverrideRequired(ServiceTypes serviceType, PawnLoan custPawnLoan, string TicketHolderCustNumber, ref List<string> overrideReason, ref List<ManagerOverrideType> overrideType)
@@ -524,20 +545,24 @@ namespace Common.Controllers.Database.Procedures
                 }
                 if (new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(siteID))
                 {
-                    ExtensionTerms extensionType;
-                    bool retVal = ExtensionProcedures.ExtensionEligibility(pawnLoan.DateMade,
-                                                                         ShopDateTime.Instance.ShopDate,
-                                                                         pawnLoan.DueDate,
-                                                                         pawnLoan.PfiNote,
-                                                                         pawnLoan.PartialPaymentPaid ? pawnLoan.LastPartialPaymentDate : DateTime.MaxValue,
-                                                                         pawnLoan.PfiEligible,
-                                                                         out extensionType);
-                    if (retVal)
-                        pawnLoan.ExtensionType = extensionType;
-                    else
+                    string extTerm=(new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetStateExtensionTerm(siteID));
+                    if (extTerm.Equals(ExtensionTerms.MONTHLY.ToString()))
                     {
-                        pawnLoan.ExtensionNotAllowedReason += "Loan does not follow eligibility rules" + System.Environment.NewLine;
-                        pawnLoan.IsExtensionAllowed = false;
+                        ExtensionTerms extensionType;
+                        bool retVal = ExtensionProcedures.ExtensionEligibility(pawnLoan.DateMade,
+                                                                             ShopDateTime.Instance.ShopDate,
+                                                                             pawnLoan.DueDate,
+                                                                             pawnLoan.PfiNote,
+                                                                             pawnLoan.PartialPaymentPaid ? pawnLoan.LastPartialPaymentDate : DateTime.MaxValue,
+                                                                             pawnLoan.PfiEligible,
+                                                                             out extensionType);
+                        if (retVal)
+                            pawnLoan.ExtensionType = extensionType;
+                        else
+                        {
+                            pawnLoan.ExtensionNotAllowedReason += "Loan does not follow eligibility rules" + System.Environment.NewLine;
+                            pawnLoan.IsExtensionAllowed = false;
+                        }
                     }
                 }
 
@@ -654,9 +679,38 @@ namespace Common.Controllers.Database.Procedures
             {
                 bool paymentOnOrAfterDueDate = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowedAfterDueDate(siteID);
                 bool paymentOnOrAfterPfiDate = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowedAfterPfiDate(siteID);
+                DateTime origDueDate = pawnLoan.DueDate;
+                DateTime origPfiDate = pawnLoan.PfiEligible;
+                if (pawnLoan.IsExtended)
+                {
+
+ 
+
+            SiteId siteIdOrg = new SiteId()
+            {
+                Alias = GlobalDataAccessor.Instance.CurrentSiteId.Alias,
+                Company = GlobalDataAccessor.Instance.CurrentSiteId.Company,
+                Date = pawnLoan.OriginationDate,
+                LoanAmount = pawnLoan.Amount,
+                State = pawnLoan.OrgShopState,
+                StoreNumber = pawnLoan.OrgShopNumber,
+                TerminalId = GlobalDataAccessor.Instance.CurrentSiteId.TerminalId
+            };
+
+            // Create underwrite pawn loan object to be used for originating date calculations
+            var upwOrg = new UnderwritePawnLoanUtility(GlobalDataAccessor.Instance.DesktopSession);
+            // call underwrite Pawn Loan for orig
+            bool renewFinanceSame = false;
+                upwOrg.RunUWP(siteIdOrg);
+
+
+                origDueDate = upwOrg.PawnLoanVO.DueDate;
+                origPfiDate = upwOrg.PawnLoanVO.PFIDate;
+
+                }
                 if (!paymentOnOrAfterDueDate)
                 {
-                    if (ShopDateTime.Instance.ShopDate >= pawnLoan.DueDate)
+                    if (ShopDateTime.Instance.ShopDate >= origDueDate)
                     {
                         pawnLoan.ServiceAllowed = false;
                         pawnLoan.ServiceMessage += "Partial Payments are not allowed on or after the due date "
@@ -675,7 +729,7 @@ namespace Common.Controllers.Database.Procedures
                 }*/
                 if (!paymentOnOrAfterPfiDate)
                 {
-                    if (ShopDateTime.Instance.ShopDate >= pawnLoan.PfiEligible)
+                    if (ShopDateTime.Instance.ShopDate >= origPfiDate)
                     {
                         pawnLoan.ServiceAllowed = false;
                         pawnLoan.ServiceMessage += "Partial Payments are not allowed on after the PFI date "

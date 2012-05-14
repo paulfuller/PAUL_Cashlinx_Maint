@@ -80,6 +80,7 @@ namespace Common.Controllers.Database
 
             businessRules = rules["PWN_BR-002"];
             List<decimal> tieredInterestValues = new List<decimal>();
+            decimal totalInterestAmount=0;
             //CL_PWN_0008_INTRATE-002
             if (newPawnItem.State == States.Texas || newPawnItem.State == States.Ohio)
             {
@@ -120,7 +121,7 @@ namespace Common.Controllers.Database
                 }
 
             }
-            else if (newPawnItem.State == States.Oklahoma)
+            else if (newPawnItem.State == States.Oklahoma || newPawnItem.State == States.Indiana)
             {
                 decimal tieredInterestValue = 0.0m;
                 //Get all the interest tiers
@@ -159,6 +160,7 @@ namespace Common.Controllers.Database
                         break;
 
                 }
+                
                 
                 this.PawnLoanVO.APR = (tieredInterestValues.Sum() / loanAmount) * 100;
                 InterestAmountForLoanTermCycle = loanAmount * ((this.PawnLoanVO.APR / 12) / 100);
@@ -204,7 +206,7 @@ namespace Common.Controllers.Database
                 try
                 {
                     CL_PWN_0010_SVCCHRGRATE = decimal.Parse(componentValue);
-                    ServiceChargeAmountForLoanTermCycle = loanAmount * CL_PWN_0010_SVCCHRGRATE;
+                    ServiceChargeAmountForLoanTermCycle = (loanAmount * CL_PWN_0010_SVCCHRGRATE)/100;
                     feeDictionary.Add("CL_PWN_0010_SVCCHRGRATE", CL_PWN_0010_SVCCHRGRATE);
                 }
                 catch (Exception exc)
@@ -216,6 +218,11 @@ namespace Common.Controllers.Database
             else
             {
                 sbUpw.AppendLine("CL_PWN_0010_SVCCHRGRATE Not found");
+            }
+            //SR If service charge is there, it will be part of APR
+            if (newPawnItem.State == States.Indiana && CL_PWN_0010_SVCCHRGRATE > 0)
+            {
+                this.PawnLoanVO.APR = (((InterestAmountForLoanTermCycle + ServiceChargeAmountForLoanTermCycle) * 12 / loanAmount) * 100);
             }
 
             //CL_PWN_0018_SETUPFEEAMT-002
@@ -691,7 +698,7 @@ namespace Common.Controllers.Database
             //
             /////////////////////////////////////////////////////
             string CL_PWN_0061_LOANTERMCYCLE = "";
-            DateTime currentDate = ShopDateTime.Instance.ShopDate;
+            DateTime currentDate = newPawnItem.Date;
             DateTime dueDate = currentDate;
             int val;
             bool result = false;
@@ -915,8 +922,7 @@ namespace Common.Controllers.Database
                 pfiWait = componentValue;
             }
             //CL_PWN_0056_WTDAYSPRPFI-020
-            if (pfiWait.Equals("D"))
-            {
+
                 if (businessRules.getComponentValue("CL_PWN_0056_WTDAYSPRPFI", ref componentValue))
                 {
                     int parseVal_56;
@@ -929,9 +935,8 @@ namespace Common.Controllers.Database
                 {
                     sbUpw.AppendLine("CL_PWN_0056_WTDAYSPRPFI Not found");
                 }
-            }
-            else
-            {
+            
+   
                 if (businessRules.getComponentValue("CL_PWN_0057_WTMNTHSPRPFI", ref componentValue))
                 {
                     int parseVal_57;
@@ -945,7 +950,8 @@ namespace Common.Controllers.Database
                     sbUpw.AppendLine("CL_PWN_0057_WTMNTHSPRPFI Not found");
                 }
 
-            }
+            
+    
             //CL_PWN_0169_PFIDATENBDADJTREQ
             bool adjustPfiDate = false;
             if (businessRules.getComponentValue("CL_PWN_0169_PFIDATENBDADJTREQ", ref componentValue))
@@ -967,7 +973,16 @@ namespace Common.Controllers.Database
             {
                 pfiDate = dueDate.Date;
             }
-            pfiDate = CL_PWN_0056_WTDAYSPRPFI > 0 ? pfiDate.AddDays(CL_PWN_0056_WTDAYSPRPFI).Date : pfiDate.AddMonths(CL_PWN_0057_WTMNTHSPRPFI).Date;
+            if (pfiWait.Contains("D"))
+                pfiDate = pfiDate.AddDays(CL_PWN_0056_WTDAYSPRPFI).Date;
+            else if (pfiWait.Contains("M"))
+                pfiDate = pfiDate.AddMonths(CL_PWN_0057_WTMNTHSPRPFI).Date;
+            else
+            {
+                DateTime pfiMonthsDate = pfiDate.AddMonths(CL_PWN_0057_WTMNTHSPRPFI).Date;
+                DateTime pfiDateDate = pfiMonthsDate.AddDays(CL_PWN_0056_WTDAYSPRPFI).Date;
+                pfiDate = pfiDateDate;
+            }
 
             if (IsShopClosed(pfiDate.Date))
             {

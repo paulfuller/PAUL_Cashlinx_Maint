@@ -27,14 +27,23 @@ using Pawn.Forms.Pawn.Services.Pickup;
 using Pawn.Logic;
 using Pawn.Logic.DesktopProcedures;
 using Pawn.Logic.PrintQueue;
+using Reports;
+
 
 namespace Pawn.Forms.Pawn.Customer.ItemRelease
+
 {
     public partial class PoliceHoldRelease : Form
     {
+
+     
+        private DataSet _theData;
+
         public NavBox NavControlBox;
         private Form ownerfrm;
         private List<HoldData> policeHolds;
+        private string STORE_NAME;
+        private object currentCust;
 
         public bool ReleaseToClaimant { get; set; }
 
@@ -123,7 +132,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
 
         private bool RemoveTempStatusOnLoans()
         {
-            List<int> _selectedLoanNumbers = new List<int>();
+            List<int> _selectedLoanNumbers = new List<int>();       
             List<string> _selectedRefTypes = new List<string>();
             foreach (HoldData hold in policeHolds)
             {
@@ -190,7 +199,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
                 if (!customTextBoxAgency.isValid || !customTextBoxBadgeNumber.isValid ||
                     !customTextBoxOfficerFirstName.isValid || !customTextBoxOfficerLastName.isValid ||
                     !customTextBoxPhoneAreaCode.isValid || !customTextBoxPhoneNumber.isValid ||
-                    richTextBoxReason.Text.Trim().Length <= 0)
+                    richTextBoxReason.Text.Trim().Length <= 0 || !customTextBoxCaseNumber.isValid)
                 {
                     MessageBox.Show("Please enter all the required fields and submit");
                     return;
@@ -201,24 +210,25 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
                     policeHold.HoldComment = richTextBoxReason.Text;
                 }
                 PoliceInfo policeInfo = new PoliceInfo
-                {
-                    Agency = customTextBoxAgency.Text,
-                    BadgeNumber = customTextBoxBadgeNumber.Text,
-                    CaseNumber = customTextBoxCaseNumber.Text,
-                    OfficerFirstName = customTextBoxOfficerFirstName.Text,
-                    OfficerLastName = customTextBoxOfficerLastName.Text,
-                    PhoneAreaCode = customTextBoxPhoneAreaCode.Text,
-                    PhoneExtension = customTextBoxPhoneExt.Text,
-                    PhoneNumber = customTextBoxPhoneNumber.Text,
-                    RequestType = ""
-                };
+                                        {
+                                            Agency = customTextBoxAgency.Text,
+                                            BadgeNumber = customTextBoxBadgeNumber.Text,
+                                            CaseNumber = customTextBoxCaseNumber.Text,
+                                            OfficerFirstName = customTextBoxOfficerFirstName.Text,
+                                            OfficerLastName = customTextBoxOfficerLastName.Text,
+                                            PhoneAreaCode = customTextBoxPhoneAreaCode.Text,
+                                            PhoneExtension = customTextBoxPhoneExt.Text,
+                                            PhoneNumber = customTextBoxPhoneNumber.Text,
+                                            RequestType = ""
+                                        };
 
                 do
                 {
                     int seizeNumber = 0;
 
-                    returnValue = HoldsProcedures.AddPoliceSeize(policeHolds, policeHolds[0].HoldComment,
-                                                                 policeInfo, currentCustomer, out seizeNumber);
+                    returnValue = HoldsProcedures.AddPoliceSeize(
+                        policeHolds, policeHolds[0].HoldComment,
+                        policeInfo, currentCustomer, out seizeNumber);
                     if (returnValue && seizeNumber > 0)
                     {
                         policeInfo.SeizeNumber = seizeNumber;
@@ -235,16 +245,86 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
                         //Call print Police seize form if print is enabled
                         if (SecurityAccessor.Instance.EncryptConfig.ClientConfig.ClientConfiguration.PrintEnabled)
                         {
-                            PoliceSeizeform seizeFrm = new PoliceSeizeform();
-                            seizeFrm.PoliceSeizeLoans = policeHolds;
-                            seizeFrm.ShowDialog();
+                            //PoliceSeizeform seizeFrm = new PoliceSeizeform();
+                            //seizeFrm.PoliceSeizeLoans = policeHolds;
+                            //seizeFrm.ShowDialog();
+
+                            //Calling policeseizereport(Itextsharp) instead of bitmap(policeseizeform) calling
+                            var policeseizereport = new Reports.PoliceSeizeReport();
+                            var reportObject = new ReportObject();
+                            reportObject.ReportTempFileFullName = SecurityAccessor.Instance.EncryptConfig.ClientConfig.GlobalConfiguration.BaseLogPath + "\\Police Seize" + DateTime.Now.ToString("MMddyyyyhhmmssFFFFFFF") + ".pdf";
+                            policeseizereport.reportObject = reportObject;
+                            policeseizereport.ReportTempFileFullName = reportObject.ReportTempFileFullName;
+                            policeseizereport.STORE_NAME = GlobalDataAccessor.Instance.CurrentSiteId.StoreName;
+                            policeseizereport.STORE_ADDRESS = GlobalDataAccessor.Instance.CurrentSiteId.StoreAddress1;
+                            policeseizereport.STORE_CITY = GlobalDataAccessor.Instance.CurrentSiteId.StoreCityName;
+                            policeseizereport.STORE_STATE = GlobalDataAccessor.Instance.CurrentSiteId.State;
+                            policeseizereport.STORE_ZIP = GlobalDataAccessor.Instance.CurrentSiteId.StoreZipCode;
+                            policeseizereport.CurrentCust = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer;
+                            policeseizereport.EmpNo = GlobalDataAccessor.Instance.DesktopSession.UserName.ToLowerInvariant();
+                            policeseizereport.TransactionDate = ShopDateTime.Instance.ShopDate.FormatDate();
+                            policeseizereport.HoldData = policeHolds[0];
+                            policeseizereport.CustHomeAddr = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerAddress[0];
+                            policeseizereport.CreateReport();
+                            string strReturnMessage;
+                            if (GlobalDataAccessor.Instance.DesktopSession.PDALaserPrinter.IsValid)
+                            {
+                                if (FileLogger.Instance.IsLogInfo)
+                                {
+                                    FileLogger.Instance.logMessage(LogLevel.INFO, this, "Printing PoliceSeize report on PDA Laser printer: {0}",
+                                                                   GlobalDataAccessor.Instance.DesktopSession.PDALaserPrinter);
+                                }
+                                strReturnMessage = PrintingUtilities.printDocument(
+                                    reportObject.ReportTempFileFullName,
+                                    GlobalDataAccessor.Instance.DesktopSession.PDALaserPrinter.IPAddress,
+                                    GlobalDataAccessor.Instance.DesktopSession.PDALaserPrinter.Port,
+                                   2);
+                            }
+                            else if (GlobalDataAccessor.Instance.DesktopSession.LaserPrinter.IsValid)
+                            {
+                                if (FileLogger.Instance.IsLogWarn)
+                                {
+                                    FileLogger.Instance.logMessage(LogLevel.WARN, this,
+                                                                   "Could not find valid PDA laser printer to print the PoliceSeize report." + Environment.NewLine +
+                                                                   " Printing on default pawn laser printer: {0}",
+                                                                   GlobalDataAccessor.Instance.DesktopSession.LaserPrinter);
+                                }
+                                strReturnMessage = PrintingUtilities.printDocument(
+                                    reportObject.ReportTempFileFullName,
+                                    GlobalDataAccessor.Instance.DesktopSession.LaserPrinter.IPAddress,
+                                    GlobalDataAccessor.Instance.DesktopSession.LaserPrinter.Port,
+                                    2);
+                            }
+                            else
+                            {
+                                if (FileLogger.Instance.IsLogError)
+                                {
+                                    FileLogger.Instance.logMessage(LogLevel.ERROR, this,
+                                                                   "Could not find a valid laser printer to print the PoliceSeize report");
+                                }
+                                strReturnMessage = "FAIL - NO PRINTER FOUND";
+                            }
+                            if (strReturnMessage.IndexOf("SUCCESS", StringComparison.OrdinalIgnoreCase) == -1)
+                            {
+                                if (FileLogger.Instance.IsLogError)
+                                {
+                                    FileLogger.Instance.logMessage(LogLevel.ERROR, this,
+                                                                   "Cannot print the PoliceSeize report: " + strReturnMessage);
+                                }
+                            }
+
+
                         }
 
                         break;
-                    }
+                           
+                        }
+                    
                     dgr = MessageBox.Show(Commons.GetMessageString("ProcessingError"), "Error", MessageBoxButtons.RetryCancel);
-                }while (dgr == DialogResult.Retry);
-            }
+                    }
+                    while (dgr == DialogResult.Retry) ;
+              
+        }
             //Process Release to claimant
             if (ReleaseToClaimant)
             {
@@ -343,12 +423,34 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
                                 foreach (var policeHold in policeHolds)
                                 {
                                     policeHold.PoliceInformation = GlobalDataAccessor.Instance.DesktopSession.PoliceInformation;
+                                    policeHold.RestitutionPaid = radioButtonYes.Checked;
+
+                                    if (panelRestitution.Visible == true && radioButtonYes.Checked == true)
+                                    {
+                                        // there was restitution paid
+                                        if (customTextBoxResAmount.Text.Trim() == "")
+                                        {
+                                            // Probably should have caught this before 
+                                            policeHold.RestitutionAmount = 0;
+                                            MessageBox.Show("Please enter the restitution amount!", "Restitution amount missing");
+                                            customTextBoxResAmount.Focus();
+                                            return;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // No restitution paid
+                                        policeHold.RestitutionPaid = false;
+                                        policeHold.RestitutionAmount = 0;
+                                    }
+
                                 }
                                 //Call print RTC if print is enabled
                                 if (SecurityAccessor.Instance.EncryptConfig.ClientConfig.ClientConfiguration.PrintEnabled)
                                 {
                                     var rtcprintFrm = new RTCform();
                                     rtcprintFrm.RTCLoans = policeHolds;
+
                                     rtcprintFrm.ShowDialog();
                                 }
                                 break;
@@ -406,5 +508,8 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
                 customTextBoxResAmount.Enabled = true;
             }
         }
+
+       
+       
     }
 }

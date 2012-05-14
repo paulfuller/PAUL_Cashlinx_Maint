@@ -10,6 +10,7 @@
 using System;
 using System.Windows.Forms;
 using Common.Controllers.Application;
+using Common.Controllers.Database.Procedures;
 using Common.Libraries.Forms.Components;
 using Common.Libraries.Objects.Pawn;
 using Common.Libraries.Utility.Shared;
@@ -71,7 +72,22 @@ namespace Pawn.Forms.Pawn.Services.Pickup
 
                 this.labelLoanNumber.Text = this._ticketNumber.ToString();
                 this.labelLoanAmount.Text = pawnLoan.Amount.ToString("c");
-                this.labelCurrentPrincipal.Text = pawnLoan.CurrentPrincipalAmount.ToString("c");
+
+                //Don't show current principle if partial payments are not allowed.
+                if (new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId))
+                {
+                    this.labelCurrentPrincipal.Text = pawnLoan.CurrentPrincipalAmount.ToString("c");
+                }
+                else
+                {
+                    //Hide the controls, remove the bottom row, and move the top alignment down for cosmetic purposes.
+                    var currentPrincipalRow = this.tableLayoutPanelPickupAmount.GetRow(this.labelCurrentPrincipalHeading);
+                    this.tableLayoutPanelPickupAmount.GetControlFromPosition(0, currentPrincipalRow).Visible = false;
+                    this.tableLayoutPanelPickupAmount.GetControlFromPosition(1, currentPrincipalRow).Visible = false;
+                    this.tableLayoutPanelPickupAmount.Top += 12;
+                    this.tableLayoutPanelPickupAmount.RowCount -= 1;
+
+                }
 
                 var currentRow = 0;
                 CustomLabel feeName;

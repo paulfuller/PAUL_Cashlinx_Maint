@@ -95,6 +95,7 @@ namespace Pawn.Forms.Pawn.ShopAdministration
         decimal updateForcedAmount;
         string updateOverShortCode;
         bool updateClicked;
+        bool updateViewClicked;
 
 
         public BalanceCash()
@@ -859,7 +860,7 @@ namespace Pawn.Forms.Pawn.ShopAdministration
 
         private void PrintFinalLedger()
         {
-            if (CDTransactionsTable == null)
+            if (CDTransactionsTable == null || updateViewClicked)
             {
                 string cashDrawerId = SafeBalance ? 
                     GlobalDataAccessor.Instance.DesktopSession.StoreSafeID : 
@@ -897,6 +898,7 @@ namespace Pawn.Forms.Pawn.ShopAdministration
 
         private void customButtonUpdateView_Click(object sender, EventArgs e)
         {
+            updateViewClicked = true;
             if (comboBoxFilter1.Visible)
             {
                 if (comboBoxFilter1.SelectedItem.ToString() == "All Shop Transactions")
@@ -1390,6 +1392,15 @@ namespace Pawn.Forms.Pawn.ShopAdministration
                 else
                 {
                     MessageBox.Show("Store is closed");
+                    //Clear the event in pawn_cashdrawer_event
+                    string errCode;
+                    string errMesg;
+                    string workstationId = SecurityAccessor.Instance.EncryptConfig.ClientConfig.ClientConfiguration.WorkstationId;
+                    ShopCashProcedures.RemoveTellerEvent(GlobalDataAccessor.Instance.DesktopSession.StoreSafeID, workstationId, out errCode, out errMesg);
+                    if (errCode != "0")
+                        FileLogger.Instance.logMessage(LogLevel.ERROR, this, "Safe balance event could not be removed from pawn_Cashdrawer_event " + errMesg);
+
+                        
                     Application.Exit();
                 }
             }

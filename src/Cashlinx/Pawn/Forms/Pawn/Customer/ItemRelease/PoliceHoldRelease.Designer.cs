@@ -30,6 +30,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PoliceHoldRelease));
             this.labelHeading = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.labelReason = new System.Windows.Forms.Label();
@@ -40,21 +41,21 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.customLabelBadgeNumber = new CustomLabel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.customTextBoxOfficerFirstName = new CustomTextBox();
-            this.customTextBoxOfficerLastName = new CustomTextBox();
-            this.customTextBoxBadgeNumber = new CustomTextBox();
-            this.customTextBoxAgency = new CustomTextBox();
-            this.customTextBoxCaseNumber = new CustomTextBox();
-            this.customTextBoxPhoneAreaCode = new CustomTextBox();
-            this.customTextBoxPhoneNumber = new CustomTextBox();
+            this.customLabelBadgeNumber = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customTextBoxOfficerFirstName = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.customTextBoxOfficerLastName = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.customTextBoxBadgeNumber = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.customTextBoxAgency = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.customTextBoxCaseNumber = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.customTextBoxPhoneAreaCode = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.customTextBoxPhoneNumber = new Common.Libraries.Forms.Components.CustomTextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.customTextBoxPhoneExt = new CustomTextBox();
-            this.labelOfficerFirstName = new CustomLabel();
-            this.customLabelOfficerLastName = new CustomLabel();
-            this.customLabelAgency = new CustomLabel();
-            this.customLabelPhone = new CustomLabel();
+            this.customTextBoxPhoneExt = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.labelOfficerFirstName = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabelOfficerLastName = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabelAgency = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabel1 = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabelPhone = new Common.Libraries.Forms.Components.CustomLabel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.radioButtonNo = new System.Windows.Forms.RadioButton();
             this.radioButtonYes = new System.Windows.Forms.RadioButton();
@@ -63,7 +64,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.labelCurrency = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panelRestitution = new System.Windows.Forms.Panel();
-            this.customTextBoxResAmount = new CustomTextBox();
+            this.customTextBoxResAmount = new Common.Libraries.Forms.Components.CustomTextBox();
             this.labelAsterisk = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.panelRestitution.SuspendLayout();
@@ -108,13 +109,13 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.richTextBoxReason.MaxLength = 256;
             this.richTextBoxReason.Name = "richTextBoxReason";
             this.richTextBoxReason.Size = new System.Drawing.Size(652, 156);
-            this.richTextBoxReason.TabIndex = 11;
-            this.richTextBoxReason.Text = "";
+            this.richTextBoxReason.TabIndex = 9;
+            this.richTextBoxReason.Text = global::Pawn.Properties.Resources.OverrideMachineName;
             // 
             // buttonCancel
             // 
             this.buttonCancel.BackColor = System.Drawing.Color.Transparent;
-            this.buttonCancel.BackgroundImage = global::Common.Properties.Resources.vistabutton_blue;
+            this.buttonCancel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonCancel.BackgroundImage")));
             this.buttonCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.buttonCancel.CausesValidation = false;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -125,12 +126,12 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.buttonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonCancel.ForeColor = System.Drawing.Color.White;
             this.buttonCancel.Location = new System.Drawing.Point(13, 609);
-            this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonCancel.MaximumSize = new System.Drawing.Size(100, 50);
             this.buttonCancel.MinimumSize = new System.Drawing.Size(100, 50);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(100, 50);
-            this.buttonCancel.TabIndex = 10;
+            this.buttonCancel.TabIndex = 15;
             this.buttonCancel.Text = "&Cancel";
             this.buttonCancel.UseVisualStyleBackColor = false;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -138,7 +139,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             // buttonBack
             // 
             this.buttonBack.BackColor = System.Drawing.Color.Transparent;
-            this.buttonBack.BackgroundImage = global::Common.Properties.Resources.vistabutton_blue;
+            this.buttonBack.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonBack.BackgroundImage")));
             this.buttonBack.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.buttonBack.CausesValidation = false;
             this.buttonBack.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -149,12 +150,12 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonBack.ForeColor = System.Drawing.Color.White;
             this.buttonBack.Location = new System.Drawing.Point(122, 609);
-            this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonBack.MaximumSize = new System.Drawing.Size(100, 50);
             this.buttonBack.MinimumSize = new System.Drawing.Size(100, 50);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(100, 50);
-            this.buttonBack.TabIndex = 11;
+            this.buttonBack.TabIndex = 14;
             this.buttonBack.Text = "&Back";
             this.buttonBack.UseVisualStyleBackColor = false;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
@@ -162,7 +163,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             // buttonSubmit
             // 
             this.buttonSubmit.BackColor = System.Drawing.Color.Transparent;
-            this.buttonSubmit.BackgroundImage = global::Common.Properties.Resources.vistabutton_blue;
+            this.buttonSubmit.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonSubmit.BackgroundImage")));
             this.buttonSubmit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.buttonSubmit.CausesValidation = false;
             this.buttonSubmit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -173,12 +174,12 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.buttonSubmit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonSubmit.ForeColor = System.Drawing.Color.White;
             this.buttonSubmit.Location = new System.Drawing.Point(571, 610);
-            this.buttonSubmit.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonSubmit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonSubmit.MaximumSize = new System.Drawing.Size(100, 50);
             this.buttonSubmit.MinimumSize = new System.Drawing.Size(100, 50);
             this.buttonSubmit.Name = "buttonSubmit";
             this.buttonSubmit.Size = new System.Drawing.Size(100, 50);
-            this.buttonSubmit.TabIndex = 12;
+            this.buttonSubmit.TabIndex = 13;
             this.buttonSubmit.Text = "&Submit";
             this.buttonSubmit.UseVisualStyleBackColor = false;
             this.buttonSubmit.Click += new System.EventHandler(this.buttonSubmit_Click);
@@ -219,7 +220,6 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 189F));
             this.tableLayoutPanel1.Controls.Add(this.customLabelBadgeNumber, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 5, 1);
             this.tableLayoutPanel1.Controls.Add(this.customTextBoxOfficerFirstName, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.customTextBoxOfficerLastName, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.customTextBoxBadgeNumber, 1, 2);
@@ -232,6 +232,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.tableLayoutPanel1.Controls.Add(this.labelOfficerFirstName, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.customLabelOfficerLastName, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.customLabelAgency, 5, 0);
+            this.tableLayoutPanel1.Controls.Add(this.customLabel1, 5, 1);
             this.tableLayoutPanel1.Controls.Add(this.customLabelPhone, 5, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(19, 140);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -255,23 +256,12 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.customLabelBadgeNumber.TabIndex = 70;
             this.customLabelBadgeNumber.Text = "Badge Number";
             // 
-            // label3
-            // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Location = new System.Drawing.Point(303, 49);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 13);
-            this.label3.TabIndex = 57;
-            this.label3.Text = "Case Number";
-            // 
             // customTextBoxOfficerFirstName
             // 
             this.customTextBoxOfficerFirstName.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.customTextBoxOfficerFirstName.CausesValidation = false;
             this.tableLayoutPanel1.SetColumnSpan(this.customTextBoxOfficerFirstName, 2);
-            this.customTextBoxOfficerFirstName.ErrorMessage = "";
+            this.customTextBoxOfficerFirstName.ErrorMessage = global::Pawn.Properties.Resources.OverrideMachineName;
             this.customTextBoxOfficerFirstName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customTextBoxOfficerFirstName.Location = new System.Drawing.Point(119, 8);
             this.customTextBoxOfficerFirstName.MaxLength = 20;
@@ -279,14 +269,14 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.customTextBoxOfficerFirstName.Required = true;
             this.customTextBoxOfficerFirstName.Size = new System.Drawing.Size(96, 21);
             this.customTextBoxOfficerFirstName.TabIndex = 1;
-            this.customTextBoxOfficerFirstName.ValidationExpression = "";
+            this.customTextBoxOfficerFirstName.ValidationExpression = global::Pawn.Properties.Resources.OverrideMachineName;
             // 
             // customTextBoxOfficerLastName
             // 
             this.customTextBoxOfficerLastName.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.customTextBoxOfficerLastName.CausesValidation = false;
             this.tableLayoutPanel1.SetColumnSpan(this.customTextBoxOfficerLastName, 2);
-            this.customTextBoxOfficerLastName.ErrorMessage = "";
+            this.customTextBoxOfficerLastName.ErrorMessage = global::Pawn.Properties.Resources.OverrideMachineName;
             this.customTextBoxOfficerLastName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customTextBoxOfficerLastName.Location = new System.Drawing.Point(119, 45);
             this.customTextBoxOfficerLastName.MaxLength = 20;
@@ -294,14 +284,14 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.customTextBoxOfficerLastName.Required = true;
             this.customTextBoxOfficerLastName.Size = new System.Drawing.Size(96, 21);
             this.customTextBoxOfficerLastName.TabIndex = 2;
-            this.customTextBoxOfficerLastName.ValidationExpression = "";
+            this.customTextBoxOfficerLastName.ValidationExpression = global::Pawn.Properties.Resources.OverrideMachineName;
             // 
             // customTextBoxBadgeNumber
             // 
             this.customTextBoxBadgeNumber.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.customTextBoxBadgeNumber.CausesValidation = false;
             this.tableLayoutPanel1.SetColumnSpan(this.customTextBoxBadgeNumber, 2);
-            this.customTextBoxBadgeNumber.ErrorMessage = "";
+            this.customTextBoxBadgeNumber.ErrorMessage = global::Pawn.Properties.Resources.OverrideMachineName;
             this.customTextBoxBadgeNumber.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customTextBoxBadgeNumber.Location = new System.Drawing.Point(119, 81);
             this.customTextBoxBadgeNumber.MaxLength = 10;
@@ -309,14 +299,14 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.customTextBoxBadgeNumber.Required = true;
             this.customTextBoxBadgeNumber.Size = new System.Drawing.Size(96, 21);
             this.customTextBoxBadgeNumber.TabIndex = 3;
-            this.customTextBoxBadgeNumber.ValidationExpression = "";
+            this.customTextBoxBadgeNumber.ValidationExpression = global::Pawn.Properties.Resources.OverrideMachineName;
             // 
             // customTextBoxAgency
             // 
             this.customTextBoxAgency.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.customTextBoxAgency.CausesValidation = false;
             this.tableLayoutPanel1.SetColumnSpan(this.customTextBoxAgency, 2);
-            this.customTextBoxAgency.ErrorMessage = "";
+            this.customTextBoxAgency.ErrorMessage = global::Pawn.Properties.Resources.OverrideMachineName;
             this.customTextBoxAgency.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customTextBoxAgency.Location = new System.Drawing.Point(396, 8);
             this.customTextBoxAgency.MaxLength = 15;
@@ -324,27 +314,28 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.customTextBoxAgency.Required = true;
             this.customTextBoxAgency.Size = new System.Drawing.Size(96, 21);
             this.customTextBoxAgency.TabIndex = 4;
-            this.customTextBoxAgency.ValidationExpression = "";
+            this.customTextBoxAgency.ValidationExpression = global::Pawn.Properties.Resources.OverrideMachineName;
             // 
             // customTextBoxCaseNumber
             // 
             this.customTextBoxCaseNumber.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.customTextBoxCaseNumber.CausesValidation = false;
             this.tableLayoutPanel1.SetColumnSpan(this.customTextBoxCaseNumber, 2);
-            this.customTextBoxCaseNumber.ErrorMessage = "";
+            this.customTextBoxCaseNumber.ErrorMessage = "*";
             this.customTextBoxCaseNumber.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customTextBoxCaseNumber.Location = new System.Drawing.Point(396, 45);
             this.customTextBoxCaseNumber.MaxLength = 15;
             this.customTextBoxCaseNumber.Name = "customTextBoxCaseNumber";
+            this.customTextBoxCaseNumber.Required = true;
             this.customTextBoxCaseNumber.Size = new System.Drawing.Size(96, 21);
             this.customTextBoxCaseNumber.TabIndex = 5;
-            this.customTextBoxCaseNumber.ValidationExpression = "";
+            this.customTextBoxCaseNumber.ValidationExpression = global::Pawn.Properties.Resources.OverrideMachineName;
             // 
             // customTextBoxPhoneAreaCode
             // 
             this.customTextBoxPhoneAreaCode.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.customTextBoxPhoneAreaCode.CausesValidation = false;
-            this.customTextBoxPhoneAreaCode.ErrorMessage = "";
+            this.customTextBoxPhoneAreaCode.ErrorMessage = global::Pawn.Properties.Resources.OverrideMachineName;
             this.customTextBoxPhoneAreaCode.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customTextBoxPhoneAreaCode.Location = new System.Drawing.Point(396, 81);
             this.customTextBoxPhoneAreaCode.MaxLength = 3;
@@ -352,13 +343,13 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.customTextBoxPhoneAreaCode.Required = true;
             this.customTextBoxPhoneAreaCode.Size = new System.Drawing.Size(29, 21);
             this.customTextBoxPhoneAreaCode.TabIndex = 6;
-            this.customTextBoxPhoneAreaCode.ValidationExpression = "";
+            this.customTextBoxPhoneAreaCode.ValidationExpression = global::Pawn.Properties.Resources.OverrideMachineName;
             // 
             // customTextBoxPhoneNumber
             // 
             this.customTextBoxPhoneNumber.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.customTextBoxPhoneNumber.CausesValidation = false;
-            this.customTextBoxPhoneNumber.ErrorMessage = "";
+            this.customTextBoxPhoneNumber.ErrorMessage = global::Pawn.Properties.Resources.OverrideMachineName;
             this.customTextBoxPhoneNumber.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customTextBoxPhoneNumber.Location = new System.Drawing.Point(431, 81);
             this.customTextBoxPhoneNumber.MaxLength = 7;
@@ -366,7 +357,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.customTextBoxPhoneNumber.Required = true;
             this.customTextBoxPhoneNumber.Size = new System.Drawing.Size(59, 21);
             this.customTextBoxPhoneNumber.TabIndex = 7;
-            this.customTextBoxPhoneNumber.ValidationExpression = "";
+            this.customTextBoxPhoneNumber.ValidationExpression = global::Pawn.Properties.Resources.OverrideMachineName;
             // 
             // label5
             // 
@@ -383,14 +374,14 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             // 
             this.customTextBoxPhoneExt.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.customTextBoxPhoneExt.CausesValidation = false;
-            this.customTextBoxPhoneExt.ErrorMessage = "";
+            this.customTextBoxPhoneExt.ErrorMessage = global::Pawn.Properties.Resources.OverrideMachineName;
             this.customTextBoxPhoneExt.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customTextBoxPhoneExt.Location = new System.Drawing.Point(530, 81);
             this.customTextBoxPhoneExt.MaxLength = 5;
             this.customTextBoxPhoneExt.Name = "customTextBoxPhoneExt";
             this.customTextBoxPhoneExt.Size = new System.Drawing.Size(54, 21);
             this.customTextBoxPhoneExt.TabIndex = 8;
-            this.customTextBoxPhoneExt.ValidationExpression = "";
+            this.customTextBoxPhoneExt.ValidationExpression = global::Pawn.Properties.Resources.OverrideMachineName;
             // 
             // labelOfficerFirstName
             // 
@@ -428,6 +419,18 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.customLabelAgency.TabIndex = 71;
             this.customLabelAgency.Text = "Agency";
             // 
+            // customLabel1
+            // 
+            this.customLabel1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.customLabel1.AutoSize = true;
+            this.customLabel1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customLabel1.Location = new System.Drawing.Point(303, 49);
+            this.customLabel1.Name = "customLabel1";
+            this.customLabel1.Required = true;
+            this.customLabel1.Size = new System.Drawing.Size(71, 13);
+            this.customLabel1.TabIndex = 73;
+            this.customLabel1.Text = "Case Number";
+            // 
             // customLabelPhone
             // 
             this.customLabelPhone.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -457,7 +460,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.radioButtonNo.Location = new System.Drawing.Point(90, 47);
             this.radioButtonNo.Name = "radioButtonNo";
             this.radioButtonNo.Size = new System.Drawing.Size(39, 17);
-            this.radioButtonNo.TabIndex = 62;
+            this.radioButtonNo.TabIndex = 11;
             this.radioButtonNo.TabStop = true;
             this.radioButtonNo.Text = "No";
             this.radioButtonNo.UseVisualStyleBackColor = false;
@@ -470,7 +473,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.radioButtonYes.Location = new System.Drawing.Point(31, 47);
             this.radioButtonYes.Name = "radioButtonYes";
             this.radioButtonYes.Size = new System.Drawing.Size(43, 17);
-            this.radioButtonYes.TabIndex = 61;
+            this.radioButtonYes.TabIndex = 10;
             this.radioButtonYes.TabStop = true;
             this.radioButtonYes.Text = "Yes";
             this.radioButtonYes.UseVisualStyleBackColor = false;
@@ -537,13 +540,13 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             // customTextBoxResAmount
             // 
             this.customTextBoxResAmount.CausesValidation = false;
-            this.customTextBoxResAmount.ErrorMessage = "";
+            this.customTextBoxResAmount.ErrorMessage = global::Pawn.Properties.Resources.OverrideMachineName;
             this.customTextBoxResAmount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customTextBoxResAmount.Location = new System.Drawing.Point(348, 49);
             this.customTextBoxResAmount.Name = "customTextBoxResAmount";
             this.customTextBoxResAmount.Size = new System.Drawing.Size(82, 21);
-            this.customTextBoxResAmount.TabIndex = 65;
-            this.customTextBoxResAmount.ValidationExpression = "";
+            this.customTextBoxResAmount.TabIndex = 12;
+            this.customTextBoxResAmount.ValidationExpression = global::Pawn.Properties.Resources.OverrideMachineName;
             // 
             // labelAsterisk
             // 
@@ -560,7 +563,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Common.Properties.Resources.newDialog_400_BlueScale;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(703, 672);
             this.ControlBox = false;
@@ -606,7 +609,6 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label3;
         private CustomTextBox customTextBoxPhoneExt;
         private System.Windows.Forms.Label label5;
         private CustomTextBox customTextBoxPhoneAreaCode;
@@ -631,5 +633,6 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
         private CustomLabel customLabelAgency;
         private CustomLabel customLabelPhone;
         private System.Windows.Forms.Label labelAsterisk;
+        private CustomLabel customLabel1;
     }
 }

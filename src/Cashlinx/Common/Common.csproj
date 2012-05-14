@@ -1,1093 +1,1121 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿﻿
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FE916264-3E31-433B-B458-048342150DFE}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Common</RootNamespace>
-    <AssemblyName>Common</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
-    <NoWarn>0169,0168,0219,0414</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>CashlinxSignKey.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Common - Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Common - Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Common - Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="itextsharp">
-      <HintPath>Libraries\External\itextsharp.dll</HintPath>
-    </Reference>
-    <Reference Include="JsonFx.Json">
-      <HintPath>Libraries\External\JsonFx.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Windows\assembly\GAC\Microsoft.DirectX\1.0.2902.0__31bf3856ad364e35\Microsoft.DirectX.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.DirectX.AudioVideoPlayback, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Windows\assembly\GAC\Microsoft.DirectX.AudioVideoPlayback\1.0.2902.0__31bf3856ad364e35\Microsoft.DirectX.AudioVideoPlayback.dll</HintPath>
-    </Reference>
-    <Reference Include="Oracle.DataAccess, Version=2.111.7.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\oracle11\product\11.1.0\client_1\ODP.NET\bin\2.x\Oracle.DataAccess.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Design" />
-    <Reference Include="System.DirectoryServices" />
-    <Reference Include="System.DirectoryServices.Protocols" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Presentation" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Controllers\Application\ApplicationFlow\AppWorkflowController.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\Blocks\Base\ActionBlock.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\Blocks\Base\BaseBlock.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\Blocks\Base\ConditionBlock.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\Blocks\Base\FxnBlock.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\Blocks\Executors\MultiExecuteParallelBlock.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\Blocks\Executors\MultiExecuteSyncBlock.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\Blocks\Executors\SingleExecuteBlock.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\Blocks\Logical\IfThenBlock.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\Blocks\Logical\IfThenElseBlock.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\IButtonResourceManagerHelper.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\ImageButtonController.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\ImageButtonControllerGroup.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\Impl\Common\CommonAppBlocksBase.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\Impl\Common\ShowForm.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\Impl\MainFlowExecutorBase.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\MenuLevelController.cs" />
-    <Compile Include="Controllers\Application\ApplicationFlow\Navigation\NavBox.cs" />
-    <Compile Include="Controllers\Application\DesktopSession.cs" />
-    <Compile Include="Controllers\Application\GlobalDataAccessor.cs" />
-    <Compile Include="Controllers\Application\ReceiptRenderer.cs" />
-    <Compile Include="Controllers\Application\ReportObject.cs" />
-    <Compile Include="Controllers\Application\ShopDateTime.cs" />
-    <Compile Include="Controllers\Database\AddressWebService.cs" />
-    <Compile Include="Controllers\Database\AssignMDSE.cs" />
-    <Compile Include="Controllers\Database\Couch\CouchDbUtils.cs" />
-    <Compile Include="Controllers\Database\Couch\CouchSecurity\CookieDictionary.cs" />
-    <Compile Include="Controllers\Database\Couch\CouchSecurity\PawnCouchRequest.cs" />
-    <Compile Include="Controllers\Database\Couch\CouchSecurity\PawnCouchSecurity.cs" />
-    <Compile Include="Controllers\Database\Couch\DocumentHelper.cs" />
-    <Compile Include="Controllers\Database\Couch\IDocStorage.cs" />
-    <Compile Include="Controllers\Database\Couch\Impl\CouchConnector.cs" />
-    <Compile Include="Controllers\Database\Couch\Impl\DocStorage_CouchDB.cs" />
-    <Compile Include="Controllers\Database\Couch\Impl\DocumentAccess.cs" />
-    <Compile Include="Controllers\Database\Couch\Impl\SecuredCouchConnector.cs" />
-    <Compile Include="Controllers\Database\DataAccessLayer\DataAccessService.cs" />
-    <Compile Include="Controllers\Database\GunBookUtilities.cs" />
-    <Compile Include="Controllers\Database\LoanTicketLengthCalculator.cs" />
-    <Compile Include="Controllers\Database\Oracle\OracleDataAccessor.cs" />
-    <Compile Include="Controllers\Database\Oracle\OracleDbConnection.cs" />
-    <Compile Include="Controllers\Database\Oracle\OracleDbTypeConstants.cs" />
-    <Compile Include="Controllers\Database\Oracle\OracleMultiDbConnection.cs" />
-    <Compile Include="Controllers\Database\Oracle\OracleProcParam.cs" />
-    <Compile Include="Controllers\Database\Oracle\OracleSqlDbTypeMapper.cs" />
-    <Compile Include="Controllers\Database\OrgCalendarFetch.cs" />
-    <Compile Include="Controllers\Database\PawnDataAccessUtilities.cs" />
-    <Compile Include="Controllers\Database\PickingSlip.cs" />
-    <Compile Include="Controllers\Database\PickingSlipHelper.cs" />
-    <Compile Include="Controllers\Database\PrintUtilities.cs" />
-    <Compile Include="Controllers\Database\Procedures\BusinessRulesProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\CommonDataProcs.cs" />
-    <Compile Include="Controllers\Database\Procedures\CPNHSProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\ExtensionProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\PartialPaymentProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\PawnProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\CustomerDBProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\CustomerLoans.cs" />
-    <Compile Include="Controllers\Database\Procedures\CustomerProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\DescribedMerchandise.cs" />
-    <Compile Include="Controllers\Database\Procedures\FormsExtensionMethods.cs" />
-    <Compile Include="Controllers\Database\Procedures\GenerateDocumentsProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\HoldsProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\LayawayPaymentCalculator.cs" />
-    <Compile Include="Controllers\Database\Procedures\LayawayPaymentHistoryBuilder.cs" />
-    <Compile Include="Controllers\Database\Procedures\LayawayProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\MerchandiseProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\PawnSecurityProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\PMetalStonesProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\ProcessTenderProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\ProKnowDetails.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Controllers\Database\Procedures\SecurityProfileProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\ServiceLoanDBProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\ServiceLoanProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\ShopCashProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\ShopProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\StoreCloseProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\TellerProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\TransferProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\TransfersDBProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\VendorDBProcedures.cs" />
-    <Compile Include="Controllers\Database\Procedures\VendorProcedures.cs" />
-    <Compile Include="Controllers\Database\ProcedureUtilities.cs" />
-    <Compile Include="Controllers\Database\PurchaseDocumentGenerator.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Controllers\Database\RetailProcedures.cs" />
-    <Compile Include="Controllers\Database\TransferWebService.cs" />
-    <Compile Include="Controllers\Database\UnderwritePawnLoanUtility.cs" />
-    <Compile Include="Controllers\Database\WebServiceProKnow.cs" />
-    <Compile Include="Controllers\Network\CPNHSController.cs" />
-    <Compile Include="Controllers\Network\MasterSlaveController.cs" />
-    <Compile Include="Controllers\Network\PawnLDAPAccessor.cs" />
-    <Compile Include="Controllers\Network\SlaveConnection.cs" />
-    <Compile Include="Controllers\Rules\DataModel\PawnRulesSystem.cs">
-      <DependentUpon>PawnRulesSystem.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\Rules\DataModel\PawnRulesSystem.Designer.cs">
-      <DependentUpon>PawnRulesSystem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\Rules\Data\RulesHelper.cs" />
-    <Compile Include="Controllers\Rules\Data\RulesSerializationHelper.cs" />
-    <Compile Include="Controllers\Rules\Interface\Impl\PawnRule.cs" />
-    <Compile Include="Controllers\Rules\Interface\Impl\PawnRuleProcedures.cs" />
-    <Compile Include="Controllers\Rules\Interface\Impl\PawnRules.cs" />
-    <Compile Include="Controllers\Rules\Interface\Impl\PawnRulesSystemImpl.cs" />
-    <Compile Include="Controllers\Rules\Interface\PawnRulesSystemInterface.cs" />
-    <Compile Include="Controllers\Rules\Interface\PawnRulesSystemReturnCode.cs" />
-    <Compile Include="Controllers\Security\SecurityAccessor.cs" />
-    <Compile Include="Libraries\Forms\ChargeOff.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\ChargeOff.Designer.cs">
-      <DependentUpon>ChargeOff.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\ChargeOffContext.cs" />
-    <Compile Include="Libraries\Forms\ChargeOffEventArgs.cs" />
-    <Compile Include="Libraries\Forms\Components\Behaviors\ControlHighlighter.cs" />
-    <Compile Include="Libraries\Forms\Components\CalendarCell.cs" />
-    <Compile Include="Libraries\Forms\Components\CalendarCell.Designer.cs">
-      <DependentUpon>CalendarCell.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CalendarColumn.cs" />
-    <Compile Include="Libraries\Forms\Components\CalendarColumn.Designer.cs">
-      <DependentUpon>CalendarColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CalendarEditingControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CalendarEditingControl.Designer.cs">
-      <DependentUpon>CalendarEditingControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomBaseForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomBaseForm.Designer.cs">
-      <DependentUpon>CustomBaseForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomButton.Designer.cs">
-      <DependentUpon>CustomButton.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomButtonTiny.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomButtonTiny.Designer.cs">
-      <DependentUpon>CustomButtonTiny.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomCalendar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomCalendar.Designer.cs">
-      <DependentUpon>CustomCalendar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomComboBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomComboBox.Designer.cs">
-      <DependentUpon>CustomComboBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomDataGridView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomDataGridView.Designer.cs">
-      <DependentUpon>CustomDataGridView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomDataGridViewIcnCell.cs" />
-    <Compile Include="Libraries\Forms\Components\CustomDataGridViewIcnCell.Designer.cs">
-      <DependentUpon>CustomDataGridViewIcnCell.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomDataGridViewIcnColumn.cs" />
-    <Compile Include="Libraries\Forms\Components\CustomDataGridViewIcnColumn.Designer.cs">
-      <DependentUpon>CustomDataGridViewIcnColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomDataGridViewRadioButton.cs" />
-    <Compile Include="Libraries\Forms\Components\CustomLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomLabel.Designer.cs">
-      <DependentUpon>CustomLabel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomListBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomListBox.Designer.cs">
-      <DependentUpon>CustomListBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\CustomTextBox.Designer.cs">
-      <DependentUpon>CustomTextBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Components\EventArgs\GridViewRowSelectedEventArgs.cs" />
-    <Compile Include="Libraries\Forms\Components\EventArgs\GridViewRowSelectingEventArgs.cs" />
-    <Compile Include="Libraries\Forms\Components\TreeGridView\TreeGridCell.cs" />
-    <Compile Include="Libraries\Forms\Components\TreeGridView\TreeGridEvents.cs" />
-    <Compile Include="Libraries\Forms\Components\TreeGridView\TreeGridNode.cs" />
-    <Compile Include="Libraries\Forms\Components\TreeGridView\TreeGridNodeCollection.cs" />
-    <Compile Include="Libraries\Forms\Components\TreeGridView\TreeGridView.cs" />
-    <Compile Include="Libraries\Forms\Components\TriStateTreeView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Date.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Date.Designer.cs">
-      <DependentUpon>Date.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\DateCalendar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\DateCalendar.Designer.cs">
-      <DependentUpon>DateCalendar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\FlowTabController.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\FlowTabController.Designer.cs">
-      <DependentUpon>FlowTabController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Loan\ManageOverrides.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Loan\ManageOverrides.Designer.cs">
-      <DependentUpon>ManageOverrides.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Loan\OverrideReason.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Loan\OverrideReason.Designer.cs">
-      <DependentUpon>OverrideReason.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\AddSerialNumbers.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\AddSerialNumbers.Designer.cs">
-      <DependentUpon>AddSerialNumbers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\AlternateManufacturer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\AlternateManufacturer.Designer.cs">
-      <DependentUpon>AlternateManufacturer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeItem.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeItem.Designer.cs">
-      <DependentUpon>DescribeItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeMerchandise.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeMerchandise.Designer.cs">
-      <DependentUpon>DescribeMerchandise.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeStones.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeStones.Designer.cs">
-      <DependentUpon>DescribeStones.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeStones_Images.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeStones_Images.Designer.cs">
-      <DependentUpon>DescribeStones_Images.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\FindMerchandise.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\FindMerchandise.designer.cs">
-      <DependentUpon>FindMerchandise.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\JewelryDisplay.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\JewelryDisplay.Designer.cs">
-      <DependentUpon>JewelryDisplay.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\ManualMerchandise.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\ManualMerchandise.Designer.cs">
-      <DependentUpon>ManualMerchandise.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\ManufacturerModelMatches.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\ManufacturerModelMatches.Designer.cs">
-      <DependentUpon>ManufacturerModelMatches.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Services\PFI\PFI_ChargeOff.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Pawn\Services\PFI\PFI_ChargeOff.Designer.cs">
-      <DependentUpon>PFI_ChargeOff.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\ProcessingMessage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\ProcessingMessage.designer.cs">
-      <DependentUpon>ProcessingMessage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\ReceiptRenderer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\ReceiptRenderer.Designer.cs">
-      <DependentUpon>ReceiptRenderer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\ReprintTagVerify.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\ReprintTagVerify.Designer.cs">
-      <DependentUpon>ReprintTagVerify.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Retail\ChangeRetailPriceSearch.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Retail\ChangeRetailPriceSearch.Designer.cs">
-      <DependentUpon>ChangeRetailPriceSearch.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Retail\ItemSearchResults.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Retail\ItemSearchResults.Designer.cs">
-      <DependentUpon>ItemSearchResults.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Retail\RetailItemPricingHistory.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Retail\RetailItemPricingHistory.Designer.cs">
-      <DependentUpon>RetailItemPricingHistory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Retail\SelectItems.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Retail\SelectItems.Designer.cs">
-      <DependentUpon>SelectItems.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\UserChangePassword.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\UserChangePassword.Designer.cs">
-      <DependentUpon>UserChangePassword.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\UserLogin.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\UserLogin.designer.cs">
-      <DependentUpon>UserLogin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Validation\BaseValidator.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Validation\BaseValidator.Designer.cs">
-      <DependentUpon>BaseValidator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Validation\RegularExpressionValidator.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Validation\RegularExpressionValidator.Designer.cs">
-      <DependentUpon>RegularExpressionValidator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Validation\RequiredFieldValidator.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Validation\RequiredFieldValidator.Designer.cs">
-      <DependentUpon>RequiredFieldValidator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Validation\ValidationManager.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Validation\ValidationManager.Designer.cs">
-      <DependentUpon>ValidationManager.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Forms\Validation\ValidationSummary.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Forms\Validation\ValidationSummary.Designer.cs">
-      <DependentUpon>ValidationSummary.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Objects\AppMode.cs" />
-    <Compile Include="Libraries\Objects\Audit\AuditLogType.cs" />
-    <Compile Include="Libraries\Objects\Audit\AuditReason.cs" />
-    <Compile Include="Libraries\Objects\Audit\AuditReportDetail.cs" />
-    <Compile Include="Libraries\Objects\Audit\AuditReportsObject.cs" />
-    <Compile Include="Libraries\Objects\Audit\AuditScope.cs" />
-    <Compile Include="Libraries\Objects\Audit\AuditStatus.cs" />
-    <Compile Include="Libraries\Objects\Audit\AuditType.cs" />
-    <Compile Include="Libraries\Objects\Audit\CaccSummary.cs" />
-    <Compile Include="Libraries\Objects\Audit\InventoryAuditVO.cs" />
-    <Compile Include="Libraries\Objects\Audit\ProcessMissingContext.cs" />
-    <Compile Include="Libraries\Objects\Audit\ProcessMissingIndicator.cs" />
-    <Compile Include="Libraries\Objects\Audit\ProcessMissingUserOptions.cs" />
-    <Compile Include="Libraries\Objects\Audit\ProcessUnexpectedContext.cs" />
-    <Compile Include="Libraries\Objects\Audit\ProcessUnexpectedIndicator.cs" />
-    <Compile Include="Libraries\Objects\Audit\ProcessUnexpectedUserOption.cs" />
-    <Compile Include="Libraries\Objects\Audit\ShortCodeSummary.cs" />
-    <Compile Include="Libraries\Objects\Audit\TrakFlagConstants.cs" />
-    <Compile Include="Libraries\Objects\Audit\TrakkerItem.cs" />
-    <Compile Include="Libraries\Objects\Audit\TrakkerScItem.cs" />
-    <Compile Include="Libraries\Objects\Authorization\Credentials.cs" />
-    <Compile Include="Libraries\Objects\Authorization\HostInformation.cs" />
-    <Compile Include="Libraries\Objects\Authorization\LDAPUserVO.cs" />
-    <Compile Include="Libraries\Objects\Authorization\LimitsVO.cs" />
-    <Compile Include="Libraries\Objects\Authorization\PasswordPolicyVO.cs" />
-    <Compile Include="Libraries\Objects\Authorization\PawnSecApplication.cs" />
-    <Compile Include="Libraries\Objects\Authorization\PawnSecApplicationResolver.cs" />
-    <Compile Include="Libraries\Objects\Authorization\ResourceVO.cs" />
-    <Compile Include="Libraries\Objects\Authorization\RoleVO.cs" />
-    <Compile Include="Libraries\Objects\Authorization\UserVO.cs" />
-    <Compile Include="Libraries\Objects\Business\CashDrawerUserVO.cs" />
-    <Compile Include="Libraries\Objects\Business\CashDrawerVO.cs" />
-    <Compile Include="Libraries\Objects\Business\CashTransferVO.cs" />
-    <Compile Include="Libraries\Objects\Business\ChargeOffDatabaseContext.cs" />
-    <Compile Include="Libraries\Objects\Business\DenominationVO.cs" />
-    <Compile Include="Libraries\Objects\Business\IBusinessRulesProcedures.cs" />
-    <Compile Include="Libraries\Objects\Business\Icn.cs" />
-    <Compile Include="Libraries\Objects\Business\Item.cs" />
-    <Compile Include="Libraries\Objects\Business\ItemReasonCode.cs" />
-    <Compile Include="Libraries\Objects\Business\ItemReasonFactory.cs" />
-    <Compile Include="Libraries\Objects\Business\ManualDepositSlipDataVO.cs" />
-    <Compile Include="Libraries\Objects\Business\PfiLoanObjects.cs" />
-    <Compile Include="Libraries\Objects\Business\PoliceInfo.cs" />
-    <Compile Include="Libraries\Objects\Business\ReceiptDetailsVO.cs" />
-    <Compile Include="Libraries\Objects\Business\StoreBankVO.cs" />
-    <Compile Include="Libraries\Objects\Business\StoreCreditVO.cs" />
-    <Compile Include="Libraries\Objects\Business\StoreTaxVO.cs" />
-    <Compile Include="Libraries\Objects\Business\TenderEntryVO.cs" />
-    <Compile Include="Libraries\Objects\Business\TransferItemVO.cs" />
-    <Compile Include="Libraries\Objects\Business\TransferVO.cs" />
-    <Compile Include="Libraries\Objects\CategoryNode.cs" />
-    <Compile Include="Libraries\Objects\CommonDatabaseContext.cs" />
-    <Compile Include="Libraries\Objects\Config\ClientConfigVO.cs" />
-    <Compile Include="Libraries\Objects\Config\DatabaseServiceVO.cs" />
-    <Compile Include="Libraries\Objects\Config\EncryptedConfigContainer.cs" />
-    <Compile Include="Libraries\Objects\Config\ESBServiceVO.cs" />
-    <Compile Include="Libraries\Objects\Config\GlobalConfigVO.cs" />
-    <Compile Include="Libraries\Objects\Config\PawnSecMachineVO.cs" />
-    <Compile Include="Libraries\Objects\Config\PawnSecVO.cs" />
-    <Compile Include="Libraries\Objects\Config\PeripheralModelVO.cs" />
-    <Compile Include="Libraries\Objects\Config\PeripheralTypeVO.cs" />
-    <Compile Include="Libraries\Objects\Config\PeripheralVO.cs" />
-    <Compile Include="Libraries\Objects\Config\ShopCalendarVO.cs" />
-    <Compile Include="Libraries\Objects\Config\StoreAppVersionVO.cs" />
-    <Compile Include="Libraries\Objects\Config\StoreClientConfigVO.cs" />
-    <Compile Include="Libraries\Objects\Config\StoreConfigVO.cs" />
-    <Compile Include="Libraries\Objects\Config\StorePrinterVO.cs" />
-    <Compile Include="Libraries\Objects\Config\StoreSetupVO.cs" />
-    <Compile Include="Libraries\Objects\Config\WorkstationVO.cs" />
-    <Compile Include="Libraries\Objects\Performance\CPNHSDataVO.cs" />
-    <Compile Include="Libraries\Objects\PFIMailerOptions.cs" />
-    <Compile Include="Libraries\Objects\Customer\AddressVO.cs" />
-    <Compile Include="Libraries\Objects\Customer\ContactVO.cs" />
-    <Compile Include="Libraries\Objects\Customer\CustomerProductDataVO.cs" />
-    <Compile Include="Libraries\Objects\Customer\CustomerVO.cs" />
-    <Compile Include="Libraries\Objects\Customer\Email.cs" />
-    <Compile Include="Libraries\Objects\Customer\HoldData.cs" />
-    <Compile Include="Libraries\Objects\Customer\HoldItemData.cs" />
-    <Compile Include="Libraries\Objects\Customer\IdentificationVO.cs" />
-    <Compile Include="Libraries\Objects\Customer\Notes.cs" />
-    <Compile Include="Libraries\Objects\Customer\SocialSecurityNumber.cs" />
-    <Compile Include="Libraries\Objects\Customer\VendorVO.cs" />
-    <Compile Include="Libraries\Objects\DesktopSessionConstants.cs" />
-    <Compile Include="Libraries\Objects\Doc\Document.cs" />
-    <Compile Include="Libraries\Objects\Doc\Document_Couch.cs" />
-    <Compile Include="Libraries\Objects\Doc\GenDocFormVO.cs" />
-    <Compile Include="Libraries\Objects\EndTransactionType.cs" />
-    <Compile Include="Libraries\Objects\EnumPair.cs" />
-    <Compile Include="Libraries\Objects\HistoryTrack.cs" />
-    <Compile Include="Libraries\Objects\Inquiry\LoanCriteria.cs" />
-    <Compile Include="Libraries\Objects\Inquiry\MDSE.cs" />
-    <Compile Include="Libraries\Objects\IPdfLauncher.cs" />
-    <Compile Include="Libraries\Objects\JewelrySet.cs" />
-    <Compile Include="Libraries\Objects\Layaway\LayawayHistory.cs" />
-    <Compile Include="Libraries\Objects\Layaway\LayawayHistoryPaymentInfo.cs" />
-    <Compile Include="Libraries\Objects\Layaway\LayawayPayment.cs" />
-    <Compile Include="Libraries\Objects\Layaway\LayawayRefundTenderInfo.cs" />
-    <Compile Include="Libraries\Objects\Layaway\LayawayReportObject.cs" />
-    <Compile Include="Libraries\Objects\Layaway\LayawayVO.cs" />
-    <Compile Include="Libraries\Objects\Mapper\DataTypeConstants.cs" />
-    <Compile Include="Libraries\Objects\Mapper\DataTypeVOMapper.cs" />
-    <Compile Include="Libraries\Objects\Pawn\PartialPayment.cs" />
-    <Compile Include="Libraries\Objects\Pawn\PawnAppVO.cs" />
-    <Compile Include="Libraries\Objects\Pawn\PawnLoan.cs" />
-    <Compile Include="Libraries\Objects\Pawn\PawnLoanKey.cs" />
-    <Compile Include="Libraries\Objects\Pawn\UnderwritePawnLoanVO.cs" />
-    <Compile Include="Libraries\Objects\ProKnowMatch.cs" />
-    <Compile Include="Libraries\Objects\Purchase\PurchaseVO.cs" />
-    <Compile Include="Libraries\Objects\ReprintVerifySender.cs" />
-    <Compile Include="Libraries\Objects\ResourceProperties.cs" />
-    <Compile Include="Libraries\Objects\Retail\RetailItem.cs" />
-    <Compile Include="Libraries\Objects\Retail\RetailPriceChangeHistoryRecord.cs" />
-    <Compile Include="Libraries\Objects\Retail\SalesTaxInfo.cs" />
-    <Compile Include="Libraries\Objects\Retail\SaleVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\BusinessRuleComponentVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\Data\AliasVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\Data\FeesVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\Data\InterestVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\Data\MethodVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\Data\ParamVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\Retrieval\RetrievalVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\Structure\BusinessRuleComponentVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\Structure\BusinessRuleVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\System\ProcPackageVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\System\StoredProcParamVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\System\StoredProcVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\Type\DataTypeVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\Type\FeeLookupTypeVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\Type\FeeTypeVO.cs" />
-    <Compile Include="Libraries\Objects\Rules\Type\RetrievalTypeVO.cs" />
-    <Compile Include="Libraries\Objects\SiteId.cs" />
-    <Compile Include="Libraries\Objects\UserDesktopState.cs" />
-    <Compile Include="Libraries\Objects\VarianceRate.cs" />
-    <Compile Include="Libraries\Resources\ResourceNames.Designer.cs" />
-    <Compile Include="Libraries\Resources\RoleResources.Designer.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\BarcodeCommon.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\BarcodeLib.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\BarcodeXML.cs">
-      <DependentUpon>BarcodeXML.xsd</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Libraries\Utility\BarcodeGenerator\BarcodeXML.Designer.cs">
-      <DependentUpon>BarcodeXML.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Utility\BarcodeGenerator\BarcodeXML1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BarcodeXML.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Utility\BarcodeGenerator\IBarcode.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Codabar.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Code11.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Code128.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Code39.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Code93.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\EAN13.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\EAN8.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Interleaved2of5.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\ISBN.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\ITF14.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\JAN13.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\MSI.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Postnet.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Standard2of5.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\UPCA.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\UPCE.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\UPCSupplement2.cs" />
-    <Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\UPCSupplement5.cs" />
-    <Compile Include="Libraries\Utility\Collection\CollectionUtilities.cs" />
-    <Compile Include="Libraries\Utility\Config\ConfigUtilities.cs" />
-    <Compile Include="Libraries\Utility\Exception\BasicExceptionHandler.cs" />
-    <Compile Include="Libraries\Utility\Exception\Exceptions.cs" />
-    <Compile Include="Libraries\Utility\ISharp\PDFITextSharpUtilities.cs" />
-    <Compile Include="Libraries\Utility\Logger\AuditLogger.cs" />
-    <Compile Include="Libraries\Utility\Logger\FileLogger.cs" />
-    <Compile Include="Libraries\Utility\Logger\IAuditLogger.cs" />
-    <Compile Include="Libraries\Utility\Logger\ILogger.cs" />
-    <Compile Include="Libraries\Utility\Logger\TempFileLogger.cs" />
-    <Compile Include="Libraries\Utility\Multimedia\MultimediaController.cs" />
-    <Compile Include="Libraries\Utility\Multimedia\VideoPlayer\VideoPlayer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Libraries\Utility\Multimedia\VideoPlayer\VideoPlayer.designer.cs">
-      <DependentUpon>VideoPlayer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Utility\Performance\PerfTimer.cs" />
-    <Compile Include="Libraries\Utility\Serialization\ObjectSerializer.cs" />
-    <Compile Include="Libraries\Utility\Shared\Common.cs" />
-    <Compile Include="Libraries\Utility\Shared\CustomerConstants.cs" />
-    <Compile Include="Libraries\Utility\Shared\CustomerProductDataConstants.cs" />
-    <Compile Include="Libraries\Utility\Shared\DataGridPrinter.cs" />
-    <Compile Include="Libraries\Utility\Shared\EnumUtil.cs" />
-    <Compile Include="Libraries\Utility\Shared\ExtensionMethods.cs" />
-    <Compile Include="Libraries\Utility\Shared\GenerateDocumentsPrinter.cs" />
-    <Compile Include="Libraries\Utility\Shared\IntermecBarcodeTagPrint.cs" />
-    <Compile Include="Libraries\Utility\Shared\LoanInquiryConstants.cs" />
-    <Compile Include="Libraries\Utility\Shared\PdfLauncher.cs" />
-    <Compile Include="Libraries\Utility\Shared\PrintingUtilities.cs" />
-    <Compile Include="Libraries\Utility\Shared\PropertyHandler.cs" />
-    <Compile Include="Libraries\Utility\Shared\ReportsConstants.cs" />
-    <Compile Include="Libraries\Utility\Shared\TransferConstants.cs" />
-    <Compile Include="Libraries\Utility\Shared\USBUtilities.cs" />
-    <Compile Include="Libraries\Utility\Shared\VendorConstants.cs" />
-    <Compile Include="Libraries\Utility\States.cs" />
-    <Compile Include="Libraries\Utility\String\StringUtilities.cs" />
-    <Compile Include="Libraries\Utility\Type\PairType.cs" />
-    <Compile Include="Libraries\Utility\Type\QuadType.cs" />
-    <Compile Include="Libraries\Utility\Type\TupleType.cs" />
-    <Compile Include="Libraries\Utility\StaticUtilities.cs" />
-    <Compile Include="Properties\ApplicationMessages.Designer.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\AddressService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\ProKnowService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\TransferService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Libraries\Resources\EDeviceTemplate.OK">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\eDeviceTemplate.pdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\ticketfmtL.OK">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\ps3877_1_2.pdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\ps3877_3.pdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\ps3877_4.pdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Libraries\Resources\LayawayTemplate.tpl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Libraries\Resources\lostticketOH.pdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Libraries\Resources\retailReceiptTemplate.tpl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Libraries\Resources\retailRefundTemplate.tpl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Libraries\Resources\retailVoidTemplate.tpl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Libraries\Resources\ticketfmtL.CL">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\ticketfmtL.OH">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Resources\blueglossy_edit_fixed.png" />
-    <None Include="Resources\blueglossy_select.png" />
-    <None Include="Resources\blueglossy_select2.png" />
-    <EmbeddedResource Include="Libraries\Forms\ChargeOff.resx">
-      <DependentUpon>ChargeOff.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Components\CustomBaseForm.resx">
-      <DependentUpon>CustomBaseForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Components\CustomButton.resx">
-      <DependentUpon>CustomButton.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Components\CustomButtonTiny.resx">
-      <DependentUpon>CustomButtonTiny.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Components\CustomComboBox.resx">
-      <DependentUpon>CustomComboBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Components\CustomDataGridView.resx">
-      <DependentUpon>CustomDataGridView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Components\CustomLabel.resx">
-      <DependentUpon>CustomLabel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Components\CustomListBox.resx">
-      <DependentUpon>CustomListBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Components\CustomTextBox.resx">
-      <DependentUpon>CustomTextBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Date.resx">
-      <DependentUpon>Date.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\DateCalendar.resx">
-      <DependentUpon>DateCalendar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\FlowTabController.resx">
-      <DependentUpon>FlowTabController.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Pawn\Loan\ManageOverrides.resx">
-      <DependentUpon>ManageOverrides.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Pawn\Loan\OverrideReason.resx">
-      <DependentUpon>OverrideReason.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\AddSerialNumbers.resx">
-      <DependentUpon>AddSerialNumbers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\AlternateManufacturer.resx">
-      <DependentUpon>AlternateManufacturer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeItem.resx">
-      <DependentUpon>DescribeItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeMerchandise.resx">
-      <DependentUpon>DescribeMerchandise.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeStones.resx">
-      <DependentUpon>DescribeStones.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeStones_Images.resx">
-      <DependentUpon>DescribeStones_Images.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\FindMerchandise.resx">
-      <DependentUpon>FindMerchandise.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\JewelryDisplay.resx">
-      <DependentUpon>JewelryDisplay.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\ManualMerchandise.resx">
-      <DependentUpon>ManualMerchandise.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\ManufacturerModelMatches.resx">
-      <DependentUpon>ManufacturerModelMatches.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Pawn\Services\PFI\PFI_ChargeOff.resx">
-      <DependentUpon>PFI_ChargeOff.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\ProcessingMessage.resx">
-      <DependentUpon>ProcessingMessage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\ReceiptRenderer.resx">
-      <DependentUpon>ReceiptRenderer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\ReprintTagVerify.resx">
-      <DependentUpon>ReprintTagVerify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Retail\ChangeRetailPriceSearch.resx">
-      <DependentUpon>ChangeRetailPriceSearch.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Retail\ItemSearchResults.resx">
-      <DependentUpon>ItemSearchResults.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Retail\RetailItemPricingHistory.resx">
-      <DependentUpon>RetailItemPricingHistory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Retail\SelectItems.resx">
-      <DependentUpon>SelectItems.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\UserChangePassword.resx">
-      <DependentUpon>UserChangePassword.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\UserLogin.resx">
-      <DependentUpon>UserLogin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Libraries\Forms\Validation\ValidationSummary.resx">
-      <DependentUpon>ValidationSummary.cs</DependentUpon>
-    </EmbeddedResource>
-    <Content Include="Libraries\External\mongodb\MongoDB.Bson.dll" />
-    <Content Include="Libraries\External\mongodb\MongoDB.Bson.pdb" />
-    <Content Include="Libraries\External\mongodb\MongoDB.Bson.xml" />
-    <Content Include="Libraries\External\mongodb\MongoDB.Driver.dll" />
-    <Content Include="Libraries\External\mongodb\MongoDB.Driver.pdb" />
-    <Content Include="Libraries\External\mongodb\MongoDB.Driver.XML" />
-    <Content Include="Libraries\External\mongodb\Release Notes v1.3.1.txt" />
-    <None Include="Libraries\Resources\button-refresh-16x161.png" />
-    <Content Include="Libraries\Resources\blueglossy_edit2.png" />
-    <Content Include="Libraries\Resources\blueglossy_select2.png" />
-    <Content Include="Libraries\Resources\calendar_icon.png" />
-    <None Include="Libraries\External\mongodb\CSharpDriverDocs.chm" />
-    <None Include="Libraries\External\mongodb\License.rtf" />
-    <None Include="Libraries\Resources\cl1.png" />
-    <None Include="Libraries\Resources\cl5.png" />
-    <None Include="Libraries\Resources\cl2.png" />
-    <None Include="Libraries\Resources\cl3.png" />
-    <None Include="Libraries\Resources\cl4.png" />
-    <Content Include="Libraries\Resources\Collapsed.gif" />
-    <Content Include="Libraries\Resources\dark_dialog_frame.png" />
-    <Content Include="Libraries\Resources\Expanded.gif" />
-    <Content Include="Libraries\Resources\resourcenames.resources">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <EmbeddedResource Include="Libraries\Resources\ResourceNames.resx" />
-    <EmbeddedResource Include="Libraries\Resources\RoleResources.resx" />
-    <EmbeddedResource Include="Libraries\Utility\Multimedia\VideoPlayer\VideoPlayer.resx">
-      <DependentUpon>VideoPlayer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\ApplicationMessages.resx" />
-    <EmbeddedResource Include="Properties\ResourceNames.resx" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Libraries\External\itextsharp.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\External\JsonFx.Json.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\External\JsonFx.Json.XML">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\back_button_depressed.png" />
-    <Content Include="Libraries\Resources\back_button_disabled.png" />
-    <Content Include="Libraries\Resources\back_button_hover.png" />
-    <Content Include="Libraries\Resources\back_button_normal.png" />
-    <Content Include="Libraries\Resources\blueglossy_small.png" />
-    <Content Include="Libraries\Resources\blueglossy_tiny.png" />
-    <Content Include="Libraries\Resources\bluerectangleglossy.png" />
-    <Content Include="Libraries\Resources\category.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\External\ContractDriven.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\External\ContractDriven.pdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\exitbutton.png" />
-    <Content Include="Libraries\Resources\IPL_Print_Formats.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\logo.jpg" />
-    <Content Include="Libraries\Resources\logoCasham.jpg" />
-    <Content Include="Libraries\Resources\logoCashlinx.jpg" />
-    <Content Include="Libraries\Resources\mutebutton.png" />
-    <Content Include="Libraries\Resources\mutebuttondepressed.png" />
-    <Content Include="Libraries\Resources\newDialog_320_BlueScale.png" />
-    <Content Include="Libraries\Resources\newDialog_400_BlueScale.png" />
-    <Content Include="Libraries\Resources\newDialog_440_BlueScale.png" />
-    <Content Include="Libraries\Resources\newDialog_480_BlueScale.png" />
-    <Content Include="Libraries\Resources\newDialog_512_BlueScale.png" />
-    <Content Include="Libraries\Resources\newDialog_600_BlueScale.png" />
-    <Content Include="Libraries\Resources\newDialog_768_BlueScale.png" />
-    <Content Include="Libraries\Resources\pausebutton.png" />
-    <Content Include="Libraries\Resources\pausebuttondepressed.png" />
-    <Content Include="Libraries\Resources\pdf_icon.png" />
-    <Content Include="Libraries\Resources\playbutton.png" />
-    <Content Include="Libraries\Resources\playbutton1.png" />
-    <Content Include="Libraries\Resources\playbuttondepressed.png" />
-    <Content Include="Libraries\Resources\ResourceNames.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\RoleHierarchy.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\SafeOperations.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\stopbutton.png" />
-    <Content Include="Libraries\Resources\stopbuttondepressed.png" />
-    <Content Include="Libraries\Resources\variance.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\vistabutton_blue.png" />
-    <Content Include="Properties\ResourceNames.txt" />
-    <None Include="CashlinxSignKey.snk" />
-    <Content Include="Libraries\Resources\EDeviceTemplate.TX">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\FBCFtemplate.TX">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\lostticket.pdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\receiptTemplate.tpl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\srvcReceiptTemplate.tpl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Libraries\Resources\ticketfmtL.TX">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Libraries\Resources\Button-Refresh-16x16.png" />
-    <None Include="Libraries\Resources\minus_icon_small.png" />
-    <None Include="Libraries\Resources\plus_icon_small.png" />
-    <None Include="Libraries\Resources\receipt-icon.png" />
-    <None Include="Service References\ProKnowService\Common.ProKnowService.alternameManufacturerReplyType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ProKnowService\Common.ProKnowService.getModelsReplyType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ProKnowService\Common.ProKnowService.groupOfValuesType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ProKnowService\Common.ProKnowService.manModelReplyType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ProKnowService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\ProKnowService\configuration.svcinfo" />
-    <None Include="Service References\ProKnowService\configuration91.svcinfo" />
-    <None Include="Service References\AddressService\Common.AddressService.addressValidationReplyType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\AddressService\Common.AddressService.cityStateLookupReplyType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\AddressService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\AddressService\configuration.svcinfo" />
-    <None Include="Service References\AddressService\configuration91.svcinfo" />
-    <None Include="Service References\ProKnowService\Untitled.wsdl" />
-    <None Include="Service References\TransferService\Common.TransferService.JSUPReplyType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TransferService\Common.TransferService.RJReplyType1.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TransferService\Common.TransferService.storeToStoreReplyType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TransferService\Common.TransferService.VMReplyType1.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TransferService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\TransferService\Untitled.wsdl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\Application\ProcessThread\" />
-    <Folder Include="Controllers\Security\Encryption\" />
-    <Folder Include="Controllers\Security\Roles\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Controllers\Rules\DataModel\PawnRulesSystem.xsc">
-      <DependentUpon>PawnRulesSystem.xsd</DependentUpon>
-    </None>
-    <None Include="Controllers\Rules\DataModel\PawnRulesSystem.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>PawnRulesSystem1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Controllers\Rules\DataModel\PawnRulesSystem.xss">
-      <DependentUpon>PawnRulesSystem.xsd</DependentUpon>
-    </None>
-    <None Include="Libraries\Utility\BarcodeGenerator\BarcodeXML.xsc">
-      <DependentUpon>BarcodeXML.xsd</DependentUpon>
-    </None>
-    <None Include="Libraries\Utility\BarcodeGenerator\BarcodeXML.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>BarcodeXML1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Libraries\Utility\BarcodeGenerator\BarcodeXML.xss">
-      <DependentUpon>BarcodeXML.xsd</DependentUpon>
-    </None>
-    <None Include="Service References\AddressService\Untitled.wsdl" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\AddressService\" />
-    <WCFMetadataStorage Include="Service References\ProKnowService\" />
-    <WCFMetadataStorage Include="Service References\TransferService\" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProductVersion>8.0.30703</ProductVersion>
+		<SchemaVersion>2.0</SchemaVersion>
+		<ProjectGuid>{FE916264-3E31-433B-B458-048342150DFE}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>Common</RootNamespace>
+		<AssemblyName>Common</AssemblyName>
+		<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+		<FileAlignment>512</FileAlignment>
+		<SccProjectName></SccProjectName>
+		<SccLocalPath></SccLocalPath>
+		<SccAuxPath></SccAuxPath>
+		<SccProvider></SccProvider>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>bin\x86\Debug\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<DebugType>full</DebugType>
+		<PlatformTarget>x86</PlatformTarget>
+		<ErrorReport>prompt</ErrorReport>
+		<CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+		<CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+		<CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+		<NoWarn>0169,0168,0219,0414</NoWarn>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+		<OutputPath>bin\x86\Release\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<Optimize>true</Optimize>
+		<DebugType>pdbonly</DebugType>
+		<PlatformTarget>x86</PlatformTarget>
+		<ErrorReport>prompt</ErrorReport>
+		<CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+		<CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+		<CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+	</PropertyGroup>
+	<PropertyGroup>
+		<SignAssembly>true</SignAssembly>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AssemblyOriginatorKeyFile>CashlinxSignKey.snk</AssemblyOriginatorKeyFile>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Common - Debug|x86'">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>bin\x86\Common - Debug\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<DebugType>full</DebugType>
+		<PlatformTarget>x86</PlatformTarget>
+		<ErrorReport>prompt</ErrorReport>
+		<CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+		<CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Common - Release|x86'">
+		<OutputPath>bin\x86\Release\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<Optimize>true</Optimize>
+		<DebugType>pdbonly</DebugType>
+		<PlatformTarget>x86</PlatformTarget>
+		<ErrorReport>prompt</ErrorReport>
+		<CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+		<CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+		<CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+	</PropertyGroup>
+	<ItemGroup>
+		<Reference Include="itextsharp">
+			<HintPath>Libraries\External\itextsharp.dll</HintPath>
+		</Reference>
+		<Reference Include="JsonFx.Json">
+			<HintPath>Libraries\External\JsonFx.Json.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\..\Windows\assembly\GAC\Microsoft.DirectX\1.0.2902.0__31bf3856ad364e35\Microsoft.DirectX.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.DirectX.AudioVideoPlayback, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\..\Windows\assembly\GAC\Microsoft.DirectX.AudioVideoPlayback\1.0.2902.0__31bf3856ad364e35\Microsoft.DirectX.AudioVideoPlayback.dll</HintPath>
+		</Reference>
+		<Reference Include="Oracle.DataAccess, Version=2.111.7.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\..\..\..\oracle11\product\11.1.0\client_1\ODP.NET\bin\2.x\Oracle.DataAccess.dll</HintPath>
+		</Reference>
+		<Reference Include="PresentationCore" />
+		<Reference Include="PresentationFramework" />
+		<Reference Include="System" />
+		<Reference Include="System.Core" />
+		<Reference Include="System.Design" />
+		<Reference Include="System.DirectoryServices" />
+		<Reference Include="System.DirectoryServices.Protocols" />
+		<Reference Include="System.Drawing" />
+		<Reference Include="System.Runtime.Serialization" />
+		<Reference Include="System.ServiceModel" />
+		<Reference Include="System.Windows.Forms" />
+		<Reference Include="System.Windows.Presentation" />
+		<Reference Include="System.Xml.Linq" />
+		<Reference Include="System.Data.DataSetExtensions" />
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="System.Data" />
+		<Reference Include="System.Xml" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="Controllers\Application\ApplicationFlow\AppWorkflowController.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\Blocks\Base\ActionBlock.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\Blocks\Base\BaseBlock.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\Blocks\Base\ConditionBlock.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\Blocks\Base\FxnBlock.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\Blocks\Executors\MultiExecuteParallelBlock.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\Blocks\Executors\MultiExecuteSyncBlock.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\Blocks\Executors\SingleExecuteBlock.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\Blocks\Logical\IfThenBlock.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\Blocks\Logical\IfThenElseBlock.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\IButtonResourceManagerHelper.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\ImageButtonController.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\ImageButtonControllerGroup.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\Impl\Common\CommonAppBlocksBase.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\Impl\Common\ShowForm.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\Impl\MainFlowExecutorBase.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\MenuLevelController.cs" />
+		<Compile Include="Controllers\Application\ApplicationFlow\Navigation\NavBox.cs" />
+		<Compile Include="Controllers\Application\DesktopSession.cs" />
+		<Compile Include="Controllers\Application\GlobalDataAccessor.cs" />
+		<Compile Include="Controllers\Application\ReceiptRenderer.cs" />
+		<Compile Include="Controllers\Application\ReportObject.cs" />
+		<Compile Include="Controllers\Application\ShopDateTime.cs" />
+		<Compile Include="Controllers\Database\AddressWebService.cs" />
+		<Compile Include="Controllers\Database\AssignMDSE.cs" />
+		<Compile Include="Controllers\Database\Couch\CouchDbUtils.cs" />
+		<Compile Include="Controllers\Database\Couch\CouchSecurity\CookieDictionary.cs" />
+		<Compile Include="Controllers\Database\Couch\CouchSecurity\PawnCouchRequest.cs" />
+		<Compile Include="Controllers\Database\Couch\CouchSecurity\PawnCouchSecurity.cs" />
+		<Compile Include="Controllers\Database\Couch\DocumentHelper.cs" />
+		<Compile Include="Controllers\Database\Couch\IDocStorage.cs" />
+		<Compile Include="Controllers\Database\Couch\Impl\CouchConnector.cs" />
+		<Compile Include="Controllers\Database\Couch\Impl\DocStorage_CouchDB.cs" />
+		<Compile Include="Controllers\Database\Couch\Impl\DocumentAccess.cs" />
+		<Compile Include="Controllers\Database\Couch\Impl\SecuredCouchConnector.cs" />
+		<Compile Include="Controllers\Database\DataAccessLayer\DataAccessService.cs" />
+		<Compile Include="Controllers\Database\GunBookUtilities.cs" />
+		<Compile Include="Controllers\Database\LoanTicketLengthCalculator.cs" />
+		<Compile Include="Controllers\Database\Oracle\OracleDataAccessor.cs" />
+		<Compile Include="Controllers\Database\Oracle\OracleDbConnection.cs" />
+		<Compile Include="Controllers\Database\Oracle\OracleDbTypeConstants.cs" />
+		<Compile Include="Controllers\Database\Oracle\OracleMultiDbConnection.cs" />
+		<Compile Include="Controllers\Database\Oracle\OracleProcParam.cs" />
+		<Compile Include="Controllers\Database\Oracle\OracleSqlDbTypeMapper.cs" />
+		<Compile Include="Controllers\Database\OrgCalendarFetch.cs" />
+		<Compile Include="Controllers\Database\PawnDataAccessUtilities.cs" />
+		<Compile Include="Controllers\Database\PickingSlip.cs" />
+		<Compile Include="Controllers\Database\PickingSlipHelper.cs" />
+		<Compile Include="Controllers\Database\PrintUtilities.cs" />
+		<Compile Include="Controllers\Database\Procedures\BusinessRulesProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\CommonDataProcs.cs" />
+		<Compile Include="Controllers\Database\Procedures\CPNHSProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\ExtensionProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\PartialPaymentProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\PawnProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\CustomerDBProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\CustomerLoans.cs" />
+		<Compile Include="Controllers\Database\Procedures\CustomerProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\DescribedMerchandise.cs" />
+		<Compile Include="Controllers\Database\Procedures\FormsExtensionMethods.cs" />
+		<Compile Include="Controllers\Database\Procedures\GenerateDocumentsProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\HoldsProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\LayawayPaymentCalculator.cs" />
+		<Compile Include="Controllers\Database\Procedures\LayawayPaymentHistoryBuilder.cs" />
+		<Compile Include="Controllers\Database\Procedures\LayawayProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\MerchandiseProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\PawnSecurityProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\PMetalStonesProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\ProcessTenderProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\ProKnowDetails.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Include="Controllers\Database\Procedures\SecurityProfileProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\ServiceLoanDBProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\ServiceLoanProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\ShopCashProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\ShopProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\StoreCloseProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\TellerProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\TransferProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\TransfersDBProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\VendorDBProcedures.cs" />
+		<Compile Include="Controllers\Database\Procedures\VendorProcedures.cs" />
+		<Compile Include="Controllers\Database\ProcedureUtilities.cs" />
+		<Compile Include="Controllers\Database\PurchaseDocumentGenerator.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Include="Controllers\Database\PurchaseDocumentIndiana.cs" />
+		<Compile Include="Controllers\Database\RetailProcedures.cs" />
+		<Compile Include="Controllers\Database\TransferWebService.cs" />
+		<Compile Include="Controllers\Database\UnderwritePawnLoanUtility.cs" />
+		<Compile Include="Controllers\Database\WebServiceProKnow.cs" />
+		<Compile Include="Controllers\Network\CPNHSController.cs" />
+		<Compile Include="Controllers\Network\MasterSlaveController.cs" />
+		<Compile Include="Controllers\Network\PawnLDAPAccessor.cs" />
+		<Compile Include="Controllers\Network\SlaveConnection.cs" />
+		<Compile Include="Controllers\Rules\DataModel\PawnRulesSystem.cs">
+			<DependentUpon>PawnRulesSystem.xsd</DependentUpon>
+		</Compile>
+		<Compile Include="Controllers\Rules\DataModel\PawnRulesSystem.Designer.cs">
+			<DependentUpon>PawnRulesSystem.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Controllers\Rules\Data\RulesHelper.cs" />
+		<Compile Include="Controllers\Rules\Data\RulesSerializationHelper.cs" />
+		<Compile Include="Controllers\Rules\Interface\Impl\PawnRule.cs" />
+		<Compile Include="Controllers\Rules\Interface\Impl\PawnRuleProcedures.cs" />
+		<Compile Include="Controllers\Rules\Interface\Impl\PawnRules.cs" />
+		<Compile Include="Controllers\Rules\Interface\Impl\PawnRulesSystemImpl.cs" />
+		<Compile Include="Controllers\Rules\Interface\PawnRulesSystemInterface.cs" />
+		<Compile Include="Controllers\Rules\Interface\PawnRulesSystemReturnCode.cs" />
+		<Compile Include="Controllers\Security\SecurityAccessor.cs" />
+		<Compile Include="Libraries\Forms\ChargeOff.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\ChargeOff.Designer.cs">
+			<DependentUpon>ChargeOff.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\ChargeOffContext.cs" />
+		<Compile Include="Libraries\Forms\ChargeOffEventArgs.cs" />
+		<Compile Include="Libraries\Forms\Components\Behaviors\ControlHighlighter.cs" />
+		<Compile Include="Libraries\Forms\Components\CalendarCell.cs" />
+		<Compile Include="Libraries\Forms\Components\CalendarCell.Designer.cs">
+			<DependentUpon>CalendarCell.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CalendarColumn.cs" />
+		<Compile Include="Libraries\Forms\Components\CalendarColumn.Designer.cs">
+			<DependentUpon>CalendarColumn.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CalendarEditingControl.cs">
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CalendarEditingControl.Designer.cs">
+			<DependentUpon>CalendarEditingControl.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomBaseForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomBaseForm.Designer.cs">
+			<DependentUpon>CustomBaseForm.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomButton.cs">
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomButton.Designer.cs">
+			<DependentUpon>CustomButton.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomButtonTiny.cs">
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomButtonTiny.Designer.cs">
+			<DependentUpon>CustomButtonTiny.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomCalendar.cs">
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomCalendar.Designer.cs">
+			<DependentUpon>CustomCalendar.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomComboBox.cs">
+			<SubType>UserControl</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomComboBox.Designer.cs">
+			<DependentUpon>CustomComboBox.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomDataGridView.cs">
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomDataGridView.Designer.cs">
+			<DependentUpon>CustomDataGridView.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomDataGridViewIcnCell.cs" />
+		<Compile Include="Libraries\Forms\Components\CustomDataGridViewIcnCell.Designer.cs">
+			<DependentUpon>CustomDataGridViewIcnCell.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomDataGridViewIcnColumn.cs" />
+		<Compile Include="Libraries\Forms\Components\CustomDataGridViewIcnColumn.Designer.cs">
+			<DependentUpon>CustomDataGridViewIcnColumn.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomDataGridViewRadioButton.cs" />
+		<Compile Include="Libraries\Forms\Components\CustomLabel.cs">
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomLabel.Designer.cs">
+			<DependentUpon>CustomLabel.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomListBox.cs">
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomListBox.Designer.cs">
+			<DependentUpon>CustomListBox.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomTextBox.cs">
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\CustomTextBox.Designer.cs">
+			<DependentUpon>CustomTextBox.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Components\EventArgs\GridViewRowSelectedEventArgs.cs" />
+		<Compile Include="Libraries\Forms\Components\EventArgs\GridViewRowSelectingEventArgs.cs" />
+		<Compile Include="Libraries\Forms\Components\TreeGridView\TreeGridCell.cs" />
+		<Compile Include="Libraries\Forms\Components\TreeGridView\TreeGridEvents.cs" />
+		<Compile Include="Libraries\Forms\Components\TreeGridView\TreeGridNode.cs" />
+		<Compile Include="Libraries\Forms\Components\TreeGridView\TreeGridNodeCollection.cs" />
+		<Compile Include="Libraries\Forms\Components\TreeGridView\TreeGridView.cs" />
+		<Compile Include="Libraries\Forms\Components\TriStateTreeView.cs">
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Date.cs">
+			<SubType>UserControl</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Date.Designer.cs">
+			<DependentUpon>Date.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\DateCalendar.cs">
+			<SubType>UserControl</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\DateCalendar.Designer.cs">
+			<DependentUpon>DateCalendar.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\FlowTabController.cs">
+			<SubType>UserControl</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\FlowTabController.Designer.cs">
+			<DependentUpon>FlowTabController.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Loan\ManageOverrides.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Loan\ManageOverrides.Designer.cs">
+			<DependentUpon>ManageOverrides.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Loan\OverrideReason.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Loan\OverrideReason.Designer.cs">
+			<DependentUpon>OverrideReason.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\AddSerialNumbers.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\AddSerialNumbers.Designer.cs">
+			<DependentUpon>AddSerialNumbers.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\AlternateManufacturer.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\AlternateManufacturer.Designer.cs">
+			<DependentUpon>AlternateManufacturer.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeItem.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeItem.Designer.cs">
+			<DependentUpon>DescribeItem.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeMerchandise.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeMerchandise.Designer.cs">
+			<DependentUpon>DescribeMerchandise.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeStones.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeStones.Designer.cs">
+			<DependentUpon>DescribeStones.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeStones_Images.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeStones_Images.Designer.cs">
+			<DependentUpon>DescribeStones_Images.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\FindMerchandise.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\FindMerchandise.designer.cs">
+			<DependentUpon>FindMerchandise.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\JewelryDisplay.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\JewelryDisplay.Designer.cs">
+			<DependentUpon>JewelryDisplay.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\ManualMerchandise.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\ManualMerchandise.Designer.cs">
+			<DependentUpon>ManualMerchandise.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\ManufacturerModelMatches.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\ManufacturerModelMatches.Designer.cs">
+			<DependentUpon>ManufacturerModelMatches.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Services\PFI\PFI_ChargeOff.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Pawn\Services\PFI\PFI_ChargeOff.Designer.cs">
+			<DependentUpon>PFI_ChargeOff.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\ProcessingMessage.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\ProcessingMessage.designer.cs">
+			<DependentUpon>ProcessingMessage.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\ReceiptRenderer.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\ReceiptRenderer.Designer.cs">
+			<DependentUpon>ReceiptRenderer.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\ReprintTagVerify.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\ReprintTagVerify.Designer.cs">
+			<DependentUpon>ReprintTagVerify.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Retail\ChangeRetailPriceSearch.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Retail\ChangeRetailPriceSearch.Designer.cs">
+			<DependentUpon>ChangeRetailPriceSearch.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Retail\ItemSearchResults.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Retail\ItemSearchResults.Designer.cs">
+			<DependentUpon>ItemSearchResults.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Retail\RetailItemPricingHistory.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Retail\RetailItemPricingHistory.Designer.cs">
+			<DependentUpon>RetailItemPricingHistory.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Retail\SelectItems.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Retail\SelectItems.Designer.cs">
+			<DependentUpon>SelectItems.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\UserChangePassword.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\UserChangePassword.Designer.cs">
+			<DependentUpon>UserChangePassword.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\UserLogin.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\UserLogin.designer.cs">
+			<DependentUpon>UserLogin.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Validation\BaseValidator.cs">
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Validation\BaseValidator.Designer.cs">
+			<DependentUpon>BaseValidator.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Validation\RegularExpressionValidator.cs">
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Validation\RegularExpressionValidator.Designer.cs">
+			<DependentUpon>RegularExpressionValidator.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Validation\RequiredFieldValidator.cs">
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Validation\RequiredFieldValidator.Designer.cs">
+			<DependentUpon>RequiredFieldValidator.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Validation\ValidationManager.cs">
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Validation\ValidationManager.Designer.cs">
+			<DependentUpon>ValidationManager.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Forms\Validation\ValidationSummary.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Forms\Validation\ValidationSummary.Designer.cs">
+			<DependentUpon>ValidationSummary.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Objects\AppMode.cs" />
+		<Compile Include="Libraries\Objects\Audit\AuditLogType.cs" />
+		<Compile Include="Libraries\Objects\Audit\AuditReason.cs" />
+		<Compile Include="Libraries\Objects\Audit\AuditReportDetail.cs" />
+		<Compile Include="Libraries\Objects\Audit\AuditReportsObject.cs" />
+		<Compile Include="Libraries\Objects\Audit\AuditScope.cs" />
+		<Compile Include="Libraries\Objects\Audit\AuditStatus.cs" />
+		<Compile Include="Libraries\Objects\Audit\AuditType.cs" />
+		<Compile Include="Libraries\Objects\Audit\CaccSummary.cs" />
+		<Compile Include="Libraries\Objects\Audit\InventoryAuditVO.cs" />
+		<Compile Include="Libraries\Objects\Audit\ProcessMissingContext.cs" />
+		<Compile Include="Libraries\Objects\Audit\ProcessMissingIndicator.cs" />
+		<Compile Include="Libraries\Objects\Audit\ProcessMissingUserOptions.cs" />
+		<Compile Include="Libraries\Objects\Audit\ProcessUnexpectedContext.cs" />
+		<Compile Include="Libraries\Objects\Audit\ProcessUnexpectedIndicator.cs" />
+		<Compile Include="Libraries\Objects\Audit\ProcessUnexpectedUserOption.cs" />
+		<Compile Include="Libraries\Objects\Audit\ShortCodeSummary.cs" />
+		<Compile Include="Libraries\Objects\Audit\TrakFlagConstants.cs" />
+		<Compile Include="Libraries\Objects\Audit\TrakkerItem.cs" />
+		<Compile Include="Libraries\Objects\Audit\TrakkerScItem.cs" />
+		<Compile Include="Libraries\Objects\Authorization\Credentials.cs" />
+		<Compile Include="Libraries\Objects\Authorization\HostInformation.cs" />
+		<Compile Include="Libraries\Objects\Authorization\LDAPUserVO.cs" />
+		<Compile Include="Libraries\Objects\Authorization\LimitsVO.cs" />
+		<Compile Include="Libraries\Objects\Authorization\PasswordPolicyVO.cs" />
+		<Compile Include="Libraries\Objects\Authorization\PawnSecApplication.cs" />
+		<Compile Include="Libraries\Objects\Authorization\PawnSecApplicationResolver.cs" />
+		<Compile Include="Libraries\Objects\Authorization\ResourceVO.cs" />
+		<Compile Include="Libraries\Objects\Authorization\RoleVO.cs" />
+		<Compile Include="Libraries\Objects\Authorization\UserVO.cs" />
+		<Compile Include="Libraries\Objects\Business\CashDrawerUserVO.cs" />
+		<Compile Include="Libraries\Objects\Business\CashDrawerVO.cs" />
+		<Compile Include="Libraries\Objects\Business\CashTransferVO.cs" />
+		<Compile Include="Libraries\Objects\Business\ChargeOffDatabaseContext.cs" />
+		<Compile Include="Libraries\Objects\Business\DenominationVO.cs" />
+		<Compile Include="Libraries\Objects\Business\IBusinessRulesProcedures.cs" />
+		<Compile Include="Libraries\Objects\Business\Icn.cs" />
+		<Compile Include="Libraries\Objects\Business\Item.cs" />
+		<Compile Include="Libraries\Objects\Business\ItemReasonCode.cs" />
+		<Compile Include="Libraries\Objects\Business\ItemReasonFactory.cs" />
+		<Compile Include="Libraries\Objects\Business\ManualDepositSlipDataVO.cs" />
+		<Compile Include="Libraries\Objects\Business\PfiLoanObjects.cs" />
+		<Compile Include="Libraries\Objects\Business\PoliceInfo.cs" />
+		<Compile Include="Libraries\Objects\Business\ReceiptDetailsVO.cs" />
+		<Compile Include="Libraries\Objects\Business\ReleaseFingerprintsInfo.cs" />
+		<Compile Include="Libraries\Objects\Business\StoreBankVO.cs" />
+		<Compile Include="Libraries\Objects\Business\StoreCreditVO.cs" />
+		<Compile Include="Libraries\Objects\Business\StoreTaxVO.cs" />
+		<Compile Include="Libraries\Objects\Business\TenderEntryVO.cs" />
+		<Compile Include="Libraries\Objects\Business\TransferItemVO.cs" />
+		<Compile Include="Libraries\Objects\Business\TransferVO.cs" />
+		<Compile Include="Libraries\Objects\CategoryNode.cs" />
+		<Compile Include="Libraries\Objects\CommonDatabaseContext.cs" />
+		<Compile Include="Libraries\Objects\Config\ClientConfigVO.cs" />
+		<Compile Include="Libraries\Objects\Config\DatabaseServiceVO.cs" />
+		<Compile Include="Libraries\Objects\Config\EncryptedConfigContainer.cs" />
+		<Compile Include="Libraries\Objects\Config\ESBServiceVO.cs" />
+		<Compile Include="Libraries\Objects\Config\GlobalConfigVO.cs" />
+		<Compile Include="Libraries\Objects\Config\PawnSecMachineVO.cs" />
+		<Compile Include="Libraries\Objects\Config\PawnSecVO.cs" />
+		<Compile Include="Libraries\Objects\Config\PeripheralModelVO.cs" />
+		<Compile Include="Libraries\Objects\Config\PeripheralTypeVO.cs" />
+		<Compile Include="Libraries\Objects\Config\PeripheralVO.cs" />
+		<Compile Include="Libraries\Objects\Config\ShopCalendarVO.cs" />
+		<Compile Include="Libraries\Objects\Config\StoreAppVersionVO.cs" />
+		<Compile Include="Libraries\Objects\Config\StoreClientConfigVO.cs" />
+		<Compile Include="Libraries\Objects\Config\StoreConfigVO.cs" />
+		<Compile Include="Libraries\Objects\Config\StorePrinterVO.cs" />
+		<Compile Include="Libraries\Objects\Config\StoreSetupVO.cs" />
+		<Compile Include="Libraries\Objects\Config\WorkstationVO.cs" />
+		<Compile Include="Libraries\Objects\Performance\CPNHSDataVO.cs" />
+		<Compile Include="Libraries\Objects\PFIMailerOptions.cs" />
+		<Compile Include="Libraries\Objects\Customer\AddressVO.cs" />
+		<Compile Include="Libraries\Objects\Customer\ContactVO.cs" />
+		<Compile Include="Libraries\Objects\Customer\CustomerProductDataVO.cs" />
+		<Compile Include="Libraries\Objects\Customer\CustomerVO.cs" />
+		<Compile Include="Libraries\Objects\Customer\Email.cs" />
+		<Compile Include="Libraries\Objects\Customer\HoldData.cs" />
+		<Compile Include="Libraries\Objects\Customer\HoldItemData.cs" />
+		<Compile Include="Libraries\Objects\Customer\IdentificationVO.cs" />
+		<Compile Include="Libraries\Objects\Customer\Notes.cs" />
+		<Compile Include="Libraries\Objects\Customer\SocialSecurityNumber.cs" />
+		<Compile Include="Libraries\Objects\Customer\VendorVO.cs" />
+		<Compile Include="Libraries\Objects\DesktopSessionConstants.cs" />
+		<Compile Include="Libraries\Objects\Doc\Document.cs" />
+		<Compile Include="Libraries\Objects\Doc\Document_Couch.cs" />
+		<Compile Include="Libraries\Objects\Doc\GenDocFormVO.cs" />
+		<Compile Include="Libraries\Objects\EndTransactionType.cs" />
+		<Compile Include="Libraries\Objects\EnumPair.cs" />
+		<Compile Include="Libraries\Objects\HistoryTrack.cs" />
+		<Compile Include="Libraries\Objects\Inquiry\LoanCriteria.cs" />
+		<Compile Include="Libraries\Objects\Inquiry\MDSE.cs" />
+		<Compile Include="Libraries\Objects\IPdfLauncher.cs" />
+		<Compile Include="Libraries\Objects\JewelrySet.cs" />
+		<Compile Include="Libraries\Objects\Layaway\LayawayHistory.cs" />
+		<Compile Include="Libraries\Objects\Layaway\LayawayHistoryPaymentInfo.cs" />
+		<Compile Include="Libraries\Objects\Layaway\LayawayPayment.cs" />
+		<Compile Include="Libraries\Objects\Layaway\LayawayRefundTenderInfo.cs" />
+		<Compile Include="Libraries\Objects\Layaway\LayawayReportObject.cs" />
+		<Compile Include="Libraries\Objects\Layaway\LayawayVO.cs" />
+		<Compile Include="Libraries\Objects\Mapper\DataTypeConstants.cs" />
+		<Compile Include="Libraries\Objects\Mapper\DataTypeVOMapper.cs" />
+		<Compile Include="Libraries\Objects\Pawn\PartialPayment.cs" />
+		<Compile Include="Libraries\Objects\Pawn\PawnAppVO.cs" />
+		<Compile Include="Libraries\Objects\Pawn\PawnLoan.cs" />
+		<Compile Include="Libraries\Objects\Pawn\PawnLoanKey.cs" />
+		<Compile Include="Libraries\Objects\Pawn\UnderwritePawnLoanVO.cs" />
+		<Compile Include="Libraries\Objects\ProKnowMatch.cs" />
+		<Compile Include="Libraries\Objects\Purchase\PurchaseVO.cs" />
+		<Compile Include="Libraries\Objects\ReprintVerifySender.cs" />
+		<Compile Include="Libraries\Objects\ResourceProperties.cs" />
+		<Compile Include="Libraries\Objects\Retail\RetailItem.cs" />
+		<Compile Include="Libraries\Objects\Retail\RetailPriceChangeHistoryRecord.cs" />
+		<Compile Include="Libraries\Objects\Retail\SalesTaxInfo.cs" />
+		<Compile Include="Libraries\Objects\Retail\SaleVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\BusinessRuleComponentVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\Data\AliasVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\Data\FeesVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\Data\InterestVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\Data\MethodVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\Data\ParamVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\Retrieval\RetrievalVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\Structure\BusinessRuleComponentVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\Structure\BusinessRuleVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\System\ProcPackageVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\System\StoredProcParamVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\System\StoredProcVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\Type\DataTypeVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\Type\FeeLookupTypeVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\Type\FeeTypeVO.cs" />
+		<Compile Include="Libraries\Objects\Rules\Type\RetrievalTypeVO.cs" />
+		<Compile Include="Libraries\Objects\SiteId.cs" />
+		<Compile Include="Libraries\Objects\UserDesktopState.cs" />
+		<Compile Include="Libraries\Objects\VarianceRate.cs" />
+		<Compile Include="Libraries\Resources\ResourceNames.Designer.cs" />
+		<Compile Include="Libraries\Resources\RoleResources.Designer.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\BarcodeCommon.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\BarcodeLib.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\BarcodeXML.cs">
+			<DependentUpon>BarcodeXML.xsd</DependentUpon>
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="Libraries\Utility\BarcodeGenerator\BarcodeXML.Designer.cs">
+			<DependentUpon>BarcodeXML.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Utility\BarcodeGenerator\BarcodeXML1.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>BarcodeXML.xsd</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Utility\BarcodeGenerator\IBarcode.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Codabar.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Code11.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Code128.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Code39.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Code93.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\EAN13.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\EAN8.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Interleaved2of5.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\ISBN.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\ITF14.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\JAN13.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\MSI.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Postnet.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\Standard2of5.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\UPCA.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\UPCE.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\UPCSupplement2.cs" />
+		<Compile Include="Libraries\Utility\BarcodeGenerator\Symbologies\UPCSupplement5.cs" />
+		<Compile Include="Libraries\Utility\Collection\CollectionUtilities.cs" />
+		<Compile Include="Libraries\Utility\Config\ConfigUtilities.cs" />
+		<Compile Include="Libraries\Utility\Exception\BasicExceptionHandler.cs" />
+		<Compile Include="Libraries\Utility\Exception\Exceptions.cs" />
+		<Compile Include="Libraries\Utility\ISharp\PDFITextSharpUtilities.cs" />
+		<Compile Include="Libraries\Utility\Logger\AuditLogger.cs" />
+		<Compile Include="Libraries\Utility\Logger\FileLogger.cs" />
+		<Compile Include="Libraries\Utility\Logger\IAuditLogger.cs" />
+		<Compile Include="Libraries\Utility\Logger\ILogger.cs" />
+		<Compile Include="Libraries\Utility\Logger\TempFileLogger.cs" />
+		<Compile Include="Libraries\Utility\Multimedia\MultimediaController.cs" />
+		<Compile Include="Libraries\Utility\Multimedia\VideoPlayer\VideoPlayer.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Libraries\Utility\Multimedia\VideoPlayer\VideoPlayer.designer.cs">
+			<DependentUpon>VideoPlayer.cs</DependentUpon>
+		</Compile>
+		<Compile Include="Libraries\Utility\Performance\PerfTimer.cs" />
+		<Compile Include="Libraries\Utility\RawTextPrinting\MerchandiseDescriptionLineSeparator.cs" />
+		<Compile Include="Libraries\Utility\RawTextPrinting\PrinterCode.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Include="Libraries\Utility\RawTextPrinting\RawTextCell.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Include="Libraries\Utility\RawTextPrinting\RawTextDocument.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Include="Libraries\Utility\RawTextPrinting\RawTextElement.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Include="Libraries\Utility\RawTextPrinting\RawTextFlags.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Include="Libraries\Utility\RawTextPrinting\RawTextRow.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Include="Libraries\Utility\RawTextPrinting\RawTextValue.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Include="Libraries\Utility\Serialization\ObjectSerializer.cs" />
+		<Compile Include="Libraries\Utility\Shared\Common.cs" />
+		<Compile Include="Libraries\Utility\Shared\CustomerConstants.cs" />
+		<Compile Include="Libraries\Utility\Shared\CustomerProductDataConstants.cs" />
+		<Compile Include="Libraries\Utility\Shared\DataGridPrinter.cs" />
+		<Compile Include="Libraries\Utility\Shared\EnumUtil.cs" />
+		<Compile Include="Libraries\Utility\Shared\ExtensionMethods.cs" />
+		<Compile Include="Libraries\Utility\Shared\GenerateDocumentsPrinter.cs" />
+		<Compile Include="Libraries\Utility\Shared\IntermecBarcodeTagPrint.cs" />
+		<Compile Include="Libraries\Utility\Shared\LoanInquiryConstants.cs" />
+		<Compile Include="Libraries\Utility\Shared\PdfLauncher.cs" />
+		<Compile Include="Libraries\Utility\Shared\PrintingUtilities.cs" />
+		<Compile Include="Libraries\Utility\Shared\PropertyHandler.cs" />
+		<Compile Include="Libraries\Utility\Shared\ReportsConstants.cs" />
+		<Compile Include="Libraries\Utility\Shared\TransferConstants.cs" />
+		<Compile Include="Libraries\Utility\Shared\USBUtilities.cs" />
+		<Compile Include="Libraries\Utility\Shared\VendorConstants.cs" />
+		<Compile Include="Libraries\Utility\States.cs" />
+		<Compile Include="Libraries\Utility\String\StringUtilities.cs" />
+		<Compile Include="Libraries\Utility\Type\PairType.cs" />
+		<Compile Include="Libraries\Utility\Type\QuadType.cs" />
+		<Compile Include="Libraries\Utility\Type\TupleType.cs" />
+		<Compile Include="Libraries\Utility\StaticUtilities.cs" />
+		<Compile Include="Properties\ApplicationMessages.Designer.cs" />
+		<Compile Include="Properties\AssemblyInfo.cs" />
+		<Compile Include="Properties\Resources.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<Compile Include="Service References\AddressService\Reference.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Reference.svcmap</DependentUpon>
+		</Compile>
+		<Compile Include="Service References\ProKnowService\Reference.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Reference.svcmap</DependentUpon>
+		</Compile>
+		<Compile Include="Service References\TransferService\Reference.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Reference.svcmap</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Libraries\Resources\EDeviceTemplate.OK">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\eDeviceTemplate.pdf">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Include="Resources\policecard_icon.png" />
+		<Content Include="Libraries\Resources\ticketfmtL.OK">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\ps3877_1_2.pdf">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\ps3877_3.pdf">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\ps3877_4.pdf">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\Indiana_pawn_ticket_CA.ps">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\Indiana_pawn_ticket_CL.ps">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Include="Libraries\Resources\LayawayTemplate.tpl">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<Content Include="Libraries\Resources\lostticketOH.pdf">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Include="Libraries\Resources\retailReceiptTemplate.tpl">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="Libraries\Resources\retailRefundTemplate.tpl">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="Libraries\Resources\retailVoidTemplate.tpl">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<Content Include="Libraries\Resources\ticketfmtL.CL">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\ticketfmtL.OH">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Include="Resources\blueglossy_edit_fixed.png" />
+		<None Include="Resources\blueglossy_select.png" />
+		<None Include="Resources\blueglossy_select2.png" />
+		<EmbeddedResource Include="Libraries\Forms\ChargeOff.resx">
+			<DependentUpon>ChargeOff.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Components\CustomBaseForm.resx">
+			<DependentUpon>CustomBaseForm.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Components\CustomButton.resx">
+			<DependentUpon>CustomButton.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Components\CustomButtonTiny.resx">
+			<DependentUpon>CustomButtonTiny.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Components\CustomComboBox.resx">
+			<DependentUpon>CustomComboBox.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Components\CustomDataGridView.resx">
+			<DependentUpon>CustomDataGridView.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Components\CustomLabel.resx">
+			<DependentUpon>CustomLabel.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Components\CustomListBox.resx">
+			<DependentUpon>CustomListBox.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Components\CustomTextBox.resx">
+			<DependentUpon>CustomTextBox.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Date.resx">
+			<DependentUpon>Date.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\DateCalendar.resx">
+			<DependentUpon>DateCalendar.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\FlowTabController.resx">
+			<DependentUpon>FlowTabController.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Pawn\Loan\ManageOverrides.resx">
+			<DependentUpon>ManageOverrides.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Pawn\Loan\OverrideReason.resx">
+			<DependentUpon>OverrideReason.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\AddSerialNumbers.resx">
+			<DependentUpon>AddSerialNumbers.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\AlternateManufacturer.resx">
+			<DependentUpon>AlternateManufacturer.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeItem.resx">
+			<DependentUpon>DescribeItem.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeMerchandise.resx">
+			<DependentUpon>DescribeMerchandise.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeStones.resx">
+			<DependentUpon>DescribeStones.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeStones_Images.resx">
+			<DependentUpon>DescribeStones_Images.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\FindMerchandise.resx">
+			<DependentUpon>FindMerchandise.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\JewelryDisplay.resx">
+			<DependentUpon>JewelryDisplay.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\ManualMerchandise.resx">
+			<DependentUpon>ManualMerchandise.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\ManufacturerModelMatches.resx">
+			<DependentUpon>ManufacturerModelMatches.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Pawn\Services\PFI\PFI_ChargeOff.resx">
+			<DependentUpon>PFI_ChargeOff.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\ProcessingMessage.resx">
+			<DependentUpon>ProcessingMessage.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\ReceiptRenderer.resx">
+			<DependentUpon>ReceiptRenderer.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\ReprintTagVerify.resx">
+			<DependentUpon>ReprintTagVerify.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Retail\ChangeRetailPriceSearch.resx">
+			<DependentUpon>ChangeRetailPriceSearch.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Retail\ItemSearchResults.resx">
+			<DependentUpon>ItemSearchResults.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Retail\RetailItemPricingHistory.resx">
+			<DependentUpon>RetailItemPricingHistory.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Retail\SelectItems.resx">
+			<DependentUpon>SelectItems.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\UserChangePassword.resx">
+			<DependentUpon>UserChangePassword.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\UserLogin.resx">
+			<DependentUpon>UserLogin.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Libraries\Forms\Validation\ValidationSummary.resx">
+			<DependentUpon>ValidationSummary.cs</DependentUpon>
+		</EmbeddedResource>
+		<Content Include="Libraries\External\mongodb\MongoDB.Bson.dll" />
+		<Content Include="Libraries\External\mongodb\MongoDB.Bson.pdb" />
+		<Content Include="Libraries\External\mongodb\MongoDB.Bson.xml" />
+		<Content Include="Libraries\External\mongodb\MongoDB.Driver.dll" />
+		<Content Include="Libraries\External\mongodb\MongoDB.Driver.pdb" />
+		<Content Include="Libraries\External\mongodb\MongoDB.Driver.XML" />
+		<Content Include="Libraries\External\mongodb\Release Notes v1.3.1.txt" />
+		<None Include="Libraries\Resources\button-refresh-16x161.png" />
+		<Content Include="Libraries\Resources\blueglossy_edit2.png" />
+		<Content Include="Libraries\Resources\blueglossy_select2.png" />
+		<Content Include="Libraries\Resources\calendar_icon.png" />
+		<None Include="Libraries\External\mongodb\CSharpDriverDocs.chm" />
+		<None Include="Libraries\External\mongodb\License.rtf" />
+		<None Include="Libraries\Resources\cl1.png" />
+		<None Include="Libraries\Resources\cl5.png" />
+		<None Include="Libraries\Resources\cl2.png" />
+		<None Include="Libraries\Resources\cl3.png" />
+		<None Include="Libraries\Resources\cl4.png" />
+		<Content Include="Libraries\Resources\Collapsed.gif" />
+		<Content Include="Libraries\Resources\dark_dialog_frame.png" />
+		<Content Include="Libraries\Resources\Expanded.gif" />
+		<Content Include="Libraries\Resources\resourcenames.resources">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<EmbeddedResource Include="Libraries\Resources\ResourceNames.resx" />
+		<EmbeddedResource Include="Libraries\Resources\RoleResources.resx" />
+		<EmbeddedResource Include="Libraries\Utility\Multimedia\VideoPlayer\VideoPlayer.resx">
+			<DependentUpon>VideoPlayer.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Properties\ApplicationMessages.resx" />
+		<EmbeddedResource Include="Properties\ResourceNames.resx" />
+		<EmbeddedResource Include="Properties\Resources.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Libraries\External\itextsharp.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\External\JsonFx.Json.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\External\JsonFx.Json.XML">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\back_button_depressed.png" />
+		<Content Include="Libraries\Resources\back_button_disabled.png" />
+		<Content Include="Libraries\Resources\back_button_hover.png" />
+		<Content Include="Libraries\Resources\back_button_normal.png" />
+		<Content Include="Libraries\Resources\blueglossy_small.png" />
+		<Content Include="Libraries\Resources\blueglossy_tiny.png" />
+		<Content Include="Libraries\Resources\bluerectangleglossy.png" />
+		<Content Include="Libraries\Resources\category.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\External\ContractDriven.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\External\ContractDriven.pdb">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\exitbutton.png" />
+		<Content Include="Libraries\Resources\IPL_Print_Formats.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\logo.jpg" />
+		<Content Include="Libraries\Resources\logoCasham.jpg" />
+		<Content Include="Libraries\Resources\logoCashlinx.jpg" />
+		<Content Include="Libraries\Resources\mutebutton.png" />
+		<Content Include="Libraries\Resources\mutebuttondepressed.png" />
+		<Content Include="Libraries\Resources\newDialog_320_BlueScale.png" />
+		<Content Include="Libraries\Resources\newDialog_400_BlueScale.png" />
+		<Content Include="Libraries\Resources\newDialog_440_BlueScale.png" />
+		<Content Include="Libraries\Resources\newDialog_480_BlueScale.png" />
+		<Content Include="Libraries\Resources\newDialog_512_BlueScale.png" />
+		<Content Include="Libraries\Resources\newDialog_600_BlueScale.png" />
+		<Content Include="Libraries\Resources\newDialog_768_BlueScale.png" />
+		<Content Include="Libraries\Resources\pausebutton.png" />
+		<Content Include="Libraries\Resources\pausebuttondepressed.png" />
+		<Content Include="Libraries\Resources\pdf_icon.png" />
+		<Content Include="Libraries\Resources\playbutton.png" />
+		<Content Include="Libraries\Resources\playbutton1.png" />
+		<Content Include="Libraries\Resources\playbuttondepressed.png" />
+		<Content Include="Libraries\Resources\ResourceNames.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\RoleHierarchy.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\SafeOperations.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\stopbutton.png" />
+		<Content Include="Libraries\Resources\stopbuttondepressed.png" />
+		<Content Include="Libraries\Resources\variance.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\vistabutton_blue.png" />
+		<Content Include="Properties\ResourceNames.txt" />
+		<None Include="CashlinxSignKey.snk" />
+		<Content Include="Libraries\Resources\EDeviceTemplate.TX">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\FBCFtemplate.TX">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\lostticket.pdf">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\receiptTemplate.tpl">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\srvcReceiptTemplate.tpl">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Libraries\Resources\ticketfmtL.TX">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<None Include="Libraries\Resources\Button-Refresh-16x16.png" />
+		<None Include="Libraries\Resources\minus_icon_small.png" />
+		<None Include="Libraries\Resources\plus_icon_small.png" />
+		<None Include="Libraries\Resources\receipt-icon.png" />
+		<None Include="Service References\ProKnowService\Common.ProKnowService.alternameManufacturerReplyType.datasource">
+			<DependentUpon>Reference.svcmap</DependentUpon>
+		</None>
+		<None Include="Service References\ProKnowService\Common.ProKnowService.getModelsReplyType.datasource">
+			<DependentUpon>Reference.svcmap</DependentUpon>
+		</None>
+		<None Include="Service References\ProKnowService\Common.ProKnowService.groupOfValuesType.datasource">
+			<DependentUpon>Reference.svcmap</DependentUpon>
+		</None>
+		<None Include="Service References\ProKnowService\Common.ProKnowService.manModelReplyType.datasource">
+			<DependentUpon>Reference.svcmap</DependentUpon>
+		</None>
+		<None Include="Service References\ProKnowService\Reference.svcmap">
+			<Generator>WCF Proxy Generator</Generator>
+			<LastGenOutput>Reference.cs</LastGenOutput>
+		</None>
+		<None Include="Service References\ProKnowService\configuration.svcinfo" />
+		<None Include="Service References\ProKnowService\configuration91.svcinfo" />
+		<None Include="Service References\AddressService\Common.AddressService.addressValidationReplyType.datasource">
+			<DependentUpon>Reference.svcmap</DependentUpon>
+		</None>
+		<None Include="Service References\AddressService\Common.AddressService.cityStateLookupReplyType.datasource">
+			<DependentUpon>Reference.svcmap</DependentUpon>
+		</None>
+		<None Include="Service References\AddressService\Reference.svcmap">
+			<Generator>WCF Proxy Generator</Generator>
+			<LastGenOutput>Reference.cs</LastGenOutput>
+		</None>
+		<None Include="Service References\AddressService\configuration.svcinfo" />
+		<None Include="Service References\AddressService\configuration91.svcinfo" />
+		<None Include="Service References\ProKnowService\Untitled.wsdl" />
+		<None Include="Service References\TransferService\Common.TransferService.JSUPReplyType.datasource">
+			<DependentUpon>Reference.svcmap</DependentUpon>
+		</None>
+		<None Include="Service References\TransferService\Common.TransferService.RJReplyType1.datasource">
+			<DependentUpon>Reference.svcmap</DependentUpon>
+		</None>
+		<None Include="Service References\TransferService\Common.TransferService.storeToStoreReplyType.datasource">
+			<DependentUpon>Reference.svcmap</DependentUpon>
+		</None>
+		<None Include="Service References\TransferService\Common.TransferService.VMReplyType1.datasource">
+			<DependentUpon>Reference.svcmap</DependentUpon>
+		</None>
+		<None Include="Service References\TransferService\Reference.svcmap">
+			<Generator>WCF Proxy Generator</Generator>
+			<LastGenOutput>Reference.cs</LastGenOutput>
+		</None>
+		<None Include="Service References\TransferService\Untitled.wsdl" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Controllers\Application\ProcessThread\" />
+		<Folder Include="Controllers\Security\Encryption\" />
+		<Folder Include="Controllers\Security\Roles\" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="app.config" />
+		<None Include="Controllers\Rules\DataModel\PawnRulesSystem.xsc">
+			<DependentUpon>PawnRulesSystem.xsd</DependentUpon>
+		</None>
+		<None Include="Controllers\Rules\DataModel\PawnRulesSystem.xsd">
+			<Generator>MSDataSetGenerator</Generator>
+			<LastGenOutput>PawnRulesSystem1.Designer.cs</LastGenOutput>
+			<SubType>Designer</SubType>
+		</None>
+		<None Include="Controllers\Rules\DataModel\PawnRulesSystem.xss">
+			<DependentUpon>PawnRulesSystem.xsd</DependentUpon>
+		</None>
+		<None Include="Libraries\Utility\BarcodeGenerator\BarcodeXML.xsc">
+			<DependentUpon>BarcodeXML.xsd</DependentUpon>
+		</None>
+		<None Include="Libraries\Utility\BarcodeGenerator\BarcodeXML.xsd">
+			<Generator>MSDataSetGenerator</Generator>
+			<LastGenOutput>BarcodeXML1.Designer.cs</LastGenOutput>
+			<SubType>Designer</SubType>
+		</None>
+		<None Include="Libraries\Utility\BarcodeGenerator\BarcodeXML.xss">
+			<DependentUpon>BarcodeXML.xsd</DependentUpon>
+		</None>
+		<None Include="Service References\AddressService\Untitled.wsdl" />
+	</ItemGroup>
+	<ItemGroup>
+		<WCFMetadata Include="Service References\" />
+	</ItemGroup>
+	<ItemGroup>
+		<WCFMetadataStorage Include="Service References\AddressService\" />
+		<WCFMetadataStorage Include="Service References\ProKnowService\" />
+		<WCFMetadataStorage Include="Service References\TransferService\" />
+	</ItemGroup>
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	<!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

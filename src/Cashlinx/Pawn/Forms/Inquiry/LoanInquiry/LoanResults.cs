@@ -2,6 +2,7 @@
 using System.Data;
 using System.Windows.Forms;
 using Common.Controllers.Application;
+using Common.Controllers.Database.Procedures;
 using Common.Controllers.Security;
 using Common.Libraries.Utility.Shared;
 using Reports.Inquiry;
@@ -28,24 +29,51 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 
-            this.Shop = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ticket = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cust_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LnAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PrinicipalAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            //Display grid with current principal if partial payments are allowed.
+            if (new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(GlobalDataAccessor.Instance.CurrentSiteId))
+            {
+                this.Shop = new System.Windows.Forms.DataGridViewTextBoxColumn();
+                this.ticket = new System.Windows.Forms.DataGridViewTextBoxColumn();
+                this.cust_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+                this.DateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+                this.LnAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+                this.PrinicipalAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+                this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+                this.UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
 
-            this.resultsGrid_dg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-                this.Shop,
-                this.ticket,
-                this.cust_name,
-                this.DateTime,
-                this.LnAmount,
-                this.PrinicipalAmount,
-                this.Status,
-                this.UserID});
+                this.resultsGrid_dg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
+                                                         {
+                                                             this.Shop,
+                                                             this.ticket,
+                                                             this.cust_name,
+                                                             this.DateTime,
+                                                             this.LnAmount,
+                                                             this.PrinicipalAmount,
+                                                             this.Status,
+                                                             this.UserID
+                                                         });
+            }
+            else
+            {
+                this.Shop = new System.Windows.Forms.DataGridViewTextBoxColumn();
+                this.ticket = new System.Windows.Forms.DataGridViewTextBoxColumn();
+                this.cust_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+                this.DateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+                this.LnAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+                this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+                this.UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
+                this.resultsGrid_dg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
+                                                         {
+                                                             this.Shop,
+                                                             this.ticket,
+                                                             this.cust_name,
+                                                             this.DateTime,
+                                                             this.LnAmount,
+                                                             this.Status,
+                                                             this.UserID
+                                                         });
+            }
 
             // 
             // Shop
@@ -97,15 +125,19 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             // 
             // Current Prin. Amount
             // 
-            this.PrinicipalAmount.DataPropertyName = "PartPymtPrinAmt";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "C2";
-            dataGridViewCellStyle5.NullValue = null;
-            this.PrinicipalAmount.DefaultCellStyle = dataGridViewCellStyle5;
-            this.PrinicipalAmount.HeaderText = "Current Prin. Amt";
-            this.PrinicipalAmount.Name = "PrinAmt";
-            this.PrinicipalAmount.ReadOnly = true;
-            this.PrinicipalAmount.Width = 100;
+            //Only show current principal column if partial payments are allowed.
+            if (new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(GlobalDataAccessor.Instance.CurrentSiteId))
+            {
+                this.PrinicipalAmount.DataPropertyName = "PartPymtPrinAmt";
+                dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+                dataGridViewCellStyle5.Format = "C2";
+                dataGridViewCellStyle5.NullValue = null;
+                this.PrinicipalAmount.DefaultCellStyle = dataGridViewCellStyle5;
+                this.PrinicipalAmount.HeaderText = "Current Prin. Amt";
+                this.PrinicipalAmount.Name = "PrinAmt";
+                this.PrinicipalAmount.ReadOnly = true;
+                this.PrinicipalAmount.Width = 100;
+            }
             // 
             // Status
             // 

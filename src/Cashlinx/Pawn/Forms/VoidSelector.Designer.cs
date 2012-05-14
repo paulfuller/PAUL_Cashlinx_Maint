@@ -80,7 +80,8 @@ namespace Pawn.Forms
             "Void Police Seize (Loan, Buys, Inventory)",
             "Void Restitution Payment",
             "Void Release to Claimant",
-            "Void Layaway Activity"});
+            "Void Layaway Activity"
+            });
             this.voidTransactionTypeComboBox.Location = new System.Drawing.Point(171, 77);
             this.voidTransactionTypeComboBox.Name = "voidTransactionTypeComboBox";
             this.voidTransactionTypeComboBox.Size = new System.Drawing.Size(240, 24);

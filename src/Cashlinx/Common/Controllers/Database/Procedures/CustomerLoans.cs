@@ -885,15 +885,15 @@ namespace Common.Controllers.Database.Procedures
 
                         var rcptData = from rcpt in storedPawnLoan.Receipts
                                        where rcpt.Event == ReceiptEventTypes.Extend.ToString()
-                                       && (rcpt.ReferenceReceiptNumber== null || string.IsNullOrEmpty(rcpt.ReferenceReceiptNumber))
+                                       && (rcpt.ReferenceReceiptNumber == null || string.IsNullOrEmpty(rcpt.ReferenceReceiptNumber))
                                        select rcpt;
 
                         var rcptVoidData = from rcpt in storedPawnLoan.Receipts
                                            where rcpt.Event == ReceiptEventTypes.VEX.ToString()
                                            && (rcpt.ReferenceReceiptNumber == null || string.IsNullOrEmpty(rcpt.ReferenceReceiptNumber))
                                            select rcpt;
-                        storedPawnLoan.ExtensionAmount = rcptData.Sum(r => r.Amount)-rcptVoidData.Sum(r=>r.Amount);
-                        storedPawnLoan.LastExtensionPaid = rcptData.OrderByDescending(r=>r.RefTime).FirstOrDefault().RefTime;
+                        storedPawnLoan.ExtensionAmount = rcptData.Sum(r => r.Amount) - rcptVoidData.Sum(r => r.Amount);
+                        storedPawnLoan.LastExtensionPaid = rcptData.OrderByDescending(r => r.RefTime).FirstOrDefault().RefTime;
 
 
                         //Get all the fee data
@@ -927,7 +927,7 @@ namespace Common.Controllers.Database.Procedures
 
 
                         var srvcfeeAmt = (from feeData in storedPawnLoan.Fees
-                                          where feeData.FeeType == FeeTypes.STORAGE
+                                          where (feeData.FeeType == FeeTypes.STORAGE || feeData.FeeType == FeeTypes.SERVICE)
                                           && feeData.FeeRefType == FeeRefTypes.PAWN
                                           select feeData.Value).FirstOrDefault();
                         storedPawnLoan.ServiceCharge = srvcfeeAmt;
@@ -964,7 +964,7 @@ namespace Common.Controllers.Database.Procedures
                                                    UpdatedBy = Utilities.GetStringValue(dr["updatedby"]),
                                                    Time_Made = Utilities.GetDateTimeValue(dr["time_made"])
 
-                             
+
                                                };
                                 storedPawnLoan.PartialPayments.Add(pPayment);
                             }
@@ -1737,6 +1737,8 @@ namespace Common.Controllers.Database.Procedures
             errorText = string.Empty;
             tempStatusTable = null;
 
+            bool isLayaway;
+
             //Verify that the accessor is valid
             if (GlobalDataAccessor.Instance.OracleDA == null)
             {
@@ -1750,31 +1752,58 @@ namespace Common.Controllers.Database.Procedures
             OracleDataAccessor dA = GlobalDataAccessor.Instance.OracleDA;
 
             //Create input list
+            if (callFrom.ToUpper().Contains("LAY"))
+            {
+                isLayaway = true;
+            }
+            else
+            {
+                isLayaway = false;
+            }
+
             List<OracleProcParam> inParams = new List<OracleProcParam>();
-
-            OracleProcParam maskParam = new OracleProcParam(ParameterDirection.Input, DataTypeConstants.PawnDataType.LISTSTRING, "p_loan_number", lstRefNumbers.Count());
-            foreach (int i in lstRefNumbers)
+            
+            if (isLayaway)
             {
-                maskParam.AddValue(i.ToString());
-            }
-            inParams.Add(maskParam);
+                OracleProcParam maskParam = new OracleProcParam("p_loan_number", lstRefNumbers[0]);
+                inParams.Add(maskParam);
 
-            OracleProcParam maskTempStatusParam = new OracleProcParam(ParameterDirection.Input, DataTypeConstants.PawnDataType.LISTSTRING, "p_temp_status", lstTempStatus.Count());
-            foreach (string s in lstTempStatus)
-            {
-                if (s == StateStatus.BLNK.ToString())
-                    maskTempStatusParam.AddValue("");
-                else
-                    maskTempStatusParam.AddValue(s);
-            }
-            inParams.Add(maskTempStatusParam);
+                OracleProcParam maskTempStatusParam = new OracleProcParam("p_temp_status",
+                        lstTempStatus[0] == StateStatus.BLNK.ToString() ? "" : StateStatus.BLNK.ToString());
+                inParams.Add(maskTempStatusParam);
 
-            OracleProcParam maskStoreNumberParam = new OracleProcParam(ParameterDirection.Input, DataTypeConstants.PawnDataType.LISTSTRING, "p_store_number", storeNumbers.Count());
-            foreach (string s in storeNumbers)
-            {
-                maskStoreNumberParam.AddValue(s);
+                OracleProcParam maskStoreNumberParam = new OracleProcParam("p_store_number", storeNumbers[0]);
+                inParams.Add(maskStoreNumberParam);
+
             }
-            inParams.Add(maskStoreNumberParam);
+            else
+            {
+                OracleProcParam maskParam = new OracleProcParam(ParameterDirection.Input, DataTypeConstants.PawnDataType.LISTSTRING, "p_loan_number", lstRefNumbers.Count());
+                foreach (int i in lstRefNumbers)
+                {
+                    maskParam.AddValue(i.ToString());
+                }
+                inParams.Add(maskParam);
+
+                OracleProcParam maskTempStatusParam = new OracleProcParam(ParameterDirection.Input, DataTypeConstants.PawnDataType.LISTSTRING, "p_temp_status", lstTempStatus.Count());
+                foreach (string s in lstTempStatus)
+                {
+                    if (s == StateStatus.BLNK.ToString())
+                        maskTempStatusParam.AddValue("");
+                    else
+                        maskTempStatusParam.AddValue(s);
+                }
+                inParams.Add(maskTempStatusParam);
+
+                OracleProcParam maskStoreNumberParam = new OracleProcParam(ParameterDirection.Input, DataTypeConstants.PawnDataType.LISTSTRING, "p_store_number", storeNumbers.Count());
+                foreach (string s in storeNumbers)
+                {
+                    maskStoreNumberParam.AddValue(s);
+                }
+                inParams.Add(maskStoreNumberParam);
+            }
+
+
 
             inParams.Add(new OracleProcParam("p_call_from", callFrom));
 
@@ -1789,10 +1818,21 @@ namespace Common.Controllers.Database.Procedures
             bool retVal = false;
             try
             {
-                retVal = dA.issueSqlStoredProcCommand(
-                    "ccsowner", "PAWN_MANAGE_HOLDS", "check_for_temp_status",
-                    inParams, refCursors, "o_return_code", "o_return_text",
-                    out outputDataSet);
+                if (!isLayaway)
+                {
+                    retVal = dA.issueSqlStoredProcCommand(
+                        "ccsowner", "PAWN_MANAGE_HOLDS", "check_for_temp_status",
+                        inParams, refCursors, "o_return_code", "o_return_text",
+                        out outputDataSet);
+                }
+                else
+                {
+                    retVal = dA.issueSqlStoredProcCommand(
+                        "ccsowner", "PAWN_MANAGE_HOLDS", "check_layaway_temp_status",
+                        inParams, refCursors, "o_return_code", "o_return_text",
+                        out outputDataSet);
+
+                }
             }
             catch (OracleException oEx)
             {
@@ -1826,6 +1866,7 @@ namespace Common.Controllers.Database.Procedures
             }
         }
 
+        
         public static bool GetExtensionDetails(
             string storeNumber,
             int ticketNumber,

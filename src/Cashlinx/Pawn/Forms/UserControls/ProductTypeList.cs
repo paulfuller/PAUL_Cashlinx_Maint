@@ -12,7 +12,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections;
+using Common.Controllers.Application;
 using Common.Controllers.Database.Couch;
+using Common.Controllers.Database.Procedures;
 using Common.Libraries.Utility.Exception;
 using Common.Libraries.Utility.Shared;
 
@@ -78,9 +80,23 @@ namespace Pawn.Forms.UserControls
                     productTypes.Add(new ComboBoxData(DocumentHelper.CUSTOMER_BUY, DocumentHelper.CUSTOMER_BUY));
                     //productTypes.Insert(2, new ComboBoxData(_VENDOR_BUY, _VENDOR_BUY));
                     productTypes.Add(new ComboBoxData(DocumentHelper.PAWN_LOAN, DocumentHelper.PAWN_LOAN));
+
+                    bool policeCardNeeded = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPoliceCardNeededForStore(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId);
+                    if (policeCardNeeded)
+                    {
+                        productTypes.Add(new ComboBoxData(DocumentHelper.POLICE_CARD, DocumentHelper.POLICE_CARD));
+                    }
+
                     productTypes.Add(new ComboBoxData(DocumentHelper.PURCHASE_RETURN, DocumentHelper.PURCHASE_RETURN));
                     productTypes.Add(new ComboBoxData(DocumentHelper.RECIEPT, DocumentHelper.RECIEPT));
                     productTypes.Add(new ComboBoxData(DocumentHelper.REPRINT_TAGS, DocumentHelper.REPRINT_TAGS));
+
+                    if (new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsSubpoenaRequiredForReleaseFingerprints(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId))
+                    {
+                        productTypes.Add(new ComboBoxData(DocumentHelper.RELEASE_FINGERPRINTS,
+                                                          DocumentHelper.RELEASE_FINGERPRINTS));
+                    }
+
                     this.productList.DataSource = productTypes;
                     this.productList.DisplayMember = "Description";
                     this.productList.ValueMember = "Code";

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Common.Controllers.Application;
+using Common.Controllers.Database;
 using Common.Controllers.Database.Procedures;
 using Common.Libraries.Forms.Components;
 using Common.Libraries.Objects.Layaway;
@@ -49,6 +50,12 @@ namespace Pawn.Forms.Layaway
 
         private void btnBack_Click(object sender, EventArgs e)
         {
+            foreach (var layaway in Layaways)
+            {
+                string errorCode;
+                string errorText;
+                RetailProcedures.SetLayawayTempStatus(layaway.TicketNumber, layaway.StoreNumber, "", out errorCode, out errorText);
+            }
             this.Close();
         }
 

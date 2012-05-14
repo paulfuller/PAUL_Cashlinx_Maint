@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Common.Controllers.Application;
 using Common.Controllers.Application.ApplicationFlow;
 using Common.Controllers.Application.ApplicationFlow.Blocks.Base;
+using Common.Controllers.Application.ApplicationFlow.Navigation;
 using Common.Controllers.Database.Procedures;
 using Common.Controllers.Security;
 using Common.Libraries.Objects.Authorization;
@@ -27,6 +28,7 @@ using Pawn.Forms.Pawn.Services.PFI;
 using Pawn.Forms.Pawn.Services.Void;
 using Pawn.Forms.Pawn.ShopAdministration;
 using Pawn.Forms.Pawn.ShopAdministration.ShopCash;
+using Pawn.Forms.ReleaseFingerprints;
 using Pawn.Forms.Report;
 using Pawn.Forms.Retail;
 using Pawn.Logic;
@@ -460,10 +462,10 @@ namespace Pawn.Forms
                     GlobalDataAccessor.Instance.DesktopSession.BalanceOtherCashDrawerID = string.Empty;
                     GlobalDataAccessor.Instance.DesktopSession.BalanceOtherCashDrawerName = string.Empty;
                     GlobalDataAccessor.Instance.DesktopSession.BalanceOtherBegBalance = 0;
-                        var cashbalanceForm = new BalanceCash();
-                        cashbalanceForm.SafeBalance = false;
-                        cashbalanceForm.ShowDialog();
-                    
+                    var cashbalanceForm = new BalanceCash();
+                    cashbalanceForm.SafeBalance = false;
+                    cashbalanceForm.ShowDialog();
+
 
                     this.handleEndFlow(null);
                     rt = true;
@@ -486,16 +488,16 @@ namespace Pawn.Forms
                     GlobalDataAccessor.Instance.DesktopSession.BalanceOtherCashDrawerID = string.Empty;
                     GlobalDataAccessor.Instance.DesktopSession.BalanceOtherCashDrawerName = string.Empty;
                     GlobalDataAccessor.Instance.DesktopSession.BalanceOtherBegBalance = 0;
-                    bool openCD=false;
+                    bool openCD = false;
                     do
                     {
                         GlobalDataAccessor.Instance.DesktopSession.CheckOpenCashDrawers(out openCD);
                         if (openCD && !GlobalDataAccessor.Instance.DesktopSession.TrialBalance && GlobalDataAccessor.Instance.DesktopSession.BalanceOtherCashDrawerID == string.Empty)
                             break;
-                            var cashbalanceForm = new BalanceCash();
-                            cashbalanceForm.SafeBalance = openCD && !GlobalDataAccessor.Instance.DesktopSession.TrialBalance ? false : true;
-                            cashbalanceForm.ShowDialog();
-                        
+                        var cashbalanceForm = new BalanceCash();
+                        cashbalanceForm.SafeBalance = openCD && !GlobalDataAccessor.Instance.DesktopSession.TrialBalance ? false : true;
+                        cashbalanceForm.ShowDialog();
+
 
                     } while (openCD);
 
@@ -509,12 +511,12 @@ namespace Pawn.Forms
                     GlobalDataAccessor.Instance.DesktopSession.ClearPawnLoan();
                     GlobalDataAccessor.Instance.DesktopSession.ClearSessionData();
 
-                    
+
                     //Invoke gun book edit flow
                     GlobalDataAccessor.Instance.DesktopSession.AppController.invokeWorkflow(
                         functionalityName, this, this.endStateNotifier);
 
-                    
+
                     rt = true;
                 }
                 else if (functionalityName.Equals("describemerchandise", StringComparison.OrdinalIgnoreCase))
@@ -699,7 +701,14 @@ namespace Pawn.Forms
                     GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = functionalityName;
                     GlobalDataAccessor.Instance.DesktopSession.AppController.invokeWorkflow(functionalityName, this, this.endStateNotifier);
                     rt = true;
-                }                
+                }
+                else if (functionalityName.Equals("releasefingerprints", StringComparison.OrdinalIgnoreCase))
+                {
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = functionalityName;
+                    GlobalDataAccessor.Instance.DesktopSession.AppController.invokeWorkflow(functionalityName, this,
+                                                                                            this.endStateNotifier);
+                    rt = true;
+                }
                 else if (functionalityName.Equals("reports", StringComparison.OrdinalIgnoreCase))
                 {
                     //Invoke reports flow
@@ -759,7 +768,7 @@ namespace Pawn.Forms
                             case VoidSelector.VoidTransactionType.VOIDRETAILSALE:
                                 GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidSale";
                                 GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
-                               if (!checkPassed)
+                                if (!checkPassed)
                                     break;
 
                                 var vRetSaleForm = new VoidTransactionForm();
@@ -879,7 +888,7 @@ namespace Pawn.Forms
                                 GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidLayaway";
                                 GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
                                 if (!checkPassed)
-                                   break;
+                                    break;
                                 var vLayForm = new VoidTransactionForm();
                                 GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(vLayForm);
                                 GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDLAYAWAY;
@@ -895,6 +904,50 @@ namespace Pawn.Forms
                             //TODO: Link Void PFI functionality here
                             case VoidSelector.VoidTransactionType.VOIDPFI:
                                 MessageBox.Show("** BLOCK - VOID PFI **");
+                                break;
+
+                            case VoidSelector.VoidTransactionType.VOIDRELEASEFINGERPRINTS:
+                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidReleaseFingerprints";
+                                GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
+                                if (!checkPassed)
+                                    break;
+
+                                var vReleaseFingerprintsForm = new VoidTransactionForm();
+                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(vReleaseFingerprintsForm);
+                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDRELEASEFINGERPRINTS;
+                                vReleaseFingerprintsForm.ShowDialog(this);
+
+                                if (GlobalDataAccessor.Instance.FingerPrintRelaseAuthorizationInfo != null)
+                                {
+                                    var fprintauth = GlobalDataAccessor.Instance.FingerPrintRelaseAuthorizationInfo;
+                                    var dataContext = new VoidReleaseFingerprintsDataContext
+                                    {
+                                        Agency = fprintauth.Agency,
+                                        AuthorizationNumber = fprintauth.SeizeNumber.ToString(),
+                                        CaseNumber = fprintauth.CaseNumber,
+                                        DateOfAuthorization = DateTime.Now.ToString(),
+                                        EmployeeNumber = GlobalDataAccessor.Instance.DesktopSession.UserName,
+                                        LoanNumber = fprintauth.RefNumber,
+                                        OfficerBadgeNumber = fprintauth.BadgeNumber,
+                                        OfficerName = fprintauth.OfficerLastName + ", " +
+                                              fprintauth.OfficerFirstName,
+                                        OriginalComments = fprintauth.Comment,
+                                        SubpoenaNumber = fprintauth.SubpoenaNumber,
+                                        ReferenceCode =  int.Parse( fprintauth.RefType),
+                                        ReferenceNumber =  fprintauth.RefNumber
+                                        
+                                    };
+                                    var ReleaseForm = new VoidReleaseFingerprintsAuthorization(dataContext);
+
+                                    ReleaseForm.NavControlBox = new NavBox();
+                                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(ReleaseForm);
+                                    if (ReleaseForm.ShowDialog(this) == DialogResult.OK)
+                                    {
+
+                                    }
+
+                                }
+
                                 break;
                         }
                     }
@@ -1899,7 +1952,7 @@ namespace Pawn.Forms
                 cdSession.ResourceProperties.OverrideMachineName = global::Pawn.Properties.Resources.OverrideMachineName;
 
             }
-            catch(Exception eX)
+            catch (Exception eX)
             {
                 KillApplication("Cashlinx Desktop Session Setup failed: " + eX.Message);
             }

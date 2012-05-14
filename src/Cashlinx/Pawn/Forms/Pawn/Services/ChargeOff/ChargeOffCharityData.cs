@@ -20,11 +20,12 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
         private void customButton1_Click(object sender, EventArgs e)
         {
 
-            if (customTextBoxOrg.Text.Length == 0 || customTextBoxAddr1.Text.Length == 0 || 
+            if (customTextBoxOrg.Text.Length == 0 || customTextBoxAddr1.Text.Length == 0 ||
                 customTextBoxCity.Text.Length == 0 || customTextBoxState.Text.Length == 0 ||
                 customTextBoxZip.Text.Length == 0)
-
-                MessageBox.Show("All Fields are required","Invalid Input", MessageBoxButtons.OK);
+            {
+                MessageBox.Show("All Fields are required", "Invalid Input", MessageBoxButtons.OK);
+            }
             else
             {
                 CharityOrg = customTextBoxOrg.Text;
@@ -35,7 +36,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
 
                 this.DialogResult = DialogResult.OK;
 
-                this.Close();                
+                this.Close();
             }
 
         }

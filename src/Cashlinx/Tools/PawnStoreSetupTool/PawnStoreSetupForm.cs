@@ -36,7 +36,7 @@ namespace PawnStoreSetupTool
         private const string P_PORT = "9100";
         private const string WU_PORT = "2101";
         private const string VF_PORT = "9001";
-        
+
         private string StoreId = null;
 
         //Static class data
@@ -142,11 +142,17 @@ namespace PawnStoreSetupTool
         private List<string> cdowner_nextnum_queries = new List<string>();
         private List<string> consolidated_queries_list = new List<string>();
         private List<string> consolidated_roolback_queries_list = new List<string>();
+
+        private List<string> userlimits_resources_queries_list = new List<string>();
+
         private List<string> pVFDevices = new List<string>();
         private List<String> cdowner_usergroups_queries = new List<string>();
         private List<PairType<string, string>> storeProdcutsList = new List<PairType<string, string>>();
+        private List<PairType<string, string>> securityMasks = new List<PairType<string, string>>();
+        private List<PairType<string, string>> securityResources = new List<PairType<string, string>>();
+
         private List<string> pReceiptPrinterList = new List<string>();
-       
+
         private ulong newUserId = 0;
 
         private List<string> nextNums = new List<string>();
@@ -4336,7 +4342,7 @@ namespace PawnStoreSetupTool
                             //printer number from .71 to 90.
                             ip = ip.Substring(0, index + 1) + "70";
                             //peripIdsList.Add(GeneratePeripherals(storeNo, ip, (nickName + VF_PRINTER_PREFIX).ToLowerInvariant(), VF_PRINTER_NAME, 20, VF_PORT, true));
-                            
+
                             //as per the new requirement the VF is not any more required
                             //GeneratePeripherals(storeNo, ip, (nickName + VF_PRINTER_PREFIX).ToLowerInvariant(), VF_PRINTER_NAME, 20, VF_PORT, true, 1);
 
@@ -4350,7 +4356,7 @@ namespace PawnStoreSetupTool
                             GenerateConversionUser(storeNo, path);
                             if (cdowner_conversion_query_path != string.Empty)
                                 consolidated_queries_list.Add(cdowner_conversion_query_path);
-                            if(cdowner_conversion_rollback_path != string.Empty)
+                            if (cdowner_conversion_rollback_path != string.Empty)
                                 consolidated_roolback_queries_list.Add(cdowner_conversion_rollback_path);
                         }
 
@@ -4401,7 +4407,7 @@ namespace PawnStoreSetupTool
                             if (!queryTemp.Contains(ROLLBACK_SCRIPT_PREFIX1))
                                 sWriter.WriteLine(queryTemp + ";" + Environment.NewLine);
                         }
-                        
+
                         sWriter.WriteLine("--GENERATING PAWNWORKSTATIONPERIPHERAL MAPPINGS *****" + Environment.NewLine);
                         for (int i = 0; i < ccsowner_pawnworkstationperipheral_queries.Count; i++)
                         {
@@ -4537,6 +4543,9 @@ namespace PawnStoreSetupTool
 
                         if (!this.loadRunnerInd.Checked)
                             DataAccessService.RollbackTransactionBlock(CCSOWNER, "CCSOWNER CHANGE", ref dACcs);
+
+                        //to generate store types and store products scripts
+                        GenerateStoreTypesAndStoreProductsQueries(path);
                     }
 
                     if (sReader.EndOfStream)
@@ -4655,7 +4664,7 @@ namespace PawnStoreSetupTool
 
                 string cdownerFilePath = path + "/" + storeNo + LOAD_RUN_PREFIX + now.Ticks + ".sql";
                 StreamWriter cdownerWriter = File.CreateText(cdownerFilePath);
-                
+
                 string queryTemp = string.Empty;
 
                 cdownerWriter.WriteLine("-- GENERATING USERINFO*****" + Environment.NewLine);
@@ -4707,7 +4716,7 @@ namespace PawnStoreSetupTool
                         cdownerWriter.WriteLine(queryTemp + ";" + Environment.NewLine);
                 }
                 cdownerWriter.WriteLine("-- COMPLETED USERROLE*****" + Environment.NewLine);
-      
+
                 cdownerWriter.WriteLine("-- GENERATING USERGROUP*****" + Environment.NewLine);
                 for (int i = 0; i < cdowner_usergroups_queries.Count; i++)
                 {
@@ -4715,8 +4724,8 @@ namespace PawnStoreSetupTool
                     if (!queryTemp.Contains(ROLLBACK_SCRIPT_PREFIX1))
                         cdownerWriter.WriteLine(queryTemp + ";" + Environment.NewLine);
                 }
-                cdownerWriter.WriteLine("-- COMPLETED USERGROUP*****" + Environment.NewLine);          
-                
+                cdownerWriter.WriteLine("-- COMPLETED USERGROUP*****" + Environment.NewLine);
+
                 if (cdowner_nextnum_queries.Count > 0)
                 {
                     cdownerWriter.WriteLine("-- GENERATING NEXTNUM*****" + Environment.NewLine);
@@ -4724,7 +4733,7 @@ namespace PawnStoreSetupTool
                     {
                         queryTemp = cdowner_nextnum_queries[i];
                         //if (!queryTemp.Contains(ROLLBACK_SCRIPT_PREFIX1) && !queryTemp.Contains(USERSECURITYPROFILE_UPDATE))
-                            cdownerWriter.WriteLine(queryTemp + ";" + Environment.NewLine);
+                        cdownerWriter.WriteLine(queryTemp + ";" + Environment.NewLine);
                     }
                     cdownerWriter.WriteLine("-- COMPLETED NEXTNUM*****" + Environment.NewLine);
                 }
@@ -4755,7 +4764,7 @@ namespace PawnStoreSetupTool
                 for (int i = 0; i < cdowner_userroles_queries.Count; i++)
                 {
                     queryTemp = cdowner_userroles_queries[i];
-                    if ((queryTemp.Contains(ROLLBACK_SCRIPT_PREFIX1) || queryTemp.Contains(USERSECURITYPROFILE_UPDATE)) 
+                    if ((queryTemp.Contains(ROLLBACK_SCRIPT_PREFIX1) || queryTemp.Contains(USERSECURITYPROFILE_UPDATE))
                         && !queryTemp.Contains(COMMIT_STRING))
                         cdownerWriter.WriteLine(queryTemp + ";" + Environment.NewLine);
                 }
@@ -4903,6 +4912,15 @@ namespace PawnStoreSetupTool
                 if (!cdowner_cashdraweruser_queries.Contains(ROLLBACK_SCRIPT_PREFIX1))
                     sWriter.WriteLine(cdowner_cashdraweruser_queries[0] + ";" + Environment.NewLine);
 
+                GenerateConrsionUserLimitsAndResources();
+                for (int i = 0; i < userlimits_resources_queries_list.Count; i++)
+                {
+                    string queryTemp = userlimits_resources_queries_list[i];
+                    if (!queryTemp.Contains(ROLLBACK_SCRIPT_PREFIX1))
+                        sWriter.WriteLine(queryTemp + ";" + Environment.NewLine);
+                }
+
+
                 if (!insCDQuery.Equals(string.Empty))
                     sWriter.WriteLine(insCDQuery + ";" + Environment.NewLine);
                 sWriter.Close();
@@ -4971,6 +4989,7 @@ namespace PawnStoreSetupTool
                 cdowner_userinfo_queries = new List<string>();
                 cdowner_cashdraweruser_queries = new List<string>();
                 cdowner_usergroups_queries = new List<string>();
+
             }
             else
             {
@@ -4978,6 +4997,51 @@ namespace PawnStoreSetupTool
                 //MessageBox.Show("CashdrawerUser does not exist for the safe -->" + StoreId + CDNAME_SAFE, PawnStoreSetupForm.SETUPALERT_TXT);
                 //return;
 
+            }
+
+        }
+
+        private void GenerateConrsionUserLimitsAndResources()
+        {
+            securityMasks = new List<PairType<string, string>>();
+            securityResources = new List<PairType<string, string>>();
+            userlimits_resources_queries_list = new List<string>();
+            PawnStoreProcedures.RetrieveSecurityMasks(ref dACcs, DEFAULT_ROLE_NAME, ref securityMasks);
+            PawnStoreProcedures.RetrieveSecurityResources(ref dACcs, DEFAULT_ROLE_NAME, ref securityResources);
+            if (securityMasks.Count() > 0)
+            {
+                for (int i = 0; i < securityMasks.Count(); i++)
+                {
+                    PairType<string, string> maskValues = securityMasks[i];
+                    var cdParms = new PairType<string, string>[3];
+                    cdParms[0] = new PairType<string, string>("OBJECT_ID", maskValues.Left);
+                    cdParms[1] = new PairType<string, string>("SECURITY_MASK", maskValues.Right);
+                    cdParms[2] = new PairType<string, string>("USER_ID", newUserId.ToString());
+
+                    var query = DataAccessService.PrepareVariableQuery(
+                            ref this.dACcs,
+                            PawnStoreSetupQueries.INSERT_SECURITY_MASKS_RESOURCES,
+                            cdParms);
+                    userlimits_resources_queries_list.Add(query);
+                }
+            }
+
+            if (securityResources.Count() > 0)
+            {
+                for (int i = 0; i < securityResources.Count(); i++)
+                {
+                    PairType<string, string> resourceValues = securityResources[i];
+                    var cdParms = new PairType<string, string>[3];
+                    cdParms[0] = new PairType<string, string>("LIMIT", resourceValues.Left);
+                    cdParms[1] = new PairType<string, string>("PRODOFFERINGID", resourceValues.Right);
+                    cdParms[2] = new PairType<string, string>("USER_ID", newUserId.ToString());
+
+                    var query = DataAccessService.PrepareVariableQuery(
+                            ref this.dACcs,
+                            PawnStoreSetupQueries.INSERT_SECURITY_MASKS_LIMITS,
+                            cdParms);
+                    userlimits_resources_queries_list.Add(query);
+                }
             }
 
         }
@@ -5014,7 +5078,7 @@ namespace PawnStoreSetupTool
                     PawnStoreSetupQueries.MERGE_CCSOWNER_USERINFO,
                     cdParms);
             cdowner_userinfo_queries.Add(query);
-            cdowner_userinfo_queries.Add(ROLLBACK_SCRIPT_PREFIX1 + "CCSOWNER.USERINFO WHERE USERID ="+ "'" + newUserId + "'");
+            cdowner_userinfo_queries.Add(ROLLBACK_SCRIPT_PREFIX1 + "CCSOWNER.USERINFO WHERE USERID =" + "'" + newUserId + "'");
 
             GenerateUserInfoDetail(empNo);
             GenerateUserRoles();
@@ -5031,7 +5095,7 @@ namespace PawnStoreSetupTool
             //Create parms
             var cdParms = new PairType<string, string>[1];
             cdParms[0] = new PairType<string, string>("UR_ID", userId);
- 
+
             var query = DataAccessService.PrepareVariableQuery(
                     ref this.dACcs,
                     PawnStoreSetupQueries.MERGE_CCSOWNER_USERGROUP,
@@ -5068,15 +5132,17 @@ namespace PawnStoreSetupTool
                     ref this.dACcs,
                     PawnStoreSetupQueries.MERGE_CCSOWNER_USERROLES,
                     roleParms);
-            //cdowner_userroles_queries.Add("COMMIT" + Environment.NewLine);
-            if (cdowner_userroles_queries.Count() == 0)
-                cdowner_userroles_queries.Add(COMMIT_STRING);
+
+            //Madhu...since the userroles trigger is removed the commit can be taken out
+            //if (cdowner_userroles_queries.Count() == 0)
+            //    cdowner_userroles_queries.Add(COMMIT_STRING);
             cdowner_userroles_queries.Add(usrRolesQuery);
             cdowner_userroles_queries.Add(USERSECURITYPROFILE_UPDATE + "'" + newUserId + "'");
             cdowner_userroles_queries.Add(ROLLBACK_SCRIPT_PREFIX1 + "CCSOWNER.USERSECURITYPROFILE WHERE USERID =" + "'" + newUserId + "'");
             cdowner_userroles_queries.Add(ROLLBACK_SCRIPT_PREFIX1 + "CCSOWNER.USERLIMITS WHERE USERID =" + "'" + newUserId + "'");
             cdowner_userroles_queries.Add(ROLLBACK_SCRIPT_PREFIX1 + "CCSOWNER.USERROLES WHERE USERID =" + "'" + newUserId + "'");
-            cdowner_userroles_queries.Add(COMMIT_STRING);
+            //Madhu...since the userroles trigger is removed the commit can be taken out
+            //cdowner_userroles_queries.Add(COMMIT_STRING);
         }
 
         private string GenerateCashdrawerUser(string userName)
@@ -5205,62 +5271,62 @@ namespace PawnStoreSetupTool
             return currentIP;
         }
 
-/*        private string GeneratePeripherals(string storeNo, string ip, string peripName, string peripType,
-            int pMaxCount, string port,  bool isVFDevice, int pStartCount)
-        {
-            string peripheralTypeID = null, peripModelId = null;
-            foreach (var perType in this.storeData.AllPeripheralTypes)
-            {
-                if (perType == null) continue;
-                if (perType.PeripheralTypeName.Equals(peripType))
+        /*        private string GeneratePeripherals(string storeNo, string ip, string peripName, string peripType,
+                    int pMaxCount, string port,  bool isVFDevice, int pStartCount)
                 {
-                    peripheralTypeID = perType.PeripheralTypeId;
-                    peripModelId = perType.PeripheralModel.Id;
-                }
-            }
-            string returnId = null;
-            string newGuid = null;
+                    string peripheralTypeID = null, peripModelId = null;
+                    foreach (var perType in this.storeData.AllPeripheralTypes)
+                    {
+                        if (perType == null) continue;
+                        if (perType.PeripheralTypeName.Equals(peripType))
+                        {
+                            peripheralTypeID = perType.PeripheralTypeId;
+                            peripModelId = perType.PeripheralModel.Id;
+                        }
+                    }
+                    string returnId = null;
+                    string newGuid = null;
             
-            bool laserPrintFlag = false;
-            if(pStartCount == 2)
-                laserPrintFlag = true;
+                    bool laserPrintFlag = false;
+                    if(pStartCount == 2)
+                        laserPrintFlag = true;
 
-            for (int i = pStartCount; i <= pMaxCount; i++)
-            {
-                newGuid = this.generateGuid("0");
-                if ((i == 1 && !isVFDevice) || laserPrintFlag)
-                    returnId = newGuid;
-                else if (isVFDevice)
-                {
-                    pVFDevices.Add(newGuid);
+                    for (int i = pStartCount; i <= pMaxCount; i++)
+                    {
+                        newGuid = this.generateGuid("0");
+                        if ((i == 1 && !isVFDevice) || laserPrintFlag)
+                            returnId = newGuid;
+                        else if (isVFDevice)
+                        {
+                            pVFDevices.Add(newGuid);
+                        }
+
+                        var paramArr = new PairType<string, string>[9];
+                        paramArr[0] = new PairType<string, string>("PER_ID", newGuid);
+                        paramArr[1] = new PairType<string, string>("PER_TID", peripheralTypeID);
+                        ip = getNextIP(ip);
+                        paramArr[2] = new PairType<string, string>("PER_IP", ip);
+                        paramArr[3] = new PairType<string, string>("PER_PT", port);
+                        paramArr[4] = new PairType<string, string>("PER_STOID", StoreId);
+                        paramArr[5] = new PairType<string, string>("PER_NAME", peripName + i);
+                        paramArr[6] = new PairType<string, string>("PER_MDID", peripModelId);
+                        if (i == 1)
+                            paramArr[7] = new PairType<string, string>("IS_PRI", "Y");
+                        else
+                            paramArr[7] = new PairType<string, string>("IS_PRI", "N");
+                        paramArr[8] = new PairType<string, string>("PER_PRFID", i.ToString());
+
+                        var insPerQuery = DataAccessService.PrepareVariableQuery(
+                                ref this.dACcs,
+                                PawnStoreSetupQueries.MERGE_CCSOWNER_PERIPHERALS_NEW,
+                                paramArr);
+                        ccsowner_queries.Add(insPerQuery);
+                        ccsowner_queries.Add(ROLLBACK_SCRIPT_PREFIX1+" CCSOWNER.PERIPHERALS WHERE PERIPHERALID="+"'"+newGuid+"'");
+                    }
+                    return returnId;
                 }
+        */
 
-                var paramArr = new PairType<string, string>[9];
-                paramArr[0] = new PairType<string, string>("PER_ID", newGuid);
-                paramArr[1] = new PairType<string, string>("PER_TID", peripheralTypeID);
-                ip = getNextIP(ip);
-                paramArr[2] = new PairType<string, string>("PER_IP", ip);
-                paramArr[3] = new PairType<string, string>("PER_PT", port);
-                paramArr[4] = new PairType<string, string>("PER_STOID", StoreId);
-                paramArr[5] = new PairType<string, string>("PER_NAME", peripName + i);
-                paramArr[6] = new PairType<string, string>("PER_MDID", peripModelId);
-                if (i == 1)
-                    paramArr[7] = new PairType<string, string>("IS_PRI", "Y");
-                else
-                    paramArr[7] = new PairType<string, string>("IS_PRI", "N");
-                paramArr[8] = new PairType<string, string>("PER_PRFID", i.ToString());
-
-                var insPerQuery = DataAccessService.PrepareVariableQuery(
-                        ref this.dACcs,
-                        PawnStoreSetupQueries.MERGE_CCSOWNER_PERIPHERALS_NEW,
-                        paramArr);
-                ccsowner_queries.Add(insPerQuery);
-                ccsowner_queries.Add(ROLLBACK_SCRIPT_PREFIX1+" CCSOWNER.PERIPHERALS WHERE PERIPHERALID="+"'"+newGuid+"'");
-            }
-            return returnId;
-        }
-*/
-        
         private string GeneratePeripherals(string storeNo, string ip, string peripName, string peripType,
         int pMaxCount, string port, bool isVFDevice, int pStartCount)
         {
@@ -5384,8 +5450,96 @@ namespace PawnStoreSetupTool
             pawnsec_storeclientconfig_queries.Add(query);
             pawnsec_storeclientconfig_queries.Add(ROLLBACK_SCRIPT_PREFIX1 + "pawnsec.storeclientconfig" + ROLLBACK_SCRIPT_PREFIX2 + "'" + nexId + "'");
             GenerateClientStoreMap(Id, storeSiteId, nexId.ToString());
+            //Generate audit queries
+            if (wsName.Contains(MGR_PREFIX))
+            {
+                string storeSiteIdForAudit = GenerateStoreSiteInfo(this.storeNumber, "3");
+                GenerateClientStoreMap(Id, storeSiteIdForAudit, nexId.ToString());
+                string storeSiteIdForAuditQueries = GenerateStoreSiteInfo(this.storeNumber, "4");
+                GenerateClientStoreMap(Id, storeSiteIdForAuditQueries, nexId.ToString());
+            }
         }
 
+        private void GenerateStoreTypesAndStoreProductsQueries(string path)
+        {
+
+            PairType<string, string>[] parms1 = new PairType<string, string>[1];
+            parms1[0] = new PairType<string, string>("STORE_NO", storeNumber);
+            string query1 = DataAccessService.PrepareVariableQuery(
+            ref this.dACcs,
+            StoreTypeAndStoreProductQueries.STORETYPE_QUERIES,
+            parms1);
+
+            query1 = query1 + DataAccessService.PrepareVariableQuery(
+            ref this.dACcs,
+            StoreTypeAndStoreProductQueries.STOREPRODUCT_QUERIES1,
+            parms1);
+
+            query1 = query1 + DataAccessService.PrepareVariableQuery(
+            ref this.dACcs,
+            StoreTypeAndStoreProductQueries.STOREPRODUCT_QUERIES2,
+            parms1);
+
+            query1 = query1 + DataAccessService.PrepareVariableQuery(
+            ref this.dACcs,
+            StoreTypeAndStoreProductQueries.STOREPRODUCT_QUERIES3,
+            parms1);
+
+            query1 = query1 + DataAccessService.PrepareVariableQuery(
+            ref this.dACcs,
+            StoreTypeAndStoreProductQueries.STOREPRODUCT_QUERIES4,
+            parms1);
+
+            query1 = query1 + DataAccessService.PrepareVariableQuery(
+            ref this.dACcs,
+            StoreTypeAndStoreProductQueries.STOREPRODUCT_QUERIES5,
+            parms1);
+
+            query1 = query1 + DataAccessService.PrepareVariableQuery(
+            ref this.dACcs,
+            StoreTypeAndStoreProductQueries.STOREPRODUCT_QUERIES6,
+            parms1);
+
+            query1 = query1 + DataAccessService.PrepareVariableQuery(
+            ref this.dACcs,
+            StoreTypeAndStoreProductQueries.STOREPRODUCT_QUERIES7,
+            parms1);
+
+            query1 = query1 + DataAccessService.PrepareVariableQuery(
+            ref this.dACcs,
+            StoreTypeAndStoreProductQueries.STOREPRODUCT_QUERIES8,
+            parms1);
+
+            query1 = query1 + DataAccessService.PrepareVariableQuery(
+            ref this.dACcs,
+            StoreTypeAndStoreProductQueries.STOREPRODUCT_QUERIES9,
+            parms1);
+
+            query1 = query1 + DataAccessService.PrepareVariableQuery(
+            ref this.dACcs,
+            StoreTypeAndStoreProductQueries.STOREPRODUCT_QUERIES10,
+            parms1);
+
+            query1 = query1 + DataAccessService.PrepareVariableQuery(
+            ref this.dACcs,
+            StoreTypeAndStoreProductQueries.STOREPRODUCT_QUERIES11,
+            parms1);
+
+
+
+            //query1 = query1.Replace("            ", "");
+            query1 = query1.Replace(";", ";" + Environment.NewLine + Environment.NewLine);
+
+            DateTime dtNow = DateTime.Now;
+            string storeTypesAndProductsPath = path + "/" + storeNumber + "_StoreTypesAndProducts_" + dtNow.Ticks + ".sql";
+            StreamWriter pSecWriter = File.CreateText(storeTypesAndProductsPath);
+
+            pSecWriter.Write(query1 + Environment.NewLine);
+            pSecWriter.Close();
+            pSecWriter.Dispose();
+            consolidated_queries_list.Add(storeTypesAndProductsPath);
+
+        }
         private string GenerateAppVersion()
         {
             PairType<string, string>[] parms = new PairType<string, string>[3];
@@ -5441,75 +5595,75 @@ namespace PawnStoreSetupTool
             return nexId.ToString();
         }
 
-/*        private void GenerateWorkstations(string storeNo, string ip, string nickName, string storeSiteId,
-            List<string> peripIdsList, List<string> peripIdsListForPawnWSPerips)
-        {
-            //moving to load method
-            //StoreId = getStoreId(storeNo);
-
-            //For manager workstation
-            if (!string.IsNullOrEmpty(ip) && !this.loadRunnerInd.Checked)
-            {
-                int index = ip.LastIndexOf('.');
-                //hard coding .25 for manager work station
-                ip = ip.Substring(0, index + 1) + MGR_IP_PREFIX;
-                GenerateClientRegistry(ip, (nickName + MGR_PREFIX).ToLowerInvariant(), 1, storeSiteId);
-            }
-
-            string wsName = null;
-            int i = 0;
-            for (i = 0; i <= 15; i++)
-            {
-                string guid = this.generateGuid("0");
-
-                var paramArr = new PairType<string, string>[4];
-                paramArr[0] = new PairType<string, string>("CDW_ID", guid);
-                if (i == 0)
+        /*        private void GenerateWorkstations(string storeNo, string ip, string nickName, string storeSiteId,
+                    List<string> peripIdsList, List<string> peripIdsListForPawnWSPerips)
                 {
-                    //int index = ip.LastIndexOf('.');
-                    //hard coding .25 for manager work station
-                    //ip = ip.Substring(0, index + 1) + MGR_IP_PREFIX;
-                    if (!this.loadRunnerInd.Checked)
-                        wsName = nickName + MGR_PREFIX;
-                    else
-                        continue;
-                }
-                else
-                {
-                    wsName = nickName + WS_PREFIX + i;
-                    GenerateClientRegistry("", wsName.ToLowerInvariant(), i, storeSiteId);
-                    //ip = "";
-                }
-                paramArr[1] = new PairType<string, string>("CDW_NAME", wsName.ToLowerInvariant());
-                paramArr[2] = new PairType<string, string>("CDW_BRID", StoreId);
-                paramArr[3] = new PairType<string, string>("CDW_STONUM", storeNo);
+                    //moving to load method
+                    //StoreId = getStoreId(storeNo);
 
-                var insWkstQuery = DataAccessService.PrepareVariableQuery(
-                        ref this.dACcs,
-                        PawnStoreSetupQueries.MERGE_CDOWNER_WORKSTATION,
-                        paramArr);
-                // sWriter.WriteLine(insWkstQuery + ";" + Environment.NewLine); 
-                ccsowner_queries.Add(insWkstQuery);
-                ccsowner_queries.Add(ROLLBACK_SCRIPT_PREFIX1 + "cdowner.cd_workstation" + ROLLBACK_SCRIPT_PREFIX2 + "'" + guid + "'");
+                    //For manager workstation
+                    if (!string.IsNullOrEmpty(ip) && !this.loadRunnerInd.Checked)
+                    {
+                        int index = ip.LastIndexOf('.');
+                        //hard coding .25 for manager work station
+                        ip = ip.Substring(0, index + 1) + MGR_IP_PREFIX;
+                        GenerateClientRegistry(ip, (nickName + MGR_PREFIX).ToLowerInvariant(), 1, storeSiteId);
+                    }
 
-                //generating workstationperipherals
-                for (int j = 0; j < peripIdsList.Count; j++)
-                {
-                    GenerateWorkstationPeripherals(peripIdsList[j], guid);
+                    string wsName = null;
+                    int i = 0;
+                    for (i = 0; i <= 15; i++)
+                    {
+                        string guid = this.generateGuid("0");
+
+                        var paramArr = new PairType<string, string>[4];
+                        paramArr[0] = new PairType<string, string>("CDW_ID", guid);
+                        if (i == 0)
+                        {
+                            //int index = ip.LastIndexOf('.');
+                            //hard coding .25 for manager work station
+                            //ip = ip.Substring(0, index + 1) + MGR_IP_PREFIX;
+                            if (!this.loadRunnerInd.Checked)
+                                wsName = nickName + MGR_PREFIX;
+                            else
+                                continue;
+                        }
+                        else
+                        {
+                            wsName = nickName + WS_PREFIX + i;
+                            GenerateClientRegistry("", wsName.ToLowerInvariant(), i, storeSiteId);
+                            //ip = "";
+                        }
+                        paramArr[1] = new PairType<string, string>("CDW_NAME", wsName.ToLowerInvariant());
+                        paramArr[2] = new PairType<string, string>("CDW_BRID", StoreId);
+                        paramArr[3] = new PairType<string, string>("CDW_STONUM", storeNo);
+
+                        var insWkstQuery = DataAccessService.PrepareVariableQuery(
+                                ref this.dACcs,
+                                PawnStoreSetupQueries.MERGE_CDOWNER_WORKSTATION,
+                                paramArr);
+                        // sWriter.WriteLine(insWkstQuery + ";" + Environment.NewLine); 
+                        ccsowner_queries.Add(insWkstQuery);
+                        ccsowner_queries.Add(ROLLBACK_SCRIPT_PREFIX1 + "cdowner.cd_workstation" + ROLLBACK_SCRIPT_PREFIX2 + "'" + guid + "'");
+
+                        //generating workstationperipherals
+                        for (int j = 0; j < peripIdsList.Count; j++)
+                        {
+                            GenerateWorkstationPeripherals(peripIdsList[j], guid);
+                        }
+
+                        //to generate 1:1 mappings for VF with workstations...
+                        if (!this.loadRunnerInd.Checked)
+                            GenerateWorkstationPeripherals(pVFDevices[i], guid);
+
+                        //generating pawnworkstationperipherals
+                        for (int j = 0; j < peripIdsListForPawnWSPerips.Count; j++)
+                        {
+                            GeneratePawnWorkstationPeripherals(peripIdsListForPawnWSPerips[j], guid);
+                        }
+                    }
                 }
-
-                //to generate 1:1 mappings for VF with workstations...
-                if (!this.loadRunnerInd.Checked)
-                    GenerateWorkstationPeripherals(pVFDevices[i], guid);
-
-                //generating pawnworkstationperipherals
-                for (int j = 0; j < peripIdsListForPawnWSPerips.Count; j++)
-                {
-                    GeneratePawnWorkstationPeripherals(peripIdsListForPawnWSPerips[j], guid);
-                }
-            }
-        }
-*/
+        */
 
         private void GenerateWorkstations(string storeNo, string ip, string nickName, string storeSiteId,
             List<string> peripIdsList, List<string> peripIdsListForPawnWSPerips)
@@ -5716,7 +5870,7 @@ namespace PawnStoreSetupTool
                             }
                         }
                         //GenerateNextNumForLoadRun(storeNum);
-                        
+
                     }
                     if (errFnd)
                     {
@@ -5729,7 +5883,7 @@ namespace PawnStoreSetupTool
                 if (!errFnd && this.loadRunnerInd.Checked)
                     DataAccessService.CommitTransactionBlock(CCSOWNER, "CCSOWNER CHANGE", ref dACcs);
             }
-            
+
             //if (!PawnStoreProcedures.IsNextNumPopulated(ref dACcs, storeNum) &&
             //    this.loadRunnerInd.Checked)
             //if(this.loadRunnerInd.Checked)
@@ -5750,7 +5904,7 @@ namespace PawnStoreSetupTool
 
             if (nextNums.Any())
             {
-                foreach(var nextNumType in nextNums)
+                foreach (var nextNumType in nextNums)
                 {
                     if (!PawnStoreProcedures.IsNextNumPopulated(ref dACcs, storeNum, nextNumType))
                     {
@@ -5768,6 +5922,5 @@ namespace PawnStoreSetupTool
                 }
             }
         }
-
     }
 }

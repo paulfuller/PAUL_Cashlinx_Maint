@@ -34,6 +34,7 @@ namespace Pawn.Flows.AppController.Impl
         public const string RETAILRETURN = "retailreturn";
         public const string LAYAWAYRETURN = "layawayreturn";
         public const string GUNBOOKEDIT = "gunbookedit";
+        public const string RELEASEFINGERPRINTS = "releasefingerprints";
         private NewPawnLoanFlowExecutor newPawnLoanFlowExecutor;
         private LookupTicketFlowExecutor lookupTktFlowExecutor;
         private ShopCashManagementFlowExecutor shopCashManagementFlowExecutor;
@@ -58,6 +59,7 @@ namespace Pawn.Flows.AppController.Impl
         private RetailReturnFlowExecutor retailReturnFlowExecutor;
         private LayawayReturnFlowExecutor layawayReturnFlowExecutor;
         private GunBookEditFlowExecutor gunBookFlowExecutor;
+        private ReleaseFingerprintsFlowExecutor releaseFingerprintsFlowExecutor;
 
         private FxnBlock endStateNotifier;
 
@@ -165,6 +167,8 @@ namespace Pawn.Flows.AppController.Impl
                 this.layawayReturnFlowExecutor = new LayawayReturnFlowExecutor(this.ParentForm, base.EndStateNotifier);
             else if (menuTrigger.Equals(GUNBOOKEDIT,StringComparison.OrdinalIgnoreCase))
                 this.gunBookFlowExecutor = new GunBookEditFlowExecutor(this.ParentForm, base.EndStateNotifier);
+            else if (menuTrigger.Equals(RELEASEFINGERPRINTS, StringComparison.OrdinalIgnoreCase))
+                this.releaseFingerprintsFlowExecutor = new ReleaseFingerprintsFlowExecutor(this.ParentForm, base.EndStateNotifier);
 
             return (null);
         }

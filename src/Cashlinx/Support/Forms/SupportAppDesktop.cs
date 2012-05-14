@@ -366,10 +366,9 @@ namespace Support.Forms
                 if(!string.IsNullOrEmpty(CurSystem))
                     CurSystem = " - " + CurSystem;
             }
-            catch (Exception)
-            {
-                CurSystem = string.Empty;
-            } //just to supress the error and continue further
+// ReSharper disable EmptyGeneralCatchClause
+            catch (Exception){} //just to supress the error and continue further
+// ReSharper restore EmptyGeneralCatchClause
 
             //lblVersion.Text = lblVersion.Text + " - " + CurSystem;
             lblVersion.Text = lblVersion.Text + " " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + CurSystem;

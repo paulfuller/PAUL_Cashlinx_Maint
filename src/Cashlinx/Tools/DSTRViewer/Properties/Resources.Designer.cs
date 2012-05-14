@@ -60,6 +60,15 @@ namespace DSTRViewer.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string prodEnvironment {
+            get {
+                return ResourceManager.GetString("prodEnvironment", resourceCulture);
+            }
+        }
+        
         internal static byte[] pwnstore_config_CLXD3 {
             get {
                 object obj = ResourceManager.GetObject("pwnstore_config_CLXD3", resourceCulture);

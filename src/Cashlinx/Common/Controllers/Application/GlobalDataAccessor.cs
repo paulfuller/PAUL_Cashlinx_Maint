@@ -94,6 +94,8 @@ namespace Common.Controllers.Application
         }
 
         public string CashlinxPDAURL { get; set; }
+
+        public Libraries.Objects.Business.ReleaseFingerprintsInfo FingerPrintRelaseAuthorizationInfo { get; set; }
         #endregion
 
         #region Default Exception Handler

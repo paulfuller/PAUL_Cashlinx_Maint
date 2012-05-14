@@ -199,7 +199,7 @@ namespace Common.Controllers.Database.Couch.Impl
             return true;
         }
 
-        private byte[] Document_Get(string sDocumentId)
+        private byte[] Document_Get(string sDocumentId, bool liteFetch = false)
         {
             Error = false;
             Message = "";
@@ -209,15 +209,24 @@ namespace Common.Controllers.Database.Couch.Impl
             {
                 //Get http://localhost:5984/example/some_doc_id
                 string sGetURL = WebURL + sDocumentId;
-
-                HttpWebRequest _WebRequester = (HttpWebRequest)WebRequest.Create(sGetURL);
-                _WebRequester.ContentType = "application/json";
-                _WebRequester.Method = "GET";
-
-                using (HttpWebResponse response = (HttpWebResponse)_WebRequester.GetResponse())
+                HttpWebRequest _WebRequester;
+                if (!liteFetch)
+                {
+                    _WebRequester = (HttpWebRequest)WebRequest.Create(sGetURL);
+                    _WebRequester.ContentType = "application/json";
+                    _WebRequester.Method = "GET";
+                }
+                else
+                {
+                    _WebRequester = (HttpWebRequest)WebRequest.Create(sGetURL);
+                    _WebRequester.ContentType = "application/json";
+                    _WebRequester.Method = "HEAD";
+                    
+                }
+                using (var response = (HttpWebResponse)_WebRequester.GetResponse())
                 {
                     // Get the stream.
-                    using (Stream stream = response.GetResponseStream())
+                    using (var stream = response.GetResponseStream())
                     {
                         // Use the ReadFully method from the link above:
                         btData = ReadFully(stream, response.ContentLength);

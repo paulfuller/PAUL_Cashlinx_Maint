@@ -371,10 +371,10 @@ namespace Pawn.Forms
             this.policeMenuPanel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.policeMenuPanel.ForeColor = System.Drawing.Color.Black;
             this.policeMenuPanel.Location = new System.Drawing.Point(362, 134);
-            this.policeMenuPanel.MaximumSize = new System.Drawing.Size(300, 500);
-            this.policeMenuPanel.MinimumSize = new System.Drawing.Size(300, 500);
+            this.policeMenuPanel.MaximumSize = new System.Drawing.Size(300, 600);
+            this.policeMenuPanel.MinimumSize = new System.Drawing.Size(300, 600);
             this.policeMenuPanel.Name = "policeMenuPanel";
-            this.policeMenuPanel.Size = new System.Drawing.Size(300, 500);
+            this.policeMenuPanel.Size = new System.Drawing.Size(300, 600);
             this.policeMenuPanel.TabIndex = 16;
             this.policeMenuPanel.Tag = "PoliceMenuPanel|UtilitiesMenuPanel";
             this.policeMenuPanel.Visible = false;

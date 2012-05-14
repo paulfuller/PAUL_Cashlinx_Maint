@@ -96,6 +96,7 @@
     <Compile Include="Flows\AppController\Impl\CommonAppBlocks.cs" />
     <Compile Include="Flows\AppController\Impl\Common\IsBuyMerchandiseLookedUp.cs" />
     <Compile Include="Flows\AppController\Impl\Common\IsCustomerLookedUp.cs" />
+    <Compile Include="Flows\AppController\Impl\Common\IsGunMerchandiseLookedUp.cs" />
     <Compile Include="Flows\AppController\Impl\Common\IsLoanMerchandiseLookedUp.cs" />
     <Compile Include="Flows\AppController\Impl\Common\IsMerchandiseLookedUp.cs" />
     <Compile Include="Flows\AppController\Impl\Common\LoadCustomerLoanKeys.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Flows\AppController\Impl\MainSubFlows\PoliceSeizeFlowExecutor.cs" />
     <Compile Include="Flows\AppController\Impl\MainSubFlows\ProductServicesFlowExecutor.cs" />
     <Compile Include="Flows\AppController\Impl\MainSubFlows\PurchaseReturnFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\ReleaseFingerprintsFlowExecutor.cs" />
     <Compile Include="Flows\AppController\Impl\MainSubFlows\RetailReturnFlowExecutor.cs" />
     <Compile Include="Flows\AppController\Impl\MainSubFlows\SaleFlowExecutor.cs" />
     <Compile Include="Flows\AppController\Impl\MainSubFlows\SecurityFlowExecutor.cs" />
@@ -1445,6 +1447,24 @@
     <Compile Include="Forms\Pawn\Tender\TenderOut.Designer.cs">
       <DependentUpon>TenderOut.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ReleaseFingerprints\LoanBuyLookup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReleaseFingerprints\LoanBuyLookup.Designer.cs">
+      <DependentUpon>LoanBuyLookup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReleaseFingerprints\ReleaseFingerprintsAuthorization.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReleaseFingerprints\ReleaseFingerprintsAuthorization.Designer.cs">
+      <DependentUpon>ReleaseFingerprintsAuthorization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReleaseFingerprints\VoidReleaseFingerprintsAuthorization.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReleaseFingerprints\VoidReleaseFingerprintsAuthorization.Designer.cs">
+      <DependentUpon>VoidReleaseFingerprintsAuthorization.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Report\CreateReportObject.cs" />
     <Compile Include="Forms\Report\LayawayCreateReportObject.cs" />
     <Compile Include="Forms\Report\Reports.cs">
@@ -1978,6 +1998,7 @@
     <Compile Include="Logic\PrintQueue\BankAndInternalCashTransfer.Designer.cs">
       <DependentUpon>BankAndInternalCashTransfer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logic\PrintQueue\LostTicketPrinter.cs" />
     <Compile Include="Logic\PrintQueue\LostTicketStatementPrint.cs" />
     <Compile Include="Logic\PrintQueue\ManualCheckDepositSlipPrint.cs" />
     <Compile Include="Logic\PrintQueue\PickSlipPrint.cs">
@@ -2057,6 +2078,7 @@
     <EmbeddedResource Include="ButtonResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ButtonResources1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Admin\AdminSection.resx">
       <DependentUpon>AdminSection.cs</DependentUpon>
@@ -2691,6 +2713,15 @@
     <EmbeddedResource Include="Forms\Pawn\Tender\TenderOut.resx">
       <DependentUpon>TenderOut.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReleaseFingerprints\LoanBuyLookup.resx">
+      <DependentUpon>LoanBuyLookup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReleaseFingerprints\ReleaseFingerprintsAuthorization.resx">
+      <DependentUpon>ReleaseFingerprintsAuthorization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReleaseFingerprints\VoidReleaseFingerprintsAuthorization.resx">
+      <DependentUpon>VoidReleaseFingerprintsAuthorization.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Report\Reports.resx">
       <DependentUpon>Reports.cs</DependentUpon>
     </EmbeddedResource>
@@ -3279,6 +3310,10 @@
     <Content Include="Resources\refund_button_disabled.png" />
     <Content Include="Resources\refund_button_hover.png" />
     <Content Include="Resources\refund_button_normal.png" />
+    <Content Include="Resources\releasefingerprints_button_depressed.png" />
+    <Content Include="Resources\releasefingerprints_button_disabled.png" />
+    <Content Include="Resources\releasefingerprints_button_hover.png" />
+    <Content Include="Resources\releasefingerprints_button_normal.png" />
     <Content Include="Resources\releasetoclaimant_button_depressed.png" />
     <Content Include="Resources\releasetoclaimant_button_disabled.png" />
     <Content Include="Resources\releasetoclaimant_button_hover.png" />

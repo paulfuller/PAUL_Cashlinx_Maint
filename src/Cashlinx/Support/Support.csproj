@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Database\Procedures\CustomerDBProcedures.cs" />
+    <Compile Include="Controllers\Database\Procedures\CustomerLoans.cs" />
     <Compile Include="Controllers\Database\Procedures\CustomerProcedures.cs" />
     <Compile Include="Flows\AppController\Impl\CommonAppBlocks.cs" />
     <Compile Include="Flows\AppController\Impl\Common\IsCustomerLookedUp.cs" />
@@ -147,6 +148,12 @@
     <Compile Include="Forms\Customer\ExistingCustomer.designer.cs">
       <DependentUpon>ExistingCustomer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Customer\ItemHistory\Controller_ItemHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\ItemHistory\Controller_ItemHistory.designer.cs">
+      <DependentUpon>Controller_ItemHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Customer\LookupCustomer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -177,11 +184,107 @@
     <Compile Include="Forms\Customer\Products\Pawn\Loan\TenderCash.designer.cs">
       <DependentUpon>TenderCash.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Customer\Products\PDLLoanStats.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\PDLLoanStats.designer.cs">
+      <DependentUpon>PDLLoanStats.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\Controller_ProductHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\Controller_ProductHistory.designer.cs">
+      <DependentUpon>Controller_ProductHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\Extension_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\Extension_Dialog.designer.cs">
+      <DependentUpon>Extension_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\Layaway_dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\Layaway_dialog.designer.cs">
+      <DependentUpon>Layaway_dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\PartialPawnPaymentHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\PartialPawnPaymentHistory.designer.cs">
+      <DependentUpon>PartialPawnPaymentHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\ProductHistory_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\ProductHistory_Dialog.designer.cs">
+      <DependentUpon>ProductHistory_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\PurchaseHistory_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\PurchaseHistory_Dialog.designer.cs">
+      <DependentUpon>PurchaseHistory_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\ReturnHistory_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\ReturnHistory_Dialog.designer.cs">
+      <DependentUpon>ReturnHistory_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\SaleRefund_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\SaleRefund_Dialog.designer.cs">
+      <DependentUpon>SaleRefund_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\Sale_dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\Sale_dialog.designer.cs">
+      <DependentUpon>Sale_dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\VoidSaleRefund_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\VoidSaleRefund_Dialog.designer.cs">
+      <DependentUpon>VoidSaleRefund_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\VoidSale_dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\Products\ProductHistory\VoidSale_dialog.designer.cs">
+      <DependentUpon>VoidSale_dialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Customer\Products\ValidationMessage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Customer\Products\ValidationMessage.designer.cs">
       <DependentUpon>ValidationMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Customer\ProductTabs\AddViewSupportCustomerComment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\ProductTabs\AddViewSupportCustomerComment.Designer.cs">
+      <DependentUpon>AddViewSupportCustomerComment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Customer\ProductTabs\Controller_Stats.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\ProductTabs\Controller_Stats.designer.cs">
+      <DependentUpon>Controller_Stats.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Customer\ProductTabs\SupportCustomerComments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Customer\ProductTabs\SupportCustomerComments.Designer.cs">
+      <DependentUpon>SupportCustomerComments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReprintDocument.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReprintDocument.designer.cs">
+      <DependentUpon>ReprintDocument.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Customer\Services\Pickup\PickupAmountDetails.cs">
       <SubType>Form</SubType>
@@ -200,12 +303,6 @@
     </Compile>
     <Compile Include="Forms\Customer\Services\Rollover\ViewNewLoanDetails.designer.cs">
       <DependentUpon>ViewNewLoanDetails.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Customer\SupportCustomerComment.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Customer\SupportCustomerComment.Designer.cs">
-      <DependentUpon>SupportCustomerComment.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Customer\UpdateAddress.cs">
       <SubType>Form</SubType>
@@ -370,6 +467,12 @@
     <Compile Include="Forms\Race.designer.cs">
       <DependentUpon>Race.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ReprintTag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReprintTag.designer.cs">
+      <DependentUpon>ReprintTag.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SocialSecurityNumber.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -411,6 +514,12 @@
     </Compile>
     <Compile Include="Forms\UserControls\PhoneData.designer.cs">
       <DependentUpon>PhoneData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\ProductTypeList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\ProductTypeList.designer.cs">
+      <DependentUpon>ProductTypeList.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\UserControls\SocialSecurityNumber.cs">
       <SubType>UserControl</SubType>
@@ -463,11 +572,21 @@
     <Compile Include="Libraries\Objects\Customer\ChangeCustomerStatus.cs" />
     <Compile Include="Libraries\Objects\Customer\Comment.cs" />
     <Compile Include="Libraries\Objects\Customer\CustomerVOForSupportApp.cs" />
+    <Compile Include="Libraries\Objects\Customer\Category.cs" />
     <Compile Include="Libraries\Objects\Customer\PersonalInformation.cs" />
+    <Compile Include="Libraries\Objects\Customer\CategoryVO.cs" />
+    <Compile Include="Libraries\Objects\PDLoan\PDLoan.cs" />
+    <Compile Include="Libraries\Objects\PDLoan\PDLoanDetails.cs" />
+    <Compile Include="Libraries\Objects\PDLoan\PDLoanEvents.cs" />
+    <Compile Include="Libraries\Objects\PDLoan\PDLoanHistoryList.cs" />
+    <Compile Include="Libraries\Objects\PDLoan\PDLoanOtherDetails.cs" />
+    <Compile Include="Libraries\Objects\PDLoan\PDLoanXPPScheduleList.cs" />
     <Compile Include="Libraries\Utility\CustomerConstantsForSupportApp.cs" />
+    <Compile Include="Libraries\Utility\CustomerProductDataConstants.cs" />
     <Compile Include="Logic\ButtonResourceManagerHelper.cs" />
     <Compile Include="Logic\CashlinxPawnSupportSession.cs" />
     <Compile Include="Logic\DesktopProcedures\PfiPickupCalculator.cs" />
+    <Compile Include="Logic\DesktopProcedures\PurchaseProcedures.cs" />
     <Compile Include="Logic\OracleUtilities.cs" />
     <Compile Include="MenuButtonResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -499,6 +618,9 @@
     <EmbeddedResource Include="Forms\Customer\ExistingCustomer.resx">
       <DependentUpon>ExistingCustomer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\ItemHistory\Controller_ItemHistory.resx">
+      <DependentUpon>Controller_ItemHistory.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Customer\LookupCustomer.resx">
       <DependentUpon>LookupCustomer.cs</DependentUpon>
     </EmbeddedResource>
@@ -514,8 +636,56 @@
     <EmbeddedResource Include="Forms\Customer\Products\Pawn\Loan\TenderCash.resx">
       <DependentUpon>TenderCash.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\Products\PDLLoanStats.resx">
+      <DependentUpon>PDLLoanStats.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\Products\ProductHistory\Controller_ProductHistory.resx">
+      <DependentUpon>Controller_ProductHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\Products\ProductHistory\Extension_Dialog.resx">
+      <DependentUpon>Extension_Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\Products\ProductHistory\Layaway_dialog.resx">
+      <DependentUpon>Layaway_dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\Products\ProductHistory\PartialPawnPaymentHistory.resx">
+      <DependentUpon>PartialPawnPaymentHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\Products\ProductHistory\ProductHistory_Dialog.resx">
+      <DependentUpon>ProductHistory_Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\Products\ProductHistory\PurchaseHistory_Dialog.resx">
+      <DependentUpon>PurchaseHistory_Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\Products\ProductHistory\ReturnHistory_Dialog.resx">
+      <DependentUpon>ReturnHistory_Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\Products\ProductHistory\SaleRefund_Dialog.resx">
+      <DependentUpon>SaleRefund_Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\Products\ProductHistory\Sale_dialog.resx">
+      <DependentUpon>Sale_dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\Products\ProductHistory\VoidSaleRefund_Dialog.resx">
+      <DependentUpon>VoidSaleRefund_Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\Products\ProductHistory\VoidSale_dialog.resx">
+      <DependentUpon>VoidSale_dialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Customer\Products\ValidationMessage.resx">
       <DependentUpon>ValidationMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\ProductTabs\AddViewSupportCustomerComment.resx">
+      <DependentUpon>AddViewSupportCustomerComment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\ProductTabs\Controller_Stats.resx">
+      <DependentUpon>Controller_Stats.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Customer\ProductTabs\SupportCustomerComments.resx">
+      <DependentUpon>SupportCustomerComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReprintDocument.resx">
+      <DependentUpon>ReprintDocument.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Customer\Services\Pickup\PickupAmountDetails.resx">
       <DependentUpon>PickupAmountDetails.cs</DependentUpon>
@@ -525,9 +695,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Customer\Services\Rollover\ViewNewLoanDetails.resx">
       <DependentUpon>ViewNewLoanDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Customer\SupportCustomerComment.resx">
-      <DependentUpon>SupportCustomerComment.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Customer\UpdateAddress.resx">
       <DependentUpon>UpdateAddress.cs</DependentUpon>
@@ -610,6 +777,9 @@
     <EmbeddedResource Include="Forms\Race.resx">
       <DependentUpon>Race.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReprintTag.resx">
+      <DependentUpon>ReprintTag.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\SocialSecurityNumber.resx">
       <DependentUpon>SocialSecurityNumber.cs</DependentUpon>
     </EmbeddedResource>
@@ -630,6 +800,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControls\PhoneData.resx">
       <DependentUpon>PhoneData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\ProductTypeList.resx">
+      <DependentUpon>ProductTypeList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserControls\SocialSecurityNumber.resx">
       <DependentUpon>SocialSecurityNumber.cs</DependentUpon>

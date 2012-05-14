@@ -35,30 +35,45 @@ namespace Cashlinx.Build.Tasks
         [Function("GetUserFullName")]
         public string GetUserFullName()
         {
-            StringBuilder sb = new StringBuilder(1024);
-            uint size = (uint)sb.Capacity;
+            var sb = new StringBuilder(1024);
+            var size = (uint)sb.Capacity;
             GetUserNameEx(EXTENDED_NAME_FORMAT.NameDisplay, sb, ref size);
-            string username = sb.ToString();
+            var username = sb.ToString();
 
-            string[] parts = username.Split(new char[] { ',', ' ' });
-            
+            var parts = username.Split(new char[] { ',', ' ' });
+            string fullName;
+
             if (parts.Length == 3)
             {
-                return parts[2] + " " + parts[0];
+                fullName = parts[2] + " " + parts[0];
             }
             else
             {
-                return username;
+                fullName = username;
             }
+
+            if (string.IsNullOrWhiteSpace(fullName))
+            {
+                fullName = "Marshall Moorman";
+            }
+
+            return fullName;
         }
 
         [Function("GetUserEmailAddress")]
         public string GetUserEmailAddress()
         {
-            StringBuilder username = new StringBuilder(1024);
-            uint size = (uint)username.Capacity;
+            var username = new StringBuilder(1024);
+            var size = (uint)username.Capacity;
             GetUserNameEx(EXTENDED_NAME_FORMAT.NameUserPrincipal, username, ref size);
-            return username.ToString();
+            var emailAddress = username.ToString();
+
+            if (string.IsNullOrWhiteSpace(emailAddress))
+            {
+                emailAddress = "mmoorman@casham.com";
+            }
+
+            return emailAddress;
         }
 
         [Function("FormatDateTime")]

@@ -32,7 +32,7 @@ namespace Support.Forms.Customer.Products
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Controller_ProductServices));
+            #region INIT
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -42,8 +42,6 @@ namespace Support.Forms.Customer.Products
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -53,7 +51,12 @@ namespace Support.Forms.Customer.Products
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Controller_ProductServices));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.PS_LoanStatsLayoutPanel = new System.Windows.Forms.Panel();
+            this.lblCurrentPrincipalAmount = new System.Windows.Forms.Label();
+            this.lblCurrentPrincipalAmountTitle = new System.Windows.Forms.Label();
             this.PS_ServiceMessageLabel = new System.Windows.Forms.Label();
             this.PS_PickupAmountValue = new System.Windows.Forms.LinkLabel();
             this.PS_ReceiptNoValue = new System.Windows.Forms.LinkLabel();
@@ -74,21 +77,8 @@ namespace Support.Forms.Customer.Products
             this.PS_SubTabControl = new System.Windows.Forms.TabControl();
             this.PS_ServiceOptionsTab = new System.Windows.Forms.TabPage();
             this.PS_PawnButtonsPanel = new System.Windows.Forms.Panel();
-            this.PS_PartPmntButton = new System.Windows.Forms.Button();
-            this.BuyoutButton = new System.Windows.Forms.Button();
-            this.PS_LostPawnTicketButton = new System.Windows.Forms.Button();
-            this.PS_AddMoreTicketsButton = new System.Windows.Forms.Button();
-            this.PS_ExtendButton = new System.Windows.Forms.Button();
-            this.PS_PickUpButton = new System.Windows.Forms.Button();
-            this.PS_WaiveProrate = new System.Windows.Forms.Button();
-            this.PS_RollOverButton = new System.Windows.Forms.Button();
-            this.PS_ViewNewLoanDetailsButton = new System.Windows.Forms.Button();
             this.LW_LayawayButtonsPanel = new System.Windows.Forms.Panel();
-            this.LW_LayawayPaymentButton = new System.Windows.Forms.Button();
-            this.LW_LayawayTerminateButton = new System.Windows.Forms.Button();
             this.CommonServiceButtonsPanel = new System.Windows.Forms.Panel();
-            this.PS_CheckoutButton = new System.Windows.Forms.Button();
-            this.PS_UnDoButton = new System.Windows.Forms.Button();
             this.PS_HistoryTab = new System.Windows.Forms.TabPage();
             this.PH_ReceiptsDataGridView = new System.Windows.Forms.DataGridView();
             this.PH_Receipt_DateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -109,11 +99,6 @@ namespace Support.Forms.Customer.Products
             this.PS_ShowComboBox = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.PS_TicketsDataGridView = new System.Windows.Forms.DataGridView();
-            this.PS_Tickets_ServiceIndicatorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PS_Tickets_Extend = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PS_Tickets_TicketNumberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PS_Tickets_LastDayColumn = new Common.Libraries.Forms.Components.CalendarColumn();
-            this.PS_Tickets_Refresh = new System.Windows.Forms.DataGridViewImageColumn();
             this.PS_AddTicketsDataGridView = new System.Windows.Forms.DataGridView();
             this.PS_AddTickets_ServiceIndicator = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PS_AddTickets_Extend = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -166,14 +151,119 @@ namespace Support.Forms.Customer.Products
             this.LW_TotalAmountOfLayawayValue = new System.Windows.Forms.Label();
             this.LW_DownPaymentValue = new System.Windows.Forms.Label();
             this.LW_DownPaymentLabel = new System.Windows.Forms.Label();
-            this.lblCurrentPrincipalAmount = new System.Windows.Forms.Label();
-            this.lblCurrentPrincipalAmountTitle = new System.Windows.Forms.Label();
+            this.PS_Tickets_ServiceIndicatorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PS_Tickets_Extend = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PS_Tickets_TicketNumberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PS_Staus_Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PS_Tickets_LastDayColumn = new Common.Libraries.Forms.Components.CalendarColumn();
+            this.PS_Tickets_Refresh = new System.Windows.Forms.DataGridViewImageColumn();
+            this.PS_Ticket_Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PS_Ticket_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            #endregion
+            #region PDL INIT
+            this.PDL_LoanStatsLayoutPanel = new System.Windows.Forms.Panel();
+            this.lnkContractPDF = new System.Windows.Forms.LinkLabel();
+
+            this.DGVxxpPaySchedule = new System.Windows.Forms.DataGridView();
+
+            this.DgvColxppLineItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColxppPaymentSeqNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColxppPaymentNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColxppPaymentDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColxppPaymentAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
+            this.lblxppHeaderBar = new System.Windows.Forms.Label();
+            this.LnkReasonType = new System.Windows.Forms.LinkLabel();
+            this.LnkOtherDetails = new System.Windows.Forms.LinkLabel();
+            this.TxbEstRolloverAmt = new System.Windows.Forms.TextBox();
+            this.TxbACHWaitingToClear = new System.Windows.Forms.TextBox();
+            this.TxbNSFFeeAmt = new System.Windows.Forms.TextBox();
+            this.TxbLateFeeAmt = new System.Windows.Forms.TextBox();
+            this.TxbAccruedFinanceAmt = new System.Windows.Forms.TextBox();
+            this.TxbAcutalServiceChrgAmt = new System.Windows.Forms.TextBox();
+            this.TxbActualFinanceChrgAmt = new System.Windows.Forms.TextBox();
+            this.TxbXPPAvailable = new System.Windows.Forms.TextBox();
+            this.TxbRevokeACH = new System.Windows.Forms.TextBox();
+            this.TxbLoanRollOverAmt = new System.Windows.Forms.TextBox();
+            this.TxbLoanRolloverNotes = new System.Windows.Forms.TextBox();
+            this.TxbLoanNumberPrev = new System.Windows.Forms.TextBox();
+            this.TxbLoanNumberOrig = new System.Windows.Forms.TextBox();
+
+            this.lblEstRolloverAmt = new System.Windows.Forms.Label();
+            this.lblACHWaitingToClear = new System.Windows.Forms.Label();
+            this.lblNSFFeeAmt = new System.Windows.Forms.Label();
+            this.lblLateFeeAmt = new System.Windows.Forms.Label();
+            this.lblAccruedFinanceAmt = new System.Windows.Forms.Label();
+            this.lblAcutalServiceChrgAmt = new System.Windows.Forms.Label();
+            this.lblActualFinanceChrgAmt = new System.Windows.Forms.Label();
+            this.lblXPPAvailable = new System.Windows.Forms.Label();
+            this.lblRevokeACH = new System.Windows.Forms.Label();
+            this.lblLoanRollOverAmt = new System.Windows.Forms.Label();
+            this.lblLoanRolloverNotes = new System.Windows.Forms.Label();
+            this.lblDeclineReasonDescription = new System.Windows.Forms.Label();
+            this.lblLoanNumberPrev = new System.Windows.Forms.Label();
+            this.lblLoanNumberOrig = new System.Windows.Forms.Label();
+            this.HeaderHorizonalLine = new System.Windows.Forms.GroupBox();
+            this.lblHeaderBar = new System.Windows.Forms.Label();
+            this.lblCustomerSSNData = new System.Windows.Forms.Label();
+            this.lblUWNameData = new System.Windows.Forms.Label();
+            this.lblLoanRequestDateData = new System.Windows.Forms.Label();
+            this.lblLoanAmtData = new System.Windows.Forms.Label();
+            this.lblLoanPayOffAmtData = new System.Windows.Forms.Label();
+            this.lblActualLoanAmtData = new System.Windows.Forms.Label();
+            this.PDL_LoanEventsLayoutPanel = new System.Windows.Forms.Panel();
+
+            this.DgvHistoryLoanEvents = new System.Windows.Forms.DataGridView();
+
+            this.DgvColHistDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistEventType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistDetails = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistAmoutPaid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistReceipt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
+            this.CmbHistoryLoanEvents = new System.Windows.Forms.ComboBox();
+            this.TxbShopState = new System.Windows.Forms.TextBox();
+            this.TxbShopName = new System.Windows.Forms.TextBox();
+            this.TxbShopNo = new System.Windows.Forms.TextBox();
+            this.TxbLastUpdatedBy = new System.Windows.Forms.TextBox();
+            this.TxbExtendedDate = new System.Windows.Forms.TextBox();
+            this.TxbOrigDepDate = new System.Windows.Forms.TextBox();
+            this.TxbDueDate = new System.Windows.Forms.TextBox();
+            this.TxbOriginationDate = new System.Windows.Forms.TextBox();
+
+            this.lblShopState = new System.Windows.Forms.Label();
+            this.lblShopName = new System.Windows.Forms.Label();
+            this.lblShopNo = new System.Windows.Forms.Label();
+            this.lblLastUpdatedBy = new System.Windows.Forms.Label();
+            this.lblExtendedDate = new System.Windows.Forms.Label();
+            this.lblOrigDepDate = new System.Windows.Forms.Label();
+            this.lblDueDate = new System.Windows.Forms.Label();
+            this.lblOriginationDate = new System.Windows.Forms.Label();
+            this.lblLoanEventsBar = new System.Windows.Forms.Label();
+
+            this.DbvTxbColxppLineItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvTxbColxppPaymentSeqNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvTxbColxppPaymentNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvTxbColxppPaymentDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvTxbColxppPaymentAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
+            this.DgvTxbColHistDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvTxbColHistEventType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvTxbColHistDetails = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvTxbColHistAmoutPaid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvTxbColHistReceipt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+           
+            #endregion
+            #region THREAD SUSPEND
+            this.PDL_LoanStatsLayoutPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DGVxxpPaySchedule)).BeginInit();
+            this.PDL_LoanEventsLayoutPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvHistoryLoanEvents)).BeginInit();
+
             this.PS_LoanStatsLayoutPanel.SuspendLayout();
             this.PS_SubTabControl.SuspendLayout();
             this.PS_ServiceOptionsTab.SuspendLayout();
-            this.PS_PawnButtonsPanel.SuspendLayout();
-            this.LW_LayawayButtonsPanel.SuspendLayout();
-            this.CommonServiceButtonsPanel.SuspendLayout();
             this.PS_HistoryTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PH_ReceiptsDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PS_ItemDescriptionDataGridView)).BeginInit();
@@ -181,6 +271,8 @@ namespace Support.Forms.Customer.Products
             ((System.ComponentModel.ISupportInitialize)(this.PS_AddTicketsDataGridView)).BeginInit();
             this.LW_DetailsLayoutPanel.SuspendLayout();
             this.SuspendLayout();
+            #endregion
+            #region PS_LoanStatsLayoutPanel
             // 
             // PS_LoanStatsLayoutPanel
             // 
@@ -212,10 +304,34 @@ namespace Support.Forms.Customer.Products
             this.PS_LoanStatsLayoutPanel.Size = new System.Drawing.Size(626, 143);
             this.PS_LoanStatsLayoutPanel.TabIndex = 141;
             // 
+            // lblCurrentPrincipalAmount
+            // 
+            this.lblCurrentPrincipalAmount.BackColor = System.Drawing.Color.Transparent;
+            this.lblCurrentPrincipalAmount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentPrincipalAmount.ForeColor = System.Drawing.Color.Black;
+            this.lblCurrentPrincipalAmount.Location = new System.Drawing.Point(485, 89);
+            this.lblCurrentPrincipalAmount.Name = "lblCurrentPrincipalAmount";
+            this.lblCurrentPrincipalAmount.Size = new System.Drawing.Size(80, 13);
+            this.lblCurrentPrincipalAmount.TabIndex = 158;
+            this.lblCurrentPrincipalAmount.Text = "$100.00";
+            this.lblCurrentPrincipalAmount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblCurrentPrincipalAmountTitle
+            // 
+            this.lblCurrentPrincipalAmountTitle.BackColor = System.Drawing.Color.Transparent;
+            this.lblCurrentPrincipalAmountTitle.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentPrincipalAmountTitle.ForeColor = System.Drawing.Color.Black;
+            this.lblCurrentPrincipalAmountTitle.Location = new System.Drawing.Point(315, 89);
+            this.lblCurrentPrincipalAmountTitle.Name = "lblCurrentPrincipalAmountTitle";
+            this.lblCurrentPrincipalAmountTitle.Size = new System.Drawing.Size(164, 13);
+            this.lblCurrentPrincipalAmountTitle.TabIndex = 157;
+            this.lblCurrentPrincipalAmountTitle.Text = "Current Principal Amount:";
+            this.lblCurrentPrincipalAmountTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // PS_ServiceMessageLabel
             // 
             this.PS_ServiceMessageLabel.AutoSize = true;
-            this.PS_ServiceMessageLabel.ForeColor = System.Drawing.Color.Red;
+            this.PS_ServiceMessageLabel.ForeColor = System.Drawing.Color.MistyRose;
             this.PS_ServiceMessageLabel.Location = new System.Drawing.Point(27, 5);
             this.PS_ServiceMessageLabel.Name = "PS_ServiceMessageLabel";
             this.PS_ServiceMessageLabel.Size = new System.Drawing.Size(35, 13);
@@ -445,353 +561,24 @@ namespace Support.Forms.Customer.Products
             // PS_PawnButtonsPanel
             // 
             this.PS_PawnButtonsPanel.BackColor = System.Drawing.Color.Transparent;
-            this.PS_PawnButtonsPanel.Controls.Add(this.PS_PartPmntButton);
-            this.PS_PawnButtonsPanel.Controls.Add(this.BuyoutButton);
-            this.PS_PawnButtonsPanel.Controls.Add(this.PS_LostPawnTicketButton);
-            this.PS_PawnButtonsPanel.Controls.Add(this.PS_AddMoreTicketsButton);
-            this.PS_PawnButtonsPanel.Controls.Add(this.PS_ExtendButton);
-            this.PS_PawnButtonsPanel.Controls.Add(this.PS_PickUpButton);
-            this.PS_PawnButtonsPanel.Controls.Add(this.PS_WaiveProrate);
-            this.PS_PawnButtonsPanel.Controls.Add(this.PS_RollOverButton);
-            this.PS_PawnButtonsPanel.Controls.Add(this.PS_ViewNewLoanDetailsButton);
             this.PS_PawnButtonsPanel.Location = new System.Drawing.Point(3, 27);
             this.PS_PawnButtonsPanel.Name = "PS_PawnButtonsPanel";
             this.PS_PawnButtonsPanel.Size = new System.Drawing.Size(716, 101);
             this.PS_PawnButtonsPanel.TabIndex = 56;
             // 
-            // PS_PartPmntButton
-            // 
-            this.PS_PartPmntButton.AutoSize = true;
-            this.PS_PartPmntButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PS_PartPmntButton.BackgroundImage")));
-            this.PS_PartPmntButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.PS_PartPmntButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PS_PartPmntButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
-            this.PS_PartPmntButton.FlatAppearance.BorderSize = 0;
-            this.PS_PartPmntButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.PS_PartPmntButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.PS_PartPmntButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PS_PartPmntButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PS_PartPmntButton.ForeColor = System.Drawing.Color.White;
-            this.PS_PartPmntButton.Location = new System.Drawing.Point(102, 49);
-            this.PS_PartPmntButton.Margin = new System.Windows.Forms.Padding(0);
-            this.PS_PartPmntButton.MaximumSize = new System.Drawing.Size(100, 50);
-            this.PS_PartPmntButton.MinimumSize = new System.Drawing.Size(100, 50);
-            this.PS_PartPmntButton.Name = "PS_PartPmntButton";
-            this.PS_PartPmntButton.Size = new System.Drawing.Size(100, 50);
-            this.PS_PartPmntButton.TabIndex = 59;
-            this.PS_PartPmntButton.Text = "Partial Payment";
-            this.PS_PartPmntButton.UseVisualStyleBackColor = true;
-            this.PS_PartPmntButton.Click += new System.EventHandler(this.PS_PartPmntButton_Click);
-            // 
-            // BuyoutButton
-            // 
-            this.BuyoutButton.AutoSize = true;
-            this.BuyoutButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BuyoutButton.BackgroundImage")));
-            this.BuyoutButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.BuyoutButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BuyoutButton.Enabled = false;
-            this.BuyoutButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.BuyoutButton.FlatAppearance.BorderSize = 0;
-            this.BuyoutButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BuyoutButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BuyoutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BuyoutButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BuyoutButton.ForeColor = System.Drawing.Color.White;
-            this.BuyoutButton.Location = new System.Drawing.Point(2, 49);
-            this.BuyoutButton.Margin = new System.Windows.Forms.Padding(0);
-            this.BuyoutButton.MaximumSize = new System.Drawing.Size(100, 50);
-            this.BuyoutButton.MinimumSize = new System.Drawing.Size(100, 50);
-            this.BuyoutButton.Name = "BuyoutButton";
-            this.BuyoutButton.Size = new System.Drawing.Size(100, 50);
-            this.BuyoutButton.TabIndex = 58;
-            this.BuyoutButton.Text = "Buy Out";
-            this.BuyoutButton.UseVisualStyleBackColor = true;
-            this.BuyoutButton.Click += new System.EventHandler(this.BuyoutButton_Click);
-            // 
-            // PS_LostPawnTicketButton
-            // 
-            this.PS_LostPawnTicketButton.AutoSize = true;
-            this.PS_LostPawnTicketButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PS_LostPawnTicketButton.BackgroundImage")));
-            this.PS_LostPawnTicketButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.PS_LostPawnTicketButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.PS_LostPawnTicketButton.FlatAppearance.BorderSize = 0;
-            this.PS_LostPawnTicketButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.PS_LostPawnTicketButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.PS_LostPawnTicketButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PS_LostPawnTicketButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PS_LostPawnTicketButton.ForeColor = System.Drawing.Color.White;
-            this.PS_LostPawnTicketButton.Location = new System.Drawing.Point(2, -1);
-            this.PS_LostPawnTicketButton.Margin = new System.Windows.Forms.Padding(0);
-            this.PS_LostPawnTicketButton.MaximumSize = new System.Drawing.Size(100, 50);
-            this.PS_LostPawnTicketButton.MinimumSize = new System.Drawing.Size(100, 50);
-            this.PS_LostPawnTicketButton.Name = "PS_LostPawnTicketButton";
-            this.PS_LostPawnTicketButton.Size = new System.Drawing.Size(100, 50);
-            this.PS_LostPawnTicketButton.TabIndex = 55;
-            this.PS_LostPawnTicketButton.Text = "Lost Ticket";
-            this.PS_LostPawnTicketButton.UseVisualStyleBackColor = true;
-            this.PS_LostPawnTicketButton.Click += new System.EventHandler(this.PS_LostPawnTicketButton_Click);
-            // 
-            // PS_AddMoreTicketsButton
-            // 
-            this.PS_AddMoreTicketsButton.AutoSize = true;
-            this.PS_AddMoreTicketsButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PS_AddMoreTicketsButton.BackgroundImage")));
-            this.PS_AddMoreTicketsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.PS_AddMoreTicketsButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PS_AddMoreTicketsButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.PS_AddMoreTicketsButton.FlatAppearance.BorderSize = 0;
-            this.PS_AddMoreTicketsButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.PS_AddMoreTicketsButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.PS_AddMoreTicketsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PS_AddMoreTicketsButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PS_AddMoreTicketsButton.ForeColor = System.Drawing.Color.White;
-            this.PS_AddMoreTicketsButton.Location = new System.Drawing.Point(102, -1);
-            this.PS_AddMoreTicketsButton.Margin = new System.Windows.Forms.Padding(0);
-            this.PS_AddMoreTicketsButton.MaximumSize = new System.Drawing.Size(100, 50);
-            this.PS_AddMoreTicketsButton.MinimumSize = new System.Drawing.Size(100, 50);
-            this.PS_AddMoreTicketsButton.Name = "PS_AddMoreTicketsButton";
-            this.PS_AddMoreTicketsButton.Size = new System.Drawing.Size(100, 50);
-            this.PS_AddMoreTicketsButton.TabIndex = 47;
-            this.PS_AddMoreTicketsButton.Text = "Add Tickets";
-            this.PS_AddMoreTicketsButton.UseVisualStyleBackColor = true;
-            this.PS_AddMoreTicketsButton.Click += new System.EventHandler(this.PS_AddMoreTicketsButton_Click);
-            // 
-            // PS_ExtendButton
-            // 
-            this.PS_ExtendButton.AutoSize = true;
-            this.PS_ExtendButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PS_ExtendButton.BackgroundImage")));
-            this.PS_ExtendButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.PS_ExtendButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PS_ExtendButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.PS_ExtendButton.FlatAppearance.BorderSize = 0;
-            this.PS_ExtendButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.PS_ExtendButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.PS_ExtendButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PS_ExtendButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PS_ExtendButton.ForeColor = System.Drawing.Color.White;
-            this.PS_ExtendButton.Location = new System.Drawing.Point(200, -1);
-            this.PS_ExtendButton.Margin = new System.Windows.Forms.Padding(0);
-            this.PS_ExtendButton.MaximumSize = new System.Drawing.Size(100, 50);
-            this.PS_ExtendButton.MinimumSize = new System.Drawing.Size(100, 50);
-            this.PS_ExtendButton.Name = "PS_ExtendButton";
-            this.PS_ExtendButton.Size = new System.Drawing.Size(100, 50);
-            this.PS_ExtendButton.TabIndex = 48;
-            this.PS_ExtendButton.Text = "Extend";
-            this.PS_ExtendButton.UseVisualStyleBackColor = true;
-            this.PS_ExtendButton.Click += new System.EventHandler(this.PS_ExtendButton_Click);
-            // 
-            // PS_PickUpButton
-            // 
-            this.PS_PickUpButton.AutoSize = true;
-            this.PS_PickUpButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PS_PickUpButton.BackgroundImage")));
-            this.PS_PickUpButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.PS_PickUpButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PS_PickUpButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.PS_PickUpButton.FlatAppearance.BorderSize = 0;
-            this.PS_PickUpButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.PS_PickUpButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.PS_PickUpButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PS_PickUpButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PS_PickUpButton.ForeColor = System.Drawing.Color.White;
-            this.PS_PickUpButton.Location = new System.Drawing.Point(300, -1);
-            this.PS_PickUpButton.Margin = new System.Windows.Forms.Padding(0);
-            this.PS_PickUpButton.MaximumSize = new System.Drawing.Size(100, 50);
-            this.PS_PickUpButton.MinimumSize = new System.Drawing.Size(100, 50);
-            this.PS_PickUpButton.Name = "PS_PickUpButton";
-            this.PS_PickUpButton.Size = new System.Drawing.Size(100, 50);
-            this.PS_PickUpButton.TabIndex = 49;
-            this.PS_PickUpButton.Text = "Pick Up";
-            this.PS_PickUpButton.UseVisualStyleBackColor = true;
-            this.PS_PickUpButton.Click += new System.EventHandler(this.PS_PickUpButton_Click);
-            // 
-            // PS_WaiveProrate
-            // 
-            this.PS_WaiveProrate.AutoSize = true;
-            this.PS_WaiveProrate.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PS_WaiveProrate.BackgroundImage")));
-            this.PS_WaiveProrate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.PS_WaiveProrate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PS_WaiveProrate.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.PS_WaiveProrate.FlatAppearance.BorderSize = 0;
-            this.PS_WaiveProrate.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.PS_WaiveProrate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.PS_WaiveProrate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PS_WaiveProrate.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PS_WaiveProrate.ForeColor = System.Drawing.Color.White;
-            this.PS_WaiveProrate.Location = new System.Drawing.Point(500, 0);
-            this.PS_WaiveProrate.Margin = new System.Windows.Forms.Padding(0);
-            this.PS_WaiveProrate.MaximumSize = new System.Drawing.Size(100, 50);
-            this.PS_WaiveProrate.MinimumSize = new System.Drawing.Size(100, 50);
-            this.PS_WaiveProrate.Name = "PS_WaiveProrate";
-            this.PS_WaiveProrate.Size = new System.Drawing.Size(100, 50);
-            this.PS_WaiveProrate.TabIndex = 50;
-            this.PS_WaiveProrate.Text = "Waive/Prorate";
-            this.PS_WaiveProrate.UseVisualStyleBackColor = true;
-            this.PS_WaiveProrate.Click += new System.EventHandler(this.PS_WaiveProrate_Click);
-            // 
-            // PS_RollOverButton
-            // 
-            this.PS_RollOverButton.AutoSize = true;
-            this.PS_RollOverButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PS_RollOverButton.BackgroundImage")));
-            this.PS_RollOverButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.PS_RollOverButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PS_RollOverButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
-            this.PS_RollOverButton.FlatAppearance.BorderSize = 0;
-            this.PS_RollOverButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.PS_RollOverButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.PS_RollOverButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PS_RollOverButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PS_RollOverButton.ForeColor = System.Drawing.Color.White;
-            this.PS_RollOverButton.Location = new System.Drawing.Point(400, 0);
-            this.PS_RollOverButton.Margin = new System.Windows.Forms.Padding(0);
-            this.PS_RollOverButton.MaximumSize = new System.Drawing.Size(100, 50);
-            this.PS_RollOverButton.MinimumSize = new System.Drawing.Size(100, 50);
-            this.PS_RollOverButton.Name = "PS_RollOverButton";
-            this.PS_RollOverButton.Size = new System.Drawing.Size(100, 50);
-            this.PS_RollOverButton.TabIndex = 51;
-            this.PS_RollOverButton.Text = "Rollover";
-            this.PS_RollOverButton.UseVisualStyleBackColor = true;
-            this.PS_RollOverButton.Click += new System.EventHandler(this.PS_RollOverButton_Click);
-            // 
-            // PS_ViewNewLoanDetailsButton
-            // 
-            this.PS_ViewNewLoanDetailsButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.PS_ViewNewLoanDetailsButton.AutoSize = true;
-            this.PS_ViewNewLoanDetailsButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PS_ViewNewLoanDetailsButton.BackgroundImage")));
-            this.PS_ViewNewLoanDetailsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PS_ViewNewLoanDetailsButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PS_ViewNewLoanDetailsButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.PS_ViewNewLoanDetailsButton.FlatAppearance.BorderSize = 0;
-            this.PS_ViewNewLoanDetailsButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.PS_ViewNewLoanDetailsButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.PS_ViewNewLoanDetailsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PS_ViewNewLoanDetailsButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PS_ViewNewLoanDetailsButton.ForeColor = System.Drawing.Color.White;
-            this.PS_ViewNewLoanDetailsButton.Location = new System.Drawing.Point(600, 0);
-            this.PS_ViewNewLoanDetailsButton.Margin = new System.Windows.Forms.Padding(0);
-            this.PS_ViewNewLoanDetailsButton.Name = "PS_ViewNewLoanDetailsButton";
-            this.PS_ViewNewLoanDetailsButton.Size = new System.Drawing.Size(110, 50);
-            this.PS_ViewNewLoanDetailsButton.TabIndex = 52;
-            this.PS_ViewNewLoanDetailsButton.Text = "New Loan Detail";
-            this.PS_ViewNewLoanDetailsButton.UseVisualStyleBackColor = true;
-            this.PS_ViewNewLoanDetailsButton.Click += new System.EventHandler(this.PS_ViewNewLoanDetailsButton_Click);
-            // 
             // LW_LayawayButtonsPanel
             // 
-            this.LW_LayawayButtonsPanel.Controls.Add(this.LW_LayawayPaymentButton);
-            this.LW_LayawayButtonsPanel.Controls.Add(this.LW_LayawayTerminateButton);
             this.LW_LayawayButtonsPanel.Location = new System.Drawing.Point(3, -8);
             this.LW_LayawayButtonsPanel.Name = "LW_LayawayButtonsPanel";
             this.LW_LayawayButtonsPanel.Size = new System.Drawing.Size(716, 49);
             this.LW_LayawayButtonsPanel.TabIndex = 0;
             // 
-            // LW_LayawayPaymentButton
-            // 
-            this.LW_LayawayPaymentButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.LW_LayawayPaymentButton.AutoSize = true;
-            this.LW_LayawayPaymentButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("LW_LayawayPaymentButton.BackgroundImage")));
-            this.LW_LayawayPaymentButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.LW_LayawayPaymentButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.LW_LayawayPaymentButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.LW_LayawayPaymentButton.FlatAppearance.BorderSize = 0;
-            this.LW_LayawayPaymentButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.LW_LayawayPaymentButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.LW_LayawayPaymentButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.LW_LayawayPaymentButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LW_LayawayPaymentButton.ForeColor = System.Drawing.Color.White;
-            this.LW_LayawayPaymentButton.Location = new System.Drawing.Point(610, -1);
-            this.LW_LayawayPaymentButton.Margin = new System.Windows.Forms.Padding(0);
-            this.LW_LayawayPaymentButton.MaximumSize = new System.Drawing.Size(100, 50);
-            this.LW_LayawayPaymentButton.MinimumSize = new System.Drawing.Size(100, 50);
-            this.LW_LayawayPaymentButton.Name = "LW_LayawayPaymentButton";
-            this.LW_LayawayPaymentButton.Size = new System.Drawing.Size(100, 50);
-            this.LW_LayawayPaymentButton.TabIndex = 57;
-            this.LW_LayawayPaymentButton.Text = "Layaway Payment";
-            this.LW_LayawayPaymentButton.UseVisualStyleBackColor = true;
-            this.LW_LayawayPaymentButton.Click += new System.EventHandler(this.LW_LayawayPaymentButton_Click);
-            // 
-            // LW_LayawayTerminateButton
-            // 
-            this.LW_LayawayTerminateButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.LW_LayawayTerminateButton.AutoSize = true;
-            this.LW_LayawayTerminateButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("LW_LayawayTerminateButton.BackgroundImage")));
-            this.LW_LayawayTerminateButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.LW_LayawayTerminateButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.LW_LayawayTerminateButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.LW_LayawayTerminateButton.FlatAppearance.BorderSize = 0;
-            this.LW_LayawayTerminateButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.LW_LayawayTerminateButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.LW_LayawayTerminateButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.LW_LayawayTerminateButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LW_LayawayTerminateButton.ForeColor = System.Drawing.Color.White;
-            this.LW_LayawayTerminateButton.Location = new System.Drawing.Point(510, -1);
-            this.LW_LayawayTerminateButton.Margin = new System.Windows.Forms.Padding(0);
-            this.LW_LayawayTerminateButton.MaximumSize = new System.Drawing.Size(100, 50);
-            this.LW_LayawayTerminateButton.MinimumSize = new System.Drawing.Size(100, 50);
-            this.LW_LayawayTerminateButton.Name = "LW_LayawayTerminateButton";
-            this.LW_LayawayTerminateButton.Size = new System.Drawing.Size(100, 50);
-            this.LW_LayawayTerminateButton.TabIndex = 56;
-            this.LW_LayawayTerminateButton.Text = "Layaway Terminate";
-            this.LW_LayawayTerminateButton.UseVisualStyleBackColor = true;
-            this.LW_LayawayTerminateButton.Click += new System.EventHandler(this.LW_LayawayTerminateButton_Click);
-            // 
             // CommonServiceButtonsPanel
             // 
-            this.CommonServiceButtonsPanel.Controls.Add(this.PS_CheckoutButton);
-            this.CommonServiceButtonsPanel.Controls.Add(this.PS_UnDoButton);
             this.CommonServiceButtonsPanel.Location = new System.Drawing.Point(719, 27);
             this.CommonServiceButtonsPanel.Name = "CommonServiceButtonsPanel";
             this.CommonServiceButtonsPanel.Size = new System.Drawing.Size(200, 101);
             this.CommonServiceButtonsPanel.TabIndex = 57;
-            // 
-            // PS_CheckoutButton
-            // 
-            this.PS_CheckoutButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.PS_CheckoutButton.AutoSize = true;
-            this.PS_CheckoutButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PS_CheckoutButton.BackgroundImage")));
-            this.PS_CheckoutButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.PS_CheckoutButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PS_CheckoutButton.Enabled = false;
-            this.PS_CheckoutButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.PS_CheckoutButton.FlatAppearance.BorderSize = 0;
-            this.PS_CheckoutButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.PS_CheckoutButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.PS_CheckoutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PS_CheckoutButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PS_CheckoutButton.ForeColor = System.Drawing.Color.White;
-            this.PS_CheckoutButton.Location = new System.Drawing.Point(97, 0);
-            this.PS_CheckoutButton.Margin = new System.Windows.Forms.Padding(0);
-            this.PS_CheckoutButton.MaximumSize = new System.Drawing.Size(100, 50);
-            this.PS_CheckoutButton.MinimumSize = new System.Drawing.Size(100, 50);
-            this.PS_CheckoutButton.Name = "PS_CheckoutButton";
-            this.PS_CheckoutButton.Size = new System.Drawing.Size(100, 50);
-            this.PS_CheckoutButton.TabIndex = 56;
-            this.PS_CheckoutButton.Text = "Checkout";
-            this.PS_CheckoutButton.UseVisualStyleBackColor = true;
-            this.PS_CheckoutButton.Click += new System.EventHandler(this.PS_CheckoutButton_Click);
-            // 
-            // PS_UnDoButton
-            // 
-            this.PS_UnDoButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.PS_UnDoButton.AutoSize = true;
-            this.PS_UnDoButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PS_UnDoButton.BackgroundImage")));
-            this.PS_UnDoButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.PS_UnDoButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PS_UnDoButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.PS_UnDoButton.FlatAppearance.BorderSize = 0;
-            this.PS_UnDoButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.PS_UnDoButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.PS_UnDoButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PS_UnDoButton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PS_UnDoButton.ForeColor = System.Drawing.Color.White;
-            this.PS_UnDoButton.Location = new System.Drawing.Point(0, 0);
-            this.PS_UnDoButton.Margin = new System.Windows.Forms.Padding(0);
-            this.PS_UnDoButton.MaximumSize = new System.Drawing.Size(100, 50);
-            this.PS_UnDoButton.MinimumSize = new System.Drawing.Size(100, 50);
-            this.PS_UnDoButton.Name = "PS_UnDoButton";
-            this.PS_UnDoButton.Size = new System.Drawing.Size(100, 50);
-            this.PS_UnDoButton.TabIndex = 54;
-            this.PS_UnDoButton.Text = "UnDo";
-            this.PS_UnDoButton.UseVisualStyleBackColor = true;
-            this.PS_UnDoButton.Click += new System.EventHandler(this.PS_UnDoButton_Click);
             // 
             // PS_HistoryTab
             // 
@@ -817,10 +604,10 @@ namespace Support.Forms.Customer.Products
             this.PH_ReceiptsDataGridView.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.PH_ReceiptsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.MistyRose;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.MistyRose;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.PH_ReceiptsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
@@ -906,10 +693,10 @@ namespace Support.Forms.Customer.Products
             this.PS_ItemDescriptionDataGridView.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.PS_ItemDescriptionDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.MistyRose;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.MistyRose;
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.PS_ItemDescriptionDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
@@ -1043,7 +830,8 @@ namespace Support.Forms.Customer.Products
             this.PS_ShowComboBox.FormattingEnabled = true;
             this.PS_ShowComboBox.Items.AddRange(new object[] {
             "Pawn",
-            "Layaway"});
+            "Layaway",
+            "PDL/INST"});
             this.PS_ShowComboBox.Location = new System.Drawing.Point(197, 37);
             this.PS_ShowComboBox.Name = "PS_ShowComboBox";
             this.PS_ShowComboBox.Size = new System.Drawing.Size(109, 22);
@@ -1075,10 +863,10 @@ namespace Support.Forms.Customer.Products
             this.PS_TicketsDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.PS_TicketsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.MistyRose;
             dataGridViewCellStyle7.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.MistyRose;
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.PS_TicketsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
@@ -1087,8 +875,11 @@ namespace Support.Forms.Customer.Products
             this.PS_Tickets_ServiceIndicatorColumn,
             this.PS_Tickets_Extend,
             this.PS_Tickets_TicketNumberColumn,
+            this.PS_Staus_Date,
             this.PS_Tickets_LastDayColumn,
-            this.PS_Tickets_Refresh});
+            this.PS_Tickets_Refresh,
+            this.PS_Ticket_Type,
+            this.PS_Ticket_Status});
             this.PS_TicketsDataGridView.Cursor = System.Windows.Forms.Cursors.Arrow;
             dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
             dataGridViewCellStyle10.BackColor = System.Drawing.Color.White;
@@ -1121,65 +912,6 @@ namespace Support.Forms.Customer.Products
             this.PS_TicketsDataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PS_TicketsDataGridView_KeyDown);
             this.PS_TicketsDataGridView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PS_TicketsDataGridView_KeyUp);
             // 
-            // PS_Tickets_ServiceIndicatorColumn
-            // 
-            this.PS_Tickets_ServiceIndicatorColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Red;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Red;
-            this.PS_Tickets_ServiceIndicatorColumn.DefaultCellStyle = dataGridViewCellStyle8;
-            this.PS_Tickets_ServiceIndicatorColumn.FillWeight = 103.0928F;
-            this.PS_Tickets_ServiceIndicatorColumn.HeaderText = Support.Properties.Resources.OverrideMachineName;
-            this.PS_Tickets_ServiceIndicatorColumn.Name = "PS_Tickets_ServiceIndicatorColumn";
-            this.PS_Tickets_ServiceIndicatorColumn.ReadOnly = true;
-            this.PS_Tickets_ServiceIndicatorColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.PS_Tickets_ServiceIndicatorColumn.Width = 5;
-            // 
-            // PS_Tickets_Extend
-            // 
-            this.PS_Tickets_Extend.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_Tickets_Extend.DefaultCellStyle = dataGridViewCellStyle9;
-            this.PS_Tickets_Extend.HeaderText = Support.Properties.Resources.OverrideMachineName;
-            this.PS_Tickets_Extend.Name = "PS_Tickets_Extend";
-            this.PS_Tickets_Extend.ReadOnly = true;
-            this.PS_Tickets_Extend.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.PS_Tickets_Extend.Width = 5;
-            // 
-            // PS_Tickets_TicketNumberColumn
-            // 
-            this.PS_Tickets_TicketNumberColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.PS_Tickets_TicketNumberColumn.DataPropertyName = "PS_Tickets_TicketNumberColumn";
-            this.PS_Tickets_TicketNumberColumn.FillWeight = 96.90721F;
-            this.PS_Tickets_TicketNumberColumn.HeaderText = "Ticket Number";
-            this.PS_Tickets_TicketNumberColumn.Name = "PS_Tickets_TicketNumberColumn";
-            this.PS_Tickets_TicketNumberColumn.ReadOnly = true;
-            this.PS_Tickets_TicketNumberColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // PS_Tickets_LastDayColumn
-            // 
-            this.PS_Tickets_LastDayColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.PS_Tickets_LastDayColumn.DataPropertyName = "PS_Tickets_LastDayColumn";
-            this.PS_Tickets_LastDayColumn.HeaderText = "Last Day";
-            this.PS_Tickets_LastDayColumn.Name = "PS_Tickets_LastDayColumn";
-            this.PS_Tickets_LastDayColumn.ReadOnly = true;
-            this.PS_Tickets_LastDayColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.PS_Tickets_LastDayColumn.Width = 55;
-            // 
-            // PS_Tickets_Refresh
-            // 
-            this.PS_Tickets_Refresh.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.PS_Tickets_Refresh.HeaderText = Support.Properties.Resources.OverrideMachineName;
-            //this.PS_Tickets_Refresh.Image = Support.Properties.Resources.blank;
-            this.PS_Tickets_Refresh.Name = "PS_Tickets_Refresh";
-            this.PS_Tickets_Refresh.Width = 5;
-            // 
             // PS_AddTicketsDataGridView
             // 
             this.PS_AddTicketsDataGridView.AllowUserToAddRows = false;
@@ -1192,10 +924,10 @@ namespace Support.Forms.Customer.Products
             this.PS_AddTicketsDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.PS_AddTicketsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle12.BackColor = System.Drawing.Color.MistyRose;
             dataGridViewCellStyle12.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle12.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.RoyalBlue;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.MistyRose;
             dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.PS_AddTicketsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
@@ -1245,10 +977,10 @@ namespace Support.Forms.Customer.Products
             dataGridViewCellStyle13.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle13.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle13.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.Color.MistyRose;
             dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.PS_AddTickets_ServiceIndicator.DefaultCellStyle = dataGridViewCellStyle13;
-            this.PS_AddTickets_ServiceIndicator.HeaderText = Support.Properties.Resources.OverrideMachineName;
+            this.PS_AddTickets_ServiceIndicator.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.PS_AddTickets_ServiceIndicator.Name = "PS_AddTickets_ServiceIndicator";
             this.PS_AddTickets_ServiceIndicator.ReadOnly = true;
             this.PS_AddTickets_ServiceIndicator.Width = 19;
@@ -1259,7 +991,7 @@ namespace Support.Forms.Customer.Products
             dataGridViewCellStyle14.Font = new System.Drawing.Font("Tahoma", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle14.ForeColor = System.Drawing.Color.Black;
             this.PS_AddTickets_Extend.DefaultCellStyle = dataGridViewCellStyle14;
-            this.PS_AddTickets_Extend.HeaderText = Support.Properties.Resources.OverrideMachineName;
+            this.PS_AddTickets_Extend.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.PS_AddTickets_Extend.Name = "PS_AddTickets_Extend";
             this.PS_AddTickets_Extend.ReadOnly = true;
             this.PS_AddTickets_Extend.Width = 19;
@@ -1284,8 +1016,7 @@ namespace Support.Forms.Customer.Products
             // 
             // PS_AddTickets_Refresh
             // 
-            this.PS_AddTickets_Refresh.HeaderText = Support.Properties.Resources.OverrideMachineName;
-            //this.PS_AddTickets_Refresh.Image = Support.Properties.Resources.blank;
+            this.PS_AddTickets_Refresh.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.PS_AddTickets_Refresh.Name = "PS_AddTickets_Refresh";
             this.PS_AddTickets_Refresh.Width = 5;
             // 
@@ -1334,12 +1065,12 @@ namespace Support.Forms.Customer.Products
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle17.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.MistyRose;
             dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.MistyRose;
             this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle17;
             this.dataGridViewTextBoxColumn1.FillWeight = 128.2051F;
-            this.dataGridViewTextBoxColumn1.HeaderText = Support.Properties.Resources.OverrideMachineName;
+            this.dataGridViewTextBoxColumn1.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
             this.dataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -1356,7 +1087,7 @@ namespace Support.Forms.Customer.Products
             dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle18;
-            this.dataGridViewTextBoxColumn2.FillWeight = 71.79488F;
+            this.dataGridViewTextBoxColumn2.FillWeight = 25.79488F;
             this.dataGridViewTextBoxColumn2.HeaderText = "Ticket Number";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
@@ -1385,7 +1116,7 @@ namespace Support.Forms.Customer.Products
             // 
             this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn4.DataPropertyName = "PS_Description_TicketDescriptionColumn";
-            this.dataGridViewTextBoxColumn4.HeaderText = Support.Properties.Resources.OverrideMachineName;
+            this.dataGridViewTextBoxColumn4.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
             this.dataGridViewTextBoxColumn4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -1440,7 +1171,7 @@ namespace Support.Forms.Customer.Products
             dataGridViewCellStyle19.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.MistyRose;
             dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle19;
             this.dataGridViewTextBoxColumn10.HeaderText = "Last Day";
@@ -1479,7 +1210,8 @@ namespace Support.Forms.Customer.Products
             // customButtonCancel
             // 
             this.customButtonCancel.BackColor = System.Drawing.Color.Transparent;
-            this.customButtonCancel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("customButtonCancel.BackgroundImage")));
+            this.customButtonCancel.BackgroundImage = global::Support.Properties.Resources.Red_button_100_50;
+                //((System.Drawing.Image)(resources.GetObject("customButtonCancel.BackgroundImage")));
             this.customButtonCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.customButtonCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.customButtonCancel.FlatAppearance.BorderColor = System.Drawing.Color.White;
@@ -1524,6 +1256,8 @@ namespace Support.Forms.Customer.Products
             this.tlpDocuments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpDocuments.Size = new System.Drawing.Size(10, 154);
             this.tlpDocuments.TabIndex = 147;
+            #endregion
+            #region LW_DetailsLayoutPanel
             // 
             // LW_DetailsLayoutPanel
             // 
@@ -1801,36 +1535,828 @@ namespace Support.Forms.Customer.Products
             this.LW_DownPaymentLabel.TabIndex = 10;
             this.LW_DownPaymentLabel.Text = "Down Payment:";
             // 
-            // lblCurrentPrincipalAmount
+            // PS_Tickets_ServiceIndicatorColumn
             // 
-            this.lblCurrentPrincipalAmount.BackColor = System.Drawing.Color.Transparent;
-            this.lblCurrentPrincipalAmount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentPrincipalAmount.ForeColor = System.Drawing.Color.Black;
-            this.lblCurrentPrincipalAmount.Location = new System.Drawing.Point(485, 89);
-            this.lblCurrentPrincipalAmount.Name = "lblCurrentPrincipalAmount";
-            this.lblCurrentPrincipalAmount.Size = new System.Drawing.Size(80, 13);
-            this.lblCurrentPrincipalAmount.TabIndex = 158;
-            this.lblCurrentPrincipalAmount.Text = "$100.00";
-            this.lblCurrentPrincipalAmount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PS_Tickets_ServiceIndicatorColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.MistyRose;
+            this.PS_Tickets_ServiceIndicatorColumn.DefaultCellStyle = dataGridViewCellStyle8;
+            this.PS_Tickets_ServiceIndicatorColumn.FillWeight = 103.0928F;
+            this.PS_Tickets_ServiceIndicatorColumn.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
+            this.PS_Tickets_ServiceIndicatorColumn.Name = "PS_Tickets_ServiceIndicatorColumn";
+            this.PS_Tickets_ServiceIndicatorColumn.ReadOnly = true;
+            this.PS_Tickets_ServiceIndicatorColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.PS_Tickets_ServiceIndicatorColumn.Width = 5;
             // 
-            // lblCurrentPrincipalAmountTitle
+            // PS_Tickets_Extend
             // 
-            this.lblCurrentPrincipalAmountTitle.BackColor = System.Drawing.Color.Transparent;
-            this.lblCurrentPrincipalAmountTitle.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentPrincipalAmountTitle.ForeColor = System.Drawing.Color.Black;
-            this.lblCurrentPrincipalAmountTitle.Location = new System.Drawing.Point(315, 89);
-            this.lblCurrentPrincipalAmountTitle.Name = "lblCurrentPrincipalAmountTitle";
-            this.lblCurrentPrincipalAmountTitle.Size = new System.Drawing.Size(164, 13);
-            this.lblCurrentPrincipalAmountTitle.TabIndex = 157;
-            this.lblCurrentPrincipalAmountTitle.Text = "Current Principal Amount:";
-            this.lblCurrentPrincipalAmountTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.PS_Tickets_Extend.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_Tickets_Extend.DefaultCellStyle = dataGridViewCellStyle9;
+            this.PS_Tickets_Extend.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
+            this.PS_Tickets_Extend.Name = "PS_Tickets_Extend";
+            this.PS_Tickets_Extend.ReadOnly = true;
+            this.PS_Tickets_Extend.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.PS_Tickets_Extend.Width = 5;
+            // 
+            // PS_Tickets_TicketNumberColumn
+            // 
+            this.PS_Tickets_TicketNumberColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.PS_Tickets_TicketNumberColumn.DataPropertyName = "PS_Tickets_TicketNumberColumn";
+            this.PS_Tickets_TicketNumberColumn.FillWeight = 96.90721F;
+            this.PS_Tickets_TicketNumberColumn.HeaderText = "Ticket Number";
+            this.PS_Tickets_TicketNumberColumn.Name = "PS_Tickets_TicketNumberColumn";
+            this.PS_Tickets_TicketNumberColumn.ReadOnly = true;
+            this.PS_Tickets_TicketNumberColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // PS_Staus_Date
+            // 
+            this.PS_Staus_Date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.PS_Staus_Date.HeaderText = "Status Date";
+            this.PS_Staus_Date.FillWeight = 55.79488F;
+            this.PS_Staus_Date.Name = "PS_Staus_Date";
+            // 
+            // PS_Tickets_LastDayColumn
+            // 
+            this.PS_Tickets_LastDayColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.PS_Tickets_LastDayColumn.DataPropertyName = "PS_Tickets_LastDayColumn";
+            this.PS_Tickets_LastDayColumn.HeaderText = "Last Day";
+            this.PS_Tickets_LastDayColumn.Name = "PS_Tickets_LastDayColumn";
+            this.PS_Tickets_LastDayColumn.ReadOnly = true;
+            this.PS_Tickets_LastDayColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.PS_Tickets_LastDayColumn.Width = 55;
+            // 
+            // PS_Tickets_Refresh
+            // 
+            this.PS_Tickets_Refresh.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.PS_Tickets_Refresh.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
+            this.PS_Tickets_Refresh.Name = "PS_Tickets_Refresh";
+            this.PS_Tickets_Refresh.Width = 5;
+            // 
+            // PS_Ticket_Type
+            // 
+            this.PS_Ticket_Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.PS_Ticket_Type.HeaderText = "Type";
+            this.PS_Ticket_Type.MaxInputLength = 1;
+            this.PS_Ticket_Type.FillWeight = 33.79488F;
+            this.PS_Ticket_Type.Name = "PS_Ticket_Type";
+            // 
+            // PS_Ticket_Status
+            // 
+            this.PS_Ticket_Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.PS_Ticket_Status.HeaderText = "Status";
+            this.PS_Ticket_Status.FillWeight = 39.79488F;
+            this.PS_Ticket_Status.Name = "PS_Ticket_Status";
+            #endregion
+            #region LOANSTATSLAYOUTPANEL
+            // 
+            // PDL_LoanStatsLayoutPanel
+            // 
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lnkContractPDF);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.DGVxxpPaySchedule);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblxppHeaderBar);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.LnkReasonType);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.LnkOtherDetails);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbEstRolloverAmt);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbACHWaitingToClear);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbNSFFeeAmt);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLateFeeAmt);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbAccruedFinanceAmt);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbAcutalServiceChrgAmt);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbActualFinanceChrgAmt);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbXPPAvailable);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbRevokeACH);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanRollOverAmt);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanRolloverNotes);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanNumberPrev);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanNumberOrig);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblEstRolloverAmt);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblACHWaitingToClear);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblNSFFeeAmt);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLateFeeAmt);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblAccruedFinanceAmt);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblAcutalServiceChrgAmt);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblActualFinanceChrgAmt);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblXPPAvailable);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblRevokeACH);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanRollOverAmt);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanRolloverNotes);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblDeclineReasonDescription);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanNumberPrev);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanNumberOrig);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.HeaderHorizonalLine);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblHeaderBar);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblCustomerSSNData);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblUWNameData);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanRequestDateData);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanAmtData);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanPayOffAmtData);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblActualLoanAmtData);
+            this.PDL_LoanStatsLayoutPanel.Location = new System.Drawing.Point(299, 84);
+            this.PDL_LoanStatsLayoutPanel.Name = "PDL_LoanStatsLayoutPanel";
+            this.PDL_LoanStatsLayoutPanel.Size = new System.Drawing.Size(626, 413);
+            this.PDL_LoanStatsLayoutPanel.TabIndex = 0;
+            // 
+            // lnkContractPDF
+            // 
+            this.lnkContractPDF.AutoSize = true;
+            this.lnkContractPDF.Location = new System.Drawing.Point(24, 393);
+            this.lnkContractPDF.Name = "lnkContractPDF";
+            this.lnkContractPDF.Size = new System.Drawing.Size(28, 13);
+            this.lnkContractPDF.TabIndex = 40;
+            this.lnkContractPDF.TabStop = true;
+            this.lnkContractPDF.Text = "PDF";
+            // 
+            // DGVxxpPaySchedule
+            // 
+            this.DGVxxpPaySchedule.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGVxxpPaySchedule.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.DgvColxppLineItem,
+            this.DgvColxppPaymentSeqNumber,
+            this.DgvColxppPaymentNumber,
+            this.DgvColxppPaymentDate,
+            this.DgvColxppPaymentAmt});
+            this.DGVxxpPaySchedule.Location = new System.Drawing.Point(6, 277);
+            this.DGVxxpPaySchedule.Name = "DGVxxpPaySchedule";
+            this.DGVxxpPaySchedule.Size = new System.Drawing.Size(617, 112);
+            this.DGVxxpPaySchedule.TabIndex = 39;
+            // 
+            // DgvColxppLineItem
+            // 
+            this.DgvColxppLineItem.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
+            this.DgvColxppLineItem.MaxInputLength = 20;
+            this.DgvColxppLineItem.Name = "DgvColxppLineItem";
+            this.DgvColxppLineItem.Width = 21;
+            // 
+            // DgvColxppPaymentSeqNumber
+            // 
+            this.DgvColxppPaymentSeqNumber.HeaderText = "No.";
+            this.DgvColxppPaymentSeqNumber.Name = "DgvColxppPaymentSeqNumber";
+            // 
+            // DgvColxppPaymentNumber
+            // 
+            this.DgvColxppPaymentNumber.HeaderText = "Payment #";
+            this.DgvColxppPaymentNumber.Name = "DgvColxppPaymentNumber";
+            // 
+            // DgvColxppPaymentDate
+            // 
+            this.DgvColxppPaymentDate.HeaderText = "Date";
+            this.DgvColxppPaymentDate.Name = "DgvColxppPaymentDate";
+            this.DgvColxppPaymentDate.Width = 200;
+            // 
+            // DgvColxppPaymentAmt
+            // 
+            this.DgvColxppPaymentAmt.HeaderText = "Amount";
+            this.DgvColxppPaymentAmt.Name = "DgvColxppPaymentAmt";
+            this.DgvColxppPaymentAmt.Width = 300;
+            // 
+            // lblxppHeaderBar
+            // 
+            this.lblxppHeaderBar.AutoSize = true;
+            this.lblxppHeaderBar.BackColor = System.Drawing.Color.Transparent;
+            this.lblxppHeaderBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblxppHeaderBar.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.lblxppHeaderBar.Image = global::Support.Properties.Resources.Red_background;
+            this.lblxppHeaderBar.Location = new System.Drawing.Point(3, 261);
+            this.lblxppHeaderBar.Name = "lblxppHeaderBar";
+            this.lblxppHeaderBar.Size = new System.Drawing.Size(620, 13);
+            this.lblxppHeaderBar.TabIndex = 38;
+            this.lblxppHeaderBar.Text = "\" XXP                                                        Payment Schedule    " +
+    "                                                         \"";
+            // 
+            // LnkReasonType
+            // 
+            this.LnkReasonType.AutoSize = true;
+            this.LnkReasonType.Location = new System.Drawing.Point(140, 105);
+            this.LnkReasonType.Name = "LnkReasonType";
+            this.LnkReasonType.Size = new System.Drawing.Size(55, 13);
+            this.LnkReasonType.TabIndex = 37;
+            this.LnkReasonType.TabStop = true;
+            this.LnkReasonType.Text = "linkLabel1";
+            // 
+            // LnkOtherDetails
+            // 
+            this.LnkOtherDetails.AutoSize = true;
+            this.LnkOtherDetails.Location = new System.Drawing.Point(26, 244);
+            this.LnkOtherDetails.Name = "LnkOtherDetails";
+            this.LnkOtherDetails.Size = new System.Drawing.Size(68, 13);
+            this.LnkOtherDetails.TabIndex = 36;
+            this.LnkOtherDetails.TabStop = true;
+            this.LnkOtherDetails.Text = "Other Details";
+            // 
+            // TxbEstRolloverAmt
+            // 
+            this.TxbEstRolloverAmt.Enabled = false;
+            this.TxbEstRolloverAmt.Location = new System.Drawing.Point(511, 217);
+            this.TxbEstRolloverAmt.Name = "TxbEstRolloverAmt";
+            this.TxbEstRolloverAmt.Size = new System.Drawing.Size(100, 20);
+            this.TxbEstRolloverAmt.TabIndex = 35;
+            // 
+            // TxbACHWaitingToClear
+            // 
+            this.TxbACHWaitingToClear.Enabled = false;
+            this.TxbACHWaitingToClear.Location = new System.Drawing.Point(511, 189);
+            this.TxbACHWaitingToClear.Name = "TxbACHWaitingToClear";
+            this.TxbACHWaitingToClear.Size = new System.Drawing.Size(100, 20);
+            this.TxbACHWaitingToClear.TabIndex = 34;
+            // 
+            // TxbNSFFeeAmt
+            // 
+            this.TxbNSFFeeAmt.Enabled = false;
+            this.TxbNSFFeeAmt.Location = new System.Drawing.Point(511, 161);
+            this.TxbNSFFeeAmt.Name = "TxbNSFFeeAmt";
+            this.TxbNSFFeeAmt.Size = new System.Drawing.Size(100, 20);
+            this.TxbNSFFeeAmt.TabIndex = 33;
+            // 
+            // TxbLateFeeAmt
+            // 
+            this.TxbLateFeeAmt.Enabled = false;
+            this.TxbLateFeeAmt.Location = new System.Drawing.Point(511, 133);
+            this.TxbLateFeeAmt.Name = "TxbLateFeeAmt";
+            this.TxbLateFeeAmt.Size = new System.Drawing.Size(100, 20);
+            this.TxbLateFeeAmt.TabIndex = 32;
+            // 
+            // TxbAccruedFinanceAmt
+            // 
+            this.TxbAccruedFinanceAmt.Enabled = false;
+            this.TxbAccruedFinanceAmt.Location = new System.Drawing.Point(511, 105);
+            this.TxbAccruedFinanceAmt.Name = "TxbAccruedFinanceAmt";
+            this.TxbAccruedFinanceAmt.Size = new System.Drawing.Size(100, 20);
+            this.TxbAccruedFinanceAmt.TabIndex = 31;
+            // 
+            // TxbAcutalServiceChrgAmt
+            // 
+            this.TxbAcutalServiceChrgAmt.Enabled = false;
+            this.TxbAcutalServiceChrgAmt.Location = new System.Drawing.Point(511, 77);
+            this.TxbAcutalServiceChrgAmt.Name = "TxbAcutalServiceChrgAmt";
+            this.TxbAcutalServiceChrgAmt.Size = new System.Drawing.Size(100, 20);
+            this.TxbAcutalServiceChrgAmt.TabIndex = 30;
+            // 
+            // TxbActualFinanceChrgAmt
+            // 
+            this.TxbActualFinanceChrgAmt.Enabled = false;
+            this.TxbActualFinanceChrgAmt.Location = new System.Drawing.Point(511, 49);
+            this.TxbActualFinanceChrgAmt.Name = "TxbActualFinanceChrgAmt";
+            this.TxbActualFinanceChrgAmt.Size = new System.Drawing.Size(100, 20);
+            this.TxbActualFinanceChrgAmt.TabIndex = 29;
+            // 
+            // TxbXPPAvailable
+            // 
+            this.TxbXPPAvailable.Enabled = false;
+            this.TxbXPPAvailable.Location = new System.Drawing.Point(140, 217);
+            this.TxbXPPAvailable.Name = "TxbXPPAvailable";
+            this.TxbXPPAvailable.Size = new System.Drawing.Size(100, 20);
+            this.TxbXPPAvailable.TabIndex = 28;
+            // 
+            // TxbRevokeACH
+            // 
+            this.TxbRevokeACH.Enabled = false;
+            this.TxbRevokeACH.Location = new System.Drawing.Point(140, 189);
+            this.TxbRevokeACH.Name = "TxbRevokeACH";
+            this.TxbRevokeACH.Size = new System.Drawing.Size(100, 20);
+            this.TxbRevokeACH.TabIndex = 27;
+            // 
+            // TxbLoanRollOverAmt
+            // 
+            this.TxbLoanRollOverAmt.Enabled = false;
+            this.TxbLoanRollOverAmt.Location = new System.Drawing.Point(140, 161);
+            this.TxbLoanRollOverAmt.Name = "TxbLoanRollOverAmt";
+            this.TxbLoanRollOverAmt.Size = new System.Drawing.Size(100, 20);
+            this.TxbLoanRollOverAmt.TabIndex = 26;
+            // 
+            // TxbLoanRolloverNotes
+            // 
+            this.TxbLoanRolloverNotes.Enabled = false;
+            this.TxbLoanRolloverNotes.Location = new System.Drawing.Point(140, 133);
+            this.TxbLoanRolloverNotes.Name = "TxbLoanRolloverNotes";
+            this.TxbLoanRolloverNotes.Size = new System.Drawing.Size(100, 20);
+            this.TxbLoanRolloverNotes.TabIndex = 25;
+            // 
+            // TxbLoanNumberPrev
+            // 
+            this.TxbLoanNumberPrev.Enabled = false;
+            this.TxbLoanNumberPrev.Location = new System.Drawing.Point(140, 77);
+            this.TxbLoanNumberPrev.Name = "TxbLoanNumberPrev";
+            this.TxbLoanNumberPrev.Size = new System.Drawing.Size(100, 20);
+            this.TxbLoanNumberPrev.TabIndex = 23;
+            // 
+            // TxbLoanNumberOrig
+            // 
+            this.TxbLoanNumberOrig.Enabled = false;
+            this.TxbLoanNumberOrig.Location = new System.Drawing.Point(140, 49);
+            this.TxbLoanNumberOrig.Name = "TxbLoanNumberOrig";
+            this.TxbLoanNumberOrig.Size = new System.Drawing.Size(100, 20);
+            this.TxbLoanNumberOrig.TabIndex = 22;
+            // 
+            // lblEstRolloverAmt
+            // 
+            this.lblEstRolloverAmt.AutoSize = true;
+            this.lblEstRolloverAmt.Location = new System.Drawing.Point(379, 217);
+            this.lblEstRolloverAmt.Name = "lblEstRolloverAmt";
+            this.lblEstRolloverAmt.Size = new System.Drawing.Size(85, 13);
+            this.lblEstRolloverAmt.TabIndex = 21;
+            this.lblEstRolloverAmt.Text = "Est Rollover Amt";
+            // 
+            // lblACHWaitingToClear
+            // 
+            this.lblACHWaitingToClear.AutoSize = true;
+            this.lblACHWaitingToClear.Location = new System.Drawing.Point(379, 189);
+            this.lblACHWaitingToClear.Name = "lblACHWaitingToClear";
+            this.lblACHWaitingToClear.Size = new System.Drawing.Size(95, 13);
+            this.lblACHWaitingToClear.TabIndex = 20;
+            this.lblACHWaitingToClear.Text = "ACH Waiting Clear";
+            // 
+            // lblNSFFeeAmt
+            // 
+            this.lblNSFFeeAmt.AutoSize = true;
+            this.lblNSFFeeAmt.Location = new System.Drawing.Point(379, 161);
+            this.lblNSFFeeAmt.Name = "lblNSFFeeAmt";
+            this.lblNSFFeeAmt.Size = new System.Drawing.Size(49, 13);
+            this.lblNSFFeeAmt.TabIndex = 19;
+            this.lblNSFFeeAmt.Text = "NSF Fee";
+            // 
+            // lblLateFeeAmt
+            // 
+            this.lblLateFeeAmt.AutoSize = true;
+            this.lblLateFeeAmt.Location = new System.Drawing.Point(379, 133);
+            this.lblLateFeeAmt.Name = "lblLateFeeAmt";
+            this.lblLateFeeAmt.Size = new System.Drawing.Size(49, 13);
+            this.lblLateFeeAmt.TabIndex = 18;
+            this.lblLateFeeAmt.Text = "Late Fee";
+            // 
+            // lblAccruedFinanceAmt
+            // 
+            this.lblAccruedFinanceAmt.AutoSize = true;
+            this.lblAccruedFinanceAmt.Location = new System.Drawing.Point(379, 105);
+            this.lblAccruedFinanceAmt.Name = "lblAccruedFinanceAmt";
+            this.lblAccruedFinanceAmt.Size = new System.Drawing.Size(88, 13);
+            this.lblAccruedFinanceAmt.TabIndex = 17;
+            this.lblAccruedFinanceAmt.Text = "Accrued Finance";
+            // 
+            // lblAcutalServiceChrgAmt
+            // 
+            this.lblAcutalServiceChrgAmt.AutoSize = true;
+            this.lblAcutalServiceChrgAmt.Location = new System.Drawing.Point(379, 77);
+            this.lblAcutalServiceChrgAmt.Name = "lblAcutalServiceChrgAmt";
+            this.lblAcutalServiceChrgAmt.Size = new System.Drawing.Size(54, 13);
+            this.lblAcutalServiceChrgAmt.TabIndex = 16;
+            this.lblAcutalServiceChrgAmt.Text = "Actual SC";
+            // 
+            // lblActualFinanceChrgAmt
+            // 
+            this.lblActualFinanceChrgAmt.AutoSize = true;
+            this.lblActualFinanceChrgAmt.Location = new System.Drawing.Point(379, 49);
+            this.lblActualFinanceChrgAmt.Name = "lblActualFinanceChrgAmt";
+            this.lblActualFinanceChrgAmt.Size = new System.Drawing.Size(53, 13);
+            this.lblActualFinanceChrgAmt.TabIndex = 15;
+            this.lblActualFinanceChrgAmt.Text = "Actual FC";
+            // 
+            // lblXPPAvailable
+            // 
+            this.lblXPPAvailable.AutoSize = true;
+            this.lblXPPAvailable.Location = new System.Drawing.Point(18, 217);
+            this.lblXPPAvailable.Name = "lblXPPAvailable";
+            this.lblXPPAvailable.Size = new System.Drawing.Size(77, 13);
+            this.lblXPPAvailable.TabIndex = 14;
+            this.lblXPPAvailable.Text = "XPP Available:";
+            // 
+            // lblRevokeACH
+            // 
+            this.lblRevokeACH.AutoSize = true;
+            this.lblRevokeACH.Location = new System.Drawing.Point(18, 189);
+            this.lblRevokeACH.Name = "lblRevokeACH";
+            this.lblRevokeACH.Size = new System.Drawing.Size(70, 13);
+            this.lblRevokeACH.TabIndex = 13;
+            this.lblRevokeACH.Text = "Revoke ACH";
+            // 
+            // lblLoanRollOverAmt
+            // 
+            this.lblLoanRollOverAmt.AutoSize = true;
+            this.lblLoanRollOverAmt.Location = new System.Drawing.Point(18, 161);
+            this.lblLoanRollOverAmt.Name = "lblLoanRollOverAmt";
+            this.lblLoanRollOverAmt.Size = new System.Drawing.Size(72, 13);
+            this.lblLoanRollOverAmt.TabIndex = 12;
+            this.lblLoanRollOverAmt.Text = "RollOver Amt:";
+            // 
+            // lblLoanRolloverNotes
+            // 
+            this.lblLoanRolloverNotes.AutoSize = true;
+            this.lblLoanRolloverNotes.Location = new System.Drawing.Point(18, 133);
+            this.lblLoanRolloverNotes.Name = "lblLoanRolloverNotes";
+            this.lblLoanRolloverNotes.Size = new System.Drawing.Size(76, 13);
+            this.lblLoanRolloverNotes.TabIndex = 11;
+            this.lblLoanRolloverNotes.Text = "Rollovers Rem";
+            // 
+            // lblDeclineReasonDescription
+            // 
+            this.lblDeclineReasonDescription.AutoSize = true;
+            this.lblDeclineReasonDescription.Location = new System.Drawing.Point(18, 105);
+            this.lblDeclineReasonDescription.Name = "lblDeclineReasonDescription";
+            this.lblDeclineReasonDescription.Size = new System.Drawing.Size(74, 13);
+            this.lblDeclineReasonDescription.TabIndex = 10;
+            this.lblDeclineReasonDescription.Text = "Reason Type:";
+            // 
+            // lblLoanNumberPrev
+            // 
+            this.lblLoanNumberPrev.AutoSize = true;
+            this.lblLoanNumberPrev.Location = new System.Drawing.Point(18, 77);
+            this.lblLoanNumberPrev.Name = "lblLoanNumberPrev";
+            this.lblLoanNumberPrev.Size = new System.Drawing.Size(76, 13);
+            this.lblLoanNumberPrev.TabIndex = 9;
+            this.lblLoanNumberPrev.Text = "Prev Loan No.";
+            // 
+            // lblLoanNumberOrig
+            // 
+            this.lblLoanNumberOrig.AutoSize = true;
+            this.lblLoanNumberOrig.Location = new System.Drawing.Point(18, 49);
+            this.lblLoanNumberOrig.Name = "lblLoanNumberOrig";
+            this.lblLoanNumberOrig.Size = new System.Drawing.Size(73, 13);
+            this.lblLoanNumberOrig.TabIndex = 8;
+            this.lblLoanNumberOrig.Text = "Orig Loan No.";
+            // 
+            // HeaderHorizonalLine
+            // 
+            this.HeaderHorizonalLine.Location = new System.Drawing.Point(0, 36);
+            this.HeaderHorizonalLine.Name = "HeaderHorizonalLine";
+            this.HeaderHorizonalLine.Size = new System.Drawing.Size(623, 2);
+            this.HeaderHorizonalLine.TabIndex = 7;
+            this.HeaderHorizonalLine.TabStop = false;
+            this.HeaderHorizonalLine.Text = "groupBox1";
+            // 
+            // lblHeaderBar
+            // 
+            this.lblHeaderBar.AutoSize = true;
+            this.lblHeaderBar.BackColor = System.Drawing.Color.Transparent;
+            this.lblHeaderBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHeaderBar.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.lblHeaderBar.Image = global::Support.Properties.Resources.Red_background;
+            this.lblHeaderBar.Location = new System.Drawing.Point(3, 2);
+            this.lblHeaderBar.Name = "lblHeaderBar";
+            this.lblHeaderBar.Size = new System.Drawing.Size(620, 13);
+            this.lblHeaderBar.TabIndex = 6;
+            this.lblHeaderBar.Text = "\" SSN                  UW Name             Requested Time              Loan Amt  " +
+    "       Payoff Amt       Actual Amt \"";
+            // 
+            // lblCustomerSSNData
+            // 
+            this.lblCustomerSSNData.AutoSize = true;
+            this.lblCustomerSSNData.Location = new System.Drawing.Point(15, 19);
+            this.lblCustomerSSNData.Name = "lblCustomerSSNData";
+            this.lblCustomerSSNData.Size = new System.Drawing.Size(29, 13);
+            this.lblCustomerSSNData.TabIndex = 0;
+            this.lblCustomerSSNData.Text = "SSN";
+            // 
+            // lblUWNameData
+            // 
+            this.lblUWNameData.AutoSize = true;
+            this.lblUWNameData.Location = new System.Drawing.Point(113, 19);
+            this.lblUWNameData.Name = "lblUWNameData";
+            this.lblUWNameData.Size = new System.Drawing.Size(57, 13);
+            this.lblUWNameData.TabIndex = 1;
+            this.lblUWNameData.Text = "UW Name";
+            // 
+            // lblLoanRequestDateData
+            // 
+            this.lblLoanRequestDateData.AutoSize = true;
+            this.lblLoanRequestDateData.Location = new System.Drawing.Point(240, 19);
+            this.lblLoanRequestDateData.Name = "lblLoanRequestDateData";
+            this.lblLoanRequestDateData.Size = new System.Drawing.Size(85, 13);
+            this.lblLoanRequestDateData.TabIndex = 2;
+            this.lblLoanRequestDateData.Text = "Requested Time";
+            // 
+            // lblLoanAmtData
+            // 
+            this.lblLoanAmtData.AutoSize = true;
+            this.lblLoanAmtData.Location = new System.Drawing.Point(376, 19);
+            this.lblLoanAmtData.Name = "lblLoanAmtData";
+            this.lblLoanAmtData.Size = new System.Drawing.Size(52, 13);
+            this.lblLoanAmtData.TabIndex = 3;
+            this.lblLoanAmtData.Text = "Loan Amt";
+            // 
+            // lblLoanPayOffAmtData
+            // 
+            this.lblLoanPayOffAmtData.AutoSize = true;
+            this.lblLoanPayOffAmtData.Location = new System.Drawing.Point(466, 19);
+            this.lblLoanPayOffAmtData.Name = "lblLoanPayOffAmtData";
+            this.lblLoanPayOffAmtData.Size = new System.Drawing.Size(58, 13);
+            this.lblLoanPayOffAmtData.TabIndex = 4;
+            this.lblLoanPayOffAmtData.Text = "Payoff Amt";
+            // 
+            // lblActualLoanAmtData
+            // 
+            this.lblActualLoanAmtData.AutoSize = true;
+            this.lblActualLoanAmtData.Location = new System.Drawing.Point(553, 19);
+            this.lblActualLoanAmtData.Name = "lblActualLoanAmtData";
+            this.lblActualLoanAmtData.Size = new System.Drawing.Size(58, 13);
+            this.lblActualLoanAmtData.TabIndex = 5;
+            this.lblActualLoanAmtData.Text = "Actual Amt";
+            #endregion
+            #region LOANEVENTSLAYOUTPANEL
+            // 
+            // PDL_LoanEventsLayoutPanel
+            // 
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.DgvHistoryLoanEvents);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.CmbHistoryLoanEvents);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.TxbShopState);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.TxbShopName);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.TxbShopNo);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.TxbLastUpdatedBy);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.TxbExtendedDate);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.TxbOrigDepDate);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.TxbDueDate);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.TxbOriginationDate);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.lblShopState);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.lblShopName);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.lblShopNo);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.lblLastUpdatedBy);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.lblExtendedDate);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.lblOrigDepDate);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.lblDueDate);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.lblOriginationDate);
+            this.PDL_LoanEventsLayoutPanel.Controls.Add(this.lblLoanEventsBar);
+            this.PDL_LoanEventsLayoutPanel.Location = new System.Drawing.Point(1, 503);
+            this.PDL_LoanEventsLayoutPanel.Name = "PDL_LoanEventsLayoutPanel";
+            this.PDL_LoanEventsLayoutPanel.Size = new System.Drawing.Size(921, 159);
+            this.PDL_LoanEventsLayoutPanel.TabIndex = 1;
+            // 
+            // DgvHistoryLoanEvents
+            // 
+            this.DgvHistoryLoanEvents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvHistoryLoanEvents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.DgvColHistDate,
+            this.DgvColHistEventType,
+            this.DgvColHistDetails,
+            this.DgvColHistAmoutPaid,
+            this.DgvColHistSource,
+            this.DgvColHistReceipt});
+            this.DgvHistoryLoanEvents.Location = new System.Drawing.Point(7, 66);
+            this.DgvHistoryLoanEvents.Name = "DgvHistoryLoanEvents";
+            this.DgvHistoryLoanEvents.Size = new System.Drawing.Size(907, 89);
+            this.DgvHistoryLoanEvents.TabIndex = 18;
+            // 
+            // DgvColHistDate
+            // 
+            this.DgvColHistDate.HeaderText = "Date";
+            this.DgvColHistDate.Name = "DgvColHistDate";
+            // 
+            // DgvColHistEventType
+            // 
+            this.DgvColHistEventType.HeaderText = "Event Type";
+            this.DgvColHistEventType.Name = "DgvColHistEventType";
+            // 
+            // DgvColHistDetails
+            // 
+            this.DgvColHistDetails.HeaderText = "Details";
+            this.DgvColHistDetails.Name = "DgvColHistDetails";
+            // 
+            // DgvColHistAmoutPaid
+            // 
+            this.DgvColHistAmoutPaid.HeaderText = "Amount ";
+            this.DgvColHistAmoutPaid.Name = "DgvColHistAmoutPaid";
+            // 
+            // DgvColHistSource
+            // 
+            this.DgvColHistSource.HeaderText = "Source";
+            this.DgvColHistSource.Name = "DgvColHistSource";
+            // 
+            // DgvColHistReceipt
+            // 
+            this.DgvColHistReceipt.HeaderText = "Receipt #";
+            this.DgvColHistReceipt.Name = "DgvColHistReceipt";
+            // 
+            // CmbHistoryLoanEvents
+            // 
+            this.CmbHistoryLoanEvents.FormattingEnabled = true;
+            this.CmbHistoryLoanEvents.Location = new System.Drawing.Point(77, 0);
+            this.CmbHistoryLoanEvents.Name = "CmbHistoryLoanEvents";
+            this.CmbHistoryLoanEvents.Size = new System.Drawing.Size(121, 21);
+            this.CmbHistoryLoanEvents.TabIndex = 17;
+            #endregion
+            #region XPP  Grid PROPERTIES LABES & TEXTBOXES
+            // 
+            // TxbShopState
+            // 
+            this.TxbShopState.Enabled = false;
+            this.TxbShopState.Location = new System.Drawing.Point(800, 40);
+            this.TxbShopState.Name = "TxbShopState";
+            this.TxbShopState.Size = new System.Drawing.Size(100, 20);
+            this.TxbShopState.TabIndex = 16;
+            // 
+            // TxbShopName
+            // 
+            this.TxbShopName.Enabled = false;
+            this.TxbShopName.Location = new System.Drawing.Point(677, 40);
+            this.TxbShopName.Name = "TxbShopName";
+            this.TxbShopName.Size = new System.Drawing.Size(100, 20);
+            this.TxbShopName.TabIndex = 15;
+            // 
+            // TxbShopNo
+            // 
+            this.TxbShopNo.Enabled = false;
+            this.TxbShopNo.Location = new System.Drawing.Point(571, 40);
+            this.TxbShopNo.Name = "TxbShopNo";
+            this.TxbShopNo.Size = new System.Drawing.Size(100, 20);
+            this.TxbShopNo.TabIndex = 14;
+            // 
+            // TxbLastUpdatedBy
+            // 
+            this.TxbLastUpdatedBy.Enabled = false;
+            this.TxbLastUpdatedBy.Location = new System.Drawing.Point(461, 40);
+            this.TxbLastUpdatedBy.Name = "TxbLastUpdatedBy";
+            this.TxbLastUpdatedBy.Size = new System.Drawing.Size(100, 20);
+            this.TxbLastUpdatedBy.TabIndex = 13;
+            // 
+            // TxbExtendedDate
+            // 
+            this.TxbExtendedDate.Enabled = false;
+            this.TxbExtendedDate.Location = new System.Drawing.Point(345, 40);
+            this.TxbExtendedDate.Name = "TxbExtendedDate";
+            this.TxbExtendedDate.Size = new System.Drawing.Size(100, 20);
+            this.TxbExtendedDate.TabIndex = 12;
+            // 
+            // TxbOrigDepDate
+            // 
+            this.TxbOrigDepDate.Enabled = false;
+            this.TxbOrigDepDate.Location = new System.Drawing.Point(242, 40);
+            this.TxbOrigDepDate.Name = "TxbOrigDepDate";
+            this.TxbOrigDepDate.Size = new System.Drawing.Size(100, 20);
+            this.TxbOrigDepDate.TabIndex = 11;
+            // 
+            // TxbDueDate
+            // 
+            this.TxbDueDate.Enabled = false;
+            this.TxbDueDate.Location = new System.Drawing.Point(133, 40);
+            this.TxbDueDate.Name = "TxbDueDate";
+            this.TxbDueDate.Size = new System.Drawing.Size(100, 20);
+            this.TxbDueDate.TabIndex = 10;
+            // 
+            // TxbOriginationDate
+            // 
+            this.TxbOriginationDate.Enabled = false;
+            this.TxbOriginationDate.Location = new System.Drawing.Point(27, 40);
+            this.TxbOriginationDate.Name = "TxbOriginationDate";
+            this.TxbOriginationDate.Size = new System.Drawing.Size(100, 20);
+            this.TxbOriginationDate.TabIndex = 9;
+            // 
+            // lblShopState
+            // 
+            this.lblShopState.AutoSize = true;
+            this.lblShopState.Location = new System.Drawing.Point(797, 24);
+            this.lblShopState.Name = "lblShopState";
+            this.lblShopState.Size = new System.Drawing.Size(60, 13);
+            this.lblShopState.TabIndex = 8;
+            this.lblShopState.Text = "Shop State";
+            // 
+            // lblShopName
+            // 
+            this.lblShopName.AutoSize = true;
+            this.lblShopName.Location = new System.Drawing.Point(679, 24);
+            this.lblShopName.Name = "lblShopName";
+            this.lblShopName.Size = new System.Drawing.Size(63, 13);
+            this.lblShopName.TabIndex = 7;
+            this.lblShopName.Text = "Shop Name";
+            // 
+            // lblShopNo
+            // 
+            this.lblShopNo.AutoSize = true;
+            this.lblShopNo.Location = new System.Drawing.Point(575, 24);
+            this.lblShopNo.Name = "lblShopNo";
+            this.lblShopNo.Size = new System.Drawing.Size(49, 13);
+            this.lblShopNo.TabIndex = 6;
+            this.lblShopNo.Text = "Shop No";
+            // 
+            // lblLastUpdatedBy
+            // 
+            this.lblLastUpdatedBy.AutoSize = true;
+            this.lblLastUpdatedBy.Location = new System.Drawing.Point(458, 24);
+            this.lblLastUpdatedBy.Name = "lblLastUpdatedBy";
+            this.lblLastUpdatedBy.Size = new System.Drawing.Size(65, 13);
+            this.lblLastUpdatedBy.TabIndex = 5;
+            this.lblLastUpdatedBy.Text = "Last Upd By";
+            // 
+            // lblExtendedDate
+            // 
+            this.lblExtendedDate.AutoSize = true;
+            this.lblExtendedDate.Location = new System.Drawing.Point(342, 24);
+            this.lblExtendedDate.Name = "lblExtendedDate";
+            this.lblExtendedDate.Size = new System.Drawing.Size(78, 13);
+            this.lblExtendedDate.TabIndex = 4;
+            this.lblExtendedDate.Text = "Extended Date";
+            // 
+            // lblOrigDepDate
+            // 
+            this.lblOrigDepDate.AutoSize = true;
+            this.lblOrigDepDate.Location = new System.Drawing.Point(240, 24);
+            this.lblOrigDepDate.Name = "lblOrigDepDate";
+            this.lblOrigDepDate.Size = new System.Drawing.Size(75, 13);
+            this.lblOrigDepDate.TabIndex = 3;
+            this.lblOrigDepDate.Text = "Orig Dep Date";
+            // 
+            // lblDueDate
+            // 
+            this.lblDueDate.AutoSize = true;
+            this.lblDueDate.Location = new System.Drawing.Point(132, 24);
+            this.lblDueDate.Name = "lblDueDate";
+            this.lblDueDate.Size = new System.Drawing.Size(53, 13);
+            this.lblDueDate.TabIndex = 2;
+            this.lblDueDate.Text = "Due Date";
+            // 
+            // lblOriginationDate
+            // 
+            this.lblOriginationDate.AutoSize = true;
+            this.lblOriginationDate.Location = new System.Drawing.Point(24, 24);
+            this.lblOriginationDate.Name = "lblOriginationDate";
+            this.lblOriginationDate.Size = new System.Drawing.Size(108, 13);
+            this.lblOriginationDate.TabIndex = 1;
+            this.lblOriginationDate.Text = "OriginationDate/Time";
+            #endregion
+            #region EVENTS Grid PROPERTIES LABES & TEXTBOXES
+            // 
+            // lblLoanEventsBar
+            // 
+            this.lblLoanEventsBar.AutoSize = true;
+            this.lblLoanEventsBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoanEventsBar.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lblLoanEventsBar.Image = global::Support.Properties.Resources.Red_background;
+            this.lblLoanEventsBar.Location = new System.Drawing.Point(-3, 0);
+            this.lblLoanEventsBar.Name = "lblLoanEventsBar";
+            this.lblLoanEventsBar.Size = new System.Drawing.Size(1009, 20);
+            this.lblLoanEventsBar.TabIndex = 0;
+            this.lblLoanEventsBar.Text = "Events                                                                           " +
+    "                                                                                " +
+    "                                  ";
+
+            // 
+            // DbvTxbColxppLineItem
+            // 
+            this.DbvTxbColxppLineItem.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
+            this.DbvTxbColxppLineItem.MaxInputLength = 20;
+            this.DbvTxbColxppLineItem.Name = "DbvTxbColxppLineItem";
+            this.DbvTxbColxppLineItem.Width = 21;
+            // 
+            // DgvTxbColxppPaymentSeqNumber
+            // 
+            this.DgvTxbColxppPaymentSeqNumber.HeaderText = "No.";
+            this.DgvTxbColxppPaymentSeqNumber.Name = "DgvTxbColxppPaymentSeqNumber";
+            // 
+            // DgvTxbColxppPaymentNumber
+            // 
+            this.DgvTxbColxppPaymentNumber.HeaderText = "Payment #";
+            this.DgvTxbColxppPaymentNumber.Name = "DgvTxbColxppPaymentNumber";
+            // 
+            // DgvTxbColxppPaymentDate
+            // 
+            this.DgvTxbColxppPaymentDate.HeaderText = "Date";
+            this.DgvTxbColxppPaymentDate.Name = "DgvTxbColxppPaymentDate";
+            this.DgvTxbColxppPaymentDate.Width = 200;
+            // 
+            // DgvTxbColxppPaymentAmt
+            // 
+            this.DgvTxbColxppPaymentAmt.HeaderText = "Amount";
+            this.DgvTxbColxppPaymentAmt.Name = "DgvTxbColxppPaymentAmt";
+            this.DgvTxbColxppPaymentAmt.Width = 300;
+            // 
+            // DgvTxbColHistDate
+            // 
+            this.DgvTxbColHistDate.HeaderText = "Type";
+            this.DgvTxbColHistDate.Name = "DgvTxbColHistDate";
+            // 
+            // DgvTxbColHistEventType
+            // 
+            this.DgvTxbColHistEventType.HeaderText = "Due Date";
+            this.DgvTxbColHistEventType.Name = "DgvTxbColHistEventType";
+            // 
+            // DgvTxbColHistDetails
+            // 
+            this.DgvTxbColHistDetails.HeaderText = "AmountDue";
+            this.DgvTxbColHistDetails.Name = "DgvTxbColHistDetails";
+            // 
+            // DgvTxbColHistAmoutPaid
+            // 
+            this.DgvTxbColHistAmoutPaid.HeaderText = "Paid Date";
+            this.DgvTxbColHistAmoutPaid.Name = "DgvTxbColHistAmoutPaid";
+            // 
+            // DgvTxbColHistReceipt
+            // 
+            this.DgvTxbColHistReceipt.HeaderText = "Amount Paid";
+            this.DgvTxbColHistReceipt.Name = "DgvTxbColHistReceipt";
+            #endregion
+            #region FORM
             // 
             // Controller_ProductServices
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Blue;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackColor = System.Drawing.Color.MistyRose;
+            //this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImage = global::Support.Properties.Resources.form_800_600;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(940, 702);
             this.ControlBox = false;
@@ -1850,6 +2376,8 @@ namespace Support.Forms.Customer.Products
             this.Controls.Add(this.PS_ShowComboBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.PS_TicketsDataGridView);
+            this.Controls.Add(this.PDL_LoanEventsLayoutPanel); // PDL
+            this.Controls.Add(this.PDL_LoanStatsLayoutPanel);   // PDL
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Black;
@@ -1858,30 +2386,39 @@ namespace Support.Forms.Customer.Products
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Shown += new System.EventHandler(this.Controller_ProductServices_Shown);
+
             this.PS_LoanStatsLayoutPanel.ResumeLayout(false);
             this.PS_LoanStatsLayoutPanel.PerformLayout();
+
             this.PS_SubTabControl.ResumeLayout(false);
             this.PS_ServiceOptionsTab.ResumeLayout(false);
-            this.PS_PawnButtonsPanel.ResumeLayout(false);
-            this.PS_PawnButtonsPanel.PerformLayout();
-            this.LW_LayawayButtonsPanel.ResumeLayout(false);
-            this.LW_LayawayButtonsPanel.PerformLayout();
-            this.CommonServiceButtonsPanel.ResumeLayout(false);
-            this.CommonServiceButtonsPanel.PerformLayout();
             this.PS_HistoryTab.ResumeLayout(false);
+
             ((System.ComponentModel.ISupportInitialize)(this.PH_ReceiptsDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PS_ItemDescriptionDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PS_TicketsDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PS_AddTicketsDataGridView)).EndInit();
+
             this.LW_DetailsLayoutPanel.ResumeLayout(false);
             this.LW_DetailsLayoutPanel.PerformLayout();
+            // PDL
+            this.PDL_LoanStatsLayoutPanel.ResumeLayout(false);
+            this.PDL_LoanStatsLayoutPanel.PerformLayout();
+
+            ((System.ComponentModel.ISupportInitialize)(this.DGVxxpPaySchedule)).EndInit();
+            this.PDL_LoanEventsLayoutPanel.ResumeLayout(false);
+            this.PDL_LoanEventsLayoutPanel.PerformLayout();
+
+            ((System.ComponentModel.ISupportInitialize)(this.DgvHistoryLoanEvents)).EndInit();
             this.ResumeLayout(false);
+
             this.PerformLayout();
 
         }
 
-        #endregion
+            #endregion
 
+            #region ASSIGNMENT
         private System.Windows.Forms.Panel PS_LoanStatsLayoutPanel;
         private System.Windows.Forms.Label PS_ReceiptNoLabel;
         private System.Windows.Forms.Label PS_LastDayOfGraceLabel;
@@ -1899,14 +2436,6 @@ namespace Support.Forms.Customer.Products
         private System.Windows.Forms.Label PS_OriginationDateValue;
         private System.Windows.Forms.TabControl PS_SubTabControl;
         private System.Windows.Forms.TabPage PS_ServiceOptionsTab;
-        private System.Windows.Forms.Button PS_LostPawnTicketButton;
-        private System.Windows.Forms.Button PS_UnDoButton;
-        private System.Windows.Forms.Button PS_ViewNewLoanDetailsButton;
-        private System.Windows.Forms.Button PS_RollOverButton;
-        private System.Windows.Forms.Button PS_WaiveProrate;
-        private System.Windows.Forms.Button PS_PickUpButton;
-        private System.Windows.Forms.Button PS_ExtendButton;
-        private System.Windows.Forms.Button PS_AddMoreTicketsButton;
         private System.Windows.Forms.TabPage PS_HistoryTab;
         private System.Windows.Forms.DataGridView PS_ItemDescriptionDataGridView;
         private System.Windows.Forms.Label PS_PawnNameLabel;
@@ -1931,7 +2460,6 @@ namespace Support.Forms.Customer.Products
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
-        private System.Windows.Forms.Button PS_CheckoutButton;
         private System.Windows.Forms.Label labelServiceAmountHeading;
         private System.Windows.Forms.Label labelServiceAmount;
         private System.Windows.Forms.Label PS_ServiceMessageLabel;
@@ -1943,11 +2471,6 @@ namespace Support.Forms.Customer.Products
         private System.Windows.Forms.DataGridViewTextBoxColumn PS_AddTickets_TicketNumberColumn;
         private CalendarColumn PS_AddTickets_LastDayColumn;
         private System.Windows.Forms.DataGridViewImageColumn PS_AddTickets_Refresh;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_ServiceIndicatorColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_Extend;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_TicketNumberColumn;
-        private CalendarColumn PS_Tickets_LastDayColumn;
-        private System.Windows.Forms.DataGridViewImageColumn PS_Tickets_Refresh;
         private CalendarColumn calendarColumn1;
         private CalendarColumn calendarColumn2;
         private System.Windows.Forms.TableLayoutPanel tlpDocuments;
@@ -1956,8 +2479,6 @@ namespace Support.Forms.Customer.Products
         private System.Windows.Forms.DataGridViewTextBoxColumn PH_Receipt_AmountColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn PH_Receipt_EntIDColumn;
         private System.Windows.Forms.DataGridViewLinkColumn PH_Receipt_ReceiptColumn;
-        private System.Windows.Forms.Button LW_LayawayTerminateButton;
-        private System.Windows.Forms.Button LW_LayawayPaymentButton;
         private System.Windows.Forms.Panel PS_PawnButtonsPanel;
         private System.Windows.Forms.Panel LW_LayawayButtonsPanel;
         private System.Windows.Forms.Panel CommonServiceButtonsPanel;
@@ -1993,9 +2514,103 @@ namespace Support.Forms.Customer.Products
         private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn colLocation;
         private System.Windows.Forms.DataGridViewTextBoxColumn colItemAmount;
-        private System.Windows.Forms.Button BuyoutButton;
-        private System.Windows.Forms.Button PS_PartPmntButton;
         private System.Windows.Forms.Label lblCurrentPrincipalAmount;
         private System.Windows.Forms.Label lblCurrentPrincipalAmountTitle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_ServiceIndicatorColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_Extend;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_TicketNumberColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Staus_Date;
+        private CalendarColumn PS_Tickets_LastDayColumn;
+        private System.Windows.Forms.DataGridViewImageColumn PS_Tickets_Refresh;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Ticket_Type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Ticket_Status;
+        #endregion
+            #region PDL ASSIGNMENTS
+            private System.Windows.Forms.Panel PDL_LoanStatsLayoutPanel;
+            private System.Windows.Forms.Label lblCustomerSSNData;
+            private System.Windows.Forms.Label lblUWNameData;
+            private System.Windows.Forms.Label lblLoanRequestDateData;
+            private System.Windows.Forms.Label lblLoanAmtData;
+            private System.Windows.Forms.Label lblLoanPayOffAmtData;
+            private System.Windows.Forms.Label lblActualLoanAmtData;
+            private System.Windows.Forms.Label lblHeaderBar;
+            private System.Windows.Forms.GroupBox HeaderHorizonalLine;
+            private System.Windows.Forms.Label lblEstRolloverAmt;
+            private System.Windows.Forms.Label lblACHWaitingToClear;
+            private System.Windows.Forms.Label lblNSFFeeAmt;
+            private System.Windows.Forms.Label lblLateFeeAmt;
+            private System.Windows.Forms.Label lblAccruedFinanceAmt;
+            private System.Windows.Forms.Label lblAcutalServiceChrgAmt;
+            private System.Windows.Forms.Label lblActualFinanceChrgAmt;
+            private System.Windows.Forms.Label lblXPPAvailable;
+            private System.Windows.Forms.Label lblRevokeACH;
+            private System.Windows.Forms.Label lblLoanRollOverAmt;
+            private System.Windows.Forms.Label lblLoanRolloverNotes;
+            private System.Windows.Forms.Label lblDeclineReasonDescription;
+            private System.Windows.Forms.Label lblLoanNumberPrev;
+            private System.Windows.Forms.Label lblLoanNumberOrig;
+            private System.Windows.Forms.TextBox TxbEstRolloverAmt;
+            private System.Windows.Forms.TextBox TxbACHWaitingToClear;
+            private System.Windows.Forms.TextBox TxbNSFFeeAmt;
+            private System.Windows.Forms.TextBox TxbLateFeeAmt;
+            private System.Windows.Forms.TextBox TxbAccruedFinanceAmt;
+            private System.Windows.Forms.TextBox TxbAcutalServiceChrgAmt;
+            private System.Windows.Forms.TextBox TxbActualFinanceChrgAmt;
+            private System.Windows.Forms.TextBox TxbXPPAvailable;
+            private System.Windows.Forms.TextBox TxbRevokeACH;
+            private System.Windows.Forms.TextBox TxbLoanRollOverAmt;
+            private System.Windows.Forms.TextBox TxbLoanRolloverNotes;
+            private System.Windows.Forms.TextBox TxbLoanNumberPrev;
+            private System.Windows.Forms.TextBox TxbLoanNumberOrig;
+            private System.Windows.Forms.LinkLabel LnkOtherDetails;
+            private System.Windows.Forms.LinkLabel LnkReasonType;
+            private System.Windows.Forms.Label lblxppHeaderBar;
+            private System.Windows.Forms.DataGridView DGVxxpPaySchedule;
+            private System.Windows.Forms.LinkLabel lnkContractPDF;
+            private System.Windows.Forms.Panel PDL_LoanEventsLayoutPanel;
+            private System.Windows.Forms.Label lblLoanEventsBar;
+            private System.Windows.Forms.TextBox TxbShopState;
+            private System.Windows.Forms.TextBox TxbShopName;
+            private System.Windows.Forms.TextBox TxbShopNo;
+            private System.Windows.Forms.TextBox TxbLastUpdatedBy;
+            private System.Windows.Forms.TextBox TxbExtendedDate;
+            private System.Windows.Forms.TextBox TxbOrigDepDate;
+            private System.Windows.Forms.TextBox TxbDueDate;
+            private System.Windows.Forms.TextBox TxbOriginationDate;
+            private System.Windows.Forms.Label lblShopState;
+            private System.Windows.Forms.Label lblShopName;
+            private System.Windows.Forms.Label lblShopNo;
+            private System.Windows.Forms.Label lblLastUpdatedBy;
+            private System.Windows.Forms.Label lblExtendedDate;
+            private System.Windows.Forms.Label lblOrigDepDate;
+            private System.Windows.Forms.Label lblDueDate;
+            private System.Windows.Forms.Label lblOriginationDate;
+            private System.Windows.Forms.DataGridView DgvHistoryLoanEvents;
+            private System.Windows.Forms.ComboBox CmbHistoryLoanEvents;
+    
+            private System.Windows.Forms.DataGridViewTextBoxColumn DbvTxbColxppLineItem;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColxppPaymentSeqNumber;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColxppPaymentNumber;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColxppPaymentDate;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColxppPaymentAmt;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColHistDate;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColHistEventType;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColHistDetails;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColHistAmoutPaid;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColHistReceipt;
+    
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppLineItem;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentSeqNumber;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentNumber;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentDate;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentAmt;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistDate;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistEventType;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistDetails;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistAmoutPaid;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistSource;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistReceipt;
+            #endregion
+        #endregion
     }
 }

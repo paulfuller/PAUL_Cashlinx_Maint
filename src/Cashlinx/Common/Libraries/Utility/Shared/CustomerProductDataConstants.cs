@@ -301,7 +301,9 @@ namespace Common.Libraries.Utility.Shared
         POLICESEIZE,
         PAYDOWN,
         BUYOUT,
-        PARTIALPAYMENT
+        PARTIALPAYMENT,
+        LAYPAYMENT,
+        LAYTERM
     }
     public enum MerchandiseStatus
     {
@@ -733,7 +735,10 @@ namespace Common.Libraries.Utility.Shared
         public DateTime NewPfiEligible;
         public decimal ExtensionAmount;
         public decimal Fees;
+        public decimal PawnChargeAtMaturity;
+        public decimal PawnChargeAtPfi;
         public int ExtendedBy;
+        public DateTime PawnChargePaidTo;
     }
 
     public struct LedgerReport
@@ -759,6 +764,9 @@ namespace Common.Libraries.Utility.Shared
         public decimal StorageFee;
         public decimal OtherCharges;
         public decimal SubTotal;
+        public decimal ServiceFee;
+        public decimal LateFee;
+        public decimal LostTicketFee;
         public DateTime PFIDate;
         
     }

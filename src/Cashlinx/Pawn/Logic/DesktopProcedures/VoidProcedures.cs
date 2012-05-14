@@ -35,12 +35,13 @@ namespace Pawn.Logic.DesktopProcedures
             VOID_SHOPTOSHOPTRANSFER = 8,
             VOID_VENDORBUY = 9,
             VOID_PFI = 10,
-            VOID_PARTPAYMENT = 11
+            VOID_PARTPAYMENT = 11,
+            VOID_RELEASEFINGERPRINTS = 23
         }
 
         public static readonly string[] VoidCodeValues =
         {
-            "VNL", "VPD", "VRN", "VPU", "VEX","VPR","VRET","VBT","VST","VVB","VPARTP"
+            "VNL", "VPD", "VRN", "VPU", "VEX","VPR","VRET","VBT","VST","VVB","VPARTP", "VFPRNT"
         };
 
         /// <summary>
@@ -57,8 +58,8 @@ namespace Pawn.Logic.DesktopProcedures
         {
             errCode = string.Empty;
             errText = string.Empty;
-            if (lvd == null || 
-                string.IsNullOrEmpty(lvd.OpCode) || 
+            if (lvd == null ||
+                string.IsNullOrEmpty(lvd.OpCode) ||
                 string.IsNullOrEmpty(lvd.OpRef) ||
                 string.IsNullOrEmpty(lvd.TickNum) ||
                 string.IsNullOrEmpty(lvd.StoreNum))
@@ -176,7 +177,7 @@ namespace Pawn.Logic.DesktopProcedures
                     decimal dStatusCode = 0;
                     CashlinxDesktopSession.Instance.beginTransactionBlock();
                     transactStarted = true;
-                    retVal= VoidPFI(Utilities.GetIntegerValue(lvd.TickNum),
+                    retVal = VoidPFI(Utilities.GetIntegerValue(lvd.TickNum),
                         CashlinxDesktopSession.Instance.CurrentSiteId.StoreNumber,
                         "",
                         "",
@@ -203,7 +204,7 @@ namespace Pawn.Logic.DesktopProcedures
                 if (!retVal)
                 {
                     CashlinxDesktopSession.Instance.endTransactionBlock(EndTransactionType.ROLLBACK);
-                    transactStarted = false;                    
+                    transactStarted = false;
                     return false;
                 }
                 CashlinxDesktopSession.Instance.endTransactionBlock(EndTransactionType.COMMIT);
@@ -213,10 +214,10 @@ namespace Pawn.Logic.DesktopProcedures
             else if (lvd.OpCode.Equals("PARTP", StringComparison.OrdinalIgnoreCase))
             {
                 bool retVal = false;
-                int receiptNumber=0;
+                int receiptNumber = 0;
                 try
                 {
-                    
+
                     decimal dStatusCode = 0;
                     CashlinxDesktopSession.Instance.beginTransactionBlock();
                     transactStarted = true;
@@ -294,7 +295,7 @@ namespace Pawn.Logic.DesktopProcedures
                 //Add the receipt number
                 rDVO.ReceiptNumber = receiptNumber.ToString();
 
-      
+
                 ProcessTenderController pCntrl = ProcessTenderController.Instance;
                 pCntrl.executeVoidLoanPrintReceipt(pVO, rDVO);
                 return true;
@@ -431,7 +432,7 @@ namespace Pawn.Logic.DesktopProcedures
                         FileLogger.Instance.logMessage(LogLevel.ERROR, "VoidProcedures", "Failed to update teller on void transaction" + errText);
                     }
                 }
-                catch(Exception eX)
+                catch (Exception eX)
                 {
                     if (FileLogger.Instance.IsLogError)
                     {
@@ -2155,6 +2156,72 @@ namespace Pawn.Logic.DesktopProcedures
             return (false);
         }
 
+        public static bool VoidReleaseFingerprints(
+            VoidCode voidCode,
+            string seizeNumber,
+            string storeNumber,
+            string voidReason,
+            string voidComment,
+            out string errorCode,
+            out string errorText)
+        {
+            var retval = true;
+
+            try
+            {
+                var oDa = GlobalDataAccessor.Instance.OracleDA;
+
+                var inParams = new List<OracleProcParam>
+                               {
+                                   new OracleProcParam("p_void_code", (int)voidCode),
+                                   new OracleProcParam("p_ref_number", seizeNumber),
+                                   new OracleProcParam("p_store_number", storeNumber),
+                                   new OracleProcParam("p_void_reason", voidReason),
+                                   new OracleProcParam("p_void_comment", voidComment),
+                                   new OracleProcParam("p_user_name", GlobalDataAccessor.Instance.DesktopSession.UserName)
+                               };
+
+
+                var refCursArr = new List<PairType<string, string>>();
+                try
+                {
+                    DataSet outputDataSet;
+                    retval = oDa.issueSqlStoredProcCommand(
+                        "ccsowner", "pawn_voids",
+                        "void_release_Fingerprints", inParams,
+                        refCursArr, "o_return_code",
+                        "o_return_text",
+                        out outputDataSet);
+                }
+                catch (Exception oEx)
+                {
+                    BasicExceptionHandler.Instance.AddException("Calling voidPartialPayment stored procedure", oEx);
+                    errorCode = "VoidReleaseFingerprints";
+                    errorText = "Exception: " + oEx.Message;
+                    retval = false;
+
+                }
+
+                if (retval == false)
+                {
+                    errorCode = oDa.ErrorCode;
+                    errorText = oDa.ErrorDescription;
+                    retval = false;
+                }
+
+                errorCode = oDa.ErrorCode;
+                errorText = oDa.ErrorDescription;
+            }
+            catch (Exception ex)
+            {
+                BasicExceptionHandler.Instance.AddException("Calling voidPartialPayment stored procedure", ex);
+                errorCode = "VoidReleaseFingerprints";
+                errorText = "Exception: " + ex.Message;
+                retval = false;
+            }
+
+            return retval;
+        }
 
 
     }

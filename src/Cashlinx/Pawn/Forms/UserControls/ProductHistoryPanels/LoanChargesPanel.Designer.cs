@@ -46,6 +46,8 @@ namespace Pawn.Forms.UserControls.ProductHistoryPanels
             this.PH_ExtensionAmountLabel = new System.Windows.Forms.Label();
             this.PH_TotalPickupAmountText = new System.Windows.Forms.Label();
             this.PH_TotalPickupAmountLabel = new System.Windows.Forms.Label();
+            this.PH_CurrentPrincipalAmountText = new System.Windows.Forms.Label();
+            this.PH_CurrentPrincipalAmountLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // PH_PrincipalAmountText
@@ -75,7 +77,7 @@ namespace Pawn.Forms.UserControls.ProductHistoryPanels
             // 
             this.PH_InterestChargeText.BackColor = System.Drawing.Color.Transparent;
             this.PH_InterestChargeText.ForeColor = System.Drawing.Color.Black;
-            this.PH_InterestChargeText.Location = new System.Drawing.Point(170, 33);
+            this.PH_InterestChargeText.Location = new System.Drawing.Point(170, 56);
             this.PH_InterestChargeText.Name = "PH_InterestChargeText";
             this.PH_InterestChargeText.Size = new System.Drawing.Size(86, 30);
             this.PH_InterestChargeText.TabIndex = 132;
@@ -87,7 +89,7 @@ namespace Pawn.Forms.UserControls.ProductHistoryPanels
             this.PH_InterestChargeLabel.BackColor = System.Drawing.Color.WhiteSmoke;
             this.PH_InterestChargeLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PH_InterestChargeLabel.ForeColor = System.Drawing.Color.Black;
-            this.PH_InterestChargeLabel.Location = new System.Drawing.Point(6, 33);
+            this.PH_InterestChargeLabel.Location = new System.Drawing.Point(6, 56);
             this.PH_InterestChargeLabel.Name = "PH_InterestChargeLabel";
             this.PH_InterestChargeLabel.Size = new System.Drawing.Size(161, 30);
             this.PH_InterestChargeLabel.TabIndex = 131;
@@ -98,7 +100,7 @@ namespace Pawn.Forms.UserControls.ProductHistoryPanels
             // 
             this.PH_ServiceChargeText.BackColor = System.Drawing.Color.Transparent;
             this.PH_ServiceChargeText.ForeColor = System.Drawing.Color.Black;
-            this.PH_ServiceChargeText.Location = new System.Drawing.Point(170, 63);
+            this.PH_ServiceChargeText.Location = new System.Drawing.Point(170, 86);
             this.PH_ServiceChargeText.Name = "PH_ServiceChargeText";
             this.PH_ServiceChargeText.Size = new System.Drawing.Size(86, 30);
             this.PH_ServiceChargeText.TabIndex = 134;
@@ -110,7 +112,7 @@ namespace Pawn.Forms.UserControls.ProductHistoryPanels
             this.PH_ServiceChargeLabel.BackColor = System.Drawing.Color.Transparent;
             this.PH_ServiceChargeLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PH_ServiceChargeLabel.ForeColor = System.Drawing.Color.Black;
-            this.PH_ServiceChargeLabel.Location = new System.Drawing.Point(6, 63);
+            this.PH_ServiceChargeLabel.Location = new System.Drawing.Point(6, 86);
             this.PH_ServiceChargeLabel.Name = "PH_ServiceChargeLabel";
             this.PH_ServiceChargeLabel.Size = new System.Drawing.Size(161, 30);
             this.PH_ServiceChargeLabel.TabIndex = 133;
@@ -120,7 +122,7 @@ namespace Pawn.Forms.UserControls.ProductHistoryPanels
             // PH_FeesLabel
             // 
             this.PH_FeesLabel.AutoSize = true;
-            this.PH_FeesLabel.Location = new System.Drawing.Point(134, 102);
+            this.PH_FeesLabel.Location = new System.Drawing.Point(134, 125);
             this.PH_FeesLabel.Name = "PH_FeesLabel";
             this.PH_FeesLabel.Size = new System.Drawing.Size(33, 13);
             this.PH_FeesLabel.TabIndex = 135;
@@ -131,7 +133,7 @@ namespace Pawn.Forms.UserControls.ProductHistoryPanels
             // 
             this.PH_FeesText.BackColor = System.Drawing.Color.Transparent;
             this.PH_FeesText.ForeColor = System.Drawing.Color.Black;
-            this.PH_FeesText.Location = new System.Drawing.Point(170, 93);
+            this.PH_FeesText.Location = new System.Drawing.Point(170, 116);
             this.PH_FeesText.Name = "PH_FeesText";
             this.PH_FeesText.Size = new System.Drawing.Size(86, 30);
             this.PH_FeesText.TabIndex = 136;
@@ -142,7 +144,7 @@ namespace Pawn.Forms.UserControls.ProductHistoryPanels
             // 
             this.PH_LateChargeText.BackColor = System.Drawing.Color.Transparent;
             this.PH_LateChargeText.ForeColor = System.Drawing.Color.Black;
-            this.PH_LateChargeText.Location = new System.Drawing.Point(170, 123);
+            this.PH_LateChargeText.Location = new System.Drawing.Point(170, 146);
             this.PH_LateChargeText.Name = "PH_LateChargeText";
             this.PH_LateChargeText.Size = new System.Drawing.Size(86, 30);
             this.PH_LateChargeText.TabIndex = 138;
@@ -154,7 +156,7 @@ namespace Pawn.Forms.UserControls.ProductHistoryPanels
             this.PH_LateChargeLabel.BackColor = System.Drawing.Color.Transparent;
             this.PH_LateChargeLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PH_LateChargeLabel.ForeColor = System.Drawing.Color.Black;
-            this.PH_LateChargeLabel.Location = new System.Drawing.Point(6, 123);
+            this.PH_LateChargeLabel.Location = new System.Drawing.Point(6, 146);
             this.PH_LateChargeLabel.Name = "PH_LateChargeLabel";
             this.PH_LateChargeLabel.Size = new System.Drawing.Size(161, 30);
             this.PH_LateChargeLabel.TabIndex = 137;
@@ -165,7 +167,7 @@ namespace Pawn.Forms.UserControls.ProductHistoryPanels
             // 
             this.PH_ExtensionAmountText.BackColor = System.Drawing.Color.Transparent;
             this.PH_ExtensionAmountText.ForeColor = System.Drawing.Color.Black;
-            this.PH_ExtensionAmountText.Location = new System.Drawing.Point(170, 153);
+            this.PH_ExtensionAmountText.Location = new System.Drawing.Point(170, 176);
             this.PH_ExtensionAmountText.Name = "PH_ExtensionAmountText";
             this.PH_ExtensionAmountText.Size = new System.Drawing.Size(86, 30);
             this.PH_ExtensionAmountText.TabIndex = 140;
@@ -177,7 +179,7 @@ namespace Pawn.Forms.UserControls.ProductHistoryPanels
             this.PH_ExtensionAmountLabel.BackColor = System.Drawing.Color.Transparent;
             this.PH_ExtensionAmountLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PH_ExtensionAmountLabel.ForeColor = System.Drawing.Color.Black;
-            this.PH_ExtensionAmountLabel.Location = new System.Drawing.Point(3, 153);
+            this.PH_ExtensionAmountLabel.Location = new System.Drawing.Point(3, 176);
             this.PH_ExtensionAmountLabel.Name = "PH_ExtensionAmountLabel";
             this.PH_ExtensionAmountLabel.Size = new System.Drawing.Size(164, 30);
             this.PH_ExtensionAmountLabel.TabIndex = 139;
@@ -188,7 +190,7 @@ namespace Pawn.Forms.UserControls.ProductHistoryPanels
             // 
             this.PH_TotalPickupAmountText.BackColor = System.Drawing.Color.Transparent;
             this.PH_TotalPickupAmountText.ForeColor = System.Drawing.Color.Black;
-            this.PH_TotalPickupAmountText.Location = new System.Drawing.Point(170, 183);
+            this.PH_TotalPickupAmountText.Location = new System.Drawing.Point(170, 206);
             this.PH_TotalPickupAmountText.Name = "PH_TotalPickupAmountText";
             this.PH_TotalPickupAmountText.Size = new System.Drawing.Size(86, 30);
             this.PH_TotalPickupAmountText.TabIndex = 142;
@@ -200,18 +202,43 @@ namespace Pawn.Forms.UserControls.ProductHistoryPanels
             this.PH_TotalPickupAmountLabel.BackColor = System.Drawing.Color.Transparent;
             this.PH_TotalPickupAmountLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PH_TotalPickupAmountLabel.ForeColor = System.Drawing.Color.Black;
-            this.PH_TotalPickupAmountLabel.Location = new System.Drawing.Point(6, 183);
+            this.PH_TotalPickupAmountLabel.Location = new System.Drawing.Point(6, 206);
             this.PH_TotalPickupAmountLabel.Name = "PH_TotalPickupAmountLabel";
             this.PH_TotalPickupAmountLabel.Size = new System.Drawing.Size(161, 30);
             this.PH_TotalPickupAmountLabel.TabIndex = 141;
             this.PH_TotalPickupAmountLabel.Text = "Total pickup Amount Paid:";
             this.PH_TotalPickupAmountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // PH_CurrentPrincipalAmountText
+            // 
+            this.PH_CurrentPrincipalAmountText.BackColor = System.Drawing.Color.Transparent;
+            this.PH_CurrentPrincipalAmountText.ForeColor = System.Drawing.Color.Black;
+            this.PH_CurrentPrincipalAmountText.Location = new System.Drawing.Point(170, 30);
+            this.PH_CurrentPrincipalAmountText.Name = "PH_CurrentPrincipalAmountText";
+            this.PH_CurrentPrincipalAmountText.Size = new System.Drawing.Size(86, 30);
+            this.PH_CurrentPrincipalAmountText.TabIndex = 144;
+            this.PH_CurrentPrincipalAmountText.Text = "$0.00";
+            this.PH_CurrentPrincipalAmountText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // PH_CurrentPrincipalAmountLabel
+            // 
+            this.PH_CurrentPrincipalAmountLabel.BackColor = System.Drawing.Color.Transparent;
+            this.PH_CurrentPrincipalAmountLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PH_CurrentPrincipalAmountLabel.ForeColor = System.Drawing.Color.Black;
+            this.PH_CurrentPrincipalAmountLabel.Location = new System.Drawing.Point(3, 30);
+            this.PH_CurrentPrincipalAmountLabel.Name = "PH_CurrentPrincipalAmountLabel";
+            this.PH_CurrentPrincipalAmountLabel.Size = new System.Drawing.Size(161, 30);
+            this.PH_CurrentPrincipalAmountLabel.TabIndex = 143;
+            this.PH_CurrentPrincipalAmountLabel.Text = "Current Principal Amount:";
+            this.PH_CurrentPrincipalAmountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // LoanChargesPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Transparent;
+            this.Controls.Add(this.PH_CurrentPrincipalAmountText);
+            this.Controls.Add(this.PH_CurrentPrincipalAmountLabel);
             this.Controls.Add(this.PH_TotalPickupAmountText);
             this.Controls.Add(this.PH_TotalPickupAmountLabel);
             this.Controls.Add(this.PH_ExtensionAmountText);
@@ -249,5 +276,7 @@ namespace Pawn.Forms.UserControls.ProductHistoryPanels
         private System.Windows.Forms.Label PH_ExtensionAmountLabel;
         private System.Windows.Forms.Label PH_TotalPickupAmountText;
         private System.Windows.Forms.Label PH_TotalPickupAmountLabel;
+        private System.Windows.Forms.Label PH_CurrentPrincipalAmountText;
+        private System.Windows.Forms.Label PH_CurrentPrincipalAmountLabel;
     }
 }

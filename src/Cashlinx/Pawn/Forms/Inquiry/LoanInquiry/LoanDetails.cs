@@ -2,6 +2,7 @@
 using System.Data;
 using System.Windows.Forms;
 using Common.Controllers.Application;
+using Common.Controllers.Database.Procedures;
 using Common.Controllers.Security;
 using Pawn.Logic;
 using Reports.Inquiry;
@@ -13,6 +14,8 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
         DataView _theData;
         DataView _selectedData;
         private int _rowNum;
+
+        private bool isPartialPaymentAllowed;
 
         public LoanDetails(int pawn_ticket_number, DataView s, int rowIdx)
         {
@@ -60,10 +63,10 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             pfi_notice.DataBindings[0].FormatString = "d";
             status_dt.DataBindings.Add("Text", _selectedData, "STATUS_DATE", true);
             status_dt.DataBindings[0].FormatString = "g";
-            loan_amount.DataBindings.Add("Text", _selectedData, "PRIN_AMOUNT", true);
-            loan_amount.DataBindings[0].FormatString = "c";
-            lblCurrentPrinicipalAmount.DataBindings.Add("Text", _selectedData, "PartPymtPrinAmt", true);
-            lblCurrentPrinicipalAmount.DataBindings[0].FormatString = "c";
+            LoanAmountText.DataBindings.Add("Text", _selectedData, "PRIN_AMOUNT", true);
+            LoanAmountText.DataBindings[0].FormatString = "c";
+            CurrentPrincipalAmountText.DataBindings.Add("Text", _selectedData, "PartPymtPrinAmt", true);
+            CurrentPrincipalAmountText.DataBindings[0].FormatString = "c";
 
             interest.DataBindings.Add("Text", _selectedData, "INT_AMT", true);
             interest.DataBindings[0].FormatString = "c";
@@ -133,6 +136,20 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             if (_rowNum > 0)
             {
                 prevPage.Enabled = true;
+            }
+
+            isPartialPaymentAllowed =
+                new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(
+                    GlobalDataAccessor.Instance.CurrentSiteId);
+
+            //Hide current principal amount if partial payments are not allowed.
+            if(!isPartialPaymentAllowed)
+            {
+                CurrentPrincipalAmountText.Visible = false;
+                CurrentPrincipalAmountLabel.Visible = false;
+
+                LoanAmountLabel.Top = CurrentPrincipalAmountLabel.Top;
+                LoanAmountText.Top = CurrentPrincipalAmountLabel.Top;
             }
         }
 

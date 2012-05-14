@@ -233,7 +233,6 @@ namespace PawnStoreSetupTool.Data
             }
         }
 
-
         public static bool IsStoreSiteInfoPopulated(
             ref DataAccessTools dA,
             string StoreNum)
@@ -421,8 +420,94 @@ namespace PawnStoreSetupTool.Data
             {
                 DataReturnSetRow dRow;
                 if (!returnSet.GetRow(j, out dRow)) continue;
-                
+
                 nextNums.Add(Utilities.GetStringValue(dRow.GetData("NEXTNUM_TYPE")));
+            }
+        }
+
+        public static void RetrieveSecurityMasks(
+            ref DataAccessTools dA,
+            string principalid,
+            ref List<PairType<string, string>> masks)
+        {
+            if (dA == null) return;
+
+            string query = "SELECT OBJECTID, SECURITYMASK " +
+                            " FROM   ccsowner.ace " +
+                            " WHERE   objecttype = 21 and principaltype = 3 " +
+                            "and principalid = {0}";
+
+            DataReturnSet returnSet;
+            if (!DataAccessService.ExecuteQuery(false,
+                                           string.Format(query, principalid),
+                                           "ace",
+                                           PawnStoreSetupForm.CCSOWNER,
+                                           out returnSet,
+                                           ref dA))
+            {
+                MessageBox.Show("Could not retrieve masks for the principle id -->" + principalid, PawnStoreSetupForm.SETUPALERT_TXT);
+                return;
+            }
+            if (returnSet == null || returnSet.NumberRows <= 0)
+            {
+                MessageBox.Show("No masks available for the principalid-->" + principalid, PawnStoreSetupForm.SETUPALERT_TXT);
+                return;
+            }
+
+            //Create model types list
+            for (int j = 0; j < returnSet.NumberRows; ++j)
+            {
+                DataReturnSetRow dRow;
+                if (!returnSet.GetRow(j, out dRow)) continue;
+                string objectid = Utilities.GetStringValue(dRow.GetData("OBJECTID"));
+                string securitymask = Utilities.GetStringValue(dRow.GetData("SECURITYMASK"));
+                PairType<string, string> pType = new PairType<string, string>(objectid, securitymask);
+                masks.Add(pType);
+            }
+        }
+
+
+        public static void RetrieveSecurityResources(
+            ref DataAccessTools dA,
+            string principalid,
+            ref List<PairType<string, string>> resources)
+        {
+            if (dA == null) return;
+
+            string query = "SELECT rolelimits.LIMIT as LIMIT, rolelimits.prodofferingid as PRODOFFERINGID " +
+                            "FROM ccsowner.ace LEFT OUTER JOIN ccsowner.rolelimits ON ace.principalid = rolelimits.roleid " +
+                            " LEFT OUTER JOIN ccsowner.productofferings ON rolelimits.prodofferingid = " +
+                            " productofferings.prodofferingid WHERE ace.objecttype = 21 " +
+                            " AND ace.principaltype = 3 " +
+                            " AND ace.objectid = productofferings.serviceoffering " +
+                            " and ace.principalid = {0}";
+
+            DataReturnSet returnSet;
+            if (!DataAccessService.ExecuteQuery(false,
+                                           string.Format(query, principalid),
+                                           "ace",
+                                           PawnStoreSetupForm.CCSOWNER,
+                                           out returnSet,
+                                           ref dA))
+            {
+                MessageBox.Show("Could not retrieve resources for the principle id -->" + principalid, PawnStoreSetupForm.SETUPALERT_TXT);
+                return;
+            }
+            if (returnSet == null || returnSet.NumberRows <= 0)
+            {
+                MessageBox.Show("No resources available for the principalid-->" + principalid, PawnStoreSetupForm.SETUPALERT_TXT);
+                return;
+            }
+
+            //Create model types list
+            for (int j = 0; j < returnSet.NumberRows; ++j)
+            {
+                DataReturnSetRow dRow;
+                if (!returnSet.GetRow(j, out dRow)) continue;
+                string limit = Utilities.GetStringValue(dRow.GetData("LIMIT"));
+                string prodofferingid = Utilities.GetStringValue(dRow.GetData("PRODOFFERINGID"));
+                PairType<string, string> pType = new PairType<string, string>(limit, prodofferingid);
+                resources.Add(pType);
             }
         }
 
@@ -462,8 +547,8 @@ namespace PawnStoreSetupTool.Data
             {
                 DataReturnSetRow dRow;
                 if (!returnSet.GetRow(j, out dRow)) continue;
-                string productId = Utilities.GetStringValue(dRow.GetData("PRODUCT_ID")); 
-                string menuId =  Utilities.GetStringValue(dRow.GetData("STORE_PRODUCT_MENU_ID"));
+                string productId = Utilities.GetStringValue(dRow.GetData("PRODUCT_ID"));
+                string menuId = Utilities.GetStringValue(dRow.GetData("STORE_PRODUCT_MENU_ID"));
                 PairType<string, string> pType = new PairType<string, string>(productId, menuId);
                 storeProdcuts.Add(pType);
             }
@@ -981,7 +1066,7 @@ namespace PawnStoreSetupTool.Data
             if (pwnSecMachines == null || pwnSecMachines.NumberRows <= 0)
             {
                 //Madhu BZ # 238
-                if(!PawnStoreSetupForm.batchMode)
+                if (!PawnStoreSetupForm.batchMode)
                     MessageBox.Show("Could not find any client machine data in pawnsec",
                                 PawnStoreSetupForm.SETUPALERT_TXT);
                 //return (false);

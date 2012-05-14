@@ -31,24 +31,25 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChargeOffCharityData));
-            this.customLabel1 = new CustomLabel();
-            this.customLabel2 = new CustomLabel();
-            this.customLabel3 = new CustomLabel();
-            this.customTextBoxOrg = new CustomTextBox();
-            this.customTextBoxAddr1 = new CustomTextBox();
-            this.customTextBoxAddr2 = new CustomTextBox();
-            this.customTextBoxCity = new CustomTextBox();
-            this.customButton1 = new CustomButton();
-            this.customTextBoxState = new CustomTextBox();
-            this.customLabel4 = new CustomLabel();
-            this.customTextBoxZip = new CustomTextBox();
-            this.customLabel5 = new CustomLabel();
-            this.customButton2 = new CustomButton();
-            this.customLabel6 = new CustomLabel();
-            this.customLabel7 = new CustomLabel();
-            this.customLabel8 = new CustomLabel();
-            this.customLabel9 = new CustomLabel();
-            this.customLabel10 = new CustomLabel();
+            this.customLabel1 = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabel2 = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabel3 = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customTextBoxOrg = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.customTextBoxAddr1 = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.customTextBoxAddr2 = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.customTextBoxCity = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.customButton1 = new Common.Libraries.Forms.Components.CustomButton();
+            this.customTextBoxState = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.customLabel4 = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customTextBoxZip = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.customLabel5 = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customButton2 = new Common.Libraries.Forms.Components.CustomButton();
+            this.customLabel6 = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabel7 = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabel8 = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabel9 = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabel10 = new Common.Libraries.Forms.Components.CustomLabel();
+            this.labelHeader = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // customLabel1
@@ -287,11 +288,24 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             this.customLabel10.TabIndex = 18;
             this.customLabel10.Text = "*";
             // 
+            // labelHeader
+            // 
+            this.labelHeader.AutoSize = true;
+            this.labelHeader.BackColor = System.Drawing.Color.Transparent;
+            this.labelHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHeader.ForeColor = System.Drawing.Color.White;
+            this.labelHeader.Location = new System.Drawing.Point(205, 28);
+            this.labelHeader.Name = "labelHeader";
+            this.labelHeader.Size = new System.Drawing.Size(127, 16);
+            this.labelHeader.TabIndex = 19;
+            this.labelHeader.Text = "Inventory Charge Off";
+            // 
             // ChargeOffCharityData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(536, 346);
+            this.Controls.Add(this.labelHeader);
             this.Controls.Add(this.customLabel10);
             this.Controls.Add(this.customLabel9);
             this.Controls.Add(this.customLabel8);
@@ -337,5 +351,6 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
         private CustomLabel customLabel8;
         private CustomLabel customLabel9;
         private CustomLabel customLabel10;
+        private System.Windows.Forms.Label labelHeader;
     }
 }

@@ -435,10 +435,15 @@ namespace Pawn.Logic.DesktopProcedures
             bool retVal = false;
             try
             {
+                //    retVal = dA.issueSqlStoredProcCommand(
+                //        "ccsowner", "PAWN_STORE_PROCS", "Get_Loan_Transition",
+                //        inParams, refCursors, "o_error_code", "o_error_text",
+                //        out outputDataSet);
                 retVal = dA.issueSqlStoredProcCommand(
                     "ccsowner", "PAWN_STORE_PROCS", "Get_Loan_Transition",
                     inParams, refCursors, "o_error_code", "o_error_text",
                     out outputDataSet);
+
             }
             catch (OracleException oEx)
             {
@@ -794,7 +799,70 @@ namespace Pawn.Logic.DesktopProcedures
                 return (true);
             }
         }
-        
+
+        public static bool UpdateLoanTransitionStatus(
+            int ticketNumber,
+            string statusCode,
+            string storeNumber,
+            out string errorCode,
+            out string errorText)
+        {
+            //Set default output values
+            errorCode = string.Empty;
+            errorText = string.Empty;
+
+            //Verify that the accessor is valid
+            if (GlobalDataAccessor.Instance == null ||
+                GlobalDataAccessor.Instance.OracleDA == null)
+            {
+                errorCode = "GetTempStatus";
+                errorText = "Invalid desktop session or data accessor instance";
+                BasicExceptionHandler.Instance.AddException("GetTempStatus", new ApplicationException("Cannot execute the UpdateTempStatus update stored procedure"));
+                return (false);
+            }
+
+            //Get data accessor object
+            var dA = GlobalDataAccessor.Instance.OracleDA;
+
+            //Create input list
+            List<OracleProcParam> inParams = new List<OracleProcParam>();
+
+            inParams.Add(new OracleProcParam("p_ref_number", ticketNumber));
+
+
+
+            inParams.Add(new OracleProcParam("p_store_number", storeNumber));
+            inParams.Add(new OracleProcParam("p_temp_status", statusCode));
+
+            DataSet outputDataSet;
+            //Create output data set names
+            bool retVal = false;
+            try
+            {
+                retVal = dA.issueSqlStoredProcCommand(
+                    "ccsowner", "PAWN_STORE_PROCS", "update_loan_transition_status",
+                    inParams, null, "o_error_code", "o_error_text",
+                    out outputDataSet);
+            }
+            catch (OracleException oEx)
+            {
+                errorCode = "UpdateTempStatusFailed";
+                errorText = "Invocation of UpdateTempStatus stored proc failed";
+                BasicExceptionHandler.Instance.AddException("OracleException thrown when invoking UpdateTempStatus stored proc", oEx);
+                return (false);
+            }
+
+            //See if retVal is false
+            if (retVal == false)
+            {
+                errorCode = dA.ErrorCode;
+                errorText = dA.ErrorDescription;
+                return (false);
+            }
+            errorCode = "0";
+            errorText = string.Empty;
+            return (true);
+        }
         //----------
         public static bool GetPFIableItems(
             string aStoreNumber,
@@ -885,7 +953,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             errorCode = "GetAssignableItems";
             errorText = "Operation failed";
-            return (false);          
+            return (false);
         }
 
         public static bool Get_PFI_Details(
@@ -978,7 +1046,7 @@ namespace Pawn.Logic.DesktopProcedures
                                  PurchaseProcedures.PAWN_RECEIPTDET_LIST);
                     reassignName(outputDataSet,
                                  CustomerLoans.PAWN_GUN_LIST,
-                                 PurchaseProcedures.PAWN_GUN_LIST);            
+                                 PurchaseProcedures.PAWN_GUN_LIST);
 
                     PurchaseProcedures.ParseDataSet(outputDataSet, out purchases);
 
@@ -1015,7 +1083,7 @@ namespace Pawn.Logic.DesktopProcedures
         private static void reassignName(DataSet data, string oldName, string newName)
         {
             if (data.Tables[oldName] != null)
-                data.Tables[oldName].TableName = newName;         
+                data.Tables[oldName].TableName = newName;
         }
 
         //-------

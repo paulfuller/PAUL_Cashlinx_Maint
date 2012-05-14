@@ -98,10 +98,12 @@ namespace Pawn.Forms.Pawn.Customer.Holds
                 if (new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId))
                 {
                     customDataGridViewTransactions.Columns[7].DataPropertyName = holdstransactioncursor.CURRENTPRINCIPALAMOUNT;//"cur_amount in payment_detail table";
+                    customDataGridViewTransactions.Columns[7].HeaderText = "Current Principal Amount";
                 }
                 else
                 {
                     customDataGridViewTransactions.Columns[7].DataPropertyName = holdstransactioncursor.LOANAMOUNT;//"org_amount";
+                     
                 }
 
                 this.customDataGridViewTransactions.Columns[8].DataPropertyName = holdstransactioncursor.ORIGINALTICKETNUMBER;//"org_ticket";

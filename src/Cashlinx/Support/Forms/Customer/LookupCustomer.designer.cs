@@ -109,11 +109,11 @@ namespace Support.Forms.Customer
             // lookupCustomerDialogLabel
             // 
             this.lookupCustomerDialogLabel.BackColor = System.Drawing.Color.Transparent;
-            this.lookupCustomerDialogLabel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lookupCustomerDialogLabel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lookupCustomerDialogLabel.ForeColor = System.Drawing.Color.White;
-            this.lookupCustomerDialogLabel.Location = new System.Drawing.Point(287, 36);
+            this.lookupCustomerDialogLabel.Location = new System.Drawing.Point(266, 36);
             this.lookupCustomerDialogLabel.Name = "lookupCustomerDialogLabel";
-            this.lookupCustomerDialogLabel.Size = new System.Drawing.Size(134, 19);
+            this.lookupCustomerDialogLabel.Size = new System.Drawing.Size(163, 19);
             this.lookupCustomerDialogLabel.TabIndex = 2;
             this.lookupCustomerDialogLabel.Text = "Lookup Customer";
             // 
@@ -341,9 +341,9 @@ namespace Support.Forms.Customer
             this.labelSSNShort.AutoSize = true;
             this.labelSSNShort.Location = new System.Drawing.Point(18, 39);
             this.labelSSNShort.Name = "labelSSNShort";
-            this.labelSSNShort.Size = new System.Drawing.Size(79, 13);
+            this.labelSSNShort.Size = new System.Drawing.Size(107, 13);
             this.labelSSNShort.TabIndex = 12;
-            this.labelSSNShort.Text = "(Last 4 of SSN)";
+            this.labelSSNShort.Text = "(Last 4 digits of SSN)";
             // 
             // lookupCustomerFirstName
             // 

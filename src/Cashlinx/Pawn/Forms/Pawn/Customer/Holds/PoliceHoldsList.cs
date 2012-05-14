@@ -121,6 +121,7 @@ namespace Pawn.Forms.Pawn.Customer.Holds
                     else
                     {
                         this.dataGridViewTransactions.Columns[7].DataPropertyName = holdstransactioncursor.CURRENTPRINCIPALAMOUNT;//"cur_amount in payment_detail table"; 
+                        this.dataGridViewTransactions.Columns[7].HeaderText = "Current Principal Amount";
                     }
 
                     this.dataGridViewTransactions.Columns[8].DataPropertyName = holdstransactioncursor.ORIGINALTICKETNUMBER;//"org_ticket";

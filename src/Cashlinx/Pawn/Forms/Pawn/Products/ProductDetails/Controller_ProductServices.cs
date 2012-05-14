@@ -1411,9 +1411,17 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                                     pic.BackgroundImage = Common.Properties.Resources.receipt_icon;
                                     tagText = "Receipt# " + PS_ReceiptNoValue.Text;
                                 }
+                                else if (document.DocumentType == Document.DocTypeNames.TEXT)
+                                {
+                                    pic.BackgroundImage = Common.Properties.Resources.policecard_icon;
+                                    tagText = "Pol Crd# " + iTicketNumber;
+                                }
                                 pic.Tag += string.Format(" {0}", tagText);
                                 fileLabel.Text = tagText;
-                                pic.Width = pic.BackgroundImage.Width;
+                                if (pic.BackgroundImage != null)
+                                {
+                                    pic.Width = pic.BackgroundImage.Width;
+                                }
                                 tlpDocuments.Controls.Add(pic, colCount, 0);
                                 tlpDocuments.Controls.Add(fileLabel, colCount, 1);
                                 colCount++;
@@ -1441,45 +1449,74 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                                                   where !IsLayawayBeingServicedOrAlreadyBeenServiced(selectedLayaway)
                                                   select selectedLayaway).ToList();
             LayawayPaymentValues layawayPaymentValues = new LayawayPaymentValues(unservicedLayaways);
-            if (layawayPaymentValues.ShowDialog() == DialogResult.OK)
+            foreach (var layaway in unservicedLayaways)
             {
-                ServiceAmount += layawayPaymentValues.LayawayServiceAmount;
+                layaway.TempStatus = StateStatus.RET;
 
-                // get the service layaways that were just serviced with at least one payment
-                List<LayawayVO> servicedLayaways = (from serviceLayaway in GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways
-                                                    where unservicedLayaways.Any(selectedLayaway => selectedLayaway.TicketNumber == serviceLayaway.TicketNumber)
-                                                          && serviceLayaway.Payments.Count > 0
-                                                    select serviceLayaway).ToList();
-
-                foreach (LayawayVO layaway in servicedLayaways)
-                {
-                    LayawayPaymentHistoryBuilder paymentBuilder = new LayawayPaymentHistoryBuilder();
-                    paymentBuilder.Layaway = layaway;
-                    paymentBuilder.AddTemporaryReceipt(layaway.Payments[0].Amount, ReceiptEventTypes.LAYPMT, DateTime.MaxValue);
-                    paymentBuilder.Calculate();
-                    LayawayHistory nextPayment = paymentBuilder.GetFirstUnpaidPayment();
-
-                    if (nextPayment != null)
-                    {
-                        layaway.NextDueAmount = nextPayment.GetRemainingBalance();
-                        layaway.NextPayment = nextPayment.PaymentDueDate;
-                    }
-
-                    if (paymentBuilder.IsLayawayPaidOff())
-                    {
-                        UpdateServiceIndicator(layaway.TicketNumber, ServiceIndicators.Pickup.ToString());
-                        layaway.LoanStatus = ProductStatus.PU;
-                    }
-                    else
-                    {
-                        UpdateServiceIndicator(layaway.TicketNumber, ServiceIndicators.Payment.ToString());
-                    }
-
-                    UpdateActiveLayawayInformation(layaway.TicketNumber);
-                }
             }
+            if (ServiceLoanProcedures.CheckCurrentTempStatus(
+                ref unservicedLayaways, GlobalDataAccessor.Instance.DesktopSession.UserName, ServiceTypes.LAYPAYMENT))
+            {
+                if (layawayPaymentValues.ShowDialog() == DialogResult.OK)
+                {
+                    ServiceAmount += layawayPaymentValues.LayawayServiceAmount;
 
-            UpdateButtonsStates(true);
+                    // get the service layaways that were just serviced with at least one payment
+                    List<LayawayVO> servicedLayaways = (from serviceLayaway in GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways
+                                                        where
+                                                            unservicedLayaways.Any(
+                                                                selectedLayaway => selectedLayaway.TicketNumber == serviceLayaway.TicketNumber)
+                                                            && serviceLayaway.Payments.Count > 0
+                                                        select serviceLayaway).ToList();
+
+
+                    foreach (LayawayVO layaway in servicedLayaways)
+                    {
+
+                        LayawayPaymentHistoryBuilder paymentBuilder = new LayawayPaymentHistoryBuilder();
+                        paymentBuilder.Layaway = layaway;
+                        paymentBuilder.AddTemporaryReceipt(layaway.Payments[0].Amount, ReceiptEventTypes.LAYPMT, DateTime.MaxValue);
+                        paymentBuilder.Calculate();
+                        LayawayHistory nextPayment = paymentBuilder.GetFirstUnpaidPayment();
+
+                        if (nextPayment != null)
+                        {
+                            layaway.NextDueAmount = nextPayment.GetRemainingBalance();
+                            layaway.NextPayment = nextPayment.PaymentDueDate;
+                        }
+
+                        if (paymentBuilder.IsLayawayPaidOff())
+                        {
+                            UpdateServiceIndicator(layaway.TicketNumber, ServiceIndicators.Pickup.ToString());
+                            layaway.LoanStatus = ProductStatus.PU;
+                        }
+                        else
+                        {
+                            UpdateServiceIndicator(layaway.TicketNumber, ServiceIndicators.Payment.ToString());
+                        }
+
+                        UpdateActiveLayawayInformation(layaway.TicketNumber);
+                    }
+                }
+                else
+                {
+                    List<LayawayVO> servicedLayaways = (from serviceLayaway in GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways
+                                                        where
+                                                            unservicedLayaways.Any(
+                                                                selectedLayaway => selectedLayaway.TicketNumber == serviceLayaway.TicketNumber)
+                                                            && serviceLayaway.Payments.Count > 0
+                                                        select serviceLayaway).ToList();
+
+                    foreach (var layaway in unservicedLayaways)
+                    {
+                        string errorCode;
+                        string errorText;
+                        RetailProcedures.SetLayawayTempStatus(layaway.TicketNumber, layaway.StoreNumber, "", out errorCode, out errorText);
+                    }
+                }
+
+                UpdateButtonsStates(true);
+            }
         }
 
         private void LW_LayawayTerminateButton_Click(object sender, EventArgs e)
@@ -1491,21 +1528,30 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
             DesktopSession cds = GlobalDataAccessor.Instance.DesktopSession;
             LayawayVO layaway = cds.Layaways.Find(l => l.TicketNumber == _SelectedLayaways[0].TicketNumber);
 
+            string errorCode;
+            string errorText;
+
             if (IsLayawayBeingServicedOrAlreadyBeenServiced(_SelectedLayaways[0]))
             {
                 return;
             }
-
-            if (MessageBox.Show("Are you sure you want to terminate this layaway?", "Confirm Termination", MessageBoxButtons.YesNo) != System.Windows.Forms.DialogResult.Yes)
+            if (!ServiceLoanProcedures.CheckCurrentTempStatus(ref _SelectedLayaways,
+                        GlobalDataAccessor.Instance.DesktopSession.UserName, ServiceTypes.LAYTERM))
             {
                 return;
             }
+            RetailProcedures.SetLayawayTempStatus(layaway.TicketNumber, layaway.StoreNumber, "LAYTERM", out errorCode, out errorText);
 
+            if (MessageBox.Show("Are you sure you want to terminate this layaway?", "Confirm Termination", MessageBoxButtons.YesNo) != System.Windows.Forms.DialogResult.Yes)
+            {
+                RetailProcedures.SetLayawayTempStatus(layaway.TicketNumber, layaway.StoreNumber, "", out errorCode, out errorText);
+                return;
+            }
+  
             string statusDate = ShopDateTime.Instance.ShopDate.FormatDate();
             string statusTime = ShopDateTime.Instance.ShopTransactionTime.ToString();
-
-            string errorCode;
-            string errorText;
+            errorCode = string.Empty;
+            errorText = string.Empty;
             decimal restockingFee = 0.0m;
             if (RetailProcedures.ProcessLayawayServices(
                 cds,
@@ -1627,18 +1673,34 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 //Instantiate docinfo which will return info we need to be able to 
                 //call reprint ticket.
                 CouchDbUtils.PawnDocInfo docInfo = new CouchDbUtils.PawnDocInfo();
-                docInfo.SetDocumentSearchType(CouchDbUtils.DocSearchType.RECEIPT);
+
+                var pic = sender as System.Windows.Forms.PictureBox;
+                var isPoliceCard = false;
+                if (pic != null & pic.Tag.ToString().StartsWith("TEXT Pol Crd"))
+                {
+                    isPoliceCard = true;
+                }
+
+                docInfo.SetDocumentSearchType(isPoliceCard ? CouchDbUtils.DocSearchType.POLICE_CARD : CouchDbUtils.DocSearchType.RECEIPT);
                 docInfo.StoreNumber = GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber;
                 docInfo.TicketNumber = ticketNumber;
                 int receiptNumber = 0;
+
                 if (!string.IsNullOrEmpty(PS_ReceiptNoValue.Text))
+                {
                     receiptNumber = Convert.ToInt32(PS_ReceiptNoValue.Text);
+                }
                 docInfo.ReceiptNumber = receiptNumber;
                 try
                 {
                     string storageId = ((PictureBox)sender).Name.ToString();
                     //ReprintDocument docViewPrint = new ReprintDocument(documentName, storageId, docType);
-                    ViewPrintDocument docViewPrint = new ViewPrintDocument("Receipt# ", docInfo.ReceiptNumber.ToString(), storageId, docInfo.DocumentType, docInfo);
+                    ViewPrintDocument docViewPrint = new ViewPrintDocument(
+                        isPoliceCard ? "Police Card# " : "Receipt# ",
+                        docInfo.ReceiptNumber.ToString(),
+                        storageId,
+                        isPoliceCard ? Document.DocTypeNames.TEXT : docInfo.DocumentType,
+                        docInfo);
                     docViewPrint.ShowDialog();
                 }
                 catch (Exception)
@@ -1752,6 +1814,9 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
             }
             if (selectedLoans.Count > 0)
             {
+                //First check what the extension term is for the state
+                var extensionTerm = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetStateExtensionTerm(currentStoreSiteId);
+
                 //Check to see that all the selected loans are eligible for the
                 //selected service
                 if (!validateSelectedLoans(ServiceTypes.EXTEND))
@@ -1783,10 +1848,8 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                     return;
                 ServiceLoanProcedures.CheckCurrentTempStatus(ref selectedLoans, strUserId, ServiceTypes.EXTEND);
 
-                //First check what the extension term is for the state
-                var extensionTerm = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetStateExtensionTerm(currentStoreSiteId);
 
-                
+
                 if (selectedLoans.Count > 0)
                 {
                     //Set the temp status of the selected loans to E since by
@@ -1795,10 +1858,10 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                     {
                         t.TempStatus = StateStatus.E;
                     }
-                    
+
                     GlobalDataAccessor.Instance.DesktopSession.ExtensionLoans = Utilities.CloneObject(selectedLoans);
                     var dailyExtnForm = new ExtendPawnLoan();
-                    
+
                     if (extensionTerm.Equals(ExtensionTerms.MONTHLY.ToString()))
                     {
                         dailyExtnForm.ExtensionType = ExtensionTerms.MONTHLY;
@@ -2821,9 +2884,9 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                             (pl.RenewalAmount <= 0.0M) ? pl.PaydownAmount : pl.RenewalAmount);
                         break;
                     case StateStatus.PPMNT:
-                        decimal partialPmtAmt= pl.PartialPayments.Where(ppmt => ppmt.Status_cde == "New").Sum(ppmt => ppmt.PMT_AMOUNT);
+                        decimal partialPmtAmt = pl.PartialPayments.Where(ppmt => ppmt.Status_cde == "New").Sum(ppmt => ppmt.PMT_AMOUNT);
                         loanTempData = new TupleType<int, StateStatus, decimal>(
-                            pl.TicketNumber, pl.TempStatus,partialPmtAmt);
+                            pl.TicketNumber, pl.TempStatus, partialPmtAmt);
                         break;
 
                 }
@@ -2931,9 +2994,9 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                     {
                         GlobalDataAccessor.Instance.DesktopSession.TotalPickupAmount -= pickupAmountTodeduct;
                     }
-                    
+
                     if (ServiceAmount > 0)
-                    ServiceAmount -= amountToDeductFromServiceAmount;
+                        ServiceAmount -= amountToDeductFromServiceAmount;
                     //Remove the selected flag on all the rows
                     UpdateTicketSelections();
                     DisableAllServiceButtons();
@@ -3457,6 +3520,7 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 PS_PickUpButton.Enabled = !isLayaway;
                 PS_RollOverButton.Enabled = (paydownAllowed || renewalAllowed) && !isLayaway;
                 PS_PartPmntButton.Enabled = (partialPaymentAllowed && !isLayaway && selectedLoanInStore()) ? true : false;
+                PS_ViewNewLoanDetailsButton.Enabled = (paydownAllowed || renewalAllowed) && !isLayaway;
 
                 LW_LayawayPaymentButton.Enabled = isLayaway && IsAtLeastOneSelectedLayawayNotServiced() && selectedLayawayInStore();
                 LW_LayawayTerminateButton.Enabled = isLayaway && IsExactlyOneSelectedLayawayNotServiced() && selectedLayawayInStore();
@@ -3466,13 +3530,14 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 PS_ExtendButton.Enabled = false;
                 PS_PickUpButton.Enabled = false;
                 PS_RollOverButton.Enabled = false;
+                PS_ViewNewLoanDetailsButton.Enabled = false;
                 PS_PartPmntButton.Enabled = false;
                 LW_LayawayPaymentButton.Enabled = false;
                 LW_LayawayTerminateButton.Enabled = false;
             }
             //if loan up service is allowed in the store state button is enabled
-            PS_ViewNewLoanDetailsButton.Enabled = loanupServiceAllowed ? true : false;
-
+            //PS_ViewNewLoanDetailsButton.Enabled = loanupServiceAllowed ? true : false;
+            PS_ViewNewLoanDetailsButton.Enabled = (paydownAllowed || renewalAllowed) && !isLayaway;
             //Add more tickets is enabled only when no service loans exist
             if (cds.ServiceLoans != null)
             {

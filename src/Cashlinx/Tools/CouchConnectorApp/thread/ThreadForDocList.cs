@@ -147,10 +147,10 @@ namespace CouchConsoleApp.thread
                 {
                     table.Rows.Add(pawnDocRegVO.DocID, pawnDocRegVO.StorageID, pawnDocRegVO.CreationDate);
                 }
+// ReSharper disable EmptyGeneralCatchClause
             }catch(Exception e)
-            {
-                return (table);
-            }
+// ReSharper restore EmptyGeneralCatchClause
+            {}
             return table;
         }
 

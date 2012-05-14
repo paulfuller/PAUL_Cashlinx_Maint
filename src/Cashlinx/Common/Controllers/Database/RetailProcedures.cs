@@ -3198,5 +3198,59 @@ namespace Common.Controllers.Database
 
             return (true);
         }
+
+        public static bool SetLayawayTempStatus(
+            int ticketNumber,
+            string storeNumber,
+            string tempStatus,
+            out string errorCode,
+            out string errorText)
+        {
+            bool retval = true;
+            //Get data accessor object
+            OracleDataAccessor dA = GlobalDataAccessor.Instance.OracleDA;
+
+            //Create input list
+            List<OracleProcParam> inParams = new List<OracleProcParam>();
+
+            OracleProcParam maskParam = new OracleProcParam("p_ticket_number", ticketNumber);
+            inParams.Add(maskParam);
+
+            OracleProcParam maskTempStatusParam = new OracleProcParam("p_temp_status", tempStatus);
+            inParams.Add(maskTempStatusParam);
+
+            OracleProcParam maskStoreNumberParam = new OracleProcParam("p_store_number", storeNumber);
+            inParams.Add(maskStoreNumberParam);
+
+
+            ////Setup ref cursor array
+            //List<PairType<string, string>> refCursors = new List<PairType<string, string>>();
+            //refCursors.Add(new PairType<string, string>("o_temp_status", "temp_status"));
+
+            DataSet outputDataSet;
+            //Create output data set names
+            try
+            {
+                retval = dA.issueSqlStoredProcCommand(
+                    "ccsowner", "PAWN_MANAGE_HOLDS", "set_layaway_temp_status",
+                    inParams, null, "o_return_code", "o_return_text",
+                    out outputDataSet);
+
+            }
+            catch (OracleException oEx)
+            {
+                errorCode = "check_for_temp_status Failed";
+                errorText = "Invocation of check_for_temp_status stored proc failed";
+                BasicExceptionHandler.Instance.AddException("OracleException thrown when invoking check_for_temp_status stored proc", oEx);
+                return (false);
+            }
+
+            errorCode = dA.ErrorCode;
+            errorText = dA.ErrorDescription;
+
+            return retval;
+        }
+
+
     }
 }

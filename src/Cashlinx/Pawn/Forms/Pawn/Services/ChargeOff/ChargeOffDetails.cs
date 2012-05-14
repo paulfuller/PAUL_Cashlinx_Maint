@@ -9,7 +9,6 @@ using Common.Libraries.Objects.Business;
 using Common.Libraries.Utility.Logger;
 using Common.Libraries.Utility.Shared;
 using Pawn.Forms.Report;
-using Pawn.Logic;
 
 namespace Pawn.Forms.Pawn.Services.ChargeOff
 {
@@ -26,7 +25,6 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
         private string charityZip;
         private string customerNumber;
         private string replacedICN;
-
 
         public ChargeOffDetails()
         {
@@ -60,8 +58,8 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                 customTextBoxAuthBy.Required = false;
                 customLabelAuthBy.Required = false;
             }
-            comboBoxReason.SelectedIndex = 0;
 
+            comboBoxReason.SelectedIndex = 0;
         }
 
         private void customButtonBack_Click(object sender, EventArgs e)
@@ -76,13 +74,13 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
 
         private void comboBoxReason_SelectedIndexChanged(object sender, EventArgs e)
         {
-            charityOrg = "";
-            charityAddr = "";
-            charityCity = "";
-            charityState = "";
-            charityZip = "";
-            atfNumber = "";
-            caseNumber = "";
+            charityOrg = string.Empty;
+            charityAddr = string.Empty;
+            charityCity = string.Empty;
+            charityState = string.Empty;
+            charityZip = string.Empty;
+            atfNumber = string.Empty;
+            caseNumber = string.Empty;
 
             switch (comboBoxReason.Items[comboBoxReason.SelectedIndex].ToString())
             {
@@ -116,13 +114,9 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             //    atfNumber = policeinfoFrm.ATFNumber;
             //    caseNumber = policeinfoFrm.CaseNumber;
             //}
-            //else if (chargeoffReason.Equals("COFFDONATION"))
             if (chargeoffReason.Equals("COFFDONATION"))
             {
-            }
-            else if (chargeoffReason.Equals("COFFDONATION"))
-            {
-                ChargeOffCharityData charityFrm = new ChargeOffCharityData();
+                var charityFrm = new ChargeOffCharityData();
                 charityFrm.ShowDialog();
                 if (charityFrm.DialogResult == DialogResult.OK)
                 {
@@ -133,23 +127,13 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                     charityZip = charityFrm.CharityZip;
                 }
 
-                if (charityFrm.DialogResult == DialogResult.OK)
-                {
-                    charityOrg = charityFrm.CharityOrg;
-                    charityAddr = charityFrm.CharityAddr;
-                    charityCity = charityFrm.CharityCity;
-                    charityState = charityFrm.CharityState;
-                    charityZip = charityFrm.CharityZip;                    
-                }
-
             }
             else if (chargeoffReason.Equals("COFFREPLPROP"))
             {
-                ChargeOffReplacementData replacementFrm = new ChargeOffReplacementData();
+                var replacementFrm = new ChargeOffReplacementData();
                 replacementFrm.ShowDialog();
                 customerNumber = replacementFrm.CustNumber;
                 replacedICN = replacementFrm.ReplacedICN;
-                
             }
         }
 
@@ -231,33 +215,37 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                 invFields.ChargeOffNumber = saleTicketNumber.ToString();
                 invFields.CharitableOrganization = charityOrg;
                 invFields.Comment = richTextBoxComment.Text.ToString();
+
                 if (!string.IsNullOrEmpty(GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.LastName) && !string.IsNullOrEmpty(GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.FirstName))
-                    invFields.CustomerName = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.LastName + ", " + GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.FirstName;
+                {
+                    invFields.CustomerName = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.LastName + ", " +
+                                             GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.FirstName;
+                }
                 else
+                {
                     invFields.CustomerName = string.Empty;
+                }
+
                 invFields.EmployeeNumber = GlobalDataAccessor.Instance.DesktopSession.LoggedInUserSecurityProfile.EmployeeNumber;
                 invFields.ICN = ChargeOffItem.Icn;
                 invFields.MerchandiseDescription = ChargeOffItem.TicketDescription;
                 invFields.PoliceCaseNumber = caseNumber;
                 invFields.ReasonForChargeOff = chargeoffReason;
                 invFields.ReplacementLoanNumber = string.Empty;
+                invFields.GunNumber = ChargeOffItem.GunNumber;
+                invFields.IsGun = ChargeOffItem.IsGun;
                 CreateReportObject cro = new CreateReportObject();
                 cro.GetInventoryChargeOffReport(invFields);
                 //document generation here
                 //chargeoffReason, charityOrg, caseNumber, atfNumber, customTextBoxAuthBy.Text,saleTicketNumber,  ChargeOffItem.TicketDescription
                 // richTextBoxComment.Text.ToString()
                 this.Close();
-
-
             }
             else
             {
                 MessageBox.Show("Authorized by should be entered");
                 return;
             }
-
         }
-
-
     }
 }

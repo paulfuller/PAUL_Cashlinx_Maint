@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using Common.Controllers.Application;
+using Common.Controllers.Database.Procedures;
 
 namespace Pawn.Forms
 {
@@ -36,8 +38,8 @@ namespace Pawn.Forms
             "Void Restitution Payment",
             "Void Release to Claimant",
             "Void Layaway Activity",
+            "Void Release Fingerprints",
             "Void PFI"
-            
 
         };
 
@@ -56,8 +58,9 @@ namespace Pawn.Forms
             VOIDRESTITUTION = 10,
             VOIDRTC = 11,
             VOIDLAYAWAY = 12,
-            VOIDPFI = 13
-            
+            VOIDRELEASEFINGERPRINTS = 13,
+            VOIDPFI = 14
+
         }
 
         public VoidTransactionType SelectedVoidTransactionType { private set; get; }
@@ -70,6 +73,7 @@ namespace Pawn.Forms
         {
             InitializeComponent();
             SelectedVoidTransactionType = VoidTransactionType.VOIDBUY;
+            AddReleaseFingerprintsIfNeeded();
             selectedValue = false;
         }
 
@@ -140,7 +144,7 @@ namespace Pawn.Forms
                             //string index value into the proper enumerated type
                             SelectedVoidTransactionType =
                                     (VoidTransactionType)
-                                    Enum.Parse(typeof (VoidTransactionType), sIdx.ToString());
+                                    Enum.Parse(typeof(VoidTransactionType), sIdx.ToString());
                             selectedValue = true;
                         }
                     }
@@ -167,6 +171,13 @@ namespace Pawn.Forms
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void AddReleaseFingerprintsIfNeeded()
+        {
+            if (new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsSubpoenaRequiredForReleaseFingerprints(GlobalDataAccessor.Instance.CurrentSiteId))
+                voidTransactionTypeComboBox.Items.Add("Void Release Fingerprints");
+
         }
     }
 }

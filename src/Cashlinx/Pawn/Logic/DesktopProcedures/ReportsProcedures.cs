@@ -1012,9 +1012,12 @@ namespace Pawn.Logic.DesktopProcedures
                     try
                     {
                         ReportObject.SnapshotCategory availableCategory = new ReportObject.SnapshotCategory();
-                        availableCategory.MinSequenceNumber = Convert.ToDouble(rows[i]["MINSEQ"]);
-                        availableCategory.MaxSequenceNumber = Convert.ToDouble(rows[i]["MAXSEQ"]);
-                        availableCategories.Add(availableCategory);
+                        if (rows[i]["MINSEQ"].ToString().Length != 0)
+                        {
+                            availableCategory.MinSequenceNumber = Convert.ToDouble(rows[i]["MINSEQ"]);
+                            availableCategory.MaxSequenceNumber = Convert.ToDouble(rows[i]["MAXSEQ"]);
+                            availableCategories.Add(availableCategory);
+                        }
                     }
                     catch (Exception e)
                     {

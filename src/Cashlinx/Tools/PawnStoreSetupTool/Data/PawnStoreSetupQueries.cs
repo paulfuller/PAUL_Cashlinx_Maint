@@ -86,40 +86,40 @@
 
         //Map table inserts
         public const string INSERT_DATASERVICEMAP =
-                "insert into databaseservicestoremap (id, databaseserviceid, storeconfigid, " + 
+                "insert into databaseservicestoremap (id, databaseserviceid, storeconfigid, " +
                 "creationdate, createdby, lastupdatedate, updatedby) values ('?DSSM_ID1?', " +
                 "'?DS_DATAID1?', '?SC_ID1?', sysdate, 'admin', sysdate, 'admin')";
 
         public const string INSERT_CLIENTSTOREMAP =
-                "insert into clientstoremap (id, clientregistryid, storesiteid, " + 
-                "storeclientconfigid, storeconfigid, creationdate, createdby, " + 
-                "lastupdatedate, updatedby) values ('?CSM_ID1?', '?CR_ID1?', '?SSI_ID1?', " + 
+                "insert into clientstoremap (id, clientregistryid, storesiteid, " +
+                "storeclientconfigid, storeconfigid, creationdate, createdby, " +
+                "lastupdatedate, updatedby) values ('?CSM_ID1?', '?CR_ID1?', '?SSI_ID1?', " +
                 "'?SCC_ID1?', '?SC_ID1?', sysdate, 'admin', sysdate, 'admin')";
 
         public const string INSERT_ESBSERVICEMAP =
-                "insert into esbservicestoremap (id, esbserviceid, storeconfigid, " + 
-                "creationdate, createdby, lastupdatedate, updatedby) values " + 
+                "insert into esbservicestoremap (id, esbserviceid, storeconfigid, " +
+                "creationdate, createdby, lastupdatedate, updatedby) values " +
                 "('?ESSM_ID1?', '?ES_ID1?', '?SC_ID1?', sysdate, 'admin', sysdate, 'admin')";
-             
+
 
         //Retrieves the next id in any table that contains an id column
         //For larger tables it would be much more efficient to utilize
         //the next value of a sequence!!
         //ID_COLUMN_NAME, TABLE_NAME
-        public const string SELECT_NEXTID = 
+        public const string SELECT_NEXTID =
             "select max(?ID_COLUMN_NAME?) + 1 as ID from ?TABLE_NAME?";
 
         public const string SELECT_NEXTID_STR =
-            "select to_nchar(max(to_number(?ID_COLUMN_NAME?))+1) as ID from ?TABLE_NAME?";        
-       
+            "select to_nchar(max(to_number(?ID_COLUMN_NAME?))+1) as ID from ?TABLE_NAME?";
 
-        public const string SELECT_PAWNSEC_MACHINES = 
-            "select " + 
-            "clr.id as ID, " + 
-            "clr.ipaddress as IPADDRESS, " + 
-            "clr.machinename as MACHINENAME, " + 
-            "clr.macaddress as MACADDRESS, " + 
-            "clr.isallowed as ISALLOWED, " + 
+
+        public const string SELECT_PAWNSEC_MACHINES =
+            "select " +
+            "clr.id as ID, " +
+            "clr.ipaddress as IPADDRESS, " +
+            "clr.machinename as MACHINENAME, " +
+            "clr.macaddress as MACADDRESS, " +
+            "clr.isallowed as ISALLOWED, " +
             "clr.isconnected as ISCONNECTED, " +
             "clr.adobeoverride as ADOBEOVERRIDE, " +
             "clr.ghostscriptoverride as GHOSTOVERRIDE, " +
@@ -134,7 +134,7 @@
             "stcc.tracelevel as TRACELEVEL, " +
             "stcc.printenabled as PRINTENABLED, " +
             "stsi.storenumber as STORENUMBER " +
-            "from clientregistry clr " + 
+            "from clientregistry clr " +
             "inner join clientstoremap clsm on clr.id = clsm.clientregistryid " +
             "inner join storeclientconfig stcc on clsm.storeclientconfigid = stcc.id " +
             "inner join storesiteinfo stsi on clsm.storesiteid = stsi.id " +
@@ -170,10 +170,10 @@
             "ess.domain as DOMAIN, " +
             "ess.uri as URI, " +
             "ess.enabled as ENABLED, " +
-            "ess.endpointname as ENDPOINTNAME, " +          
+            "ess.endpointname as ENDPOINTNAME, " +
             "essm.id as ESBMAPID, " +
             "essm.storeconfigid as ESBMAPSTORECONFIGID " +
-            "from esbservice ess " + 
+            "from esbservice ess " +
             "inner join esbservicestoremap essm on ess.id = essm.esbserviceid " +
             "where essm.storeconfigid = '?STORECONFIGID?' " +
             "order by ess.id";
@@ -223,7 +223,7 @@
             "ess.enabled as ENABLED " +
             "from esbservice ess";
 
-        
+
         public const string SELECT_PAWNSEC_GLOBAL =
             "select " +
             "id as ID, " +
@@ -285,7 +285,7 @@
             "update set " +
               "a.peripheralid = '?WKSP_PRID?', " +
               "a.lastupdatedate = sysdate, " +
-              "a.workstationid = '?WKSP_WKID?'"; 
+              "a.workstationid = '?WKSP_WKID?'";
 
         /*public const string MERGE_CCSOWNER_WORKSTATIONPERIPHERALS =
              "MERGE INTO CCSOWNER.WORKSTATIONPERIPHERALS A USING " +
@@ -337,7 +337,7 @@
               "a.storeid = '?PER_STOID?', " +
               "a.isprimary = '?IS_PRI?', " +
               "a.peripheral_pref_order = '?PER_PRFID?' ";
-        
+
         /*public const string MERGE_CCSOWNER_PERIPHERALS_NEW =
               "MERGE INTO CCSOWNER.PERIPHERALS A USING " +
               "(SELECT " +
@@ -367,24 +367,24 @@
               "A.PERIPHERAL_PREF_ORDER = '?PER_PRFID?' ";
         */
         //PER_ID, PER_TID, PER_IP, PER_PT, PER_STOID, PER_NAME, PER_MDID
-        public const string MERGE_CCSOWNER_PERIPHERALS =   
+        public const string MERGE_CCSOWNER_PERIPHERALS =
               "MERGE INTO CCSOWNER.PERIPHERALS A USING " +
               "(SELECT " +
               "'?PER_ID?' AS PERIPHERALID, '?PER_TID?' AS PERIPHERALTYPEID, " +
               "'?PER_IP?' AS IPADDRESS, '?PER_PT?' AS PORTNUMBER, '?PER_STOID?' AS STOREID " +
               "FROM DUAL) B " +
               "ON (A.PERIPHERALID = B.PERIPHERALID OR (A.PERIPHERALTYPEID = B.PERIPHERALTYPEID AND A.IPADDRESS = B.IPADDRESS AND A.PORTNUMBER = B.PORTNUMBER AND A.STOREID = B.STOREID)) " +
-              "WHEN NOT MATCHED THEN " + 
+              "WHEN NOT MATCHED THEN " +
               "INSERT ( " +
-              "A.PERIPHERALID, A.PERIPHERALNAME, A.SERIALNUMBER, A.USERID, A.CREATIONDATE, " + 
-              "A.LASTUPDATEDATE, A.PERIPHERALTYPEID, A.IPADDRESS, A.PORTNUMBER, A.MODELID, " + 
+              "A.PERIPHERALID, A.PERIPHERALNAME, A.SERIALNUMBER, A.USERID, A.CREATIONDATE, " +
+              "A.LASTUPDATEDATE, A.PERIPHERALTYPEID, A.IPADDRESS, A.PORTNUMBER, A.MODELID, " +
               "A.STOREID, A.ISPRIMARY, A.DESCRIPTION, A.PERIPHERAL_PREF_ORDER) " +
               "VALUES ( " +
-              "'?PER_ID?', '?PER_NAME?', '', '', sysdate, " + 
-              "sysdate, '?PER_TID?', '?PER_IP?', '?PER_PT?', '?PER_MDID?', " + 
+              "'?PER_ID?', '?PER_NAME?', '', '', sysdate, " +
+              "sysdate, '?PER_TID?', '?PER_IP?', '?PER_PT?', '?PER_MDID?', " +
               "'?PER_STOID?', '', '', '') " +
               "WHEN MATCHED THEN " +
-              "UPDATE SET " + 
+              "UPDATE SET " +
               "A.PERIPHERALNAME = '?PER_NAME?', " +
               "A.LASTUPDATEDATE = sysdate, " +
               "A.PERIPHERALTYPEID = '?PER_TID?', " +
@@ -396,7 +396,7 @@
         //UR_ID
         public const string MERGE_CCSOWNER_USERGROUP =
             "Insert into CCSOWNER.USERGROUP(USERID, GROUPID) Values('?UR_ID?', '1')";
-        
+
         //UR_ID, UR_RID
         public const string MERGE_CCSOWNER_USERROLES =
             "MERGE INTO CCSOWNER.USERROLES A USING " +
@@ -415,15 +415,15 @@
             "'?UID_ID?' AS USERINFODETAILID, '?UID_USID?' AS USERID, '?UID_STONUM?' AS FACNUMBER " +
             "FROM DUAL) B " +
             "ON (A.USERINFODETAILID = B.USERINFODETAILID OR (A.USERID = B.USERID AND A.FACNUMBER = B.FACNUMBER)) " +
-            "WHEN NOT MATCHED THEN " + 
+            "WHEN NOT MATCHED THEN " +
             "INSERT ( " +
-            "A.USERINFODETAILID, A.USERID, A.EMPLOYEENUMBER, A.CSRSIGNATUREUPDATED, A.CSRSIGNATURE, " + 
+            "A.USERINFODETAILID, A.USERID, A.EMPLOYEENUMBER, A.CSRSIGNATUREUPDATED, A.CSRSIGNATURE, " +
             "A.CREATIONDATE, A.LASTUPDATEDATE, A.CREATEDBY, A.UPDATEDBY, A.FACNUMBER) " +
             "VALUES ( " +
-            "'?UID_ID?', '?UID_USID?', '?UID_EMNUM?', '', '', " + 
+            "'?UID_ID?', '?UID_USID?', '?UID_EMNUM?', '', '', " +
             "sysdate, sysdate, 'admin', 'admin', '?UID_STONUM?') " +
             "WHEN MATCHED THEN " +
-            "UPDATE SET " + 
+            "UPDATE SET " +
             "A.USERID = '?UID_USID?', " +
             "A.EMPLOYEENUMBER = '?UID_EMNUM?', " +
             "A.LASTUPDATEDATE = sysdate, " +
@@ -440,19 +440,19 @@
             "ON (A.USERID = B.USERID) " +
             "WHEN NOT MATCHED THEN " +
             "INSERT ( " +
-            "A.ACTIVATED, A.NAME, A.PASSWORD, A.FNAME, A.LNAME, " + 
-            "A.AUTHID, A.COOKIE, A.CREDITS, A.CRLIMIT, A.PREFERENCES, " + 
-            "A.SELFREG, A.LOCATION, A.PHONE, A.LOCALE, A.CREATIONDATE, " + 
-            "A.LASTUPDATEDATE, A.CSRSIGNATUREUPDATED, A.USERID, A.OBJECTID, A.LASTLOGIN, " + 
+            "A.ACTIVATED, A.NAME, A.PASSWORD, A.FNAME, A.LNAME, " +
+            "A.AUTHID, A.COOKIE, A.CREDITS, A.CRLIMIT, A.PREFERENCES, " +
+            "A.SELFREG, A.LOCATION, A.PHONE, A.LOCALE, A.CREATIONDATE, " +
+            "A.LASTUPDATEDATE, A.CSRSIGNATUREUPDATED, A.USERID, A.OBJECTID, A.LASTLOGIN, " +
             "A.OGRPID, A.REGDATE, A.CREATEUSERNAME, A.MODIFIEDDATE, A.MODIFIEDUSERNAME) " +
             "VALUES ( " +
-            "1, '?UI_NAME?', 'NA', '?UI_FNAME?', '?UI_LNAME?', " + 
-            "1, '', 0, 0, 0, " + 
-            "0, '?UI_STONUM?', '', 'en_US', sysdate, " + 
-            "sysdate, sysdate, ?UI_ID?, '', null, " + 
+            "1, '?UI_NAME?', 'NA', '?UI_FNAME?', '?UI_LNAME?', " +
+            "1, '', 0, 0, 0, " +
+            "0, '?UI_STONUM?', '', 'en_US', sysdate, " +
+            "sysdate, sysdate, ?UI_ID?, '', null, " +
             "null, null, 'admin', sysdate, 'admin') " +
             "WHEN MATCHED THEN " +
-            "UPDATE SET " + 
+            "UPDATE SET " +
             "A.ACTIVATED = 1, " +
             "A.NAME = '?UI_NAME?', " +
             "A.FNAME = '?UI_FNAME?', " +
@@ -466,6 +466,15 @@
         //?CD_ID?, ?SAFE_ID?
         public const string UPDATE_CDOWNER_CASHDRAWER = "UPDATE CDOWNER.CD_CASHDRAWER SET REGISTERUSERID = '?CD_ID?', MODIFYUSERID='?CD_ID?' WHERE ID = '?SAFE_ID?'";
 
+        public const string INSERT_SECURITY_MASKS_LIMITS = "INSERT INTO CCSOWNER.USERLIMITS (ID, USERID, STOREID, PRODOFFERINGID, LIMIT, CREATIONDATE," +
+                                       " LASTUPDATEDATE, CREATEDBY, UPDATEDBY)" +
+           "VALUES (ccsowner.userlimits_seq.NEXTVAL, '?USER_ID?', NULL, '?PRODOFFERINGID?', '?LIMIT?', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'PRODSUPP', NULL)";
+
+        public const string INSERT_SECURITY_MASKS_RESOURCES = "INSERT INTO ccsowner.usersecurityprofile (id," +
+                                                "userid, storeid, resourceid, assigned, securitymask, creationdate, lastupdatedate, createdby, updatedby)" +
+           "VALUES (ccsowner.usersecurityprofile_seq.NEXTVAL, '?USER_ID?', NULL, '?OBJECT_ID?', 'Y', '?SECURITY_MASK?', CURRENT_TIMESTAMP," +
+                   "CURRENT_TIMESTAMP, 'PRODSUPP', 'PRODSUPP')";
+
         ///////////////////////////////////////////////////////////////////////////
         // CDOWNER MERGE SQL CODE
         //CD_ID, CD_NAME, CD_MGRID, CD_OTYPE, CD_STONUM, CD_BRID
@@ -477,17 +486,17 @@
             "ON (A.ID = B.ID OR (A.NAME = B.NAME AND A.OBJECTTYPE = B.OBJECTTYPE AND A.BRANCHID = B.BRANCHID)) " +
             "WHEN NOT MATCHED THEN " +
             "INSERT ( " +
-              "A.ID, A.NAME, A.DESCRIPTION, A.LASTCONNECTDATE, A.ACCOUNTINGDATE, " + 
-              "A.LOWERLIMIT, A.UPPERLIMIT, A.REGISTERUSERID, A.REGISTERDATE, A.UPDATEDATE, " + 
-              "A.MODIFYUSERID, A.LATEFLAG, A.OBJECTTYPE, A.BANKID, A.BRANCHID, " + 
+              "A.ID, A.NAME, A.DESCRIPTION, A.LASTCONNECTDATE, A.ACCOUNTINGDATE, " +
+              "A.LOWERLIMIT, A.UPPERLIMIT, A.REGISTERUSERID, A.REGISTERDATE, A.UPDATEDATE, " +
+              "A.MODIFYUSERID, A.LATEFLAG, A.OBJECTTYPE, A.BANKID, A.BRANCHID, " +
               "A.NETNAME, A.OPENFLAG) " +
             "VALUES ( " +
-              "'?CD_ID?', '?CD_NAME?', '?CD_NAME?', sysdate, sysdate, " + 
-              "-100000, 100000, '?CD_MGRID?', sysdate, sysdate, " + 
-              "'?CD_MGRID?', '0', '?CD_OTYPE?', '?CD_STONUM?', '?CD_BRID?', " + 
+              "'?CD_ID?', '?CD_NAME?', '?CD_NAME?', sysdate, sysdate, " +
+              "-100000, 100000, '?CD_MGRID?', sysdate, sysdate, " +
+              "'?CD_MGRID?', '0', '?CD_OTYPE?', '?CD_STONUM?', '?CD_BRID?', " +
               "'1160', '0') " +
             "WHEN MATCHED THEN " +
-            "UPDATE SET " + 
+            "UPDATE SET " +
               "A.NAME = '?CD_NAME?', " +
               "A.DESCRIPTION = '?CD_NAME?', " +
               "A.REGISTERUSERID = '?CD_MGRID?', " +
@@ -503,10 +512,10 @@
         public const string MERGE_CDOWNER_CASHDRAWERUSER =
             "MERGE INTO CDOWNER.CD_CASHDRAWERUSER A USING " +
              "(SELECT " +
-              "'?CDU_ID?' AS ID, '?CDU_UID?' AS USERID, '?CDU_NAME?' AS USERNAME, '?CDU_BRID?' AS BRANCHID " +              
+              "'?CDU_ID?' AS ID, '?CDU_UID?' AS USERID, '?CDU_NAME?' AS USERNAME, '?CDU_BRID?' AS BRANCHID " +
               "FROM DUAL) B " +
             "ON (A.ID = B.ID OR (A.USERID = B.USERID AND A.USERNAME = B.USERNAME AND A.BRANCHID = B.BRANCHID)) " +
-            "WHEN NOT MATCHED THEN " + 
+            "WHEN NOT MATCHED THEN " +
             "INSERT ( " +
               "A.ID, A.USERID, A.USERNAME, A.BANKID, A.BRANCHID, " +
               "A.NETNAME, A.ISACTIVE, A.CREATEDBY, A.UPDATEDBY, A.CREATIONDATE, A.LASTUPDATEDATE) " +
@@ -543,24 +552,24 @@
               "a.branchid = '?CDW_BRID?'," +
               "a.netname = '1160'";
 
-/*        public const string MERGE_CDOWNER_WORKSTATION =
-            "MERGE INTO CDOWNER.CD_WORKSTATION A USING " +
-             "(SELECT " +
-              "'?CDW_ID?' AS ID, '?CDW_NAME?' AS NAME, '?CDW_BRID?' AS BRANCHID " +
-              "FROM DUAL ) B " +
-            "ON (A.ID = B.ID OR (A.NAME = B.NAME AND A.BRANCHID = B.BRANCHID)) " +
-            "WHEN NOT MATCHED THEN " + 
-            "INSERT ( " +
-              "A.ID, A.NAME, A.BANKID, A.BRANCHID, A.NETNAME) " +
-            "VALUES ( " +
-              "'?CDW_ID?', '?CDW_NAME?', '?CDW_STONUM?', '?CDW_BRID?', '1160') " +
-            "WHEN MATCHED THEN " +
-            "UPDATE SET " + 
-              "A.NAME = '?CDW_NAME?', " +
-              "A.BANKID = '?CDW_STONUM?', " +
-              "A.BRANCHID = '?CDW_BRID?'," +
-              "A.NETNAME = '1160'";                
-*/
+        /*        public const string MERGE_CDOWNER_WORKSTATION =
+                    "MERGE INTO CDOWNER.CD_WORKSTATION A USING " +
+                     "(SELECT " +
+                      "'?CDW_ID?' AS ID, '?CDW_NAME?' AS NAME, '?CDW_BRID?' AS BRANCHID " +
+                      "FROM DUAL ) B " +
+                    "ON (A.ID = B.ID OR (A.NAME = B.NAME AND A.BRANCHID = B.BRANCHID)) " +
+                    "WHEN NOT MATCHED THEN " + 
+                    "INSERT ( " +
+                      "A.ID, A.NAME, A.BANKID, A.BRANCHID, A.NETNAME) " +
+                    "VALUES ( " +
+                      "'?CDW_ID?', '?CDW_NAME?', '?CDW_STONUM?', '?CDW_BRID?', '1160') " +
+                    "WHEN MATCHED THEN " +
+                    "UPDATE SET " + 
+                      "A.NAME = '?CDW_NAME?', " +
+                      "A.BANKID = '?CDW_STONUM?', " +
+                      "A.BRANCHID = '?CDW_BRID?'," +
+                      "A.NETNAME = '1160'";                
+        */
         ///////////////////////////////////////////////////////////////////////////
         //PAWNSEC MERGE SQL CODE 
         //CR_ID1, CR_MACHINENAME, CR_IPADDRESS, CR_MACADDRESS, CR_ISALLOWED, CR_ISCONNECTED, CR_ADOBEOVERRIDE, CR_GHOSTSCRIPTOVERRIDE
@@ -578,19 +587,19 @@
                 "values ('?CR_ID1?', '?CR_MACHINENAME?', '?CR_IPADDRESS?', '?CR_MACADDRESS?', '?CR_ISALLOWED?', '?CR_ISCONNECTED?', '?CR_ADOBEOVERRIDE?', '?CR_GHOSTSCRIPTOVERRIDE?', sysdate, 'admin', sysdate, 'admin')";
 
         //STORE_TYPEID, PRODUCT_MENUID, PRODUCTID
-        public const string MERGE_CCSOWNER_STOREPRODUCTS = "INSERT INTO CCSOWNER.STOREPRODUCTS ("+
-                                       "STORE_PRODUCT_ID, STORE_TYPE_ID,"+
-                                       "PRODUCT_ID, STORE_PRODUCT_MENU_ID, CREATIONDATE, CREATEDBY ) VALUES   ("+
-               "(SELECT   MAX (STORE_PRODUCT_ID) + 1"+
-                  " FROM   CCSOWNER.STOREPRODUCTS),"+
+        public const string MERGE_CCSOWNER_STOREPRODUCTS = "INSERT INTO CCSOWNER.STOREPRODUCTS (" +
+                                       "STORE_PRODUCT_ID, STORE_TYPE_ID," +
+                                       "PRODUCT_ID, STORE_PRODUCT_MENU_ID, CREATIONDATE, CREATEDBY ) VALUES   (" +
+               "(SELECT   MAX (STORE_PRODUCT_ID) + 1" +
+                  " FROM   CCSOWNER.STOREPRODUCTS)," +
                "'?STORE_TYPEID?', '?PRODUCTID?', '?PRODUCT_MENUID?', sysdate, 'SETUP_TOOL')";
 
         //NEXTNUM_TYPE, STORENUMBER
         public const string MERGE_CCSOWNER_NEXTNUM = "INSERT INTO CCSOWNER.NEXTNUM (" +
-            "NEXTNUM_ID, NEXTNUM_TYPE, STORENUMBER, NEXT_NUMBER, MAX_NUMBER, "+
+            "NEXTNUM_ID, NEXTNUM_TYPE, STORENUMBER, NEXT_NUMBER, MAX_NUMBER, " +
             "INCREMENTNUM, CREATIONDATE, LASTUPDATEDATE, CREATEDBY, UPDATEDBY ) VALUES (" +
             "(SELECT MAX(NEXTNUM_ID)+1 FROM CCSOWNER.NEXTNUM), '?NEXTNUM_TYPE?', '?STORENUMBER?', 1000, 999999, 1, sysdate, sysdate, 'SETUP_TOOL', 'SETUP_TOOL')";
-                                       
+
 
 
         //STORE TYPE CREATION
@@ -748,7 +757,7 @@
             "using ( " +
                 "select '?CSM_ID1?' as id, '?CR_ID1?' as clientregistryid " +
                 "from dual) b " +
-            "on (a.id = b.id or a.clientregistryid = b.clientregistryid) " +
+            "on (a.id = b.id and a.clientregistryid = b.clientregistryid) " +
             "when matched then " +
                 "update set a.storesiteid = '?SSI_ID1?', a.storeclientconfigid = '?SCC_ID1?', a.storeconfigid = '?SC_ID1?', a.lastupdatedate = sysdate, a.updatedby = 'admin' " +
             "when not matched then " +
@@ -774,7 +783,7 @@
             "using ( " +
                 "select '?ESSM_ID1?' as id, '?ES_ID1?' as esbserviceid, '?SC_ID1?' as storeconfigid " +
                 "from dual) b " +
-            "on (a.id = b.id or (a.esbserviceid = b.esbserviceid and a.storeconfigid = b.storeconfigid)) " +            
+            "on (a.id = b.id or (a.esbserviceid = b.esbserviceid and a.storeconfigid = b.storeconfigid)) " +
             "when matched then " +
                 "update set a.esbserviceid = '?ES_ID1?', a.storeconfigid = '?SC_ID1?', a.lastupdatedate = sysdate, a.updatedby = 'admin' " +
             "when not matched then " +

@@ -64,14 +64,14 @@ namespace Common.Controllers.Database.Couch.Impl
 
        
 
-       public new IDictionary GetDocument(string sDocumentId)
+       public new IDictionary GetDocument(string sDocumentId, bool liteFetch = false)
         {
             Error = false;
             Message = "";
             IDictionary objParms = null;
             try
             {
-                byte[] btData = DocumentGet(sDocumentId,false);
+                byte[] btData = DocumentGet(sDocumentId,false,liteFetch);
 
                 if (btData != null)
                 {
@@ -244,12 +244,10 @@ namespace Common.Controllers.Database.Couch.Impl
        {
            DocumentData = btData;
            DocumentID = sDocumentId;
-           string sPostURL = _connUri + _dbName + "/" + sDocumentId;
-           HttpWebRequest webRequester = null;
-           HttpWebResponse _WebResponser = null;
+           string sPostURL = string.Format("{0}{1}/{2}", this._connUri, this._dbName, sDocumentId);
            Error = false;
-           Message = "";
-           string _WebResult = "";
+           Message = string.Empty;
+           var _WebResult = string.Empty;
            IDictionary iDictionary = null;
            try
            {
@@ -263,6 +261,7 @@ namespace Common.Controllers.Database.Couch.Impl
                AddObjectParams(objParms, keyPairs);
                string sJSON = ListToJSON(keyPairs);
                byte[] bytes = Encoding.ASCII.GetBytes(sJSON);
+               HttpWebRequest webRequester = null;
                try
                {
                    if (isRetry)
@@ -284,20 +283,20 @@ namespace Common.Controllers.Database.Couch.Impl
 
                try
                {
-                   DateTime start = DateTime.Now;
+                   var start = DateTime.Now;
                    webRequester.ContentLength = bytes.Length;
-                   Stream writer = webRequester.GetRequestStream();
+                   var writer = webRequester.GetRequestStream();
                    long length = bytes.Length;
                    writer.Write(bytes, 0, bytes.Length);
-                   String nStr = new string(Encoding.ASCII.GetChars(bytes));
+                   var nStr = new string(Encoding.ASCII.GetChars(bytes));
                    //FileLogger.Instance.logMessage(LogLevel.DEBUG, "CouchConnector", "PUT Data: " + Environment.NewLine + nStr);
-                   DateTime transStart = DateTime.Now;
+                   var transStart = DateTime.Now;
                    writer.Flush();
                    writer.Close();
-                   _WebResponser = (HttpWebResponse)webRequester.GetResponse();
+                   var _WebResponser = (HttpWebResponse)webRequester.GetResponse();
                    //Check out the html.    
 
-                   using (StreamReader sr = new StreamReader(_WebResponser.GetResponseStream()))
+                   using (var sr = new StreamReader(_WebResponser.GetResponseStream()))
                    {
                        _WebResult = sr.ReadToEnd();
                        iDictionary = (IDictionary)JsonReader.Deserialize(_WebResult);
@@ -463,22 +462,23 @@ namespace Common.Controllers.Database.Couch.Impl
             return keyPairs;
         }
 
-       private byte[] DocumentGet(string sDocumentId,bool isRetry)
-        {
+       private byte[] DocumentGet(string sDocumentId,bool isRetry, bool liteFetch = false)
+       {
             Error = false;
-            Message = "";
+            Message = string.Empty;
             byte[] btData = null;
             HttpWebRequest webRequester = null;
             try
             {
                 DateTime start = DateTime.Now;
-                string sGetURL = _connUri + _dbName + "/" + sDocumentId;
+                var sGetURL = string.Format("{0}{1}/{2}", this._connUri, this._dbName, sDocumentId);
                 try
                 {
                     if (isRetry)
                     {
                         webRequester = CreateRequest(sGetURL, true).Get().Json().GetRequest();
-                    }else
+                    }
+                    else
                     {
                         webRequester = CreateRequest(sGetURL, false).Get().Json().GetRequest();
                     }
@@ -497,7 +497,7 @@ namespace Common.Controllers.Database.Couch.Impl
                         if ((!isRetry))
                         {
                             //Console.WriteLine("Doing re-try");
-                            btData= DocumentGet(sDocumentId,true); //perform re-try since session expired unexpectedly
+                            btData= DocumentGet(sDocumentId,true, liteFetch); //perform re-try since session expired unexpectedly
                             return btData;
                         }
                         else
@@ -515,16 +515,21 @@ namespace Common.Controllers.Database.Couch.Impl
                     }
                     DateTime transEnd = DateTime.Now;
 
-                    var encCfg = SecurityAccessor.Instance.EncryptConfig;
-                    if (encCfg.ClientConfig.ClientConfiguration.CPNHSEnabled)
+                    if (SecurityAccessor.Instance != null)
                     {
-                        CPNHSController.Instance.AddDataTransIn(
-                            GlobalDataAccessor.Instance.DesktopSession.UserName,
-                            response.ContentLength,
-                            (long)Math.Ceiling((transEnd - transStart).TotalMilliseconds),
-                            (long)Math.Ceiling((transEnd - start).TotalMilliseconds), true);
+                        var encCfg = SecurityAccessor.Instance.EncryptConfig;
+                        if (encCfg != null &&
+                            encCfg.ClientConfig != null &&
+                            encCfg.ClientConfig.ClientConfiguration != null &&
+                            encCfg.ClientConfig.ClientConfiguration.CPNHSEnabled)
+                        {
+                            CPNHSController.Instance.AddDataTransIn(
+                                GlobalDataAccessor.Instance.DesktopSession.UserName,
+                                response.ContentLength,
+                                (long)Math.Ceiling((transEnd - transStart).TotalMilliseconds),
+                                (long)Math.Ceiling((transEnd - start).TotalMilliseconds), true);
+                        }
                     }
-
                 }
             }
             catch (Exception exp)

@@ -41,7 +41,7 @@ namespace Pawn.Forms
             this.lblProduct = new Common.Libraries.Forms.Components.CustomLabel();
             this.lblTicket = new Common.Libraries.Forms.Components.CustomLabel();
             this.txtTicketNumber = new System.Windows.Forms.TextBox();
-            this.productTypeList1 = new ProductTypeList();
+            this.productTypeList1 = new UserControls.ProductTypeList();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();

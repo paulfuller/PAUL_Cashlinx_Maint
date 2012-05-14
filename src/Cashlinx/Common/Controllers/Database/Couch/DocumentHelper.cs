@@ -21,6 +21,8 @@ namespace Common.Controllers.Database.Couch
         public const string PURCHASE_RETURN = "Purchase Return";
         public const string RECIEPT = "Receipt";
         public const string REPRINT_TAGS = "Reprint Tags";
+        public const string POLICE_CARD = "Police Card";
+        public const string RELEASE_FINGERPRINTS = "Release Fingerprints";
 
         public DocumentHelper()
         {
@@ -218,7 +220,7 @@ namespace Common.Controllers.Database.Couch
                 {
                     if (selectedProduct == CUSTOMER_BUY ||
                         selectedProduct == PURCHASE_RETURN
-                        && doc.AuxInfo == PurchaseDocumentGenerator.PURCHASE_AUXINFOTAG)
+                        && (doc.AuxInfo == PurchaseDocumentGenerator.PURCHASE_AUXINFOTAG || doc.AuxInfo == PurchaseDocumentIndiana.PURCHASE_AUXINFOTAG))
                     {
                         lastStorageId = doc.StorageId;
                     }
@@ -231,8 +233,21 @@ namespace Common.Controllers.Database.Couch
                         //set to the last storage id for PDF files returned.
                         //break;
                     }
+
                     if (selectedProduct == RECIEPT
                         && doc.DocumentType == Document.DocTypeNames.RECEIPT)
+                    {
+                        lastStorageId = doc.StorageId;
+                    }
+
+                    if (selectedProduct == POLICE_CARD
+                        && doc.DocumentType == Document.DocTypeNames.TEXT)
+                    {
+                        lastStorageId = doc.StorageId;
+                    }
+
+                    if (selectedProduct == RELEASE_FINGERPRINTS 
+                        && doc.DocumentType == Document.DocTypeNames.PDF)
                     {
                         lastStorageId = doc.StorageId;
                     }

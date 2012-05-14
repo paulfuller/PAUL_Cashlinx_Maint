@@ -774,7 +774,9 @@ namespace Pawn.Forms.Retail
 
         private void ItemSearch_FormClosing(object sender, FormClosingEventArgs e)
         {
-            retailCost1.ReleaseLocks();
+            //Lock should be released by whichever process is using the item
+            //INTG100016137
+            //retailCost1.ReleaseLocks();
         }
         # endregion
 

@@ -31,6 +31,7 @@ namespace Pawn.Forms.Pawn.Services.Void
         bool voidLayaway;
         bool noDataFound;
         bool voidSale;
+        bool voidReleaseFingerprints;
         bool getCustomerInfo;
 
         bool isVoidMDSETransIN = false;
@@ -79,6 +80,7 @@ namespace Pawn.Forms.Pawn.Services.Void
             GlobalDataAccessor.Instance.DesktopSession.Purchases = new List<PurchaseVO>();
             GlobalDataAccessor.Instance.DesktopSession.Sales = new List<SaleVO>();
             GlobalDataAccessor.Instance.DesktopSession.Layaways = new List<LayawayVO>();
+            ReleaseFingerprintsInfo releaseFingerprintsequest = null;
             bool retValue = false;
             if (voidBuyReturn)
             {
@@ -134,6 +136,25 @@ namespace Pawn.Forms.Pawn.Services.Void
                 //                retValue = VoidProcedures.GetEligibleToScrapItems(Utilities.GetIntegerValue(customTextBoxTranNo.Text, 0), 
                 //                    storeNumber, out mdse , out errorCode, out errorText);
             }
+            else if (voidReleaseFingerprints)
+            {
+                string storeNumber = GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber;
+                string tranNo = customTextBoxTranNo.Text;
+
+                if (tranNo.Length > 6)
+                    tranNo = tranNo.Substring(5);
+
+                // Add procedure to VoidsProcedurees to Locate the Release Fingerprint Authorization
+                GlobalDataAccessor.Instance.FingerPrintRelaseAuthorizationInfo = 
+                    HoldsProcedures.GetReleaseFingerprintAuthorization(tranNo, 
+                                    storeNumber, out errorCode, out errorText);
+                
+
+
+                
+
+            }
+
             if (voidBuy || voidBuyReturn)
             {
                 if (retValue && purchaseObj != null)
@@ -223,6 +244,11 @@ namespace Pawn.Forms.Pawn.Services.Void
                 else
                     noDataFound = true;
             }
+            else if (voidReleaseFingerprints && GlobalDataAccessor.Instance.FingerPrintRelaseAuthorizationInfo != null)
+            {
+                this.DialogResult = DialogResult.OK;
+                //GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+            }
 
             if (noDataFound)
             {
@@ -280,6 +306,11 @@ namespace Pawn.Forms.Pawn.Services.Void
                 voidSaleRefund = true;
             else if (GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger.Equals(Commons.TriggerTypes.VOIDLAYAWAY, StringComparison.OrdinalIgnoreCase))
                 voidLayaway = true;
+            else if (GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger.Equals(Commons.TriggerTypes.VOIDRELEASEFINGERPRINTS, StringComparison.OrdinalIgnoreCase))
+            {
+                voidReleaseFingerprints = true;
+                customLabelHeading.Text = "Authorization #: ";
+            }
 
             if (voidBuy || voidBuyReturn)
                 GlobalDataAccessor.Instance.DesktopSession.Purchases = null;

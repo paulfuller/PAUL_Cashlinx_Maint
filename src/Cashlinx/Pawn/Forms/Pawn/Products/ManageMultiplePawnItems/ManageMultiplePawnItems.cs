@@ -838,7 +838,8 @@ namespace Pawn.Forms.Pawn.Products.ManageMultiplePawnItems
                     NavControlBox.Action = NavBox.NavAction.SUBMIT;
                     if (GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer == null ||
                         String.IsNullOrEmpty(
-                            GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerNumber))
+                            GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerNumber) ||
+                        GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.Items.Any(i=>i.IsGun))
                     {
                         GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.ProductDataComplete =
                         true;
@@ -1144,8 +1145,8 @@ namespace Pawn.Forms.Pawn.Products.ManageMultiplePawnItems
             var sComponentValue = string.Empty;
             if (!purchaseFlow)
             {
-                _BusinessRule = GlobalDataAccessor.Instance.DesktopSession.PawnBusinessRuleVO["PWN_BR-000"];
-                bool bFound = _BusinessRule.getComponentValue("MAXLOANITEMS", ref sComponentValue);
+                _BusinessRule = GlobalDataAccessor.Instance.DesktopSession.PawnBusinessRuleVO["PWN_BR-008"];
+                bool bFound = _BusinessRule.getComponentValue("CL_PWN_004_MAXITEMSPERTKT", ref sComponentValue);
 
                 if (bFound)
                 {

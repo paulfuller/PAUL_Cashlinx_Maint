@@ -1,4 +1,5 @@
 ﻿using Common.Controllers.Application;
+using Common.Controllers.Database.Procedures;
 using Common.Libraries.Forms.Components;
 using Common.Controllers.Application.ApplicationFlow.Navigation;
 using System;
@@ -79,7 +80,18 @@ namespace Pawn.Logic.PrintQueue
                 //To DO: Change the following 2 fields to denote actual values when restitution is added
                 labelRestitutionCollected.Text = "No";
                 labelRestitutionAmt.Text = "$0.00";
-                labelCurrentPrincipal.Text = string.Format("{0:C}", rtcdata.CurrentPrincipalAmount);
+                labelCurrentPrincipal.Text = String.Format("{0:C}", rtcdata.CurrentPrincipalAmount);
+                if (new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(GlobalDataAccessor.Instance.CurrentSiteId))
+                {
+                    lableCurrentPrincipalHeader.Text = "Current Principal Amount:";   
+                 
+                }
+                else
+                {
+                    lableCurrentPrincipalHeader.Text = "Loan Amount:";
+                 
+                }
+
 
                 int i = 0;
                 foreach (Item pawnItemData in rtcdata.Items)

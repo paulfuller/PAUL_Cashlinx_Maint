@@ -554,6 +554,25 @@ namespace Common.Libraries.Objects.Config
             this.NextIdSet = null;
         }
 
+        public PawnSecVO()
+        {
+            this.StoreNumber = string.Empty;
+            this.GlobalConfiguration = new GlobalConfigVO(string.Empty);
+            this.ClientMachines = new List<ClientPawnSecMachineVO>(8);
+            this.ClientStoreMapList = new List<ClientStoreMapVO>(8);
+            this.ESBServiceMapList = new List<ESBServiceStoreMapVO>(16);
+            this.DatabaseServiceMapList = new List<DatabaseServiceStoreMapVO>(16);
+            this.ClientToStoreMap = new Dictionary<ClientPawnSecMachineVO, PawnSecStoreVO>(8);
+            this.StoreToDatabaseServiceMap = new Dictionary<PawnSecStoreVO, List<DatabaseServiceVO>>(16);
+            this.StoreToEsbServiceMap = new Dictionary<PawnSecStoreVO, List<EsbServiceVO>>(16);
+            this.ESBServiceList = new List<EsbServiceVO>(8);
+            this.DatabaseServiceList = new List<DatabaseServiceVO>(8);
+            this.Stores = new List<PawnSecStoreVO>(1);
+            this.MachineList = new List<StoreMachineVO>(1);
+            this.MapsValid = false;
+            this.NextIdSet = null;
+        }
+
         /// <summary>        
         /// Retrieve pawn sec store vo based on set store number
         /// </summary>

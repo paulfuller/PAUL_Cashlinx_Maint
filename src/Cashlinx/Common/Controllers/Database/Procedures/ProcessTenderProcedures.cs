@@ -468,7 +468,16 @@ namespace Common.Controllers.Database.Procedures
             oParams.Add(new OracleProcParam("p_made_time", madeTime, tsType));
             oParams.Add(new OracleProcParam("p_due_date", dueDate));
             oParams.Add(new OracleProcParam("p_pfi_elig", pfiElig));
-            oParams.Add(new OracleProcParam("p_pfi_note", pfiNote));
+
+            if (pfiNote == DateTime.MinValue)
+            {
+                oParams.Add(new OracleProcParam("p_pfi_note", null));
+            }
+            else
+            {
+                oParams.Add(new OracleProcParam("p_pfi_note", pfiNote));
+            }
+
             oParams.Add(new OracleProcParam("p_amount", amount));
             oParams.Add(new OracleProcParam("p_int_pct", interestPercent));
             oParams.Add(new OracleProcParam("p_fin_chg", 0));

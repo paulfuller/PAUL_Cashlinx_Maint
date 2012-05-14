@@ -166,17 +166,6 @@ namespace Pawn.Forms.Pawn.Customer
             Customer = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer;
             strStoreState = GlobalDataAccessor.Instance.CurrentSiteId.State;
             FormCustomer = GlobalDataAccessor.Instance.DesktopSession.MPCustomer ?? Utilities.CloneObject<CustomerVO>(Customer);
-            //If we are in the process of creating a new pawn loan or purchase or sale then
-            //populate the ID details if the customer has one
-            if ((GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger.Equals(Commons.TriggerTypes.NEWPAWNLOAN.ToString(), StringComparison.OrdinalIgnoreCase) ||
-                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger.Equals(Commons.TriggerTypes.DESCRIBEMERCHANDISE, StringComparison.OrdinalIgnoreCase) ||
-                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger.Equals(Commons.TriggerTypes.CUSTOMERPURCHASE, StringComparison.OrdinalIgnoreCase) ||
-                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger.Equals(Commons.TriggerTypes.DESCRIBEITEMCUSTOMERPURCHASE, StringComparison.OrdinalIgnoreCase) ||
-                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger.Equals(Commons.TriggerTypes.LOOKUPTICKET, StringComparison.OrdinalIgnoreCase)) ||
-                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger.Equals(Commons.TriggerTypes.RETAIL, StringComparison.OrdinalIgnoreCase))
-            {
-                firstIdentity = FormCustomer.getFirstIdentity();
-            }
 
             //get the store number from desktop session
             strStoreNumber = GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber;
@@ -687,29 +676,12 @@ namespace Pawn.Forms.Pawn.Customer
 
                 custHairColor = null;
 
+                pwnapp_identificationexpirationdate.Enabled = false;
+                pwnapp_identificationnumber.Enabled = false;
+
                 //Populate the id details if the first identity cursor is not empty
-                if (firstIdentity != null)
-                {
-                    strIdentIssuerName = firstIdentity.IdIssuer;
-                    strIdentNumber = firstIdentity.IdValue;
-                    ComboBox custId = (ComboBox)this.pwnapp_identificationtype.Controls[0];
 
-                    foreach (ComboBoxData idtype in custId.Items)
-                    {
-                        if (idtype.Code == firstIdentity.IdType)
-                        {
-                            custId.SelectedIndex = custId.Items.IndexOf(idtype);
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    pwnapp_identificationexpirationdate.Enabled = false;
-                    pwnapp_identificationnumber.Enabled = false;
-                }
-
-                notesRichTextBox.Text = "";
+                notesRichTextBox.Text = string.Empty;
             }
         }
 
@@ -1947,8 +1919,43 @@ namespace Pawn.Forms.Pawn.Customer
                     }
                     else if (trigger.Equals(Commons.TriggerTypes.LOOKUPCUSTOMER, StringComparison.OrdinalIgnoreCase))
                     {
-                        MessageBox.Show("Customer Information Recorded ");
-                        GlobalDataAccessor.Instance.DesktopSession.ClearPawnLoan();
+                        //MessageBox.Show("Customer Information Recorded ");
+                        //GlobalDataAccessor.Instance.DesktopSession.ClearPawnLoan();
+                        //If this is the path taken during a new loan flow
+                        //as in loan is started by selecting item from item history
+                        //create the pawn application
+                        //Generate Loan application and persist the loan application
+                        if (GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan != null
+                            && GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.Items != null
+                            && GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.Items.Count > 0
+                            && GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.TicketNumber==0)
+                        {
+                            DialogResult dgr = DialogResult.Retry;
+                            do
+                            {
+                                retValue = new CustomerDBProcedures(GlobalDataAccessor.Instance.DesktopSession).InsertPawnApplication(custNumber, strStoreNumber, strClothing, strNotes, strIdentTypeCode, strIdentNumber, strIdentIssuer, strIdentExpirydate, strUserId, out strPawnAppId, out errorCode, out errorMsg);
+                                if (!retValue)
+                                {
+                                    dgr = MessageBox.Show(Commons.GetMessageString("LoanIdCreationError"), "Error", MessageBoxButtons.RetryCancel);
+                                    if (dgr == DialogResult.Cancel)
+                                    {
+                                        GlobalDataAccessor.Instance.DesktopSession.ClearPawnLoan();
+                                        //GlobalDataAccessor.Instance.DesktopSession.HistorySession.Desktop();
+                                        actionTo = NavBox.NavAction.CANCEL;
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            } while (dgr == DialogResult.Retry);
+
+                            GlobalDataAccessor.Instance.DesktopSession.CurPawnAppId = strPawnAppId;
+                            GlobalDataAccessor.Instance.DesktopSession.Clothing = strClothing;
+                        }
+                        this.NavControlBox.IsCustom = true;
+                        this.NavControlBox.CustomDetail = "DescribeMerchandise";
                         actionTo = NavBox.NavAction.BACKANDSUBMIT;
                     }
                     else if (trigger.Equals(Commons.TriggerTypes.NEWPAWNLOAN, StringComparison.OrdinalIgnoreCase) ||

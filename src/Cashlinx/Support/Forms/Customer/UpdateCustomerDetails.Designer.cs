@@ -40,13 +40,6 @@ namespace Support.Forms.Customer
             this.labelTitleSuffix = new System.Windows.Forms.Label();
             this.labelSSN = new System.Windows.Forms.Label();
             this.comboBoxLanguage = new System.Windows.Forms.ComboBox();
-            this.customLabelFirstName = new Common.Libraries.Forms.Components.CustomLabel();
-            this.customLabelLastName = new Common.Libraries.Forms.Components.CustomLabel();
-            this.customLabelNegotiationLanguage = new Common.Libraries.Forms.Components.CustomLabel();
-            this.labelDOB = new Common.Libraries.Forms.Components.CustomLabel();
-            this.custFirstName = new Common.Libraries.Forms.Components.CustomTextBox();
-            this.custMiddleInitial = new Common.Libraries.Forms.Components.CustomTextBox();
-            this.custLastName = new Common.Libraries.Forms.Components.CustomTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lableMarStatus = new System.Windows.Forms.Label();
             this.lableSpouseFName = new System.Windows.Forms.Label();
@@ -69,7 +62,22 @@ namespace Support.Forms.Customer
             this.lablePDLCustSince = new System.Windows.Forms.Label();
             this.lableSpanishForm = new System.Windows.Forms.Label();
             this.lablePRBC = new System.Windows.Forms.Label();
+            this.BankruptcyProtectionradioButton1 = new System.Windows.Forms.RadioButton();
+            this.MilitaryStationedLocalcheckBox = new System.Windows.Forms.CheckBox();
+            this.OptOutFlagcheckBox = new System.Windows.Forms.CheckBox();
+            this.SpanishFormcheckBox1 = new System.Windows.Forms.CheckBox();
+            this.PRBCcheckBox = new System.Windows.Forms.CheckBox();
+            this.txtBoxMarStatus = new System.Windows.Forms.ComboBox();
             this.lableBankruptcyProtection = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.BankruptcyProtectionradioButton2 = new System.Windows.Forms.RadioButton();
+            this.labelDOB = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabelNegotiationLanguage = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabelLastName = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabelFirstName = new Common.Libraries.Forms.Components.CustomLabel();
+            this.custLastName = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.custMiddleInitial = new Common.Libraries.Forms.Components.CustomTextBox();
+            this.custFirstName = new Common.Libraries.Forms.Components.CustomTextBox();
             this.txtBoxSpouseFName = new Common.Libraries.Forms.Components.CustomTextBox();
             this.txtBoxSpouseLName = new Common.Libraries.Forms.Components.CustomTextBox();
             this.txtBoxSpouseSSN = new Common.Libraries.Forms.Components.CustomTextBox();
@@ -83,14 +91,8 @@ namespace Support.Forms.Customer
             this.txtBoxReasonCode = new Common.Libraries.Forms.Components.CustomTextBox();
             this.txtBoxPDLCoolingOffDate = new Common.Libraries.Forms.Components.CustomTextBox();
             this.txtBoxPDLCustSince = new Common.Libraries.Forms.Components.CustomTextBox();
-            this.BankruptcyProtectionradioButton1 = new System.Windows.Forms.RadioButton();
-            this.MilitaryStationedLocalcheckBox = new System.Windows.Forms.CheckBox();
-            this.OptOutFlagcheckBox = new System.Windows.Forms.CheckBox();
-            this.SpanishFormcheckBox1 = new System.Windows.Forms.CheckBox();
-            this.PRBCcheckBox = new System.Windows.Forms.CheckBox();
-            this.txtBoxMarStatus = new System.Windows.Forms.ComboBox();
             this.BtnCustomerComments = new Support.Libraries.Forms.Components.SupportButton();
-            this.ChangeStatusCustomButton = new Support.Libraries.Forms.Components.SupportButton();
+            this.ChangeStatusCustomButton = new Support.Libraries.Forms.Components.SupportButtonWide();
             this.custSSN = new Support.Forms.SocialSecurityNumber();
             this.custDateOfBirth = new Support.Forms.Date();
             this.titleSuffix1 = new Support.Forms.UserControls.TitleSuffix();
@@ -188,98 +190,6 @@ namespace Support.Forms.Customer
             this.comboBoxLanguage.Size = new System.Drawing.Size(98, 21);
             this.comboBoxLanguage.TabIndex = 6;
             // 
-            // customLabelFirstName
-            // 
-            this.customLabelFirstName.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.customLabelFirstName.AutoSize = true;
-            this.customLabelFirstName.BackColor = System.Drawing.Color.Transparent;
-            this.customLabelFirstName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customLabelFirstName.Location = new System.Drawing.Point(28, 115);
-            this.customLabelFirstName.Name = "customLabelFirstName";
-            this.customLabelFirstName.Required = true;
-            this.customLabelFirstName.Size = new System.Drawing.Size(58, 13);
-            this.customLabelFirstName.TabIndex = 9;
-            this.customLabelFirstName.Text = "First Name";
-            // 
-            // customLabelLastName
-            // 
-            this.customLabelLastName.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.customLabelLastName.AutoSize = true;
-            this.customLabelLastName.BackColor = System.Drawing.Color.Transparent;
-            this.customLabelLastName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customLabelLastName.Location = new System.Drawing.Point(28, 167);
-            this.customLabelLastName.Name = "customLabelLastName";
-            this.customLabelLastName.Required = true;
-            this.customLabelLastName.Size = new System.Drawing.Size(57, 13);
-            this.customLabelLastName.TabIndex = 10;
-            this.customLabelLastName.Text = "Last Name";
-            // 
-            // customLabelNegotiationLanguage
-            // 
-            this.customLabelNegotiationLanguage.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.customLabelNegotiationLanguage.AutoSize = true;
-            this.customLabelNegotiationLanguage.BackColor = System.Drawing.Color.Transparent;
-            this.customLabelNegotiationLanguage.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customLabelNegotiationLanguage.Location = new System.Drawing.Point(28, 245);
-            this.customLabelNegotiationLanguage.Name = "customLabelNegotiationLanguage";
-            this.customLabelNegotiationLanguage.Required = true;
-            this.customLabelNegotiationLanguage.Size = new System.Drawing.Size(112, 13);
-            this.customLabelNegotiationLanguage.TabIndex = 11;
-            this.customLabelNegotiationLanguage.Text = "Negotiation Language";
-            // 
-            // labelDOB
-            // 
-            this.labelDOB.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelDOB.AutoSize = true;
-            this.labelDOB.BackColor = System.Drawing.Color.Transparent;
-            this.labelDOB.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDOB.Location = new System.Drawing.Point(28, 297);
-            this.labelDOB.Name = "labelDOB";
-            this.labelDOB.Required = true;
-            this.labelDOB.Size = new System.Drawing.Size(68, 13);
-            this.labelDOB.TabIndex = 12;
-            this.labelDOB.Text = "Date of Birth";
-            // 
-            // custFirstName
-            // 
-            this.custFirstName.CausesValidation = false;
-            this.custFirstName.ErrorMessage = global::Support.Properties.Resources.OverrideMachineName;
-            this.custFirstName.FirstLetterUppercase = true;
-            this.custFirstName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.custFirstName.Location = new System.Drawing.Point(145, 107);
-            this.custFirstName.MaxLength = 40;
-            this.custFirstName.Name = "custFirstName";
-            this.custFirstName.Required = true;
-            this.custFirstName.Size = new System.Drawing.Size(222, 21);
-            this.custFirstName.TabIndex = 2;
-            this.custFirstName.ValidationExpression = global::Support.Properties.Resources.OverrideMachineName;
-            // 
-            // custMiddleInitial
-            // 
-            this.custMiddleInitial.CausesValidation = false;
-            this.custMiddleInitial.ErrorMessage = global::Support.Properties.Resources.OverrideMachineName;
-            this.custMiddleInitial.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.custMiddleInitial.Location = new System.Drawing.Point(145, 133);
-            this.custMiddleInitial.MaxLength = 40;
-            this.custMiddleInitial.Name = "custMiddleInitial";
-            this.custMiddleInitial.Size = new System.Drawing.Size(100, 21);
-            this.custMiddleInitial.TabIndex = 3;
-            this.custMiddleInitial.ValidationExpression = global::Support.Properties.Resources.OverrideMachineName;
-            // 
-            // custLastName
-            // 
-            this.custLastName.CausesValidation = false;
-            this.custLastName.ErrorMessage = global::Support.Properties.Resources.OverrideMachineName;
-            this.custLastName.FirstLetterUppercase = true;
-            this.custLastName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.custLastName.Location = new System.Drawing.Point(145, 159);
-            this.custLastName.MaxLength = 40;
-            this.custLastName.Name = "custLastName";
-            this.custLastName.Required = true;
-            this.custLastName.Size = new System.Drawing.Size(222, 21);
-            this.custLastName.TabIndex = 4;
-            this.custLastName.ValidationExpression = global::Support.Properties.Resources.OverrideMachineName;
-            // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
@@ -330,9 +240,9 @@ namespace Support.Forms.Customer
             this.lableSpouseSSN.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lableSpouseSSN.Location = new System.Drawing.Point(28, 375);
             this.lableSpouseSSN.Name = "lableSpouseSSN";
-            this.lableSpouseSSN.Size = new System.Drawing.Size(62, 13);
+            this.lableSpouseSSN.Size = new System.Drawing.Size(64, 13);
             this.lableSpouseSSN.TabIndex = 23;
-            this.lableSpouseSSN.Text = "Spouse Ssn";
+            this.lableSpouseSSN.Text = "Spouse SSN";
             // 
             // lableHowLongAtAddress
             // 
@@ -484,9 +394,9 @@ namespace Support.Forms.Customer
             this.lablePDLCoolingOffDate.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lablePDLCoolingOffDate.Location = new System.Drawing.Point(372, 310);
             this.lablePDLCoolingOffDate.Name = "lablePDLCoolingOffDate";
-            this.lablePDLCoolingOffDate.Size = new System.Drawing.Size(112, 13);
+            this.lablePDLCoolingOffDate.Size = new System.Drawing.Size(116, 13);
             this.lablePDLCoolingOffDate.TabIndex = 51;
-            this.lablePDLCoolingOffDate.Text = "Cooling Off Date (Pdl)";
+            this.lablePDLCoolingOffDate.Text = "Cooling Off Date (PDL)";
             // 
             // lablePDLCustSince
             // 
@@ -495,9 +405,9 @@ namespace Support.Forms.Customer
             this.lablePDLCustSince.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lablePDLCustSince.Location = new System.Drawing.Point(372, 336);
             this.lablePDLCustSince.Name = "lablePDLCustSince";
-            this.lablePDLCustSince.Size = new System.Drawing.Size(106, 13);
+            this.lablePDLCustSince.Size = new System.Drawing.Size(110, 13);
             this.lablePDLCustSince.TabIndex = 53;
-            this.lablePDLCustSince.Text = "Customer Since (Pdl)";
+            this.lablePDLCustSince.Text = "Customer Since (PDL)";
             // 
             // lableSpanishForm
             // 
@@ -521,16 +431,209 @@ namespace Support.Forms.Customer
             this.lablePRBC.TabIndex = 57;
             this.lablePRBC.Text = "Prbc";
             // 
+            // BankruptcyProtectionradioButton1
+            // 
+            this.BankruptcyProtectionradioButton1.AutoSize = true;
+            this.BankruptcyProtectionradioButton1.BackColor = System.Drawing.Color.Transparent;
+            this.BankruptcyProtectionradioButton1.Enabled = false;
+            this.BankruptcyProtectionradioButton1.Location = new System.Drawing.Point(627, 449);
+            this.BankruptcyProtectionradioButton1.Name = "BankruptcyProtectionradioButton1";
+            this.BankruptcyProtectionradioButton1.Size = new System.Drawing.Size(43, 17);
+            this.BankruptcyProtectionradioButton1.TabIndex = 61;
+            this.BankruptcyProtectionradioButton1.TabStop = true;
+            this.BankruptcyProtectionradioButton1.Text = "Yes";
+            this.BankruptcyProtectionradioButton1.UseVisualStyleBackColor = false;
+            this.BankruptcyProtectionradioButton1.Visible = false;
+            this.BankruptcyProtectionradioButton1.Click += new System.EventHandler(this.BankruptcyProtectionradioButton1_Click);
+            // 
+            // MilitaryStationedLocalcheckBox
+            // 
+            this.MilitaryStationedLocalcheckBox.AutoSize = true;
+            this.MilitaryStationedLocalcheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.MilitaryStationedLocalcheckBox.Location = new System.Drawing.Point(147, 471);
+            this.MilitaryStationedLocalcheckBox.Name = "MilitaryStationedLocalcheckBox";
+            this.MilitaryStationedLocalcheckBox.Size = new System.Drawing.Size(15, 14);
+            this.MilitaryStationedLocalcheckBox.TabIndex = 12;
+            this.MilitaryStationedLocalcheckBox.UseVisualStyleBackColor = false;
+            // 
+            // OptOutFlagcheckBox
+            // 
+            this.OptOutFlagcheckBox.AutoSize = true;
+            this.OptOutFlagcheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.OptOutFlagcheckBox.Location = new System.Drawing.Point(501, 142);
+            this.OptOutFlagcheckBox.Name = "OptOutFlagcheckBox";
+            this.OptOutFlagcheckBox.Size = new System.Drawing.Size(15, 14);
+            this.OptOutFlagcheckBox.TabIndex = 13;
+            this.OptOutFlagcheckBox.UseVisualStyleBackColor = false;
+            // 
+            // SpanishFormcheckBox1
+            // 
+            this.SpanishFormcheckBox1.AutoSize = true;
+            this.SpanishFormcheckBox1.BackColor = System.Drawing.Color.Transparent;
+            this.SpanishFormcheckBox1.Enabled = false;
+            this.SpanishFormcheckBox1.Location = new System.Drawing.Point(502, 376);
+            this.SpanishFormcheckBox1.Name = "SpanishFormcheckBox1";
+            this.SpanishFormcheckBox1.Size = new System.Drawing.Size(15, 14);
+            this.SpanishFormcheckBox1.TabIndex = 64;
+            this.SpanishFormcheckBox1.UseVisualStyleBackColor = false;
+            // 
+            // PRBCcheckBox
+            // 
+            this.PRBCcheckBox.AutoSize = true;
+            this.PRBCcheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.PRBCcheckBox.Enabled = false;
+            this.PRBCcheckBox.Location = new System.Drawing.Point(501, 402);
+            this.PRBCcheckBox.Name = "PRBCcheckBox";
+            this.PRBCcheckBox.Size = new System.Drawing.Size(15, 14);
+            this.PRBCcheckBox.TabIndex = 65;
+            this.PRBCcheckBox.UseVisualStyleBackColor = false;
+            // 
+            // txtBoxMarStatus
+            // 
+            this.txtBoxMarStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.txtBoxMarStatus.FormattingEnabled = true;
+            this.txtBoxMarStatus.Items.AddRange(new object[] {
+            "Divorced",
+            "Unknown",
+            "Married",
+            "Separated",
+            "Single",
+            "Widower/Widow"});
+            this.txtBoxMarStatus.Location = new System.Drawing.Point(145, 263);
+            this.txtBoxMarStatus.Name = "txtBoxMarStatus";
+            this.txtBoxMarStatus.Size = new System.Drawing.Size(98, 21);
+            this.txtBoxMarStatus.TabIndex = 7;
+            // 
             // lableBankruptcyProtection
             // 
             this.lableBankruptcyProtection.AutoSize = true;
             this.lableBankruptcyProtection.BackColor = System.Drawing.Color.Transparent;
             this.lableBankruptcyProtection.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lableBankruptcyProtection.Location = new System.Drawing.Point(372, 447);
+            this.lableBankruptcyProtection.Location = new System.Drawing.Point(372, 449);
             this.lableBankruptcyProtection.Name = "lableBankruptcyProtection";
-            this.lableBankruptcyProtection.Size = new System.Drawing.Size(373, 13);
+            this.lableBankruptcyProtection.Size = new System.Drawing.Size(231, 13);
             this.lableBankruptcyProtection.TabIndex = 59;
-            this.lableBankruptcyProtection.Text = "Are you In or are Planning to file for Chapter 7 or 13 Bankruptcy Protection?";
+            this.lableBankruptcyProtection.Text = "Are you In or are Planning to file for Chapter 7";
+            this.lableBankruptcyProtection.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(372, 462);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(146, 13);
+            this.label1.TabIndex = 66;
+            this.label1.Text = "or 13 Bankruptcy Protection?";
+            this.label1.Visible = false;
+            // 
+            // BankruptcyProtectionradioButton2
+            // 
+            this.BankruptcyProtectionradioButton2.AutoSize = true;
+            this.BankruptcyProtectionradioButton2.BackColor = System.Drawing.Color.Transparent;
+            this.BankruptcyProtectionradioButton2.Enabled = false;
+            this.BankruptcyProtectionradioButton2.Location = new System.Drawing.Point(678, 449);
+            this.BankruptcyProtectionradioButton2.Name = "BankruptcyProtectionradioButton2";
+            this.BankruptcyProtectionradioButton2.Size = new System.Drawing.Size(39, 17);
+            this.BankruptcyProtectionradioButton2.TabIndex = 67;
+            this.BankruptcyProtectionradioButton2.TabStop = true;
+            this.BankruptcyProtectionradioButton2.Text = "No";
+            this.BankruptcyProtectionradioButton2.UseVisualStyleBackColor = false;
+            this.BankruptcyProtectionradioButton2.Visible = false;
+            this.BankruptcyProtectionradioButton2.Click += new System.EventHandler(this.BankruptcyProtectionradioButton2_Click);
+            // 
+            // labelDOB
+            // 
+            this.labelDOB.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelDOB.AutoSize = true;
+            this.labelDOB.BackColor = System.Drawing.Color.Transparent;
+            this.labelDOB.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDOB.Location = new System.Drawing.Point(28, 297);
+            this.labelDOB.Name = "labelDOB";
+            this.labelDOB.Required = true;
+            this.labelDOB.Size = new System.Drawing.Size(68, 13);
+            this.labelDOB.TabIndex = 12;
+            this.labelDOB.Text = "Date of Birth";
+            // 
+            // customLabelNegotiationLanguage
+            // 
+            this.customLabelNegotiationLanguage.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.customLabelNegotiationLanguage.AutoSize = true;
+            this.customLabelNegotiationLanguage.BackColor = System.Drawing.Color.Transparent;
+            this.customLabelNegotiationLanguage.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customLabelNegotiationLanguage.Location = new System.Drawing.Point(28, 245);
+            this.customLabelNegotiationLanguage.Name = "customLabelNegotiationLanguage";
+            this.customLabelNegotiationLanguage.Required = true;
+            this.customLabelNegotiationLanguage.Size = new System.Drawing.Size(112, 13);
+            this.customLabelNegotiationLanguage.TabIndex = 11;
+            this.customLabelNegotiationLanguage.Text = "Negotiation Language";
+            // 
+            // customLabelLastName
+            // 
+            this.customLabelLastName.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.customLabelLastName.AutoSize = true;
+            this.customLabelLastName.BackColor = System.Drawing.Color.Transparent;
+            this.customLabelLastName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customLabelLastName.Location = new System.Drawing.Point(28, 167);
+            this.customLabelLastName.Name = "customLabelLastName";
+            this.customLabelLastName.Required = true;
+            this.customLabelLastName.Size = new System.Drawing.Size(57, 13);
+            this.customLabelLastName.TabIndex = 10;
+            this.customLabelLastName.Text = "Last Name";
+            // 
+            // customLabelFirstName
+            // 
+            this.customLabelFirstName.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.customLabelFirstName.AutoSize = true;
+            this.customLabelFirstName.BackColor = System.Drawing.Color.Transparent;
+            this.customLabelFirstName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customLabelFirstName.Location = new System.Drawing.Point(28, 115);
+            this.customLabelFirstName.Name = "customLabelFirstName";
+            this.customLabelFirstName.Required = true;
+            this.customLabelFirstName.Size = new System.Drawing.Size(58, 13);
+            this.customLabelFirstName.TabIndex = 9;
+            this.customLabelFirstName.Text = "First Name";
+            // 
+            // custLastName
+            // 
+            this.custLastName.CausesValidation = false;
+            this.custLastName.ErrorMessage = global::Support.Properties.Resources.OverrideMachineName;
+            this.custLastName.FirstLetterUppercase = true;
+            this.custLastName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.custLastName.Location = new System.Drawing.Point(145, 159);
+            this.custLastName.MaxLength = 40;
+            this.custLastName.Name = "custLastName";
+            this.custLastName.Required = true;
+            this.custLastName.Size = new System.Drawing.Size(222, 21);
+            this.custLastName.TabIndex = 4;
+            this.custLastName.ValidationExpression = global::Support.Properties.Resources.OverrideMachineName;
+            // 
+            // custMiddleInitial
+            // 
+            this.custMiddleInitial.CausesValidation = false;
+            this.custMiddleInitial.ErrorMessage = global::Support.Properties.Resources.OverrideMachineName;
+            this.custMiddleInitial.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.custMiddleInitial.Location = new System.Drawing.Point(145, 133);
+            this.custMiddleInitial.MaxLength = 1;
+            this.custMiddleInitial.Name = "custMiddleInitial";
+            this.custMiddleInitial.Size = new System.Drawing.Size(27, 21);
+            this.custMiddleInitial.TabIndex = 3;
+            this.custMiddleInitial.ValidationExpression = global::Support.Properties.Resources.OverrideMachineName;
+            // 
+            // custFirstName
+            // 
+            this.custFirstName.CausesValidation = false;
+            this.custFirstName.ErrorMessage = global::Support.Properties.Resources.OverrideMachineName;
+            this.custFirstName.FirstLetterUppercase = true;
+            this.custFirstName.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.custFirstName.Location = new System.Drawing.Point(145, 107);
+            this.custFirstName.MaxLength = 40;
+            this.custFirstName.Name = "custFirstName";
+            this.custFirstName.Required = true;
+            this.custFirstName.Size = new System.Drawing.Size(222, 21);
+            this.custFirstName.TabIndex = 2;
+            this.custFirstName.ValidationExpression = global::Support.Properties.Resources.OverrideMachineName;
             // 
             // txtBoxSpouseFName
             // 
@@ -579,6 +682,7 @@ namespace Support.Forms.Customer
             this.txtBoxHLAAYears.Size = new System.Drawing.Size(25, 21);
             this.txtBoxHLAAYears.TabIndex = 9;
             this.txtBoxHLAAYears.ValidationExpression = global::Support.Properties.Resources.OverrideMachineName;
+            this.txtBoxHLAAYears.Leave += new System.EventHandler(this.custHLAMYears_Leave);
             // 
             // txtBoxHLAAMonths
             // 
@@ -591,6 +695,7 @@ namespace Support.Forms.Customer
             this.txtBoxHLAAMonths.Size = new System.Drawing.Size(25, 21);
             this.txtBoxHLAAMonths.TabIndex = 11;
             this.txtBoxHLAAMonths.ValidationExpression = global::Support.Properties.Resources.OverrideMachineName;
+            this.txtBoxHLAAMonths.Leave += new System.EventHandler(this.custHLAMonths_Leave);
             // 
             // txtBoxOwnHome
             // 
@@ -606,7 +711,6 @@ namespace Support.Forms.Customer
             // txtBoxMonthlyRent
             // 
             this.txtBoxMonthlyRent.CausesValidation = false;
-            this.txtBoxMonthlyRent.Enabled = false;
             this.txtBoxMonthlyRent.ErrorMessage = global::Support.Properties.Resources.OverrideMachineName;
             this.txtBoxMonthlyRent.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBoxMonthlyRent.Location = new System.Drawing.Point(254, 439);
@@ -614,6 +718,7 @@ namespace Support.Forms.Customer
             this.txtBoxMonthlyRent.Size = new System.Drawing.Size(97, 21);
             this.txtBoxMonthlyRent.TabIndex = 34;
             this.txtBoxMonthlyRent.ValidationExpression = global::Support.Properties.Resources.OverrideMachineName;
+            this.txtBoxMonthlyRent.Leave += new System.EventHandler(this.txtBoxMonthlyRent_Leave);
             // 
             // txtBoxCustSeqNumber
             // 
@@ -687,76 +792,6 @@ namespace Support.Forms.Customer
             this.txtBoxPDLCustSince.TabIndex = 54;
             this.txtBoxPDLCustSince.ValidationExpression = global::Support.Properties.Resources.OverrideMachineName;
             // 
-            // BankruptcyProtectionradioButton1
-            // 
-            this.BankruptcyProtectionradioButton1.AutoSize = true;
-            this.BankruptcyProtectionradioButton1.BackColor = System.Drawing.Color.Transparent;
-            this.BankruptcyProtectionradioButton1.Enabled = false;
-            this.BankruptcyProtectionradioButton1.Location = new System.Drawing.Point(747, 447);
-            this.BankruptcyProtectionradioButton1.Name = "BankruptcyProtectionradioButton1";
-            this.BankruptcyProtectionradioButton1.Size = new System.Drawing.Size(14, 13);
-            this.BankruptcyProtectionradioButton1.TabIndex = 61;
-            this.BankruptcyProtectionradioButton1.TabStop = true;
-            this.BankruptcyProtectionradioButton1.UseVisualStyleBackColor = false;
-            // 
-            // MilitaryStationedLocalcheckBox
-            // 
-            this.MilitaryStationedLocalcheckBox.AutoSize = true;
-            this.MilitaryStationedLocalcheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.MilitaryStationedLocalcheckBox.Location = new System.Drawing.Point(147, 471);
-            this.MilitaryStationedLocalcheckBox.Name = "MilitaryStationedLocalcheckBox";
-            this.MilitaryStationedLocalcheckBox.Size = new System.Drawing.Size(15, 14);
-            this.MilitaryStationedLocalcheckBox.TabIndex = 12;
-            this.MilitaryStationedLocalcheckBox.UseVisualStyleBackColor = false;
-            // 
-            // OptOutFlagcheckBox
-            // 
-            this.OptOutFlagcheckBox.AutoSize = true;
-            this.OptOutFlagcheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.OptOutFlagcheckBox.Location = new System.Drawing.Point(501, 142);
-            this.OptOutFlagcheckBox.Name = "OptOutFlagcheckBox";
-            this.OptOutFlagcheckBox.Size = new System.Drawing.Size(15, 14);
-            this.OptOutFlagcheckBox.TabIndex = 13;
-            this.OptOutFlagcheckBox.UseVisualStyleBackColor = false;
-            // 
-            // SpanishFormcheckBox1
-            // 
-            this.SpanishFormcheckBox1.AutoSize = true;
-            this.SpanishFormcheckBox1.BackColor = System.Drawing.Color.Transparent;
-            this.SpanishFormcheckBox1.Enabled = false;
-            this.SpanishFormcheckBox1.Location = new System.Drawing.Point(502, 376);
-            this.SpanishFormcheckBox1.Name = "SpanishFormcheckBox1";
-            this.SpanishFormcheckBox1.Size = new System.Drawing.Size(15, 14);
-            this.SpanishFormcheckBox1.TabIndex = 64;
-            this.SpanishFormcheckBox1.UseVisualStyleBackColor = false;
-            // 
-            // PRBCcheckBox
-            // 
-            this.PRBCcheckBox.AutoSize = true;
-            this.PRBCcheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.PRBCcheckBox.Enabled = false;
-            this.PRBCcheckBox.Location = new System.Drawing.Point(501, 402);
-            this.PRBCcheckBox.Name = "PRBCcheckBox";
-            this.PRBCcheckBox.Size = new System.Drawing.Size(15, 14);
-            this.PRBCcheckBox.TabIndex = 65;
-            this.PRBCcheckBox.UseVisualStyleBackColor = false;
-            // 
-            // txtBoxMarStatus
-            // 
-            this.txtBoxMarStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.txtBoxMarStatus.FormattingEnabled = true;
-            this.txtBoxMarStatus.Items.AddRange(new object[] {
-            "Divorced",
-            "Unknown",
-            "Married",
-            "Separated",
-            "Single",
-            "Widower/Widow"});
-            this.txtBoxMarStatus.Location = new System.Drawing.Point(145, 263);
-            this.txtBoxMarStatus.Name = "txtBoxMarStatus";
-            this.txtBoxMarStatus.Size = new System.Drawing.Size(98, 21);
-            this.txtBoxMarStatus.TabIndex = 7;
-            // 
             // BtnCustomerComments
             // 
             this.BtnCustomerComments.BackColor = System.Drawing.Color.Transparent;
@@ -779,6 +814,7 @@ namespace Support.Forms.Customer
             this.BtnCustomerComments.TabIndex = 17;
             this.BtnCustomerComments.Text = "Customer Comments";
             this.BtnCustomerComments.UseVisualStyleBackColor = false;
+            this.BtnCustomerComments.Visible = false;
             this.BtnCustomerComments.Click += new System.EventHandler(this.BtnCustomerComments_Click);
             // 
             // ChangeStatusCustomButton
@@ -796,10 +832,10 @@ namespace Support.Forms.Customer
             this.ChangeStatusCustomButton.ForeColor = System.Drawing.Color.White;
             this.ChangeStatusCustomButton.Location = new System.Drawing.Point(627, 200);
             this.ChangeStatusCustomButton.Margin = new System.Windows.Forms.Padding(0);
-            this.ChangeStatusCustomButton.MaximumSize = new System.Drawing.Size(90, 40);
+            this.ChangeStatusCustomButton.MaximumSize = new System.Drawing.Size(120, 40);
             this.ChangeStatusCustomButton.MinimumSize = new System.Drawing.Size(90, 40);
             this.ChangeStatusCustomButton.Name = "ChangeStatusCustomButton";
-            this.ChangeStatusCustomButton.Size = new System.Drawing.Size(90, 40);
+            this.ChangeStatusCustomButton.Size = new System.Drawing.Size(100, 40);
             this.ChangeStatusCustomButton.TabIndex = 16;
             this.ChangeStatusCustomButton.Text = "Change Status/Reason";
             this.ChangeStatusCustomButton.UseVisualStyleBackColor = false;
@@ -998,6 +1034,8 @@ namespace Support.Forms.Customer
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(769, 589);
             this.ControlBox = false;
+            this.Controls.Add(this.BankruptcyProtectionradioButton2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.txtBoxMarStatus);
             this.Controls.Add(this.BtnCustomerComments);
             this.Controls.Add(this.ChangeStatusCustomButton);
@@ -1129,8 +1167,7 @@ private System.Windows.Forms.Label lableNextVerDate        		 ;
 private System.Windows.Forms.Label lablePDLCoolingOffDate      ;
 private System.Windows.Forms.Label lablePDLCustSince           ;
 private System.Windows.Forms.Label lableSpanishForm            ;
-private System.Windows.Forms.Label lablePRBC                   ;
-private System.Windows.Forms.Label lableBankruptcyProtection;
+private System.Windows.Forms.Label lablePRBC;
         private CustomTextBox txtBoxSpouseFName;
         private CustomTextBox txtBoxSpouseLName;
         private CustomTextBox txtBoxSpouseSSN;
@@ -1154,8 +1191,11 @@ private System.Windows.Forms.CheckBox MilitaryStationedLocalcheckBox;
 private System.Windows.Forms.CheckBox OptOutFlagcheckBox;
 private System.Windows.Forms.CheckBox SpanishFormcheckBox1;
 private System.Windows.Forms.CheckBox PRBCcheckBox;
-private SupportButton ChangeStatusCustomButton;
+private SupportButtonWide ChangeStatusCustomButton;
 private SupportButton BtnCustomerComments;
 private System.Windows.Forms.ComboBox txtBoxMarStatus;
+private System.Windows.Forms.Label lableBankruptcyProtection;
+private System.Windows.Forms.Label label1;
+private System.Windows.Forms.RadioButton BankruptcyProtectionradioButton2;
     }
 }

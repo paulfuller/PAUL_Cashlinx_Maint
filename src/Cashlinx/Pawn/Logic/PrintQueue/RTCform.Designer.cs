@@ -135,7 +135,7 @@ namespace Pawn.Logic.PrintQueue
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.2027F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 284F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 136F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 146F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 284F));
             this.tableLayoutPanel1.Controls.Add(this.labelEmpNo, 4, 1);
             this.tableLayoutPanel1.Controls.Add(this.label1CustDOB, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label1CustName, 0, 1);
@@ -159,9 +159,9 @@ namespace Pawn.Logic.PrintQueue
             this.labelEmpNo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelEmpNo.AutoSize = true;
             this.labelEmpNo.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelEmpNo.Location = new System.Drawing.Point(638, 67);
+            this.labelEmpNo.Location = new System.Drawing.Point(500, 67);
             this.labelEmpNo.Name = "labelEmpNo";
-            this.labelEmpNo.Size = new System.Drawing.Size(141, 14);
+            this.labelEmpNo.Size = new System.Drawing.Size(279, 14);
             this.labelEmpNo.TabIndex = 14;
             this.labelEmpNo.Text = "1234";
             // 
@@ -170,9 +170,9 @@ namespace Pawn.Logic.PrintQueue
             this.label1CustDOB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label1CustDOB.AutoSize = true;
             this.label1CustDOB.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1CustDOB.Location = new System.Drawing.Point(131, 67);
+            this.label1CustDOB.Location = new System.Drawing.Point(48, 50);
             this.label1CustDOB.Name = "label1CustDOB";
-            this.label1CustDOB.Size = new System.Drawing.Size(78, 14);
+            this.label1CustDOB.Size = new System.Drawing.Size(23, 49);
             this.label1CustDOB.TabIndex = 13;
             this.label1CustDOB.Text = "11/30/1966";
             // 
@@ -181,9 +181,9 @@ namespace Pawn.Logic.PrintQueue
             this.label1CustName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label1CustName.AutoSize = true;
             this.label1CustName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1CustName.Location = new System.Drawing.Point(4, 67);
+            this.label1CustName.Location = new System.Drawing.Point(4, 50);
             this.label1CustName.Name = "label1CustName";
-            this.label1CustName.Size = new System.Drawing.Size(120, 14);
+            this.label1CustName.Size = new System.Drawing.Size(37, 49);
             this.label1CustName.TabIndex = 12;
             this.label1CustName.Text = "Robert Smith";
             // 
@@ -192,7 +192,7 @@ namespace Pawn.Logic.PrintQueue
             this.labelTktNo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTktNo.AutoSize = true;
             this.labelTktNo.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTktNo.Location = new System.Drawing.Point(501, 67);
+            this.labelTktNo.Location = new System.Drawing.Point(363, 67);
             this.labelTktNo.Name = "labelTktNo";
             this.labelTktNo.Size = new System.Drawing.Size(130, 14);
             this.labelTktNo.TabIndex = 11;
@@ -203,7 +203,7 @@ namespace Pawn.Logic.PrintQueue
             this.labelCustAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelCustAddress.AutoSize = true;
             this.labelCustAddress.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCustAddress.Location = new System.Drawing.Point(216, 67);
+            this.labelCustAddress.Location = new System.Drawing.Point(78, 67);
             this.labelCustAddress.Name = "labelCustAddress";
             this.labelCustAddress.Size = new System.Drawing.Size(278, 14);
             this.labelCustAddress.TabIndex = 10;
@@ -214,9 +214,9 @@ namespace Pawn.Logic.PrintQueue
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(4, 11);
+            this.label6.Location = new System.Drawing.Point(4, 1);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(120, 28);
+            this.label6.Size = new System.Drawing.Size(37, 48);
             this.label6.TabIndex = 5;
             this.label6.Text = "Owner First, Last:";
             // 
@@ -225,9 +225,9 @@ namespace Pawn.Logic.PrintQueue
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(131, 18);
+            this.label7.Location = new System.Drawing.Point(48, 11);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(78, 14);
+            this.label7.Size = new System.Drawing.Size(23, 28);
             this.label7.TabIndex = 6;
             this.label7.Text = "DOB:";
             // 
@@ -236,7 +236,7 @@ namespace Pawn.Logic.PrintQueue
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(216, 18);
+            this.label8.Location = new System.Drawing.Point(78, 18);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(278, 14);
             this.label8.TabIndex = 7;
@@ -247,7 +247,7 @@ namespace Pawn.Logic.PrintQueue
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(501, 11);
+            this.label9.Location = new System.Drawing.Point(363, 11);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(130, 28);
             this.label9.TabIndex = 8;
@@ -258,9 +258,9 @@ namespace Pawn.Logic.PrintQueue
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(638, 18);
+            this.label10.Location = new System.Drawing.Point(500, 18);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(141, 14);
+            this.label10.Size = new System.Drawing.Size(279, 14);
             this.label10.TabIndex = 9;
             this.label10.Text = "Employee Number:";
             // 
@@ -306,7 +306,7 @@ namespace Pawn.Logic.PrintQueue
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 99F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 101F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 232F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Controls.Add(this.label23, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.label24, 1, 0);
@@ -336,9 +336,9 @@ namespace Pawn.Logic.PrintQueue
             this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(4, 18);
+            this.label23.Location = new System.Drawing.Point(4, 4);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(145, 14);
+            this.label23.Size = new System.Drawing.Size(69, 42);
             this.label23.TabIndex = 5;
             this.label23.Text = "Reason for Release:";
             // 
@@ -347,9 +347,9 @@ namespace Pawn.Logic.PrintQueue
             this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(156, 18);
+            this.label24.Location = new System.Drawing.Point(80, 11);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(115, 14);
+            this.label24.Size = new System.Drawing.Size(53, 28);
             this.label24.TabIndex = 6;
             this.label24.Text = "Officer Name";
             // 
@@ -358,7 +358,7 @@ namespace Pawn.Logic.PrintQueue
             this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(278, 18);
+            this.label25.Location = new System.Drawing.Point(140, 18);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(110, 14);
             this.label25.TabIndex = 7;
@@ -369,7 +369,7 @@ namespace Pawn.Logic.PrintQueue
             this.label26.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(395, 11);
+            this.label26.Location = new System.Drawing.Point(257, 11);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(93, 28);
             this.label26.TabIndex = 8;
@@ -380,7 +380,7 @@ namespace Pawn.Logic.PrintQueue
             this.label27.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.Location = new System.Drawing.Point(495, 11);
+            this.label27.Location = new System.Drawing.Point(357, 11);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(95, 28);
             this.label27.TabIndex = 9;
@@ -391,7 +391,7 @@ namespace Pawn.Logic.PrintQueue
             this.label28.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.Location = new System.Drawing.Point(597, 11);
+            this.label28.Location = new System.Drawing.Point(459, 11);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(89, 28);
             this.label28.TabIndex = 15;
@@ -402,9 +402,9 @@ namespace Pawn.Logic.PrintQueue
             this.labelCurrentPrincipal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelCurrentPrincipal.AutoSize = true;
             this.labelCurrentPrincipal.Font = new System.Drawing.Font("Courier New", 8.25F);
-            this.labelCurrentPrincipal.Location = new System.Drawing.Point(693, 67);
+            this.labelCurrentPrincipal.Location = new System.Drawing.Point(555, 67);
             this.labelCurrentPrincipal.Name = "labelCurrentPrincipal";
-            this.labelCurrentPrincipal.Size = new System.Drawing.Size(89, 14);
+            this.labelCurrentPrincipal.Size = new System.Drawing.Size(227, 14);
             this.labelCurrentPrincipal.TabIndex = 18;
             this.labelCurrentPrincipal.Text = "$20.00";
             // 
@@ -413,9 +413,9 @@ namespace Pawn.Logic.PrintQueue
             this.lableCurrentPrincipalHeader.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lableCurrentPrincipalHeader.AutoSize = true;
             this.lableCurrentPrincipalHeader.Font = new System.Drawing.Font("Courier New", 8.25F);
-            this.lableCurrentPrincipalHeader.Location = new System.Drawing.Point(693, 11);
+            this.lableCurrentPrincipalHeader.Location = new System.Drawing.Point(555, 18);
             this.lableCurrentPrincipalHeader.Name = "lableCurrentPrincipalHeader";
-            this.lableCurrentPrincipalHeader.Size = new System.Drawing.Size(89, 28);
+            this.lableCurrentPrincipalHeader.Size = new System.Drawing.Size(227, 14);
             this.lableCurrentPrincipalHeader.TabIndex = 17;
             this.lableCurrentPrincipalHeader.Text = "Current Principal:";
             // 
@@ -424,7 +424,7 @@ namespace Pawn.Logic.PrintQueue
             this.labelRestitutionAmt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelRestitutionAmt.AutoSize = true;
             this.labelRestitutionAmt.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRestitutionAmt.Location = new System.Drawing.Point(597, 67);
+            this.labelRestitutionAmt.Location = new System.Drawing.Point(459, 67);
             this.labelRestitutionAmt.Name = "labelRestitutionAmt";
             this.labelRestitutionAmt.Size = new System.Drawing.Size(89, 14);
             this.labelRestitutionAmt.TabIndex = 11;
@@ -437,7 +437,7 @@ namespace Pawn.Logic.PrintQueue
             this.labelReleaseComment.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelReleaseComment.Location = new System.Drawing.Point(4, 67);
             this.labelReleaseComment.Name = "labelReleaseComment";
-            this.labelReleaseComment.Size = new System.Drawing.Size(145, 14);
+            this.labelReleaseComment.Size = new System.Drawing.Size(69, 14);
             this.labelReleaseComment.TabIndex = 16;
             this.labelReleaseComment.Text = "xyz";
             // 
@@ -446,9 +446,9 @@ namespace Pawn.Logic.PrintQueue
             this.labelOfficerName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelOfficerName.AutoSize = true;
             this.labelOfficerName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelOfficerName.Location = new System.Drawing.Point(156, 67);
+            this.labelOfficerName.Location = new System.Drawing.Point(80, 67);
             this.labelOfficerName.Name = "labelOfficerName";
-            this.labelOfficerName.Size = new System.Drawing.Size(115, 14);
+            this.labelOfficerName.Size = new System.Drawing.Size(53, 14);
             this.labelOfficerName.TabIndex = 13;
             this.labelOfficerName.Text = "John Q";
             // 
@@ -457,7 +457,7 @@ namespace Pawn.Logic.PrintQueue
             this.labelOfficerPhone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelOfficerPhone.AutoSize = true;
             this.labelOfficerPhone.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelOfficerPhone.Location = new System.Drawing.Point(278, 67);
+            this.labelOfficerPhone.Location = new System.Drawing.Point(140, 67);
             this.labelOfficerPhone.Name = "labelOfficerPhone";
             this.labelOfficerPhone.Size = new System.Drawing.Size(110, 14);
             this.labelOfficerPhone.TabIndex = 14;
@@ -468,7 +468,7 @@ namespace Pawn.Logic.PrintQueue
             this.labelRestitutionCollected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelRestitutionCollected.AutoSize = true;
             this.labelRestitutionCollected.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRestitutionCollected.Location = new System.Drawing.Point(495, 67);
+            this.labelRestitutionCollected.Location = new System.Drawing.Point(357, 67);
             this.labelRestitutionCollected.Name = "labelRestitutionCollected";
             this.labelRestitutionCollected.Size = new System.Drawing.Size(95, 14);
             this.labelRestitutionCollected.TabIndex = 10;
@@ -479,7 +479,7 @@ namespace Pawn.Logic.PrintQueue
             this.labelOfficerBadge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelOfficerBadge.AutoSize = true;
             this.labelOfficerBadge.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelOfficerBadge.Location = new System.Drawing.Point(395, 67);
+            this.labelOfficerBadge.Location = new System.Drawing.Point(257, 67);
             this.labelOfficerBadge.Name = "labelOfficerBadge";
             this.labelOfficerBadge.Size = new System.Drawing.Size(93, 14);
             this.labelOfficerBadge.TabIndex = 12;

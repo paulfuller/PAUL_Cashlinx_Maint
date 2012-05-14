@@ -91,7 +91,7 @@ namespace Common.Libraries.Forms.Pawn.Products.DescribeMerchandise
         public ProKnowMatch SelectedProKnowMatch { get; set; }
 
         // Instantiation for Pawn Item Edits
-        public DescribeItem(DesktopSession desktopSession, CurrentContext FlowCurrentContext, int iCurrentPawnIndex)
+        public DescribeItem(DesktopSession desktopSession, CurrentContext FlowCurrentContext, int iCurrentPawnIndex, bool isPurchaseFlow = false)
         {
             DesktopSession = desktopSession;
             InitializeComponent();
@@ -111,7 +111,7 @@ namespace Common.Libraries.Forms.Pawn.Products.DescribeMerchandise
                 DesktopSession.HistorySession.Trigger == Commons.TriggerTypes.DESCRIBEITEMCUSTOMERPURCHASE ||
                 DesktopSession.HistorySession.Trigger == Commons.TriggerTypes.VENDORPURCHASE ||
                 DesktopSession.HistorySession.Trigger == Commons.TriggerTypes.CUSTOMERPURCHASEPFI ||
-                DesktopSession.PurchasePFIAddItem)
+                DesktopSession.PurchasePFIAddItem || isPurchaseFlow)
             {
                 purchaseFlow = true;
             }

@@ -122,10 +122,16 @@
     <Compile Include="Audit\InventorySummaryResponseReport.cs" />
     <Compile Include="Audit\PostAuditReport.cs" />
     <Compile Include="Audit\TrakkerUploadReport.cs" />
+    <Compile Include="AuthorizationToReleaseFingerprints.cs" />
     <Compile Include="CACCSalesReport.cs" />
     <Compile Include="CashDrawerLedger.cs" />
-    <Compile Include="ExtensionMemoOhio.cs" />
+    <Compile Include="ExtensionMemoOhioIndiana.cs" />
+    <Compile Include="IndianaLostTicketAffidavit.cs" />
+    <Compile Include="IndianaPartialPaymentContext.cs" />
+    <Compile Include="IndianaPoliceCardReport.cs" />
+    <Compile Include="LostTicketAffidavitContext.cs" />
     <Compile Include="PartialPaymentReceipt.cs" />
+    <Compile Include="PartialPayment_IN.cs" />
     <Compile Include="PFIMailerDocument.cs" />
     <Compile Include="DailySalesReport.cs" />
     <Compile Include="DailySalesReport_Summary.cs" />
@@ -226,6 +232,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ReleaseToClaimantReport.cs" />
     <Compile Include="ReportBase.cs" />
     <Compile Include="RunReport.cs" />
     <Compile Include="SnapshotReport.cs" />

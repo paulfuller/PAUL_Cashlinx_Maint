@@ -214,7 +214,7 @@
     </BusinessRuleCompRef>
   </BusinessRule>
   <BusinessRule name="PWN_BR-008" id="e51f39be-f438-4b83-bd8d-a0357667c3c8">
-    <BusinessRuleCompRef name="CL_PWN_0004_MAXNOOFITMSPLNTKT">
+    <BusinessRuleCompRef name="CL_PWN_004_MAXITEMSPERTKT">
       <ComponentType>PARAM</ComponentType>
     </BusinessRuleCompRef>
   </BusinessRule>
@@ -1108,6 +1108,16 @@
       <ComponentType>PARAM</ComponentType>
     </BusinessRuleCompRef>
   </BusinessRule>
+  <BusinessRule name="PWN_BR-173" id="878358a7-0e02-482d-b6d6-e416516fe255">
+    <BusinessRuleCompRef name="CL_PWN_263_PRINTPOLICECARD">
+      <ComponentType>PARAM</ComponentType>
+    </BusinessRuleCompRef>
+  </BusinessRule>
+  <BusinessRule name="PWN_BR-177" id="73b35575-868c-4a75-84b8-9d9266dc1547">
+    <BusinessRuleCompRef name="CL_PWN_268_RELFINGSUBPOENA">
+      <ComponentType>PARAM</ComponentType>
+    </BusinessRuleCompRef>
+  </BusinessRule>
   <BusinessRuleComponent name="CL_PWN_0001_MAXLOANAMT" ParentAlias="All" ParentId="e9ec5fb2-245b-459c-9ec6-dd5f7d897e27" Id="f319dc4d-0b87-4776-b80e-c101c95dbf97">
     <Alias>TX</Alias>
     <FromDate>01/01/2010</FromDate>
@@ -1198,6 +1208,36 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0001_MAXLOANAMT" ParentAlias="" ParentId="e9ec5fb2-245b-459c-9ec6-dd5f7d897e27" Id="9df2a413-0f74-4286-80f7-efdffaf91310">
+    <Alias>TX</Alias>
+    <FromDate>07/01/2011</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>15750.00</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0001_MAXLOANAMT" ParentAlias="" ParentId="e9ec5fb2-245b-459c-9ec6-dd5f7d897e27" Id="061d3fa5-2b37-486b-9e28-52560651c213">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>99800</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_0002_MINLOANAMT" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="965f452c-2f5b-4d40-a7df-8dd67f409df2">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -1243,7 +1283,7 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
-  <BusinessRuleComponent name="CL_PWN_0004_MAXNOOFITMSPLNTKT" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="da1c8237-fe00-40bc-8979-912dab3a0595">
+  <BusinessRuleComponent name="CL_PWN_0004_MAXNOOFITMSPERTKT" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="da1c8237-fe00-40bc-8979-912dab3a0595">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
     <ToDate>01/30/2050</ToDate>
@@ -1251,22 +1291,7 @@
     <IsEditable>true</IsEditable>
     <Param>
       <DataType />
-      <Value>10</Value>
-      <StoreNumber />
-      <State />
-      <Company>1</Company>
-      <Cacheable>false</Cacheable>
-    </Param>
-  </BusinessRuleComponent>
-  <BusinessRuleComponent name="CL_PWN_0004_MAXNOOFITMSPLNTKT" ParentAlias="All" ParentId="da1c8237-fe00-40bc-8979-912dab3a0595" Id="3dd86bfb-c56e-4096-b1b6-4c645e71274c">
-    <Alias>TX</Alias>
-    <FromDate>01/01/1950</FromDate>
-    <ToDate>01/30/2050</ToDate>
-    <ComponentType>PARAM</ComponentType>
-    <IsEditable>true</IsEditable>
-    <Param>
-      <DataType />
-      <Value>10</Value>
+      <Value>999</Value>
       <StoreNumber />
       <State />
       <Company>1</Company>
@@ -1956,6 +1981,295 @@
       <InterestType />
     </Interest>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="49c9594b-7294-479e-9f83-7baa69f0e06c" Id="a1f5f6ed-03c2-4f75-a978-f2ce85ca876f">
+    <Alias>IN</Alias>
+    <FromDate>07/01/2010</FromDate>
+    <ToDate>06/30/2012</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>0.01</MinAmount>
+      <MaxAmount>1050.0</MaxAmount>
+      <InterestRate>36.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="084a34f3-6c34-48d9-a841-d09ca9a9404f" Id="ca494994-761a-4b32-aaf7-6d181f7e5e6a">
+    <Alias>IN</Alias>
+    <FromDate>07/01/2011</FromDate>
+    <ToDate>06/30/2012</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>1050.01</MinAmount>
+      <MaxAmount>3500.0</MaxAmount>
+      <InterestRate>21</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="e00fd6cf-86b8-44d1-bea8-83c63dd490c9" Id="bfb4563b-e1fa-4fb6-b3c3-7421eaa75494">
+    <Alias>IN</Alias>
+    <FromDate>07/01/2010</FromDate>
+    <ToDate>06/30/2012</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>3500.01</MinAmount>
+      <MaxAmount>99800.0</MaxAmount>
+      <InterestRate>15</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="49c9594b-7294-479e-9f83-7baa69f0e06c" Id="90d71229-0e1a-44a9-b1cd-87570712bd36">
+    <Alias>IN_30_CL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>06/30/2012</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>0.01</MinAmount>
+      <MaxAmount>1050.0</MaxAmount>
+      <InterestRate>36.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="084a34f3-6c34-48d9-a841-d09ca9a9404f" Id="b75c5bdf-a965-42dc-9d0a-0ba98993249b">
+    <Alias>IN_30_CL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>06/30/2012</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>1050.01</MinAmount>
+      <MaxAmount>3500.0</MaxAmount>
+      <InterestRate>21.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="e00fd6cf-86b8-44d1-bea8-83c63dd490c9" Id="d5d60d9a-a816-4903-85b1-91686deb3151">
+    <Alias>IN_30_CL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>06/30/2012</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>3500.01</MinAmount>
+      <MaxAmount>99800.0</MaxAmount>
+      <InterestRate>15.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="e00fd6cf-86b8-44d1-bea8-83c63dd490c9" Id="8164aac2-9260-4342-9d9c-526235c28bdf">
+    <Alias>IN</Alias>
+    <FromDate>07/01/2012</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>3600.01</MinAmount>
+      <MaxAmount>99800.0</MaxAmount>
+      <InterestRate>15.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="e00fd6cf-86b8-44d1-bea8-83c63dd490c9" Id="bbe0a2c3-5966-454c-8cbc-6677510f317a">
+    <Alias>IN_30_CL</Alias>
+    <FromDate>07/01/2012</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>3600.01</MinAmount>
+      <MaxAmount>99800.0</MaxAmount>
+      <InterestRate>15.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="e00fd6cf-86b8-44d1-bea8-83c63dd490c9" Id="a84f996a-9367-4744-a0b0-f8a7ea76848f">
+    <Alias>IN_30_CLPL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>06/30/2012</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>3500.01</MinAmount>
+      <MaxAmount>99800.0</MaxAmount>
+      <InterestRate>15.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="e00fd6cf-86b8-44d1-bea8-83c63dd490c9" Id="9d5d4e1b-6d67-468f-9cdd-2b36f5f96226">
+    <Alias>IN_30_CLPL</Alias>
+    <FromDate>07/01/2012</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>3600.01</MinAmount>
+      <MaxAmount>99800.0</MaxAmount>
+      <InterestRate>15.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="084a34f3-6c34-48d9-a841-d09ca9a9404f" Id="975f5ef7-4c8a-4baa-ae3f-ca3953067b7d">
+    <Alias>IN_30_CLPL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>06/30/2012</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>1050.01</MinAmount>
+      <MaxAmount>3500.0</MaxAmount>
+      <InterestRate>21.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="084a34f3-6c34-48d9-a841-d09ca9a9404f" Id="e9c62797-26ac-4354-8744-d5722f4b9ea9">
+    <Alias>IN</Alias>
+    <FromDate>07/01/2012</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>1080.01</MinAmount>
+      <MaxAmount>3600.0</MaxAmount>
+      <InterestRate>21.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="084a34f3-6c34-48d9-a841-d09ca9a9404f" Id="37e95d8b-c878-4dee-8356-4de3c1830db4">
+    <Alias>IN_30_CL</Alias>
+    <FromDate>07/01/2012</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>1080.01</MinAmount>
+      <MaxAmount>3600.0</MaxAmount>
+      <InterestRate>21.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="084a34f3-6c34-48d9-a841-d09ca9a9404f" Id="dbddfdbd-a65a-401d-a4c0-e0efde4ef371">
+    <Alias>IN_30_CLPL</Alias>
+    <FromDate>07/01/2012</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>1080.01</MinAmount>
+      <MaxAmount>3600.0</MaxAmount>
+      <InterestRate>21.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="49c9594b-7294-479e-9f83-7baa69f0e06c" Id="e1d8b746-05bb-4fbd-bbc1-ded17740cdff">
+    <Alias>IN_30_CLPL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>06/30/2012</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>0.01</MinAmount>
+      <MaxAmount>1050.0</MaxAmount>
+      <InterestRate>36.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="49c9594b-7294-479e-9f83-7baa69f0e06c" Id="9ffe44a6-105b-451b-af9d-17ecd1422838">
+    <Alias>IN</Alias>
+    <FromDate>07/01/2012</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>0.01</MinAmount>
+      <MaxAmount>1080.0</MaxAmount>
+      <InterestRate>36.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="49c9594b-7294-479e-9f83-7baa69f0e06c" Id="13697e15-49fe-4b6e-8b08-35f75f952ad4">
+    <Alias>IN_30_CL</Alias>
+    <FromDate>07/01/2012</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>0.01</MinAmount>
+      <MaxAmount>1080.0</MaxAmount>
+      <InterestRate>36.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_0009_INTAMT" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="03804f09-7714-41db-bdfe-2c43d7e99758">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -2012,6 +2326,18 @@
       <FeeType />
       <FeeLookupType />
       <Value>0</Value>
+    </Fee>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0010_SVCCHRGRATE" ParentAlias="" ParentId="08858712-4fed-4d3d-b46e-745ef538e115" Id="8136a63e-6530-4c7a-912d-86d4c6b44f4b">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>FEES</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Fee>
+      <FeeType />
+      <FeeLookupType />
+      <Value>20</Value>
     </Fee>
   </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_0011_SVCCHRGAMT" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="9537d56b-6db8-4b0d-91a3-7c5f3cd35fb6">
@@ -2118,6 +2444,23 @@
       <MinAmount>-1</MinAmount>
       <MaxAmount>-1</MaxAmount>
       <InterestRate>1.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0013_MININTAMT" ParentAlias="" ParentId="35c3baf1-e6e5-4f7b-ba15-761aafb4f0a3" Id="6119584d-897e-4ce6-ab3e-7585bb1a960e">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>-1.0</MinAmount>
+      <MaxAmount>-1.0</MaxAmount>
+      <InterestRate>0.0</InterestRate>
       <InterestAmount>0.0</InterestAmount>
       <ServiceAmount>0.0</ServiceAmount>
       <ServiceRate>0.0</ServiceRate>
@@ -2710,6 +3053,366 @@
       <Value>N</Value>
     </Fee>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="4eb10efe-a1aa-4428-ad55-ef5069eaaafd">
+    <Alias>All</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>999</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="09fb849f-54b0-4d47-9ae4-a4f2c91adc51">
+    <Alias>IN_30_03501</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="e161b3e3-e13e-4a27-b5fd-82fd8b7e9a55">
+    <Alias>IN_30_03502</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="86a3d991-db71-4dcb-9a90-2755cd2e17e7">
+    <Alias>IN_30_03505</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="12f1c186-0526-4515-bda1-3c1c2be5a8d2">
+    <Alias>IN_30_03507</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="0c478db7-5e8c-4f2a-96e5-2ea126fb4cb6">
+    <Alias>IN_30_03516</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="db122c6c-24f8-4e66-b6a1-4e09bf026368">
+    <Alias>IN_1_01411</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="1981aab5-9d11-439b-825a-21cf76c80c52">
+    <Alias>IN_1_01413</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="ea5b40f2-a8d0-49cf-8f49-1eab1724e298">
+    <Alias>IN_1_01401</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="9b02ace3-5b45-45df-8e90-98254ace630c">
+    <Alias>IN_1_01403</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="460fe93b-2905-4525-8d80-1b1325826072">
+    <Alias>IN_1_01404</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="a6c560c6-2b0b-422e-bccb-6441f2612147">
+    <Alias>IN_1_01405</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="182105ac-3d16-4a44-9788-b4796985a5d2">
+    <Alias>IN_1_01407</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="5700d1b8-d503-4c64-8fa9-2ac24e5eed54">
+    <Alias>IN_1_01408</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="65b567f7-5f98-4b14-9ee7-81d91ca4caaf">
+    <Alias>IN_1_01410</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="442a9a0a-cb89-4952-a546-070b44b37e92">
+    <Alias>IN_30_03503</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="0917b6ad-4098-486d-b8f3-e53112106718">
+    <Alias>IN_30_03504</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="a866040a-ea9b-44d9-a5e5-579361db8b6c">
+    <Alias>IN_30_03508</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="426296be-e06c-43e9-92b1-13427bc3e63d">
+    <Alias>IN_30_03510</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="4460ccdc-a332-4a3c-bf86-617b5d3e1d1b">
+    <Alias>IN_30_03509</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="01159fc6-a109-467f-bde5-6ea4e4d9a45b">
+    <Alias>IN_30_03512</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="95d856df-ead4-47e1-90e7-c57f7d52e7db">
+    <Alias>IN_30_03511</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="3aa927ef-2edc-4535-bbfc-57fac5be1f98">
+    <Alias>IN_30_03514</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_004_MAXITEMSPERTKT" ParentAlias="" ParentId="4eb10efe-a1aa-4428-ad55-ef5069eaaafd" Id="b85be1a6-6f7f-4a26-9101-b5dc9a292981">
+    <Alias>IN_30_03515</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_0040_PFIMAILFEE" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="dc0cf861-05c4-452a-9128-077432639a27">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -2887,6 +3590,21 @@
     <Param>
       <DataType />
       <Value>2</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0044_LOSTPWNTKTFEE" ParentAlias="" ParentId="b4edca73-878e-466b-82c4-dcd0d1522c4a" Id="003ddd16-9b92-4c15-b7f4-cf34996f3ecc">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>3</Value>
       <StoreNumber />
       <State />
       <Company />
@@ -3085,6 +3803,21 @@
       <Value>60</Value>
     </Fee>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0056_WTDAYSPRPFI" ParentAlias="" ParentId="bb166441-371f-42c5-bad7-680305500a39" Id="312b0e14-9c71-4855-937d-151fd180350a">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>1</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_0057_WTMNTHSPRPFI" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="21a12f16-d5cf-4911-917a-a352eb2d50f2">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -3109,6 +3842,21 @@
     <Param>
       <DataType />
       <Value>2</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0057_WTMNTHSPRPFI" ParentAlias="" ParentId="21a12f16-d5cf-4911-917a-a352eb2d50f2" Id="9b3c6bba-d620-4fe4-8ae0-44de8a221fb1">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>3</Value>
       <StoreNumber />
       <State />
       <Company />
@@ -3150,6 +3898,21 @@
       <FeeLookupType />
       <Value>DUE DATE</Value>
     </Fee>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0058_PFICALCDATEUSED" ParentAlias="" ParentId="7a07cad5-a3e3-4ba6-a115-94197cbc434e" Id="bede34e3-1848-4c93-89ea-fc085f260cf2">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>DATE MADE</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
   </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_0059_PFIDATEADJT" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="fccda1da-65f7-4c56-b548-838fabe0952c">
     <Alias>All</Alias>
@@ -3439,6 +4202,21 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0070_PRINTMEMOOFEXTENSION" ParentAlias="" ParentId="c2688b70-06d7-43a6-ab16-e0a35dea0603" Id="d570a6d2-570c-4214-95ca-8a50b14f5010">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>N</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_0072_EXTALLWD" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="a6da18e9-4214-4a4f-ba0d-f6634dea382d">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -3544,6 +4322,21 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0073_RENALLWD" ParentAlias="" ParentId="f7bc3522-fab2-4026-88b9-05937214fd61" Id="43bdd8fe-2389-4eef-b76d-23927afe0ff1">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>N</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_0074_PDALLWD" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="489a1625-2029-4774-b7b5-3f9d7532ec33">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -3577,6 +4370,21 @@
   <BusinessRuleComponent name="CL_PWN_0074_PDALLWD" ParentAlias="" ParentId="489a1625-2029-4774-b7b5-3f9d7532ec33" Id="4034b634-d8f4-405c-a02b-6c0772f66fd0">
     <Alias>OH</Alias>
     <FromDate>06/01/2005</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>N</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0074_PDALLWD" ParentAlias="" ParentId="489a1625-2029-4774-b7b5-3f9d7532ec33" Id="dbe8dfe5-56d5-4020-9db1-8008452b3d5a">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
     <ToDate>01/01/2050</ToDate>
     <ComponentType>PARAM</ComponentType>
     <IsEditable>true</IsEditable>
@@ -3664,6 +4472,336 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="fec3d973-ab70-49fe-9a76-578bdcd0c83e">
+    <Alias>IN_30_03501</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>168</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="ca96c5e0-6584-4d88-8810-263ffe46d98b">
+    <Alias>IN_30_03502</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>168</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="3c0fd938-6395-4539-a7eb-4f5d2afb6ee7">
+    <Alias>IN_30_03505</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>168</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="b0cea89f-03eb-436a-ac21-25b2f29cd329">
+    <Alias>IN_30_03516</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>168</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="c83ec387-79b3-4669-b941-1ca78c89eb5c">
+    <Alias>IN_1_01401</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>168</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="d58cb6d1-def9-42e9-9992-3a17a66fb755">
+    <Alias>IN_1_01402</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>168</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="7e7a8710-e14e-4189-a686-9f6417d10cb0">
+    <Alias>IN_1_01403</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>168</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="ddfff04e-41cb-43f2-a4a6-a6b74e45eea6">
+    <Alias>IN_1_01404</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>168</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="24dddcc9-5130-40a8-b5d5-22e1280b9919">
+    <Alias>IN_1_01405</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>168</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="b6776b95-4de9-4994-b8fa-c84f20e204f1">
+    <Alias>IN_1_01406</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>168</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="622984d5-2999-4063-9fb4-26dba89a6760">
+    <Alias>IN_1_01407</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>168</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="04e1957a-b5bc-45a7-b8d4-faf8340981e1">
+    <Alias>IN_1_01408</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>168</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="35d7934a-13fb-4f0c-ae74-547a5c1139c3">
+    <Alias>IN_1_01430</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>168</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="5dad7e0d-12d0-444e-af96-8ce700adcd8c">
+    <Alias>IN_30_03509</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>168</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="8d3b4ebc-8573-4299-8eee-96d383e9c735">
+    <Alias>IN_30_03507</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>7</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="f8bc50ca-4d48-404a-beb5-54775006e5d5">
+    <Alias>IN_30_03503</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>24</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="84b9f4f8-455c-4e26-83a2-5286b1563371">
+    <Alias>IN_30_03504</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>24</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="ec44e4bf-362a-4f93-aa25-4a5119b49b92">
+    <Alias>IN_30_03512</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>24</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="89410d73-7743-46be-80af-2ea8ec684256">
+    <Alias>IN_30_03515</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>24</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="89c28183-fd44-4b94-b759-443c1fc64f14">
+    <Alias>IN_30_03522</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>24</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="e63d0bc9-9307-4fbe-aa5f-bdc6e3423c2a">
+    <Alias>IN_30_03523</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>24</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0076_MINWAITINPAWN" ParentAlias="" ParentId="f1138315-5266-42ad-8183-7348f7e5f1d0" Id="f796e379-ee6b-49ff-9a1c-a1a379d300aa">
+    <Alias>IN_30_03511</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>48</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_0079_EXTALLWDBEFOREDUEDT" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="1c72d96f-ee97-4884-8c4e-67b8e342dd98">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -3741,6 +4879,21 @@
   </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_0081_EXTNPASTPICKUPAMT" ParentAlias="" ParentId="090e3fc4-15ce-4df5-bba5-c85340d82302" Id="e65616c8-0026-43e0-9dbc-5ddecf4be5d0">
     <Alias>OH</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>N</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0081_EXTNPASTPICKUPAMT" ParentAlias="" ParentId="090e3fc4-15ce-4df5-bba5-c85340d82302" Id="6cecc52f-db8b-4e76-86f6-eb9e4c07e642">
+    <Alias>IN</Alias>
     <FromDate>01/01/1950</FromDate>
     <ToDate>01/01/2050</ToDate>
     <ComponentType>PARAM</ComponentType>
@@ -4678,6 +5831,21 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0169_PFIDATENBDADJTREQ" ParentAlias="" ParentId="d982ce0d-86ec-4e1c-bf10-0a00dfb86659" Id="d6273bba-5c9f-4a42-a3c1-b56e2b254d41">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>N</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_0172_FIREBACKFEE" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="702028f9-acce-4d33-8930-c1053e1789cb">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -4830,7 +5998,7 @@
     <IsEditable>true</IsEditable>
     <Param>
       <DataType />
-      <Value>Y</Value>
+      <Value>N</Value>
       <StoreNumber />
       <State />
       <Company>1</Company>
@@ -5731,6 +6899,21 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_255_PARTIALPMTALLWD" ParentAlias="" ParentId="a17ab17a-211b-443e-99ef-abf2692c762e" Id="3a653eaa-a53c-4c5b-906b-24d6e5c406cd">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_256_PWNPARTIALPMTMIN" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="770f8895-00ae-4685-8085-e65326dffbaa">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -5748,6 +6931,21 @@
   </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_256_PWNPARTIALPMTMIN" ParentAlias="" ParentId="770f8895-00ae-4685-8085-e65326dffbaa" Id="855daace-39c6-4bb0-b410-25f2172e22cb">
     <Alias>OH</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>1</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_256_PWNPARTIALPMTMIN" ParentAlias="" ParentId="770f8895-00ae-4685-8085-e65326dffbaa" Id="77432969-137c-41a7-bd89-5cc25d901ad6">
+    <Alias>IN</Alias>
     <FromDate>01/01/1950</FromDate>
     <ToDate>01/01/2050</ToDate>
     <ComponentType>PARAM</ComponentType>
@@ -5845,6 +7043,21 @@
     <Param>
       <DataType />
       <Value>N</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_259_ALLOWFUTUREINTEREST" ParentAlias="" ParentId="9f01bb3c-b1a5-41b2-9832-90eff19d05c5" Id="ca231581-699f-49c9-b646-9a17c5358478">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
       <StoreNumber />
       <State />
       <Company />
@@ -5956,6 +7169,231 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="7b9da45f-303a-400d-ae73-c6aa7a3b256f">
+    <Alias>All</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>N</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="7b9da45f-303a-400d-ae73-c6aa7a3b256f" Id="0c57b8fd-8516-4d87-b0d6-0cf4152a4849">
+    <Alias>IN_30_03501</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="7b9da45f-303a-400d-ae73-c6aa7a3b256f" Id="0b3eb332-1beb-4919-b69f-c3209f5b5cea">
+    <Alias>IN_30_03502</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="7b9da45f-303a-400d-ae73-c6aa7a3b256f" Id="7430e74f-9908-45ce-a149-0b756954ca61">
+    <Alias>IN_30_03505</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="7b9da45f-303a-400d-ae73-c6aa7a3b256f" Id="93e52b42-1727-4217-aece-7bc1a2c36e6e">
+    <Alias>IN_30_03507</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="7b9da45f-303a-400d-ae73-c6aa7a3b256f" Id="8604171e-5d10-465c-9866-68e921c86ed4">
+    <Alias>IN_30_03516</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="7b9da45f-303a-400d-ae73-c6aa7a3b256f" Id="3361a75b-3e24-49c2-8540-fdabf29a9ed1">
+    <Alias>IN_1_01401</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="7b9da45f-303a-400d-ae73-c6aa7a3b256f" Id="65c1081c-06c2-40c7-8bb5-ccd0287344b9">
+    <Alias>IN_1_01402</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="7b9da45f-303a-400d-ae73-c6aa7a3b256f" Id="a29c90d1-ef6d-44f6-8c2c-8719e29be4f0">
+    <Alias>IN_1_01403</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="7b9da45f-303a-400d-ae73-c6aa7a3b256f" Id="939e630b-de0d-4faa-a35d-4b23c78583ba">
+    <Alias>IN_1_01404</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="7b9da45f-303a-400d-ae73-c6aa7a3b256f" Id="811eb4f5-fbb6-41c1-bb1a-32be16ecc290">
+    <Alias>IN_1_01405</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="7b9da45f-303a-400d-ae73-c6aa7a3b256f" Id="d24d2e27-001d-4523-b596-a4ca72b55e4b">
+    <Alias>IN_1_01406</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="7b9da45f-303a-400d-ae73-c6aa7a3b256f" Id="e73d797b-1aac-4308-a609-a659f09b3f62">
+    <Alias>IN_1_01407</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="7b9da45f-303a-400d-ae73-c6aa7a3b256f" Id="0a63f0ff-9c77-4a67-a3ef-ecdfaf2c5c5b">
+    <Alias>IN_1_01408</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_263_PRINTPOLICECARD" ParentAlias="" ParentId="7b9da45f-303a-400d-ae73-c6aa7a3b256f" Id="9b7953a0-de5f-4a5c-9cf9-b733d395b577">
+    <Alias>IN_1_01430</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_266_PFINOTIFICATIONDATE" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="da949f08-0c48-494a-b902-ffb12450a2b9">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -6016,6 +7454,36 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_268_RELFINGSUBPOENA" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="9699b2d4-53a8-4a85-8e33-c52b6068e8b5">
+    <Alias>All</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>N</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_268_RELFINGSUBPOENA" ParentAlias="" ParentId="9699b2d4-53a8-4a85-8e33-c52b6068e8b5" Id="9343583c-6c27-4f2c-9544-85b04397c1e1">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_269_PRINTPICKUPRECEIPT" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="6aa6382a-d18a-4450-ac84-109ae7c5876c">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -6033,6 +7501,21 @@
   </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_269_PRINTPICKUPRECEIPT" ParentAlias="" ParentId="6aa6382a-d18a-4450-ac84-109ae7c5876c" Id="1048d278-c27b-4c6f-b213-250900cc96e4">
     <Alias>OH</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_269_PRINTPICKUPRECEIPT" ParentAlias="" ParentId="6aa6382a-d18a-4450-ac84-109ae7c5876c" Id="ff0258df-0875-4f7d-b12a-f35c92d156f8">
+    <Alias>IN</Alias>
     <FromDate>01/01/1950</FromDate>
     <ToDate>01/01/2050</ToDate>
     <ComponentType>PARAM</ComponentType>
@@ -6244,6 +7727,66 @@
   <BusinessRuleComponent name="CL_PWN-211_WAITDAYSPFIBUY" ParentAlias="" ParentId="fcf036b3-8d73-4623-b799-9a1ea118a61b" Id="8efe8301-c1e2-4b80-99d7-9d52b3d25a7e">
     <Alias>OH</Alias>
     <FromDate>06/01/2005</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>15</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN-211_WAITDAYSPFIBUY" ParentAlias="" ParentId="fcf036b3-8d73-4623-b799-9a1ea118a61b" Id="03bf748a-9b04-4043-9609-bd2d98544154">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>10</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN-211_WAITDAYSPFIBUY" ParentAlias="" ParentId="fcf036b3-8d73-4623-b799-9a1ea118a61b" Id="840bc6bf-edf4-41b6-9327-99d5ffc04bc5">
+    <Alias>IN_30_03507</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>15</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN-211_WAITDAYSPFIBUY" ParentAlias="" ParentId="fcf036b3-8d73-4623-b799-9a1ea118a61b" Id="5c34e822-1a4f-4498-8f19-fb8460199031">
+    <Alias>IN_30_03514</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>15</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN-211_WAITDAYSPFIBUY" ParentAlias="" ParentId="fcf036b3-8d73-4623-b799-9a1ea118a61b" Id="ba0d9e57-a95f-47ad-a1cf-89c8f23d28f5">
+    <Alias>IN_30_03515</Alias>
+    <FromDate>01/01/1950</FromDate>
     <ToDate>01/01/2050</ToDate>
     <ComponentType>PARAM</ComponentType>
     <IsEditable>true</IsEditable>
@@ -6556,6 +8099,21 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_RTL-128_LAYAWAYSRVFEETAX" ParentAlias="" ParentId="5ee3170c-65b2-4f16-835a-339237ca7784" Id="72aea386-a02c-40c3-8d66-f25871c5b3a9">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_RTL-233USERDATEMINIMUM" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="39167cc1-6ff5-45e6-b1f4-2e3bba243e6f">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -6670,6 +8228,21 @@
     <Param>
       <DataType />
       <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL-PWN-265_PrintMultipleDisposition" ParentAlias="" ParentId="66cfd31d-7f76-4700-8c14-78736fbde02c" Id="779d5bbb-a385-4c61-a10d-a18b24c051d8">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>N</Value>
       <StoreNumber />
       <State />
       <Company />
@@ -6901,6 +8474,21 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL-RTL-249EligibleForRefund" ParentAlias="" ParentId="4fe57367-ac86-47d9-94b5-6e7628468203" Id="e193c55b-feee-41b5-a179-351ddb74a1d5">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>30</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL-RTL-250-WAITDAYPERIODLAYFORFEITURE" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="1a8029c0-c29d-4299-8123-7428f16891d7">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -7029,7 +8617,7 @@
     <IsEditable>true</IsEditable>
     <Param>
       <DataType />
-      <Value>BLACKHILLS|ROSE GOLD|W/G|Y/G|Y/G AND W/G</Value>
+      <Value>BLACKHILLS|TRI COLOR|ROSE GOLD|W/G|Y/G|Y/G AND W/G</Value>
       <StoreNumber />
       <State />
       <Company>1</Company>
@@ -7044,7 +8632,7 @@
     <IsEditable>true</IsEditable>
     <Param>
       <DataType />
-      <Value>BLACKHILLS|ROSE GOLD|W/G|Y/G|Y/G AND W/G</Value>
+      <Value>BLACKHILLS|TRI COLOR|ROSE GOLD|W/G|Y/G|Y/G AND W/G</Value>
       <StoreNumber />
       <State />
       <Company>1</Company>
@@ -7202,8 +8790,53 @@
     </Param>
   </BusinessRuleComponent>
   <BusinessRuleComponent name="PAWNTICKETFORMAT" ParentAlias="" ParentId="f1649b59-22ed-41d1-bc1c-f5cb253c0f2f" Id="56cf6240-15ad-41c4-af84-89a8cd63846a">
-    <Alias>OH_5</Alias>
+    <Alias>OH_5_CL</Alias>
     <FromDate>06/01/2005</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>ticketfmtL.CL</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PAWNTICKETFORMAT" ParentAlias="" ParentId="f1649b59-22ed-41d1-bc1c-f5cb253c0f2f" Id="976308b1-c391-4dea-832f-52b2f26e2aa8">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Indiana_pawn_ticket_CA.ps</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PAWNTICKETFORMAT" ParentAlias="" ParentId="f1649b59-22ed-41d1-bc1c-f5cb253c0f2f" Id="f778a04a-f149-4f97-bf01-55dd8bb95b5f">
+    <Alias>IN_30_CL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Indiana_pawn_ticket_CL.ps</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PAWNTICKETFORMAT" ParentAlias="" ParentId="f1649b59-22ed-41d1-bc1c-f5cb253c0f2f" Id="59ce2e44-554d-4352-9ca3-28249d5dc97e">
+    <Alias>OH_5_CLPL</Alias>
+    <FromDate>01/01/1950</FromDate>
     <ToDate>01/01/2050</ToDate>
     <ComponentType>PARAM</ComponentType>
     <IsEditable>true</IsEditable>
@@ -7240,6 +8873,21 @@
     <Param>
       <DataType />
       <Value>M</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PFIWAIT" ParentAlias="" ParentId="64358643-f4c0-4281-87c9-0489f7c99cac" Id="5a80cfdd-4310-469a-bbef-4755d1ad77ad">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>B</Value>
       <StoreNumber />
       <State />
       <Company />
@@ -7303,6 +8951,96 @@
       <StoreNumber />
       <State />
       <Company>1</Company>
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_PMETAL_FILE" ParentAlias="" ParentId="e10d37a9-fa77-43cc-b94b-8be9bbf3e521" Id="1f1354c1-938b-445b-ba4f-598ba1abed29">
+    <Alias>OH_5_CL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>pmetalCL</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_PMETAL_FILE" ParentAlias="" ParentId="e10d37a9-fa77-43cc-b94b-8be9bbf3e521" Id="b5188a93-89e4-4eb0-b830-03c2bada162c">
+    <Alias>OH_5_CLPL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>pmetalCLPL</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_PMETAL_FILE" ParentAlias="" ParentId="e10d37a9-fa77-43cc-b94b-8be9bbf3e521" Id="9cc29829-4487-41e7-a044-dbcbb4aaac04">
+    <Alias>OH</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>pmetal000</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_PMETAL_FILE" ParentAlias="" ParentId="e10d37a9-fa77-43cc-b94b-8be9bbf3e521" Id="94bcb230-af7f-4905-abbe-8e542e5eb563">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>pmetal000</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_PMETAL_FILE" ParentAlias="" ParentId="e10d37a9-fa77-43cc-b94b-8be9bbf3e521" Id="84683331-a523-49ac-94aa-b971e8b5a8c6">
+    <Alias>IN_30_CL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>pmetalCL</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_PMETAL_FILE" ParentAlias="" ParentId="e10d37a9-fa77-43cc-b94b-8be9bbf3e521" Id="bf15a5a4-906c-4ee3-9b79-6fe20bdf320e">
+    <Alias>IN_30_CLPL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>pmetalCLPL</Value>
+      <StoreNumber />
+      <State />
+      <Company />
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
@@ -7393,6 +9131,96 @@
       <StoreNumber />
       <State />
       <Company>1</Company>
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_STONES_FILE" ParentAlias="" ParentId="393c829b-4254-4ce9-a678-9a39997fcab9" Id="4ec83163-4e2e-4ca6-956d-924b7663a468">
+    <Alias>OH_5_CL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>stonesCL</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_STONES_FILE" ParentAlias="" ParentId="393c829b-4254-4ce9-a678-9a39997fcab9" Id="41528b6f-23c8-4d2e-93df-15c56e26c23f">
+    <Alias>OH_5_CLPL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>stonesCLPL</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_STONES_FILE" ParentAlias="" ParentId="393c829b-4254-4ce9-a678-9a39997fcab9" Id="3b0ae9e6-f82a-49e6-8f9e-2ba1177ff6f2">
+    <Alias>OH</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>stones</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_STONES_FILE" ParentAlias="" ParentId="393c829b-4254-4ce9-a678-9a39997fcab9" Id="14c6080b-bab9-44e6-a339-8b422e669ecb">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>stones</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_STONES_FILE" ParentAlias="" ParentId="393c829b-4254-4ce9-a678-9a39997fcab9" Id="c9122975-9c78-46cd-9845-9c48f3fd3013">
+    <Alias>IN_30_CL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>stonesCL</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_STONES_FILE" ParentAlias="" ParentId="393c829b-4254-4ce9-a678-9a39997fcab9" Id="f7887d7c-c993-43f0-bf67-89733454abad">
+    <Alias>IN_30_CLPL</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>stonesCLPL</Value>
+      <StoreNumber />
+      <State />
+      <Company />
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
@@ -8341,6 +10169,21 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="PWNAPP_WEIGHT" ParentAlias="" ParentId="caf4320b-7df1-4da8-9642-58a80b4b2022" Id="b860c993-3019-47d5-b79d-a6ac4acdd78e">
+    <Alias>IN</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>Y</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="PWNAPP_WORKPHONE" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="8748e3d9-03a4-4446-88e8-f11da6b98ad0">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -8641,20 +10484,22 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
-  <BusinessRuleComponent name="CL_PWN_0001_MAXLOANAMT" ParentAlias="" ParentId="e9ec5fb2-245b-459c-9ec6-dd5f7d897e27" Id="9df2a413-0f74-4286-80f7-efdffaf91310">
-    <Alias>TX</Alias>
-    <FromDate>07/01/2011</FromDate>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="49c9594b-7294-479e-9f83-7baa69f0e06c" Id="db6d3ae3-c53a-43fe-8197-5ffb940f9af3">
+    <Alias>IN_30_CLPL</Alias>
+    <FromDate>07/01/2012</FromDate>
     <ToDate>01/01/2050</ToDate>
-    <ComponentType>PARAM</ComponentType>
+    <ComponentType>INTEREST</ComponentType>
     <IsEditable>true</IsEditable>
-    <Param>
-      <DataType />
-      <Value>15750.00</Value>
-      <StoreNumber />
-      <State />
-      <Company />
-      <Cacheable>false</Cacheable>
-    </Param>
+    <Interest>
+      <MinAmount>0.01</MinAmount>
+      <MaxAmount>1080.0</MaxAmount>
+      <InterestRate>36.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
   </BusinessRuleComponent>
   <CheckLoanRangeRef>
     <ComponentName>CL_PWN_0008_INTRATE</ComponentName>

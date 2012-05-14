@@ -1896,6 +1896,34 @@ namespace Pawn {
             }
         }
         
+        public static System.Drawing.Bitmap releasefingerprints_button_depressed {
+            get {
+                object obj = ResourceManager.GetObject("releasefingerprints_button_depressed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap releasefingerprints_button_disabled {
+            get {
+                object obj = ResourceManager.GetObject("releasefingerprints_button_disabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap releasefingerprints_button_hover {
+            get {
+                object obj = ResourceManager.GetObject("releasefingerprints_button_hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap releasefingerprints_button_normal {
+            get {
+                object obj = ResourceManager.GetObject("releasefingerprints_button_normal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap releasetoclaimant_button_depressed {
             get {
                 object obj = ResourceManager.GetObject("releasetoclaimant_button_depressed", resourceCulture);

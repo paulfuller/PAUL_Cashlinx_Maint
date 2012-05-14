@@ -35,6 +35,9 @@
 // 06/14/2010 GJL Adding document storage integration        
 //
 // 01/04/2012 EDW CR#15166 - Put ID used to pickup firearm, in gun table
+//
+// 04/16/2012 EDW Build 13 - 1. Only populate Pawn.PfiNote for new loans in certain states.
+//                           2. Indiana Police Cards for Pawn, and Customer Buys.
 //*****************************************************************************
 using System;
 using System.Collections;
@@ -131,6 +134,8 @@ namespace Pawn.Logic.DesktopProcedures
         public static readonly string GUN_NUM_SHORT = "G#";
         public static readonly string GUN_NUM_LONG = "Gun #";
 
+        private const string COMMA_SPACE = ", ";
+        private const string SPACE = " ";
 
         #region Singleton variables
         /// <summary>
@@ -414,17 +419,18 @@ namespace Pawn.Logic.DesktopProcedures
                 //Get ticket format 
                 //BusinessRuleVO tktFmtVo = GlobalDataAccessor.Instance.DesktopSession.PawnBusinessRuleVO["PWN_BR-000"];
                 string formName = string.Empty;
-                bool retVal=new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetTicketName(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId,out formName);
+                bool retVal = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetTicketName(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId, out formName);
                 if (!retVal)
                 {
-                    string errMsg="Form name to print ticket could not be found in rules file";
+                    const string errMsg = "Form name to print ticket could not be found in rules file";
                     if (FileLogger.Instance.IsLogFatal)
                     {
                         FileLogger.Instance.logMessage(LogLevel.FATAL, this, errMsg);
                     }
+
                     BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
                     return (false);
-                
+
                 }
 
                 string storeNumber = GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId.StoreNumber;
@@ -434,9 +440,14 @@ namespace Pawn.Logic.DesktopProcedures
                 string terminalId;// = GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId.TerminalId;
                 string state = GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId.State;
                 if (state.Equals(States.Texas))
+                {
                     formName = "ticketfmtL.TX";
+                }
                 else if (state.Equals(States.Oklahoma))
+                {
                     formName = "ticketfmtL.OK";
+                }
+
                 if (!string.IsNullOrEmpty(global::Pawn.Properties.Resources.OverrideMachineName))
                 {
                     terminalId = global::Pawn.Properties.Resources.OverrideMachineName;
@@ -476,6 +487,7 @@ namespace Pawn.Logic.DesktopProcedures
                     {
                         FileLogger.Instance.logMessage(LogLevel.FATAL, this, errMsg);
                     }
+
                     BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
                     return (false);
                 }
@@ -556,6 +568,7 @@ namespace Pawn.Logic.DesktopProcedures
                             pawnTicketData.Add("cust_address", custAddr.Address1 + " " + custAddr.UnitNum);
                         }
                     }
+
                     pawnTicketData.Add("cust_city_state_zip", custAddr.City + ", " + custAddr.State_Code + " " + custAddr.ZipCode);
                 }
                 else
@@ -570,6 +583,18 @@ namespace Pawn.Logic.DesktopProcedures
 
                     BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
                 }
+
+                // Added for Indiana
+                ContactVO custContactInfo = currentCust.getPrimaryContact();
+                if (custContactInfo != null)
+                {
+                    pawnTicketData.Add("cust_phone", custContactInfo.CountryDialNumCode + custContactInfo.ContactAreaCode + custContactInfo.ContactPhoneNumber + custContactInfo.ContactExtension);
+                }
+                else
+                {
+                    pawnTicketData.Add("cust_phone", " ");
+                }
+
                 //Fix date format issue - GJL 06/15/09
                 pawnTicketData.Add("cust_dob", curDOB.ToString("d", DateTimeFormatInfo.InvariantInfo));
                 IdentificationVO idVo = currentCust.getFirstIdentity();
@@ -598,7 +623,6 @@ namespace Pawn.Logic.DesktopProcedures
                 pawnTicketData.Add("cust_weight", currentCust.Weight);//Oklahoma
 
                 pawnTicketData.Add("_R_", currentCust.Race); //Oklahoma
-
 
                 string tempTicket = siteId.StoreNumber.PadLeft(5, '0') + this.fullTicketNumber;
                 //**************** LOAN DETAILS *************************//
@@ -644,16 +668,32 @@ namespace Pawn.Logic.DesktopProcedures
                     totalFinanceCharge = strgFee + currentLoan.InterestAmount;
                     topValue += strgFee;
                 }
+                else
+                {
+                    // Indiana, does not have Storage fees, but the pawn ticket form needs the serv_chg field populated. This is really the Service fee, in this case
+                    decimal servFee = currentLoan.Fees.Find(p => p.FeeType == FeeTypes.SERVICE).Value;
+                    pawnTicketData.Add("serv_chg", servFee);
+                    totalFinanceCharge = servFee + currentLoan.InterestAmount;
+
+                    // Service Fee's are allready included in the TopValue, far above.
+                    //topValue += servFee;
+                }
+
+                int minimumHoursInPawn = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetMinimumHoursInPawn(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId);
+                pawnTicketData.Add("store_min_inpawn", "MINIMUM TIME IN PAWN IS " + (minimumHoursInPawn / 24).ToString() + " DAYS"); //Indiana
 
                 pawnTicketData.Add("_FIN_CHG", totalFinanceCharge); //Oklahoma and OHIO
 
-
                 pawnTicketData.Add("_TOP_", topValue);
                 if (state.ToUpper().Equals(States.Oklahoma) || state.ToUpper().Equals(States.Ohio))
+                {
                     pawnTicketData.Add("_FIN_APR", currentLoan.InterestRate.ToString("f2"));
+                }
                 else
+                {
                     pawnTicketData.Add("_FIN_APR", currentLoan.InterestRate);
-              
+                }
+
                 pawnTicketData.Add("lnh_amount", currentLoan.Amount.ToString("N"));
                 if (pawnTicketData.ContainsKey("form_location"))
                 {
@@ -668,7 +708,6 @@ namespace Pawn.Logic.DesktopProcedures
                 //Get store details
                 pawnTicketData.Add("store_name", STORE_NAME);
                 pawnTicketData.Add("store_address_city_state_zip", STORE_ADDRESS + ", " + STORE_CITY + ", " + STORE_STATE + " " + STORE_ZIP);
-
                 pawnTicketData.Add("store_phone", formattedPhone);
 
                 //***************** DESC MERCHANDISE ********************//
@@ -710,7 +749,6 @@ namespace Pawn.Logic.DesktopProcedures
                     BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
                 }
 
-
                 string addndmAllowed = "N";
                 res = ticketDims.getComponentValue("CL_PWN_0068_ADDNDMALLWD", ref addndmAllowed);
                 if (!res)
@@ -720,9 +758,9 @@ namespace Pawn.Logic.DesktopProcedures
                     {
                         FileLogger.Instance.logMessage(LogLevel.WARN, this, errMsg);
                     }
+
                     BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
                 }
-
 
                 //Compute total number of chars allowed on one ticket
                 int maxLineLengthVal = Utilities.GetIntegerValue(maxLineLength, 66);
@@ -738,6 +776,7 @@ namespace Pawn.Logic.DesktopProcedures
                     {
                         FileLogger.Instance.logMessage(LogLevel.FATAL, this, errMsg);
                     }
+
                     BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
                     return (false);
                 }
@@ -751,6 +790,7 @@ namespace Pawn.Logic.DesktopProcedures
                     {
                         FileLogger.Instance.logMessage(LogLevel.FATAL, this, errMsg);
                     }
+
                     BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
                     return (false);
                 }
@@ -767,11 +807,12 @@ namespace Pawn.Logic.DesktopProcedures
                     {
                         FileLogger.Instance.logMessage(LogLevel.FATAL, this, errMsg);
                     }
+
                     BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
                     return (false);
                 }
 
-                //Compute number of tickets to print
+                #region Compute number of tickets to print
                 var numberTicketsToPrint = 1;
                 List<string> addendumDescData = new List<string>();
                 if (splitStrs.Count <= maxLinesPerTktVal)
@@ -809,22 +850,19 @@ namespace Pawn.Logic.DesktopProcedures
                                         addendumDescData.Add(stringToRemove);
                                         break;
                                     }
-
                                 }
+
                                 for (int i = j + 1; i < splitStrs.Count; i++)
+                                {
                                     addendumDescData.Add(splitStrs[i]);
-
-
-
-
-
-
+                                }
                             }
                             else
                             {
                                 for (int i = maxLinesPerTktVal; i < splitStrs.Count; i++)
+                                {
                                     addendumDescData.Add(splitStrs[i]);
-
+                                }
                             }
                         }
                         catch (Exception ex)
@@ -835,9 +873,9 @@ namespace Pawn.Logic.DesktopProcedures
                             }
 
                         }
-
                     }
                 }
+                #endregion
 
                 //Set print variables in hash table
                 pawnTicketData["##TEMPLATEFILENAME##"] = formName;
@@ -866,7 +904,7 @@ namespace Pawn.Logic.DesktopProcedures
                         string mdDescKey = "md_desc_" + keyNum;
                         string mdLocKey = "md_location_" + mdKeyNum;
 
-                        string descVal = "";
+                        string descVal = string.Empty;
                         if (j < splitStrs.Count)
                         {
                             descVal = splitStrs[j];
@@ -892,6 +930,7 @@ namespace Pawn.Logic.DesktopProcedures
                                     {
                                         gStr = gStr + GUN_NUM_LONG + gEntry.Right + " ";
                                     }
+
                                     if (!string.IsNullOrEmpty(gStr))
                                     {
                                         pawnTicketData[mdLocKey] = gStr;
@@ -910,7 +949,10 @@ namespace Pawn.Logic.DesktopProcedures
                                         pawnTicketData[mdLocKey] = " ";
                                     }
                                     else
+                                    {
                                         pawnTicketData[mdLocKey] = fillStringUnderscore;
+                                    }
+
                                     gunNumIdx++;
                                 }
                             }
@@ -921,7 +963,10 @@ namespace Pawn.Logic.DesktopProcedures
                                     pawnTicketData[mdLocKey] = " ";
                                 }
                                 else
+                                {
                                     pawnTicketData[mdLocKey] = fillStringUnderscore;
+                                }
+
                                 gunNumIdx++;
                             }
 
@@ -994,6 +1039,7 @@ namespace Pawn.Logic.DesktopProcedures
                             pawnTicketData.Add(mdDescKey, descVal);
                         }
                     }
+
                     this.pawnTickets.Add(pawnTicketData);
                     Hashtable pTickDat = new Hashtable(pawnTicketData);
                     pawnTicketData = pTickDat;
@@ -1015,13 +1061,10 @@ namespace Pawn.Logic.DesktopProcedures
                         pTicketAddendum.numberOfItems = currentLoan.Items.Count;
                         pTicketAddendum.pawnFinanceCharge = currentLoan.InterestAmount;
                         pTicketAddendum.pfiEligibleDate = currentLoanUwVO.PFIDate;
-
-
-
                     }
-
                 }
             }
+
             return (true);
         }
 
@@ -1549,6 +1592,7 @@ namespace Pawn.Logic.DesktopProcedures
         /// <returns></returns>
         private bool submitPawnTicketPrintJobsAndDisplayNewLoan()
         {
+            bool couchIssue = false;
             lock (mutexIntObj)
             {
                 string detailLine;
@@ -1558,15 +1602,19 @@ namespace Pawn.Logic.DesktopProcedures
                 DesktopSession cds = GlobalDataAccessor.Instance.DesktopSession;
                 pawnTicketPrint();
 
-
                 //Print receipts
                 var data = new Dictionary<string, string>();
 
                 PawnLoan currentLoan;
                 if (cds.ActivePawnLoan != null)
+                {
                     currentLoan = cds.ActivePawnLoan;
+                }
                 else
+                {
                     currentLoan = cds.CurrentPawnLoan;
+                }
+
                 data.Add("store_short_name", STORE_NAME);
                 data.Add("store_street_address", STORE_ADDRESS);
                 data.Add("store_city_state_zip", STORE_CITY + ", " + STORE_STATE + " " + STORE_ZIP);
@@ -1586,6 +1634,7 @@ namespace Pawn.Logic.DesktopProcedures
                     data.Add("receipt_number", "******");
                     data.Add("_BARDATA_H_02", "000");
                 }
+
                 data.Add("emp_number", cds.UserName);
                 string ticketAmount = currentLoan.Amount.ToString("C");
                 string ticketNumb = "*****" + this.fullTicketNumber;
@@ -1686,15 +1735,22 @@ namespace Pawn.Logic.DesktopProcedures
                     string errText;
                     if (!CouchDbUtils.AddPawnDocument(dA, cC, cds.UserName, ref pDoc, out errText))
                     {
+                        couchIssue = true;
+
                         if (FileLogger.Instance.IsLogError)
-                            FileLogger.Instance.logMessage(LogLevel.ERROR, this,
-                                                           "Could not store receipt in document storage: {0} - FileName: {1}", errText, fullFileName);
+                        {
+                            FileLogger.Instance.logMessage(
+                                LogLevel.ERROR, this,
+                                "Could not store receipt in document storage: {0} - FileName: {1}", errText, fullFileName);
+                        }
+
                         BasicExceptionHandler.Instance.AddException(
                             "Could not store receipt in document storage",
                             new ApplicationException("Could not store receipt in document storage: " + errText));
                     }
                 }
-                //Print addendum if exists
+
+                #region Print addendum if exists
                 if (printAddendum)
                 {
                     try
@@ -1730,6 +1786,8 @@ namespace Pawn.Logic.DesktopProcedures
                         string errText;
                         if (!CouchDbUtils.AddPawnDocument(dA, cC, cds.UserName, ref pDoc, out errText))
                         {
+                            couchIssue = true;
+
                             if (FileLogger.Instance.IsLogError)
                                 FileLogger.Instance.logMessage(LogLevel.ERROR, this,
                                                                "Could not store addendum document in document storage: {0} - FileName: {1}", errText, pDocument.ReportObject.ReportTempFileFullName);
@@ -1765,10 +1823,111 @@ namespace Pawn.Logic.DesktopProcedures
 
                     }
                 }
+                #endregion
 
+                #region Indiana-Police Card
+                // New Pawn Loan + Customer Buys, Customers only
+                bool policeCardNeeded = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPoliceCardNeededForStore(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId);
+                if (policeCardNeeded &&
+                    GlobalDataAccessor.Instance.CurrentSiteId.State.Equals(States.Indiana) &&
+                    cds.ActiveVendor == null)
+                {
+                    try
+                    {
+                        // show popup dialog
+                        var pm = new Common.Libraries.Forms.ProcessingMessage("Police Card is Printing for Loan # " + ticketNumber.ToString(), 3000);
+                        pm.ShowDialog();
 
+                        var report = new IndianaPoliceCardReport();
+
+                        //currentLoan.TicketNumber = (int)ticketNumber;
+                        var custAddress = cds.ActiveCustomer.getHomeAddress();
+                        if (custAddress == null && cds.ActiveCustomer.CustomerAddress.Count != 0)
+                        {
+                            custAddress = cds.ActiveCustomer.CustomerAddress[0];
+                        }
+
+                        DateTime dtStatus = new DateTime(((Common.Libraries.Objects.Pawn.UnderwritePawnLoanVO)currentLoan.ObjectUnderwritePawnLoanVO).MadeDate.Year,
+                            ((Common.Libraries.Objects.Pawn.UnderwritePawnLoanVO)currentLoan.ObjectUnderwritePawnLoanVO).MadeDate.Month,
+                            ((Common.Libraries.Objects.Pawn.UnderwritePawnLoanVO)currentLoan.ObjectUnderwritePawnLoanVO).MadeDate.Day);
+                        dtStatus = dtStatus + ((Common.Libraries.Objects.Pawn.UnderwritePawnLoanVO)currentLoan.ObjectUnderwritePawnLoanVO).MadeTime;
+
+                        report.BuildDocument(ticketNumber.ToString(), currentLoan.Items, cds.ActiveCustomer, cds.CurrentSiteId.StoreName, custAddress, cds.LastIdUsed, dtStatus, true);
+
+                        if (SecurityAccessor.Instance.EncryptConfig.ClientConfig.ClientConfiguration.PrintEnabled &&
+                            cds.IndianaPoliceCardPrinter.IsValid)
+                        {
+                            if (!report.Print(cds.IndianaPoliceCardPrinter.IPAddress, (uint)cds.IndianaPoliceCardPrinter.Port))
+                            {
+                                if (FileLogger.Instance.IsLogError)
+                                {
+                                    String errorMessage = "Cannot print Indiana Police Card on " + cds.IndianaPoliceCardPrinter;
+                                    FileLogger.Instance.logMessage(LogLevel.ERROR, this, errorMessage);
+                                    MessageBox.Show(errorMessage);
+                                }
+                            }
+                        }
+
+                        //---------------------------------------------------
+                        // Place document into couch
+                        const string policeCardFileName = "PoliceCard.txt";
+                        var policeCardFilePath = SecurityAccessor.Instance.EncryptConfig.ClientConfig.GlobalConfiguration.BaseLogPath + "\\" + policeCardFileName;
+                        report.Save(policeCardFilePath);
+
+                        var pDoc = new CouchDbUtils.PawnDocInfo();
+                        var dA = GlobalDataAccessor.Instance.OracleDA;
+                        var cC = GlobalDataAccessor.Instance.CouchDBConnector;
+                        //Set document add calls
+                        pDoc.UseCurrentShopDateTime = true;
+                        pDoc.SetDocumentSearchType(CouchDbUtils.DocSearchType.POLICE_CARD);
+                        pDoc.StoreNumber = cds.CurrentSiteId.StoreNumber;
+                        pDoc.CustomerNumber = cds.ActiveCustomer.CustomerNumber;
+                        pDoc.TicketNumber = (int)ticketNumber;
+                        pDoc.DocumentType = Document.DocTypeNames.TEXT;
+                        pDoc.DocFileName = policeCardFilePath;
+                        //Add this document to the pawn document registry and document storage
+                        string errText;
+                        if (!CouchDbUtils.AddPawnDocument(dA, cC, cds.UserName, ref pDoc, out errText))
+                        {
+                            couchIssue = true;
+
+                            if (FileLogger.Instance.IsLogError)
+                            {
+                                FileLogger.Instance.logMessage(LogLevel.ERROR, this,
+                                    "Could not store police card document in document storage: {0} - FileName: {1}", errText, policeCardFilePath);
+                            }
+
+                            BasicExceptionHandler.Instance.AddException(
+                                "Could not store police card document in document storage",
+                                new ApplicationException("Could not store police card document in document storage: " + errText));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (FileLogger.Instance.IsLogError)
+                        {
+                            FileLogger.Instance.logMessage(
+                                LogLevel.ERROR,
+                                this,
+                                "Could not print Police Card" + ex.Message);
+                        }
+                    }
+                }
+                #endregion
 #endif
+
+                if (couchIssue)
+                {
+                    MessageBox.Show(
+                        "Transaction completed but the document could not be saved.  \n" +
+                        "Please call Shop System Support.  \n",
+                        "Application Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Stop);
+                }
             }
+
+
             return (true);
         }
 
@@ -4189,6 +4348,7 @@ namespace Pawn.Logic.DesktopProcedures
             string spacer;
             bool transactStarted = false;
             OracleDataAccessor dA = GlobalDataAccessor.Instance.OracleDA;
+            bool couchIssue = false;
 
             lock (mutexIntObj)
             {
@@ -4209,6 +4369,7 @@ namespace Pawn.Logic.DesktopProcedures
                         data.Add("f_cust_name", "Vendor: " + vendorName);
                     else
                         data.Add("f_cust_name", string.Empty);
+
                     if (!string.IsNullOrEmpty(rVO.ReceiptNumber))
                     {
                         data.Add("receipt_number", rVO.ReceiptNumber);
@@ -4219,6 +4380,7 @@ namespace Pawn.Logic.DesktopProcedures
                         data.Add("receipt_number", "******");
                         data.Add("_BARDATA_H_02", "000");
                     }
+
                     data.Add("emp_number", userName);
                     if (mode == ProcessTenderMode.VOIDLOAN || mode == ProcessTenderMode.VOIDBUY)
                     {
@@ -4433,10 +4595,15 @@ namespace Pawn.Logic.DesktopProcedures
                             string errText;
                             if (!CouchDbUtils.AddPawnDocument(dA, cC, userName, ref pDoc, out errText))
                             {
+                                couchIssue = true;
+
                                 if (FileLogger.Instance.IsLogError)
+                                {
                                     FileLogger.Instance.logMessage(LogLevel.ERROR, this,
                                                                     "Could not store receipt in document storage: {0} - FileName: {1}",
                                                                     errText, fullFileName);
+                                }
+
                                 BasicExceptionHandler.Instance.AddException("Could not store receipt in document storage",
                                                                             new ApplicationException(
                                                                                     "Could not store receipt in document storage: " +
@@ -4444,6 +4611,98 @@ namespace Pawn.Logic.DesktopProcedures
                             }
                         }
                     }
+
+                    #region Indiana-Police Card
+                    // New Pawn Loan + Customer Buys, Customers only
+                    bool policeCardNeeded = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPoliceCardNeededForStore(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId);
+                    if (mode == ProcessTenderMode.PURCHASE &&
+                        policeCardNeeded &&
+                        GlobalDataAccessor.Instance.CurrentSiteId.State.Equals(States.Indiana) &&
+                        GlobalDataAccessor.Instance.DesktopSession.ActiveVendor == null)
+                    {
+                        try
+                        {
+                            var cds = GlobalDataAccessor.Instance.DesktopSession;
+
+                            //Get the loan vo
+                            var currentPurchase = cds.ActivePurchase;
+
+                            // show popup dialog
+                            var pm = new Common.Libraries.Forms.ProcessingMessage("Police Card is Printing for Customer Buy # " + currentPurchase.TicketNumber.ToString(), 3000);
+                            pm.ShowDialog();
+
+                            var report = new IndianaPoliceCardReport();
+
+                            //currentPurchase.TicketNumber = (int)ticketNumber;
+                            var custAddress = cds.ActiveCustomer.getHomeAddress();
+                            if (custAddress == null && cds.ActiveCustomer.CustomerAddress.Count != 0)
+                            {
+                                custAddress = cds.ActiveCustomer.CustomerAddress[0];
+                            }
+                            report.BuildDocument(currentPurchase.TicketNumber.ToString(), currentPurchase.Items, cds.ActiveCustomer, cds.CurrentSiteId.StoreName, custAddress, cds.LastIdUsed, ShopDateTime.Instance.FullShopDateTime, false);
+
+                            if (SecurityAccessor.Instance.EncryptConfig.ClientConfig.ClientConfiguration.PrintEnabled &&
+                                cds.IndianaPoliceCardPrinter.IsValid)
+                            {
+                                report.Print(cds.IndianaPoliceCardPrinter.IPAddress, (uint)cds.IndianaPoliceCardPrinter.Port);
+                            }
+
+                            //---------------------------------------------------
+                            // Place document into couch
+                            const string policeCardFileName = "PoliceCard.txt";
+                            var policeCardFilePath = SecurityAccessor.Instance.EncryptConfig.ClientConfig.GlobalConfiguration.BaseLogPath + "\\" + policeCardFileName;
+                            report.Save(policeCardFilePath);
+
+                            var pDoc = new CouchDbUtils.PawnDocInfo();
+                            var cC = GlobalDataAccessor.Instance.CouchDBConnector;
+                            //Set document add calls
+                            pDoc.UseCurrentShopDateTime = true;
+                            pDoc.SetDocumentSearchType(CouchDbUtils.DocSearchType.POLICE_CARD);
+                            pDoc.StoreNumber = cds.CurrentSiteId.StoreNumber;
+                            pDoc.CustomerNumber = cds.ActiveCustomer.CustomerNumber;
+                            pDoc.TicketNumber = currentPurchase.TicketNumber;
+                            pDoc.DocumentType = Document.DocTypeNames.TEXT;
+                            pDoc.DocFileName = policeCardFilePath;
+                            //Add this document to the pawn document registry and document storage
+                            string errText;
+                            if (!CouchDbUtils.AddPawnDocument(dA, cC, cds.UserName, ref pDoc, out errText))
+                            {
+                                couchIssue = true;
+
+                                if (FileLogger.Instance.IsLogError)
+                                {
+                                    FileLogger.Instance.logMessage(LogLevel.ERROR, this,
+                                        "Could not store police card document in document storage: {0} - FileName: {1}", errText, policeCardFilePath);
+                                }
+
+                                BasicExceptionHandler.Instance.AddException(
+                                    "Could not store police card document in document storage",
+                                    new ApplicationException("Could not store police card document in document storage: " + errText));
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            if (FileLogger.Instance.IsLogError)
+                            {
+                                FileLogger.Instance.logMessage(
+                                    LogLevel.ERROR,
+                                    this,
+                                    "Could not print Police Card" + ex.Message);
+                            }
+                        }
+                    }
+                    #endregion
+
+                    if (couchIssue)
+                    {
+                        MessageBox.Show(
+                            "Transaction completed but the document could not be saved.  \n" +
+                            "Please call Shop System Support.  \n",
+                            "Application Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Stop);
+                    }
+
                 }
                 catch (Exception eX)
                 {
@@ -4574,11 +4833,13 @@ namespace Pawn.Logic.DesktopProcedures
                     FileLogger.Instance.logMessage(LogLevel.FATAL, this, "Active loan is invalid");
                     return (false);
                 }
+
                 UnderwritePawnLoanVO curLoanU =
-                (UnderwritePawnLoanVO)curLoan.ObjectUnderwritePawnLoanVO;
+                    (UnderwritePawnLoanVO)curLoan.ObjectUnderwritePawnLoanVO;
                 int curStoreNumberVal = curLoan.Items[0].mStore;
                 CustomerVO cust = cds.ActiveCustomer;
                 OracleDataAccessor ods = GlobalDataAccessor.Instance.OracleDA;
+
                 if (ods == null || ods.Initialized == false)
                 {
                     BasicExceptionHandler.Instance.AddException("Oracle data accessor is invalid", new ApplicationException());
@@ -4588,8 +4849,8 @@ namespace Pawn.Logic.DesktopProcedures
 
                 //Execute PAWN insert
                 Int64 pwnAppIdVal = Int64.Parse(cds.CurPawnAppId);
-                string errorCode;
-                string errorText;
+                string errorCode = string.Empty;
+                string errorText = string.Empty;
                 try
                 {
                     decimal dPrePaidCityFee = curLoan.Fees.Where(f => f.FeeType == FeeTypes.PREPAID_CITY).Sum(ppf => ppf.Value);
@@ -4599,11 +4860,20 @@ namespace Pawn.Logic.DesktopProcedures
                     string madetime = ShopDateTime.Instance.ShopDate.ToShortDateString() + " " +
                                       ShopDateTime.Instance.ShopTime.ToString();
 
+                    // Build 13
+                    var isPFIMailersRequiredForState = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPFIMailersRequiredForState(GlobalDataAccessor.Instance.CurrentSiteId);
+
+                    DateTime dtPFINote = curLoanU.PFINotifyDate;
+                    if (!isPFIMailersRequiredForState)
+                    {
+                        dtPFINote = DateTime.MinValue;
+                    }
+
                     retVal = ProcessTenderProcedures.ExecuteInsertNewPawnLoanRecord(
                         pwnAppIdVal, this.fullTicketNumber, Utilities.GetIntegerValue(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId.StoreNumber),
                         cust.CustomerNumber, curLoanU.MadeDate,
                         Utilities.GetDateTimeValue(madetime, DateTime.Now), curLoanU.DueDate, curLoanU.PFIDate,
-                        curLoanU.PFINotifyDate, curLoan.Amount, curLoan.InterestRate,
+                        dtPFINote, curLoan.Amount, curLoan.InterestRate,
                         curLoan.InterestAmount, curLoan.ServiceCharge, 0.0M, "IP",
                         curLoan.Items.Count, cds.LoggedInUserSecurityProfile.UserName, "" + curLoan.PrintNotice,
                         IsGunInvolved(curLoan), cds.Clothing, "" + curLoan.NegotiableFinanceCharge,
@@ -4611,9 +4881,11 @@ namespace Pawn.Logic.DesktopProcedures
                         "", cds.TTyId, dPrePaidCityFee,
                         curLoan.InterestAmount, dStorageFee, 0.0M,
                         0.0M, out errorCode, out errorText);
+
                     this.retValues.Add(retVal);
                     this.errorCodes.Add(errorCode);
                     this.errorTexts.Add(errorText);
+
                     if (!retVal)
                     {
                         BasicExceptionHandler.Instance.AddException("ProcessTender.performProcessTenderInserts.ExecuteInsertNewPawnLoanRecord",
@@ -4638,6 +4910,7 @@ namespace Pawn.Logic.DesktopProcedures
                     FileLogger.Instance.logMessage(LogLevel.FATAL, this, "Process tender cannot print data with out any loan items");
                     return (false);
                 }
+
                 Item firstPawnItem = curLoan.Items[0];
                 int pawnItemIdx = 1;
                 foreach (Item pItem in curLoan.Items)
@@ -4681,6 +4954,7 @@ namespace Pawn.Logic.DesktopProcedures
                             primaryMasks, pItem.TicketDescription, pKData.RetailAmount,
                             pItem.StorageFee, cds.UserName,
                             curLoanU.MadeDate.FormatDate(), curLoanU.MadeDate.ToShortDateString() + " " + curLoanU.MadeTime.ToString(), "", "", firstPawnItem.mDocType, "", out errorCode, out errorText);
+
                         this.retValues.Add(curRetValue);
                         this.errorCodes.Add(errorCode);
                         this.errorTexts.Add(errorText);
@@ -4690,10 +4964,11 @@ namespace Pawn.Logic.DesktopProcedures
                             {
                                 //Insert gun book record
                                 AddressVO custAddr = cust.getHomeAddress();
-                                string custAddress = "";
-                                string custCity = "";
-                                string custState = "";
-                                string custPostalCode = "";
+                                string custAddress = string.Empty;
+                                string custCity = string.Empty;
+                                string custState = string.Empty;
+                                string custPostalCode = string.Empty;
+
                                 if (custAddr != null)
                                 {
                                     custAddress = custAddr.Address1 + " " + custAddr.Address2;
@@ -4701,6 +4976,7 @@ namespace Pawn.Logic.DesktopProcedures
                                     custState = custAddr.State_Code;
                                     custPostalCode = custAddr.ZipCode;
                                 }
+
                                 IdentificationVO primaryId = cust.getFirstIdentity();
                                 string truncGunType = pItemQInfo.GunType;
                                 if (!string.IsNullOrEmpty(truncGunType))
@@ -4722,6 +4998,7 @@ namespace Pawn.Logic.DesktopProcedures
                                     custAddress, custCity, custState, custPostalCode, primaryId.IdType,
                                     primaryId.IdIssuerCode, primaryId.IdValue,
                                     Utilities.GetDateTimeValue(ShopDateTime.Instance.ShopTransactionTime, DateTime.Now), cds.UserName, firstPawnItem.HasGunLock ? 1 : 0, ProductStatus.IP.ToString(), out errorCode, out errorText);
+
                                 this.retValues.Add(gunRetVal);
                                 this.errorCodes.Add(errorCode);
                                 this.errorTexts.Add(errorText);
@@ -4734,6 +5011,7 @@ namespace Pawn.Logic.DesktopProcedures
                                     "" + firstPawnItem.mDocType, pawnItemIdx, 0, ProductStatus.IP.ToString(), PROKNOWCODE,
                                     pKData.LoanAmount, pKData.LoanAmount, 0.0M, 0.0M,
                                     cds.UserName, curLoanU.MadeDate, out errorCode, out errorText);
+
                                 this.retValues.Add(pkRetVal);
                                 this.errorCodes.Add(errorCode);
                                 this.errorTexts.Add(errorText);
@@ -4746,10 +5024,12 @@ namespace Pawn.Logic.DesktopProcedures
                                     "" + firstPawnItem.mDocType, pawnItemIdx, 0, ProductStatus.IP.ToString(), PROKNOWRETAILCODE,
                                     0.0M, 0.0M, pKData.RetailAmount, 0.0M,
                                     cds.UserName, curLoanU.MadeDate, out errorCode, out errorText);
+
                                 this.retValues.Add(pkrRetVal);
                                 this.errorCodes.Add(errorCode);
                                 this.errorTexts.Add(errorText);
                             }
+
                             if (pCData.NewRetail > 0.0M)
                             {
                                 bool pcRetVal = ProcessTenderProcedures.ExecuteInsertMDHistRecord(
@@ -4757,6 +5037,7 @@ namespace Pawn.Logic.DesktopProcedures
                                     "" + firstPawnItem.mDocType, pawnItemIdx, 0, ProductStatus.IP.ToString(), PROCALLCODE,
                                     0.0M, 0.0M, 0.0M, pCData.NewRetail,
                                     cds.UserName, curLoanU.MadeDate, out errorCode, out errorText);
+
                                 this.retValues.Add(pcRetVal);
                                 this.errorCodes.Add(errorCode);
                                 this.errorTexts.Add(errorText);
@@ -4772,6 +5053,7 @@ namespace Pawn.Logic.DesktopProcedures
                                         firstPawnItem.mStore, firstPawnItem.mYear, this.fullTicketNumber,
                                         "" + firstPawnItem.mDocType, pawnItemIdx, 0, iAttr.MaskOrder,
                                         iAttr.Answer.AnswerText, cds.UserName, out errorCode, out errorText);
+
                                     this.retValues.Add(otherDscVal);
                                     this.errorCodes.Add(errorCode);
                                     this.errorTexts.Add(errorText);
@@ -4786,6 +5068,7 @@ namespace Pawn.Logic.DesktopProcedures
                                     firstPawnItem.mStore, firstPawnItem.mYear, this.fullTicketNumber,
                                     "" + firstPawnItem.mDocType, pawnItemIdx, 0, OTHERDSC_CODE,
                                     pItem.Comment, cds.UserName, out errorCode, out errorText);
+
                                 this.retValues.Add(otherDscVal);
                                 this.errorCodes.Add(errorCode);
                                 this.errorTexts.Add(errorText);
@@ -4803,6 +5086,7 @@ namespace Pawn.Logic.DesktopProcedures
                                         0.0M, 0.0M, 0.0M, pItem.TotalLoanGoldValue,
                                         cds.UserName, curLoanU.MadeDate,
                                         out errorCode, out errorText);
+
                                     this.retValues.Add(pMetalVal);
                                     this.errorCodes.Add(errorCode);
                                     this.errorTexts.Add(errorText);
@@ -4817,6 +5101,7 @@ namespace Pawn.Logic.DesktopProcedures
                                         0.0M, 0.0M, 0.0M, pItem.TotalLoanStoneValue,
                                         cds.UserName, curLoanU.MadeDate,
                                         out errorCode, out errorText);
+
                                     this.retValues.Add(stoneVal);
                                     this.errorCodes.Add(errorCode);
                                     this.errorTexts.Add(errorText);
@@ -4837,8 +5122,12 @@ namespace Pawn.Logic.DesktopProcedures
                                         Int64[] curJSetMasks = getMasks(curJSet);
                                         //Fix to prevent additional mdse record for jewelry with only one sub item
                                         if (curJSetMasks.Length > 0 && curJSetMasks[0] == 0)
+                                        {
                                             continue;
+                                        }
+
                                         bool jRetVal = false;
+
                                         jRetVal = ProcessTenderProcedures.ExecuteInsertMDSERecord(
                                             firstPawnItem.mStore, firstPawnItem.mStore, firstPawnItem.mYear, this.fullTicketNumber,
                                             "" + firstPawnItem.mDocType, pawnItemIdx, subItemNum, pItem.CategoryCode,
@@ -4849,6 +5138,7 @@ namespace Pawn.Logic.DesktopProcedures
                                             pKData.RetailAmount,
                                             pItem.StorageFee, cds.UserName,
                                             curLoanU.MadeDate.FormatDate(), curLoanU.MadeDate.ToShortDateString() + " " + curLoanU.MadeTime.ToString(), "", "", firstPawnItem.mDocType, "", out errorCode, out errorText);
+
                                         this.retValues.Add(jRetVal);
                                         this.errorCodes.Add(errorCode);
                                         this.errorTexts.Add(errorText);
@@ -4862,6 +5152,7 @@ namespace Pawn.Logic.DesktopProcedures
                                                     firstPawnItem.mStore, firstPawnItem.mYear, this.fullTicketNumber,
                                                     "" + firstPawnItem.mDocType, pawnItemIdx, subItemNum, iAttr.MaskOrder,
                                                     iAttr.Answer.AnswerText, cds.UserName, out errorCode, out errorText);
+
                                                 this.retValues.Add(otherJDscVal);
                                                 this.errorCodes.Add(errorCode);
                                                 this.errorTexts.Add(errorText);
@@ -4874,7 +5165,9 @@ namespace Pawn.Logic.DesktopProcedures
                             pawnItemIdx++;
                         }
                         else
+                        {
                             return false;
+                        }
                     }
                     catch (Exception eX)
                     {
@@ -4890,6 +5183,7 @@ namespace Pawn.Logic.DesktopProcedures
                                     s,
                                     this.errorTexts[i]);
                             }
+
                             BasicExceptionHandler.Instance.AddException("The whole world came to an end", new ApplicationException("Massive Fatal Exception", eX));
                             FileLogger.Instance.logMessage(LogLevel.FATAL, this, "Beyond fatal insert statement failure...");
                             return (false);
@@ -4897,6 +5191,7 @@ namespace Pawn.Logic.DesktopProcedures
                     }
                 }
             }
+
             return (true);
         }
 
@@ -5281,7 +5576,7 @@ namespace Pawn.Logic.DesktopProcedures
                     string errorText;
                     //If the service done on the loan was an extension
                     //update the teller with the extension amount
-                    if (pLoan.IsExtended && pLoan.ExtensionAmount > 0 && pLoan.TempStatus==StateStatus.E)
+                    if (pLoan.IsExtended && pLoan.ExtensionAmount > 0 && pLoan.TempStatus == StateStatus.E)
                     {
                         try
                         {
@@ -5795,8 +6090,8 @@ namespace Pawn.Logic.DesktopProcedures
                     lostTicketFlag.Add(p.LostTicketInfo.LSDTicket);
                     if (SecurityAccessor.Instance.EncryptConfig.ClientConfig.ClientConfiguration.PrintEnabled)
                     {
-                        LostTicketStatementPrint lstPrint = new LostTicketStatementPrint();
-                        lstPrint.Print(p);
+                        var lostTicketPrinter = new LostTicketPrinter(p, GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId);
+                        lostTicketPrinter.Print();
                     }
                 }
 
@@ -5811,8 +6106,8 @@ namespace Pawn.Logic.DesktopProcedures
                     var origFees = from fees in p.OriginalFees
                                    where fees.OriginalAmount != 0
                                    select fees;
-                    decimal totalFeeAmount=0;
-                    decimal lateFeeAmount=0;
+                    decimal totalFeeAmount = 0;
+                    decimal lateFeeAmount = 0;
                     decimal lateFeeFinAmount = 0;
                     decimal lateFeeServAmount = 0;
                     foreach (Fee custloanfee in origFees)
@@ -5832,8 +6127,8 @@ namespace Pawn.Logic.DesktopProcedures
                             if (custloanfee.FeeType == FeeTypes.INTEREST)
                             {
                                 lateFeeFinAmount = (from f in pfiCalculator.ApplicableFees
-                                                         where f.FeeType == FeeTypes.INTEREST
-                                                         select f.Value).FirstOrDefault();
+                                                    where f.FeeType == FeeTypes.INTEREST
+                                                    select f.Value).FirstOrDefault();
                                 totalFeeAmount += custloanfee.Value;
                             }
 
@@ -5845,6 +6140,7 @@ namespace Pawn.Logic.DesktopProcedures
                                 totalFeeAmount += custloanfee.Value;
 
                             }
+
                         }
                         newFeeTypes.Add(custloanfee.FeeType.ToString());
 
@@ -5874,9 +6170,9 @@ namespace Pawn.Logic.DesktopProcedures
                     //but the pickup storage and interest is less than the original assessed value
                     //In that case, to offset the balance a late fee amount should be inserted
                     var lateFeeComp = (from f in p.OriginalFees
-                                      where f.FeeType == FeeTypes.LATE
-                                      select f).FirstOrDefault();
-                    if ((lateFeeComp.FeeRef==0 && lateFeeComp.OriginalAmount == 0) && (lateFeeFinAmount+lateFeeServAmount < totalFeeAmount))
+                                       where f.FeeType == FeeTypes.LATE
+                                       select f).FirstOrDefault();
+                    if ((lateFeeComp.FeeRef == 0 && lateFeeComp.OriginalAmount == 0) && (lateFeeFinAmount + lateFeeServAmount < totalFeeAmount))
                     {
                         //Get late fee from pficalculator.applicablefees
                         var calculatedlatefee = (from f in pfiCalculator.ApplicableFees
@@ -6287,7 +6583,7 @@ namespace Pawn.Logic.DesktopProcedures
                                 {
                                     pickupPaymentContext.CustomerPhone = string.Empty;
                                 }
-                                
+
                                 pickupPaymentContext.EmployeeNumber = GlobalDataAccessor.Instance.DesktopSession.LoggedInUserSecurityProfile.EmployeeNumber;
                                 pickupPaymentContext.StoreName = GlobalDataAccessor.Instance.CurrentSiteId.StoreName;
                                 pickupPaymentContext.StoreNumber = GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber;
@@ -6313,7 +6609,7 @@ namespace Pawn.Logic.DesktopProcedures
                                                                                    where f.FeeType == FeeTypes.LOST_TICKET
                                                                                    select f.Value).Sum(),
                                                                   ServiceFee = (from f in pfiCalculator.ApplicableFees
-                                                                                where f.FeeType == FeeTypes.STORAGE
+                                                                                where f.FeeType == FeeTypes.STORAGE || f.FeeType == FeeTypes.SERVICE
                                                                                 select f.Value).Sum(),
                                                                   TicketNumber = pawnLoan.TicketNumber
                                                               };
@@ -6328,11 +6624,13 @@ namespace Pawn.Logic.DesktopProcedures
                                         LogLevel.INFO, "ProcessTenderController", "Printing Pickup Payment Receipt on {0}",
                                         GlobalDataAccessor.Instance.DesktopSession.LaserPrinter);
                                 }
+
+                                var qty = cds.CurrentSiteId.State.Equals(States.Indiana) ? 2 : 1;
                                 string strReturnMessage =
                                     PrintingUtilities.printDocument(
                                         pickupPaymentContext.OutputPath,
                                         GlobalDataAccessor.Instance.DesktopSession.LaserPrinter.IPAddress,
-                                        GlobalDataAccessor.Instance.DesktopSession.LaserPrinter.Port, 1);
+                                        GlobalDataAccessor.Instance.DesktopSession.LaserPrinter.Port, qty);
                                 if (!strReturnMessage.Contains("SUCCESS"))
                                     FileLogger.Instance.logMessage(LogLevel.ERROR, this, "Pickup Payment Receipt : " + strReturnMessage);
 
@@ -6356,6 +6654,9 @@ namespace Pawn.Logic.DesktopProcedures
                                         "Could not store Pickup Payment Receipt in document storage",
                                         new ApplicationException("Could not store receipt in document storage: " + errText));
                                 }
+
+                                this.ProcessedTickets.Add(new PairType<long, string>(pawnLoan.TicketNumber, pickupPaymentContext.OutputPath));
+                                this.TicketFiles.Add(pickupPaymentContext.OutputPath);
                             }
                         }
                     }
@@ -6442,11 +6743,13 @@ namespace Pawn.Logic.DesktopProcedures
                             {
                                 CustomerVO extnCustomer = CustomerProcedures.getCustomerDataByCustomerNumber(GlobalDataAccessor.Instance.DesktopSession, ploan.CustomerNumber);
                                 if (extnCustomer != null)
-                                    extnInfo.CustomerName = extnCustomer.CustomerName;
+                                    extnInfo.CustomerName = extnCustomer.LastName + COMMA_SPACE + extnCustomer.FirstName + SPACE + extnCustomer.MiddleInitial;
+                               
                             }
                             else
                             {
-                                extnInfo.CustomerName = currentCust.CustomerName;
+                                extnInfo.CustomerName = currentCust.LastName + COMMA_SPACE + currentCust.FirstName + SPACE + currentCust.MiddleInitial;
+
                             }
                         }
                         extnInfo.DailyAmount = ploan.DailyAmount;
@@ -6456,9 +6759,49 @@ namespace Pawn.Logic.DesktopProcedures
                         extnInfo.OldPfiEligible = ploan.LastDayOfGrace;
                         extnInfo.NewPfiEligible = ploan.NewPfiEligible;
                         extnInfo.TicketNumber = ploan.TicketNumber;
-                        extnInfo.Fees = (from f in ploan.Fees
-                                         where f.FeeType == FeeTypes.STORAGE
-                                         select f.OriginalAmount).Sum();
+                        if (cds.CurrentSiteId.State == States.Indiana)
+                        {
+                            //Each month is a 30 day block
+                            //For PFI days though we need to add 1 to the number of days since there is a 1 day grace period for Indiana
+                            //so the PFI date would have been created with that extra day and we would have to account for it
+                            //after calculating the total number of 30 day blocks
+                            int totalMonthsTillMaturity = ((ploan.NewDueDate - ploan.DateMade).Days) / 30;
+                            int totalMonthsTillGrace = ((ploan.NewPfiEligible - ploan.DateMade).Days) / 30;
+                            int extensionPaidDays = (ploan.NewDueDate - ploan.DueDate).Days;
+                            if (ploan.PartialPaymentPaid)
+                            {
+                                int ppmtPaidDays = (ploan.LastPartialPaymentDate - ploan.DateMade).Days;
+                                int daysToPay = ((totalMonthsTillMaturity * 30) - extensionPaidDays - ppmtPaidDays);
+                                extnInfo.PawnChargeAtMaturity = (ploan.DailyAmount * daysToPay);
+                                extnInfo.PawnChargeAtPfi =ploan.DailyAmount * (((totalMonthsTillGrace * 30) + 1)  - extensionPaidDays - ppmtPaidDays);
+                            }
+                            else
+                            {
+                                extnInfo.PawnChargeAtMaturity = (30 * ploan.DailyAmount);
+                                extnInfo.PawnChargeAtPfi = (ploan.DailyAmount * (((totalMonthsTillGrace * 30) + 1) - extensionPaidDays));
+                            }
+                            extnInfo.PawnChargePaidTo = ploan.DateMade.AddDays(extensionPaidDays);
+                        }
+                        else
+                        {
+                            if (cds.CurrentSiteId.State == States.Ohio)
+                            {
+                                extnInfo.PawnChargeAtMaturity = (ploan.InterestAmount + ploan.ServiceCharge) * ((ploan.NewDueDate - ploan.DueDate).Days) / 30;
+                                extnInfo.PawnChargeAtPfi = extnInfo.PawnChargeAtMaturity + ((ploan.InterestAmount + ploan.ServiceCharge) * (((ploan.NewPfiEligible - ploan.NewDueDate).Days)/30));
+                                extnInfo.PawnChargePaidTo = ploan.DueDate;
+
+                            }
+                            else
+                            {
+                                extnInfo.Fees = (from f in ploan.Fees
+                                                 where f.FeeType != FeeTypes.INTEREST
+                                                     && f.FeeRefType == FeeRefTypes.PAWN
+                                                     && f.FeeState != FeeStates.VOID
+                                                     && !f.Waived
+                                                 select f.OriginalAmount).Sum();
+                            }
+                        }
+                        
                         extnInfo.ExtendedBy = (ploan.NewPfiEligible - ploan.DueDate).Days / 30;
                         extnMemoInfo.Add(extnInfo);
                     }
@@ -6480,9 +6823,10 @@ namespace Pawn.Logic.DesktopProcedures
                     rptObj.ReportTempFileFullName = SecurityAccessor.Instance.EncryptConfig.ClientConfig.GlobalConfiguration.BaseLogPath + "\\ExtensionMemo" + DateTime.Now.ToString("MMddyyyyhhmmssFFFFFFF") + ".pdf";
 
                     Reports.IExtensionMemo extnmemo = null;
-                    if (cds.CurrentSiteId.State == States.Ohio)
+                    //Extension Memo for Ohio and Indiana
+                    if (cds.CurrentSiteId.State == States.Ohio || cds.CurrentSiteId.State == States.Indiana)
                     {
-                        extnmemo = new Reports.ExtensionMemoOhio(PdfLauncher.Instance)
+                        extnmemo = new Reports.ExtensionMemoOhioIndiana(PdfLauncher.Instance)
                         {
                             ExtensionMemoData = extnMemoInfo,
                             Employee = cds.UserName,
@@ -6582,7 +6926,7 @@ namespace Pawn.Logic.DesktopProcedures
                     string storeAddr;
                     if (!string.IsNullOrEmpty(GlobalDataAccessor.Instance.CurrentSiteId.StoreAddress2))
                         storeAddr = GlobalDataAccessor.Instance.CurrentSiteId.StoreAddress1 + "," +
-                            GlobalDataAccessor.Instance.CurrentSiteId.StoreAddress2;
+                                    GlobalDataAccessor.Instance.CurrentSiteId.StoreAddress2;
                     else
                         storeAddr = GlobalDataAccessor.Instance.CurrentSiteId.StoreAddress1;
                     var rptObj = new ReportObject();
@@ -6590,105 +6934,28 @@ namespace Pawn.Logic.DesktopProcedures
                     rptObj.ReportNumber = 226;
                     rptObj.ReportStore = GlobalDataAccessor.Instance.CurrentSiteId.StoreName;
                     rptObj.ReportStoreDesc = storeAddr +
-                        "," + GlobalDataAccessor.Instance.CurrentSiteId.StoreCityName + "," +
-                        GlobalDataAccessor.Instance.CurrentSiteId.State + " " +
-                        GlobalDataAccessor.Instance.CurrentSiteId.StoreZipCode;
+                                             "," + GlobalDataAccessor.Instance.CurrentSiteId.StoreCityName + "," +
+                                             GlobalDataAccessor.Instance.CurrentSiteId.State + " " +
+                                             GlobalDataAccessor.Instance.CurrentSiteId.StoreZipCode;
                     rptObj.ReportTitle = "Partial Payment Receipt";
                     var partialPayReciept = new PartialPaymentReceipt();
                     partialPayReciept.RptObject = rptObj;
-                   
-                    string pdfFile = SecurityAccessor.Instance.EncryptConfig.ClientConfig.GlobalConfiguration.BaseLogPath + "\\partpayreceipt" + DateTime.Now.ToString("MMddyyyyhhmmssFFFFFFF") + ".pdf";
+
+                    string pdfFile = SecurityAccessor.Instance.EncryptConfig.ClientConfig.GlobalConfiguration.BaseLogPath + "\\partpayreceipt" +
+                                     DateTime.Now.ToString("MMddyyyyhhmmssFFFFFFF") + ".pdf";
                     rptObj.ReportTempFileFullName = pdfFile;
-                    
+
                     foreach (PawnLoan pawnLoan in partPaymentLoans)
                     {
-                        decimal totalPartialAmount = 0;
-                        partialPayReciept.PartialPaymentTktData = new List<PartialPaymentTicketData>();
-                        PartialPayment currentPayment = pawnLoan.PartialPayments.Find(p => p.Status_cde == "New");
-                        if (currentPayment != null)
+                        if (GlobalDataAccessor.Instance.CurrentSiteId.State == "IN")
                         {
-                            var intAmt = (from f in pawnLoan.Fees
-                                          where f.FeeType == FeeTypes.INTEREST
-                                          select f.Value).FirstOrDefault();
-                            var storageAmt = (from f in pawnLoan.Fees
-                                              where f.FeeType == FeeTypes.STORAGE
-                                              select f.Value).FirstOrDefault();
-                            var lateFee = (from f in pawnLoan.Fees
-                                           where f.FeeType == FeeTypes.LATE
-                                           select f.Value).FirstOrDefault();
-             
-                            PartialPaymentTicketData partTktRpt = new PartialPaymentTicketData();
-                            partTktRpt.TicketNumber = pawnLoan.TicketNumber;
-                            partTktRpt.PrincipalReduction = currentPayment.PMT_PRIN_AMT;
-                            partTktRpt.InterestAmount = intAmt;// currentPayment.PMT_INT_AMT;
-                            partTktRpt.StorageFee = storageAmt; // currentPayment.PMT_SERV_AMT;
-                            partTktRpt.LoanItems = new List<string>();
-                            foreach (Item itemData in pawnLoan.Items)
-                                partTktRpt.LoanItems.Add(itemData.TicketDescription);
-                            partTktRpt.OtherCharges = lateFee; // currentPayment.PMT_AMOUNT - (currentPayment.PMT_PRIN_AMT + currentPayment.PMT_INT_AMT + currentPayment.PMT_SERV_AMT);
-                            partTktRpt.SubTotal = currentPayment.PMT_AMOUNT;
-                            partTktRpt.PFIDate = pawnLoan.PfiEligible;
-                            partialPayReciept.PartialPaymentTktData.Add(partTktRpt);
-                            totalPartialAmount = currentPayment.PMT_AMOUNT;
+                           printReceipt = PrintIndianaPartialPaymentReceipt(pawnLoan, dA, cC, receiptDetailsVO);
                         }
-
-
-
-                        PartialPaymentReportData partRptData = new PartialPaymentReportData();
-                        partRptData.EmployeeName = GlobalDataAccessor.Instance.DesktopSession.UserName;
-                        partRptData.CustomerName = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerName;
-                        partRptData.CustomerAddress1 = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustHomeAddress;
-                        partRptData.TotalDueFromCustomer = totalPartialAmount;
-
-
-                        partialPayReciept.PartialPaymentRptData = partRptData;
-                        long idx = 0;
-                        if (partialPayReciept.Print())
+                        else
                         {
 
-                            string errMsg = PrintingUtilities.printDocument(pdfFile, cds.LaserPrinter.IPAddress,
-                                                                            cds.LaserPrinter.Port, 2);
-                            if (errMsg.IndexOf("SUCCESS", StringComparison.OrdinalIgnoreCase) == -1)
-                            {
-                                FileLogger.Instance.logMessage(LogLevel.ERROR, this, "Cannot print partial payment receipt");
-                            }
-
-
-
-                            var pDoc = new CouchDbUtils.PawnDocInfo();
-
-                            //Set document add calls
-                            pDoc.UseCurrentShopDateTime = true;
-                            pDoc.SetDocumentSearchType(CouchDbUtils.DocSearchType.PARTPAYMENT);
-                            pDoc.StoreNumber = cds.CurrentSiteId.StoreNumber;
-                            pDoc.CustomerNumber = cds.ActiveCustomer.CustomerNumber;
-                            pDoc.DocumentType = Document.DocTypeNames.PDF;
-                            pDoc.DocFileName = pdfFile;
-                            pDoc.TicketNumber = pawnLoan.TicketNumber;
-                            long recNumL = 0L;
-
-                            if (long.TryParse(receiptDetailsVO.ReceiptNumber, out recNumL))
-                            {
-                                pDoc.ReceiptNumber = recNumL;
-                            }
-
-                            //Add this document to the pawn document registry and document storage
-                            string errText;
-                            if (!CouchDbUtils.AddPawnDocument(dA, cC, cds.UserName, ref pDoc, out errText))
-                            {
-                                if (FileLogger.Instance.IsLogError)
-                                    FileLogger.Instance.logMessage(LogLevel.ERROR, this,
-                                                                   "Could not store partial payment document in document storage: {0} - FileName: {1}", errText, pdfFile);
-                                BasicExceptionHandler.Instance.AddException(
-                                    "Could not store partial payment document in document storage",
-                                    new ApplicationException("Could not store partial payment document in document storage: " + errText));
-                            }
-                            this.ProcessedTickets.Add(new PairType<long, string>(pawnLoan.TicketNumber, pdfFile));
-                            this.TicketFiles.Add(pdfFile);
-                            idx++;
+                           printReceipt = PrintPartialPaymentReceipt(receiptDetailsVO, pdfFile, cds, cC, dA, pawnLoan, partialPayReciept);
                         }
-
-
                     }
                 }
 
@@ -6724,6 +6991,205 @@ namespace Pawn.Logic.DesktopProcedures
             //Call print receipt service pawn loan
             return (serviceFlag);
         }
+
+        private bool PrintPartialPaymentReceipt(
+            ReceiptDetailsVO receiptDetailsVO, string pdfFile, DesktopSession cds, SecuredCouchConnector cC, OracleDataAccessor dA, PawnLoan pawnLoan,
+            PartialPaymentReceipt partialPayReciept)
+        {
+            bool retval = true;
+            decimal totalPartialAmount = 0;
+            partialPayReciept.PartialPaymentTktData = new List<PartialPaymentTicketData>();
+            PartialPayment currentPayment = pawnLoan.PartialPayments.Find(p => p.Status_cde == "New");
+            if (currentPayment != null)
+            {
+                var intAmt = (from f in pawnLoan.Fees
+                              where f.FeeType == FeeTypes.INTEREST
+                              select f.Value).FirstOrDefault();
+                var storageAmt = (from f in pawnLoan.Fees
+                                  where f.FeeType == FeeTypes.STORAGE
+                                  select f.Value).FirstOrDefault();
+                var lateFee = (from f in pawnLoan.Fees
+                               where f.FeeType == FeeTypes.LATE
+                               select f.Value).FirstOrDefault();
+
+                PartialPaymentTicketData partTktRpt = new PartialPaymentTicketData();
+                partTktRpt.TicketNumber = pawnLoan.TicketNumber;
+                partTktRpt.PrincipalReduction = currentPayment.PMT_PRIN_AMT;
+                partTktRpt.InterestAmount = intAmt; // currentPayment.PMT_INT_AMT;
+                partTktRpt.StorageFee = storageAmt; // currentPayment.PMT_SERV_AMT;
+                partTktRpt.LoanItems = new List<string>();
+                foreach (Item itemData in pawnLoan.Items)
+                {
+                    partTktRpt.LoanItems.Add(itemData.TicketDescription);
+                }
+                partTktRpt.OtherCharges = lateFee;
+                // currentPayment.PMT_AMOUNT - (currentPayment.PMT_PRIN_AMT + currentPayment.PMT_INT_AMT + currentPayment.PMT_SERV_AMT);
+                partTktRpt.SubTotal = currentPayment.PMT_AMOUNT;
+                partTktRpt.PFIDate = pawnLoan.PfiEligible;
+                partialPayReciept.PartialPaymentTktData.Add(partTktRpt);
+                totalPartialAmount = currentPayment.PMT_AMOUNT;
+            }
+            else
+            {
+                retval = false;
+            }
+            var partRptData = new PartialPaymentReportData
+                              {
+                                  EmployeeName = GlobalDataAccessor.Instance.DesktopSession.UserName,
+                                  CustomerName = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerName,
+                                  CustomerAddress1 = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustHomeAddress,
+                                  TotalDueFromCustomer = totalPartialAmount
+                              };
+
+            partialPayReciept.PartialPaymentRptData = partRptData;
+            long idx = 0;
+            if (partialPayReciept.Print())
+            {
+                string errMsg = PrintingUtilities.printDocument(
+                    pdfFile, cds.LaserPrinter.IPAddress,
+                    cds.LaserPrinter.Port, 2);
+                if (errMsg.IndexOf("SUCCESS", StringComparison.OrdinalIgnoreCase) == -1)
+                {
+                    FileLogger.Instance.logMessage(LogLevel.ERROR, this, "Cannot print partial payment receipt");
+                }
+
+                SendReceiptToCouch(dA, cC, receiptDetailsVO, pawnLoan, cds, pdfFile);
+                this.ProcessedTickets.Add(new PairType<long, string>(pawnLoan.TicketNumber, pdfFile));
+                this.TicketFiles.Add(pdfFile);
+                //idx++;
+            }
+            else
+            {
+                retval = false;
+            }
+
+            return retval;
+        }
+
+        private bool PrintIndianaPartialPaymentReceipt(PawnLoan pawnLoan, OracleDataAccessor dA, SecuredCouchConnector cC, ReceiptDetailsVO receiptDetailsVO)
+        {
+            
+            var dataContext = new IndianaPartialPaymentContext();
+            var partialPaymentReceipt = new PartialPayment_IN(dataContext);
+            var currentPayment = pawnLoan.PartialPayments.Find(p => p.Status_cde == "New");
+
+            dataContext.PrincipalReduction = (double)currentPayment.PMT_PRIN_AMT;
+            dataContext.EmployeeNumber = GlobalDataAccessor.Instance.DesktopSession.UserName;
+
+            // customer Address information
+            var addressParts = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustHomeAddress.Split(',').ToList();
+
+            dataContext.CustomerAddress = addressParts[0];
+            if (addressParts.Count == 5)
+            {
+                // there is an address 2
+                dataContext.CustomerAddress += ", " + addressParts[1];
+                dataContext.CustomerCity = addressParts[2];
+                dataContext.CustomerState = addressParts[3];
+                dataContext.CustomerZip = addressParts[4];
+            }
+            else
+            {
+                // There was no address 2
+                dataContext.CustomerCity = addressParts[1];
+                dataContext.CustomerState = addressParts[2];
+                dataContext.CustomerZip = addressParts[3];
+            }
+
+
+            dataContext.CustomerName = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerName;
+            dataContext.CustomerPhone = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerNumber;
+
+            dataContext.FilePath = SecurityAccessor.Instance.EncryptConfig.ClientConfig.GlobalConfiguration.BaseLogPath + "\\partpayreceipt" +
+                                     DateTime.Now.ToString("MMddyyyyhhmmssFFFFFFF") + ".pdf";
+
+            dataContext.ItemDescription = pawnLoan.Items[0].TicketDescription;
+
+            if (pawnLoan.PartialPayments.Find(p => p.Status_cde == "New") != null)
+            {
+
+                dataContext.Interest = (double)(from f in pawnLoan.Fees
+                                                where f.FeeType == FeeTypes.INTEREST
+                                                select f.Value).FirstOrDefault();
+
+                dataContext.ServiceFees = (double)(from f in pawnLoan.Fees
+                                                   where f.FeeType == FeeTypes.SERVICE
+                                                   select f.Value).FirstOrDefault();
+
+                dataContext.OtherCharges = (double)(from f in pawnLoan.Fees
+                                                where f.FeeType == FeeTypes.LATE
+                                                select f.Value).FirstOrDefault();
+
+            }
+            foreach (var itemData in pawnLoan.Items)
+                dataContext.ItemDescription += itemData.TicketDescription + '\n';
+
+            dataContext.PrintDateTime = ShopDateTime.Instance.ShopDateCurTime;
+            dataContext.StoreAddress = GlobalDataAccessor.Instance.CurrentSiteId.StoreAddress1;
+            dataContext.StoreCity = GlobalDataAccessor.Instance.CurrentSiteId.StoreCityName;
+            dataContext.StoreName = GlobalDataAccessor.Instance.CurrentSiteId.StoreName;
+            dataContext.StoreNumber = GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber;
+            dataContext.StoreState = GlobalDataAccessor.Instance.CurrentSiteId.State;
+            dataContext.StoreZip = GlobalDataAccessor.Instance.CurrentSiteId.StoreZipCode;
+
+            dataContext.TicketNumber = pawnLoan.TicketNumber;
+
+            partialPaymentReceipt.Print();
+            if (partialPaymentReceipt.Print())
+            {
+
+                var errMsg = PrintingUtilities.printDocument(
+                    dataContext.FilePath, GlobalDataAccessor.Instance.DesktopSession.LaserPrinter.IPAddress,
+                    GlobalDataAccessor.Instance.DesktopSession.LaserPrinter.Port, 2);
+                if (errMsg.IndexOf("SUCCESS", StringComparison.OrdinalIgnoreCase) == -1)
+                {
+                    FileLogger.Instance.logMessage(LogLevel.ERROR, this, "Cannot print partial payment receipt");
+                }
+
+                SendReceiptToCouch(dA, cC, receiptDetailsVO, pawnLoan, GlobalDataAccessor.Instance.DesktopSession, dataContext.FilePath);
+                this.ProcessedTickets.Add(new PairType<long, string>(pawnLoan.TicketNumber, dataContext.FilePath));
+                this.TicketFiles.Add(dataContext.FilePath);
+
+            }
+            return true;
+        }
+
+        private void SendReceiptToCouch(
+            OracleDataAccessor dA, SecuredCouchConnector cC, ReceiptDetailsVO receiptDetailsVO, PawnLoan pawnLoan, DesktopSession cds, string pdfFile)
+        {
+            var pDoc = new CouchDbUtils.PawnDocInfo();
+
+            //Set document add calls
+            pDoc.UseCurrentShopDateTime = true;
+            pDoc.SetDocumentSearchType(CouchDbUtils.DocSearchType.PARTPAYMENT);
+            pDoc.StoreNumber = cds.CurrentSiteId.StoreNumber;
+            pDoc.CustomerNumber = cds.ActiveCustomer.CustomerNumber;
+            pDoc.DocumentType = Document.DocTypeNames.PDF;
+            pDoc.DocFileName = pdfFile;
+            pDoc.TicketNumber = pawnLoan.TicketNumber;
+            long recNumL = 0L;
+
+            if (long.TryParse(receiptDetailsVO.ReceiptNumber, out recNumL))
+            {
+                pDoc.ReceiptNumber = recNumL;
+            }
+
+            //Add this document to the pawn document registry and document storage
+            string errText;
+            if (!CouchDbUtils.AddPawnDocument(dA, cC, cds.UserName, ref pDoc, out errText))
+            {
+                if (FileLogger.Instance.IsLogError)
+                {
+                    FileLogger.Instance.logMessage(
+                        LogLevel.ERROR, this,
+                        "Could not store partial payment document in document storage: {0} - FileName: {1}", errText, pdfFile);
+                }
+                BasicExceptionHandler.Instance.AddException(
+                    "Could not store partial payment document in document storage",
+                    new ApplicationException("Could not store partial payment document in document storage: " + errText));
+            }
+        }
+
 
         private bool insertExtendLoans(List<PawnLoan> pawnLoans, ref ReceiptDetailsVO receiptDetailsVO)
         {
@@ -6998,8 +7464,8 @@ namespace Pawn.Logic.DesktopProcedures
                         lostTicketFlag.Add(p.LostTicketInfo.LSDTicket);
                         if (SecurityAccessor.Instance.EncryptConfig.ClientConfig.ClientConfiguration.PrintEnabled)
                         {
-                            LostTicketStatementPrint lstPrint = new LostTicketStatementPrint();
-                            lstPrint.Print(p);
+                            var lostTicketPrinter = new LostTicketPrinter(p, GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId);
+                            lostTicketPrinter.Print();
                         }
                     }
 
@@ -7019,7 +7485,7 @@ namespace Pawn.Logic.DesktopProcedures
                                            select fees;
                         foreach (Fee custloanfee in originalFees)
                         {
-                            decimal feeAmt=custloanfee.Value;
+                            decimal feeAmt = custloanfee.Value;
                             if (custloanfee.FeeType == FeeTypes.LATE)
                             {
                                 feeAmt = custloanfee.Value - p.ExtensionAmount;
@@ -7359,8 +7825,8 @@ namespace Pawn.Logic.DesktopProcedures
                         lostTicketFlag.Add(p.LostTicketInfo.LSDTicket);
                         if (SecurityAccessor.Instance.EncryptConfig.ClientConfig.ClientConfiguration.PrintEnabled)
                         {
-                            LostTicketStatementPrint lstPrint = new LostTicketStatementPrint();
-                            lstPrint.Print(p);
+                            var lostTicketPrinter = new LostTicketPrinter(p, GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId);
+                            lostTicketPrinter.Print();
                         }
                     }
 
@@ -7707,7 +8173,7 @@ namespace Pawn.Logic.DesktopProcedures
                 {
                     var origFees = from fees in p.Fees
                                    where fees.Value != 0
-                                   && fees.FeeState==FeeStates.ASSESSED
+                                   && fees.FeeState == FeeStates.ASSESSED
                                    select fees;
                     foreach (Fee custloanfee in origFees)
                     {
@@ -7724,7 +8190,7 @@ namespace Pawn.Logic.DesktopProcedures
                         newFeeStateCodes.Add(FeeStates.PAID.ToString());
                     }
                 }
-                int pmtId=0;
+                int pmtId = 0;
                 foreach (DataRow dr in
                     dtPaymentIds.Rows.Cast<DataRow>().Where(dr => Utilities.GetIntegerValue(dr["ticket_number"]) == p.TicketNumber))
                 {
@@ -8033,11 +8499,11 @@ namespace Pawn.Logic.DesktopProcedures
                     }
                     //here write code to add comments to receipt if they exist
                     int CommentsLen = 39;
-                    if(mode == ProcessTenderMode.RETAILSALE && !string.IsNullOrEmpty(receiptItem.Comments))
+                    if (mode == ProcessTenderMode.RETAILSALE && !string.IsNullOrEmpty(receiptItem.Comments))
                     {
                         if (receiptItem.Comments.Length > CommentsLen)
                         {
-                            string[] commentsData = receiptItem.Comments.Split(new char[] {' '});
+                            string[] commentsData = receiptItem.Comments.Split(new char[] { ' ' });
                             string commentToAdd = string.Empty;
                             bool concatNextComment = false;
                             for (int i = 0; i <= commentsData.Length - 1; i++)
@@ -8052,7 +8518,7 @@ namespace Pawn.Logic.DesktopProcedures
                                     //get the length of the next element
                                     if (commentsData.Length - 1 != i)
                                     {
-                                        if(!string.IsNullOrEmpty(commentsData[i + 1]))
+                                        if (!string.IsNullOrEmpty(commentsData[i + 1]))
                                         {
                                             int lenNextElement = commentsData[i + 1].Length;
                                             int lenLeftOver = CommentsLen - commentToAdd.Length;
@@ -8074,7 +8540,7 @@ namespace Pawn.Logic.DesktopProcedures
                                         data.Add(detailKey, detailToAdd);
                                         lineDesc = string.Empty;
                                     }
-                                    
+
                                 }
                                 //get the length of the current element
                                 // add the two together and subtract their total from MAX_LEN
@@ -8248,7 +8714,7 @@ namespace Pawn.Logic.DesktopProcedures
                     salesItemsCounter++;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return;
             }
@@ -8260,7 +8726,7 @@ namespace Pawn.Logic.DesktopProcedures
             ReceiptItems items = new ReceiptItems();
             items.DescriptionData = item.TicketDescription;
             items.ICN = item.Icn;
-            if(mode == ProcessTenderMode.LAYAWAY || mode == ProcessTenderMode.RETAILSALE && (!string.IsNullOrEmpty(item.UserItemComments)))
+            if (mode == ProcessTenderMode.LAYAWAY || mode == ProcessTenderMode.RETAILSALE && (!string.IsNullOrEmpty(item.UserItemComments)))
                 items.Comments = "Comments: " + item.UserItemComments;
             if (mode == ProcessTenderMode.LAYAWAY || mode == ProcessTenderMode.RETAILSALE)
                 items.ItemAmount += item.NegotiatedPrice;
@@ -8493,8 +8959,18 @@ namespace Pawn.Logic.DesktopProcedures
                 foreach (var curPurch in purchases)
                 {
                     string fileNameGenerated;
-                    if (!PurchaseDocumentGenerator.GeneratePurchaseDocument(
-                        GlobalDataAccessor.Instance.DesktopSession, curPurch, out fileNameGenerated))
+                    bool chkStorePurchaseDocument;
+                    if (GlobalDataAccessor.Instance.CurrentSiteId.State.Equals(States.Indiana))
+                    {
+                        chkStorePurchaseDocument = PurchaseDocumentIndiana.GeneratePurchaseDocumentIndiana(
+                            GlobalDataAccessor.Instance.DesktopSession, curPurch, out fileNameGenerated);
+                    }
+                    else
+                    {
+                        chkStorePurchaseDocument = PurchaseDocumentGenerator.GeneratePurchaseDocument(
+                            GlobalDataAccessor.Instance.DesktopSession, curPurch, out fileNameGenerated);
+                    }
+                    if (!chkStorePurchaseDocument)
                     {
                         success = false;
                     }
@@ -10825,7 +11301,18 @@ namespace Pawn.Logic.DesktopProcedures
                 foreach (var curPurch in purchases)
                 {
                     string fileNameGenerated;
-                    if (!PurchaseDocumentGenerator.GeneratePurchaseDocument(GlobalDataAccessor.Instance.DesktopSession, curPurch, out fileNameGenerated))
+                    bool chkStorePurchaseDocument;
+                    if (GlobalDataAccessor.Instance.CurrentSiteId.State.Equals(States.Indiana))
+                    {
+                        chkStorePurchaseDocument = PurchaseDocumentIndiana.GeneratePurchaseDocumentIndiana(
+                            GlobalDataAccessor.Instance.DesktopSession, curPurch, out fileNameGenerated);
+                    }
+                    else
+                    {
+                        chkStorePurchaseDocument = PurchaseDocumentGenerator.GeneratePurchaseDocument(
+                            GlobalDataAccessor.Instance.DesktopSession, curPurch, out fileNameGenerated);
+                    }
+                    if (!chkStorePurchaseDocument)
                     {
                         success = false;
                     }
@@ -11003,7 +11490,19 @@ namespace Pawn.Logic.DesktopProcedures
                 foreach (var curPurch in purchases)
                 {
                     string fileNameGenerated;
-                    if (!PurchaseDocumentGenerator.GeneratePurchaseDocument(GlobalDataAccessor.Instance.DesktopSession, curPurch, out fileNameGenerated))
+                    bool chkStorePurchaseDocument;
+                    if (GlobalDataAccessor.Instance.CurrentSiteId.State.Equals(States.Indiana))
+                    {
+                        chkStorePurchaseDocument = PurchaseDocumentIndiana.GeneratePurchaseDocumentIndiana(
+                            GlobalDataAccessor.Instance.DesktopSession, curPurch, out fileNameGenerated);
+                    }
+                    else
+                    {
+                        chkStorePurchaseDocument = PurchaseDocumentGenerator.GeneratePurchaseDocument(
+                            GlobalDataAccessor.Instance.DesktopSession, curPurch, out fileNameGenerated);
+                    }
+
+                    if (!chkStorePurchaseDocument)
                     {
                         success = false;
                     }

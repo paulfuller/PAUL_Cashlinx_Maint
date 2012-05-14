@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PoliceMenuPanel));
             this.PoliceHoldButton = new System.Windows.Forms.Button();
             this.PoliceSeizeButton = new System.Windows.Forms.Button();
             this.ItemReleaseButton = new System.Windows.Forms.Button();
             this.BackButton = new System.Windows.Forms.Button();
+            this.ReleaseFingerprintsButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // PoliceHoldButton
@@ -112,7 +114,7 @@
             // BackButton
             // 
             this.BackButton.BackColor = System.Drawing.Color.Transparent;
-            this.BackButton.BackgroundImage = global::Common.Properties.Resources.back_button_normal;
+            this.BackButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BackButton.BackgroundImage")));
             this.BackButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.BackButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BackButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
@@ -122,7 +124,7 @@
             this.BackButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BackButton.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BackButton.ForeColor = System.Drawing.Color.Transparent;
-            this.BackButton.Location = new System.Drawing.Point(48, 367);
+            this.BackButton.Location = new System.Drawing.Point(48, 472);
             this.BackButton.Margin = new System.Windows.Forms.Padding(4);
             this.BackButton.MaximumSize = new System.Drawing.Size(205, 105);
             this.BackButton.MinimumSize = new System.Drawing.Size(205, 105);
@@ -134,11 +136,34 @@
             this.BackButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.BackButton.UseVisualStyleBackColor = false;
             // 
+            // ReleaseFingerprintsButton
+            // 
+            this.ReleaseFingerprintsButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ReleaseFingerprintsButton.BackgroundImage")));
+            this.ReleaseFingerprintsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ReleaseFingerprintsButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ReleaseFingerprintsButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.ReleaseFingerprintsButton.FlatAppearance.BorderSize = 0;
+            this.ReleaseFingerprintsButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.ReleaseFingerprintsButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.ReleaseFingerprintsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ReleaseFingerprintsButton.ForeColor = System.Drawing.Color.Transparent;
+            this.ReleaseFingerprintsButton.Location = new System.Drawing.Point(48, 363);
+            this.ReleaseFingerprintsButton.Margin = new System.Windows.Forms.Padding(4);
+            this.ReleaseFingerprintsButton.MaximumSize = new System.Drawing.Size(205, 105);
+            this.ReleaseFingerprintsButton.MinimumSize = new System.Drawing.Size(205, 105);
+            this.ReleaseFingerprintsButton.Name = "ReleaseFingerprintsButton";
+            this.ReleaseFingerprintsButton.Size = new System.Drawing.Size(205, 105);
+            this.ReleaseFingerprintsButton.TabIndex = 4;
+            this.ReleaseFingerprintsButton.Tag = "ReleaseFingerprintsButton|null";
+            this.ReleaseFingerprintsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.ReleaseFingerprintsButton.UseVisualStyleBackColor = false;
+            // 
             // PoliceMenuPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Transparent;
+            this.Controls.Add(this.ReleaseFingerprintsButton);
             this.Controls.Add(this.BackButton);
             this.Controls.Add(this.ItemReleaseButton);
             this.Controls.Add(this.PoliceSeizeButton);
@@ -146,10 +171,10 @@
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Black;
-            this.MaximumSize = new System.Drawing.Size(300, 500);
+            this.MaximumSize = new System.Drawing.Size(300, 600);
             this.MinimumSize = new System.Drawing.Size(300, 500);
             this.Name = "PoliceMenuPanel";
-            this.Size = new System.Drawing.Size(300, 500);
+            this.Size = new System.Drawing.Size(300, 600);
             this.Tag = "PoliceMenuPanel|UtilitiesMenuPanel";
             this.Load += new System.EventHandler(this.PoliceMenuPanel_Load);
             this.ResumeLayout(false);
@@ -162,5 +187,6 @@
         private System.Windows.Forms.Button PoliceSeizeButton;
         private System.Windows.Forms.Button ItemReleaseButton;
         private System.Windows.Forms.Button BackButton;
+        private System.Windows.Forms.Button ReleaseFingerprintsButton;
     }
 }

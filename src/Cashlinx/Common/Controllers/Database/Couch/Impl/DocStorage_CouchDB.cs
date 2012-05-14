@@ -319,25 +319,27 @@ namespace Common.Controllers.Database.Couch.Impl
             return false;
         }
 
-
-        /// </summary>
+        /// <summary>
         /// <param name="couchConnector"></param>
         /// <param name="document"></param>
         /// <param name="sErrorCode"></param>
         /// <param name="sErrorText"></param>
+        /// <param name="liteFetch"> </param>
         /// <returns></returns>
+        /// </summary>
         public bool SecuredGetDocument(
             SecuredCouchConnector couchConnector,
             ref Document document,
             out string sErrorCode,
-            out string sErrorText)
+            out string sErrorText,
+            bool liteFetch = false)
         {
             sErrorCode = "-1";
             sErrorText = "Retrieving document failed.";
 
             if (document != null)
             {
-                IDictionary objParms = couchConnector.GetDocument(document.FileId);
+                IDictionary objParms = couchConnector.GetDocument(document.FileId, liteFetch);
 
                 if (!couchConnector.Error)
                 {

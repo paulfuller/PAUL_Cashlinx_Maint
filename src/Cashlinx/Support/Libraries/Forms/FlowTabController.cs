@@ -12,7 +12,8 @@ namespace Support.Libraries.Forms
             ProductHistory = 2,
             ItemHistory = 3,
             Stats = 4,
-            None = 5
+            Comments = 5,
+            None = 6
         }
 
         private Form belowForm;
@@ -93,6 +94,9 @@ namespace Support.Libraries.Forms
                 case State.Stats:
                     this.statsTab.Enabled = enableVal;
                     break;
+                case State.Comments:
+                    this.commentTab.Enabled = enableVal;
+                    break;
             }
         }
 
@@ -158,6 +162,11 @@ namespace Support.Libraries.Forms
             {
                 this.tabState = State.Stats;
             }
+            else if (e.TabPage == this.commentTab)
+            {
+                this.tabState = State.Comments;
+            }
+
 
             this.tabHandler.Invoke();
         }

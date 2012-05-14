@@ -1657,11 +1657,11 @@ namespace Common.Libraries.Utility.Shared
         }*/
         #endregion
 
-        public static bool SendASCIIStringToPrinter(string ipAddress, uint port, string data, out string returnString)
+        public static bool SendASCIIStringToPrinter(string ipAddress, uint port, string data, out string returnString, bool pause = false)
         {
             if (FileLogger.Instance.IsLogDebug)
             {
-                FileLogger.Instance.logMessage(LogLevel.DEBUG, null, "Printing " + data + "...STARTED");
+                FileLogger.Instance.logMessage(LogLevel.DEBUG, null, "Printing [" + ipAddress+ ":" + port.ToString() + "] " + data + "...STARTED");
             }
 
             try
@@ -1678,6 +1678,13 @@ namespace Common.Libraries.Utility.Shared
                     buffer = binaryReader.ReadBytes(inLength);
                     binaryWriter.Write(buffer);
                     binaryWriter.Flush();
+ 
+                    if (pause)
+                    {
+                        // Pause so we don't overload the printer
+                        System.Threading.Thread.Sleep(1000);
+                    }
+
                     binaryWriter.Close();
                     binaryReader.Close();
                     networkStream.Dispose();
@@ -1694,11 +1701,22 @@ namespace Common.Libraries.Utility.Shared
             {
                 returnString = "Printer Socket Error: IP is " + ipAddress + " PORT is " +
                                port + System.Environment.NewLine + "Exception: " + ex;
+
+                if (FileLogger.Instance.IsLogDebug)
+                {
+                    FileLogger.Instance.logMessage(LogLevel.DEBUG, null, returnString);
+                }
+
                 return (false);
             }
             catch (System.Exception ep)
             {
                 returnString = "Printer Socket Error: " + ep;
+
+                if (FileLogger.Instance.IsLogDebug)
+                {
+                    FileLogger.Instance.logMessage(LogLevel.DEBUG, null, returnString);
+                }
                 return (false);
             }
 

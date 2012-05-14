@@ -63,7 +63,7 @@ namespace Support.Forms.UserControls
                 BasicExceptionHandler.Instance.AddException("Could not retrieve Titles data ", Ex);
             }
 
-            base.OnLoad(e);
+            //base.OnLoad(e);
         }
 
 

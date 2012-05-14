@@ -45,26 +45,16 @@ namespace Pawn.Forms.Pawn.Customer.Holds
             this.buttonNext = new System.Windows.Forms.Button();
             this.buttonLast = new System.Windows.Forms.Button();
             this.labelPageNo = new System.Windows.Forms.Label();
-            this.customButtonDeselectAll = new CustomButton();
-            this.customDataGridViewMDSE = new CustomDataGridView();
+            this.customButtonDeselectAll = new Common.Libraries.Forms.Components.CustomButton();
+            this.customDataGridViewMDSE = new Common.Libraries.Forms.Components.CustomDataGridView();
             this.description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.icn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mdsestatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mdseamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customDataGridViewTransactions = new CustomDataGridView();
-            this.mdse = new System.Windows.Forms.DataGridViewImageColumn();
-            this.select = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.trandate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tranType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.trannumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pfistate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.origtktnumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.prevtktno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.customButtonContinue = new CustomButton();
-            this.customButtonPickSlipPrint = new CustomButton();
-            this.customButtonCancel = new CustomButton();
+            this.customDataGridViewTransactions = new Common.Libraries.Forms.Components.CustomDataGridView();
+            this.customButtonContinue = new Common.Libraries.Forms.Components.CustomButton();
+            this.customButtonPickSlipPrint = new Common.Libraries.Forms.Components.CustomButton();
+            this.customButtonCancel = new Common.Libraries.Forms.Components.CustomButton();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,6 +67,16 @@ namespace Pawn.Forms.Pawn.Customer.Holds
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mdse = new System.Windows.Forms.DataGridViewImageColumn();
+            this.select = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.trandate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tranType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.trannumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pfistate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.origtktnumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prevtktno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.customDataGridViewMDSE)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.customDataGridViewTransactions)).BeginInit();
             this.SuspendLayout();
@@ -255,7 +255,7 @@ namespace Pawn.Forms.Pawn.Customer.Holds
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(51, 153, 255);
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.customDataGridViewMDSE.DefaultCellStyle = dataGridViewCellStyle2;
@@ -337,7 +337,7 @@ namespace Pawn.Forms.Pawn.Customer.Holds
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(51, 153, 255);
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.customDataGridViewTransactions.DefaultCellStyle = dataGridViewCellStyle5;
@@ -357,75 +357,12 @@ namespace Pawn.Forms.Pawn.Customer.Holds
             this.customDataGridViewTransactions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.customDataGridViewTransactions.Size = new System.Drawing.Size(627, 177);
             this.customDataGridViewTransactions.TabIndex = 1;
-            this.customDataGridViewTransactions.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTransactions_CellValueChanged);
-            this.customDataGridViewTransactions.Sorted += new System.EventHandler(this.customDataGridViewTransactions_Sorted);
+            this.customDataGridViewTransactions.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTransactions_CellClick);
             this.customDataGridViewTransactions.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridViewTransactions_CellFormatting);
             this.customDataGridViewTransactions.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridViewTransactions_CellPainting);
-            this.customDataGridViewTransactions.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTransactions_CellClick);
+            this.customDataGridViewTransactions.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTransactions_CellValueChanged);
             this.customDataGridViewTransactions.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridViewTransactions_CurrentCellDirtyStateChanged);
-            // 
-            // mdse
-            // 
-            this.mdse.HeaderText = "";
-            this.mdse.Image = global::Common.Properties.Resources.plus_icon_small;
-            this.mdse.Name = "mdse";
-            this.mdse.Width = 20;
-            // 
-            // select
-            // 
-            this.select.FalseValue = "false";
-            this.select.HeaderText = "Select";
-            this.select.Name = "select";
-            this.select.TrueValue = "true";
-            this.select.Width = 50;
-            // 
-            // trandate
-            // 
-            this.trandate.HeaderText = "Tran. Date";
-            this.trandate.Name = "trandate";
-            // 
-            // tranType
-            // 
-            this.tranType.HeaderText = "Tran. Type";
-            this.tranType.Name = "tranType";
-            // 
-            // trannumber
-            // 
-            this.trannumber.HeaderText = "Tran. Number";
-            this.trannumber.Name = "trannumber";
-            // 
-            // status
-            // 
-            this.status.HeaderText = "Status";
-            this.status.Name = "status";
-            // 
-            // pfistate
-            // 
-            this.pfistate.HeaderText = "pfistate";
-            this.pfistate.Name = "pfistate";
-            this.pfistate.ReadOnly = true;
-            this.pfistate.Visible = false;
-            this.pfistate.Width = 20;
-            // 
-            // amount
-            // 
-            this.amount.HeaderText = "Amount";
-            this.amount.Name = "amount";
-            this.amount.ReadOnly = true;
-            // 
-            // origtktnumber
-            // 
-            this.origtktnumber.HeaderText = "Original Loan";
-            this.origtktnumber.Name = "origtktnumber";
-            this.origtktnumber.ReadOnly = true;
-            this.origtktnumber.Visible = false;
-            // 
-            // prevtktno
-            // 
-            this.prevtktno.HeaderText = "prevloanno";
-            this.prevtktno.Name = "prevtktno";
-            this.prevtktno.ReadOnly = true;
-            this.prevtktno.Visible = false;
+            this.customDataGridViewTransactions.Sorted += new System.EventHandler(this.customDataGridViewTransactions_Sorted);
             // 
             // customButtonContinue
             // 
@@ -478,7 +415,7 @@ namespace Pawn.Forms.Pawn.Customer.Holds
             // customButtonCancel
             // 
             this.customButtonCancel.BackColor = System.Drawing.Color.Transparent;
-            this.customButtonCancel.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.customButtonCancel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("customButtonCancel.BackgroundImage")));
             this.customButtonCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.customButtonCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.customButtonCancel.FlatAppearance.BorderColor = System.Drawing.Color.White;
@@ -584,11 +521,75 @@ namespace Pawn.Forms.Pawn.Customer.Holds
             this.dataGridViewTextBoxColumn12.ReadOnly = true;
             this.dataGridViewTextBoxColumn12.Width = 70;
             // 
+            // mdse
+            // 
+            this.mdse.HeaderText = global::Pawn.Properties.Resources.OverrideMachineName;
+            this.mdse.Image = ((System.Drawing.Image)(resources.GetObject("mdse.Image")));
+            this.mdse.Name = "mdse";
+            this.mdse.Width = 20;
+            // 
+            // select
+            // 
+            this.select.FalseValue = "false";
+            this.select.HeaderText = "Select";
+            this.select.Name = "select";
+            this.select.TrueValue = "true";
+            this.select.Width = 50;
+            // 
+            // trandate
+            // 
+            this.trandate.HeaderText = "Tran. Date";
+            this.trandate.Name = "trandate";
+            // 
+            // tranType
+            // 
+            this.tranType.HeaderText = "Tran. Type";
+            this.tranType.Name = "tranType";
+            // 
+            // trannumber
+            // 
+            this.trannumber.HeaderText = "Tran. Number";
+            this.trannumber.Name = "trannumber";
+            // 
+            // status
+            // 
+            this.status.HeaderText = "Status";
+            this.status.Name = "status";
+            // 
+            // pfistate
+            // 
+            this.pfistate.HeaderText = "pfistate";
+            this.pfistate.Name = "pfistate";
+            this.pfistate.ReadOnly = true;
+            this.pfistate.Visible = false;
+            this.pfistate.Width = 20;
+            // 
+            // amount
+            // 
+            this.amount.HeaderText = "Amount";
+            this.amount.Name = "amount";
+            this.amount.ReadOnly = true;
+            this.amount.Width = 150;
+            // 
+            // origtktnumber
+            // 
+            this.origtktnumber.HeaderText = "Original Loan";
+            this.origtktnumber.Name = "origtktnumber";
+            this.origtktnumber.ReadOnly = true;
+            this.origtktnumber.Visible = false;
+            // 
+            // prevtktno
+            // 
+            this.prevtktno.HeaderText = "prevloanno";
+            this.prevtktno.Name = "prevtktno";
+            this.prevtktno.ReadOnly = true;
+            this.prevtktno.Visible = false;
+            // 
             // CustomerHoldsList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Common.Properties.Resources.newDialog_400_BlueScale;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(678, 428);
             this.ControlBox = false;
@@ -646,6 +647,12 @@ namespace Pawn.Forms.Pawn.Customer.Holds
         private CustomButton customButtonPickSlipPrint;
         private CustomButton customButtonContinue;
         private CustomDataGridView customDataGridViewTransactions;
+        private CustomDataGridView customDataGridViewMDSE;
+        private System.Windows.Forms.DataGridViewTextBoxColumn description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn icn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mdsestatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mdseamt;
+        private CustomButton customButtonDeselectAll;
         private System.Windows.Forms.DataGridViewImageColumn mdse;
         private System.Windows.Forms.DataGridViewCheckBoxColumn select;
         private System.Windows.Forms.DataGridViewTextBoxColumn trandate;
@@ -656,11 +663,5 @@ namespace Pawn.Forms.Pawn.Customer.Holds
         private System.Windows.Forms.DataGridViewTextBoxColumn amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn origtktnumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn prevtktno;
-        private CustomDataGridView customDataGridViewMDSE;
-        private System.Windows.Forms.DataGridViewTextBoxColumn description;
-        private System.Windows.Forms.DataGridViewTextBoxColumn icn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn mdsestatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn mdseamt;
-        private CustomButton customButtonDeselectAll;
     }
 }

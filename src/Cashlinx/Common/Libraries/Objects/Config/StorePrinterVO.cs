@@ -11,10 +11,12 @@ namespace Common.Libraries.Objects.Config
 
         public enum StorePrinterType
         {
-            LASER = 0,
-            RECEIPT = 1,
-            BARCODE = 2,
-            UNKNOWN = 3
+            LASER     = 0,
+            RECEIPT   = 1,
+            BARCODE   = 2,
+            DOTMATRIX = 3, // Unused
+            INDIANAPOLICECARD = 4,
+            UNKNOWN   = 5
         }
 
         public StorePrinterType PrinterType

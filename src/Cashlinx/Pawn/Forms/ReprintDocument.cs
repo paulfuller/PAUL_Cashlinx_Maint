@@ -26,10 +26,14 @@ namespace Pawn.Forms
 
         private bool hasLaserInfo;
         private bool hasReceiptInfo;
+        private bool hasIndianaPoliceCardPrinterInfo;
         private string laserIp;
         private string receiptIp;
+        private string indianaPoliceCardPrinterIp;
         private int laserPort;
         private int receiptPort;
+        private int indianaPoliceCardPrinterPort;
+
         private bool _isLookup = false;
 
         private DocumentHelper documentHelper;
@@ -124,6 +128,11 @@ namespace Pawn.Forms
             this.hasReceiptInfo = GlobalDataAccessor.Instance.DesktopSession.ReceiptPrinter.IsValid;
             this.receiptIp = GlobalDataAccessor.Instance.DesktopSession.ReceiptPrinter.IPAddress;
             this.receiptPort = GlobalDataAccessor.Instance.DesktopSession.ReceiptPrinter.Port;
+
+            //Get IndianaPoliceCard Printer info
+            this.hasIndianaPoliceCardPrinterInfo = GlobalDataAccessor.Instance.DesktopSession.IndianaPoliceCardPrinter.IsValid;
+            this.indianaPoliceCardPrinterIp = GlobalDataAccessor.Instance.DesktopSession.IndianaPoliceCardPrinter.IPAddress;
+            this.indianaPoliceCardPrinterPort = GlobalDataAccessor.Instance.DesktopSession.IndianaPoliceCardPrinter.Port;
         }
 
         private void viewDocButton_Click(object sender, EventArgs e)
@@ -174,6 +183,17 @@ namespace Pawn.Forms
                 docInfo.ReceiptNumber = ticketNumber;
                 docInfo.SetDocumentSearchType(CouchDbUtils.DocSearchType.RECEIPT);
             }
+            else if (productsList.SelectedValue.ToString() == DocumentHelper.POLICE_CARD)
+            {
+                docInfo.ReceiptNumber = ticketNumber;
+                docInfo.TicketNumber = ticketNumber;
+                docInfo.SetDocumentSearchType(CouchDbUtils.DocSearchType.POLICE_CARD);
+            }
+            else if (productsList.SelectedValue.ToString() == DocumentHelper.RELEASE_FINGERPRINTS)
+            {
+                docInfo.TicketNumber = ticketNumber;
+                docInfo.SetDocumentSearchType(CouchDbUtils.DocSearchType.RELEASE_FINGERPRINTS);
+            }
             else
             {
                 docInfo.TicketNumber = ticketNumber;
@@ -184,7 +204,12 @@ namespace Pawn.Forms
             if (productsList.SelectedValue.Equals(DocumentHelper.CUSTOMER_BUY) ||
                 productsList.SelectedValue.Equals(DocumentHelper.PURCHASE_RETURN))
             {
-                docInfo.AuxInfo = PurchaseDocumentGenerator.PURCHASE_AUXINFOTAG;
+                if(GlobalDataAccessor.Instance.CurrentSiteId.State==States.Indiana)
+                docInfo.AuxInfo = PurchaseDocumentIndiana.PURCHASE_AUXINFOTAG;
+                else
+                {
+                    docInfo.AuxInfo = PurchaseDocumentGenerator.PURCHASE_AUXINFOTAG; 
+                }
             }
             else if (productsList.SelectedValue.Equals(DocumentHelper.PAWN_LOAN))
             {
@@ -209,9 +234,17 @@ namespace Pawn.Forms
                     return false;
                 }
             }
+            else if (productsList.SelectedValue.Equals(DocumentHelper.POLICE_CARD))
+            {
+                this.DocumentType = Document.DocTypeNames.TEXT;
+            }
             else if (productsList.SelectedValue.Equals(DocumentHelper.RECIEPT))
             {
                 this.DocumentType = Document.DocTypeNames.RECEIPT;
+            }
+            else if (productsList.SelectedValue.Equals(DocumentHelper.RELEASE_FINGERPRINTS))
+            {
+                this.DocumentType = Document.DocTypeNames.PDF;
             }
             else
             {
@@ -275,6 +308,8 @@ namespace Pawn.Forms
             }
             else if (doc != null)
             {
+                this.DocumentType = doc.TypeName;
+
                 //Fetch data
                 byte[] fileData;
                 if (!doc.GetSourceData(out fileData))
@@ -333,20 +368,22 @@ namespace Pawn.Forms
                         break;
                     case Document.DocTypeNames.TEXT:
                         //If we do not have the laser printer info, get out
-                        if (!hasLaserInfo)
+                        if (!hasLaserInfo && !hasIndianaPoliceCardPrinterInfo)
                         {
                             pLoadMesg.Close();
                             pLoadMesg.Dispose();
-                            this.ShowErrorMessage("print", "Cannot determine laser printer IP/Port");
+                            this.ShowErrorMessage("print", "Cannot determine printer IP/Port");
                             this.Close();
                             return;
                         }
+
                         //Send raw text data to laser printer
                         var resStrTxt = GenerateDocumentsPrinter.printDocument(
                             fileData,
-                            laserIp,
-                            laserPort,
+                            hasIndianaPoliceCardPrinterInfo ? indianaPoliceCardPrinterIp : laserIp,
+                            hasIndianaPoliceCardPrinterInfo ? indianaPoliceCardPrinterPort : laserPort,
                             1);
+
                         if (!string.IsNullOrEmpty(resStrTxt) && resStrTxt.Contains("SUCCESS"))
                         {
                             printSuccess = true;
@@ -399,6 +436,16 @@ namespace Pawn.Forms
         {
             if (productTypeList1.ComboBox.SelectedValue.ToString() != DocumentHelper.REPRINT_TAGS)
             {
+                //Release fingerprints are looked up by an authorization number
+                if(productTypeList1.ComboBox.SelectedValue.ToString() == DocumentHelper.RELEASE_FINGERPRINTS)
+                {
+                    lblTicket.Text = "Authorization Number:";
+                }
+                else
+                {
+                    lblTicket.Text = "Ticket Number:";
+                }
+
                 txtTicketNumber.Visible = true;
                 lblTicket.Visible = true;
                 printDocButton.Text = "Print";

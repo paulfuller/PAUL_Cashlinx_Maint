@@ -13,11 +13,12 @@ namespace Support.Flows.AppController.Impl
 {
     public class MainFlowExecutor : MainFlowExecutorBase
     {
+        #region OBSOLETE
+        /*
         public const string NEWPAWNLOAN = "newpawnloan";
         public const string SHOPCASHMGMT = "shopcashmanagement";
         public const string LOOKUPTICKET = "lookupticket";
         //public const string LOOKUPCUSTOMER = "lookupcustomer";
-        public const string LOOKUPCUSTOMER = "custmaint";
         public const string LOOKUPVENDOR = "lookupvendor";
         public const string LOOKUPRECEIPT = "lookupreceipt";
         public const string CUSTOMERHOLD = "customerhold";
@@ -28,7 +29,6 @@ namespace Support.Flows.AppController.Impl
         public const string MMPI = "mmpi";
         public const string PFIVERIFY = "pfiverify";
         public const string POLICESEIZE = "policeseize";
-        public const string PAWNCUSTINFO = "pawncustinformation";
         public const string SECURITY = "security";
         public const string CUSTOMERPURCHASE = "customerpurchase";
         public const string VENDORPURCHASE = "vendorpurchase";
@@ -39,38 +39,56 @@ namespace Support.Flows.AppController.Impl
         public const string RETAILRETURN = "retailreturn";
         public const string LAYAWAYRETURN = "layawayreturn";
         public const string GUNBOOKEDIT = "gunbookedit";
+        */
+        #endregion
+
+        public const string PAWNCUSTINFO = "pawncustinformation";
+        public const string LOOKUPCUSTOMER = "custmaint";
+        public const string CUSTOMERPRODUCTS = "Controller_ProductServices";
+        private LookupCustomerFlowExecutor lookupCustFlowExecutor;
+        private PawnCustInformationFlowExecutor pawnCustInfoFlowExecutor;
+
+        public MainFlowExecutor() : base(GlobalDataAccessor.Instance.DesktopSession)
+        //public MainFlowExecutor(): base(CashlinxPawnSupportSession.Instance)
+        {
+            //this.newPawnLoanFlowExecutor = null;
+            this.lookupCustFlowExecutor = null;
+            this.setExecBlock(executorFxn);
+            this.endStateNotifier = null;
+        }
+        #region OBSOLETE        
         //Madhu Feb 17th
         //private NewPawnLoanFlowExecutor newPawnLoanFlowExecutor;
         //private LookupTicketFlowExecutor lookupTktFlowExecutor;
         //private ShopCashManagementFlowExecutor shopCashManagementFlowExecutor;
-        private LookupCustomerFlowExecutor lookupCustFlowExecutor;
-        private PawnCustInformationFlowExecutor pawnCustInfoFlowExecutor;
-/*        private VendorPurchaseFlowExecutor lookupVendFlowExecutor;
-        private LookupReceiptFlowExecutor lookupReceiptFlowExecutor;
-        private CustomerHoldFlowExecutor customerHoldFlowExecutor;
-        private CustomerHoldReleaseFlowExecutor customerHoldReleaseFlowExecutor;
-        private PoliceHoldFlowExecutor policeHoldFlowExecutor;
-        private PoliceHoldReleaseFlowExecutor policeHoldReleaseFlowExecutor;
-        private MMPIFlowExecutor mmpiFlowExecutor;
-        private ServicePawnLoanFlowExecutor servicePawnLoanFlowExecutor;
-        private PFIVerifyFlowExecutor pfiverifyFlowExecutor;
-        private PoliceSeizeFlowExecutor policeSeizeFlowExecutor;
-        private SecurityFlowExecutor securityFlowExecutor;
-        private CustomerPurchaseFlowExecutor customerPurchaseFlowExecutor;
-        private SaleFlowExecutor saleFlowExecutor;
-        private ChangeRetailPriceFlowExecutor changeRetailPriceFlowExecutor;
-        private TransferInFlowExecutor transferInFlowExecutor;
-        private PurchaseReturnFlowExecutor purchaseReturnFlowExecutor;
-        private RetailReturnFlowExecutor retailReturnFlowExecutor;
-        private LayawayReturnFlowExecutor layawayReturnFlowExecutor;
-        private GunBookEditFlowExecutor gunBookFlowExecutor; */
+        //private VendorPurchaseFlowExecutor lookupVendFlowExecutor;
+        //private LookupReceiptFlowExecutor lookupReceiptFlowExecutor;
+        //private CustomerHoldFlowExecutor customerHoldFlowExecutor;
+        //private CustomerHoldReleaseFlowExecutor customerHoldReleaseFlowExecutor;
+        //private PoliceHoldFlowExecutor policeHoldFlowExecutor;
+        //private PoliceHoldReleaseFlowExecutor policeHoldReleaseFlowExecutor;
+        //private MMPIFlowExecutor mmpiFlowExecutor;
+        //private ServicePawnLoanFlowExecutor servicePawnLoanFlowExecutor;
+        //private PFIVerifyFlowExecutor pfiverifyFlowExecutor;
+        //private PoliceSeizeFlowExecutor policeSeizeFlowExecutor;
+        //private SecurityFlowExecutor securityFlowExecutor;
+        //private CustomerPurchaseFlowExecutor customerPurchaseFlowExecutor;
+        //private SaleFlowExecutor saleFlowExecutor;
+        //private ChangeRetailPriceFlowExecutor changeRetailPriceFlowExecutor;
+        //private TransferInFlowExecutor transferInFlowExecutor;
+        //private PurchaseReturnFlowExecutor purchaseReturnFlowExecutor;
+        //private RetailReturnFlowExecutor retailReturnFlowExecutor;
+        //private LayawayReturnFlowExecutor layawayReturnFlowExecutor;
+        //private GunBookEditFlowExecutor gunBookFlowExecutor; 
+        #endregion
 
         private FxnBlock endStateNotifier;
+        /*__________________________________________________________________________________________*/
         public void setEndStateNotifier(FxnBlock fB)
         {
             this.endStateNotifier = fB;
         }
-
+        /*__________________________________________________________________________________________*/
         protected override object executorFxn(object inputData)
         {
             if (inputData == null || (!(inputData is string)))
@@ -79,6 +97,21 @@ namespace Support.Flows.AppController.Impl
             }
 
             string menuTrigger = (string)inputData;
+            if (menuTrigger.Equals(PAWNCUSTINFO, StringComparison.OrdinalIgnoreCase))
+            {
+                this.pawnCustInfoFlowExecutor = new PawnCustInformationFlowExecutor(this.ParentForm, this.endStateNotifier, this.ParentFlowExecutor);
+            }
+            else if (menuTrigger.Equals(LOOKUPCUSTOMER, StringComparison.OrdinalIgnoreCase))
+            {
+                //this.lookupCustFlowExecutor = new LookupCustomerFlowExecutor(this.ParentForm, this.endStateNotifier);
+                this.lookupCustFlowExecutor = new LookupCustomerFlowExecutor(this.ParentForm, base.EndStateNotifier);
+            }
+            else if (menuTrigger.Equals(CUSTOMERPRODUCTS,StringComparison.OrdinalIgnoreCase))
+            {
+                this.pawnCustInfoFlowExecutor = new PawnCustInformationFlowExecutor(this.ParentForm, this.endStateNotifier, this.ParentFlowExecutor);
+            }
+            return (null);
+            #region OBSOLETE
             //Madhu Feb 17th
             /*if (menuTrigger.Equals(NEWPAWNLOAN, StringComparison.OrdinalIgnoreCase))
             {
@@ -86,11 +119,11 @@ namespace Support.Flows.AppController.Impl
                 this.newPawnLoanFlowExecutor =
                 new NewPawnLoanFlowExecutor(this.ParentForm, this.endStateNotifier);
             }
-            else */if (menuTrigger.Equals(PAWNCUSTINFO, StringComparison.OrdinalIgnoreCase))
+            elseif (menuTrigger.Equals(PAWNCUSTINFO, StringComparison.OrdinalIgnoreCase))
             {
                 this.pawnCustInfoFlowExecutor = new PawnCustInformationFlowExecutor(this.ParentForm, this.endStateNotifier, this.ParentFlowExecutor);
             }
-            /*else if (menuTrigger.Equals(SHOPCASHMGMT, StringComparison.OrdinalIgnoreCase))
+            else if (menuTrigger.Equals(SHOPCASHMGMT, StringComparison.OrdinalIgnoreCase))
             {
                 //Orchestrate shop cash management flow
                 this.shopCashManagementFlowExecutor = new ShopCashManagementFlowExecutor(
@@ -101,14 +134,14 @@ namespace Support.Flows.AppController.Impl
                 this.lookupTktFlowExecutor = new LookupTicketFlowExecutor(this.ParentForm,
                                                                           this.endStateNotifier);
             }
-            else */
+            //else 
             else if (menuTrigger.Equals(LOOKUPCUSTOMER, StringComparison.OrdinalIgnoreCase))
             {
                 //this.lookupCustFlowExecutor = new LookupCustomerFlowExecutor(this.ParentForm, this.endStateNotifier);
                 this.lookupCustFlowExecutor = new LookupCustomerFlowExecutor( this.ParentForm, base.EndStateNotifier );
             }
             //Madhu Feb 17th
-                /*
+                
             else if (menuTrigger.Equals(VENDORPURCHASE, StringComparison.OrdinalIgnoreCase))
             {
                 this.lookupVendFlowExecutor = new VendorPurchaseFlowExecutor(this.ParentForm, this.endStateNotifier);
@@ -175,18 +208,10 @@ namespace Support.Flows.AppController.Impl
                 this.layawayReturnFlowExecutor = new LayawayReturnFlowExecutor(this.ParentForm, this.endStateNotifier);
             else if (menuTrigger.Equals(GUNBOOKEDIT,StringComparison.OrdinalIgnoreCase))
                 this.gunBookFlowExecutor = new GunBookEditFlowExecutor(this.ParentForm, this.endStateNotifier);
-            */
+            
             return (null);
-        }
-
-        public MainFlowExecutor(): base(GlobalDataAccessor.Instance.DesktopSession)
-        //public MainFlowExecutor(): base(CashlinxPawnSupportSession.Instance)
-        {
-        
-            //this.newPawnLoanFlowExecutor = null;
-            this.lookupCustFlowExecutor = null;
-            this.setExecBlock(executorFxn);
-            this.endStateNotifier = null;
+            */
+            #endregion
         }
     }
 }

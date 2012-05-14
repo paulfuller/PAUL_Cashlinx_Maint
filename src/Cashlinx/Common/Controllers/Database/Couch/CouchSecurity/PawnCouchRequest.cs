@@ -39,6 +39,12 @@ namespace Common.Controllers.Database.Couch.CouchSecurity
 			return this;
 		}
 
+        public PawnCouchRequest Head()
+        {
+            request.Method = "HEAD";
+            return this;
+        }
+
         public PawnCouchRequest Get()
 		{
 			request.Method = "GET";

@@ -11,11 +11,13 @@ namespace PawnTests.TestEnvironment
             Store00152 = LoadStore("Store_00152.xml");
             Store00604 = LoadStore("Store_00604.xml");
             Store00901 = LoadStore("Store_00901.xml");
+            Store01401 = LoadStore("Store_01401.xml");
         }
 
         public static SiteId Store00152 { get; private set; }
         public static SiteId Store00604 { get; private set; }
         public static SiteId Store00901 { get; private set; }
+        public static SiteId Store01401 { get; private set; }
 
         private static SiteId LoadStore(string xmlFile)
         {

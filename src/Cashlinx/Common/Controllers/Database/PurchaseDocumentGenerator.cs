@@ -1081,8 +1081,15 @@ namespace Common.Controllers.Database
                 string errTxt;
                 if (!CouchDbUtils.AddPawnDocument(dA, couchConn, dSession.UserName, metaDictionary, PURCHASE_AUXINFOTAG, ref pwnDocInfo, out errTxt))
                 {
-                    throw new Exception("Could not store document " + customPdfHandler.buyRptStore.BuyReportTitle +
-                                        ", add pawn document failed. " + errTxt ?? string.Empty);
+                    //throw new Exception("Could not store document " + customPdfHandler.buyRptStore.BuyReportTitle +
+                    //                    ", add pawn document failed. " + errTxt ?? string.Empty);
+
+                    if (FileLogger.Instance.IsLogError)
+                    {
+                        FileLogger.Instance.logMessage(LogLevel.ERROR,
+                                                        "Could not store document " + customPdfHandler.buyRptStore.BuyReportTitle +
+                                                        ", add pawn document failed. ", errTxt);
+                    }
                 }
 
                 return (true);

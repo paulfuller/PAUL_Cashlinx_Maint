@@ -1,14 +1,4 @@
-﻿/********************************************************************
-* CashlinxDesktop
-* UpdateCustomerDetails
-* This form is shown when a user's personal information like name, date of birth
- * social security number need to be updated
-* Sreelatha Rengarajan 5/14/2009 Initial version
- * Sreelatha Rengarajan 7/17/2009   Added logic for checking if sp call 
- *                                  failed because of ssn duplicate
-*******************************************************************/
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Data;
 using System.Drawing;
@@ -16,7 +6,7 @@ using System.Windows.Forms;
 using Common.Controllers.Application;
 using Common.Controllers.Application.ApplicationFlow.Navigation;
 using Common.Controllers.Database.Procedures;
-using Common.Libraries.Objects.Customer;
+using Common.Libraries.Objects.Customer; 
 using Common.Libraries.Utility.Shared;
 using Support.Forms.Pawn.Customer;
 using Support.Libraries.Objects.Customer;
@@ -228,6 +218,8 @@ namespace Support.Forms.Customer
 
             if (!string.IsNullOrEmpty(_custToEdit.PlanBankruptcyProtection) && _custToEdit.PlanBankruptcyProtection.Equals("Y"))
                 this.BankruptcyProtectionradioButton1.Checked = true;
+            else
+                this.BankruptcyProtectionradioButton2.Checked = true;
         }
 
         /*__________________________________________________________________________________________*/
@@ -339,6 +331,75 @@ namespace Support.Forms.Customer
             checkDateOfBirth();
 
         }
+        private void txtBoxMonthlyRent_Leave(object sender, EventArgs e)
+        {
+            
+            string monthlyRent = checkNull(this.txtBoxMonthlyRent.Text);
+            if (!monthlyRent.Equals(string.Empty))
+            {
+                int Num;
+                bool isNum = int.TryParse(monthlyRent, out Num);
+                if (!isNum)
+                {
+                    MessageBox.Show("Invalid Month Rent.");
+                    this.txtBoxMonthlyRent.Text = string.Empty;
+                    this.txtBoxMonthlyRent.Focus();
+                }
+            }
+        }
+        
+        private void custHLAMonths_Leave(object sender, EventArgs e)
+        {
+            string months = checkNull(this.txtBoxHLAAMonths.Text);
+
+            if (!months.Equals(string.Empty))
+            {
+                try
+                {
+                    int monthCnt = Convert.ToInt32(months);
+                    if (monthCnt > 12)
+                    {
+                        MessageBox.Show("Invalid Month");
+                        this.txtBoxHLAAMonths.Focus();
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Invalid Month");
+                    this.txtBoxHLAAMonths.Focus();
+
+                }
+            }
+        }
+
+        private void BankruptcyProtectionradioButton1_Click(object sender, EventArgs e)
+        {
+            this.BankruptcyProtectionradioButton2.Checked = false;
+        }
+
+        private void BankruptcyProtectionradioButton2_Click(object sender, EventArgs e)
+        {
+            this.BankruptcyProtectionradioButton1.Checked = false;
+        }
+
+        private void custHLAMYears_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                string years = checkNull(this.txtBoxHLAAYears.Text);
+                if (!years.Equals(string.Empty))
+                {
+                    Convert.ToInt32(years);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Invalid Year");
+                this.txtBoxHLAAYears.Focus();
+
+            }
+        }
+
         private void LastVerDate_Leave(object sender, EventArgs e)
         {
             //string date = this.txtBoxLastVerDate.Controls[0].Text.Trim().ToString();
@@ -367,20 +428,34 @@ namespace Support.Forms.Customer
         {
             string birthdate = this.custDateOfBirth.Controls[0].Text.Trim().ToString();
             custDateOfBirth.isValid = true;
-            /*
+
             _dobNotEntered = birthdate.Equals("mm/dd/yyyy");
             
             if (!_dobNotEntered && birthdate.Length > 0)
             {
                 try
                 {
+                    DateTime userDate = Convert.ToDateTime(birthdate);
+                    DateTime currentDate = DateTime.Now;
 
-                    _age = Commons.getAge(birthdate, ShopDateTime.Instance.ShopDate);
-                    int validAge = CustomerProcedures.getPawnBRCustomerLegalAge(GlobalDataAccessor.Instance.DesktopSession);
+                    if(userDate > currentDate)
+                    {
+                        MessageBox.Show(Commons.GetMessageString("InvalidDateOfBirth"));
+                        this.labelDOB.ForeColor = Color.Red;
+                        custDateOfBirth.isValid = false;
+                    }
+                    else
+                    {
+                        this.labelDOB.ForeColor = Color.Black;
+                    }
+
+                    //_age = Commons.getAge(birthdate, ShopDateTime.Instance.ShopDate);
+                    //int validAge = CustomerProcedures.getPawnBRCustomerLegalAge(Support.Logic.CashlinxPawnSupportSession.Instance);
                     //if we are here and do not have a value for validAge, the call to get it
                     //from business rule engine failed. Hence assign the default value.
-                    if (validAge == 0)
-                        validAge = CustomerValidAge.PAWNCUSTLEGALAGE;
+                    //if (validAge == 0)
+
+                    /*int validAge = CustomerValidAge.PAWNCUSTLEGALAGE;
                     if (_age < validAge)
                     {
                         if (_age <= 0)
@@ -399,7 +474,7 @@ namespace Support.Forms.Customer
                         this.labelDOB.ForeColor = Color.Black;
 
 
-                    }
+                    }*/
 
 
                 }
@@ -410,7 +485,6 @@ namespace Support.Forms.Customer
                 }
             }
 
-            */
         }
         /*__________________________________________________________________________________________*/
         private bool doNameCheck()
@@ -491,6 +565,10 @@ namespace Support.Forms.Customer
 
             oldValue = checkNull(customerCurrentValues.MilitaryStationedLocal);
             if (oldValue != _military_stationed_local)
+                otherCustDataChanged = true;
+
+            oldValue = (customerCurrentValues.MonthlyRent).ToString();
+            if (oldValue != _monthly_rent)
                 otherCustDataChanged = true;
 
             return _nameChanged || _dobChanged || _ssnChanged || otherCustDataChanged;
@@ -696,9 +774,22 @@ namespace Support.Forms.Customer
                                     updatedCustomer.SpanishForm = _spanish_form;
                                     updatedCustomer.PRBC = _prbc;
                                     updatedCustomer.PlanBankruptcyProtection = _planbankruptcy_protection;
-                                    updatedCustomer.MonthlyRent = Convert.ToInt32(_monthly_rent);
                                     */
-
+                                    string monthlyRent = checkNull(_monthly_rent);
+                                    if (!monthlyRent.Equals(string.Empty))
+                                        updatedCustomer.MonthlyRent = Convert.ToInt32(_monthly_rent);
+                                    else
+                                        updatedCustomer.MonthlyRent = 0;
+                                    //double Num;
+                                    //bool isNum = double.TryParse(_monthly_rent, out Num);
+                                    //if (isNum)
+                                    //{
+                                    //    updatedCustomer.MonthlyRent = Convert.ToDouble(_monthly_rent);
+                                    //}
+                                    //else
+                                    //{
+                                    //    updatedCustomer.MonthlyRent = 0;
+                                    //}
                                     updatedCustomer.Age = _age != 0 ? _age : _custToEdit.Age;
                                     /*Form ownerForm = this.Owner;
                                     if (ownerForm.GetType() == typeof(ViewCustomerInformation))

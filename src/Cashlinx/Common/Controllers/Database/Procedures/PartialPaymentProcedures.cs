@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Common.Libraries.Objects.Pawn;
+using Common.Libraries.Utility.Shared;
 
 namespace Common.Controllers.Database.Procedures
 {
@@ -99,6 +101,73 @@ namespace Common.Controllers.Database.Procedures
             loanStartDateMonth = first_cycle_end;
             return loanMonth;
 
+        }
+
+
+        public static void GetExtensionAmountSplit(PawnLoan pawnLoan, out decimal refundAmt,out int extensionsPaid, out decimal extensionInterestAmount, out decimal extensionServiceAmount)
+        {
+            extensionInterestAmount = 0;
+            extensionServiceAmount = 0;
+            refundAmt = 0;
+            extensionsPaid = 0;
+            decimal originalInterestAmount = (from f in pawnLoan.Fees
+                                      where (f.FeeType == FeeTypes.INTEREST
+                                      && f.FeeRefType==FeeRefTypes.PAWN)
+                                      select f.Value).Sum();
+            decimal originalServiceAmount = (from f in pawnLoan.Fees
+                                     where (f.FeeType == FeeTypes.STORAGE || f.FeeType == FeeTypes.SERVICE)
+                                     && f.FeeRefType == FeeRefTypes.PAWN
+                                     select f.Value).Sum();
+            if (pawnLoan.IsExtended && pawnLoan.PartialPaymentPaid)
+            {
+                var extnReceipts = (from r in pawnLoan.Receipts
+                                    where r.Event == ReceiptEventTypes.Extend.ToString()
+                                          && r.RefTime > pawnLoan.LastPartialPaymentDate
+                                    select r).Except(from r in pawnLoan.Receipts
+                                                     where r.Event == ReceiptEventTypes.VEX.ToString()
+                                                           && r.RefTime > pawnLoan.LastPartialPaymentDate
+                                                     select r);
+
+                refundAmt = (from rcpt in extnReceipts select rcpt.Amount).Sum();
+                extensionsPaid = extnReceipts.Count();
+                decimal lastInterestAmount = (from ppmt in pawnLoan.PartialPayments
+                                              where ppmt.Time_Made == pawnLoan.LastPartialPaymentDate
+                                              select ppmt.CUR_FIN_CHG).FirstOrDefault();
+                decimal lastServiceAmount = (from ppmt in pawnLoan.PartialPayments
+                                             where ppmt.Time_Made == pawnLoan.LastPartialPaymentDate
+                                             select ppmt.Cur_Srv_Chg).FirstOrDefault();
+                foreach (Receipt rp in extnReceipts)
+                {
+                    decimal interestValue = (lastInterestAmount / (lastInterestAmount + lastServiceAmount)) * rp.Amount;
+                    decimal serviceValue = (lastServiceAmount / (lastInterestAmount + lastServiceAmount)) * rp.Amount;
+                    extensionInterestAmount += interestValue;
+                    extensionServiceAmount += serviceValue;
+
+                }
+
+
+            }
+            else if (pawnLoan.IsExtended)
+            {
+                var extnReceipts = (from r in pawnLoan.Receipts
+                                    where r.Event == ReceiptEventTypes.Extend.ToString()
+                                    select r).Except(from r in pawnLoan.Receipts
+                                                     where r.Event == ReceiptEventTypes.VEX.ToString()
+                                                     select r);
+                refundAmt = pawnLoan.ExtensionAmount;
+                extensionsPaid = extnReceipts.Count();
+                foreach (Receipt rp in extnReceipts)
+                {
+                    decimal interestValue = (originalInterestAmount / (originalInterestAmount + originalServiceAmount)) * rp.Amount;
+                    decimal serviceValue = (originalServiceAmount / (originalInterestAmount + originalServiceAmount)) * rp.Amount;
+                    extensionInterestAmount += interestValue;
+                    extensionServiceAmount += serviceValue;
+
+                }
+
+
+            }
+           
         }
 
 

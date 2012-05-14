@@ -428,6 +428,7 @@ namespace Pawn.Logic
             this.LaserPrinter = new StorePrinterVO(StorePrinterVO.StorePrinterType.LASER, string.Empty, 0);
             this.ReceiptPrinter = new StorePrinterVO(StorePrinterVO.StorePrinterType.RECEIPT, string.Empty, 0);
             this.BarcodePrinter = new StorePrinterVO(StorePrinterVO.StorePrinterType.BARCODE, string.Empty, 0);
+            this.IndianaPoliceCardPrinter = new StorePrinterVO(StorePrinterVO.StorePrinterType.INDIANAPOLICECARD, string.Empty, 0);
         }
 
         /// <summary>
@@ -699,6 +700,7 @@ namespace Pawn.Logic
                 GetIntermecPrinter();
                 GetLaserPrinter();
                 GetPDALaserPrinter();
+                GetIndianaPoliceCardPrinter();
                 //LoadBarcodeFormats();
                 procMsgFormPwd.Message = "* LOADING APPLICATION DATA *";
                 GetPawnBusinessRules();
@@ -1625,11 +1627,6 @@ namespace Pawn.Logic
                             checkPassed = false;
                             return;
                         }
-                        string workstationID = SecurityAccessor.Instance.EncryptConfig.ClientConfig.ClientConfiguration.WorkstationId;
-                        //Insert an event record
-                        retValue = ShopCashProcedures.InsertTellerEvent(StoreSafeID, workstationID, instance.HistorySession.TriggerName, out errorCode, out errorMesg);
-                        if (!retValue)
-                            FileLogger.Instance.logMessage(LogLevel.DEBUG, this, "Teller Event could not be inserted");
 
                     }
                     else
@@ -1651,6 +1648,7 @@ namespace Pawn.Logic
                             retValue = ShopCashProcedures.InsertTellerEvent(StoreSafeID, workstationID, instance.HistorySession.TriggerName, out errorCode, out errorMesg);
                             if (!retValue)
                                 FileLogger.Instance.logMessage(LogLevel.DEBUG, this, "Teller Event could not be inserted");
+                            
                         }
 
 
@@ -1726,6 +1724,15 @@ namespace Pawn.Logic
             else
             {
                 openCashDrawers = false;
+                if (instance.HistorySession.TriggerName.ToUpper().Equals("BALANCESAFE"))
+                {
+                    string workstationID = SecurityAccessor.Instance.EncryptConfig.ClientConfig.ClientConfiguration.WorkstationId;
+                    //Insert an event record
+                    retValue = ShopCashProcedures.InsertTellerEvent(StoreSafeID, workstationID, instance.HistorySession.TriggerName, out errorCode, out errorMesg);
+                    if (!retValue)
+                        FileLogger.Instance.logMessage(LogLevel.DEBUG, this, "Teller Event could not be inserted");
+                }
+
             }
 
         }
@@ -3176,6 +3183,87 @@ namespace Pawn.Logic
                 {
                     FileLogger.Instance.logMessage(LogLevel.WARN, this,
                                                    "There is no PDA laser printer configured for Cashlinx Pawn application");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get default laser printer for this client
+        /// </summary>
+        private void GetIndianaPoliceCardPrinter()
+        {
+            string storeNumber = GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber;
+            const string formName = "IndianaPoliceCardPrinter";
+
+            string terminalId = GlobalDataAccessor.Instance.CurrentSiteId.TerminalId;
+
+            //Set default value
+            DataTable docinfo;
+            DataTable printerinfo;
+            DataTable ipportinfo;
+
+            string errorCode;
+            string errorMessage;
+
+            // Setup input params
+            var inParams = new List<OracleProcParam>
+            {
+                new OracleProcParam("p_terminalid", terminalId),
+                new OracleProcParam("p_form_name", formName),
+                new OracleProcParam("p_store_number", storeNumber)
+            };
+
+            // Invoke generate documents stored proc
+            var dotmatrixData = GenerateDocumentsProcedures.GenerateDocumentsEssentialInformation(
+                inParams, out docinfo,
+                out printerinfo,
+                out ipportinfo,
+                out errorCode,
+                out errorMessage);
+
+            // Check dot matrix printer data
+            if (dotmatrixData == null || dotmatrixData.Count <= 0 ||
+                !dotmatrixData.ContainsKey("##IPADDRESS01##") ||
+                !dotmatrixData.ContainsKey("##PORTNUMBER01##"))
+            {
+                string errMsg = string.Format("Cannot get dot matrix printer information: {0}:{1}", errorCode, errorMessage);
+                if (FileLogger.Instance.IsLogError)
+                {
+                    FileLogger.Instance.logMessage(LogLevel.ERROR, this, errMsg);
+                }
+                BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
+            }
+            else
+            {
+                var dotmatrixIpObj = dotmatrixData["##IPADDRESS01##"];
+                var dotmatrixPortObj = dotmatrixData["##PORTNUMBER01##"];
+                if (dotmatrixIpObj != null && dotmatrixPortObj != null)
+                {
+                    var dotmatrixIp = Utilities.GetStringValue(dotmatrixIpObj, string.Empty);
+                    var dotmatrixPort = Utilities.GetStringValue(dotmatrixPortObj, string.Empty);
+                    if (!string.IsNullOrEmpty(dotmatrixIp) && !string.IsNullOrEmpty(dotmatrixPort))
+                    {
+                        int pPort;
+                        if (int.TryParse(dotmatrixPort, out pPort))
+                        {
+                            this.IndianaPoliceCardPrinter.SetIPAddressAndPort(dotmatrixIp, pPort);
+                            if (FileLogger.Instance.IsLogDebug)
+                            {
+                                FileLogger.Instance.logMessage(LogLevel.DEBUG, this,
+                                                               "Indiana Dot Matrix printer information retrieved successfully: {0}",
+                                                               this.IndianaPoliceCardPrinter);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!this.IndianaPoliceCardPrinter.IsValid)
+            {
+                if (FileLogger.Instance.IsLogError)
+                {
+                    FileLogger.Instance.logMessage(LogLevel.ERROR, this,
+                                                   "There is no Indiana Dot Matrix printer configured for Cashlinx Pawn application");
                 }
             }
         }

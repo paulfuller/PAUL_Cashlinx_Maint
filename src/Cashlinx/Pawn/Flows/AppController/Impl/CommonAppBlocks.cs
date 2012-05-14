@@ -27,6 +27,7 @@ using Pawn.Forms.Pawn.Services.Ticket;
 using Pawn.Forms.Pawn.ShopAdministration;
 using Pawn.Forms.Pawn.ShopAdministration.Assignments;
 using Pawn.Forms.Pawn.Tender;
+using Pawn.Forms.ReleaseFingerprints;
 using Pawn.Forms.Retail;
 
 namespace Pawn.Flows.AppController.Impl
@@ -165,6 +166,15 @@ namespace Pawn.Flows.AppController.Impl
             }
         }
 
+        private IsGunMerchandiseLookedUp isGunMerchandiseLookedUpBlock;
+        public IsGunMerchandiseLookedUp IsGunMerchandiseLookedUpBlock
+        {
+            get
+            {
+                return (this.isGunMerchandiseLookedUpBlock);
+            }
+        }
+
         private LoadCustomerLoanKeys loadCustomerLoanKeysBlock;
         public LoadCustomerLoanKeys LoadCustomerLoanKeysBlock
         {
@@ -183,6 +193,45 @@ namespace Pawn.Flows.AppController.Impl
 
         }
 
+        /// <summary>
+        /// Create a block to show Lookup loan or buy
+        /// </summary>
+        /// <returns></returns>
+        public ShowForm CreateLookupLoanBuyShowBlock(
+            Form parentForm,
+            NavBox.NavBoxActionFired fxn)
+        {
+            LoanBuyLookup lookupLoanBuyFm = new LoanBuyLookup();
+            ShowForm lookupLoanBuyBlk =
+                this.createShowFormBlock(
+                    (uint)ValidFormBlockTypes.LookupCustBlock,
+                    parentForm,
+                    lookupLoanBuyFm,
+                    lookupLoanBuyFm.NavControlBox,
+                    fxn);
+            return (lookupLoanBuyBlk);
+        }
+
+        /// <summary>
+        /// Create a block to show loan or buy Results
+        /// </summary>
+        /// <returns></returns>
+        public ShowForm CreateReleaseFingerprintsAuthorizationBlock(
+            Form parentForm,
+            NavBox.NavBoxActionFired fxn)
+        {
+            ReleaseFingerprintsAuthorization releaseFingerprintsAuthorizationFm = new ReleaseFingerprintsAuthorization();
+
+            ShowForm lookupLoanBuyBlk =
+                this.createShowFormBlock(
+                    (uint)ValidFormBlockTypes.LookupCustBlock,
+                    parentForm,
+                    releaseFingerprintsAuthorizationFm,
+                    releaseFingerprintsAuthorizationFm.NavControlBox,
+                    fxn);
+
+            return (lookupLoanBuyBlk);
+        }
 
         /// <summary>
         /// Create a block to show LookupCustomer
@@ -1762,6 +1811,7 @@ namespace Pawn.Flows.AppController.Impl
             this.isBuyMerchandiseLookedUpBlock = new IsBuyMerchandiseLookedUp();
             this.isLoanMerchandiseLookedUpBlock = new IsLoanMerchandiseLookedUp();
             this.loadCustomerLoanKeysBlock = new LoadCustomerLoanKeys();
+            this.isGunMerchandiseLookedUpBlock = new IsGunMerchandiseLookedUp();
 
             //Create flow tab controller
             this.flowTabControllerForm = new FlowTabController();

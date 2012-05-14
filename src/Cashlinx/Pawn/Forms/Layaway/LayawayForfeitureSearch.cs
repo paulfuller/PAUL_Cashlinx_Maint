@@ -142,6 +142,8 @@ namespace Pawn.Forms.Layaway
             object[] values = e.Argument as object[];
             int storeNumber = Utilities.GetIntegerValue(values[0]);
             int ticketNumber = Utilities.GetIntegerValue(values[1]);
+            string errorCode;
+            string errorText;
             LayawayForfeitureSearch currentForm = values[2] as LayawayForfeitureSearch;
 
             LayawayVO layaway = LoadLayaway(storeNumber, ticketNumber);
@@ -176,7 +178,7 @@ namespace Pawn.Forms.Layaway
                     });
                     return;
                 }
-
+                RetailProcedures.SetLayawayTempStatus(layaway.TicketNumber, layaway.StoreNumber, "LYFOR", out errorCode, out errorText);
                 e.Result = new Action(() =>
                     {
                         DetailViewer = new LayawayDetailViewer(new List<LayawayVO>() { layaway });

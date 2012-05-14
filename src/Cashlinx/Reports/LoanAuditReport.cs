@@ -14,6 +14,7 @@
 
 using System;
 using Common.Controllers.Application;
+using Common.Controllers.Database.Procedures;
 using Common.Libraries.Utility.Shared;
 using Common.Libraries.Utility.String;
 using Common.Properties;
@@ -38,14 +39,18 @@ namespace Reports
         private Font _reportFont;
         private Font _reportFontLargeBold;
         private Font _reportFontLargeUnderline;
-        
+
+        private bool isPartialPaymentAllowed;
+
         //main objects
         public ReportObject reportObject;
         public RunReport runReport;
 
         public LoanAuditReport()
         {
-
+            isPartialPaymentAllowed =
+                new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(
+                    GlobalDataAccessor.Instance.CurrentSiteId);
         }
 
         //create report
@@ -77,7 +82,7 @@ namespace Reports
                 document.AddTitle(reportObject.ReportTitle + ": " + DateTime.Now.ToString("MM/dd/yyyy"));
                 document.SetPageSize(PageSize.LEGAL.Rotate());
                 document.SetMargins(-100, -100, 10, 45);
-                
+
                 ReportHeader(table, gif);
                 ColumnHeaders(table);
                 ReportDetail(table);
@@ -85,7 +90,7 @@ namespace Reports
 
                 table.HeaderRows = 8;
 
-                document.Open(); 
+                document.Open();
                 document.Add(table);
                 document.Close();
 
@@ -104,7 +109,7 @@ namespace Reports
 
             return isSuccessful;
         }
-        
+
         //individual report sections        
         private void ColumnHeaders(PdfPTable headingtable)
         {
@@ -129,17 +134,36 @@ namespace Reports
             cell.Colspan = 2;
             headingtable.AddCell(cell);
 
-            cell = new PdfPCell(new Paragraph("Loan Amount", _reportFont));
-            cell.HorizontalAlignment = Element.ALIGN_CENTER;
-            cell.Border = Rectangle.NO_BORDER;
-            cell.Colspan = 2;
-            headingtable.AddCell(cell);
+            //Show current principal amount if partial payments are allowed.
+            if (isPartialPaymentAllowed)
+            {
+                cell = new PdfPCell(new Paragraph("Loan Amount", _reportFont));
+                cell.HorizontalAlignment = Element.ALIGN_CENTER;
+                cell.Border = Rectangle.NO_BORDER;
+                cell.Colspan = 2;
+                headingtable.AddCell(cell);
 
-            cell = new PdfPCell(new Paragraph("Current Principal Amount", _reportFont));
-            cell.HorizontalAlignment = Element.ALIGN_CENTER;
-            cell.Border = Rectangle.NO_BORDER;
-            cell.Colspan = 2;
-            headingtable.AddCell(cell);
+                cell = new PdfPCell(new Paragraph("Current Principal Amount", _reportFont));
+                cell.HorizontalAlignment = Element.ALIGN_CENTER;
+                cell.Border = Rectangle.NO_BORDER;
+                cell.Colspan = 2;
+                headingtable.AddCell(cell);
+            }
+            else
+            {
+                //Add an empty cell so that things will line up correctly
+                cell = new PdfPCell(new Paragraph("", _reportFont));
+                cell.HorizontalAlignment = Element.ALIGN_CENTER;
+                cell.Border = Rectangle.NO_BORDER;
+                cell.Colspan = 2;
+                headingtable.AddCell(cell);
+
+                cell = new PdfPCell(new Paragraph("Loan Amount", _reportFont));
+                cell.HorizontalAlignment = Element.ALIGN_CENTER;
+                cell.Border = Rectangle.NO_BORDER;
+                cell.Colspan = 2;
+                headingtable.AddCell(cell);                
+            }
 
             cell = new PdfPCell(new Paragraph("Status", _reportFont));
             cell.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -291,7 +315,7 @@ namespace Reports
             foreach (ReportObject.LoanAudit loanAuditData in reportObject.LoanAuditData)
             {
                 //nrLoans += loanAuditData.IncludeInCount;
-                
+
                 if (!loanAuditData.CurrTktNumber.Equals(lastLoan))
                 {
                     lastLoan = loanAuditData.CurrTktNumber;
@@ -322,19 +346,32 @@ namespace Reports
                     cell.Border = Rectangle.NO_BORDER;
                     datatable.AddCell(cell);
 
-                    cell = new PdfPCell(new Phrase(loanAuditData.TotalLoanAmt.ToString("N"), _reportFont));
-                    cell.Colspan = 2;
-                    cell.PaddingRight = 30;
-                    cell.HorizontalAlignment = Rectangle.ALIGN_RIGHT;
-                    cell.Border = Rectangle.NO_BORDER;
-                    datatable.AddCell(cell);
+                    //Don't show if partial payment is not allowed
+                    if (isPartialPaymentAllowed)
+                    {
+                        cell = new PdfPCell(new Phrase(loanAuditData.TotalLoanAmt.ToString("N"), _reportFont));
+                        cell.Colspan = 2;
+                        cell.PaddingRight = 30;
+                        cell.HorizontalAlignment = Rectangle.ALIGN_RIGHT;
+                        cell.Border = Rectangle.NO_BORDER;
+                        datatable.AddCell(cell);
 
-                    cell = new PdfPCell(new Phrase(loanAuditData.PrincipalAmount.ToString("N"), _reportFont));
-                    cell.Colspan = 2;
-                    cell.PaddingRight = 30;
-                    cell.HorizontalAlignment = Rectangle.ALIGN_RIGHT;
-                    cell.Border = Rectangle.NO_BORDER;
-                    datatable.AddCell(cell);
+                        cell = new PdfPCell(new Phrase(loanAuditData.PrincipalAmount.ToString("N"), _reportFont));
+                        cell.Colspan = 2;
+                        cell.PaddingRight = 30;
+                        cell.HorizontalAlignment = Rectangle.ALIGN_RIGHT;
+                        cell.Border = Rectangle.NO_BORDER;
+                        datatable.AddCell(cell);
+                    }
+                    else
+                    {
+                        cell = new PdfPCell(new Phrase(loanAuditData.TotalLoanAmt.ToString("N"), _reportFont));
+                        cell.Colspan = 4;
+                        cell.PaddingRight = 30;
+                        cell.HorizontalAlignment = Rectangle.ALIGN_RIGHT;
+                        cell.Border = Rectangle.NO_BORDER;
+                        datatable.AddCell(cell);
+                    }
 
                     cell = new PdfPCell(new Phrase(loanAuditData.ShopLoanStatus, _reportFont));
                     cell.Colspan = 2;
@@ -356,7 +393,7 @@ namespace Reports
                     cell.PaddingRight = 30;
                     cell.HorizontalAlignment = Rectangle.ALIGN_RIGHT;
                     cell.Border = Rectangle.NO_BORDER;
-                    datatable.AddCell(cell);                    
+                    datatable.AddCell(cell);
                 }
 
                 cell = new PdfPCell(new Phrase(loanAuditData.FullMdseDescr, _reportFont));
@@ -415,7 +452,7 @@ namespace Reports
                     cell.HorizontalAlignment = Rectangle.ALIGN_LEFT;
                     cell.Border = Rectangle.NO_BORDER;
                     datatable.AddCell(cell);
-                    
+
                     cell = new PdfPCell(new Phrase(nrLoans.ToString(), _reportFont));
                     cell.Colspan = 1;
                     cell.HorizontalAlignment = Rectangle.ALIGN_LEFT;
@@ -434,7 +471,7 @@ namespace Reports
                         {
                             totalLoans += Convert.ToDecimal(loanAudit.TotalLoanAmt);
 
-                            switch(loanAudit.ShopLoanStatus)
+                            switch (loanAudit.ShopLoanStatus)
                             {
                                 case ("IP BKHOLD"):
                                     totalBKHOLD++;
@@ -462,17 +499,22 @@ namespace Reports
                     datatable.AddCell(cell);
 
                     // Row 4
-                    cell = new PdfPCell(new Phrase("Current Principal Amount:", _reportFont));
-                    cell.Colspan = 3;
-                    cell.HorizontalAlignment = Rectangle.ALIGN_LEFT;
-                    cell.Border = Rectangle.NO_BORDER;
-                    datatable.AddCell(cell);
+                    // Only display if partial payment is allowed.
+                    if (isPartialPaymentAllowed)
+                    {
+                        cell = new PdfPCell(new Phrase("Current Principal Amount:", _reportFont));
+                        cell.Colspan = 3;
+                        cell.HorizontalAlignment = Rectangle.ALIGN_LEFT;
+                        cell.Border = Rectangle.NO_BORDER;
+                        datatable.AddCell(cell);
 
-                    cell = new PdfPCell(new Phrase(totalPrincipalIncludingPartialPayments.ToString("N"), _reportFont));
-                    cell.Colspan = 20;
-                    cell.HorizontalAlignment = Rectangle.ALIGN_LEFT;
-                    cell.Border = Rectangle.NO_BORDER;
-                    datatable.AddCell(cell);
+                        cell =
+                            new PdfPCell(new Phrase(totalPrincipalIncludingPartialPayments.ToString("N"), _reportFont));
+                        cell.Colspan = 20;
+                        cell.HorizontalAlignment = Rectangle.ALIGN_LEFT;
+                        cell.Border = Rectangle.NO_BORDER;
+                        datatable.AddCell(cell);
+                    }
 
                     //row 5
                     cell = new PdfPCell(new Phrase("Loans on Hold:", _reportFont));
@@ -535,7 +577,7 @@ namespace Reports
                     cell.HorizontalAlignment = Rectangle.ALIGN_LEFT;
                     cell.Border = Rectangle.NO_BORDER;
                     datatable.AddCell(cell);
-                    
+
                     cell = new PdfPCell(new Phrase(nrLoans.ToString(), _reportFont));
                     cell.Colspan = 1;
                     cell.HorizontalAlignment = Rectangle.ALIGN_LEFT;
@@ -568,7 +610,7 @@ namespace Reports
             cell.Border = Rectangle.NO_BORDER;
             datatable.AddCell(cell);
         }
-        
+
         // we override the OnOpenDocument, OnCloseDocument & OnEndPage methods to get footers
         public override void OnOpenDocument(PdfWriter writer, iTextSharp.text.Document document)
         {

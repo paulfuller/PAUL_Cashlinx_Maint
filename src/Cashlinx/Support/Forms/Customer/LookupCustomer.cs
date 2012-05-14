@@ -23,6 +23,7 @@ using Common.Controllers.Application.ApplicationFlow.Navigation;
 using Common.Controllers.Database.Procedures;
 using Common.Libraries.Forms;
 using Common.Libraries.Objects.Customer;
+using Common.Libraries.Utility;
 using Common.Libraries.Utility.Shared;
 //using Pawn.Forms.UserControls;
 
@@ -651,6 +652,13 @@ namespace Support.Forms.Customer
             return count;
         }
 
+        private string checkNull(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                value = string.Empty;
+
+            return value;
+        }
         /// <summary>
         /// Function to validate the user input in the lookup form. If there are errors,
         /// the error control of the parent form is set with the message and the function
@@ -745,6 +753,25 @@ namespace Support.Forms.Customer
                 boolState = !(_state.Trim().Length == 0);
                 boolAccountNumber = !(_bnkacctnum.Trim().Length == 0);
 
+                if (boolPhoneNumber || _phoneNumber.Length > 0 || _phoneAreaCode.Length > 0)
+                {
+                    if (_phoneNumber.Length < 6 || _phoneAreaCode.Length < 3)
+                    {
+                        boolValidated = false;
+                        this.errorLabel.Text = "Invalid Phone Number.";
+                        return false;
+                    }
+                }
+                if(boolSSNShort)
+                {
+                    string ssnTemp = checkNull(_SSNShort);
+                    if(ssnTemp.Length < 4)
+                    {
+                        boolValidated = false;
+                        this.errorLabel.Text = "Please enter last 4 digits of SSN.";
+                        return false;
+                    }
+                }
                 var countCriteria = countSelectedCriteria();
 
                 if(countCriteria < 2)

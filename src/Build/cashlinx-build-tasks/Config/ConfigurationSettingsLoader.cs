@@ -18,6 +18,16 @@ namespace Cashlinx.Build.Tasks.Config
                         PawnSecDBService = "q7wvRn4eb3cRrLvSkAHG8w==",
                         PawnSecDBUser = "Ny2VIxVYqnA="
                     };
+                case ConfigurationKey.CLXD2:
+                    return new ConfigurationSettings()
+                    {
+                        PawnSecDBHost = "5HYH35IsmBLxuFKgDA0deV4cSI9w/aeE",
+                        PawnSecDBPassword = "jZekk5GlbvfnRVTll7RpCw==",
+                        PawnSecDBPort = "c5oa+iWxTPs=",
+                        PawnSecDBSchema = "Ny2VIxVYqnA=",
+                        PawnSecDBService = "zZCXW9Ci9FGVpj7+YIrMdxtI3uI0kDL1",
+                        PawnSecDBUser = "Ny2VIxVYqnA="
+                    };
                 case ConfigurationKey.CLXD3:
                     return new ConfigurationSettings()
                     {

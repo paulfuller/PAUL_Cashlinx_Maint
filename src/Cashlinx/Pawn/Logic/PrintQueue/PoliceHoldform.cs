@@ -9,6 +9,8 @@ using Common.Libraries.Objects.Business;
 using Common.Libraries.Objects.Customer;
 using Common.Libraries.Utility;
 using Common.Libraries.Utility.Shared;
+using Common.Controllers.Security;
+using Pawn.Logic.DesktopProcedures;
 
 namespace Pawn.Logic.PrintQueue
 {
@@ -103,6 +105,7 @@ namespace Pawn.Logic.PrintQueue
                     }
                 }
                 Print();
+                PrintPDFReport(currentCust, PoliceHoldLoans);
                 itemDescription.Text = "";
             }
             Application.DoEvents();
@@ -118,5 +121,38 @@ namespace Pawn.Logic.PrintQueue
                 PrintingUtilities.PrintBitmapDocument(bitMap, GlobalDataAccessor.Instance.DesktopSession);
             }
         }
+
+        private void PrintPDFReport(CustomerVO currentCustomer, List<HoldData> policeHolds)
+        {
+            // 03082012 TG - Add printing using iText#
+            //var rtcReport = new Reports.ReleaseToClaimantReport();
+            var phReport = new Reports.PoliceHoldReport();
+            var reportObject = new ReportObject();
+            reportObject.ReportTempFile = SecurityAccessor.Instance.EncryptConfig.ClientConfig.GlobalConfiguration.BaseLogPath;
+            reportObject.CreateTemporaryFullName();
+
+            phReport.reportObject = reportObject;
+            phReport.ReportTempFileFullName = reportObject.ReportTempFileFullName;
+            // set store information
+            phReport.STORE_NAME = ProcessTenderController.STORE_NAME;
+            phReport.STORE_ADDRESS = ProcessTenderController.STORE_ADDRESS;
+            phReport.STORE_CITY = ProcessTenderController.STORE_CITY;
+            phReport.STORE_STATE = ProcessTenderController.STORE_STATE;
+            phReport.STORE_ZIP = ProcessTenderController.STORE_ZIP;
+
+            phReport.CurrentCust = currentCustomer;
+            // Pass hold data
+            phReport.HoldData = policeHolds[0];
+
+
+            if (phReport.CreateReport())
+            {
+                DesktopSession.ShowPDFFile(phReport.reportObject.ReportTempFileFullName, false);
+                this.TopMost = false;
+            }
+
+
+        }
+
     }
 }

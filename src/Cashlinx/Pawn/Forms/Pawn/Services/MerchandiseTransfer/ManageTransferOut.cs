@@ -1447,6 +1447,25 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
 
         private void continueButton_Click(object sender, EventArgs e)
         {
+            var mdseStatus = this._itemsToTransfer.ToDictionary(item => item.Icn, item => string.Empty);
+            string errorCode, errorText = null;
+            var retVal = TransfersDBProcedures.GetCurrentMdseStatus(CDS.CurrentSiteId.StoreNumber, mdseStatus, out errorCode, out errorText);
+
+            if (retVal && mdseStatus.Any(item => !item.Value.Equals(ProductStatus.PFI.ToString())))
+            {
+                if (MessageBox.Show("One or more items identified for transfer have been sold. These items will be removed from the transfer.", "Transfer Out", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                {
+                    return;
+                }
+
+                var nonPFIItems = (from item in mdseStatus
+                                   where !item.Value.Equals(ProductStatus.PFI.ToString())
+                                   select item.Key).ToList();
+
+                _itemsToTransfer.RemoveAll(item => nonPFIItems.Contains(item.Icn));
+                RefreshGridView();
+            }
+
             if (this.CanContinue == false)
             {
                 MessageBox.Show("Cannot transfer item(s). " +
@@ -1454,6 +1473,8 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
                                 "Continue");
                 return;
             }
+
+
             if (IsAppraisalOrWholesale())
             {
                 isClxToClx = false;

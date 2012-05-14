@@ -68,4 +68,31 @@ namespace Support.Libraries.Utility
         MILITARY_STATIONED_LOCAL
     }
 
+    public enum categoryrecord
+    {
+        CATEGORYID = 0,
+        CATEGORYNAME,
+        DESCRIPTION
+    }
+
+    /*
+    public enum CommentColumnOrder
+    {
+        dgColumnComment = 0,
+        dgColumnDate,
+        dgColumnUpDatedBy,
+        dgColumnCategory,
+        dgColumnEmpNumber,
+
+    } */
+
+    public enum customercommentrecord
+    {
+        COMMENTS = 0,
+        DATA_MADE,
+        MADE_BY,
+        CATEGORY,
+        EMPLOYEE_NBR,
+
+    } 
 }

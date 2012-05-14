@@ -72,8 +72,8 @@ namespace Pawn.Logic.DesktopProcedures
                                            FeeRef = PawnLoan.TicketNumber,
                                            FeeRefType = FeeRefTypes.PAWN,
                                            FeeState = FeeStates.ASSESSED,
-                                           OriginalAmount = 0,
-                                           Value = 0
+                                           OriginalAmount = refundAmount,
+                                           Value = refundAmount
                                        });
             }
 
@@ -170,7 +170,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             }
 
-            if (fee.FeeType == FeeTypes.STORAGE)
+            if (fee.FeeType == FeeTypes.STORAGE || fee.FeeType == FeeTypes.SERVICE)
             {
                 if (HasPartialPayment)
                 {
@@ -231,7 +231,7 @@ namespace Pawn.Logic.DesktopProcedures
 
         public int GetMonthsAlreadyPaid()
         {
-            if (!CurrentSiteId.State.Equals(States.Ohio))
+            if (!CurrentSiteId.State.Equals(States.Ohio) && !CurrentSiteId.State.Equals(States.Indiana))
             {
                 return 0;
             }
@@ -255,7 +255,7 @@ namespace Pawn.Logic.DesktopProcedures
 
         public int GetDaysAlreadyPaid()
         {
-            if (!CurrentSiteId.State.Equals(States.Ohio))
+            if (!CurrentSiteId.State.Equals(States.Ohio) && !CurrentSiteId.State.Equals(States.Indiana))
             {
                 return 0;
             }

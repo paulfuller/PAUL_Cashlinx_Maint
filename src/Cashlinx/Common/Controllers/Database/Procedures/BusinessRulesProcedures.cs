@@ -1214,6 +1214,26 @@ namespace Common.Controllers.Database.Procedures
 
         }
 
+        public bool IsPoliceCardNeededForStore(SiteId siteID)
+        {
+            var sComponentValue = string.Empty;
+            var bPawnValue = false;
+            //Is partial payment allowed on or after due date
+            BusinessRuleVO brObject = GetBusinessRule(siteID, "PWN_BR-173");
+            if (brObject != null)
+                brObject.getComponentValue("CL_PWN_263_PRINTPOLICECARD", ref sComponentValue);
+            return sComponentValue == "Y";
+        }
 
+        public bool IsSubpoenaRequiredForReleaseFingerprints(SiteId siteID)
+        {
+            var sComponentValue = string.Empty;
+            var bPawnValue = false;
+            //Is partial payment allowed on or after due date
+            BusinessRuleVO brObject = GetBusinessRule(siteID, "PWN_BR-177");
+            if (brObject != null)
+                brObject.getComponentValue("CL_PWN_268_RELFINGSUBPOENA", ref sComponentValue);
+            return sComponentValue == "Y";
+        }
     }
 }

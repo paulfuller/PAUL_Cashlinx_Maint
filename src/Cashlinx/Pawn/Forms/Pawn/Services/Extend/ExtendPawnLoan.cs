@@ -146,7 +146,7 @@ namespace Pawn.Forms.Pawn.Services.Extend
                     interestAmount = pl.InterestAmount;
                     serviceAmount = pl.ServiceCharge;
                 }
-                if (partialPaymentAllowed)
+                if (partialPaymentAllowed && _extensionType != ExtensionTerms.DAILY)
                 {
                     ExtensionProcedures.GetExtensionPeriod(PartialPmtDate,
                         pl.DateMade,
@@ -162,49 +162,9 @@ namespace Pawn.Forms.Pawn.Services.Extend
                 else
                 {
                     pl.ExtensionType = _extensionType;
-                    daysToPay = 30;
+                    //daysToPay = 30;
                 }
 
-                /* if (partialPaymentAllowed && partialPaymentInLastMonth && !allowFutureInterestPayments)
-                 {
-                     var lastPartialPayment = pl.PartialPayments.OrderByDescending(pp => pp.Date_Made).Last();
-                     var dailyInterestRate = lastPartialPayment.Cur_Int_Pct / DAYS_IN_MONTH_FOR_INTEREST_CALCULATIONS;
-                     var dailyStorageFee = storageFee / DAYS_IN_MONTH_FOR_INTEREST_CALCULATIONS;
-                     var lastLoanMonthDate = GetLastLoanMonthDate(pl);
-                     var daysAlreadyPaid = (ShopDateTime.Instance.FullShopDateTime - lastLoanMonthDate).Days;
-                     var daysSinceLastPayment = (ShopDateTime.Instance.FullShopDateTime - lastPartialPayment.Date_Made).Days;
-                     var daysToUseForFees = daysAlreadyPaid + daysSinceLastPayment <= DAYS_IN_MONTH_FOR_INTEREST_CALCULATIONS ? daysSinceLastPayment : DAYS_IN_MONTH_FOR_INTEREST_CALCULATIONS - daysAlreadyPaid;
-                     var amountToExtend = (daysToUseForFees * dailyInterestRate) + (daysToUseForFees * dailyStorageFee);
-                     var fullMonth = ServiceLoanProcedures.GetAmountToExtend(1, pl.InterestAmount);
-                     var daysToAdd = daysToUseForFees + DAYS_IN_MONTH_FOR_INTEREST_CALCULATIONS;
-
-                     labelNumDaysToExtendHeading.Text = "One Month's Full Charge";
-                     customTextBoxNumDaystoExtend.Visible = false;
-                     ddlNumDaystoExtend.Visible = false;
-                     lblNumDaysToExtend.Visible = true;
-                     lblNumDaysToExtend.Text = fullMonth;
-                     customTextBoxAmtToExtend.Visible = false;
-                     lblAmtToExtend.Visible = true;
-                     lblAmtToExtend.Text = amountToExtend.ToString("f2");
-                     labelDailyAmount.Text = (dailyInterestRate + dailyStorageFee).ToString("f2");
-
-                     var pfiDateAdjusted = false;
-                     labelAdjustedDueDate.Text =
-                         new BusinessRulesProcedures(DS).GetValidDueDate(pl.DueDate.AddMonths(1), siteID);
-                     dateCalendarLastPickupDate.SelectedDate =
-                                  new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetValidPFIDate(
-                                      pl.PfiEligible.AddMonths(1),
-                                      siteID, ref pfiDateAdjusted);
-
-                     daysToExtend = daysToAdd;
-                     AmtToExtend = GetAmountToExtendFromUI();
-                     newPickupDate = dateCalendarLastPickupDate.SelectedDate;
-                     labelLoanSelection.Text = (this.currIndex + 1) + " of " + this.numberOfLoansToExtend;
-                     this.ActiveControl = this.customButtonCalculate;
-                     dateCalendarLastPickupDate.Enabled = false;
-                 }
-                 else
-                 {*/
                 int daysToAdd;
                 decimal amountToExtend;
 
@@ -252,7 +212,7 @@ namespace Pawn.Forms.Pawn.Services.Extend
 
                     customTextBoxNumDaystoExtend.Visible = true;
                     ddlNumDaystoExtend.Visible = false;
-                    customTextBoxNumDaystoExtend.Text = daysToPay.ToString();
+                    customTextBoxNumDaystoExtend.Text = "30";
                     labelNumDaysToExtendHeading.Visible = true;
                     customTextBoxAmtToExtend.Visible = true;
                     lblAmtToExtend.Visible = false;
@@ -347,8 +307,11 @@ namespace Pawn.Forms.Pawn.Services.Extend
                 else
                 {
                     CalculateDataFromNumberOfDaysToExtend();
-                    CanSubmitForm = true;
-                    UpdateSubmitState();
+                    if (CloseForm)
+                    {
+                        CanSubmitForm = true;
+                        UpdateSubmitState();
+                    }
                 }
 
             }
@@ -395,7 +358,8 @@ namespace Pawn.Forms.Pawn.Services.Extend
                 else
                 {
 
-                    amountToExtend = (numDaysToExtend * dailyAmount) + (daysToPay * interestAmount / 30) + (daysToPay * serviceAmount / 30);
+                    //amountToExtend = (numDaysToExtend * dailyAmount) + (daysToPay * interestAmount / 30) + (daysToPay * serviceAmount / 30);
+                    amountToExtend = numDaysToExtend * dailyAmount;
                 }
             }
             else
@@ -431,7 +395,7 @@ namespace Pawn.Forms.Pawn.Services.Extend
                      siteID, ref pfiDateAdjusted);*/
             if (pfiDateAdjusted)
                 MessageBox.Show(Commons.GetMessageString("ExtendDateAdjustedMessage"));
-
+            checkAmtToExtend();
             daysToExtend = GetDaysToExtendFromUI();
             AmtToExtend = GetAmountToExtendFromUI();
             newPickupDate = dateCalendarLastPickupDate.SelectedDate;
@@ -471,8 +435,11 @@ namespace Pawn.Forms.Pawn.Services.Extend
                                                 : Commons.GetMessageString("AmountToExtendMoreThanMonthlyAmount"));
                         customTextBoxAmtToExtend.Text = Utilities.GetStringValue(Math.Round(Utilities.GetDecimalValue(labelDailyAmount.Text) * GetDaysToExtendFromUI(), 2));
                     }
-                    CanSubmitForm = true;
-                    UpdateSubmitState();
+                    if (CloseForm)
+                    {
+                        CanSubmitForm = true;
+                        UpdateSubmitState();
+                    }
 
                 }
 
@@ -522,6 +489,7 @@ namespace Pawn.Forms.Pawn.Services.Extend
             daysToExtend = GetDaysToExtendFromUI();
             AmtToExtend = GetAmountToExtendFromUI();
             newPickupDate = dateCalendarLastPickupDate.SelectedDate;
+ 
 
         }
 
@@ -529,7 +497,7 @@ namespace Pawn.Forms.Pawn.Services.Extend
         //and if it does if the business rule allows it
         private void checkAmtToExtend()
         {
-
+            CloseForm = true;
             if (GetAmountToExtendFromUI() > selectedLoans[currIndex].PickupAmount)
             {
                 if (!(new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsExtensionAllowedPastPickupAmount(siteID)))
@@ -538,7 +506,10 @@ namespace Pawn.Forms.Pawn.Services.Extend
                     labelExtendPastPickupAmount.Visible = true;
                     CloseForm = false;
                 }
+ 
             }
+            else
+                labelExtendPastPickupAmount.Visible = false;
             if (GetAmountToExtendFromUI() > selectedLoans[currIndex].RenewalAmount)
             {
                 if (!(new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsExtensionAllowedPastRenewalAmount(siteID)))
@@ -547,15 +518,21 @@ namespace Pawn.Forms.Pawn.Services.Extend
                     labelExtendPastRenewAmt.Visible = true;
                     CloseForm = false;
                 }
+ 
             }
+            else
+                labelExtendPastRenewAmt.Visible = false;
 
         }
 
         private void dateCalendarLastPickupDate_Leave(object sender, EventArgs e)
         {
             checkLastPickupDate();
+            if (CloseForm)
+            {
                 CanSubmitForm = true;
                 UpdateSubmitState();
+            }
        
         }
 
@@ -611,6 +588,7 @@ namespace Pawn.Forms.Pawn.Services.Extend
             daysToExtend = GetDaysToExtendFromUI();
             AmtToExtend = GetAmountToExtendFromUI();
             newPickupDate = dateCalendarLastPickupDate.SelectedDate;
+            checkAmtToExtend();
 
         }
 
@@ -699,55 +677,58 @@ namespace Pawn.Forms.Pawn.Services.Extend
 
             //Check the extend amount to see if it exceeds renewal amount or pickup amount
             checkAmtToExtend();
-            decimal amountToextend = GetAmountToExtendFromUI();
-            int numberOfDaysToExtend = GetDaysToExtendFromUI();
-            if (amountToextend > 0)
+            if (CloseForm)
             {
+                decimal amountToextend = GetAmountToExtendFromUI();
+                int numberOfDaysToExtend = GetDaysToExtendFromUI();
+                if (amountToextend > 0)
+                {
 
-                //Set the selected values for extension into the pawn loan
-                //selectedLoans[currIndex].NewMadeDate = Utilities.GetDateTimeValue(selectedLoans[currIndex].DateMade);
-                int daysToAdjust = (Utilities.GetDateTimeValue(labelAdjustedDueDate.Text) - selectedLoans[currIndex].DueDate).Days;
-                selectedLoans[currIndex].NewMadeDate = Utilities.GetDateTimeValue(selectedLoans[currIndex].DateMade).AddDays(daysToAdjust);
-                selectedLoans[currIndex].NewDueDate = Utilities.GetDateTimeValue(labelAdjustedDueDate.Text);
-                selectedLoans[currIndex].NewPfiEligible = Utilities.GetDateTimeValue(dateCalendarLastPickupDate.SelectedDate);
-                selectedLoans[currIndex].IsExtended = true;
-                selectedLoans[currIndex].ExtensionAmount = GetAmountToExtendFromUI();
-                selectedLoans[currIndex].DailyAmount = Utilities.GetDecimalValue(labelDailyAmount.Text);
-                //Add the new PFi mailer date
-                selectedLoans[currIndex].NewPfiNote = Utilities.GetDateTimeValue(selectedLoans[currIndex].NewPfiEligible).AddDays(-30);
+                    //Set the selected values for extension into the pawn loan
+                    //selectedLoans[currIndex].NewMadeDate = Utilities.GetDateTimeValue(selectedLoans[currIndex].DateMade);
+                    int daysToAdjust = (Utilities.GetDateTimeValue(labelAdjustedDueDate.Text) - selectedLoans[currIndex].DueDate).Days;
+                    selectedLoans[currIndex].NewMadeDate = Utilities.GetDateTimeValue(selectedLoans[currIndex].DateMade).AddDays(daysToAdjust);
+                    selectedLoans[currIndex].NewDueDate = Utilities.GetDateTimeValue(labelAdjustedDueDate.Text);
+                    selectedLoans[currIndex].NewPfiEligible = Utilities.GetDateTimeValue(dateCalendarLastPickupDate.SelectedDate);
+                    selectedLoans[currIndex].IsExtended = true;
+                    selectedLoans[currIndex].ExtensionAmount = GetAmountToExtendFromUI();
+                    selectedLoans[currIndex].DailyAmount = Utilities.GetDecimalValue(labelDailyAmount.Text);
+                    //Add the new PFi mailer date
+                    selectedLoans[currIndex].NewPfiNote = Utilities.GetDateTimeValue(selectedLoans[currIndex].NewPfiEligible).AddDays(-30);
 
-                var fee = new Fee
-                          {
-                              FeeType = FeeTypes.SERVICE,
-                              Value = GetAmountToExtendFromUI(),
-                              OriginalAmount = GetAmountToExtendFromUI(),
-                              FeeState = FeeStates.ASSESSED,
-                              FeeDate = Utilities.GetDateTimeValue(ShopDateTime.Instance.ShopTransactionTime, DateTime.Now)
+                    var fee = new Fee
+                              {
+                                  FeeType = FeeTypes.SERVICE,
+                                  Value = GetAmountToExtendFromUI(),
+                                  OriginalAmount = GetAmountToExtendFromUI(),
+                                  FeeState = FeeStates.ASSESSED,
+                                  FeeDate = Utilities.GetDateTimeValue(ShopDateTime.Instance.ShopTransactionTime, DateTime.Now)
 
 
-                          };
-                //To DO: When we know more details about the extension fees
-                //we need to call getloanfees passing the service type of extension
-                //and add those fees to the list of fees as well
-                selectedLoans[currIndex].OriginalFees.Clear();
-                selectedLoans[currIndex].OriginalFees.Add(fee);
-            }
-            else
-                return;
-            currIndex++;
-            if (currIndex < numberOfLoansToExtend)
-                showPawnLoanData();
-            else
-            {
-
-                _loansExtended = true;
-                CloseForm = true;
-                SetExtendedLoans();
-                if (this.checkBoxPrintSingleMemoForExtn.Visible)
-                    GlobalDataAccessor.Instance.DesktopSession.PrintSingleMemoOfExtension = checkBoxPrintSingleMemoForExtn.Checked;
+                              };
+                    //To DO: When we know more details about the extension fees
+                    //we need to call getloanfees passing the service type of extension
+                    //and add those fees to the list of fees as well
+                    selectedLoans[currIndex].OriginalFees.Clear();
+                    selectedLoans[currIndex].OriginalFees.Add(fee);
+                }
                 else
-                    GlobalDataAccessor.Instance.DesktopSession.PrintSingleMemoOfExtension = false;
-                this.Close();
+                    return;
+                currIndex++;
+                if (currIndex < numberOfLoansToExtend)
+                    showPawnLoanData();
+                else
+                {
+
+                    _loansExtended = true;
+                    CloseForm = true;
+                    SetExtendedLoans();
+                    if (this.checkBoxPrintSingleMemoForExtn.Visible)
+                        GlobalDataAccessor.Instance.DesktopSession.PrintSingleMemoOfExtension = checkBoxPrintSingleMemoForExtn.Checked;
+                    else
+                        GlobalDataAccessor.Instance.DesktopSession.PrintSingleMemoOfExtension = false;
+                    this.Close();
+                }
             }
 
 

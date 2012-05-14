@@ -205,9 +205,9 @@ namespace Reports
             WriteBorderColumn(headerTableNoBorder, 2, CurrentCust.CustomerName, Element.ALIGN_LEFT, _reportFont);
             WriteBorderColumn(headerTableNoBorder, 1, CurrentCust.DateOfBirth.FormatDate(), Element.ALIGN_LEFT, _reportFont);
             WriteBorderColumn(headerTableNoBorder, 4, CurrentCust.CustHomeAddress, Element.ALIGN_LEFT, _reportFont);
-            WriteBorderColumn(headerTableNoBorder, 1, EmpNo, Element.ALIGN_LEFT, _reportFont);
+            WriteBorderColumn(headerTableNoBorder, 1, GlobalDataAccessor.Instance.DesktopSession.UserName, Element.ALIGN_LEFT, _reportFont);
             WriteBorderColumn(headerTableNoBorder, 1, HoldData.TicketNumber.ToString(), Element.ALIGN_LEFT, _reportFont);
-            WriteBorderColumn(headerTableNoBorder, 2, string.Format("{0:C}", HoldData.Amount), Element.ALIGN_LEFT, _reportFont);
+            WriteBorderColumn(headerTableNoBorder, 2, HoldData.Amount.ToString("C"), Element.ALIGN_LEFT, _reportFont);
         }
 
         private void ReportDetails(PdfPTable detailTable)

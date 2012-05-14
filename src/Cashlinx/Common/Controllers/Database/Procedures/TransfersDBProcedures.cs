@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Common.Controllers.Application;
 using Common.Controllers.Database.Oracle;
+using Common.Libraries.Utility;
 using Common.Libraries.Utility.Exception;
 using Common.Libraries.Utility.Logger;
 using Common.Libraries.Utility.Type;
@@ -77,7 +78,7 @@ namespace Common.Controllers.Database.Procedures
             inParams.Add(new OracleProcParam("p_customer_number", p_customer_number));
             inParams.Add(new OracleProcParam("g_tx_date", g_tx_date));
             inParams.Add(new OracleProcParam("p_mr_date", p_mr_date));
-            inParams.Add(new OracleProcParam("p_mr_time",p_mr_time));
+            inParams.Add(new OracleProcParam("p_mr_time", p_mr_time));
             //inParams.Add(new OracleProcParam("p_mr_time", p_mr_time,OracleProcParam.TimeStampType.TIMESTAMP_TZ));
             inParams.Add(new OracleProcParam("p_mr_user", p_mr_user));
             inParams.Add(new OracleProcParam("p_mr_desc", p_mr_desc));
@@ -86,17 +87,17 @@ namespace Common.Controllers.Database.Procedures
             inParams.Add(new OracleProcParam("p_class_code", p_class_code));
             inParams.Add(new OracleProcParam("p_acct_num", p_acct_num));
             inParams.Add(new OracleProcParam("p_created_by", p_created_by));
-            inParams.Add(new OracleProcParam("p_gun_number", true,p_gun_number));
-            inParams.Add(new OracleProcParam("p_gun_type", true,p_gun_type));
+            inParams.Add(new OracleProcParam("p_gun_number", true, p_gun_number));
+            inParams.Add(new OracleProcParam("p_gun_type", true, p_gun_type));
             if (isClxToClx)
             {
-                inParams.Add(new OracleProcParam("p_destination_store_type","CLXTICKET"));
+                inParams.Add(new OracleProcParam("p_destination_store_type", "CLXTICKET"));
             }
             else
             {
                 inParams.Add(new OracleProcParam("p_destination_store_type", "TOPSTICKET"));
             }
-            inParams.Add(new OracleProcParam("o_transfer_ticket_no", OracleDbType.Int64, DBNull.Value, ParameterDirection.Output, 1)); 
+            inParams.Add(new OracleProcParam("o_transfer_ticket_no", OracleDbType.Int64, DBNull.Value, ParameterDirection.Output, 1));
 
             //Execute stored proc
             DataSet outputSet;
@@ -104,8 +105,8 @@ namespace Common.Controllers.Database.Procedures
             try
             {
                 retVal = dA.issueSqlStoredProcCommand(
-                    "ccsowner", "Transfers", "transfer_out_of_store", 
-                    inParams, null, "o_error_code", "o_error_desc", 
+                    "ccsowner", "Transfers", "transfer_out_of_store",
+                    inParams, null, "o_error_code", "o_error_desc",
                     out outputSet);
             }
             catch (OracleException oEx)
@@ -119,7 +120,7 @@ namespace Common.Controllers.Database.Procedures
             if (retVal == false)
             {
                 BasicExceptionHandler.Instance.AddException(
-                    "ExecuteTransferOutOfStore: return value is false", 
+                    "ExecuteTransferOutOfStore: return value is false",
                     new ApplicationException());
                 errorCode = dA.ErrorCode + " -- ExecuteTransferOutOfStore";
                 errorText = dA.ErrorDescription + " -- Return value is false";
@@ -263,9 +264,9 @@ namespace Common.Controllers.Database.Procedures
         //    return (false);
         //}
 
-        public static bool ExecuteGetTOTickets(            
-            string storeNumber, string transDate, 
-            out DataTable items, out string errorCode, out string errorText,string trantype)
+        public static bool ExecuteGetTOTickets(
+            string storeNumber, string transDate,
+            out DataTable items, out string errorCode, out string errorText, string trantype)
         {
             //Create input list
             var inParams = new List<OracleProcParam>();
@@ -274,13 +275,13 @@ namespace Common.Controllers.Database.Procedures
             //Add cat pointer
             inParams.Add(new OracleProcParam("p_store_number", storeNumber));
             inParams.Add(new OracleProcParam("p_trans_date", transDate));
-            
+
             //Set default output values
             errorCode = string.Empty;
             errorText = string.Empty;
             DataSet outputDataSet = null;
             items = new DataTable();
-            
+
             //Verify that the accessor is valid
             if (GlobalDataAccessor.Instance == null ||
                 !GlobalDataAccessor.Instance.IsDataAccessorValid())
@@ -303,21 +304,24 @@ namespace Common.Controllers.Database.Procedures
             bool retVal = false;
             try
             {
-                if(trantype.Equals(TransferProcedures._TRAN_TYPE_SCRAP)){
-                    retVal = dA.issueSqlStoredProcCommand( "ccsowner", "TRANSFERS", "get_TO_scrap_tickets",
+                if (trantype.Equals(TransferProcedures._TRAN_TYPE_SCRAP))
+                {
+                    retVal = dA.issueSqlStoredProcCommand("ccsowner", "TRANSFERS", "get_TO_scrap_tickets",
                     inParams, refCursors, "o_return_code", "o_return_text",
                     out outputDataSet);
-                }else if(trantype.Equals(TransferProcedures._TRAN_TYPE_EXCESS))
+                }
+                else if (trantype.Equals(TransferProcedures._TRAN_TYPE_EXCESS))
                 {
                     //not available
                     retVal = dA.issueSqlStoredProcCommand("ccsowner", "TRANSFERS", "get_TO_excess_tickets",
                     inParams, refCursors, "o_return_code", "o_return_text",
                     out outputDataSet);
-                }else
+                }
+                else
                 {
                     retVal = dA.issueSqlStoredProcCommand("ccsowner", "TRANSFERS", "get_TO_refurb_tickets",
                      inParams, refCursors, "o_return_code", "o_return_text",
-                     out outputDataSet); 
+                     out outputDataSet);
                 }
             }
             catch (OracleException oEx)
@@ -340,7 +344,7 @@ namespace Common.Controllers.Database.Procedures
                 BasicExceptionHandler.Instance.AddException(
                 errorText,
                 oEx);
-                
+
                 outputDataSet = null;
                 return (false);
             }
@@ -359,7 +363,7 @@ namespace Common.Controllers.Database.Procedures
                     outputDataSet.Tables.Count > 0)
                 {
                     ////Get information and add to List
-                   
+
                     if (outputDataSet.Tables.Contains("scrap_to_tickets_ref_cursor"))
                     {
                         items = outputDataSet.Tables["scrap_to_tickets_ref_cursor"];
@@ -422,11 +426,11 @@ namespace Common.Controllers.Database.Procedures
             bool retVal = false;
             try
             {
-               
+
                 retVal = dA.issueSqlStoredProcCommand("ccsowner", "TRANSFERS", "get_to_tickets",
                 inParams, refCursors, "o_return_code", "o_return_text",
                 out outputDataSet);
-               
+
             }
             catch (OracleException oEx)
             {
@@ -578,7 +582,7 @@ namespace Common.Controllers.Database.Procedures
                     {
                         items = outputDataSet.Tables["pawn_mdselist_ref_cursor"];
                     }
-                    if(outputDataSet.Tables.Contains("pawn_otherdsclist_ref_cursor"))
+                    if (outputDataSet.Tables.Contains("pawn_otherdsclist_ref_cursor"))
                     {
                         itemsDesc = outputDataSet.Tables["pawn_otherdsclist_ref_cursor"];
                     }
@@ -597,6 +601,85 @@ namespace Common.Controllers.Database.Procedures
             errorCode = "ExecuteGetJsupMerchandise";
             errorText = "Operation failed";
             return (false);
+        }
+
+        public static bool GetCurrentMdseStatus(string storeNumber, Dictionary<string, string> mdseStatus, out string errorCode, out string errorText)
+        {
+            if (mdseStatus == null)
+            {
+                throw new ArgumentNullException("mdseStatus");
+            }
+
+            //Initialize output vars
+            errorCode = string.Empty;
+            errorText = string.Empty;
+
+            var dA = GlobalDataAccessor.Instance.OracleDA;
+
+            //Create parameter list
+
+            var icns = new List<string>(mdseStatus.Keys);
+
+            var oParams = new List<OracleProcParam>
+                          {
+                              new OracleProcParam("p_store_number", storeNumber),
+                              new OracleProcParam("p_icn", true, icns)
+                          };
+
+            //Setup ref cursor array
+            var refCursors = new List<PairType<string, string>>
+                             {
+                                 new PairType<string, string>("o_mdse_status", "o_mdse_status")
+                             };
+
+            //Add general ref cursors
+
+            //Make stored proc call
+            bool retVal;
+            DataSet outputDataSet;
+            try
+            {
+                retVal = GlobalDataAccessor.Instance.OracleDA.issueSqlStoredProcCommand("ccsowner",
+                                                                                            "transfers", "get_mdse_status", oParams, refCursors, "o_return_code",
+                                                                                            "o_return_text", out outputDataSet);
+                errorCode = dA.ErrorCode;
+                errorText = dA.ErrorDescription;
+            }
+            catch (OracleException oEx)
+            {
+                BasicExceptionHandler.Instance.AddException("GetCurrentMdseStatus Failed", oEx);
+                errorCode = "GetCurrentMdseStatusFailed";
+                errorText = "OracleException thrown: " + oEx.Message;
+                return (false);
+            }
+
+            if (retVal == false)
+            {
+                BasicExceptionHandler.Instance.AddException("GetCurrentMdseStatus Failed: return value is false", new ApplicationException());
+                errorCode = dA.ErrorCode + " --- GetCurrentMdseStatus";
+                errorText = dA.ErrorDescription + " -- Return value is false";
+                return (false);
+            }
+
+            if (outputDataSet != null && outputDataSet.Tables.Count == 1)
+            {
+                if (outputDataSet.Tables[0].TableName == "o_mdse_status")
+                {
+                    foreach (DataRow dr in outputDataSet.Tables[0].Rows)
+                    {
+                        var icn = Utilities.GetStringValue(dr["icn"]);
+                        if (mdseStatus.ContainsKey(icn))
+                        {
+                            mdseStatus[icn] = Utilities.GetStringValue(dr["STATUS"]);
+                        }
+                    }
+                }
+
+                errorCode = "0";
+                errorText = "Success";
+                return true;
+            }
+            return false;
         }
 
         /*      public static bool ExecuteMaintainNonCacc(

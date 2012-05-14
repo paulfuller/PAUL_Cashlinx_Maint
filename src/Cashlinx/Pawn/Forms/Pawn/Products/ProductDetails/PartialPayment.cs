@@ -35,6 +35,8 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
         private int extensionsPaid;
         private decimal originalInterestAmount;
         private decimal originalServiceAmount;
+        private decimal extensionInterestAmount;
+        private decimal extensionServiceAmount;
         
 
         public PartialPayment()
@@ -73,7 +75,7 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 }
                 decimal newAmount = currentPrincipal - principalAmt;
                 newPrincipalAmount.Text = newAmount.ToString("f2");
-                totalDueAmount.Text = subTotal.ToString("f2");
+                totalDueAmount.Text = String.Format("{0:C}", subTotal);
                 customButtonSubmit.Text = "Submit";
                 customTextBoxPrincipal.Enabled = false;
 
@@ -95,18 +97,10 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                     0, 0, lateFeeAmount, 0,
                     newPawnLoan,
                     out uwVO);
-                decimal lastInterestAmount = originalInterestAmount;
-                
-                if (pawnLoan.PartialPaymentPaid)
-                {
-                    lastInterestAmount = (from ppmt in pawnLoan.PartialPayments
-                                                  where ppmt.Time_Made == pawnLoan.LastPartialPaymentDate
-                                                  select ppmt.CUR_FIN_CHG).FirstOrDefault();
-                    
-                }
-                decimal totalIntAmt = Math.Round(interestAmt + lateInterest - (lastInterestAmount * extensionsPaid), 2);
+                decimal totalIntAmt = Math.Round(interestAmt + lateInterest - extensionInterestAmount, 2);
                 //decimal totalServAmt = Math.Round(storageFee + lateService - (originalServiceAmount * extensionsPaid), 2);
                 decimal totalServAmt = Math.Round(subTotal - (principalAmt + totalIntAmt), 2);
+                decimal storageFeeAllowed = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetStorageFee(GlobalDataAccessor.Instance.CurrentSiteId);
                 Common.Libraries.Objects.Pawn.PartialPayment pPmnt = new Common.Libraries.Objects.Pawn.PartialPayment();
                 pPmnt.PMT_AMOUNT = subTotal;
                 pPmnt.PMT_INT_AMT = totalIntAmt;
@@ -115,14 +109,23 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 pPmnt.CUR_AMOUNT = currentPrincipal - principalAmt;
                 pPmnt.CUR_FIN_CHG = uwVO.totalFinanceCharge;
                 pPmnt.Cur_Int_Pct = Math.Round(uwVO.APR,2);
-                pPmnt.Cur_Srv_Chg = (from newFee in newPawnLoan.Fees 
-                                        where newFee.FeeType==FeeTypes.STORAGE
-                                        select newFee).FirstOrDefault().Value;
+                if (storageFeeAllowed != 0)
+                {
+                    pPmnt.Cur_Srv_Chg = (from newFee in newPawnLoan.Fees
+                                         where newFee.FeeType == FeeTypes.STORAGE
+                                         select newFee).FirstOrDefault().Value;
+                }
+                else
+                {
+                    pPmnt.Cur_Srv_Chg=(pPmnt.CUR_AMOUNT * uwVO.feeDictionary["CL_PWN_0010_SVCCHRGRATE"])/100;
+                }
                 pPmnt.Cur_Term_Fin = Utilities.GetIntegerValue(Math.Floor(100 * uwVO.totalFinanceCharge));
                 pPmnt.Status_cde = "New";
                 pawnLoan.PartialPayments.Add(pPmnt);
                 pawnLoan.Fees.Clear();
-                if (totalIntAmt > 0)
+                
+
+                if (totalIntAmt != 0)
                 {
                     Fee interestAmtFee = new Fee()
                     {
@@ -136,12 +139,12 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                     };
                     pawnLoan.Fees.Add(interestAmtFee);
                 }
-                if (totalServAmt > 0)
+                if (totalServAmt != 0)
                 {
                     
                     Fee storageAmtFee = new Fee()
                     {
-                        FeeType = FeeTypes.STORAGE,
+                        FeeType = storageFeeAllowed==0?FeeTypes.SERVICE:FeeTypes.STORAGE,
                         Value = totalServAmt,
                         OriginalAmount = totalServAmt,
                         FeeState = FeeStates.ASSESSED,
@@ -151,19 +154,7 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                     };
                     pawnLoan.Fees.Add(storageAmtFee);
                 }
-
-               /*     Fee lateFee = new Fee()
-                    {
-                        FeeType = FeeTypes.LATE,
-                        Value = Math.Round(lateFeeFin - refundAmt,2),
-                        OriginalAmount = Math.Round(lateFeeFin - refundAmt,2),
-                        FeeState = FeeStates.ASSESSED,
-                        FeeDate = ShopDateTime.Instance.ShopDate,
-                        CanBeProrated = false,
-                        CanBeWaived = false
-                    };
-                    pawnLoan.Fees.Add(lateFee);*/
-                
+            
 
                 
                 
@@ -178,36 +169,19 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
             
             if (pawnLoan != null)
             {
-
+                extensionServiceAmount = 0;
+                extensionInterestAmount = 0;
 
                 originalInterestAmount = (from f in pawnLoan.Fees
                                           where f.FeeType == FeeTypes.INTEREST
                                           select f.Value).Sum();
                 originalServiceAmount=(from f in pawnLoan.Fees
-                                          where f.FeeType == FeeTypes.STORAGE
+                                          where (f.FeeType == FeeTypes.SERVICE || f.FeeType == FeeTypes.STORAGE)
                                           select f.Value).Sum();
                 currentPrincipal = pawnLoan.CurrentPrincipalAmount;
-                if (pawnLoan.IsExtended && pawnLoan.PartialPaymentPaid)
-                {
-                    var extnReceipts = (from r in pawnLoan.Receipts
-                                        where r.Event == ReceiptEventTypes.Extend.ToString()
-                                              && r.RefTime > pawnLoan.LastPartialPaymentDate
-                                        select r).Except(from r in pawnLoan.Receipts
-                                                         where r.Event == ReceiptEventTypes.VEX.ToString()
-                                                               && r.RefTime > pawnLoan.LastPartialPaymentDate
-                                                         select r);
-
-                    refundAmt = (from rcpt in extnReceipts select rcpt.Amount).Sum();
-                    extensionsPaid = extnReceipts.Count();
-
-
-                }
-                else if (pawnLoan.IsExtended)
-                {
-                    refundAmt = pawnLoan.ExtensionAmount;
-                    extensionsPaid = Utilities.GetIntegerValue(Math.Round(refundAmt / (originalInterestAmount + originalServiceAmount)), 0);
-                }
- 
+                refundAmt = 0;
+                extensionsPaid = 0;
+                PartialPaymentProcedures.GetExtensionAmountSplit(pawnLoan, out refundAmt, out extensionsPaid, out extensionInterestAmount, out extensionServiceAmount);
                 int daysLate=0;
                 daysLate = (ShopDateTime.Instance.ShopDate - pawnLoan.DueDate).Days;
                 //If the payment date is one day after due date which is the grace period
@@ -254,7 +228,7 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                         storageFee = Math.Round(pmt.Cur_Srv_Chg / 30 * daysToCharge, 2);
                         interestAmount.Text = interestAmt.ToString("f2");
                         serviceChargeAmount.Text = storageFee.ToString("f2");
-                        if (daysLate > 0)
+                        if (days_late > 0)
                         {
                             lateInterest = Math.Round(((pmt.CUR_AMOUNT * 5 / 100) / 30) * (days_late), 2);
                             //lateInterest = pawnLoan.OtherTranLateFinAmount;

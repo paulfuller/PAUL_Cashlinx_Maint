@@ -27,19 +27,25 @@ namespace Common.Controllers.Database.Couch
             "CUSTOMER",
             "STORE_TICKET",
             "STORE_CUSTOMER",
-            "INVALID"
+            "INVALID",
+            "TICKET ADDENDUM",
+            "PARTIAL PAYMENT",
+            "POLICE CARD",
+            "RELEASE_FINGERPRINTS"
         };
 
         public enum DocSearchType 
         {
-            STORAGE        = 0,
-            RECEIPT        = 1,
-            CUSTOMER       = 2,
-            STORE_TICKET   = 3,
-            STORE_CUSTOMER = 4,
-            INVALID        = 5,
+            STORAGE         = 0,
+            RECEIPT         = 1,
+            CUSTOMER        = 2,
+            STORE_TICKET    = 3,
+            STORE_CUSTOMER  = 4,
+            INVALID         = 5,
             TICKET_ADDENDUM = 6,
-            PARTPAYMENT     =7
+            PARTPAYMENT     = 7,
+            POLICE_CARD     = 8,
+            RELEASE_FINGERPRINTS = 9
         }
 
         public class PawnDocInfo
@@ -122,7 +128,9 @@ namespace Common.Controllers.Database.Couch
             {
                 this.docSearchEnumType = docSearchType;
                 var docSearchInt = (uint)docSearchType;
-                if (docSearchInt < (uint)DocSearchType.INVALID)
+
+                if (docSearchInt < (uint)DocSearchType.INVALID || docSearchInt == (uint)DocSearchType.POLICE_CARD
+                    || docSearchInt == (uint)DocSearchType.RELEASE_FINGERPRINTS)
                 {
                     this.DocumentSearchType = DOC_SEARCH_TYPE[docSearchInt];
                 }
@@ -328,9 +336,18 @@ namespace Common.Controllers.Database.Couch
                     srchID01 = searchInfo.CustomerNumber;
                     break;
                 case DocSearchType.STORE_TICKET:
+                case DocSearchType.POLICE_CARD:
                     srchID01 = searchInfo.StoreNumber;
                     srchID02 = searchInfo.TicketNumber.ToString();
+                    searchInfo.DocSearchEnumType = DocSearchType.STORE_TICKET;
+
                     break;
+                case DocSearchType.RELEASE_FINGERPRINTS:
+                    srchID01 = searchInfo.StoreNumber;
+                    srchID02 = searchInfo.TicketNumber.ToString();
+                    searchInfo.DocSearchEnumType = DocSearchType.STORE_TICKET;
+                    break;
+
                 case DocSearchType.STORE_CUSTOMER:
                     srchID01 = searchInfo.StoreNumber;
                     srchID02 = searchInfo.CustomerNumber;
@@ -753,12 +770,14 @@ namespace Common.Controllers.Database.Couch
         /// <param name="couchConnector"></param>
         /// <param name="doc"></param>
         /// <param name="errorMessage"></param>
+        /// <param name="liteFetch"> </param>
         /// <returns></returns>
         public static bool GetDocument(
             string storageId,
             SecuredCouchConnector couchConnector,
             out Document doc,
-            out string errorMessage)
+            out string errorMessage,
+            bool liteFetch = false)
         {
             //Set defaults for outgoing params
             doc = null;
@@ -770,7 +789,7 @@ namespace Common.Controllers.Database.Couch
                 doc = new Document_Couch(storageId);
                 var dStorage = new DocStorage_CouchDB();
                 string errCode, errTxt;
-                if (dStorage.SecuredGetDocument(couchConnector, ref doc, out errCode, out errTxt))
+                if (dStorage.SecuredGetDocument(couchConnector, ref doc, out errCode, out errTxt, liteFetch))
                 {
                     return (true);
                 }

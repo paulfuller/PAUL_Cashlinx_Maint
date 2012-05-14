@@ -49,7 +49,7 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
             SupportProjectEnvironment.BuildFileExists = SupportProjectEnvironment.DoesBuildFileExist();
 
             AuditProjectEnvironment.SourceDirectory = Path.Combine(NantProjectDirectory, "Audit");
-            AuditProjectEnvironment.BinDirectory = Path.Combine(AuditProjectEnvironment.SourceDirectory, @"bin\x86");
+            AuditProjectEnvironment.BinDirectory = Path.Combine(AuditProjectEnvironment.SourceDirectory, @"bin");
 
             AuditQueriesProjectEnvironment.SourceDirectory = Path.Combine(NantProjectDirectory, "AuditQueries");
             AuditQueriesProjectEnvironment.BinDirectory = Path.Combine(AuditQueriesProjectEnvironment.SourceDirectory, @"bin");
@@ -146,6 +146,8 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
 
         public void Log(Task task, Level level)
         {
+            var utilities = new UtilityFunctions(task.Project, task.Project.Properties);
+
             task.Log(level, "Branch Build Directory: " + BranchBuildDirectory);
             task.Log(level, "Tools Directory: " + ToolsDirectory);
             task.Log(level, "Nant App Directory: " + NantAppDirectory);
@@ -160,6 +162,8 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
             task.Log(level, "Audit Queries Staging Directory: " + AuditQueriesProjectEnvironment.StagingDirectory);
             task.Log(level, "Support Staging Directory: " + SupportProjectEnvironment.StagingDirectory);
             task.Log(level, "Deployment Type: " + DeploymentType.ToString());
+            task.Log(level, "Full Name: " + utilities.GetUserFullName());
+            task.Log(level, "Email Address: " + utilities.GetUserEmailAddress());
             if (DevMode)
             {
                 task.Log(level, "**** DEV MODE ****");
@@ -180,27 +184,24 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
             {
                 return DeploymentType.NewDev;
             }
-            else if (NantProjectDirectory.ToLower().EndsWith(@"dev-maint\src\cashlinx"))
+            if (NantProjectDirectory.ToLower().EndsWith(@"dev-maint\src\cashlinx"))
             {
                 return DeploymentType.MaintDev;
             }
-            else if (NantProjectDirectory.ToLower().EndsWith(@"test\src\cashlinx"))
+            if (NantProjectDirectory.ToLower().EndsWith(@"test\src\cashlinx"))
             {
                 return DeploymentType.NewDev;
             }
-            else if (NantProjectDirectory.ToLower().EndsWith(@"test-maint\src\cashlinx"))
+            if (NantProjectDirectory.ToLower().EndsWith(@"test-maint\src\cashlinx"))
             {
                 return DeploymentType.MaintDev;
             }
-            else
-            {
-                return DeploymentType.Unknown;
-            }
+            return DeploymentType.Unknown;
         }
 
         private string GetNunitDirectory()
         {
-            string suffix = @"NUnit 2.5.10\bin\net-2.0";
+            const string suffix = @"NUnit 2.5.10\bin\net-2.0";
             string programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
             string programFilesX86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
 
@@ -208,11 +209,11 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
             {
                 return Path.Combine(programFiles, suffix);
             }
-            else if (Directory.Exists(Path.Combine(programFilesX86, suffix)))
+            if (Directory.Exists(Path.Combine(programFilesX86, suffix)))
             {
                 return Path.Combine(programFilesX86, suffix);
             }
-            else if (Directory.Exists(Path.Combine(ToolsDirectory, suffix.Replace(" ", "_"))))
+            if (Directory.Exists(Path.Combine(ToolsDirectory, suffix.Replace(" ", "_"))))
             {
                 return Path.Combine(ToolsDirectory, suffix.Replace(" ", "_"));
             }
@@ -222,18 +223,15 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
 
         private string GetWorkspaceName()
         {
-            if (MachineName.Equals("ASSET3360"))
+            if (MachineName.Equals("A7136"))
             {
                 return "workspace";
             }
-            else if (MachineName.Equals("A7335"))
+            if (MachineName.Equals("A7335"))
             {
                 return "new_depot_wkspace";
             }
-            else
-            {
-                return "build_d00d_wk";
-            }
+            return "build_d00d_wk";
         }
 
         # endregion

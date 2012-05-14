@@ -93,11 +93,11 @@
             // 
             this.LblHeader.AutoSize = true;
             this.LblHeader.BackColor = System.Drawing.Color.Transparent;
-            this.LblHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblHeader.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblHeader.ForeColor = System.Drawing.Color.White;
-            this.LblHeader.Location = new System.Drawing.Point(204, 59);
+            this.LblHeader.Location = new System.Drawing.Point(216, 39);
             this.LblHeader.Name = "LblHeader";
-            this.LblHeader.Size = new System.Drawing.Size(240, 24);
+            this.LblHeader.Size = new System.Drawing.Size(210, 19);
             this.LblHeader.TabIndex = 2;
             this.LblHeader.Text = "Change Customer Status";
             // 
@@ -109,7 +109,7 @@
             this.LblCurrCustStatus.Name = "LblCurrCustStatus";
             this.LblCurrCustStatus.Size = new System.Drawing.Size(121, 13);
             this.LblCurrCustStatus.TabIndex = 3;
-            this.LblCurrCustStatus.Text = "Current Customer Stutus";
+            this.LblCurrCustStatus.Text = "Current Customer Status";
             // 
             // TxBCurrCustStatus
             // 

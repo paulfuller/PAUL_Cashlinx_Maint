@@ -15,6 +15,9 @@ using Common.Libraries.Utility.Shared;
 
 namespace Support.Libraries.Objects.Customer
 {
+    // WCM 4/26/12  Change the SupportCommentsVO type from single instance of a class to List with struct
+    /*__________________________________________________________________________________________*/
+
     [Serializable]
     public class CustomerVOForSupportApp : CustomerVO
     {
@@ -25,172 +28,117 @@ namespace Support.Libraries.Objects.Customer
         private List<CustomerEmailVO> emails;
         private List<CustomerNotesVO> notes;
         private List<StoreCreditVO> storecredit;
-        private SupportCommentVO comment;
+        private List<SupportCommentsVO> comments;
 
+        private SupportCommentsVO supportcommentrecord;
+
+        /*__________________________________________________________________________________________*/
         public CustomerVOForSupportApp()
         {
             initialize();
             InitSubClassVO();
         }
 
+        /*__________________________________________________________________________________________*/
         private void InitSubClassVO()
         {
 
-            this.comment = new SupportCommentVO();   // List<SupportCommentVO>();
+            this.comments = new List<SupportCommentsVO>(); //SupportCommentVO();
+
         }
 
+        #region EXTENDED CUSTOMERVO PROPERTIES
         //Simple attributes / accessors (Properties)
-        public string MaritalStatus
-        {
-            get;
-            set;
-        }
- 
-        public string SpouseFirstName
-        {
-            get;
-            set;
-        }
+        public string MaritalStatus { get; set; }
 
-        public string SpouseLastName
-        {
-            get;
-            set;
-        }
+        public string SpouseFirstName { get; set; }
 
-        public string SpouseSsn
-        {
-            get;
-            set;
-        }
+        public string SpouseLastName { get; set; }
 
-        public string CustSequenceNumber
-        {
-            get;
-            set;
-        }
+        public string SpouseSsn { get; set; }
 
-        public DateTime PrivacyNotificationDate
-        {
-            get;
-            set;
-        }
+        public string CustSequenceNumber { get; set; }
 
-        public string OptOutFlag
-        {
-            get;
-            set;
-        }
+        public DateTime PrivacyNotificationDate { get; set; }
 
-        public string Status
-        {
-            get;
-            set;
-        }
+        public string OptOutFlag { get; set; }
 
-        public string ReasonCode
-        {
-            get;
-            set;
-        }
+        public string Status { get; set; }
 
-        public DateTime LastVerificationDate
+        public string ReasonCode { get; set; }
+
+        public DateTime LastVerificationDate { get; set; }
+
+        public DateTime NextVerificationDate { get; set; }
+
+        public DateTime CoolingOffDatePDL { get; set; }
+
+        public DateTime CustomerSincePDL { get; set; }
+
+        public string SpanishForm { get; set; }
+
+        public string PRBC { get; set; }
+
+        public string PlanBankruptcyProtection { get; set; }
+
+
+        public int Years { get; set; }
+
+        public int Months { get; set; }
+
+        public string OwnHome { get; set; }
+
+        public int MonthlyRent { get; set; }
+
+        public string MilitaryStationedLocal { get; set; }
+
+        #endregion
+
+        /*__________________________________________________________________________________________*/
+
+        public List<SupportCommentsVO> SupportComments
         {
-            get;
-            set;
+            get { return comments; }
+            set { comments = value; }
         }
 
-        public DateTime NextVerificationDate
+        /*__________________________________________________________________________________________*/
+
+        public void addSupportComment(SupportCommentsVO vo)
         {
-            get;
-            set;
+            if (this.SupportComments.Contains(vo))
+                return;
+            this.SupportComments.Add(vo);
         }
 
-        public DateTime CoolingOffDatePDL
+        public void insertSupportComment(SupportCommentsVO vo, int index)
         {
-            get;
-            set;
+            if (this.SupportComments.Contains(vo))
+                return;
+            this.SupportComments.Insert(index, vo);
         }
 
-        public DateTime CustomerSincePDL
-        {
-            get;
-            set;
-        }
-
-        public string SpanishForm
-        {
-            get;
-            set;
-        }
-
-        public string PRBC
-        {
-            get;
-            set;
-        }
-
-        public string PlanBankruptcyProtection
-        {
-            get;
-            set;
-        }
-
-
-        public int Years
-        {
-            get;
-            set;
-        }
-
-        public int Months
-        {
-            get;
-            set;
-        }
-
-        public string OwnHome
-        {
-            get;
-            set;
-        }
-
-        public int MonthlyRent
-        {
-            get;
-            set;
-        }
-
-        public string MilitaryStationedLocal
-        {
-            get;
-            set;
-        }
-
-
-
-
-
-        //public List<SupportCommentVO> SupportComment
-        public SupportCommentVO SupportComment
+        /*__________________________________________________________________________________________*/
+        public SupportCommentsVO SupportCommentRecord
         {
             get
             {
-                return comment;
+                if (supportcommentrecord == null)
+                    supportcommentrecord = new SupportCommentsVO(); 
+
+                return supportcommentrecord;
             }
-            set
-            {
-                comment = value;
-            }
+            set { supportcommentrecord = value; }
         }
 
-        //public List<SupportCommentVO> getCustomerSupportComment()
-        //{
-        //    List<SupportCommentVO>  custSupportComment = (from commentText in this.comment
-        //                             select commentText)ToList();
+        /*__________________________________________________________________________________________*/
+        public List<SupportCommentsVO> getCustomerSupportComments()
+        {
 
-        //    return custSupportComment;
-        //}
-
+            var customerComments = from comment in this.SupportComments
+                                  orderby comment.UpDatedBy descending 
+                                select comment  ;
+            return customerComments.ToList();
+        }
     }
 }

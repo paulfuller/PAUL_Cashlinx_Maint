@@ -36,7 +36,6 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             System.Windows.Forms.Label label4;
             System.Windows.Forms.Label label5;
             System.Windows.Forms.Label label6;
-            System.Windows.Forms.Label label7;
             System.Windows.Forms.Label label9;
             System.Windows.Forms.Label label10;
             System.Windows.Forms.Label label11;
@@ -74,9 +73,11 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.Label label36;
+            this.LoanAmountLabel = new System.Windows.Forms.Label();
+            this.CurrentPrincipalAmountLabel = new System.Windows.Forms.Label();
             this.windowHeading_lb = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.CurrentPrincipalAmountText = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.neg_svc = new System.Windows.Forms.Label();
             this.neg_int = new System.Windows.Forms.Label();
@@ -101,7 +102,7 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             this.late_chg = new System.Windows.Forms.Label();
             this.svc_charge = new System.Windows.Forms.Label();
             this.interest = new System.Windows.Forms.Label();
-            this.loan_amount = new System.Windows.Forms.Label();
+            this.LoanAmountText = new System.Windows.Forms.Label();
             this.shop = new System.Windows.Forms.Label();
             this.terminal = new System.Windows.Forms.Label();
             this.pu_cust_no = new System.Windows.Forms.Label();
@@ -129,14 +130,12 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             this.Print_btn = new Common.Libraries.Forms.Components.CustomButton();
             this.Cancel_btn = new Common.Libraries.Forms.Components.CustomButton();
             this.Back_btn = new Common.Libraries.Forms.Components.CustomButton();
-            this.lblCurrentPrinicipalAmount = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
-            label7 = new System.Windows.Forms.Label();
             label9 = new System.Windows.Forms.Label();
             label10 = new System.Windows.Forms.Label();
             label11 = new System.Windows.Forms.Label();
@@ -165,7 +164,6 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             label33 = new System.Windows.Forms.Label();
             label34 = new System.Windows.Forms.Label();
             label35 = new System.Windows.Forms.Label();
-            label36 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ItemsList_dg)).BeginInit();
             this.SuspendLayout();
@@ -224,14 +222,14 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             label6.TabIndex = 6;
             label6.Text = "Origination Date / Time:";
             // 
-            // label7
+            // LoanAmountLabel
             // 
-            label7.AutoSize = true;
-            label7.Location = new System.Drawing.Point(554, 66);
-            label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(74, 13);
-            label7.TabIndex = 7;
-            label7.Text = "Loan Amount:";
+            this.LoanAmountLabel.AutoSize = true;
+            this.LoanAmountLabel.Location = new System.Drawing.Point(554, 66);
+            this.LoanAmountLabel.Name = "LoanAmountLabel";
+            this.LoanAmountLabel.Size = new System.Drawing.Size(74, 13);
+            this.LoanAmountLabel.TabIndex = 7;
+            this.LoanAmountLabel.Text = "Loan Amount:";
             // 
             // label9
             // 
@@ -486,6 +484,15 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             label35.TabIndex = 39;
             label35.Text = "/ Month";
             // 
+            // CurrentPrincipalAmountLabel
+            // 
+            this.CurrentPrincipalAmountLabel.AutoSize = true;
+            this.CurrentPrincipalAmountLabel.Location = new System.Drawing.Point(538, 85);
+            this.CurrentPrincipalAmountLabel.Name = "CurrentPrincipalAmountLabel";
+            this.CurrentPrincipalAmountLabel.Size = new System.Drawing.Size(91, 13);
+            this.CurrentPrincipalAmountLabel.TabIndex = 88;
+            this.CurrentPrincipalAmountLabel.Text = "Current Prin Amt:";
+            // 
             // windowHeading_lb
             // 
             this.windowHeading_lb.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -503,8 +510,8 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.Controls.Add(this.lblCurrentPrinicipalAmount);
-            this.panel1.Controls.Add(label36);
+            this.panel1.Controls.Add(this.CurrentPrincipalAmountText);
+            this.panel1.Controls.Add(this.CurrentPrincipalAmountLabel);
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.neg_svc);
             this.panel1.Controls.Add(this.neg_int);
@@ -529,7 +536,7 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             this.panel1.Controls.Add(this.late_chg);
             this.panel1.Controls.Add(this.svc_charge);
             this.panel1.Controls.Add(this.interest);
-            this.panel1.Controls.Add(this.loan_amount);
+            this.panel1.Controls.Add(this.LoanAmountText);
             this.panel1.Controls.Add(this.shop);
             this.panel1.Controls.Add(this.terminal);
             this.panel1.Controls.Add(this.pu_cust_no);
@@ -569,7 +576,7 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             this.panel1.Controls.Add(label11);
             this.panel1.Controls.Add(label10);
             this.panel1.Controls.Add(label9);
-            this.panel1.Controls.Add(label7);
+            this.panel1.Controls.Add(this.LoanAmountLabel);
             this.panel1.Controls.Add(label6);
             this.panel1.Controls.Add(label5);
             this.panel1.Controls.Add(label4);
@@ -580,6 +587,15 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(772, 262);
             this.panel1.TabIndex = 30;
+            // 
+            // CurrentPrincipalAmountText
+            // 
+            this.CurrentPrincipalAmountText.AutoSize = true;
+            this.CurrentPrincipalAmountText.Location = new System.Drawing.Point(634, 85);
+            this.CurrentPrincipalAmountText.Name = "CurrentPrincipalAmountText";
+            this.CurrentPrincipalAmountText.Size = new System.Drawing.Size(44, 13);
+            this.CurrentPrincipalAmountText.TabIndex = 89;
+            this.CurrentPrincipalAmountText.Text = "$ 00.00";
             // 
             // groupBox2
             // 
@@ -797,14 +813,14 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             this.interest.TabIndex = 52;
             this.interest.Text = "00.00 %";
             // 
-            // loan_amount
+            // LoanAmountText
             // 
-            this.loan_amount.AutoSize = true;
-            this.loan_amount.Location = new System.Drawing.Point(634, 66);
-            this.loan_amount.Name = "loan_amount";
-            this.loan_amount.Size = new System.Drawing.Size(44, 13);
-            this.loan_amount.TabIndex = 51;
-            this.loan_amount.Text = "$ 00.00";
+            this.LoanAmountText.AutoSize = true;
+            this.LoanAmountText.Location = new System.Drawing.Point(634, 66);
+            this.LoanAmountText.Name = "LoanAmountText";
+            this.LoanAmountText.Size = new System.Drawing.Size(44, 13);
+            this.LoanAmountText.TabIndex = 51;
+            this.LoanAmountText.Text = "$ 00.00";
             // 
             // shop
             // 
@@ -1227,24 +1243,6 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
             this.Back_btn.UseVisualStyleBackColor = false;
             this.Back_btn.Click += new System.EventHandler(this.Back_btn_Click);
             // 
-            // label36
-            // 
-            label36.AutoSize = true;
-            label36.Location = new System.Drawing.Point(538, 85);
-            label36.Name = "label36";
-            label36.Size = new System.Drawing.Size(91, 13);
-            label36.TabIndex = 88;
-            label36.Text = "Current Prin Amt:";
-            // 
-            // lblCurrentPrinicipalAmount
-            // 
-            this.lblCurrentPrinicipalAmount.AutoSize = true;
-            this.lblCurrentPrinicipalAmount.Location = new System.Drawing.Point(634, 85);
-            this.lblCurrentPrinicipalAmount.Name = "lblCurrentPrinicipalAmount";
-            this.lblCurrentPrinicipalAmount.Size = new System.Drawing.Size(44, 13);
-            this.lblCurrentPrinicipalAmount.TabIndex = 89;
-            this.lblCurrentPrinicipalAmount.Text = "$ 00.00";
-            // 
             // LoanDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1313,7 +1311,7 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
         private System.Windows.Forms.Label late_chg;
         private System.Windows.Forms.Label svc_charge;
         private System.Windows.Forms.Label interest;
-        private System.Windows.Forms.Label loan_amount;
+        private System.Windows.Forms.Label LoanAmountText;
         private System.Windows.Forms.Label shop;
         private System.Windows.Forms.Label terminal;
         private System.Windows.Forms.Label pu_cust_no;
@@ -1337,6 +1335,8 @@ namespace Pawn.Forms.Inquiry.LoanInquiry
         private System.Windows.Forms.DataGridViewTextBoxColumn item_loan_amt;
         private System.Windows.Forms.DataGridViewTextBoxColumn RetailAmt;
         private new System.Windows.Forms.DataGridViewTextBoxColumn Location;
-        private System.Windows.Forms.Label lblCurrentPrinicipalAmount;
+        private System.Windows.Forms.Label CurrentPrincipalAmountText;
+        private System.Windows.Forms.Label CurrentPrincipalAmountLabel;
+        private System.Windows.Forms.Label LoanAmountLabel;
     }
 }

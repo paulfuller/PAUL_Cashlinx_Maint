@@ -19,6 +19,7 @@ using Common.Libraries.Utility.Collection;
 using Common.Libraries.Utility.Exception;
 using Common.Libraries.Utility.Type;
 using Oracle.DataAccess.Client;
+using Support.Libraries.Utility;
 
 namespace Support.Controllers.Database.Procedures
 {
@@ -121,23 +122,8 @@ namespace Support.Controllers.Database.Procedures
                 inParams.Add(new OracleProcParam("p_months", months));
                 inParams.Add(new OracleProcParam("p_own_home", own_home));
                 inParams.Add(new OracleProcParam("p_military_stationed_local", military_stationed_local));
-
-
-
-                    /*inParams.Add(new OracleProcParam("", spouse_first_name));
-            inParams.Add(new OracleProcParam("", spouse_last_name));
-            inParams.Add(new OracleProcParam("", spouse_ssn));
-            
-            inParams.Add(new OracleProcParam("", privacy_notification_date));
-            inParams.Add(new OracleProcParam("", status));
-            inParams.Add(new OracleProcParam("", reason_code));
-            inParams.Add(new OracleProcParam("", cooling_off_date_pdl));
-            inParams.Add(new OracleProcParam("", customer_since_pdl));
-            inParams.Add(new OracleProcParam("", spanish_form));
-            inParams.Add(new OracleProcParam("", prbc));
-            inParams.Add(new OracleProcParam("", planbankruptcy_protection));
-            inParams.Add(new OracleProcParam("", monthly_rent));
-            */
+                inParams.Add(new OracleProcParam("p_monthly_rent", monthly_rent));
+                       
 
                 bool rt = false;
                 if (inParams.Count > 0)
@@ -497,33 +483,33 @@ namespace Support.Controllers.Database.Procedures
                     return (true);
                 }
             }
-
         /*__________________________________________________________________________________________*/
-        public bool ReadSupportCustomerCommentToDBData(
+        public bool getSupportCustomerCommentsFromDBData(
             string customerNumber,
-            SupportCommentVO CommentRecord,
+            out DataTable comments,
             out string errorCode,
-            out string errorMessage) 
-        {  
-            OracleDataAccessor oDa = GlobalDataAccessor.Instance.OracleDA;
-
+            out string errorMessage
+            )
+        {
+            const string CUSTOMER_COMMENTS = "CUSTOMER_COMMENTS";
+            comments = null;
+            bool retVal = false;
             errorCode = string.Empty;
             errorMessage = string.Empty;
 
-            List<OracleProcParam> inParams = new List<OracleProcParam>();
-            inParams.Add(new OracleProcParam("p_customer_number", OracleDbType.Varchar2,customerNumber));
-            inParams.Add(new OracleProcParam("p_comments", OracleDbType.Varchar2, DBNull.Value, ParameterDirection.Output, 4000)); // CommentRecord.CommentNote));
-            inParams.Add(new OracleProcParam("p_updatedby", OracleDbType.Varchar2, DBNull.Value, ParameterDirection.Output, 40));//CommentRecord.UpDatedBy));
-            inParams.Add(new OracleProcParam("p_lastupdatedate", OracleDbType.Varchar2, DBNull.Value, ParameterDirection.Output, 10));// CommentRecord.LastUpDateDATE));
+            var oDa = GlobalDataAccessor.Instance.OracleDA;
 
-            bool retVal = false;
-            List<PairType<string, string>> refCursArr = new List<PairType<string, string>>();
+
+            var inParams = new List<OracleProcParam>();
+            inParams.Add(new OracleProcParam("p_customer_number", OracleDbType.Varchar2, customerNumber));
+            
+            var refCursArr = new List<PairType<string, string>>();
+            refCursArr.Add(new PairType<string, string>("o_comment_list", CUSTOMER_COMMENTS));
 
             DataSet outputDataSet;
-
             try
             {
-                
+
                 retVal = oDa.issueSqlStoredProcCommand(
                     "ccsowner",
                     "pawn_support_cust_procs",
@@ -539,73 +525,51 @@ namespace Support.Controllers.Database.Procedures
             }
             catch (Exception oEx)
             {
-                BasicExceptionHandler.Instance.AddException("Calling GetCustomerStatusDBData stored procedure", oEx);
+                BasicExceptionHandler.Instance.AddException("Calling ReadSupportCustomerCommentsFromDBData stored procedure", oEx);
                 errorCode = "GetCustomerChangeStatus";
                 errorMessage = "Exception: " + oEx.Message;
                 return (retVal);
             }
 
-            if (outputDataSet != null)
+            if (outputDataSet != null && outputDataSet.IsInitialized)
             {
-                if (outputDataSet != null && outputDataSet.Tables.Count > 0)
+                if (outputDataSet.Tables.Count > 0)
                 {
-                    for (int i = 0; i < outputDataSet.Tables[0].Rows.Count; i++)
-                    {
-                        DataRow dr = outputDataSet.Tables[0].Rows[i];
-                        switch (i)
-                        {
-                            case 0:
-                                if (!(dr[1] == "null"))
-                                    CommentRecord.CommentNote = Utilities.GetStringValue(dr[1], "");
-                                break;
-                            case 1:
-                                if (!(dr[1] == "null"))
-                                    CommentRecord.UpDatedBy = Utilities.GetStringValue(dr[1], "");
-                                break;
-                            case 2:
-                                if (!(dr[1] == "null"))
-                                    CommentRecord.LastUpDateDATE = DateTime.Parse(Utilities.GetStringValue(dr[1], ""));
-                                /*
-                                DateTime testDate;
-                                bool DateIsGood = DateTime.TryParse(Utilities.GetStringValue(dr[1], ""),out testDate);
-                                if (DateIsGood == true)
-                                    CommentRecord.LastUpDateDATE = DateTime.Parse(Utilities.GetStringValue(dr[1], ""));
-                                else
-                                    CommentRecord.LastUpDateDATE = DateTime.Now;
-                                */
-
-                                    break;
-                        }
-                    }
+                    comments = outputDataSet.Tables[CUSTOMER_COMMENTS];
+                    return (true);
                 }
             }
-                errorCode = "0"; 
-                errorMessage = string.Empty; 
-            return ( retVal );
+            errorCode = "0";
+            errorMessage = string.Empty;
+            return (retVal);
+        }
 
-        }    
-
+ 
         /*__________________________________________________________________________________________*/
         public Boolean WriteSupportCustomerCommentToDBData(
             string customerNumber,
             string commentText,
             string userId,
+            string categoryId,
+            string employeeNumber,
             out string errorCode,
             out string errorMessage) 
         {
             Boolean retVal = false;
 
-            OracleDataAccessor oDa = GlobalDataAccessor.Instance.OracleDA;
+            var oDa = GlobalDataAccessor.Instance.OracleDA;
 
             errorCode = string.Empty;
             errorMessage = string.Empty;
 
-            List<OracleProcParam> inParams = new List<OracleProcParam>();
+            var inParams = new List<OracleProcParam>();
             inParams.Add(new OracleProcParam("p_customer_number", OracleDbType.Varchar2,customerNumber));
             inParams.Add(new OracleProcParam("p_comments",  OracleDbType.Varchar2,commentText));
             inParams.Add(new OracleProcParam("p_updatedby",  OracleDbType.Varchar2,userId));
+            inParams.Add(new OracleProcParam("p_category_id", OracleDbType.Varchar2, categoryId));
+            inParams.Add(new OracleProcParam("p_employee_nbr", OracleDbType.Varchar2, employeeNumber));
           
-            List<PairType<string, string>> refCursArr = new List<PairType<string, string>>();
+            var refCursArr = new List<PairType<string, string>>();
 
             DataSet outputDataSet;
                 try
@@ -615,13 +579,12 @@ namespace Support.Controllers.Database.Procedures
                     retVal = oDa.issueSqlStoredProcCommand(
                         "ccsowner",
                         "pawn_support_cust_procs",
-                        "update_customer_comments",
+                        "insert_customer_comments",
                         inParams,
                         refCursArr,
                         "o_return_code",
                         "o_return_text", out outputDataSet);
 
-                    retVal = true;
                 }
                 catch (Exception oEx)
                 {
@@ -630,7 +593,7 @@ namespace Support.Controllers.Database.Procedures
                     errorMessage = "Exception: " + oEx.Message;
                }
 
-                if (retVal == false)
+                if (!retVal)
                 {
                     DesktopSession.endTransactionBlock(EndTransactionType.ROLLBACK);
                 }
@@ -733,6 +696,66 @@ namespace Support.Controllers.Database.Procedures
             errorMesg = "Operation failed";
             return (false);
         }
+
+
+     public bool GetCustomerCommentCategories(
+out DataTable commentsCategories,
+out string errorCode,
+out string errorMesg)
+     {
+         const string COMMENTS_CATEGORIES = "CommentsCategories";
+         //Get data accessor object
+         OracleDataAccessor dA = GlobalDataAccessor.Instance.OracleDA;
+
+         //Setup output defaults
+         commentsCategories = null;
+         errorCode = string.Empty;
+         errorMesg = string.Empty;
+
+         List<PairType<string, string>> refCursArr = new List<PairType<string, string>>();
+         refCursArr.Add(new PairType<string, string>("o_category", COMMENTS_CATEGORIES));
+         DataSet outputDataSet;
+         bool retVal = false;
+         try
+         {
+             // EDW - OK change
+             retVal = dA.issueSqlStoredProcCommand(
+                 "ccsowner", "pawn_support_cust_procs",
+                 "get_comment_category", new List<OracleProcParam>(),
+                 refCursArr, "o_return_code",
+                 "o_return_text",
+                 out outputDataSet);
+         }
+         catch (Exception oEx)
+         {
+             BasicExceptionHandler.Instance.AddException("Calling get_cust_details stored procedure", oEx);
+             errorCode = "GetCustDetails";
+             errorMesg = "Exception: " + oEx.Message;
+             return (false);
+         }
+
+         if (retVal == false)
+         {
+             errorCode = dA.ErrorCode;
+             errorMesg = dA.ErrorDescription;
+             return (false);
+         }
+         else
+         {
+             if (outputDataSet != null && outputDataSet.IsInitialized)
+             {
+                 if (outputDataSet.Tables != null && outputDataSet.Tables.Count > 0)
+                 {
+                     commentsCategories = outputDataSet.Tables[COMMENTS_CATEGORIES];
+                     return (true);
+                 }
+             }
+         }
+
+         errorCode = "CommentsCategoriesFailed";
+         errorMesg = "Operation failed";
+         return (false);
+     }
 
         # endregion
 

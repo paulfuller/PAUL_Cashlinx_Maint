@@ -1,6 +1,7 @@
 ﻿using Common.Libraries.Forms.Components;
 //using Pawn.Forms.UserControls;
 using Support.Forms.UserControls; 
+using Support.Libraries.Forms.Components;
 
 //using Pawn.Logic;
 
@@ -36,9 +37,9 @@ namespace Support.Forms.Customer
         {
             this.labelHeading = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.customButtonCancel = new Common.Libraries.Forms.Components.CustomButton();
-            this.customButtonReset = new Common.Libraries.Forms.Components.CustomButton();
-            this.customButtonSubmit = new Common.Libraries.Forms.Components.CustomButton();
+            this.customButtonCancel = new Support.Libraries.Forms.Components.SupportButton();
+            this.customButtonReset = new Support.Libraries.Forms.Components.SupportButton();
+            this.customButtonSubmit = new Support.Libraries.Forms.Components.SupportButton();
             this.identification1 = new Support.Forms.UserControls.Identification();
             this.SuspendLayout();
             // 
@@ -47,11 +48,11 @@ namespace Support.Forms.Customer
             this.labelHeading.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelHeading.AutoSize = true;
             this.labelHeading.BackColor = System.Drawing.Color.Transparent;
-            this.labelHeading.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHeading.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelHeading.ForeColor = System.Drawing.Color.White;
-            this.labelHeading.Location = new System.Drawing.Point(220, 23);
+            this.labelHeading.Location = new System.Drawing.Point(192, 23);
             this.labelHeading.Name = "labelHeading";
-            this.labelHeading.Size = new System.Drawing.Size(177, 16);
+            this.labelHeading.Size = new System.Drawing.Size(224, 19);
             this.labelHeading.TabIndex = 0;
             this.labelHeading.Text = "Government Identification";
             // 
@@ -183,8 +184,8 @@ namespace Support.Forms.Customer
         private System.Windows.Forms.Label labelHeading;
         private System.Windows.Forms.GroupBox groupBox1;
         private Identification identification1;
-        private CustomButton customButtonCancel;
-        private CustomButton customButtonReset;
-        private CustomButton customButtonSubmit;
+        private SupportButton customButtonCancel;
+        private SupportButton customButtonReset;
+        private SupportButton customButtonSubmit;
     }
 }

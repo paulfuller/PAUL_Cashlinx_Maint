@@ -907,7 +907,7 @@ namespace Common.Libraries.Objects.Config
         /// Populate database information after object initialization
         /// </summary>
         /// <returns></returns>
-        private bool populateDbData()
+        private bool populateDbData(bool onlyDbData = false)
         {
             if (this.pwnSecData == null) return(false);
             if (CollectionUtilities.isNotEmpty(this.pwnSecData.DatabaseServiceMapList) &&
@@ -916,9 +916,18 @@ namespace Common.Libraries.Objects.Config
                 List<DatabaseServiceVO> dbList = null;
                 if (this.pwnSecData.MapsValid == false)
                 {
-                    var dbStoMapEntryList = 
+                    List<PawnSecVO.DatabaseServiceStoreMapVO> dbStoMapEntryList;
+                    if (!onlyDbData)
+                    {
+                        dbStoMapEntryList =
                             this.pwnSecData.DatabaseServiceMapList.FindAll(
-                                    x => x.StoreConfigId.Equals(this.clientConfig.StoreConfiguration.Id));
+                                x => x.StoreConfigId.Equals(this.clientConfig.StoreConfiguration.Id));
+                    }
+                    else
+                    {
+                        dbStoMapEntryList =
+                            this.pwnSecData.DatabaseServiceMapList;
+                    }
                     if (CollectionUtilities.isNotEmpty(dbStoMapEntryList))
                     {
                         var dbListE = from dbServ in this.pwnSecData.DatabaseServiceList
@@ -930,15 +939,28 @@ namespace Common.Libraries.Objects.Config
                 }
                 else
                 {
-                    var pSecStoreDbListKeyPair =
+                    KeyValuePair<PawnSecVO.PawnSecStoreVO, List<DatabaseServiceVO>> pSecStoreDbListKeyPair;
+                    if (!onlyDbData)
+                    {
+                        pSecStoreDbListKeyPair =
                             this.pwnSecData.StoreToDatabaseServiceMap.First(
-                                    x => x.Key.StoreSite.StoreNumber.Equals(this.storeNumber));
-                    
+                                x => x.Key.StoreSite.StoreNumber.Equals(this.storeNumber));
+                    }
+                    else
+                    {
+                        pSecStoreDbListKeyPair =
+                            this.pwnSecData.StoreToDatabaseServiceMap.First();
+                    }
+
                     dbList = pSecStoreDbListKeyPair.Value;
                 }
 
                 if (dbList != null && CollectionUtilities.isNotEmpty(dbList))
                 {
+                    if (onlyDbData && this.clientConfig == null)
+                    {
+                        this.clientConfig = new ClientConfigVO("1", this._publicKey);
+                    }
                     var idx = 0;
                     foreach(var curDb in dbList)
                     {
@@ -1041,12 +1063,14 @@ namespace Common.Libraries.Objects.Config
         /// <param name="stoNum"></param>
         /// <param name="pSecData"></param>
         /// <param name="pApp"> </param>
+        /// <param name="onlyDbData"> </param>
         public EncryptedConfigContainer(
             string pKey,
             string pubKey,
             string stoNum,
             PawnSecVO pSecData,
-            PawnSecApplication pApp = PawnSecApplication.None)
+            PawnSecApplication pApp = PawnSecApplication.None,
+            bool onlyDbData = false)
         {
             this.Initialized = false;
             this.Created = false;
@@ -1058,22 +1082,22 @@ namespace Common.Libraries.Objects.Config
                 throw new ApplicationException("Cannot create decryption key");                
             }
             this.Created = true;
-            this.Initialized = this.Refresh(stoNum, pSecData);
+            this.Initialized = this.Refresh(stoNum, pSecData, onlyDbData);
             if (this.Initialized)
             {
                 this.AppType = pApp;
             }
         }
 
-        public bool Refresh(string stoNum, PawnSecVO pSecData)
+        public bool Refresh(string stoNum, PawnSecVO pSecData, bool onlyDbData = false)
         {
             if (pSecData == null) return(false);
-            if (string.IsNullOrEmpty(stoNum)) return(false);
+            if (!onlyDbData && string.IsNullOrEmpty(stoNum)) return(false);
             this.pwnSecData = pSecData;
-            this.storeNumber = stoNum;
-            if (!this.populateClientData()) return(false);
-            if (!this.populateDbData()) return (false);
-            if (!this.populateEsbData()) return (false);
+            if (!onlyDbData)this.storeNumber = stoNum;
+            if (!onlyDbData && !this.populateClientData()) return(false);
+            if (!this.populateDbData(onlyDbData)) return (false);
+            if (!onlyDbData && !this.populateEsbData()) return (false);
             this.Initialized = true;
             return (true);
         }

@@ -105,14 +105,21 @@ namespace Pawn.Forms.Pawn.Services.PFI
 
             asOfLabel.Text = ShopDateTime.Instance.ShopDate.ToShortDateString();
 
-            StoreLoans.GetLoanTransition(GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber,
-                0,
-                ProductType.ALL,
-                StateStatus.PFI,
-                out _lstTransitionData,
-                out dStatusCode,
-                out sErrorCode,
-                out sErrorText);
+            if (StoreLoans.GetLoanTransition(GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber,
+                 0,
+                 ProductType.ALL,
+                 StateStatus.PFI,
+                 out _lstTransitionData,
+                 out dStatusCode,
+                 out sErrorCode,
+                 out sErrorText) == false)
+            {
+                // There was an issue with the PFI posting
+                MessageBox.Show(sErrorText);
+                this.Close();
+                return;
+
+            }
 
             foreach (PFI_TransitionData pfiTransitionData in _lstTransitionData)
             {
@@ -386,6 +393,15 @@ namespace Pawn.Forms.Pawn.Services.PFI
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
+            foreach (var tranData in _lstTransitionData)
+            {
+                var loan = tranData.pfiLoan.UpdatedObject;
+                string errorCode;
+                string errorText;
+                StoreLoans.UpdateLoanTransitionStatus(loan.TicketNumber, "", 
+                        loan.OrgShopNumber.ToString().PadLeft(5, '0'), out errorCode, out errorText);
+            }
+            //StoreLoans.UpdateLoanTransitionStatus()
             this.Close();
         }
 

@@ -7,7 +7,7 @@
         public string BaseTemplatePath { get; set; }
         public string BaseLogPath { get; set; }
         public string BaseMediaPath { get; set; }
-        public string DataPublicKey { get; private set; }
+        public string DataPublicKey { get; set; }
         public string Version { get; set; }
 
         public GlobalConfigVO(string dataPublicKey)

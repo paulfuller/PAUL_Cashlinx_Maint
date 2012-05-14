@@ -23,6 +23,7 @@ using Common.Libraries.Utility;
 //using Common.Libraries.Utility.Shared;
 using Common.Libraries.Utility.Shared;
 using Support.Libraries.Objects.Customer;
+using Support.Libraries.Utility;
 using customerrecord = Support.Libraries.Utility.customerrecord;
 
 namespace Support.Controllers.Database.Procedures
@@ -231,6 +232,30 @@ namespace Support.Controllers.Database.Procedures
             }
 
 
+        }
+
+        public static void getCustomerCommentsDataInObject(DataTable comments, CustomerVOForSupportApp CustomerContainer)
+        {
+            
+
+            if(comments != null)
+            {
+                DataRow[] dataRows = comments.Select();
+                if (dataRows != null && dataRows.Length > 0)
+                {
+                    foreach (DataRow cust in dataRows)
+                    {
+                        var commentRecord = new SupportCommentsVO();
+                        commentRecord.CommentNote = Utilities.GetStringValue(cust.ItemArray[(int)customercommentrecord.COMMENTS], "");
+                        commentRecord.LastUpDateDATE = DateTime.Parse(Utilities.GetStringValue(cust.ItemArray[(int)customercommentrecord.DATA_MADE], ""));
+                        commentRecord.UpDatedBy = Utilities.GetStringValue(cust.ItemArray[(int)customercommentrecord.MADE_BY], "");
+                        commentRecord.Category = Utilities.GetStringValue(cust.ItemArray[(int)customercommentrecord.CATEGORY], "");
+                        commentRecord.EmployeeNumber = Utilities.GetStringValue(cust.ItemArray[(int)customercommentrecord.EMPLOYEE_NBR], "");
+                        CustomerContainer.addSupportComment(commentRecord);
+                    }
+                }
+
+            }
         }
 
         public static CustomerVOForSupportApp getCustomerDataInObject(string selectedPartyId,

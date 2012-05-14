@@ -874,7 +874,7 @@ namespace Common.Libraries.Utility.Shared
             public const string VOIDVENDORBUY = "voidvendorbuy";
             public const string GUNBOOKEDIT = "gunbookedit";
             public const string RETURNCUSTOMERBUY = "returncustomerbuy";
-
+            public const string VOIDRELEASEFINGERPRINTS = "voidreleasefingerprints";
 
         }
 

@@ -30,6 +30,7 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageTransferOut));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -39,6 +40,14 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             this.cancelButton = new System.Windows.Forms.Button();
             this.continueButton = new System.Windows.Forms.Button();
             this.gvMerchandise = new System.Windows.Forms.DataGridView();
+            this.colNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RefurbCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colICN = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMerchandiseDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colComments = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colJewelryCaseNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.txtIcn = new System.Windows.Forms.TextBox();
             this.lblFrom1 = new System.Windows.Forms.Label();
@@ -59,6 +68,7 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             this.storeAddrLine2 = new System.Windows.Forms.Label();
             this.storeAddrLine1 = new System.Windows.Forms.Label();
             this.tblLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.transferToList1 = new TransferTo();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -66,17 +76,8 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.addCommentButton = new System.Windows.Forms.Button();
             this.tblLayout2 = new System.Windows.Forms.TableLayoutPanel();
-            this.toTransLabel = new System.Windows.Forms.Label();
-            this.colNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RefurbCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colICN = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMerchandiseDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colComments = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colJewelryCaseNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.transferTo1 = new TransferTo();
-            this.transferToList1 = new TransferTo();
+            this.toTransLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gvMerchandise)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.variancePanel.SuspendLayout();
@@ -101,9 +102,10 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             // 
             // icnLabel
             // 
+            this.icnLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.icnLabel.AutoSize = true;
             this.icnLabel.BackColor = System.Drawing.Color.Transparent;
-            this.icnLabel.Location = new System.Drawing.Point(3, 15);
+            this.icnLabel.Location = new System.Drawing.Point(3, 11);
             this.icnLabel.Name = "icnLabel";
             this.icnLabel.Size = new System.Drawing.Size(106, 13);
             this.icnLabel.TabIndex = 139;
@@ -112,10 +114,10 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             // 
             // cmdICNSubmit
             // 
-            this.cmdICNSubmit.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cmdICNSubmit.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cmdICNSubmit.AutoSize = true;
             this.cmdICNSubmit.BackColor = System.Drawing.Color.Transparent;
-            this.cmdICNSubmit.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.cmdICNSubmit.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cmdICNSubmit.BackgroundImage")));
             this.cmdICNSubmit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.cmdICNSubmit.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.cmdICNSubmit.FlatAppearance.BorderSize = 0;
@@ -124,7 +126,7 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             this.cmdICNSubmit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmdICNSubmit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmdICNSubmit.ForeColor = System.Drawing.Color.White;
-            this.cmdICNSubmit.Location = new System.Drawing.Point(337, 12);
+            this.cmdICNSubmit.Location = new System.Drawing.Point(337, 6);
             this.cmdICNSubmit.Name = "cmdICNSubmit";
             this.cmdICNSubmit.Size = new System.Drawing.Size(67, 23);
             this.cmdICNSubmit.TabIndex = 142;
@@ -137,7 +139,7 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cancelButton.AutoSize = true;
             this.cancelButton.BackColor = System.Drawing.Color.Transparent;
-            this.cancelButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.cancelButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cancelButton.BackgroundImage")));
             this.cancelButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.cancelButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.cancelButton.FlatAppearance.BorderSize = 0;
@@ -159,7 +161,7 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             this.continueButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.continueButton.AutoSize = true;
             this.continueButton.BackColor = System.Drawing.Color.Transparent;
-            this.continueButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.continueButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("continueButton.BackgroundImage")));
             this.continueButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.continueButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.continueButton.FlatAppearance.BorderSize = 0;
@@ -301,7 +303,8 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             // 
             // txtIcn
             // 
-            this.txtIcn.Location = new System.Drawing.Point(122, 12);
+            this.txtIcn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtIcn.Location = new System.Drawing.Point(122, 7);
             this.txtIcn.Name = "txtIcn";
             this.txtIcn.Size = new System.Drawing.Size(209, 20);
             this.txtIcn.TabIndex = 151;
@@ -387,7 +390,7 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             this.deleteButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.deleteButton.AutoSize = true;
             this.deleteButton.BackColor = System.Drawing.Color.Transparent;
-            this.deleteButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.deleteButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("deleteButton.BackgroundImage")));
             this.deleteButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.deleteButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.deleteButton.FlatAppearance.BorderSize = 0;
@@ -411,17 +414,17 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             this.searchPanel.Controls.Add(this.icnLabel);
             this.searchPanel.Controls.Add(this.cmdICNSubmit);
             this.searchPanel.Controls.Add(this.txtIcn);
-            this.searchPanel.Location = new System.Drawing.Point(13, 256);
+            this.searchPanel.Location = new System.Drawing.Point(13, 260);
             this.searchPanel.Name = "searchPanel";
-            this.searchPanel.Size = new System.Drawing.Size(746, 37);
+            this.searchPanel.Size = new System.Drawing.Size(746, 34);
             this.searchPanel.TabIndex = 160;
             // 
             // cmdSearch
             // 
-            this.cmdSearch.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cmdSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cmdSearch.AutoSize = true;
             this.cmdSearch.BackColor = System.Drawing.Color.Transparent;
-            this.cmdSearch.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.cmdSearch.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cmdSearch.BackgroundImage")));
             this.cmdSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.cmdSearch.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.cmdSearch.FlatAppearance.BorderSize = 0;
@@ -430,7 +433,7 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             this.cmdSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmdSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmdSearch.ForeColor = System.Drawing.Color.White;
-            this.cmdSearch.Location = new System.Drawing.Point(410, 12);
+            this.cmdSearch.Location = new System.Drawing.Point(410, 6);
             this.cmdSearch.Name = "cmdSearch";
             this.cmdSearch.Size = new System.Drawing.Size(82, 23);
             this.cmdSearch.TabIndex = 152;
@@ -473,7 +476,7 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             this.panel1.Controls.Add(this.storeAddrLine1);
             this.panel1.Location = new System.Drawing.Point(13, 183);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(263, 68);
+            this.panel1.Size = new System.Drawing.Size(263, 78);
             this.panel1.TabIndex = 158;
             // 
             // lblStoreFax
@@ -547,6 +550,14 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             this.tblLayout.Size = new System.Drawing.Size(245, 184);
             this.tblLayout.TabIndex = 164;
             // 
+            // transferToList1
+            // 
+            this.transferToList1.BackColor = System.Drawing.Color.Transparent;
+            this.transferToList1.Location = new System.Drawing.Point(3, 3);
+            this.transferToList1.Name = "transferToList1";
+            this.transferToList1.Size = new System.Drawing.Size(153, 44);
+            this.transferToList1.TabIndex = 0;
+            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -597,7 +608,7 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             this.addCommentButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.addCommentButton.AutoSize = true;
             this.addCommentButton.BackColor = System.Drawing.Color.Transparent;
-            this.addCommentButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.addCommentButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("addCommentButton.BackgroundImage")));
             this.addCommentButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.addCommentButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.addCommentButton.FlatAppearance.BorderSize = 0;
@@ -628,6 +639,14 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             this.tblLayout2.Size = new System.Drawing.Size(233, 184);
             this.tblLayout2.TabIndex = 166;
             // 
+            // transferTo1
+            // 
+            this.transferTo1.BackColor = System.Drawing.Color.Transparent;
+            this.transferTo1.Location = new System.Drawing.Point(3, 3);
+            this.transferTo1.Name = "transferTo1";
+            this.transferTo1.Size = new System.Drawing.Size(153, 1);
+            this.transferTo1.TabIndex = 0;
+            // 
             // toTransLabel
             // 
             this.toTransLabel.AutoSize = true;
@@ -639,94 +658,11 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
             this.toTransLabel.TabIndex = 167;
             this.toTransLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // colNumber
-            // 
-            this.colNumber.FillWeight = 6.352931F;
-            this.colNumber.HeaderText = "Number";
-            this.colNumber.Name = "colNumber";
-            this.colNumber.ReadOnly = true;
-            this.colNumber.Width = 60;
-            // 
-            // RefurbCol
-            // 
-            this.RefurbCol.HeaderText = "Refurb";
-            this.RefurbCol.Name = "RefurbCol";
-            this.RefurbCol.ReadOnly = true;
-            this.RefurbCol.Visible = false;
-            // 
-            // colICN
-            // 
-            this.colICN.FillWeight = 12.70586F;
-            this.colICN.HeaderText = "ICN";
-            this.colICN.Name = "colICN";
-            this.colICN.ReadOnly = true;
-            this.colICN.Width = 140;
-            // 
-            // colMerchandiseDescription
-            // 
-            this.colMerchandiseDescription.FillWeight = 40F;
-            this.colMerchandiseDescription.HeaderText = "Merchandise Description";
-            this.colMerchandiseDescription.Name = "colMerchandiseDescription";
-            this.colMerchandiseDescription.ReadOnly = true;
-            this.colMerchandiseDescription.Width = 350;
-            // 
-            // colQuantity
-            // 
-            this.colQuantity.FillWeight = 18.96205F;
-            this.colQuantity.HeaderText = "Quantity";
-            this.colQuantity.Name = "colQuantity";
-            this.colQuantity.Width = 80;
-            // 
-            // colCost
-            // 
-            this.colCost.FillWeight = 18.96205F;
-            this.colCost.HeaderText = "Cost";
-            this.colCost.Name = "colCost";
-            this.colCost.ReadOnly = true;
-            // 
-            // colComments
-            // 
-            this.colComments.HeaderText = "Comments";
-            this.colComments.Name = "colComments";
-            this.colComments.ReadOnly = true;
-            this.colComments.Visible = false;
-            // 
-            // colJewelryCaseNumber
-            // 
-            this.colJewelryCaseNumber.HeaderText = "CaseNumber";
-            this.colJewelryCaseNumber.Name = "colJewelryCaseNumber";
-            this.colJewelryCaseNumber.ReadOnly = true;
-            this.colJewelryCaseNumber.Visible = false;
-            // 
-            // transferTo1
-            // 
-            this.transferTo1.BackColor = System.Drawing.Color.Transparent;
-            this.transferTo1.Location = new System.Drawing.Point(3, 3);
-            this.transferTo1.Name = "transferTo1";
-            this.transferTo1.Size = new System.Drawing.Size(153, 1);
-            this.transferTo1.TabIndex = 0;
-            // 
-            // transferToList1
-            // 
-            this.toTransLabel.AutoSize = true;
-            this.toTransLabel.BackColor = System.Drawing.Color.Transparent;
-            this.toTransLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toTransLabel.Location = new System.Drawing.Point(39, 153);
-            this.toTransLabel.Name = "toTransLabel";
-            this.toTransLabel.Size = new System.Drawing.Size(0, 13);
-            this.toTransLabel.TabIndex = 167;
-            this.toTransLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.transferToList1.BackColor = System.Drawing.Color.Transparent;
-            this.transferToList1.Location = new System.Drawing.Point(3, 3);
-            this.transferToList1.Name = "transferToList1";
-            this.transferToList1.Size = new System.Drawing.Size(153, 44);
-            this.transferToList1.TabIndex = 0;
-            // 
             // ManageTransferOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Common.Properties.Resources.newDialog_512_BlueScale;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(778, 522);
             this.ControlBox = false;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿//#define DisableTabs
+using System;
 using System.Windows.Forms;
 using Support.Forms.Customer;
 using Common.Controllers.Application;
@@ -8,6 +9,7 @@ using Common.Controllers.Application.ApplicationFlow.Impl.Common;
 using Common.Controllers.Application.ApplicationFlow.Navigation;
 using Common.Controllers.Database.Procedures;
 //using Common.Libraries.Forms;
+using Support.Forms.Customer.Products.ProductHistory;
 using Support.Libraries.Forms;
 using Common.Libraries.Utility.Shared;
 using Support.Flows.AppController.Impl.Common;
@@ -16,8 +18,11 @@ using Support.Flows.AppController.Impl.Common;
 //using Pawn.Forms.Pawn.Products.ProductDetails;
 //using Pawn.Forms.Pawn.Products.ProductHistory;
 //using Pawn.Forms.Pawn.Services.Receipt;
+using Support.Forms.Customer.Products;
 using Support.Forms.Pawn.Customer;
 using Support.Logic;
+using Support.Forms.Customer.ProductTabs;
+using Support.Forms.Customer.ItemHistory;
 //using Support.Logic.DesktopProcedures;
 
 namespace Support.Flows.AppController.Impl.MainSubFlows
@@ -26,11 +31,28 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
     {
         public const string NAME = "PawnCustInformationFlowExecutor";
         public const string MMPIFUNCTIONALITYNAME = "mmpi";
+        public const string CUSTOMERPRODUCTS = "Controller_ProductServices";
+        public const string LOOKUPCUSTOMER = "custmaint";
 
         public enum PawnCustInformationFlowState
         {
-
-            ViewReadOnlyCustomerInformation,
+            ViewCustomerInformationReadOnly, // TODO CLEANUP NAME FOR READABILITY   
+            UpdateCustomerDetails,
+            UpdateCustomerStatus,
+            SupportCustomerComment,      // TODO CLEANUP NAME FOR READABILITY
+            UpdateCustomerContactDetails,
+            UpdateCommentsandNotes,
+            UpdateCustomerIdentification,
+            ViewPersonalInformationHistory,
+            Controller_ProductServices,
+            ProductServices,
+            ViewPawnCustomerInfo, 
+            UpdateAddress, // WCM 4/20/12 From here and above moved from LookupCustomerFlowExecutor.cs
+            AddViewSupportCustomerComment,
+            Controller_ProductHistory,
+            Controller_ItemHistory,
+            Controller_Stats,
+            ViewReadOnlyCustomerInformation,        
             ViewCustomerInformation,
             ViewPawnCustomerProductDetails,
             ViewPawnCustomerStats,
@@ -43,6 +65,7 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
             TenderIn,
             ExitFlow,
             CancelFlow,
+            Cancel,
             Error
         }
 
@@ -51,53 +74,266 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
         private SingleExecuteBlock parentFlow;
         private FxnBlock endStateNotifier;
 
+        #region FlowExecutor & ExecuteNextState
+        /*__________________________________________________________________________________________*/
+        public PawnCustInformationFlowExecutor(Form parentForm, FxnBlock eStateNotifier, SingleExecuteBlock parentFlow)
+            : base(NAME)
+        {
+            this.parentForm = parentForm;
+            this.endStateNotifier = eStateNotifier;
+            this.nextState = FindStateByTabClicked();
+            this.parentFlow = parentFlow;
+            this.setExecBlock(this.executorFxn);
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void executeNextState()
+        {
+            object evalExecFlag = this.executorFxn(this.nextState);
+            if (evalExecFlag == null || ((bool)(evalExecFlag)) == false)
+            {
+                throw new ApplicationException("Cannot execute the next state: " + this.nextState.ToString());
+            }
+        }
+        // WCM 4/18/12 Pulled code from PawnCustomerInformationFlowExecutor and modified 
+        /*__________________________________________________________________________________________*/
+        private static PawnCustInformationFlowState FindStateByTabClicked()
+        {
+
+            // WCM 4/18/12 GlobalDataAccessor.Instance.DesktopSession.TabStateClicked replace by CashlinxPawnSupportSession.Instance.TabStateClicked
+            if (CashlinxPawnSupportSession.Instance.TabStateClicked == FlowTabController.State.ProductHistory)
+            { return PawnCustInformationFlowState.Controller_ProductHistory; }
+            else if (CashlinxPawnSupportSession.Instance.TabStateClicked == FlowTabController.State.ItemHistory)
+                return PawnCustInformationFlowState.Controller_ItemHistory;
+            else if (CashlinxPawnSupportSession.Instance.TabStateClicked == FlowTabController.State.ProductsAndServices)
+                return PawnCustInformationFlowState.Controller_ProductServices;
+            else if (CashlinxPawnSupportSession.Instance.TabStateClicked == FlowTabController.State.Customer)
+                return PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+            else if (CashlinxPawnSupportSession.Instance.TabStateClicked == FlowTabController.State.Stats)
+                return PawnCustInformationFlowState.Controller_Stats;
+
+            return PawnCustInformationFlowState.ViewCustomerInformationReadOnly; 
+
+        }
+
+        private void ReSetTabs()
+        {
+#if !DisableTags
+            // disable tabs here!
+            ShowForm viewCustInfoReadOnlyBlk = CommonAppBlocks.Instance.ViewCustomerInfoShowBlock(this.parentForm, this.viewCustomerInformationFormNavAction);
+            CommonAppBlocks.Instance.ShowFlowTabController(this.parentForm, viewCustInfoReadOnlyBlk.ClassForm, FlowTabController.State.Customer);
+#endif
+        }
 
         /// <summary>
         /// Main execution function for NewPawnLoanFlowExecutor
         /// </summary>
         /// <param name="inputData"></param>
         /// <returns></returns>
+        /*__________________________________________________________________________________________*/
         private object executorFxn(object inputData)
         {
-
-
             if (inputData == null)
                 inputData = FindStateByTabClicked();
-
-
-
 
             PawnCustInformationFlowState inputState = (PawnCustInformationFlowState)inputData;
 
             switch (inputState)
             {
-                case PawnCustInformationFlowState.ViewReadOnlyCustomerInformation:
+                #region SWITCH STATEMENTS MOVED
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.ViewCustomerInformationReadOnly:
 
-                    ShowForm viewCustInfoReadOnlyBlk = CommonAppBlocks.Instance.ViewCustomerInfoShowBlock(this.parentForm, this.viewCustFormNavAction);
+                    ShowForm viewCustInfoReadOnlyBlk = CommonAppBlocks.Instance.ViewCustomerInfoShowBlock(this.parentForm, this.viewCustomerInformationFormNavAction);
+
                     if (!viewCustInfoReadOnlyBlk.execute())
                     {
                         throw new ApplicationException("Cannot execute View customer information block");
                     }
+
+#if !DisableTabs
+                    // disable tabs here!
                     CommonAppBlocks.Instance.ShowFlowTabController(this.parentForm, viewCustInfoReadOnlyBlk.ClassForm, FlowTabController.State.Customer);
-                    SetTabsInForm();
-                    ((ViewCustomerInformation)viewCustInfoReadOnlyBlk.ClassForm).ShowReadOnly = true;
+                    //SetTabsInForm();
+#else
+                    CommonAppBlocks.Instance.ShowFlowTabController(this.parentForm, viewCustInfoReadOnlyBlk.ClassForm, FlowTabController.State.Customer);
+                    CommonAppBlocks.Instance.HideTabInFlowTab(FlowTabController.State.ItemHistory);
+                    CommonAppBlocks.Instance.HideTabInFlowTab(FlowTabController.State.ProductsAndServices);
+                    CommonAppBlocks.Instance.HideTabInFlowTab(FlowTabController.State.ProductHistory);
+                    CommonAppBlocks.Instance.HideTabInFlowTab(FlowTabController.State.Stats);   ((ViewCustomerInformation)viewCustInfoReadOnlyBlk.ClassForm).ShowReadOnly = true;
+#endif
+
+                    //((ViewCustomerInformation)viewCustInfoReadOnlyBlk.ClassForm).ShowReadOnly = false;
+
+                    break;
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.UpdateCustomerDetails:
+
+                    ShowForm UpdateCustomerDetailsResBlk = CommonAppBlocks.Instance.UpdateCustomerDetailsShowBlock(this.parentForm, this.UpdateCustomerDetailsFormNavAction);
+                    if (!UpdateCustomerDetailsResBlk.execute())
+                    {
+                        throw new ApplicationException("Cannot execute CustomerDetails block");
+                    }
+                    break;
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.UpdateCustomerStatus:
+                    ShowForm UpdateCustomerStatusResBlk = CommonAppBlocks.Instance.UpdateCustomerStatusShowBlock(this.parentForm, this.UpdateCustomerStatusFormNavAction);
+                    if (!UpdateCustomerStatusResBlk.execute())
+                    {
+                        throw new ApplicationException("Cannot execute CustomerStatus block");
+                    }
+                    break;
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.SupportCustomerComment:
+                    ShowForm SupportCustomerCommentResBlk = 
+                                CommonAppBlocks.Instance.SupportCustomerCommentShowBlock(this.parentForm, 
+                                this.SupportCustomerCommentFormNavAction);
+
+                    if (!SupportCustomerCommentResBlk.execute())
+                    {
+                        throw new ApplicationException("Cannot execute CustomerStatus block");
+                    }
+
+                    CommonAppBlocks.Instance.ShowFlowTabController(this.parentForm,
+                                                    SupportCustomerCommentResBlk.ClassForm,
+                                                    FlowTabController.State.Comments);
+                    break;
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.AddViewSupportCustomerComment:
+                    CommonAppBlocks.Instance.HideFlowTabController();
+                    ShowForm AddViewSupportCustomerCommentResBlk = CommonAppBlocks.Instance.AddViewSupportCustomerCommentShowBlock(this.parentForm, this.AddViewSupportCustomerCommentFormNavAction);
+                    if (!AddViewSupportCustomerCommentResBlk.execute())
+                    {
+                        throw new ApplicationException("Cannot execute Customer Suppoert Comments block");
+                    }
                     break;
 
-                case PawnCustInformationFlowState.ViewCustomerInformation:
-
-                    ShowForm viewCustInfoBlk = CommonAppBlocks.Instance.ViewCustomerInfoShowBlock(this.parentForm, this.viewCustFormNavAction);
-                    if (!viewCustInfoBlk.execute())
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.UpdateCustomerContactDetails:
+                    ShowForm UpdateCustomerContactDetailsResBlk = CommonAppBlocks.Instance.UpdateCustomerContactDetailsShowBlock(this.parentForm, this.UpdateCustomerContactDetailsFormNavAction);
+                    if (!UpdateCustomerContactDetailsResBlk.execute())
                     {
-                        throw new ApplicationException("Cannot execute View customer information block");
+                        throw new ApplicationException("Cannot execute CustomerContactDetails block");
                     }
-                    LoadCustomerLoanKeys loanKeysBlk = new LoadCustomerLoanKeys();
-                    if (!loanKeysBlk.execute())
-                    {
-                        throw new ApplicationException("Cannot get Loan keys for selected customer");
-                    }
-
-                    CommonAppBlocks.Instance.ShowFlowTabController(this.parentForm, viewCustInfoBlk.ClassForm, FlowTabController.State.Customer);
                     break;
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.UpdateCommentsandNotes:
+                    ShowForm UpdateCommentsandNotesResBlk = CommonAppBlocks.Instance.UpdateCommentsandNotesShowBlock(this.parentForm, this.UpdateCommentsandNotesFormNavAction);
+                    if (!UpdateCommentsandNotesResBlk.execute())
+                    {
+                        throw new ApplicationException("Cannot execute CustomerContactDetails block");
+                    }
+                    break;
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.UpdateCustomerIdentification:
+                    ShowForm UpdateCustomerIdentificationResBlk = CommonAppBlocks.Instance.UpdateCustomerIdentificationShowBlock(this.parentForm, this.UpdateCustomerIdentificationFormNavAction);
+                    if (!UpdateCustomerIdentificationResBlk.execute())
+                    {
+                        throw new ApplicationException("Cannot execute CustomerContactDetails block");
+                    }
+                    break;
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.ViewPersonalInformationHistory:
+                    ShowForm ViewPersonalInformationHistoryResBlk = CommonAppBlocks.Instance.ViewPersonalInformationHistoryShowBlock(this.parentForm, this.ViewPersonalInformationHistoryFormNavAction);
+                    if (!ViewPersonalInformationHistoryResBlk.execute())
+                    {
+                        throw new ApplicationException("Cannot execute CustomerContactDetails block");
+                    }
+                    break;
+    
+
+    
+                #endregion
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.UpdateAddress:
+                    UpdateAddress addrFrm = new UpdateAddress();
+                    Form currentaddForm = GlobalDataAccessor.Instance.DesktopSession.HistorySession.Lookup(addrFrm);
+                    if (currentaddForm.GetType() == typeof(UpdateAddress))
+                    {
+                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    }
+                    else
+                    {
+                        ShowForm updateAddrBlk = CommonAppBlocks.Instance.UpdateAddressShowBlock(this.parentForm, this.updateAddressFormNavAction);
+                        if (!updateAddrBlk.execute())
+                        {
+                            throw new ApplicationException("Cannot execute Update Addess Form block");
+                        }
+                    }
+
+                    break;
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.ProductServices:  
+
+                        LoadCustomerLoanKeys loanKeysDataBlk = new LoadCustomerLoanKeys();
+                        if (!loanKeysDataBlk.execute())
+                        {
+                            throw new ApplicationException("Cannot get Loan keys for selected customer");
+                        }
+                        ShowForm Controller_ProductServicesFrmBlk =
+                             CommonAppBlocks.Instance.Controller_ProductServicesShowBlock(this.parentForm,
+                                                                            this.Controller_ProductServicesFormNavAction);
+
+                        if (!Controller_ProductServicesFrmBlk.execute())
+                        {
+                            throw new ApplicationException("Cannot execute View Pawn Customer Product Details block");
+                        }
+
+                        CommonAppBlocks.Instance.ShowFlowTabController(this.parentForm,
+                                                                            Controller_ProductServicesFrmBlk.ClassForm,
+                                                                            FlowTabController.State.ProductsAndServices);
+
+                    break;
+                
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.Controller_ProductHistory:
+                    ShowForm Controller_ProductHistoryResBlk = 
+                                CommonAppBlocks.Instance.Controller_ProductHistoryShowBlock(this.parentForm, 
+                                this.Controller_ProductHistoryFormNavAction);
+
+                    if (!Controller_ProductHistoryResBlk.execute())
+                    {
+                        throw new ApplicationException("Cannot execute CustomerStatus block");
+                    }
+
+                    CommonAppBlocks.Instance.ShowFlowTabController(this.parentForm,
+                                                    Controller_ProductHistoryResBlk.ClassForm,
+                                                    FlowTabController.State.ProductHistory);
+                    break;
+                    //Controller_ProductHistory
+                    //Controller_ItemHistory
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.Controller_ItemHistory:
+                    ShowForm Controller_ItemHistoryResBlk =
+                                CommonAppBlocks.Instance.Controller_ItemHistoryShowBlock(this.parentForm,
+                                this.Controller_ItemHistoryFormNavAction);
+
+                    if (!Controller_ItemHistoryResBlk.execute())
+                    {
+                        throw new ApplicationException("Cannot execute CustomerStatus block");
+                    }
+
+                    CommonAppBlocks.Instance.ShowFlowTabController(this.parentForm,
+                                                    Controller_ItemHistoryResBlk.ClassForm,
+                                                    FlowTabController.State.ItemHistory);
+                    break;
+                    //Controller_Stats
+                                    /*_________________________________________________*/
+                case PawnCustInformationFlowState.Controller_Stats:
+                    ShowForm Controller_StatsResBlk =
+                                CommonAppBlocks.Instance.Controller_StatsShowBlock(this.parentForm,
+                                this.Controller_StatsFormNavAction);
+
+                    if (!Controller_StatsResBlk.execute())
+                    {
+                        throw new ApplicationException("Cannot execute CustomerStatus block");
+                    }
+
+                    CommonAppBlocks.Instance.ShowFlowTabController(this.parentForm,
+                                                    Controller_StatsResBlk.ClassForm,
+                                                    FlowTabController.State.Stats);
+                    break;
+                #region OBSOLETE CODE
                 /* case PawnCustInformationFlowState.ViewPawnCustomerProductDetails:
                      //If form already there in session then show that else open a new one
                      Controller_ProductServices productServFrm = new Controller_ProductServices();
@@ -221,16 +457,19 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
 
                      break;
                      */
-
+                #endregion
+                /*_________________________________________________*/
                 case PawnCustInformationFlowState.CancelFlow:
                     CommonAppBlocks.Instance.HideFlowTabController();
                     if (this.endStateNotifier != null)
                         this.endStateNotifier.execute();
                     break;
-
+                /*_________________________________________________*/
                 case PawnCustInformationFlowState.ExitFlow:
                     if (parentFlow != null)
                     {
+                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                        CommonAppBlocks.Instance.HideFlowTabController();
                         this.parentFlow.execute();
 
                     }
@@ -242,42 +481,689 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
 
             return (true);
         }
-
-
-
+        /*__________________________________________________________________________________________*/
         private void SetTabsInForm()
         {
-            if (GlobalDataAccessor.Instance.DesktopSession.ShowOnlyHistoryTabs)
-            {
-                CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.Customer, false);
-                CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.ProductsAndServices,
-                                                           false);
-                CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.Stats, false);
-                CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.ItemHistory, true);
-                CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.ProductHistory, true);
+            //if (GlobalDataAccessor.Instance.DesktopSession.ShowOnlyHistoryTabs)
+            //{
+            //    CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.Customer, false);
+            //    CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.ProductsAndServices, false);
+            //    CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.Stats, false);
+            //    CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.ItemHistory, true);
+            //    CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.ProductHistory, true);
 
-            }
-            else
-            {
-                CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.Customer, true);
-                CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.ProductsAndServices,
-                                                           true);
-                CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.Stats, true);
-                CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.ItemHistory, true);
-                CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.ProductHistory, true);
+            //}
+            //else
+            //{
+            //    CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.Customer, true);
+            //    CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.ProductsAndServices,true);
+            //    CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.Stats, true);
+            //    CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.ItemHistory, true);
+            //    CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.ProductHistory, true);
+            //    CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.Comments, true);
+            //}
+            //if (parentFlow.Name.Equals("NewPawnLoanFlowExecutor"))
+            //{
+            //    CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.Customer, true);
+            //    CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.ProductsAndServices,
+            //                               false);
 
-            }
-            if (parentFlow.Name.Equals("NewPawnLoanFlowExecutor"))
-            {
-                CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.Customer, true);
-                CommonAppBlocks.Instance.SetFlowTabEnabled(FlowTabController.State.ProductsAndServices,
-                                           false);
-
-            }
-
+            //}
         }
+        #endregion
+        #region FormNavAction
+        #region COMMON ACTIONS
+        /*__________________________________________________________________________________________*/
+        private void UpdateCustomerDetailsFormNavAction(object sender, object data)
+        {
+
+            bool RePaintTheTabs = false; 
+
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("Customer Details form navigation action handler received invalid data");
+            }
+
+            NavBox senderNavBox = (NavBox)sender;
+            UpdateCustomerDetails UpdateCustomerDetailsForm = (UpdateCustomerDetails)data;
+            NavBox.NavAction action = senderNavBox.Action;
 
 
+            switch (action)
+            {
+                case NavBox.NavAction.CANCEL:
+                    this.nextState = PawnCustInformationFlowState.ExitFlow; // exit this flow
+                    break;
+
+                case NavBox.NavAction.BACK:
+
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    RePaintTheTabs = true;
+                    this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    break;
+
+                case NavBox.NavAction.SUBMIT:
+
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    string ButtonSelect = senderNavBox.CustomDetail;
+                    if (ButtonSelect.Equals("UpdateCustomerStatus"))
+                    { this.nextState = PawnCustInformationFlowState.UpdateCustomerStatus; }
+                    else if (ButtonSelect.Equals("ViewPersonalInformationHistory"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.ViewPersonalInformationHistory; 
+                    }
+                    else if (ButtonSelect.Equals("SupportCustomerComment"))
+                    { this.nextState = PawnCustInformationFlowState.SupportCustomerComment; }
+
+                    break;
+
+                default:
+                    throw new ApplicationException("" + action.ToString() + " is not a valid state for Customer Details");
+            }
+
+            if (RePaintTheTabs)
+                this.ReSetTabs();
+
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void updateAddressFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("Update Address form navigation action handler received invalid data");
+            }
+
+            NavBox senderNavBox = (NavBox)sender;
+            UpdateAddress addrForm = (UpdateAddress)data;
+            NavBox.NavAction lookupAction = senderNavBox.Action;
+            switch (lookupAction)
+            {
+                case NavBox.NavAction.BACK:
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    this.ReSetTabs();
+                    this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    break;
+                case NavBox.NavAction.CANCEL:
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Desktop();
+                    this.nextState = PawnCustInformationFlowState.ExitFlow; // exit this flow
+                    break;
+
+                default:
+                    throw new ApplicationException("" + lookupAction.ToString() + " is not a valid state for Update Address");
+            }
+
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void UpdateCustomerStatusFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("Customer Details form navigation action handler received invalid data");
+            }
+
+            NavBox senderNavBox = (NavBox)sender;
+            UpdateCustomerStatus UpdateCustomerStatusForm = (UpdateCustomerStatus)data;
+            NavBox.NavAction action = senderNavBox.Action; 
+            switch (action)
+            {
+                case NavBox.NavAction.BACK:
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Desktop();
+                    this.nextState = PawnCustInformationFlowState.UpdateCustomerDetails;
+                    break;
+
+                case NavBox.NavAction.SUBMIT:
+                    //GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    //this.nextState = PawnCustInformationFlowState.UpdateCustomerStatus; 
+                    break;
+
+                default:
+                    throw new ApplicationException("" + action.ToString() + " is not a valid state for Customer Status");
+            }
+
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void UpdateCustomerContactDetailsFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("Customer Details form navigation action handler received invalid data");
+            }
+
+            NavBox senderNavBox = (NavBox)sender;
+            UpdateCustomerContactDetails UpdateCustomerContactDetailsForm = (UpdateCustomerContactDetails)data;
+            NavBox.NavAction action = senderNavBox.Action;
+            switch (action)
+            {
+                case NavBox.NavAction.BACK:
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Desktop();
+                    this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    break;
+
+                default:
+                    throw new ApplicationException("" + action.ToString() + " is not a valid state for Customer Status");
+            }
+
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void UpdateCommentsandNotesFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("Customer Comments and Notes form navigation action handler received invalid data");
+            }
+
+            NavBox senderNavBox = (NavBox)sender;
+            UpdateCommentsandNotes UpdateCommentsandNotesForm = (UpdateCommentsandNotes)data;
+            NavBox.NavAction action = senderNavBox.Action;
+            switch (action)
+            {
+                case NavBox.NavAction.BACK:
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    break;
+
+                default:
+                    throw new ApplicationException("" + action.ToString() + " is not a valid state for Customer Comments and Notes");
+            }
+
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void ViewPersonalInformationHistoryFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("Customer Comments and Notes form navigation action handler received invalid data");
+            }
+
+            NavBox senderNavBox = (NavBox)sender;
+            ViewPersonalInformationHistory ViewPersonalInformationHistoryForm = (ViewPersonalInformationHistory)data;
+            NavBox.NavAction action = senderNavBox.Action;
+            switch (action)
+            {
+                case NavBox.NavAction.BACK:
+
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+
+                    string parentForm = senderNavBox.CustomDetail;
+
+                    if (parentForm.Equals("UpdateCustomerDetails"))
+                        this.nextState = PawnCustInformationFlowState.UpdateCustomerDetails;
+                    else if (parentForm.Equals("ViewCustomerInformationReadOnly"))
+                        this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+
+                    break;
+
+                default:
+                    throw new ApplicationException("" + action.ToString() + " is not a valid state for Customer Personal Information History");
+            }
+
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void UpdateCustomerIdentificationFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("Customer Comments and Notes form navigation action handler received invalid data");
+            }
+
+            NavBox senderNavBox = (NavBox)sender;
+            UpdateCustomerIdentification UpdateCustomerIdentificationForm = (UpdateCustomerIdentification)data;
+            NavBox.NavAction action = senderNavBox.Action;
+            switch (action)
+            {
+                case NavBox.NavAction.BACK:
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    break;
+                case NavBox.NavAction.SUBMIT:
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    break;
+                case NavBox.NavAction.RETRY:
+
+                default:
+                    throw new ApplicationException("" + action.ToString() + " is not a valid state for Customer Comments and Notes");
+            }
+
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void updatePhysicalDescFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("Update Physical Desciption navigation action handler received invalid data");
+            }
+
+            NavBox physDescNavBox = (NavBox)sender;
+            UpdatePhysicalDesc physDescForm = (UpdatePhysicalDesc)data;
+            NavBox.NavAction lookupAction = physDescNavBox.Action;
+            switch (lookupAction)
+            {
+                case NavBox.NavAction.BACK:
+                    this.nextState = PawnCustInformationFlowState.UpdateAddress;
+                    break;
+                case NavBox.NavAction.BACKANDSUBMIT:
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Desktop();
+                    this.nextState = PawnCustInformationFlowState.ViewPawnCustomerInfo;
+                    break;
+                case NavBox.NavAction.CANCEL:
+                    this.nextState = PawnCustInformationFlowState.Cancel;
+                    break;
+                default:
+                    throw new ApplicationException("" + lookupAction.ToString() + " is not a valid state for Update Physical Description");
+            }
+
+            this.executeNextState();
+        }
+        #endregion
+        #region PRODUCT TABS ACTIONS
+        /*__________________________________________________________________________________________*/
+        private void viewCustomerInformationFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("View Customer form navigation action handler received invalid data");
+            }
+            NavBox senderNavBox = (NavBox)sender;
+            ViewCustomerInformation viewCustForm = (ViewCustomerInformation)data;
+            NavBox.NavAction action = senderNavBox.Action;
+            switch (action)
+            {
+                case NavBox.NavAction.BACK:
+                    this.nextState = PawnCustInformationFlowState.ExitFlow; // exit this flow
+
+                    break;
+
+                case NavBox.NavAction.SUBMIT:
+                    CommonAppBlocks.Instance.HideFlowTabController();
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+
+                    string ButtonSelect = senderNavBox.CustomDetail;
+                    if (ButtonSelect.Equals("UpdateCustomerDetails"))
+                    { this.nextState = PawnCustInformationFlowState.UpdateCustomerDetails; }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("UpdateAddress"))
+                    { this.nextState = PawnCustInformationFlowState.UpdateAddress; }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("UpdateCustomerContactDetails"))
+                    { this.nextState = PawnCustInformationFlowState.UpdateCustomerContactDetails; }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("UpdateCommentsandNotes"))
+                    { this.nextState = PawnCustInformationFlowState.UpdateCommentsandNotes; }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("UpdateCustomerIdentification"))
+                    { this.nextState = PawnCustInformationFlowState.UpdateCustomerIdentification; }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("ViewPersonalInformationHistory"))
+                    { this.nextState = PawnCustInformationFlowState.ViewPersonalInformationHistory; }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("ProductsAndServices"))
+                    { this.nextState = PawnCustInformationFlowState.ProductServices; }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_ProductHistory"))
+                    { this.nextState = PawnCustInformationFlowState.Controller_ProductHistory; }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_ItemHistory"))
+                    { this.nextState = PawnCustInformationFlowState.Controller_ItemHistory; }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_Stats"))
+                    { this.nextState = PawnCustInformationFlowState.Controller_Stats; }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("SupportCustomerComment"))
+                    { this.nextState = PawnCustInformationFlowState.SupportCustomerComment; }
+                    
+                    break;
+
+                default:
+
+                    throw new ApplicationException("" + action.ToString() + " is not a valid state for LookupCustomer");
+            }
+
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void Controller_ProductServicesFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("Product & Service navigation action handler received invalid data");
+            }
+
+            NavBox senderNavBox = (NavBox)sender;
+            Controller_ProductServices physDescForm = (Controller_ProductServices)data;
+            NavBox.NavAction Action = senderNavBox.Action;
+            switch (Action)
+            {
+                case NavBox.NavAction.BACK:
+                    CommonAppBlocks.Instance.HideFlowTabController();
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    string ButtonSelect = senderNavBox.CustomDetail;
+                    /*_________________________________________________*/
+                    if (ButtonSelect.Equals("ViewPersonalInformationHistory"))
+                    {
+                        this.ReSetTabs();
+                        this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("ViewCustomerInformationReadOnly"))
+                    {
+                        //this.ReSetTabs();
+                        this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_ProductHistory"))
+                    {
+                        //this.ReSetTabs();
+                        this.nextState = PawnCustInformationFlowState.Controller_ProductHistory;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_ItemHistory"))
+                    {
+                        //this.ReSetTabs();
+                        this.nextState = PawnCustInformationFlowState.Controller_ItemHistory;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_Stats"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.Controller_Stats;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("SupportCustomerComment"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.SupportCustomerComment;
+                    }
+                    break;
+                case NavBox.NavAction.CANCEL:
+                    this.nextState = PawnCustInformationFlowState.Cancel;
+                    break;
+                default:
+                    throw new ApplicationException("" + Action.ToString() + " is not a valid state for Update Physical Description");
+            }
+
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void Controller_ProductHistoryFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("Product & Service navigation action handler received invalid data");
+            }
+
+            NavBox senderNavBox = (NavBox)sender;
+            Controller_ProductHistory physDescForm = (Controller_ProductHistory)data;
+            NavBox.NavAction Action = senderNavBox.Action;
+            switch (Action)
+            {
+                case NavBox.NavAction.BACK:
+                    CommonAppBlocks.Instance.HideFlowTabController();
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    string ButtonSelect = senderNavBox.CustomDetail;
+                    /*_________________________________________________*/
+                    if (ButtonSelect.Equals("ViewPersonalInformationHistory"))
+                    {
+                        this.ReSetTabs();
+                        this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("ViewCustomerInformationReadOnly"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("ProductsAndServices"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.ProductServices; //.Controller_ProductServices;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_ItemHistory"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.Controller_ItemHistory; 
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_Stats"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.Controller_Stats;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("SupportCustomerComment"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.SupportCustomerComment;
+                    }
+
+
+                    break;
+                case NavBox.NavAction.CANCEL:
+                    this.nextState = PawnCustInformationFlowState.Cancel;
+                    break;
+                default:
+                    throw new ApplicationException("" + Action.ToString() + " is not a valid state for Update Physical Description");
+            }
+
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void Controller_ItemHistoryFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("Product & Service navigation action handler received invalid data");
+            }
+
+            NavBox senderNavBox = (NavBox)sender;
+            Controller_ItemHistory physDescForm = (Controller_ItemHistory)data;
+            NavBox.NavAction Action = senderNavBox.Action;
+            switch (Action)
+            {
+                case NavBox.NavAction.BACK:
+                    CommonAppBlocks.Instance.HideFlowTabController();
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    string ButtonSelect = senderNavBox.CustomDetail;
+                    /*_________________________________________________*/
+                    if (ButtonSelect.Equals("ViewPersonalInformationHistory"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("ProductsAndServices"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.ProductServices; 
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_ProductHistory"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.Controller_ProductHistory; 
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_ItemHistory"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.Controller_ItemHistory;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_Stats"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.Controller_Stats;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("SupportCustomerComment"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.SupportCustomerComment;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("ViewCustomerInformationReadOnly"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    }
+
+                    break;
+                case NavBox.NavAction.CANCEL:
+                    this.nextState = PawnCustInformationFlowState.Cancel;
+                    break;
+                default:
+                    throw new ApplicationException("" + Action.ToString() + " is not a valid state for Update Physical Description");
+            }
+
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void Controller_StatsFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("Product & Service navigation action handler received invalid data");
+            }
+
+            NavBox senderNavBox = (NavBox)sender;
+            Controller_Stats physDescForm = (Controller_Stats)data;
+            NavBox.NavAction Action = senderNavBox.Action;
+            switch (Action)
+            {
+                case NavBox.NavAction.BACK:
+                    CommonAppBlocks.Instance.HideFlowTabController();
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    string ButtonSelect = senderNavBox.CustomDetail;
+                    /*_________________________________________________*/
+                    if (ButtonSelect.Equals("ViewPersonalInformationHistory"))
+                    {
+                        this.ReSetTabs();
+                        this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("ProductsAndServices"))
+                    {
+                        //this.ReSetTabs();
+                        this.nextState = PawnCustInformationFlowState.ProductServices; //.Controller_ProductServices;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_ProductHistory"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.Controller_ProductHistory;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_ItemHistory"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.Controller_ItemHistory;
+                    }                    
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("SupportCustomerComment"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.SupportCustomerComment;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("ViewCustomerInformationReadOnly"))
+                    {
+                        //this.ReSetTabs();
+                        this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    }
+
+                    break;
+                case NavBox.NavAction.CANCEL:
+                    this.nextState = PawnCustInformationFlowState.Cancel;
+                    break;
+                default:
+                    throw new ApplicationException("" + Action.ToString() + " is not a valid state for Update Physical Description");
+            }
+
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void SupportCustomerCommentFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("Customer Details form navigation action handler received invalid data");
+            }
+
+            bool GoBack = true;
+            NavBox senderNavBox = (NavBox)sender;
+            SupportCustomerComments SupportCustomerCommentForm = (SupportCustomerComments)data;
+            NavBox.NavAction action = senderNavBox.Action;
+            switch (action)
+            {
+                case NavBox.NavAction.BACK:
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    break;
+                case NavBox.NavAction.SUBMIT:
+                    CommonAppBlocks.Instance.HideFlowTabController();
+                    string ButtonSelect = senderNavBox.CustomDetail;
+                    /*_________________________________________________*/
+                    if (ButtonSelect.Equals("ViewCustomerInformationReadOnly"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.ViewCustomerInformationReadOnly;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("ProductsAndServices"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.ProductServices;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_ProductHistory"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.Controller_ProductHistory;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_ItemHistory"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.Controller_ItemHistory;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("Controller_Stats"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.Controller_Stats;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelect.Equals("AddViewSupportCustomerComment"))
+                    {
+                        GoBack = false;
+                        this.nextState = PawnCustInformationFlowState.AddViewSupportCustomerComment;
+                    }
+
+                    if (GoBack)
+                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+
+                        break;
+                default:
+                    throw new ApplicationException("" + action.ToString() + " is not a valid state for Customer Status");
+            }
+
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void AddViewSupportCustomerCommentFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("Customer Details form navigation action handler received invalid data");
+            }
+
+            NavBox senderNavBox = (NavBox)sender;
+            AddViewSupportCustomerComment AddViewSupportCustomerCommentForm = (AddViewSupportCustomerComment)data;
+            NavBox.NavAction action = senderNavBox.Action;
+            switch (action)
+            {
+                case NavBox.NavAction.BACK:
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    this.nextState = PawnCustInformationFlowState.SupportCustomerComment;
+                    break;
+
+
+                default:
+                    throw new ApplicationException("" + action.ToString() + " is not a valid state for Customer Status");
+            }
+
+            this.executeNextState();
+        }
+        #endregion
+        #endregion
+        #region OBSOLETE CODE
         /*     private void productServicesFormNavAction(object sender, object data)
              {
                  if (sender == null || data == null)
@@ -631,66 +1517,7 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
              }
               */
 
-        private void viewCustFormNavAction(object sender, object data)
-        {
-            if (sender == null || data == null)
-            {
-                throw new ApplicationException("View Customer form navigation action handler received invalid data");
-            }
 
-            NavBox viewCustNavBox = (NavBox)sender;
-            ViewCustomerInformation viewCustForm = (ViewCustomerInformation)data;
-            NavBox.NavAction action = viewCustNavBox.Action;
-            switch (action)
-            {
-                case NavBox.NavAction.CANCEL:
-
-                case NavBox.NavAction.BACK:
-
-                    // WCM 4/17/12 Comment out to get code working after moving FlowTabController to support.libaries.forms
-                    //if (viewCustNavBox.IsCustom && viewCustNavBox.CustomDetail.Equals("Menu", StringComparison.OrdinalIgnoreCase))
-                    //{
-                    //    this.nextState = PawnCustInformationFlowState.CancelFlow;
-                    //}
-                    //else
-                    //{
-                    //    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
-                    //    CommonAppBlocks.Instance.HideFlowTabController();
-                    //    if (viewCustNavBox.IsCustom && viewCustNavBox.CustomDetail.Equals("Newloan", StringComparison.OrdinalIgnoreCase))
-                    //        GlobalDataAccessor.Instance.DesktopSession.TabStateClicked = FlowTabController.State.None;
-                    //    else if (viewCustNavBox.IsCustom && viewCustNavBox.CustomDetail.Equals("Close", StringComparison.OrdinalIgnoreCase))
-                    //    {
-                    //        this.nextState = PawnCustInformationFlowState.ExitFlow;
-                    //    }
-                    //    else
-                    //        this.nextState = PawnCustInformationFlowState.CancelFlow;
-                    //}
-                    break;
-
-                case NavBox.NavAction.BACKANDSUBMIT:
-                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Desktop();
-                    if (viewCustNavBox.IsCustom)
-                    {
-                        string custDet = viewCustNavBox.CustomDetail;
-                        if (custDet.Equals("Stats") || custDet.Equals("ProductStats"))
-                        {
-                            this.nextState = PawnCustInformationFlowState.ViewPawnCustomerStats;
-                        }
-                        else if (custDet.Equals("ProductsAndServices"))
-                            this.nextState = PawnCustInformationFlowState.ViewPawnCustomerProductDetails;
-                        else if (custDet.Equals("ItemHistory"))
-                            this.nextState = PawnCustInformationFlowState.ItemHistory;
-                        else if (custDet.Equals("ProductHistory"))
-                            this.nextState = PawnCustInformationFlowState.ProductHistory;
-
-                    }
-                    break;
-                default:
-                    throw new ApplicationException("" + action.ToString() + " is not a valid state for LookupTicket");
-            }
-
-            this.executeNextState();
-        }
         /*
         private void productStatsFormNavAction(object sender, object data)
         {
@@ -766,7 +1593,8 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="data"></param>
-        private void existCustomerFormNavAction(object sender, object data)
+
+         private void existCustomerFormNavAction(object sender, object data)
         {
             if (sender == null || data == null)
             {
@@ -851,52 +1679,6 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
 
         */
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private void executeNextState()
-        {
-            object evalExecFlag = this.executorFxn(this.nextState);
-            if (evalExecFlag == null || ((bool)(evalExecFlag)) == false)
-            {
-                throw new ApplicationException("Cannot execute the next state: " + this.nextState.ToString());
-            }
-        }
-
-        public PawnCustInformationFlowExecutor(Form parentForm, FxnBlock eStateNotifier, SingleExecuteBlock parentFlow)
-            : base(NAME)
-        {
-            this.parentForm = parentForm;
-            this.endStateNotifier = eStateNotifier;
-            this.nextState = FindStateByTabClicked();
-            this.parentFlow = parentFlow;
-            this.setExecBlock(this.executorFxn);
-            this.executeNextState();
-        }
-
-
-
-        private static PawnCustInformationFlowState FindStateByTabClicked()
-        {
-            // WCM 4/17/12 Comment out to get code working after moving FlowTabController to support.libaries.forms
-            //if (GlobalDataAccessor.Instance.DesktopSession.TabStateClicked == FlowTabController.State.ProductHistory)
-            //{
-            //    return PawnCustInformationFlowState.ProductHistory;
-            //}
-            //else if (GlobalDataAccessor.Instance.DesktopSession.TabStateClicked == FlowTabController.State.ItemHistory)
-            //    return PawnCustInformationFlowState.ItemHistory;
-            //else if (GlobalDataAccessor.Instance.DesktopSession.TabStateClicked == FlowTabController.State.ProductsAndServices)
-            //    return PawnCustInformationFlowState.ViewPawnCustomerProductDetails;
-            //else if (GlobalDataAccessor.Instance.DesktopSession.TabStateClicked == FlowTabController.State.Customer)
-            //    return PawnCustInformationFlowState.ViewReadOnlyCustomerInformation;
-            //else if (GlobalDataAccessor.Instance.DesktopSession.TabStateClicked == FlowTabController.State.Stats)
-            //    return PawnCustInformationFlowState.ViewPawnCustomerStats;
-
-
-            return PawnCustInformationFlowState.ViewCustomerInformation;
-
-        }
-
-
+        #endregion
     }
 }

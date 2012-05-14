@@ -46,7 +46,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             {
                 customLabelCustName.Text = customerVO.CustomerName;
                 var rICN = new StringBuilder();
-                int i = 1;
+                var i = 1;
                 foreach (var s in itemSelectionFrm.ReplacedICN)
                 {
                     rICN.Append(s);

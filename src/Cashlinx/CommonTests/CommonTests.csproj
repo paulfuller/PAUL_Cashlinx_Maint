@@ -73,6 +73,10 @@
     <Compile Include="DesktopProcedures\LayawayPaymentHistoryBuilderTests.cs" />
     <Compile Include="IcnTests.cs" />
     <Compile Include="ItemReasonFactoryTests.cs" />
+    <Compile Include="Libraries\Utility\RawTextPrinting\MerchandiseDescriptionLineSeparatorTests.cs" />
+    <Compile Include="Libraries\Utility\RawTextPrinting\RawTextCellTests.cs" />
+    <Compile Include="Libraries\Utility\RawTextPrinting\RawTextDocumentTests.cs" />
+    <Compile Include="Libraries\Utility\RawTextPrinting\RawTextRowTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecuredCouchUnitTest.cs" />
     <Compile Include="ShopDateTimeTests.cs" />

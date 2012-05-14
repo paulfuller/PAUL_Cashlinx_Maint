@@ -361,8 +361,8 @@ namespace Support.Forms.Customer
             //The requirement is that if the product identified is PAWN go to
             //view customer information else go to view customer summary
             this.NavControlBox.IsCustom = true;
-            this.NavControlBox.CustomDetail = "ViewCustomerInformationReadOnly";
-            //this.NavControlBox.CustomDetail = "Controller_ProductServices";
+            //this.NavControlBox.CustomDetail = "ViewCustomerInformationReadOnly";
+            this.NavControlBox.CustomDetail = "Controller_ProductServices";
             this.NavControlBox.Action = NavBox.NavAction.SUBMIT; //BACKANDSUBMIT;
 
 
@@ -402,7 +402,7 @@ namespace Support.Forms.Customer
                         //GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer = _customerObject;
                         Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer = _customerObject;
                         this.NavControlBox.IsCustom = true;
-                        this.NavControlBox.CustomDetail = "ViewCustomerInformationReadOnly";
+                        this.NavControlBox.CustomDetail = "Controller_ProductServices"; // "ViewCustomerInformationReadOnly";
                         this.NavControlBox.Action = NavBox.NavAction.SUBMIT; //BACKANDSUBMIT;
 
                         break;

@@ -299,6 +299,7 @@ namespace Common.Controllers.Application
         }
         public bool IsSkipLDAP { get; set; }
         public StorePrinterVO LaserPrinter { get; set; }
+        public StorePrinterVO IndianaPoliceCardPrinter { get; set; }
         public List<LayawayVO> Layaways { get; set; }
         public UserVO LoggedInUserSecurityProfile { get; set; }
         public List<PairType<ManagerOverrideReason, string>> ManagerOverrideReasonCodes { get; set; }

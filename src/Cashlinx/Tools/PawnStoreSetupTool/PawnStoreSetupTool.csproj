@@ -103,6 +103,7 @@
     <Compile Include="Data\PawnStoreProcedures.cs" />
     <Compile Include="Data\PawnStoreSetupData.cs" />
     <Compile Include="Data\PawnStoreSetupQueries.cs" />
+    <Compile Include="Data\StoreTypeAndStoreProductQueries.cs" />
     <Compile Include="ESBSetupForm.cs">
       <SubType>Form</SubType>
     </Compile>

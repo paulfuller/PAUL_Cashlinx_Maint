@@ -76,9 +76,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessRules\BusinessRulesBaseTest.cs" />
+    <Compile Include="BusinessRules\IndianaBusinessRulesTest.cs" />
     <Compile Include="BusinessRules\OklahomaBusinessRulesTest.cs" />
     <Compile Include="BusinessRules\OhioBusinessRulesTest.cs" />
     <Compile Include="BusinessRules\TexasBusinessRulesTest.cs" />
+    <Compile Include="AuthorizationToReleaseFingerprintsTests.cs" />
+    <Compile Include="IndianaPartialPaymentTests.cs" />
+    <Compile Include="LostTicketAffidavitTests.cs" />
     <Compile Include="PFIMailerDocumentTests.cs" />
     <Compile Include="PfiPickupCalculatorTests.cs" />
     <Compile Include="TestEnvironment\TestDesktopSession.cs" />
@@ -108,6 +112,7 @@
     <Content Include="TestEnvironment\MockSiteIds\Store_00152.xml" />
     <Content Include="TestEnvironment\MockSiteIds\Store_00604.xml" />
     <Content Include="TestEnvironment\MockSiteIds\Store_00901.xml" />
+    <Content Include="TestEnvironment\MockSiteIds\Store_01401.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

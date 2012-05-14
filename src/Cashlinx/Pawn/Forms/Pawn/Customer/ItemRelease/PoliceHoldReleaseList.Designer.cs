@@ -32,26 +32,13 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PoliceHoldReleaseList));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PoliceHoldReleaseList));
             this.labelMainHeading = new System.Windows.Forms.Label();
             this.labelSubHeading = new System.Windows.Forms.Label();
             this.dataGridViewTransactions = new System.Windows.Forms.DataGridView();
-            this.mdse = new System.Windows.Forms.DataGridViewImageColumn();
-            this.select = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.trandate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.trantype = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.trannumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pfistate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.releasedate = new CalendarColumn();
-            this.amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.holddate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.holdby = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.holdcomment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.orgticketnumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonUpdateReleaseDate = new System.Windows.Forms.Button();
@@ -66,7 +53,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.calendarColumn1 = new CalendarColumn();
+            this.calendarColumn1 = new Common.Libraries.Forms.Components.CalendarColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -78,15 +65,28 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonClaimantRelease = new System.Windows.Forms.Button();
             this.labelPageNo = new System.Windows.Forms.Label();
-            this.buttonDeselectAll = new CustomButton();
+            this.buttonDeselectAll = new Common.Libraries.Forms.Components.CustomButton();
             this.labelMdseUnavailableMsg = new System.Windows.Forms.Label();
-            this.dataGridViewMdse = new CustomDataGridView();
+            this.dataGridViewMdse = new Common.Libraries.Forms.Components.CustomDataGridView();
             this.mdseselect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.icn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mdsestatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mdseamt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.mdseReleasedate = new CalendarColumn();
+            this.mdseReleasedate = new Common.Libraries.Forms.Components.CalendarColumn();
+            this.mdse = new System.Windows.Forms.DataGridViewImageColumn();
+            this.select = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.trandate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.trantype = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.trannumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pfistate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.releasedate = new Common.Libraries.Forms.Components.CalendarColumn();
+            this.amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.holddate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.holdby = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.holdcomment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.orgticketnumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTransactions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMdse)).BeginInit();
             this.SuspendLayout();
@@ -149,7 +149,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(51, 153, 255);
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTransactions.DefaultCellStyle = dataGridViewCellStyle2;
@@ -168,98 +168,6 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.dataGridViewTransactions.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridViewTransactions_DataError);
             this.dataGridViewTransactions.Sorted += new System.EventHandler(this.dataGridViewTransactions_Sorted);
             // 
-            // mdse
-            // 
-            this.mdse.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.mdse.FillWeight = 50F;
-            this.mdse.HeaderText = "";
-            this.mdse.Image = global::Common.Properties.Resources.plus_icon_small;
-            this.mdse.Name = "mdse";
-            this.mdse.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.mdse.Width = 5;
-            // 
-            // select
-            // 
-            this.select.FalseValue = "false";
-            this.select.HeaderText = "Select";
-            this.select.Name = "select";
-            this.select.TrueValue = "true";
-            this.select.Width = 50;
-            // 
-            // trandate
-            // 
-            this.trandate.HeaderText = "Tran. Date";
-            this.trandate.Name = "trandate";
-            this.trandate.ReadOnly = true;
-            // 
-            // trantype
-            // 
-            this.trantype.HeaderText = "Tran. Type";
-            this.trantype.Name = "trantype";
-            this.trantype.ReadOnly = true;
-            // 
-            // trannumber
-            // 
-            this.trannumber.HeaderText = "Tran. Number";
-            this.trannumber.Name = "trannumber";
-            this.trannumber.ReadOnly = true;
-            // 
-            // status
-            // 
-            this.status.HeaderText = "Status";
-            this.status.Name = "status";
-            this.status.ReadOnly = true;
-            // 
-            // pfistate
-            // 
-            this.pfistate.HeaderText = "pfistate";
-            this.pfistate.Name = "pfistate";
-            this.pfistate.ReadOnly = true;
-            this.pfistate.Visible = false;
-            this.pfistate.Width = 20;
-            // 
-            // releasedate
-            // 
-            this.releasedate.HeaderText = "Eligible for Release";
-            this.releasedate.Name = "releasedate";
-            this.releasedate.ReadOnly = true;
-            this.releasedate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.releasedate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.releasedate.Width = 150;
-            // 
-            // amount
-            // 
-            this.amount.HeaderText = "Amount";
-            this.amount.Name = "amount";
-            this.amount.ReadOnly = true;
-            // 
-            // holddate
-            // 
-            this.holddate.HeaderText = "Holddate";
-            this.holddate.Name = "holddate";
-            this.holddate.ReadOnly = true;
-            this.holddate.Visible = false;
-            // 
-            // holdby
-            // 
-            this.holdby.HeaderText = "holdby";
-            this.holdby.Name = "holdby";
-            this.holdby.ReadOnly = true;
-            this.holdby.Visible = false;
-            // 
-            // holdcomment
-            // 
-            this.holdcomment.HeaderText = "holdcomment";
-            this.holdcomment.Name = "holdcomment";
-            this.holdcomment.ReadOnly = true;
-            this.holdcomment.Visible = false;
-            // 
-            // orgticketnumber
-            // 
-            this.orgticketnumber.HeaderText = "OrigTicketNumber";
-            this.orgticketnumber.Name = "orgticketnumber";
-            this.orgticketnumber.Visible = false;
-            // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.DarkBlue;
@@ -273,7 +181,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             // buttonCancel
             // 
             this.buttonCancel.BackColor = System.Drawing.Color.Transparent;
-            this.buttonCancel.BackgroundImage = global::Common.Properties.Resources.vistabutton_blue;
+            this.buttonCancel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonCancel.BackgroundImage")));
             this.buttonCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.buttonCancel.CausesValidation = false;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -298,7 +206,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             // 
             this.buttonUpdateReleaseDate.AllowDrop = true;
             this.buttonUpdateReleaseDate.BackColor = System.Drawing.Color.Transparent;
-            this.buttonUpdateReleaseDate.BackgroundImage = global::Common.Properties.Resources.vistabutton_blue;
+            this.buttonUpdateReleaseDate.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonUpdateReleaseDate.BackgroundImage")));
             this.buttonUpdateReleaseDate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonUpdateReleaseDate.CausesValidation = false;
             this.buttonUpdateReleaseDate.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -322,7 +230,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             // buttonReleaseHold
             // 
             this.buttonReleaseHold.BackColor = System.Drawing.Color.Transparent;
-            this.buttonReleaseHold.BackgroundImage = global::Common.Properties.Resources.vistabutton_blue;
+            this.buttonReleaseHold.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonReleaseHold.BackgroundImage")));
             this.buttonReleaseHold.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.buttonReleaseHold.CausesValidation = false;
             this.buttonReleaseHold.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -548,7 +456,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             // 
             this.buttonClaimantRelease.AllowDrop = true;
             this.buttonClaimantRelease.BackColor = System.Drawing.Color.Transparent;
-            this.buttonClaimantRelease.BackgroundImage = global::Common.Properties.Resources.vistabutton_blue;
+            this.buttonClaimantRelease.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonClaimantRelease.BackgroundImage")));
             this.buttonClaimantRelease.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.buttonClaimantRelease.CausesValidation = false;
             this.buttonClaimantRelease.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -643,7 +551,7 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(51, 153, 255);
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewMdse.DefaultCellStyle = dataGridViewCellStyle4;
@@ -710,12 +618,105 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
             this.mdseReleasedate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.mdseReleasedate.Visible = false;
             // 
+            // mdse
+            // 
+            this.mdse.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.mdse.FillWeight = 50F;
+            this.mdse.HeaderText = global::Pawn.Properties.Resources.OverrideMachineName;
+            this.mdse.Image = ((System.Drawing.Image)(resources.GetObject("mdse.Image")));
+            this.mdse.Name = "mdse";
+            this.mdse.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.mdse.Width = 5;
+            // 
+            // select
+            // 
+            this.select.FalseValue = "false";
+            this.select.HeaderText = "Select";
+            this.select.Name = "select";
+            this.select.TrueValue = "true";
+            this.select.Width = 50;
+            // 
+            // trandate
+            // 
+            this.trandate.HeaderText = "Tran. Date";
+            this.trandate.Name = "trandate";
+            this.trandate.ReadOnly = true;
+            // 
+            // trantype
+            // 
+            this.trantype.HeaderText = "Tran. Type";
+            this.trantype.Name = "trantype";
+            this.trantype.ReadOnly = true;
+            // 
+            // trannumber
+            // 
+            this.trannumber.HeaderText = "Tran. Number";
+            this.trannumber.Name = "trannumber";
+            this.trannumber.ReadOnly = true;
+            // 
+            // status
+            // 
+            this.status.HeaderText = "Status";
+            this.status.Name = "status";
+            this.status.ReadOnly = true;
+            // 
+            // pfistate
+            // 
+            this.pfistate.HeaderText = "pfistate";
+            this.pfistate.Name = "pfistate";
+            this.pfistate.ReadOnly = true;
+            this.pfistate.Visible = false;
+            this.pfistate.Width = 20;
+            // 
+            // releasedate
+            // 
+            this.releasedate.HeaderText = "Eligible for Release";
+            this.releasedate.Name = "releasedate";
+            this.releasedate.ReadOnly = true;
+            this.releasedate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.releasedate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.releasedate.Width = 150;
+            // 
+            // amount
+            // 
+            this.amount.HeaderText = "Amount";
+            this.amount.Name = "amount";
+            this.amount.ReadOnly = true;
+            this.amount.Width = 150;
+            // 
+            // holddate
+            // 
+            this.holddate.HeaderText = "Holddate";
+            this.holddate.Name = "holddate";
+            this.holddate.ReadOnly = true;
+            this.holddate.Visible = false;
+            // 
+            // holdby
+            // 
+            this.holdby.HeaderText = "holdby";
+            this.holdby.Name = "holdby";
+            this.holdby.ReadOnly = true;
+            this.holdby.Visible = false;
+            // 
+            // holdcomment
+            // 
+            this.holdcomment.HeaderText = "holdcomment";
+            this.holdcomment.Name = "holdcomment";
+            this.holdcomment.ReadOnly = true;
+            this.holdcomment.Visible = false;
+            // 
+            // orgticketnumber
+            // 
+            this.orgticketnumber.HeaderText = "OrigTicketNumber";
+            this.orgticketnumber.Name = "orgticketnumber";
+            this.orgticketnumber.Visible = false;
+            // 
             // PoliceHoldReleaseList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
-            this.BackgroundImage = global::Common.Properties.Resources.newDialog_400_BlueScale;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(860, 428);
             this.ControlBox = false;
@@ -785,6 +786,12 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
         private CustomButton buttonDeselectAll;
         private System.Windows.Forms.Label labelMdseUnavailableMsg;
         private CustomDataGridView dataGridViewMdse;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn mdseselect;
+        private System.Windows.Forms.DataGridViewTextBoxColumn description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn icn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mdsestatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mdseamt;
+        private CalendarColumn mdseReleasedate;
         private System.Windows.Forms.DataGridViewImageColumn mdse;
         private System.Windows.Forms.DataGridViewCheckBoxColumn select;
         private System.Windows.Forms.DataGridViewTextBoxColumn trandate;
@@ -798,11 +805,5 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
         private System.Windows.Forms.DataGridViewTextBoxColumn holdby;
         private System.Windows.Forms.DataGridViewTextBoxColumn holdcomment;
         private System.Windows.Forms.DataGridViewTextBoxColumn orgticketnumber;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn mdseselect;
-        private System.Windows.Forms.DataGridViewTextBoxColumn description;
-        private System.Windows.Forms.DataGridViewTextBoxColumn icn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn mdsestatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn mdseamt;
-        private CalendarColumn mdseReleasedate;
     }
 }

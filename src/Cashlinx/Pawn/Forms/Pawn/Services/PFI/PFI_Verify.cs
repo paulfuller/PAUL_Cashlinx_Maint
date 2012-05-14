@@ -297,7 +297,21 @@ namespace Pawn.Forms.Pawn.Services.PFI
 
             costAmountLabel.Text = String.Format("{0:C}", dPawnItemCost);
             differenceLabel.Text = String.Format("{0:C}", _CostDifference);
-            loanAmountLabel.Text = String.Format("{0:C}", currentLoanAmount);
+           
+            if (new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(GlobalDataAccessor.Instance.CurrentSiteId))
+            {
+
+                label5.Text = "Current Principal Amount:";
+                loanAmountLabel.Text = String.Format("{0:C}", currentLoanAmount);
+
+            }
+            else
+            {
+                label5.Text = "Loan Amount:";
+                loanAmountLabel.Text = String.Format("{0:C}", currentLoanAmount);
+
+            }
+            
 
             _Setup = false;
         }

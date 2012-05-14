@@ -906,6 +906,8 @@ namespace Common.Controllers.Database.Oracle
                 this.log(LogLevel.ERROR, 
                     "Could not execute query: {0} Oracle exception thrown: Code: {1} Details: {2} {3}", 
                     sqlString, oEx.ErrorCode, oEx.Message, oEx.StackTrace ?? "No Stack Trace");
+                this.ErrorCode = oEx.ErrorCode.ToString();
+                this.ErrorDescription = oEx.Message;
                 BasicExceptionHandler.Instance.AddException(string.Format("Trying to execute simple SQL statement: {0}", oEx.Message), oEx);
                 return (false);
             }

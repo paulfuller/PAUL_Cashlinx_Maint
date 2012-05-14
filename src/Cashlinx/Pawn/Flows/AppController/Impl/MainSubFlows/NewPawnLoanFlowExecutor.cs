@@ -54,7 +54,11 @@ namespace Pawn.Flows.AppController.Impl.MainSubFlows
                     inputState = NewPawnLoanFlowState.InvokePawnCustInformationFlow;
                 else if (GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer != null && !string.IsNullOrEmpty(GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerNumber) &&
                                     GlobalDataAccessor.Instance.DesktopSession.TabStateClicked == FlowTabController.State.None)
-                    inputState = NewPawnLoanFlowState.InvokeMMPIChildFlow;
+                {
+                    IsGunMerchandiseLookedUp lookupGunMdseFxn = CommonAppBlocks.Instance.IsGunMerchandiseLookedUpBlock;
+                    lookupGunMdseFxn.execute();
+                    inputState = lookupGunMdseFxn.Value ? NewPawnLoanFlowState.ManagePawnApplication : NewPawnLoanFlowState.InvokeMMPIChildFlow;
+                }
 
             }
             else if (inputData !=  null)
@@ -78,7 +82,14 @@ namespace Pawn.Flows.AppController.Impl.MainSubFlows
                     else if (lookupMdseFxn.Value && (GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer == null || string.IsNullOrEmpty(GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerNumber)))
                         inputState = NewPawnLoanFlowState.LookupCustomer;
                     else
+                    {
+                        IsGunMerchandiseLookedUp lookupGunMdseFxn = CommonAppBlocks.Instance.IsGunMerchandiseLookedUpBlock;
+                        lookupGunMdseFxn.execute();
+                        if (lookupGunMdseFxn.Value)
+                            inputState = NewPawnLoanFlowState.ManagePawnApplication;
+                        else
                         inputState = NewPawnLoanFlowState.InvokeMMPIChildFlow;
+                    }
                 }
             }
             else

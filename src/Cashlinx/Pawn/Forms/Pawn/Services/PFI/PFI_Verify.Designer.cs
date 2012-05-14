@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PFI_Verify));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -39,6 +40,15 @@
             this.continueButton = new System.Windows.Forms.Button();
             this.backButton = new System.Windows.Forms.Button();
             this.gvLoanItems = new System.Windows.Forms.DataGridView();
+            this.colVerify = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colMerge = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAssignmentType = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colRetail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ticketNumber = new System.Windows.Forms.TextBox();
             this.costAmountLabel = new System.Windows.Forms.Label();
@@ -74,15 +84,6 @@
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVerify = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colMerge = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAssignmentType = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.colRetail = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTags = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gvLoanItems)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.variancePanel.SuspendLayout();
@@ -131,7 +132,7 @@
             this.ticketFindButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.ticketFindButton.AutoSize = true;
             this.ticketFindButton.BackColor = System.Drawing.Color.Transparent;
-            this.ticketFindButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.ticketFindButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ticketFindButton.BackgroundImage")));
             this.ticketFindButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ticketFindButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.ticketFindButton.FlatAppearance.BorderSize = 0;
@@ -153,7 +154,7 @@
             this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cancelButton.AutoSize = true;
             this.cancelButton.BackColor = System.Drawing.Color.Transparent;
-            this.cancelButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.cancelButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cancelButton.BackgroundImage")));
             this.cancelButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.cancelButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.cancelButton.FlatAppearance.BorderSize = 0;
@@ -175,7 +176,7 @@
             this.continueButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.continueButton.AutoSize = true;
             this.continueButton.BackColor = System.Drawing.Color.Transparent;
-            this.continueButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.continueButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("continueButton.BackgroundImage")));
             this.continueButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.continueButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.continueButton.FlatAppearance.BorderSize = 0;
@@ -197,7 +198,7 @@
             this.backButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.backButton.AutoSize = true;
             this.backButton.BackColor = System.Drawing.Color.Transparent;
-            this.backButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.backButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("backButton.BackgroundImage")));
             this.backButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.backButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.backButton.FlatAppearance.BorderSize = 0;
@@ -249,7 +250,7 @@
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(51, 153, 255);
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.gvLoanItems.DefaultCellStyle = dataGridViewCellStyle2;
@@ -268,11 +269,96 @@
             this.gvLoanItems.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gvLoanItems.Size = new System.Drawing.Size(744, 242);
             this.gvLoanItems.TabIndex = 147;
-            this.gvLoanItems.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvLoanItems_CellValueChanged);
-            this.gvLoanItems.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvLoanItems_CellDoubleClick);
-            this.gvLoanItems.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.gvLoanItems_EditingControlShowing);
-            this.gvLoanItems.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvLoanItems_CellEnter);
             this.gvLoanItems.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvLoanItems_CellContentClick);
+            this.gvLoanItems.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvLoanItems_CellDoubleClick);
+            this.gvLoanItems.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvLoanItems_CellEnter);
+            this.gvLoanItems.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvLoanItems_CellValueChanged);
+            this.gvLoanItems.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.gvLoanItems_EditingControlShowing);
+            // 
+            // colVerify
+            // 
+            this.colVerify.DataPropertyName = "colVerify";
+            this.colVerify.FillWeight = 47.08213F;
+            this.colVerify.HeaderText = "Verify";
+            this.colVerify.Name = "colVerify";
+            this.colVerify.ReadOnly = true;
+            this.colVerify.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colVerify.ToolTipText = "Click button to Edit Item.";
+            this.colVerify.Width = 41;
+            // 
+            // colMerge
+            // 
+            this.colMerge.DataPropertyName = "colMerge";
+            this.colMerge.FillWeight = 56F;
+            this.colMerge.HeaderText = "Merge";
+            this.colMerge.Name = "colMerge";
+            this.colMerge.Width = 43;
+            // 
+            // colCost
+            // 
+            this.colCost.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colCost.DataPropertyName = "colCost";
+            this.colCost.FillWeight = 30F;
+            this.colCost.HeaderText = "Cost";
+            this.colCost.MinimumWidth = 9;
+            this.colCost.Name = "colCost";
+            this.colCost.ReadOnly = true;
+            // 
+            // colDescription
+            // 
+            this.colDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colDescription.DataPropertyName = "colDescription";
+            this.colDescription.FillWeight = 90F;
+            this.colDescription.HeaderText = "Description";
+            this.colDescription.Name = "colDescription";
+            this.colDescription.ReadOnly = true;
+            // 
+            // colAssignmentType
+            // 
+            this.colAssignmentType.DataPropertyName = "colAssignmentType";
+            this.colAssignmentType.FillWeight = 47.31137F;
+            this.colAssignmentType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.colAssignmentType.HeaderText = "Assignment Type";
+            this.colAssignmentType.Name = "colAssignmentType";
+            this.colAssignmentType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colAssignmentType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colAssignmentType.Width = 114;
+            // 
+            // colRetail
+            // 
+            this.colRetail.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colRetail.DataPropertyName = "colRetail";
+            this.colRetail.FillWeight = 30F;
+            this.colRetail.HeaderText = "Retail";
+            this.colRetail.MinimumWidth = 9;
+            this.colRetail.Name = "colRetail";
+            this.colRetail.ReadOnly = true;
+            // 
+            // colReason
+            // 
+            this.colReason.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colReason.DataPropertyName = "colReason";
+            this.colReason.FillWeight = 47.31137F;
+            this.colReason.HeaderText = "Reason";
+            this.colReason.Name = "colReason";
+            this.colReason.ReadOnly = true;
+            // 
+            // colTags
+            // 
+            this.colTags.DataPropertyName = "colTags";
+            this.colTags.FillWeight = 47.31137F;
+            this.colTags.HeaderText = "# Tags";
+            this.colTags.Name = "colTags";
+            this.colTags.ReadOnly = true;
+            this.colTags.Width = 66;
+            // 
+            // colStatus
+            // 
+            this.colStatus.HeaderText = "Status";
+            this.colStatus.Name = "colStatus";
+            this.colStatus.ReadOnly = true;
+            this.colStatus.Visible = false;
+            this.colStatus.Width = 63;
             // 
             // pictureBox1
             // 
@@ -297,7 +383,7 @@
             this.costAmountLabel.AutoSize = true;
             this.costAmountLabel.BackColor = System.Drawing.Color.Transparent;
             this.costAmountLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.costAmountLabel.Location = new System.Drawing.Point(110, 6);
+            this.costAmountLabel.Location = new System.Drawing.Point(199, 6);
             this.costAmountLabel.Name = "costAmountLabel";
             this.costAmountLabel.Size = new System.Drawing.Size(13, 13);
             this.costAmountLabel.TabIndex = 153;
@@ -309,7 +395,7 @@
             this.Labelx.AutoSize = true;
             this.Labelx.BackColor = System.Drawing.Color.Transparent;
             this.Labelx.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Labelx.Location = new System.Drawing.Point(3, 6);
+            this.Labelx.Location = new System.Drawing.Point(103, 6);
             this.Labelx.Name = "Labelx";
             this.Labelx.Size = new System.Drawing.Size(82, 13);
             this.Labelx.TabIndex = 152;
@@ -327,17 +413,16 @@
             this.variancePanel.Controls.Add(this.costAmountLabel);
             this.variancePanel.Location = new System.Drawing.Point(15, 406);
             this.variancePanel.Name = "variancePanel";
-            this.variancePanel.Size = new System.Drawing.Size(211, 60);
+            this.variancePanel.Size = new System.Drawing.Size(270, 60);
             this.variancePanel.TabIndex = 154;
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(3, 44);
+            this.label5.Location = new System.Drawing.Point(5, 44);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(85, 13);
+            this.label5.Size = new System.Drawing.Size(181, 13);
             this.label5.TabIndex = 156;
             this.label5.Text = "Loan Amount:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -347,7 +432,7 @@
             this.loanAmountLabel.AutoSize = true;
             this.loanAmountLabel.BackColor = System.Drawing.Color.Transparent;
             this.loanAmountLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.loanAmountLabel.Location = new System.Drawing.Point(110, 44);
+            this.loanAmountLabel.Location = new System.Drawing.Point(199, 44);
             this.loanAmountLabel.Name = "loanAmountLabel";
             this.loanAmountLabel.Size = new System.Drawing.Size(13, 13);
             this.loanAmountLabel.TabIndex = 157;
@@ -360,7 +445,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(3, 25);
+            this.label1.Location = new System.Drawing.Point(116, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 13);
             this.label1.TabIndex = 154;
@@ -373,7 +458,7 @@
             this.differenceLabel.BackColor = System.Drawing.Color.Transparent;
             this.differenceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.differenceLabel.ForeColor = System.Drawing.Color.Red;
-            this.differenceLabel.Location = new System.Drawing.Point(110, 25);
+            this.differenceLabel.Location = new System.Drawing.Point(199, 25);
             this.differenceLabel.Name = "differenceLabel";
             this.differenceLabel.Size = new System.Drawing.Size(13, 13);
             this.differenceLabel.TabIndex = 155;
@@ -385,7 +470,7 @@
             this.suspendButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.suspendButton.AutoSize = true;
             this.suspendButton.BackColor = System.Drawing.Color.Transparent;
-            this.suspendButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.suspendButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("suspendButton.BackgroundImage")));
             this.suspendButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.suspendButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.suspendButton.FlatAppearance.BorderSize = 0;
@@ -407,7 +492,7 @@
             this.addNewItemButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.addNewItemButton.AutoSize = true;
             this.addNewItemButton.BackColor = System.Drawing.Color.Transparent;
-            this.addNewItemButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.addNewItemButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("addNewItemButton.BackgroundImage")));
             this.addNewItemButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.addNewItemButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.addNewItemButton.FlatAppearance.BorderSize = 0;
@@ -429,7 +514,7 @@
             this.undoButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.undoButton.AutoSize = true;
             this.undoButton.BackColor = System.Drawing.Color.Transparent;
-            this.undoButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.undoButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("undoButton.BackgroundImage")));
             this.undoButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.undoButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.undoButton.FlatAppearance.BorderSize = 0;
@@ -451,7 +536,7 @@
             this.mergeButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.mergeButton.AutoSize = true;
             this.mergeButton.BackColor = System.Drawing.Color.Transparent;
-            this.mergeButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.mergeButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mergeButton.BackgroundImage")));
             this.mergeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.mergeButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.mergeButton.FlatAppearance.BorderSize = 0;
@@ -725,96 +810,11 @@
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
             // 
-            // colVerify
-            // 
-            this.colVerify.DataPropertyName = "colVerify";
-            this.colVerify.FillWeight = 47.08213F;
-            this.colVerify.HeaderText = "Verify";
-            this.colVerify.Name = "colVerify";
-            this.colVerify.ReadOnly = true;
-            this.colVerify.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colVerify.ToolTipText = "Click button to Edit Item.";
-            this.colVerify.Width = 41;
-            // 
-            // colMerge
-            // 
-            this.colMerge.DataPropertyName = "colMerge";
-            this.colMerge.FillWeight = 56F;
-            this.colMerge.HeaderText = "Merge";
-            this.colMerge.Name = "colMerge";
-            this.colMerge.Width = 43;
-            // 
-            // colCost
-            // 
-            this.colCost.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colCost.DataPropertyName = "colCost";
-            this.colCost.FillWeight = 30F;
-            this.colCost.HeaderText = "Cost";
-            this.colCost.MinimumWidth = 9;
-            this.colCost.Name = "colCost";
-            this.colCost.ReadOnly = true;
-            // 
-            // colDescription
-            // 
-            this.colDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colDescription.DataPropertyName = "colDescription";
-            this.colDescription.FillWeight = 90F;
-            this.colDescription.HeaderText = "Description";
-            this.colDescription.Name = "colDescription";
-            this.colDescription.ReadOnly = true;
-            // 
-            // colAssignmentType
-            // 
-            this.colAssignmentType.DataPropertyName = "colAssignmentType";
-            this.colAssignmentType.FillWeight = 47.31137F;
-            this.colAssignmentType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.colAssignmentType.HeaderText = "Assignment Type";
-            this.colAssignmentType.Name = "colAssignmentType";
-            this.colAssignmentType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colAssignmentType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colAssignmentType.Width = 114;
-            // 
-            // colRetail
-            // 
-            this.colRetail.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colRetail.DataPropertyName = "colRetail";
-            this.colRetail.FillWeight = 30F;
-            this.colRetail.HeaderText = "Retail";
-            this.colRetail.MinimumWidth = 9;
-            this.colRetail.Name = "colRetail";
-            this.colRetail.ReadOnly = true;
-            // 
-            // colReason
-            // 
-            this.colReason.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colReason.DataPropertyName = "colReason";
-            this.colReason.FillWeight = 47.31137F;
-            this.colReason.HeaderText = "Reason";
-            this.colReason.Name = "colReason";
-            this.colReason.ReadOnly = true;
-            // 
-            // colTags
-            // 
-            this.colTags.DataPropertyName = "colTags";
-            this.colTags.FillWeight = 47.31137F;
-            this.colTags.HeaderText = "# Tags";
-            this.colTags.Name = "colTags";
-            this.colTags.ReadOnly = true;
-            this.colTags.Width = 66;
-            // 
-            // colStatus
-            // 
-            this.colStatus.HeaderText = "Status";
-            this.colStatus.Name = "colStatus";
-            this.colStatus.ReadOnly = true;
-            this.colStatus.Visible = false;
-            this.colStatus.Width = 63;
-            // 
             // PFI_Verify
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Common.Properties.Resources.newDialog_512_BlueScale;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(778, 522);
             this.ControlBox = false;

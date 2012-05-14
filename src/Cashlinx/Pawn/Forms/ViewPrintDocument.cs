@@ -21,10 +21,14 @@ namespace Pawn.Forms
     {
         private bool hasLaserInfo;
         private bool hasReceiptInfo;
+        private bool hasIndianaPoliceCardPrinterInfo;
         private string laserIp;
         private string receiptIp;
+        private string indianaPoliceCardPrinterIp;
         private int laserPort;
         private int receiptPort;
+        private int indianaPoliceCardPrinterPort;
+
         private string _receiptNo = string.Empty;
         private CouchDbUtils.PawnDocInfo _docInfo = null;
 
@@ -113,6 +117,11 @@ namespace Pawn.Forms
             this.hasReceiptInfo = dSession.ReceiptPrinter.IsValid;
             this.receiptIp = dSession.ReceiptPrinter.IPAddress;
             this.receiptPort = dSession.ReceiptPrinter.Port;
+
+            //Get IndianaPoliceCard Printer info
+            this.hasIndianaPoliceCardPrinterInfo = dSession.IndianaPoliceCardPrinter.IsValid;
+            this.indianaPoliceCardPrinterIp = dSession.IndianaPoliceCardPrinter.IPAddress;
+            this.indianaPoliceCardPrinterPort = dSession.IndianaPoliceCardPrinter.Port;
         }
 
         private string ByteArrayToString(byte[] btData)
@@ -319,20 +328,22 @@ namespace Pawn.Forms
                         break;
                     case Document.DocTypeNames.TEXT:
                         //If we do not have the laser printer info, get out
-                        if (!hasLaserInfo)
+                        if (!hasLaserInfo && !hasIndianaPoliceCardPrinterInfo)
                         {
                             pLoadMesg.Close();
                             pLoadMesg.Dispose();
-                            this.showErrorMessage("print", "Cannot determine laser printer IP/Port");
+                            this.showErrorMessage("print", "Cannot determine printer IP/Port");
                             this.Close();
                             return;
                         }
+
                         //Send raw text data to laser printer
                         string resStrTxt = GenerateDocumentsPrinter.printDocument(
                             fileData,
-                            laserIp,
-                            laserPort,
+                            hasIndianaPoliceCardPrinterInfo ? indianaPoliceCardPrinterIp : laserIp,
+                            hasIndianaPoliceCardPrinterInfo ? indianaPoliceCardPrinterPort : laserPort,
                             1);
+
                         if (!string.IsNullOrEmpty(resStrTxt) && resStrTxt.Contains("SUCCESS"))
                         {
                             printSuccess = true;

@@ -88,6 +88,10 @@ namespace Common.Libraries.Objects.Customer
             get;
             set;
         }
+
+        // 03-09-2012 - Tré G. --> Added Restitution information for Release to Claimant report.
+        public bool RestitutionPaid { get; set; }
+        public double RestitutionAmount { get; set; }
         
 
 

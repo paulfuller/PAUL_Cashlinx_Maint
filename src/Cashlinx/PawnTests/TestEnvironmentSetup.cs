@@ -63,7 +63,7 @@ namespace PawnTests
         {
             var ds = GlobalDataAccessor.Instance.DesktopSession = new TestDesktopSession();
             ds.CurrentSiteId = TestSiteIds.Store00152;
-            ds.LaserPrinter = new StorePrinterVO(StorePrinterVO.StorePrinterType.LASER, "192.168.106.35", 9100);
+            ds.LaserPrinter = new StorePrinterVO(StorePrinterVO.StorePrinterType.LASER, "192.168.116.49", 9100);
             ds.Setup(null);
         }
     }

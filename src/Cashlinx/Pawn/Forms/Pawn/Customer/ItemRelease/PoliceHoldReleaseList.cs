@@ -109,7 +109,8 @@ namespace Pawn.Forms.Pawn.Customer.ItemRelease
 
                     if (new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId))
                     {
-                        dataGridViewTransactions.Columns[8].DataPropertyName = holdstransactioncursor.CURRENTPRINCIPALAMOUNT; //"cur_amount in payment_detail table"; 
+                        dataGridViewTransactions.Columns[8].DataPropertyName = holdstransactioncursor.CURRENTPRINCIPALAMOUNT; //"cur_amount in payment_detail table";
+                        dataGridViewTransactions.Columns[8].HeaderText = "Current Principal Amount";
                     }
                     else
                     {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.IO;
+using Common.Controllers.Application;
+using Common.Controllers.Database.Procedures;
 using Common.Libraries.Utility.Shared;
 using Common.Libraries.Utility.String;
 using Common.Properties;
@@ -32,6 +34,8 @@ namespace Reports.Inquiry
         public int ReportErrorLevel;
         //string _groupByField;
 
+        private bool isPartialPaymentAllowed;
+
         public LoanDetailReport(string reportName, string storeNumber, string storeName, DateTime runDate, string title)
         {
             _reportFont = FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.NORMAL);
@@ -43,6 +47,10 @@ namespace Reports.Inquiry
             _title = title;
 
             reportTempFileFullName = reportName;
+
+            isPartialPaymentAllowed =
+                new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowed(
+                    GlobalDataAccessor.Instance.CurrentSiteId);
         }
 
         public bool CreateReport(DataView theData)
@@ -462,21 +470,34 @@ namespace Reports.Inquiry
                 cell.Colspan = 1;
                 headingtable.AddCell(cell);
 
-                cell = new PdfPCell(new Phrase("Loan Amount:", _reportFont));
-                cell.Border = Rectangle.NO_BORDER;
-                cell.HorizontalAlignment = Element.ALIGN_RIGHT;
-                cell.VerticalAlignment = Element.ALIGN_TOP;
-                cell.Colspan = 1;
-                headingtable.AddCell(cell);
+                // if partial payments are not allowed, make these cells blank and the loan amount will be moved down.
+                if (isPartialPaymentAllowed)
+                {
+                    cell = new PdfPCell(new Phrase("Loan Amount:", _reportFont));
+                    cell.Border = Rectangle.NO_BORDER;
+                    cell.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    cell.VerticalAlignment = Element.ALIGN_TOP;
+                    cell.Colspan = 1;
+                    headingtable.AddCell(cell);
 
-                cell = new PdfPCell(new Phrase(string.Format("{0:c}", pawnLoan["PRIN_AMOUNT"]), _reportFont));
-                cell.Border = Rectangle.NO_BORDER;
-                cell.HorizontalAlignment = Element.ALIGN_LEFT;
-                cell.VerticalAlignment = Element.ALIGN_TOP;
-                cell.Colspan = 1;
-                headingtable.AddCell(cell);
+                    cell = new PdfPCell(new Phrase(string.Format("{0:c}", pawnLoan["PRIN_AMOUNT"]), _reportFont));
+                    cell.Border = Rectangle.NO_BORDER;
+                    cell.HorizontalAlignment = Element.ALIGN_LEFT;
+                    cell.VerticalAlignment = Element.ALIGN_TOP;
+                    cell.Colspan = 1;
+                    headingtable.AddCell(cell);
+                }
+                else
+                {
+                    cell = new PdfPCell(new Phrase("", _reportFont));
+                    cell.Border = Rectangle.NO_BORDER;
+                    cell.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    cell.VerticalAlignment = Element.ALIGN_TOP;
+                    cell.Colspan = 2;
+                    headingtable.AddCell(cell);
+                }
 
-                cell = new PdfPCell(new Phrase("Status:", _reportFont));
+            cell = new PdfPCell(new Phrase("Status:", _reportFont));
                 cell.Border = Rectangle.NO_BORDER;
                 cell.HorizontalAlignment = Element.ALIGN_RIGHT;
                 cell.VerticalAlignment = Element.ALIGN_TOP;
@@ -528,22 +549,42 @@ namespace Reports.Inquiry
                 cell.Colspan = 1;
                 headingtable.AddCell(cell);
 
-                cell = new PdfPCell(new Phrase("Prin. Amt:", _reportFont));
-                cell.Border = Rectangle.NO_BORDER;
-                cell.HorizontalAlignment = Element.ALIGN_RIGHT;
-                cell.VerticalAlignment = Element.ALIGN_TOP;
-                cell.Colspan = 1;
-                headingtable.AddCell(cell);
+                // if partial payments are not allowed, show the loan amount in these cells
+                if (isPartialPaymentAllowed)
+                {
+                    cell = new PdfPCell(new Phrase("Prin. Amt:", _reportFont));
+                    cell.Border = Rectangle.NO_BORDER;
+                    cell.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    cell.VerticalAlignment = Element.ALIGN_TOP;
+                    cell.Colspan = 1;
+                    headingtable.AddCell(cell);
 
-                cell = new PdfPCell(new Phrase(string.Format("{0:c}", pawnLoan["PartPymtPrinAmt"]), _reportFont));
-                cell.Border = Rectangle.NO_BORDER;
-                cell.HorizontalAlignment = Element.ALIGN_LEFT;
-                cell.VerticalAlignment = Element.ALIGN_TOP;
-                cell.Colspan = 1;
-                headingtable.AddCell(cell);
+                    cell = new PdfPCell(new Phrase(string.Format("{0:c}", pawnLoan["PartPymtPrinAmt"]), _reportFont));
+                    cell.Border = Rectangle.NO_BORDER;
+                    cell.HorizontalAlignment = Element.ALIGN_LEFT;
+                    cell.VerticalAlignment = Element.ALIGN_TOP;
+                    cell.Colspan = 1;
+                    headingtable.AddCell(cell);
+                }
+                else
+                {
+                    cell = new PdfPCell(new Phrase("Loan Amount:", _reportFont));
+                    cell.Border = Rectangle.NO_BORDER;
+                    cell.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    cell.VerticalAlignment = Element.ALIGN_TOP;
+                    cell.Colspan = 1;
+                    headingtable.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(string.Format("{0:c}", pawnLoan["PRIN_AMOUNT"]), _reportFont));
+                    cell.Border = Rectangle.NO_BORDER;
+                    cell.HorizontalAlignment = Element.ALIGN_LEFT;
+                    cell.VerticalAlignment = Element.ALIGN_TOP;
+                    cell.Colspan = 1;
+                    headingtable.AddCell(cell);                    
+                }
 
 
-                cell = new PdfPCell(new Phrase("Negotiated?:", _reportFont));
+            cell = new PdfPCell(new Phrase("Negotiated?:", _reportFont));
                 cell.Border = Rectangle.NO_BORDER;
                 cell.HorizontalAlignment = Element.ALIGN_RIGHT;
                 cell.VerticalAlignment = Element.ALIGN_TOP;

@@ -486,7 +486,7 @@ namespace Common.Controllers.Database.Couch.Impl
                 catch (Exception e)
                 {
                     Error = true;
-                    Message = "Document get aborted:" + sGetURL + ":" + e.Message + " : DocID :" + sDocumentId;
+                    Message = string.Format("Document get aborted:{0}:{1} : DocID :{2}", sGetURL, e.Message, sDocumentId);
                     return btData;
                 }
                 using (var response = (HttpWebResponse)webRequester.GetResponse())

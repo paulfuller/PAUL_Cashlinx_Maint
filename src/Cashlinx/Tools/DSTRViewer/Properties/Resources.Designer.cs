@@ -60,15 +60,6 @@ namespace DSTRViewer.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string prodEnvironment {
-            get {
-                return ResourceManager.GetString("prodEnvironment", resourceCulture);
-            }
-        }
-        
         internal static byte[] pwnstore_config_CLXD3 {
             get {
                 object obj = ResourceManager.GetObject("pwnstore_config_CLXD3", resourceCulture);
@@ -101,15 +92,6 @@ namespace DSTRViewer.Properties {
             get {
                 object obj = ResourceManager.GetObject("pwnstore_config_CLXT2", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 300000.
-        /// </summary>
-        internal static string timeLimiter {
-            get {
-                return ResourceManager.GetString("timeLimiter", resourceCulture);
             }
         }
     }

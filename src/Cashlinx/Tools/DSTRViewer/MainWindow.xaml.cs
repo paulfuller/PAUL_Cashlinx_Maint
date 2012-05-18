@@ -79,7 +79,7 @@ namespace DSTRViewer
 
             //Setup file logger
             FileLogger.Instance.initializeLogger(
-                string.Format("dstr_viewer_{0}.log", DateTime.Now.Ticks),
+                string.Format("logs/dstr_viewer_{0}.log", DateTime.Now.Ticks),
                 DefaultLoggerHandlers.defaultLogLevelCheckHandler, 
                 DefaultLoggerHandlers.defaultLogLevelGenerator, 
                 DefaultLoggerHandlers.defaultDateStampGenerator, 
@@ -298,6 +298,7 @@ namespace DSTRViewer
         {
             //Check to ensure that only one DSTRViewer is running at a time
             bool appStarted;
+            Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             using (new Mutex(true, "DSTRViewer", out appStarted))
             {
                 if (appStarted)
@@ -352,14 +353,20 @@ namespace DSTRViewer
                 MessageBox.Show("Please enter a valid password");
                 return;
             }
+            var procMsg = new ProcessingMessage("*** VALIDATING LOGIN ***");
+            procMsg.Show();
             //Load pawn security data and authenticate
             string errTxt;
             if (!setupInternalData(this.curUserName, this.curPassword, out errTxt))
             {
+                procMsg.Hide();
                 MessageBox.Show(string.Format("Could not log in to the environment chosen. Error: {0}", errTxt));
+                Application.Current.Shutdown(3);
+                this.Close();
                 return;
             }
             //Set and show the viewer window
+            procMsg.Hide();
             var viewer = new DSTRViewerWindow(this.curEnvString, this.curUserName);
             viewer.PawnSecData = this.pawnSecData;
             viewer.EncryptedConfig = this.encConfig;
@@ -403,6 +410,21 @@ namespace DSTRViewer
 
         private void DSTRViewer_Loaded(object sender, RoutedEventArgs e)
         {
+            if (Properties.Settings.Default.prodRestrict)
+            {
+                environmentComboBox.Items.Clear();
+                var newItem = new ComboBoxItem()
+                              {
+                                  Content = "             --- PRODUCTION ---"
+                              };
+                environmentComboBox.Items.Add(newItem);
+                environmentComboBox.SelectedIndex = 0;
+                environmentComboBox.UpdateLayout();
+                environmentComboBox.IsEnabled = false;
+                this.curEnvString = 
+                    (!string.IsNullOrEmpty(Properties.Settings.Default.prodEnv)) ? 
+                        Properties.Settings.Default.prodEnv : "CLXP";
+            }
         }
 
         private void userNameTextBox_TextChanged(object sender, TextChangedEventArgs e)

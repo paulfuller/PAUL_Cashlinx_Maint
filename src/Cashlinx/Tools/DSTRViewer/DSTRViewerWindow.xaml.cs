@@ -14,6 +14,7 @@ using Common.Libraries.Objects.Config;
 using Common.Libraries.Utility;
 using Common.Libraries.Utility.Collection;
 using Common.Libraries.Utility.Logger;
+using Common.Libraries.Utility.String;
 using Common.Libraries.Utility.Type;
 using Document = Common.Libraries.Objects.Doc.Document;
 using MessageBox = System.Windows.MessageBox;
@@ -25,8 +26,9 @@ namespace DSTRViewer
     /// </summary>
     public partial class DSTRViewerWindow : Window
     {
-        public const string PROD_ENV = "CLXP";
+//        public const string PROD_ENV = "CLXP";
         private const string TIME_FILE = ".donotdelete";
+        private const int MIN_REJECT_LEN = 3;
         public EncryptedConfigContainer EncryptedConfig { get; set; }
         public DatabaseServiceVO CouchServer { get; set; }
         public DatabaseServiceVO DatabaseServer { get; set; }
@@ -36,10 +38,12 @@ namespace DSTRViewer
         public Credentials CshLnxCred { set; get; }
         public DataAccessTools CshLnxDataTools { set; get; }
         public bool Finished { set; get; }
-        private Dictionary<long, List<string>> dateStorageMap;
+        private Dictionary<long, List<PairType<string, Document>>> dateStorageMap;
+        private List<string> storeList; 
         private DataReturnSet storeDataSet;
         private DataReturnSet dstrStorageData;
         private DateTime selectedDate;
+        private Document selectedDocument;
         private SecuredCouchConnector couchConnector;
         //private Cookie couchSessionCookie;
         private string selectedStore;
@@ -72,9 +76,11 @@ namespace DSTRViewer
             this.curEnvString = envStr;
             this.curUserName = usrName;
             this.selectedStore = string.Empty;
-            this.dateStorageMap = new Dictionary<long, List<string>>();
+            this.dateStorageMap = new Dictionary<long, List<PairType<string, Document>>>();
+            this.storeList = new List<string>();
             this.selectedDate = DateTime.MinValue;
             this.couchConnector = null;
+            this.selectedDocument = null;            
             this.Finished = false;
         }
         
@@ -136,15 +142,21 @@ namespace DSTRViewer
         private void DSTRViewerWindowForm_Loaded(object sender, RoutedEventArgs e)
         {
             TupleType<long, long, string> timeData;
-            if (this.curEnvString.Equals(PROD_ENV, StringComparison.OrdinalIgnoreCase))
+            if (IsRestrictedEnvironment())
             {
+                var timeLimitValue = DSTRViewer.Properties.Settings.Default.timeLimiter;
+                if (string.IsNullOrEmpty(timeLimitValue)) timeLimitValue = "300000";
+                var timeLimitAct = Utilities.GetLongValue(timeLimitValue, 300000L);
+                //Convert from milliseconds to minutes
+                timeLimitAct = timeLimitAct / 1000 / 60;
+
                 var res = MessageBox.Show(
                     "*************** WARNING ***************" + Environment.NewLine +
                     "  You are accessing a live production" + Environment.NewLine +
                     "  system. Your activity is being     " + Environment.NewLine +
                     "  logged and your access will be     " + Environment.NewLine +
                     "  limited to one document retrieval  " + Environment.NewLine +
-                    "  every five minutes. If you do not  " + Environment.NewLine +
+                    "  every " + timeLimitAct + " minutes. If you do not  " + Environment.NewLine +
                     "  agree with this policy, click      " + Environment.NewLine +
                     "  Cancel. By clicking OK you are     " + Environment.NewLine +
                     "  bound to this time limit policy.   ",
@@ -174,9 +186,8 @@ namespace DSTRViewer
 
                             //Warn about time limit, then exit
                             MessageBox.Show(
-                                "You are still in the waiting period to fetch a document from production." + Environment.NewLine +
-                                "  You have " + timeData.Right + Environment.NewLine +
-                                " Exiting the application.",
+                                "You are still in the waiting period to fetch a document from production." + Environment.NewLine +                                
+                                "Exiting the application.",
                                 "*** TIME LIMIT WARNING ***",
                                 MessageBoxButton.OK, MessageBoxImage.Warning);
                             //Exit the app
@@ -206,7 +217,7 @@ namespace DSTRViewer
             if (TimeFileExists() && WithinTimeLimit(out timeData))
             {
                 var diffTime = timeData.Right;
-                MessageBox.Show("You are still within the time restriction limit.  You have " + diffTime + Environment.NewLine + " The application will now close.", "*** TIME LIMIT WARNING ***");
+                MessageBox.Show("You are still within the time restriction limit.  The application will now close.", "*** TIME LIMIT WARNING ***");
                 Application.Current.Shutdown();
                 this.Close();
                 return;
@@ -239,8 +250,7 @@ namespace DSTRViewer
                 this.Close();
                 return;
             }
-            //Extract the stores from the data set
-            var orderedShopList = new List<string>(dSet.NumberRows);
+            //Extract the stores from the data set            
             for (var j = 0; j < dSet.NumberRows; ++j)
             {
                 DataReturnSetRow dRow;
@@ -249,11 +259,14 @@ namespace DSTRViewer
                 var storeNum = Utilities.GetStringValue(dRow.GetData(0), string.Empty);
                 if (!string.IsNullOrEmpty(storeNum))
                 {
-                    orderedShopList.Add(storeNum);    
+                    this.storeList.Add(storeNum);    
                 }                
             }
 
-            //Order the stores
+            //Order them to enhance search speed
+            this.storeList.Sort();
+            /* No need to do this anymore with text box submit
+             * //Order the stores
             orderedShopList.Sort();
 
             //Put the stores into the combo box
@@ -268,7 +281,7 @@ namespace DSTRViewer
                                        };
                     this.storeComboBox.Items.Add(newComboItem);
                 }
-            }
+            }*/
         }
 
         private void DSTRViewerWindowForm_Initialized(object sender, EventArgs e)
@@ -299,9 +312,17 @@ namespace DSTRViewer
                 var diffTime = timeData.Right;
                 MessageBox.Show("You are still within the time restriction limit. "+ Environment.NewLine + " The application will now close.", "*** TIME LIMIT WARNING ***");
                 Application.Current.Shutdown();
+                this.Close();
+                return;
             }
             if (!string.IsNullOrEmpty(this.selectedStore))
             {
+                //Check to see if the store is in the list
+                if (this.storeList.BinarySearch(this.selectedStore) < 0)
+                {
+                    MessageBox.Show("That store has not yet been converted to Cashlinx.  Please enter a different store number.");
+                    return;
+                }
                 string errTxt;
                 var dTools = this.CshLnxDataTools;
                 this.submitStoreButton.IsEnabled = false;
@@ -315,10 +336,12 @@ namespace DSTRViewer
                 if (!InitCouchDB())
                 {
                     MessageBox.Show("Cannot connect to couch server! Exiting...", "Exit Warning");
+                    Application.Current.Shutdown();
                     this.DialogResult = false;
                     this.Close();
                 }
-
+                var procMsg = new ProcessingMessage("*** PLEASE WAIT - FINDING DOCUMENTS ***");
+                procMsg.Show();
                 if (!DataAccessService.ExecuteQuery(
                     false,
                     string.Format(
@@ -331,15 +354,16 @@ namespace DSTRViewer
                     out dstrStorageData,
                     ref dTools))
                 {
+                    procMsg.Hide();
                     errTxt = string.Format(
-                        "Could not find any DSTR documents");
+                        "Could not find any DSTR documents for that store");
                     showError(errTxt);
                     this.submitStoreButton.IsEnabled = true;
                     return;
                 }
-
                 if (dstrStorageData == null || dstrStorageData.NumberRows <= 0)
                 {
+                    procMsg.Hide();
                     errTxt = string.Format(
                         "Could not find any DSTR documents to view");
                     showError(errTxt);
@@ -349,6 +373,7 @@ namespace DSTRViewer
 
                 //Collect dates into a temporary map
                 this.dateStorageMap.Clear();
+                bool foundValidDoc = false;
                 for (var j = 0; j < dstrStorageData.NumberRows; ++j)
                 {
                     DataReturnSetRow dRow;
@@ -357,7 +382,7 @@ namespace DSTRViewer
                         continue;
                     }
                     var dRowDate = Utilities.GetDateTimeValue(dRow.GetData("STORAGE_TIME"), DateTime.Now.Date);
-                    List<string> storageIds;
+                    List<PairType<string, Document>> storageIds;
                     var ticksKey = dRowDate.Date.Ticks;
                     if (CollectionUtilities.isNotEmptyContainsKey(this.dateStorageMap, ticksKey))
                     {
@@ -365,7 +390,7 @@ namespace DSTRViewer
                     }
                     else
                     {
-                        storageIds = new List<string>();
+                        storageIds = new List<PairType<string, Document>>();
                         this.dateStorageMap.Add(ticksKey, storageIds);
                     }
                     //Get the storage id first
@@ -373,13 +398,29 @@ namespace DSTRViewer
                     Document doc;
                     if (IsDocumentDSTR(storageId, out doc))
                     {
-                        storageIds.Add(storageId);
+                        storageIds.Add(new PairType<string, Document>(storageId, doc));
+                        foundValidDoc = true;
                     }
                 }
+
+                procMsg.Hide();
+
+                if (!foundValidDoc)
+                {
+                    procMsg.Hide();
+                    errTxt = string.Format(
+                        "Could not find any DSTR documents to view for this store");
+                    showError(errTxt);
+                    this.submitStoreButton.IsEnabled = true;
+                    return;
+                }
+                
 
                 //Update calendar
                 var today = DateTime.Now.Date;
                 var tomorrowDate = DateTime.Now.Date.Add(new TimeSpan(1, 0, 0, 0));
+                //Clear calendar black out dates
+                this.storeCalendar.BlackoutDates.Clear();
                 //Black out calendar from start of time to 90 days ago
                 this.storeCalendar.BlackoutDates.Add(new CalendarDateRange(DateTime.MinValue.Date, ninetyDaysAgo.Date));
                 //Black out calendar from tomorrow to the end of time
@@ -387,7 +428,7 @@ namespace DSTRViewer
                 //Ensure store calendar is set to single date mode
                 this.storeCalendar.SelectionMode = CalendarSelectionMode.SingleDate;
                 //Ensure calendar is on today's date
-                this.storeCalendar.SelectedDate = today;
+                this.storeCalendar.SelectedDate = null;
                 //Go through the ninety day range to today and black out dates we do not have storage ids for...
                 var curDay = ninetyDaysAgo.Date;
                 while(curDay.Date.CompareTo(today.Date) < 0)
@@ -395,12 +436,28 @@ namespace DSTRViewer
                     if (!CollectionUtilities.isNotEmptyContainsKey(this.dateStorageMap, curDay.Date.Ticks))
                     {
                         this.storeCalendar.BlackoutDates.Add(new CalendarDateRange(curDay.Date));
+                        if (FileLogger.Instance.IsLogDebug)
+                        {
+                            FileLogger.Instance.logMessage(LogLevel.DEBUG, this, "Blackout date found = " + curDay.Date.ToLongDateString() + ", Ticks = " + curDay.Date.Ticks);
+                        }
                     }
                     else
                     {
-                        if (FileLogger.Instance.IsLogDebug)
+                        var idList = this.dateStorageMap[curDay.Date.Ticks];
+                        if (CollectionUtilities.isEmpty(idList))
                         {
-                            FileLogger.Instance.logMessage(LogLevel.DEBUG, this, "Valid date found = " + curDay.Date.ToLongDateString() + ", Ticks = " + curDay.Date.Ticks);
+                            this.storeCalendar.BlackoutDates.Add(new CalendarDateRange(curDay.Date));
+                            if (FileLogger.Instance.IsLogWarn)
+                            {
+                                FileLogger.Instance.logMessage(LogLevel.WARN, this, "Date with no DSTR found = " + curDay.Date.ToLongDateString() + ", Ticks = " + curDay.Date.Ticks);
+                            }
+                        }
+                        else
+                        {
+                            if (FileLogger.Instance.IsLogDebug)
+                            {
+                                FileLogger.Instance.logMessage(LogLevel.DEBUG, this, "Valid date found = " + curDay.Date.ToLongDateString() + ", Ticks = " + curDay.Date.Ticks);
+                            }
                         }
                     }
                     //Increment date
@@ -419,6 +476,7 @@ namespace DSTRViewer
                 this.selectedDate = this.storeCalendar.SelectedDate.Value;
                 this.viewButton.IsEnabled = true;
                 this.viewButton.Focus();
+                this.viewButton.UpdateLayout();
             }
         }
 
@@ -428,7 +486,9 @@ namespace DSTRViewer
             if (res == MessageBoxResult.Yes)
             {
                 this.DialogResult = false;
+                Application.Current.Shutdown(0);
                 this.Close();
+                return;
             }
         }
 
@@ -457,7 +517,9 @@ namespace DSTRViewer
 
         private bool IsRestrictedEnvironment()
         {
-            if (this.curEnvString.Equals(PROD_ENV, StringComparison.OrdinalIgnoreCase))
+            if (Properties.Settings.Default.prodRestrict &&
+                !string.IsNullOrEmpty(Properties.Settings.Default.prodEnv) &&
+                this.curEnvString.Equals(Properties.Settings.Default.prodEnv, StringComparison.OrdinalIgnoreCase))
             {
                 return (true);
             }
@@ -513,7 +575,7 @@ namespace DSTRViewer
                         var diffTime = now - readTime;
                         //var diffMinsTime = diffTime.Minutes;
                         long limit;
-                        if (!Int64.TryParse(Properties.Resources.timeLimiter, out limit))
+                        if (!Int64.TryParse(Properties.Settings.Default.timeLimiter, out limit))
                         {
                             //Default to one minute wait if value is not right
                             limit = 60000L;
@@ -556,6 +618,14 @@ namespace DSTRViewer
                     {
                         FileLogger.Instance.logMessage(LogLevel.ERROR, this, "Error occurred while reading time limit file data: {0}", eX.Message);
                     }
+                }
+            }
+            else
+            {
+                //Create the file for the first time
+                if (WriteTimeLimit())
+                {
+                    return (true);
                 }
             }
             return (false);
@@ -602,7 +672,7 @@ namespace DSTRViewer
         private bool WithinTimeLimit(out TupleType<long, long, string> timeData)
         {
             timeData = null;
-            if (!this.curEnvString.Equals(PROD_ENV, StringComparison.OrdinalIgnoreCase))
+            if (!IsRestrictedEnvironment())
             {
                 return (false);
             }
@@ -658,11 +728,10 @@ namespace DSTRViewer
         }
 
 
-        private bool GetShowPrintCouchDocument(string id, out string errMsg)
+        private bool GetShowPrintCouchDocument(string id, Document doc, out string errMsg)
         {
             errMsg = string.Empty;
-            Document doc;
-            if (IsDocumentDSTR(id, out doc))
+            if (!string.IsNullOrEmpty(id) && doc != null)
             {
                 //Retrieve the document data
                 byte[] dataArray;
@@ -729,13 +798,16 @@ namespace DSTRViewer
         {
             //Check file time - we do not want to hit production if the time limit is still in effect
             TupleType<long, long, string> timeData;
+            bool restrict = false;
             if (TimeFileExists() && WithinTimeLimit(out timeData))
             {
                 var diffTime = timeData.Right;
                 MessageBox.Show("You are still within the time restriction limit.  The application will now close.", "*** TIME LIMIT WARNING ***");
                 Application.Current.Shutdown();
+                restrict = true;
                 this.DialogResult = false;
                 this.Close();
+                return;
             }
 
 
@@ -748,6 +820,7 @@ namespace DSTRViewer
                 //this.Close();
                 return;
             }
+            this.storeCalendar.IsEnabled = false;
             this.viewButton.IsEnabled = false;
             var selTicks = this.storeCalendar.SelectedDate.Value.Date.Ticks;
             if (CollectionUtilities.isNotEmptyContainsKey(this.dateStorageMap, selTicks))
@@ -772,7 +845,7 @@ namespace DSTRViewer
                 var cnt = 0;
                 foreach (var id in storageIds)
                 {
-                    if (string.IsNullOrEmpty(id))
+                    if (string.IsNullOrEmpty(id.Left))
                     {
                         ++cnt;
                         continue;
@@ -780,7 +853,7 @@ namespace DSTRViewer
                     string errMsg;
 
                     //As soon as retrieval is successful
-                    if (GetShowPrintCouchDocument(id, out errMsg))
+                    if (GetShowPrintCouchDocument(id.Left, id.Right, out errMsg))
                     {
                         //Successfully showed document
                         success = true;
@@ -799,9 +872,12 @@ namespace DSTRViewer
                     {
                         this.viewButton.IsEnabled = true;
                         this.submitStoreButton.IsEnabled = true;
+                        this.storeCalendar.IsEnabled = false;
                         return;
                     }
-                    Application.Current.Shutdown();
+                    Application.Current.Shutdown(1);
+                    this.Close();
+                    return;
                     break;
                 }
 
@@ -816,9 +892,11 @@ namespace DSTRViewer
                         Application.Current.Shutdown();
                         this.Finished = true;
                         this.Close();
+                        return;
                     }
                     else
                     {
+                        this.viewButton.IsEnabled = false;
                         return;
                     }
                 }
@@ -829,6 +907,7 @@ namespace DSTRViewer
                     this.DialogResult = false;
                     this.Finished = true;
                     this.Close();
+                    return;
                 }
             }
             else
@@ -836,6 +915,53 @@ namespace DSTRViewer
                 this.viewButton.IsEnabled = true;
                 this.submitStoreButton.IsEnabled = true;
                 MessageBox.Show("Could not find any documents at the selected date! Please select another date and/or store.");
+            }
+        }
+
+        private void storeTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(this.storeTextBox.Text))
+            {
+                //Ensure that the text box only contains numbers
+                var stoTxt = this.storeTextBox.Text;
+                var stoTxtLen = this.storeTextBox.Text.Length;
+                var allDigits = true;
+                this.storeNumErrLabel.Content = string.Empty;
+                foreach(var c in stoTxt)
+                {
+                    if (!Char.IsDigit(c))
+                    {
+                        allDigits = false;
+                        break;
+                    }
+                }
+
+                if (allDigits && stoTxtLen >= MIN_REJECT_LEN)
+                {
+                    //Pad left if needed
+                    this.selectedStore = stoTxt.PadLeft(5, '0');
+                    if (this.storeList.BinarySearch(this.selectedStore) >= 0)
+                    {
+                        this.submitStoreButton.IsEnabled = true;
+                    }
+                    else
+                    {
+                        this.submitStoreButton.IsEnabled = false;
+                        this.storeNumErrLabel.Content = "Not a Cashlinx Store";
+                    }
+                }
+                else if (!allDigits)
+                {
+                    //Show error message if store number is invalid
+                    this.showError("Please enter a valid store number. A valid store number contains digits only (0-9).");
+                    this.submitStoreButton.IsEnabled = false;
+                    this.viewButton.IsEnabled = false;
+                    this.storeCalendar.IsEnabled = false;
+                }
+            }
+            else
+            {
+                this.storeNumErrLabel.Content = string.Empty;
             }
         }
     }

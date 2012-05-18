@@ -1,6 +1,9 @@
 ﻿/*
  *RB:  added line below for BZ 485 for backup functionality of the tool to pickup the Logpath.  Previously defaulting to hard coded value 
 */
+using System;
+using System.Reflection;
+using System.Text;
 using Common.Libraries.Forms.Components;
 using Common.Controllers.Application.ApplicationFlow.Navigation;
 using Common.Controllers.Application;
@@ -84,6 +87,44 @@ namespace DSTRViewer
 
             //If we made it here, we were successful in acquiring global configuration
             decryptKey = globPubKeyDec + Common.Properties.Resources.PrivateKey;
+
+            //Pull MD5 hash
+            DataReturnSet verDataOut;
+            if (!DataAccessService.ExecuteQuery(false, "select verchk from pawnsec.storeappversion where id = 5", 
+                "storeappversion", PAWNSEC, out verDataOut, ref dA))
+            {
+                MessageBox.Show("Could not retrieve version row from pawnsec");
+                return (false);
+            }
+
+            //Validate data set
+            if (verDataOut == null || verDataOut.NumberRows <= 0)
+            {
+                MessageBox.Show("No rows returned from storeappversion table in pawnsec");
+                return (false);
+            }
+
+            //Extract row data
+            DataReturnSetRow verRow;
+            if (!verDataOut.GetRow(0, out verRow))
+            {
+                MessageBox.Show("Could not retrieve row data from pawnsec appversion data set");
+                return (false);
+            }
+
+            //Retrieve remote MD5 value for this application
+            var remoteMD5 = Utilities.GetStringValue(verRow.GetData("VERCHK"));
+
+            //Generate MD5 value for this application version
+            var appMD5 = StringUtilities.GenerateRawMD5Hash(Assembly.GetExecutingAssembly().GetName().Version.ToString(), Encoding.ASCII);
+
+            //Ensure the MD5 keys match
+            if (!string.Equals(remoteMD5, appMD5, StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("App version in pawn sec does not match the executing assembly version.");
+                return (false);
+            }
+
             return (true);
         }
 

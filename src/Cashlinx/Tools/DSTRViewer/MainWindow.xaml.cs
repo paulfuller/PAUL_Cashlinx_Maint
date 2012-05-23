@@ -337,6 +337,7 @@ namespace DSTRViewer
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.cleanup();
+            Application.Current.Shutdown();
             this.Close();
         }
 

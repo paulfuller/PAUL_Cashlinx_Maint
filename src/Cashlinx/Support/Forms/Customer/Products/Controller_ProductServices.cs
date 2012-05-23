@@ -47,7 +47,7 @@ using Common.Libraries.Utility.Collection;
 using Common.Libraries.Utility.Exception;
 using Common.Libraries.Utility.Logger;
 using Common.Libraries.Utility.Shared;
-using Common.Libraries.Utility.Shared;
+
 using Common.Libraries.Utility.Type;
 //using Pawn.Forms.Layaway;
 using Support.Flows.AppController.Impl.Common;
@@ -123,6 +123,7 @@ namespace Support.Forms.Customer.Products
         
         private bool ticketSearched;
         private string lastLayawayPayment = string.Empty;
+        private readonly string DECLINE_VALUE = "DECLINED";
         #endregion
         #region CONSTRUCTOR
         /*__________________________________________________________________________________________*/
@@ -130,6 +131,14 @@ namespace Support.Forms.Customer.Products
         {
             _Setup = false;
             InitializeComponent();
+
+            //  Code from designer PS_ShowComboBox to put back in place when other products are active.
+            // this.PS_ShowComboBox.Items.AddRange(new object[] {
+            //"Pawn",
+            //"Layaway",
+            //"PDL/INST"});
+            this.PS_ShowComboBox.Text = "PDL/INST";
+            //PS_ShowComboBox.SelectedIndex = 2;
             this.NavControlBox = new NavBox();
             _TicketNumber = iTicketNumber;
 
@@ -153,7 +162,7 @@ namespace Support.Forms.Customer.Products
         private void Setup()
         {
             ShowPawnPanels();
-
+            
             this.NavControlBox.Owner = this;
             currentStoreSiteId = new SiteId()
             {
@@ -211,23 +220,28 @@ namespace Support.Forms.Customer.Products
             else
                 this.customButtonCancel.Visible = true;
 
+            //if (CmbLoanStatus.SelectedIndex == -1)
+            //    this.CmbLoanStatus.SelectedItem = 1;
+            PS_ShowComboBox.SelectedIndex = 2;
             _Setup = true;
         }
         /*__________________________________________________________________________________________*/
         private void Controller_ProductServices_Shown(object sender, EventArgs e)
         {
-            if (_Setup)
-            {
+            //if (_Setup)
+            //{
                 //if (GlobalDataAccessor.Instance.DesktopSession.PawnLoanKeys.Count() != PS_TicketsDataGridView.Rows.Count)
-                if (Support.Logic.CashlinxPawnSupportSession.Instance.PawnLoanKeys.Count() != PS_TicketsDataGridView.Rows.Count)
+                //if (Support.Logic.CashlinxPawnSupportSession.Instance.PawnLoanKeys.Count() != PS_TicketsDataGridView.Rows.Count)
                     LoadData(GetSelectedProductType());
-                else if (GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.Count != PS_AddTicketsDataGridView.Rows.Count)
-                    LoadAdditionalTicketsData();
-            }
+                //else if (GlobalDataAccessor.Instance.DesktopSession.PawnLoans_Auxillary.Count != PS_AddTicketsDataGridView.Rows.Count)
+                //    LoadAdditionalTicketsData();
+            //}
         }
         /*__________________________________________________________________________________________*/
         private void ShowPawnPanels()
         {
+            //SupportProductType loantype = GetSelectedProductType();
+            
             LW_LayawayButtonsPanel.Location = PS_PawnButtonsPanel.Location;
             PS_PawnButtonsPanel.Visible = true;
             LW_LayawayButtonsPanel.Visible = false;
@@ -237,6 +251,7 @@ namespace Support.Forms.Customer.Products
             PS_LoanStatsLayoutPanel.Visible = true;
             LW_DetailsLayoutPanel.Visible = false;
             PS_LoanStatsLayoutPanel.BringToFront();
+        
         }
         /*__________________________________________________________________________________________*/
         private void ShowStatusValue(PawnLoan pawnLoan)
@@ -442,17 +457,39 @@ namespace Support.Forms.Customer.Products
 
             if (productType == SupportProductType.PDL)
             {
+
                 var _PDLoanKeys = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys;
-                for (int i = 0; i < _PDLoanKeys.Count(); i++)
+
+                var tempLoanKeys = new List<PDLoan>();
+                if (CmbLoanStatus.SelectedIndex == 1)
+                    tempLoanKeys = _PDLoanKeys.FindAll(plk => (plk.open_closed == "CLOSED"));
+                else if (CmbLoanStatus.SelectedIndex == 2)
+                    tempLoanKeys = _PDLoanKeys.FindAll(plk => (plk.open_closed == "OPEN"));
+                else
+                    tempLoanKeys = _PDLoanKeys;
+
+                Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan = new PDLoan();
+                MapPDL_LoanStatsFromProperties(new PDLoanDetails());
+                MapPDL_EventsFromProperties(new PDLoanDetails());
+                MapPDL_xppLoanScheduleFromProperties(new List<PDLoanXPPScheduleList>());
+
+                this.LnkOtherDetails.Enabled = false;
+                this.btnExtendDeposit.Enabled = false;
+
+                for (int i = 0; i < tempLoanKeys.Count(); i++)
                 {
                     int gvIdx = PS_TicketsDataGridView.Rows.Add();
-
-                    DataGridViewRow myRow = PS_TicketsDataGridView.Rows[gvIdx];
-
-                    myRow.Cells["PS_Tickets_TicketNumberColumn"].Value = _PDLoanKeys[i].PDLLoanNumber;
-                    myRow.Cells["PS_Staus_Date"].Value = _PDLoanKeys[i].StatusDate.FormatDate();
-                    myRow.Cells["PS_Ticket_Type"].Value = _PDLoanKeys[i].Type;
-                    myRow.Cells["PS_Ticket_Status"].Value = _PDLoanKeys[i].Status;
+                    var myRow = PS_TicketsDataGridView.Rows[gvIdx];
+                    myRow.Cells["PS_Tickets_TicketNumberColumn"].Value = tempLoanKeys[i].PDLLoanNumber;
+                    myRow.Cells["PS_Staus_Date"].Value = tempLoanKeys[i].StatusDate.FormatDate();
+                    myRow.Cells["PS_Ticket_Type"].Value = tempLoanKeys[i].Type;
+                    myRow.Cells["PS_Ticket_Status"].Value = tempLoanKeys[i].Status;
+                    myRow.Cells["LoanApplicationId"].Value = tempLoanKeys[i].LoanApplicationId;
+                    if (tempLoanKeys[i].Status.Equals(DECLINE_VALUE))
+                    {
+                        myRow.Cells["PS_Ticket_Status"].Style.ForeColor = Color.Blue;
+                        myRow.Cells["PS_Ticket_Status"].Style.Font = new Font(PS_TicketsDataGridView.Font, FontStyle.Bold);
+                    }
                 }
             }
             else
@@ -545,7 +582,7 @@ namespace Support.Forms.Customer.Products
                     LoadDocuments(_LoanKeys[lookedUpTicketIndex].TicketNumber, productType);
                 }
                 LoadAdditionalTicketsData();
-            }
+            }  // end of NON PDL Logic
         }
         /*__________________________________________________________________________________________*/
         private void UpdateTicketSelections()
@@ -1004,7 +1041,7 @@ namespace Support.Forms.Customer.Products
                     if (pawnLoan.Receipts != null)
                     {
                         PH_ReceiptsDataGridView.Rows.Clear();
-
+                        // History and Receipt info 
                         foreach (Receipt myReceipt in pawnLoan.Receipts)
                         {
                             int gvIdx = PH_ReceiptsDataGridView.Rows.Add();
@@ -1013,14 +1050,12 @@ namespace Support.Forms.Customer.Products
                             if ((myReceipt.Event == ReceiptEventTypes.Renew.ToString() || myReceipt.Event == ReceiptEventTypes.Paydown.ToString())
                                 && myReceipt.Amount == 0)
                             {
-                                myRow.Cells["PH_Receipt_AmountColumn"].Value = String.Format(
-                                    "{0:C}", pawnLoan.Amount);
+                                myRow.Cells["PH_Receipt_AmountColumn"].Value = String.Format(  "{0:C}", pawnLoan.Amount);
                                 myRow.Cells["PH_Receipt_EventColumn"].Value = "New Loan";
                             }
                             else
                             {
-                                myRow.Cells["PH_Receipt_AmountColumn"].Value = String.Format(
-                                    "{0:C}", myReceipt.Amount);
+                                myRow.Cells["PH_Receipt_AmountColumn"].Value = String.Format( "{0:C}", myReceipt.Amount);
                                 myRow.Cells["PH_Receipt_EventColumn"].Value = myReceipt.TypeDescription;
                             }
 
@@ -1143,39 +1178,92 @@ namespace Support.Forms.Customer.Products
             }
         }
         /*__________________________________________________________________________________________*/
-        private void MapPDL_LoanStatsFromProperties(PDLoanDetails Record)
+        private void MapPDL_LoanStatsFromProperties(PDLoanDetails Record )
         {
-            this.lblCustomerSSNData.Text = Record.CustomerSSN;
-            this.lblUWNameData.Text = Record.UWName;
-            this.lblLoanRequestDateData.Text = Record.LoanRequestDate == DateTime.MaxValue ? "" : (Record.LoanRequestDate).FormatDate();
 
-            this.lblLoanAmtData.Text = Record.LoanAmt.ToString();
-            this.lblLoanPayOffAmtData.Text = Record.LoanPayOffAmt.ToString();
-            this.lblActualLoanAmtData.Text = Record.ActualLoanAmt.ToString();
+            decimal MoneyValue;
+
+            var PDLoan = Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan;
+
+            this.lblCustomerSSNData.Text = Commons.FormatSSN(Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer.SocialSecurityNumber);
+//            this.lblCustomerSSNData.Text = Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer.SocialSecurityNumber;
+            this.lblUWNameData.Text = Record.UWName;
+
+            string requested_date = string.Empty;
+            if (Record.LoanRequestDate != null)
+            {
+                if (Record.LoanRequestDate == DateTime.MaxValue || Record.LoanRequestDate == DateTime.MinValue)
+                    requested_date = string.Empty;
+                else
+                {
+                    requested_date = (Record.LoanRequestDate.FormatDateWithTimeZone()).ToString();
+                }
+            }
+            this.lblLoanRequestDateData.Text = requested_date;//Record.LoanRequestDate == DateTime.MaxValue ? "" : (Record.LoanRequestDate).FormatDate();
+            //Commons.FormatDollarStringAsDecimal(Record.LoanAmt.ToString(), out MoneyValue);
+
+            this.lblLoanAmtData.Text = Record.LoanAmt.ToString("C");
+
+            this.lblLoanPayOffAmtData.Text = Record.LoanPayOffAmt.ToString("C");
+            this.lblActualLoanAmtData.Text = Record.ActualLoanAmt.ToString("C");
 
             this.TxbLoanNumberOrig.Text = Record.LoanNumberOrig;
             this.TxbLoanNumberPrev.Text = Record.LoanNumberPrev;
+            this.TxbLoanStatus.Text = PDLoan.Status;
+            this.TxbLoanStatusReason.Text = Record.Status_Reason;
             this.TxbLoanRolloverNotes.Text = Record.LoanRolloverNotes;
-            this.TxbLoanRollOverAmt.Text = Record.LoanRollOverAmt.ToString();
+            this.TxbLoanRollOverAmt.Text = Record.LoanRollOverAmt.ToString("C");
             this.TxbRevokeACH.Text = Record.RevokeACH.ToString();// == Record.RevokeACH ? "Yes" : "No";
             this.TxbXPPAvailable.Text = Record.XPPAvailable.ToString();// == Record.XPPAvailable ? "Yes" : "No";
-            this.TxbActualFinanceChrgAmt.Text = Record.ActualFinanceChrgAmt.ToString();
-            this.TxbAcutalServiceChrgAmt.Text = Record.AcutalServiceChrgAmt.ToString();
-            this.TxbAccruedFinanceAmt.Text = Record.AccruedFinanceAmt.ToString();
-            this.TxbLateFeeAmt.Text = Record.LateFeeAmt.ToString();
-            this.TxbNSFFeeAmt.Text = Record.NSFFeeAmt.ToString();
+            this.TxbActualFinanceChrgAmt.Text = Record.ActualFinanceChrgAmt.ToString("C");
+            this.TxbAcutalServiceChrgAmt.Text = Record.AcutalServiceChrgAmt.ToString("C");
+            this.TxbAccruedFinanceAmt.Text = Record.AccruedFinanceAmt.ToString("C");
+            this.TxbLateFeeAmt.Text = Record.LateFeeAmt.ToString("C");
+            this.TxbNSFFeeAmt.Text = Record.NSFFeeAmt.ToString("C");
             this.TxbACHWaitingToClear.Text = Record.ACHWaitingToClear; // == Record.ACHWaitingToClear ? "Yes" : "No";
             this.TxbEstRolloverAmt.Text = Record.EstRolloverAmt.ToString();
+
+            this.XPPFeeAmountToDisplay.Text = checkNull(Record.XPP_Fee_Amount).ToString();
+
+            if (!checkNull(Record.XPP_Start_Date).Equals(string.Empty))
+            {
+                this.XPPStartDateToDisplay.Text = DateTime.Parse(Record.XPP_Start_Date).FormatDate();
+            }
+            //this.XPPStartDateToDisplay.Text = checkNull(Record.XPP_Start_Date).ToString();
+
+            if (!checkNull(Record.XPP_End_Date).Equals(string.Empty))
+            {
+                this.XPPEndDateToDisplay.Text = DateTime.Parse(Record.XPP_End_Date).FormatDate();
+            }
+
+            //this.XPPEndDateToDisplay.Text = checkNull(Record.XPP_End_Date).ToString();
+            this.LblLoanNumber.Text = Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.PDLLoanNumber;
         }
 
         /*__________________________________________________________________________________________*/
         private void MapPDL_xppLoanScheduleFromProperties(List<PDLoanXPPScheduleList> Records)
         {
+           
+
+             //this.lblxppSchdStartDteNoTxt.Text = "1";
+             //this.lblxppSchdEndDteNoTxt.Text = "2";
+
+             //this.lblxppSchdStartDtePymtIDTxt.Text = "123";
+             //this.lblxppSchdEndDtePymtIDTxt.Text = "124";
+
+             //this.lblxppSchdStartDteDateTxt.Text = DateTime.Now.FormatDate();
+             //this.lblxppSchdEndDteDateTxt.Text = DateTime.Now.FormatDate();
+
+             //this.lblxppSchdStartDteAmountTxt.Text = "100.00";
+             //this.lblxppSchdEndDteAmountTxt.Text = "200.00";
+             //this.lblxppSchdFeeAmtAmountTxt.Text = "300.00";
+
+            DGVxxpPaySchedule.Rows.Clear();
             for (int index = 0; index < Records.Count(); index++)
             {
                 int gvIdx = DGVxxpPaySchedule.Rows.Add();
                 DataGridViewRow LineItem = DGVxxpPaySchedule.Rows[gvIdx];
-                LineItem.Cells["DgvColxppLineItem"].Value = "StartDate";
+                //LineItem.Cells["DgvColxppLineItem"].Value = "StartDate";
                 LineItem.Cells["DgvColxppPaymentSeqNumber"].Value = Records[index].xppPaymentSeqNumber.ToString();
                 LineItem.Cells["DgvColxppPaymentNumber"].Value = Records[index].xppPaymentNumber;
                 LineItem.Cells["DgvColxppPaymentDate"].Value = Records[index].xppDate == DateTime.MaxValue ? "" : (Records[index].xppDate).FormatDate();
@@ -1185,7 +1273,8 @@ namespace Support.Forms.Customer.Products
         /*__________________________________________________________________________________________*/
         private void MapPDL_EventsFromProperties(PDLoanDetails Record)
         {
-            this.TxbOriginationDate.Text = Record.OrginationDate == DateTime.MaxValue ? "" : (Record.OrginationDate).FormatDate();
+            // put these elements in a groupbox for more controll.
+            this.TxbOriginationDate.Text = Record.OrginationDate == DateTime.MaxValue ? "" : (Record.OrginationDate).FormatDateWithTimeZone();
             this.TxbDueDate.Text = Record.DueDate == DateTime.MaxValue ? "" : (Record.DueDate).FormatDate();
             this.TxbOrigDepDate.Text = Record.OrigDepDate == DateTime.MaxValue ? "" : (Record.OrigDepDate).FormatDate();
             this.TxbExtendedDate.Text = Record.ExtendedDate == DateTime.MaxValue ? "" : (Record.ExtendedDate).FormatDate();
@@ -1204,8 +1293,8 @@ namespace Support.Forms.Customer.Products
 
                 for (int index = 0; index < Records.Count(); index++)
                 {
-                    int gvIdx = DgvHistoryLoanEvents.Rows.Add();
-                    DataGridViewRow GridRow = DgvHistoryLoanEvents.Rows[gvIdx];
+                    int gvIdx = DGVHistoryLoanEvents.Rows.Add();
+                    DataGridViewRow GridRow = DGVHistoryLoanEvents.Rows[gvIdx];
                     GridRow.Cells["DgvColHistDate"].Value = Records[index].Date == DateTime.MaxValue ? "" : (Records[index].Date).FormatDate(); ;
                     GridRow.Cells["DgvColHistEventType"].Value = Records[index].EventType;
                     GridRow.Cells["DgvColHistDetails"].Value = Records[index].Details;
@@ -1716,6 +1805,13 @@ namespace Support.Forms.Customer.Products
         }
         #endregion
         #region ACTIONS
+        private string checkNull(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                value = string.Empty;
+
+            return value;
+        }
         /*__________________________________________________________________________________________*/
         private void CelMouseUpActions(int rowIndex, int columnIndex)
         {
@@ -1731,24 +1827,51 @@ namespace Support.Forms.Customer.Products
                 {
                     return p.PDLLoanNumber.Equals(sCellTicket);
                 });
+
+                //int iDx = CashlinxPawnSupportSession.Instance.PDLoanKeys.FindIndex(item => item.PDLLoanNumber == sCellTicket);
+
                 if (iDx >= 0)
                     pdLoan = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx];
 
+                if (checkNull(pdLoan.PDLLoanNumber).Equals(string.Empty))
+                {
+                    Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan = new PDLoan();
+                    MapPDL_LoanStatsFromProperties(new PDLoanDetails());
+                    MapPDL_EventsFromProperties(new PDLoanDetails());
+                    MapPDL_xppLoanScheduleFromProperties(new List<PDLoanXPPScheduleList>());
+                    this.LnkOtherDetails.Enabled = false;
+                    this.btnExtendDeposit.Enabled = false;
+                    return;
+                }
+
                 string errorCode;
                 string errorDesc;
-
-                var PDLoanKeys = new List<PDLoan>();
-
-                bool returnVal = Support.Controllers.Database.Procedures.CustomerLoans.GetPDLoanDetails(
-                    pdLoan, out errorCode, out errorDesc);
-
-                if(returnVal)
+                // logic to only get data if not already recieved.
+                if (Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx].SqlDataRetrieved)
                 {
+                    pdLoan = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx];
+                }
+                else
+                {
+                    //bool returnVal = 
+                    if (Support.Controllers.Database.Procedures.CustomerLoans.GetPDLoanDetails(
+                    pdLoan, out errorCode, out errorDesc))
+                    {
+                        Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx].SqlDataRetrieved = true;
+                        Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan = pdLoan;
+                    }
+                }
+
+                //if(returnVal)
+                //{
+                    //Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan = pdLoan;
                     //var loanDetails = pdLoan.GetPDLoanDetails;
                     MapPDL_LoanStatsFromProperties(pdLoan.GetPDLoanDetails);
                     MapPDL_EventsFromProperties(pdLoan.GetPDLoanDetails);
                     MapPDL_xppLoanScheduleFromProperties(pdLoan.GetPDLoanXPPScheduleList);
-                }
+                    this.LnkOtherDetails.Enabled = true;
+                    this.btnExtendDeposit.Enabled = true;
+                //}
             }
             //TODO revisit this - Madhu
             /*
@@ -2865,13 +2988,76 @@ namespace Support.Forms.Customer.Products
                 LoadData(GetSelectedProductType());
             }
         }
+        #region LINKED KEYS
+        /*__________________________________________________________________________________________*/
+
+        /*__________________________________________________________________________________________*/
+        private void LnkReasonType_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+        #endregion
         #region DGV MOUSE CONTROL
         /*__________________________________________________________________________________________*/
         private void PS_TicketsDataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (GetSelectedProductType() == SupportProductType.PDL)
+            {
+                if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+                {
+                    if (e.ColumnIndex == 7)
+                    {
+                        int i = e.RowIndex;
+                        DataGridViewRow myRow = PS_TicketsDataGridView.Rows[i];
+                        string cellValue = PS_TicketsDataGridView[e.ColumnIndex, e.RowIndex].Value.ToString();
+                        string LoanApplicationId = Utilities.GetStringValue(myRow.Cells["LoanApplicationId"].Value, "");
+                        if (checkNull(cellValue).Equals(DECLINE_VALUE))
+                        {
+                            int iDx = 0;
+                            //foreach (var record in Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys)
+                            //{
+                            //    if(record.LoanApplicationId.Equals(LoanApplicationId))
+                            //    {
+                            //        iDx++;
+                            //        break;
+                            //    }
+                            //    iDx++;
+                            //}
+
+                            PDLoan pdLoan = new PDLoan();
+                            //int iDx = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys.FindIndex(delegate(PDLoan p)
+                            //    {
+                            //        return p.LoanApplicationId.Equals(LoanApplicationId);
+                            //    });
+                            iDx = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys.FindIndex(item => item.LoanApplicationId == LoanApplicationId);
+                            if (iDx >= 0)
+                            {
+                                pdLoan = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx];
+                                Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan = pdLoan;
+                            }
+                            //MessageBox.Show("Call the new form here....");
+                            DisplayReasonCode displayRC = new DisplayReasonCode();
+                            displayRC.ShowDialog();
+                            return;
+                        }
+                    }
+                    CelMouseUpActions(e.RowIndex, e.ColumnIndex);
+                }
+            }
+        }
+        /*__________________________________________________________________________________________*/
+        private void PS_TicketsDataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
+        {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                CelMouseUpActions(e.RowIndex, e.ColumnIndex);
+                if (e.ColumnIndex == 7)
+                {
+                    string cellValue = PS_TicketsDataGridView[e.ColumnIndex, e.RowIndex].Value.ToString();
+                    if (checkNull(cellValue).Equals(DECLINE_VALUE))
+                    {
+                        this.Cursor = Cursors.Hand;
+                    }
+                }
             }
         }
         /*__________________________________________________________________________________________*/
@@ -3427,6 +3613,7 @@ namespace Support.Forms.Customer.Products
             }
         }
         #endregion
+        #region OBSOLETE EVENTS
         /*__________________________________________________________________________________________*/
         private void PS_ReceiptNoValue_Click(object sender, EventArgs e)
         {
@@ -4030,7 +4217,13 @@ namespace Support.Forms.Customer.Products
             }
         }
 
-#endregion
+        private void CMBLoanStatus_SelectedValueChanged(object sender, EventArgs e)
+        {
+            LoadData(GetSelectedProductType());
+        }
+        #endregion
+
+        #endregion
         /// <summary>
         /// Used to track a recipts lookup info for couch DB.
         /// </summary>
@@ -4042,6 +4235,42 @@ namespace Support.Forms.Customer.Products
             public Document.DocTypeNames DocumentType { get; set; }
 
             public string StorageID { get; set; }
+        }
+        /*__________________________________________________________________________________________*/
+        private void ps_OtherDetails_LinkClicked(object sender, EventArgs e)
+        {
+            this.NavControlBox.IsCustom = true;
+            this.NavControlBox.CustomDetail = "PDLoanOtherDetails";
+            this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
+        }
+        /*__________________________________________________________________________________________*/
+        private void btnExtendDeposit_Click(object sender, EventArgs e)
+        {
+            string errorCode;
+            string errorDesc;
+            var depositDetails = new DepositDateExtensionDetails();
+            bool returnVal = Support.Controllers.Database.Procedures.CustomerLoans.GetExtendDepositDateInfo(
+                Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.PDLLoanNumber,
+                depositDetails, out errorCode, out errorDesc);
+
+            if (returnVal)
+            {
+                Support.Logic.CashlinxPawnSupportSession.Instance.DepositDateExtensionDetailsObject = depositDetails;
+                this.NavControlBox.IsCustom = true;
+                this.NavControlBox.CustomDetail = "ExtendedDepositDate";
+                this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
+            }
+            else
+            {
+                if (errorCode.Equals("50"))
+                {
+                    MessageBox.Show(errorDesc, "Not Eligible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show(errorDesc, "Database call failed.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
         }
     }
 }

@@ -42,7 +42,6 @@ namespace Common.Controllers.Database.Couch.CouchSecurity
         public PawnCouchRequest Head()
         {
             request.Method = "HEAD";
-            request.ProtocolVersion = new System.Version(1, 0);
             return this;
         }
 

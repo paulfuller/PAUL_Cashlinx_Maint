@@ -121,8 +121,8 @@
   <data name="viewDocButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAGQAAAAyCAYAAACqNX6+AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
-        Cw4BQL7hQQAAEp1JREFUeF7tm3d0lFX6xycNQieE0BICpJEy6YUQICQkhISEEhBpugjuChyKriIgrEdl
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDAAA
+        CwwBP0AiyAAAEp1JREFUeF7tm3d0lFX6xycNQieE0BICpJEy6YUQICQkhISEEhBpugjuChyKriIgrEdl
         RVhFqmLZNWIHRVZ6EyQkZCD0HgFJiKiACIoU/SfffZ77vnfmzstMcPipR88vc8733Pvep3/uzBAxmEx1
         rzoCdQTqCNQRqCNQR6COgGMCI/4fgfmDzermNsAK381teKDJZM4nTSctMZniN5OKaV9GsphM0aQYUtyf
         TNwz984z8Cw8E8/GM4pZ87XZtZfK5Hd5Z7q75+qFxzUxmSLGUbMMHiZTIimdlAs3t8IaN7ehtB9JGkUa
@@ -207,8 +207,8 @@
   <data name="printDocButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAGQAAAAyCAYAAACqNX6+AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
-        Cw4BQL7hQQAAEp1JREFUeF7tm3d0lFX6xycNQieE0BICpJEy6YUQICQkhISEEhBpugjuChyKriIgrEdl
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDAAA
+        CwwBP0AiyAAAEp1JREFUeF7tm3d0lFX6xycNQieE0BICpJEy6YUQICQkhISEEhBpugjuChyKriIgrEdl
         RVhFqmLZNWIHRVZ6EyQkZCD0HgFJiKiACIoU/SfffZ77vnfmzstMcPipR88vc8733Pvep3/uzBAxmEx1
         rzoCdQTqCNQRqCNQR6COgGMCI/4fgfmDzermNsAK381teKDJZM4nTSctMZniN5OKaV9GsphM0aQYUtyf
         TNwz984z8Cw8E8/GM4pZ87XZtZfK5Hd5Z7q75+qFxzUxmSLGUbMMHiZTIimdlAs3t8IaN7ehtB9JGkUa
@@ -293,8 +293,8 @@
   <data name="cancelButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAGQAAAAyCAYAAACqNX6+AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
-        Cw4BQL7hQQAAEp1JREFUeF7tm3d0lFX6xycNQieE0BICpJEy6YUQICQkhISEEhBpugjuChyKriIgrEdl
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDAAA
+        CwwBP0AiyAAAEp1JREFUeF7tm3d0lFX6xycNQieE0BICpJEy6YUQICQkhISEEhBpugjuChyKriIgrEdl
         RVhFqmLZNWIHRVZ6EyQkZCD0HgFJiKiACIoU/SfffZ77vnfmzstMcPipR88vc8733Pvep3/uzBAxmEx1
         rzoCdQTqCNQRqCNQR6COgGMCI/4fgfmDzermNsAK381teKDJZM4nTSctMZniN5OKaV9GsphM0aQYUtyf
         TNwz984z8Cw8E8/GM4pZ87XZtZfK5Hd5Z7q75+qFxzUxmSLGUbMMHiZTIimdlAs3t8IaN7ehtB9JGkUa
@@ -379,8 +379,8 @@
   <data name="$this.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAABAAAAAFACAYAAAAifQ5IAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDgAA
-        Cw4BQL7hQQAA/3lJREFUeF7t/V3IrV2XHggVVV88saLdqY5drYiIKB0FGw8aofAgHpiDkIMcGBEiIqKC
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDAAA
+        CwwBP0AiyAAA/3lJREFUeF7t/V3IrV2XHggVVV88saLdqY5drYiIKB0FGw8aofAgHpiDkIMcGBEiIqKC
         SBCUoilCk1LB9odGmgZtLKJFEkIR8iOdjhSSg9ii0g12wBwEacRugjRB/Cm6D9rvez8f9733O/c79vVe
         1xjXnPe817qfZ42Dh72fdc97zPFzXdeYc657recX/on/7ndvsz+//pvfve34eda8O3z/SDZGHXbFxOy5
         tZ7xwbXpjDvmdcbNjPnT//3v3qqfzF517+z1f/J/8N3bn/kf1T5VdoeN41/357Dpjp0d99/7p7972/3z

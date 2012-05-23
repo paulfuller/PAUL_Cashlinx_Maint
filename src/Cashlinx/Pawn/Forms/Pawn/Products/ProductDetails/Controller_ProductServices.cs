@@ -375,6 +375,14 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                                 //as the only selected loan
                                 _SelectedLoans.RemoveRange(0, _SelectedLoans.Count);
                                 _SelectedLoans.Insert(0, ploan);
+
+                                //Reset background color for any previously selected rows
+                                PS_TicketsDataGridView.Rows.Cast<DataGridViewRow>()
+                                    .Where(row => row.DefaultCellStyle.BackColor == Color.FromArgb(51, 153, 255)).ToList()
+                                    .ForEach(row => row.DefaultCellStyle.BackColor = Color.White);
+
+                                //Set the background color for the currently selected row.  If we're in this branch of the code there should only be 1 selected row.
+                                PS_TicketsDataGridView.SelectedRows[0].DefaultCellStyle.BackColor = Color.FromArgb(51, 153, 255);
                             }
                             if (_SelectedLoans.Count == 0)
                                 _SelectedLoans.Add(ploan);
@@ -581,7 +589,7 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 if (IsLayawayPawnKey(selectedRow)) // Layaway
                 {
                     ApplyLayawayBusinessRules(sStoreNumber, iTicketNumber, true);
-                    PS_TicketsDataGridView.Rows[rowIndex].DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(51, 153, 255); ;
+                    PS_TicketsDataGridView.Rows[rowIndex].DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(51, 153, 255); 
                     UpdateActiveLayawayInformation(iTicketNumber);
                     PS_TicketsDataGridView.Rows[rowIndex].Cells[3].Value = lastLayawayPayment;
                     LoadDocuments(iTicketNumber, ProductType.LAYAWAY);
@@ -590,9 +598,15 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 {
                     ApplyBusinessRules(selectedRow, sStoreNumber, iTicketNumber, true, true);
                     if (loanRemoved)
-                        PS_TicketsDataGridView.Rows[rowIndex].DefaultCellStyle.SelectionBackColor = Color.White;
+                    {
+                        PS_TicketsDataGridView.Rows[rowIndex].DefaultCellStyle.BackColor = Color.White;
+                        PS_TicketsDataGridView.Rows[rowIndex].Selected = false;
+                    }
                     else
-                        PS_TicketsDataGridView.Rows[rowIndex].DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(51, 153, 255); ;
+                    {
+                        PS_TicketsDataGridView.Rows[rowIndex].DefaultCellStyle.BackColor =
+                            System.Drawing.Color.FromArgb(51, 153, 255);
+                    }
                     if (showRefreshIcon)
                         myRow.Cells["PS_Tickets_Refresh"].Value =
                         global::Common.Properties.Resources.refresh_icon;
@@ -1266,6 +1280,11 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 LoadDocuments(_LoanKeys[lookedUpTicketIndex].TicketNumber, productType);
             }
             LoadAdditionalTicketsData();
+            //Set the back color for the default selected row if there is one.
+            if (PS_TicketsDataGridView.SelectedRows.Count == 1)
+            {
+                PS_TicketsDataGridView.SelectedRows[0].DefaultCellStyle.BackColor = Color.FromArgb(51, 153, 255);
+            }
         }
 
         private void LoadDocuments(int iTicketNumber, ProductType productType)
@@ -1547,7 +1566,7 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 RetailProcedures.SetLayawayTempStatus(layaway.TicketNumber, layaway.StoreNumber, "", out errorCode, out errorText);
                 return;
             }
-  
+
             string statusDate = ShopDateTime.Instance.ShopDate.FormatDate();
             string statusTime = ShopDateTime.Instance.ShopTransactionTime.ToString();
             errorCode = string.Empty;
@@ -1748,9 +1767,9 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                                                                         "Auxillary LoanKeys keys does not have selected loan"));
 
                     if (loanRemoved)
-                        myRow.DefaultCellStyle.SelectionBackColor = Color.White;
+                        myRow.DefaultCellStyle.BackColor = Color.White;
                     else
-                        myRow.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(51, 153, 255);
+                        myRow.DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(51, 153, 255);
                     if (showRefreshIcon)
                         myRow.Cells["PS_AddTickets_Refresh"].Value =
                         global::Common.Properties.Resources.refresh_icon;
@@ -2453,11 +2472,9 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
             {
                 ctrlKeyPressed = true;
-                PS_TicketsDataGridView.MultiSelect = true;
                 e.Handled = false;
             }
-            else
-                PS_TicketsDataGridView.MultiSelect = false;
+            PS_TicketsDataGridView.MultiSelect = false;
         }
 
         private void PS_TicketsDataGridView_KeyUp(object sender, KeyEventArgs e)
@@ -2712,16 +2729,17 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
 
             //get the store number from session
             strStoreNumber = GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber;
+            //Always set MultiSelect to false.  MultiSelect is being handled programmatically in the code.
+            PS_TicketsDataGridView.MultiSelect = false;
+
             if (string.Equals(
                 Properties.Resources.MultipleLoanSelection,
                 Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
             {
-                PS_TicketsDataGridView.MultiSelect = true;
                 PS_AddTicketsDataGridView.MultiSelect = true;
             }
             else
             {
-                PS_TicketsDataGridView.MultiSelect = false;
                 PS_AddTicketsDataGridView.MultiSelect = false;
             }
             if (GlobalDataAccessor.Instance.DesktopSession.LockProductsTab)
@@ -3634,12 +3652,12 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
             foreach (DataGridViewRow dgvr in PS_TicketsDataGridView.Rows)
             {
                 dgvr.Selected = false;
-                dgvr.DefaultCellStyle.SelectionBackColor = Color.White;
+                dgvr.DefaultCellStyle.BackColor = Color.White;
             }
             foreach (DataGridViewRow dgvr in PS_AddTicketsDataGridView.Rows)
             {
                 dgvr.Selected = false;
-                dgvr.DefaultCellStyle.SelectionBackColor = Color.White;
+                dgvr.DefaultCellStyle.BackColor = Color.White;
             }
             //Reset the selected loans list
             _SelectedLoans = new List<PawnLoan>();
@@ -3877,6 +3895,11 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
             if (selectedLoans.Count <= 0)
             {
                 MessageBox.Show("No loans to process for Partial Payment");
+                return;
+            }
+            if (selectedLoans.Count > 1)
+            {
+                MessageBox.Show("Cannot process more than 1 loan at a time for partial payment");
                 return;
             }
             if (selectedLoans.Count > 0)

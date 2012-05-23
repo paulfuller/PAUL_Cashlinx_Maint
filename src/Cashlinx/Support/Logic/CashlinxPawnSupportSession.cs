@@ -65,6 +65,8 @@ namespace Support.Logic
 
         //Code added for the Product and Services tab
         public List<PDLoan> PDLoanKeys { get; set; }
+        public PDLoan ActivePDLoan { get; set; }
+        public DepositDateExtensionDetails DepositDateExtensionDetailsObject { get; set; }
         public SupportProductType TicketTypeLookedUp { get; set; }
 
         /// Singleton instance variable

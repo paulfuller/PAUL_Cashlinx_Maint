@@ -867,6 +867,14 @@ namespace Common.Controllers.Database.Procedures
 
                         //set the ref type
                         storedPawnLoan.ProductType = ProductType.PAWN.ToString();
+                        //Get the original due date and original pfi eligible date
+                        storedPawnLoan.OrigDueDate = dataPawnLoanRow.Table.Columns.Contains("org_due_date")
+                                                         ? Utilities.GetDateTimeValue(dataPawnLoanRow["org_due_date"])
+                                                         : storedPawnLoan.DueDate;
+
+                        storedPawnLoan.OrigPfiDate = dataPawnLoanRow.Table.Columns.Contains("org_pfi_elig")
+                                                         ? Utilities.GetDateTimeValue(dataPawnLoanRow["org_pfi_elig"])
+                                                         : storedPawnLoan.PfiEligible;
 
                         //Set whether partial payments were made
                         storedPawnLoan.PartialPaymentPaid = Utilities.GetStringValue(dataPawnLoanRow["PARPMT_FLAG"], "") == "Y" ? true : false;

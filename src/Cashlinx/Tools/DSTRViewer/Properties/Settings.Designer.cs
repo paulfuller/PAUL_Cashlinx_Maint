@@ -43,7 +43,7 @@ namespace DSTRViewer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("CLXT2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("CLXP")]
         public string prodEnv {
             get {
                 return ((string)(this["prodEnv"]));

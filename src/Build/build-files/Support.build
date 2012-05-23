@@ -103,6 +103,7 @@
 
   <target name="__dist.support.config.files">
     <configwriter file="${dist.build.dir}\Support.exe.config - CLXD" configkey="CLXD" application="Support" />
+    <configwriter file="${dist.build.dir}\Support.exe.config - CLXD2" configkey="CLXD2" application="Support" />
     <configwriter file="${dist.build.dir}\Support.exe.config - CLXD3" configkey="CLXD3" application="Support" />
     <configwriter file="${dist.build.dir}\Support.exe.config - CLXI" configkey="CLXI" application="Support" />
     <configwriter file="${dist.build.dir}\Support.exe.config - CLXP" configkey="CLXP" application="Support" />
@@ -161,7 +162,7 @@
     <call target="__ensure.support.assembly.version"/>
     <property name="email.from" value="${user.email.address}"/>
 
-    <property name="email.to" value="jmunta@casham.com;pbccr@casham.com;tmcconnell@casham.com;amadueke@casham.com;srengarajan@casham.com;dstandley@casham.com;ewaltmon@casham.com;hkollipara@casham.com;eguillory@casham.com;mholder@casham.com;bmcvey@casham.com;mveldanda@casham.com;rbrickler@casham.com;nsiddaiah@casham.com" />
+    <property name="email.to" value="jmunta@casham.com;pbccr@casham.com;tmcconnell@casham.com;amadueke@casham.com;srengarajan@casham.com;dstandley@casham.com;ewaltmon@casham.com;hkollipara@casham.com;eguillory@casham.com;ascribner@casham.com;jyandell@casham.com;mholder@casham.com;bmcvey@casham.com;mveldanda@casham.com;rbrickler@casham.com;nsiddaiah@casham.com" />
     <property name="email.cc" value="mmoorman@casham.com;tlepage@casham.com;glepage@casham.com"/>
 
     <if test="${dev.mode}">

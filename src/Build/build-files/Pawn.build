@@ -109,6 +109,7 @@
         <include name="*.oh"/>
         <include name="*.cl"/>
         <include name="*.pdf"/>
+        <include name="*.ps"/>
         <include name="*.tpl"/>
         <include name="*.txt"/>
       </fileset>
@@ -127,6 +128,7 @@
 
   <target name="__dist.pawn.config.files">
     <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXD" configkey="CLXD" application="Cashlinx" />
+    <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXD2" configkey="CLXD2" application="Cashlinx" />
     <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXD3" configkey="CLXD3" application="Cashlinx" />
     <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXI" configkey="CLXI" application="Cashlinx" />
     <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXP" configkey="CLXP" application="Cashlinx" />
@@ -212,7 +214,7 @@
     <call target="__ensure.pawn.assembly.version"/>
     <property name="email.from" value="${user.email.address}"/>
 
-    <property name="email.to" value="jmunta@casham.com;pbccr@casham.com;tmcconnell@casham.com;amadueke@casham.com;srengarajan@casham.com;dstandley@casham.com;ewaltmon@casham.com;hkollipara@casham.com;eguillory@casham.com;mholder@casham.com;bmcvey@casham.com;mveldanda@casham.com;rbrickler@casham.com;nsiddaiah@casham.com" />
+    <property name="email.to" value="jmunta@casham.com;pbccr@casham.com;tmcconnell@casham.com;amadueke@casham.com;srengarajan@casham.com;dstandley@casham.com;ewaltmon@casham.com;hkollipara@casham.com;eguillory@casham.com;ascribner@casham.com;jyandell@casham.com;mholder@casham.com;bmcvey@casham.com;mveldanda@casham.com;rbrickler@casham.com;nsiddaiah@casham.com" />
     <property name="email.cc" value="mmoorman@casham.com;tlepage@casham.com;glepage@casham.com"/>
 
     <if test="${dev.mode}">

@@ -681,31 +681,11 @@ namespace Common.Controllers.Database.Procedures
                 bool paymentOnOrAfterPfiDate = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).IsPartialPaymentAllowedAfterPfiDate(siteID);
                 DateTime origDueDate = pawnLoan.DueDate;
                 DateTime origPfiDate = pawnLoan.PfiEligible;
-                if (pawnLoan.IsExtended)
+                if (pawnLoan.IsExtended && siteID.State == States.Indiana)
                 {
 
- 
-
-            SiteId siteIdOrg = new SiteId()
-            {
-                Alias = GlobalDataAccessor.Instance.CurrentSiteId.Alias,
-                Company = GlobalDataAccessor.Instance.CurrentSiteId.Company,
-                Date = pawnLoan.OriginationDate,
-                LoanAmount = pawnLoan.Amount,
-                State = pawnLoan.OrgShopState,
-                StoreNumber = pawnLoan.OrgShopNumber,
-                TerminalId = GlobalDataAccessor.Instance.CurrentSiteId.TerminalId
-            };
-
-            // Create underwrite pawn loan object to be used for originating date calculations
-            var upwOrg = new UnderwritePawnLoanUtility(GlobalDataAccessor.Instance.DesktopSession);
-            // call underwrite Pawn Loan for orig
-            bool renewFinanceSame = false;
-                upwOrg.RunUWP(siteIdOrg);
-
-
-                origDueDate = upwOrg.PawnLoanVO.DueDate;
-                origPfiDate = upwOrg.PawnLoanVO.PFIDate;
+                origDueDate = pawnLoan.OrigDueDate;
+                origPfiDate = pawnLoan.OrigPfiDate;
 
                 }
                 if (!paymentOnOrAfterDueDate)

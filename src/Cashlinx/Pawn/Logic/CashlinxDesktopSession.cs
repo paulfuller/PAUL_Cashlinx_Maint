@@ -4107,6 +4107,13 @@ namespace Pawn.Logic
             instance.ClosedUnverifiedSafe = false;
             instance.BackgroundCheckFeeValue = 0;
             instance.ScannedCredentials = false;
+            instance.TotalServiceAmount = 0;
+            instance.TotalRolloverAmount = 0;
+            instance.TotalExtendAmount = 0;
+            instance.TotalPaydownAmount = 0;
+            instance.TotalPickupAmount = 0;
+            instance.TotalRenewalAmount = 0;
+            instance.CustomerValidated = false;
             
         }
 

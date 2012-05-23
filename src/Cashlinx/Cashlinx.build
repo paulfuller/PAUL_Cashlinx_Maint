@@ -132,6 +132,7 @@
     <nant buildfile="${buildfile.pawn}" target="__compress-pawn" if="${buildfile.pawn.exists}"/>
     <nant buildfile="${buildfile.audit}" target="__compress-audit" if="${buildfile.audit.exists}"/>
     <nant buildfile="${buildfile.audit.queries}" target="__compress-audit-queries" if="${buildfile.audit.queries.exists}"/>
+    <nant buildfile="${buildfile.dstr.viewer}" target="__compress-dstr-viewer" if="${buildfile.dstr.viewer.exists}"/>
     <nant buildfile="${buildfile.support}" target="__compress-support" if="${buildfile.support.exists}"/>
   </target>
 
@@ -148,6 +149,14 @@
       <call target="__validate.secure.password" />
       <nant buildfile="${buildfile.audit.queries}" target="deploy-audit-queries"/>
       <nant buildfile="${buildfile.audit.queries}" target="__print.merge.instructions"/>
+    </if>
+  </target>
+
+  <target name="deploy-dstr-viewer">
+    <if test="${buildfile.dstr.viewer.exists}">
+      <call target="__validate.secure.password" />
+      <nant buildfile="${buildfile.dstr.viewer}" target="deploy-dstr-viewer"/>
+      <nant buildfile="${buildfile.dstr.viewer}" target="__print.merge.instructions"/>
     </if>
   </target>
 
@@ -171,6 +180,7 @@
     <nant buildfile="${buildfile.pawn}" target="dist-pawn" if="${buildfile.pawn.exists}"></nant>
     <nant buildfile="${buildfile.audit}" target="dist-audit" if="${buildfile.audit.exists}"></nant>
     <nant buildfile="${buildfile.audit.queries}" target="dist-audit-queries" if="${buildfile.audit.queries.exists}"></nant>
+    <nant buildfile="${buildfile.dstr.viewer}" target="dist-dstr-viewer" if="${buildfile.dstr.viewer.exists}"></nant>
     <nant buildfile="${buildfile.support}" target="dist-support" if="${buildfile.support.exists}"></nant>
   </target>
 
@@ -206,13 +216,29 @@
     </exec>
   </target>
 
-  <target name="test">
-    <!--<nant buildfile="${buildfile.common}" target="test-common"></nant>
-    <nant buildfile="${buildfile.pawn}" target="test-pawn"></nant>-->
+  <target name="setup-handoff-build">
+    <property name="deploy.audit.staging.dir" value="\\fsc.casham.com\new_pos$\QA-CLXD3 P2App Files" />
+    <property name="deploy.audit.queries.staging.dir" value="\\fsc.casham.com\new_pos$\QA-CLXD3 P2App Files" />
+    <property name="deploy.dstr.viewer.staging.dir" value="\\fsc.casham.com\new_pos$\QA-CLXD3 P2App Files" />
+    <property name="deploy.pawn.staging.dir" value="\\fsc.casham.com\new_pos$\QA-CLXD3 P2App Files" />
+    <property name="deploy.support.staging.dir" value="\\fsc.casham.com\new_pos$\QA-CLXD3 P2App Files" />
+    <property name="staging.database.key" value="CLXD3" />
+    <property name="include.environment.staging" value="false" />
+  </target>
 
+  <target name="test">
     <property name="thirdparty.nunit.exe.path" value="${thirdparty.nunit.basedir}\nunit-console-x86.exe" />
-    
+
     <exec
+      workingdir="${dist.results.dir}"
+      program="${path::get-full-path(thirdparty.nunit.exe.path)}">
+      <arg value='"${src.p2app.dir}\Cashlinx.nunit"' />
+      <arg value='"/noshadow"' />
+      <arg value='"/config=${msbuild.param.configuration}"' />
+      <arg line='/xml "${cashlinx.unit.tests.results.file}"' />
+    </exec>
+    
+    <!--<exec
       workingdir="${dist.results.dir}"
       program="${directory::get-parent-directory(thirdparty.nunit.basedir)}\opencover\OpenCover.Console.exe">
       <arg value='-target:"${path::get-full-path(thirdparty.nunit.exe.path)}"' />
@@ -239,7 +265,7 @@
     </exec>
 
     <move file="${dist.results.dir}\summary.xml" tofile="${dist.results.dir}\${cashlinx.unit.tests.coverage.summary.file}" />
-    <delete file="${dist.results.dir}\suppressed-output.txt" />
+    <delete file="${dist.results.dir}\suppressed-output.txt" />-->
     
   </target>
 
@@ -268,10 +294,12 @@
     <echo message="    build-release" />
     <echo message="    deploy-audit (Password Required)"/>
     <echo message="    deploy-audit-queries (Password Required)"/>
-    <echo message="    deploy-cashlinx (Password Required)"/>
+    <echo message="    deploy-dstr-viewer (Password Required)"/>
+    <echo message="    deploy-pawn (Password Required)"/>
     <echo message="    deploy-support (Password Required)"/>
     <echo message="    dist" />
     <echo message="    full-build (clean, build, test, dist, compress, clean-tmp)" />
+    <echo message="    setup-handoff-build" />
     <echo message="    test" />
     <echo message="    update" />
     <echo message="    write-packages" />
@@ -337,6 +365,7 @@
     <nant buildfile="${buildfile.audit}" target="__create.audit.directory.structure" if="${buildfile.audit.exists}"></nant>
     <nant buildfile="${buildfile.audit.queries}" target="__create.audit.queries.directory.structure" if="${buildfile.audit.queries.exists}"></nant>
     <nant buildfile="${buildfile.support}" target="__create.support.directory.structure" if="${buildfile.support.exists}"></nant>
+    <nant buildfile="${buildfile.dstr.viewer}" target="__create.dstr.viewer.directory.structure" if="${buildfile.dstr.viewer.exists}"></nant>
   </target>
 
   <target name="__execute-msbuild">
@@ -353,7 +382,7 @@
         <echo />
         <exec workingdir="${msbuild.param.buildfile.dir}" program="msbuild" verbose="${verbose}">
           <arg value="${msbuild.param.buildfile.name}" />
-          <arg value="/t:Pawn\Pawn${msbuild.param.target};Common\CommonTests${msbuild.param.target};Pawn\PawnTests${msbuild.param.target};Support\Support${msbuild.param.target};AuditQueries\AuditQueries${msbuild.param.target}" />
+          <arg value="/t:Audit\Audit${msbuild.param.target};Pawn\Pawn${msbuild.param.target};Common\CommonTests${msbuild.param.target};Pawn\PawnTests${msbuild.param.target};Support\Support${msbuild.param.target};AuditQueries\AuditQueries${msbuild.param.target};Tools\DSTRViewer${msbuild.param.target}" />
           <arg value="/p:Configuration=${msbuild.param.configuration}" />
           <arg value="/p:Platform=${msbuild.param.platform}" />
           <arg value="/p:WarningLevel=0" />

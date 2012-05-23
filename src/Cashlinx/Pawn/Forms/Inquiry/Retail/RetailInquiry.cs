@@ -55,7 +55,7 @@ namespace Pawn.Forms.Inquiry.Retail
 
         public DataSet getData()
         {
-            return getDataSet("PAWN_INQUIRY", "get_retail_data",
+            return getDataSet("PAWN_INQUIRIES", "get_retail_data",
                                 new List<OracleProcParam>
                                 {
                                     new OracleProcParam("p_storenumber", GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber),
@@ -83,7 +83,7 @@ namespace Pawn.Forms.Inquiry.Retail
 
         public static DataSet getDetail(int ticketNumber)
         {
-            return getDataSet("PAWN_INQUIRY", "get_retail_detail",
+            return getDataSet("PAWN_INQUIRIES", "get_retail_detail",
                             new List<OracleProcParam>
                             {
                                 new OracleProcParam("p_storenumber", CashlinxDesktopSession.Instance.CurrentSiteId.StoreNumber),

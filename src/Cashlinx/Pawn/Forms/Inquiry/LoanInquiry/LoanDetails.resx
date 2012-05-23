@@ -135,9 +135,6 @@
   <metadata name="label6.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <metadata name="label7.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
   <metadata name="label9.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
@@ -222,9 +219,6 @@
   <metadata name="label35.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <metadata name="label36.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="prevPage.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -274,8 +268,8 @@
   <data name="Select_btn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAIAAACRXR/mAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
-        Cw8BkvkDpQAAC7ZJREFUWEftWWlQVGcWpUiE0RkionEBeoeWpWkWERsaiIiiQIPIIgKCgTJmDCJoEhVQ
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDQAA
+        Cw0B7QfALAAAC7ZJREFUWEftWWlQVGcWpUiE0RkionEBeoeWpWkWERsaiIiiQIPIIgKCgTJmDCJoEhVQ
         lGAUF0aWQVxiTBRwX0jURCQEEZAt2g00vS+vt2CMStzNj2Tue69pGnxmqUymUlNSp27d7y7nHL7XaPGw
         +Pkv+WXxl3T180tbv+e5vLytP35bP/30E5AIBJKCTeU8XqY/J4Xjv5TDSeX4p/lzUHAAkI8EFEdVjEdj
         PRUYgAoIgRbIQQIXev6L+CF2d/cxmTwLCx9Ly2hLyxRLywxLy7csLVdYWr79BwDrQAJUQBgN5CABQr/V
@@ -820,8 +814,8 @@
   <data name="$this.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAABAAAAAG4CAYAAADbvJU8AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDwAA
-        Cw8BkvkDpQAA/3lJREFUeF7s/V3Irl27HgYtvm/VHddqEldjoiJSxNIoWNwohYUbyw13QjfWhohQEREV
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALDQAA
+        Cw0B7QfALAAA/3lJREFUeF7s/V3Irl27HgYtvm/VHddqEldjoiJSxNIoWNwohYUbyw13QjfWhohQEREV
         RIqgLMoihKwqmP5QJARCqFhCkLIobSptKgvJRmxRsdAGzEaQIFYWUoL4E7Wg30+ezmvOOeZ3zOM9jvNn
         XOO67+t57rHxvO987muMc5w/x3Gc4xr3dd/PL/1j/8OfvXV/fut3fva24udZ667w/SPZGHVYFZOyV611
         x4eqzcq4Y93KuM6YP/E//tlb9hPZy+Z2r//Jf+Jnb3/qn8p9yuwOG8f/qz+HzerY7rj/0T/zs7fVP3/6

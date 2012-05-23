@@ -826,6 +826,8 @@ namespace Pawn.Forms.Pawn.Products.ManageMultiplePawnItems
             }
             else
             {
+                //Reset describe item context
+                GlobalDataAccessor.Instance.DesktopSession.DescribeItemContext = CurrentContext.NEW;
                 //DesktopForms.ProcessTender processTender = new DesktopForms.ProcessTender();                
                 //CashlinxDesktopSession.Instance.HistorySession.AddForm(processTender);
                 //processTender.Show(_OwnerForm);
@@ -839,7 +841,7 @@ namespace Pawn.Forms.Pawn.Products.ManageMultiplePawnItems
                     if (GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer == null ||
                         String.IsNullOrEmpty(
                             GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer.CustomerNumber) ||
-                        GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.Items.Any(i=>i.IsGun))
+                        (GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.Items.Any(i=>i.IsGun) && !GlobalDataAccessor.Instance.DesktopSession.CustomerValidated))
                     {
                         GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.ProductDataComplete =
                         true;

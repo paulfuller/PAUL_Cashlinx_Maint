@@ -468,6 +468,7 @@ namespace Common.Controllers.Application
         public Item GunItemData;
         public bool VendorValidated;
         public bool VenderFFLRequired;
+        public bool CustomerValidated;
 
 
         public SiteId CurrentSiteId

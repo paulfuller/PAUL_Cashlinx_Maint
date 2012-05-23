@@ -23,11 +23,13 @@ namespace Cashlinx.Build.Tasks
             SetProperty("buildfile.audit", env.AuditProjectEnvironment.BuildFile);
             SetProperty("buildfile.audit.queries", env.AuditQueriesProjectEnvironment.BuildFile);
             SetProperty("buildfile.common", env.CommonProjectEnvironment.BuildFile);
+            SetProperty("buildfile.dstr.viewer", env.DstrViewerProjectEnvironment.BuildFile);
             SetProperty("buildfile.pawn", env.PawnProjectEnvironment.BuildFile);
             SetProperty("buildfile.support", env.SupportProjectEnvironment.BuildFile);
             SetProperty("buildfile.audit.exists", env.AuditProjectEnvironment.BuildFileExists);
             SetProperty("buildfile.audit.queries.exists", env.AuditQueriesProjectEnvironment.BuildFileExists);
             SetProperty("buildfile.common.exists", env.CommonProjectEnvironment.BuildFileExists);
+            SetProperty("buildfile.dstr.viewer.exists", env.DstrViewerProjectEnvironment.BuildFileExists);
             SetProperty("buildfile.pawn.exists", env.PawnProjectEnvironment.BuildFileExists);
             SetProperty("buildfile.support.exists", env.SupportProjectEnvironment.BuildFileExists);
 
@@ -36,6 +38,7 @@ namespace Cashlinx.Build.Tasks
             SetProperty("deployment.type", env.DeploymentType.ToString());
             SetProperty("deploy.audit.staging.dir", env.AuditProjectEnvironment.StagingDirectory);
             SetProperty("deploy.audit.queries.staging.dir", env.AuditQueriesProjectEnvironment.StagingDirectory);
+            SetProperty("deploy.dstr.viewer.staging.dir", env.DstrViewerProjectEnvironment.StagingDirectory);
             SetProperty("deploy.pawn.staging.dir", env.PawnProjectEnvironment.StagingDirectory);
             SetProperty("deploy.support.staging.dir", env.SupportProjectEnvironment.StagingDirectory);
             SetProperty("dev.mode", env.DevMode);
@@ -46,6 +49,9 @@ namespace Cashlinx.Build.Tasks
             SetProperty("dist.audit.queries.dir", env.AuditQueriesProjectEnvironment.DistDirectory);
             SetProperty("dist.audit.queries.logs.dir", env.AuditQueriesProjectEnvironment.DistLogsDirectory);
             SetProperty("dist.audit.queries.templates.dir", env.AuditQueriesProjectEnvironment.DistTemplatesDirectory);
+            SetProperty("dist.dstr.viewer.dir", env.DstrViewerProjectEnvironment.DistDirectory);
+            SetProperty("dist.dstr.viewer.logs.dir", env.DstrViewerProjectEnvironment.DistLogsDirectory);
+            SetProperty("dist.dstr.viewer.templates.dir", env.DstrViewerProjectEnvironment.DistTemplatesDirectory);
             SetProperty("dist.pawn.dir", env.PawnProjectEnvironment.DistDirectory);
             SetProperty("dist.pawn.logs.dir", env.PawnProjectEnvironment.DistLogsDirectory);
             SetProperty("dist.pawn.media.dir", env.PawnProjectEnvironment.DistMediaDirectory);
@@ -66,6 +72,8 @@ namespace Cashlinx.Build.Tasks
             SetProperty("src.audit.bin.dir", env.AuditProjectEnvironment.BinDirectory);
             SetProperty("src.audit.queries.dir", env.AuditQueriesProjectEnvironment.SourceDirectory);
             SetProperty("src.audit.queries.bin.dir", env.AuditQueriesProjectEnvironment.BinDirectory);
+            SetProperty("src.dstr.viewer.dir", env.DstrViewerProjectEnvironment.SourceDirectory);
+            SetProperty("src.dstr.viewer.bin.dir", env.DstrViewerProjectEnvironment.BinDirectory);
             SetProperty("src.pawn.dir", env.PawnProjectEnvironment.SourceDirectory);
             SetProperty("src.pawn.bin.dir", env.PawnProjectEnvironment.BinDirectory);
             SetProperty("src.support.dir", env.SupportProjectEnvironment.SourceDirectory);

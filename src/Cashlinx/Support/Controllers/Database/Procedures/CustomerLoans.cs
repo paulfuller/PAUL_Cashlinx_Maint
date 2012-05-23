@@ -48,6 +48,7 @@ namespace Support.Controllers.Database.Procedures
         public static readonly string PDLOAN_DETAILS = "o_loan_detail_loandetails";
         public static readonly string PDLOAN_XPP = "o_xpp_detail_xpp";
         public static readonly string PDLOAN_event = "o_loan_event_event";
+        public static readonly string EXTENDED_REASONS = "o_extend_reasons_deposit_date";
         /// <summary>
         /// Provides back stored Loan Key data into a DataSet.
         /// </summary>
@@ -129,10 +130,14 @@ namespace Support.Controllers.Database.Procedures
                     foreach (DataRow curDr in dT.Rows)
                     {
                         PDLoan pVO = new PDLoan();
-                        pVO.Status = Utilities.GetStringValue(curDr["open_closed"]);
-                        pVO.StatusDate = Utilities.GetDateTimeValue(curDr["loanstatuschangedate"]);
-                        pVO.PDLLoanNumber = Utilities.GetStringValue(curDr["loannumber"]);
+                        pVO.open_closed = Utilities.GetStringValue(curDr["open_closed"]);
+                        pVO.Status = Utilities.GetStringValue(curDr["loan_status"]);
+                        pVO.StatusDate = Utilities.GetDateTimeValue(curDr["status_date"]);
+                        pVO.PDLLoanNumber = Utilities.GetStringValue(curDr["loan_number"]);
                         pVO.Type = Utilities.GetStringValue(curDr["product_type"]);
+                        pVO.Decline_Reason = Utilities.GetStringValue(curDr["decline_reason"]);
+                        pVO.Decline_Description = Utilities.GetStringValue(curDr["decline_description"]);
+                        pVO.LoanApplicationId = Utilities.GetStringValue(curDr["loan_application_id"]);    
                         loanKeys.Add(pVO);
                     }
                 }
@@ -241,6 +246,7 @@ namespace Support.Controllers.Database.Procedures
                     var _PDLoanKeys = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys;
                     DataTable dT = outputDataSet.Tables[PDLOAN_DETAILS];
 
+                    //TODO: Need to remove the for loop. It is always one record -Madhu
                     foreach (DataRow curDr in dT.Rows)
                     {
                         var loanDetails = new PDLoanDetails();
@@ -253,7 +259,7 @@ namespace Support.Controllers.Database.Procedures
                         loanDetails.LoanNumberOrig = Utilities.GetStringValue(curDr["orig_loan_nbr"]);
                         loanDetails.LoanNumberPrev = Utilities.GetStringValue(curDr["prev_loan_nbr"]);
 
-                        loanDetails.DeclineReasonDescription = Utilities.GetStringValue(curDr["reason_type"]);
+                        loanDetails.Status_Reason = Utilities.GetStringValue(curDr["status_reason"]);
                         //loanDetails.DeclineReasonCode = Utilities.GetStringValue(curDr["open_closed"]);
                         loanDetails.LoanRolloverNotes = Utilities.GetStringValue(curDr["rollovers_rem"]);
                         loanDetails.LoanRollOverAmt = Utilities.GetDecimalValue(curDr["rollover_amt"]);
@@ -284,7 +290,58 @@ namespace Support.Controllers.Database.Procedures
                         loanDetails.ShopNo = Utilities.GetStringValue(curDr["shop_number"]);
                         loanDetails.ShopName = Utilities.GetStringValue(curDr["shop_name"]);
                         loanDetails.ShopState = Utilities.GetStringValue(curDr["shop_state"]);
+
+                        var outputDt = outputDataSet.Tables["OUTPUT"];
+
+                        if (outputDt != null && outputDt.IsInitialized && outputDt.Rows != null && outputDt.Rows.Count > 0)
+                        {
+                            var dr = outputDt.Rows[1];
+                            if (dr != null && dr.ItemArray.Length > 0)
+                                loanDetails.XPP_Start_Date = dr.ItemArray.GetValue(1).ToString();
+
+                            dr = outputDt.Rows[2];
+                            if (dr != null && dr.ItemArray.Length > 0)
+                                loanDetails.XPP_End_Date = dr.ItemArray.GetValue(1).ToString();
+
+                            dr = outputDt.Rows[3];
+                            if (dr != null && dr.ItemArray.Length > 0)
+                                loanDetails.XPP_Fee_Amount = dr.ItemArray.GetValue(1).ToString();
+
+                               //loanDetails.XPPAvailable = dr.ItemArray.GetValue(1).ToString();
+                        }
+
+                        //loanDetails.XPP_Start_Date = Utilities.GetStringValue(curDr["o_xpp_start_date"]);
+                        //loanDetails.XPP_End_Date = Utilities.GetStringValue(curDr["o_xpp_end_date"]);
+                        //loanDetails.XPP_Fee_Amount = Utilities.GetStringValue(curDr["o_xpp_fee_amt"]);
+
                         pdLoan.GetPDLoanDetails = loanDetails;
+
+                        //Other Details
+                        var otherDetails = new PDLoanOtherDetails();
+                        otherDetails.ApprovalNumber = Utilities.GetStringValue(curDr["approval_no"]);
+                        otherDetails.ThirdPartyLoanNumber = Utilities.GetStringValue(curDr["veritec_trans_nbr"]);
+                        otherDetails.LoanApr = Utilities.GetStringValue(curDr["loan_apr"]);
+                        otherDetails.MultipleLoan = Utilities.GetStringValue(curDr["multiple_loan"]);
+                        otherDetails.ApprovedFinanceChrgRate = Utilities.GetStringValue(curDr["appr_fc"]);
+                        otherDetails.RefunedServiceChrgAmt = Utilities.GetStringValue(curDr["refund_sc_amt"]);
+                        otherDetails.CourtCostAmt = Utilities.GetStringValue(curDr["court_fees_assessed"]);
+                        otherDetails.RequestedLoanAmt = Utilities.GetStringValue(curDr["requested_amt"]);
+                        //otherDetails.ApprovedLoanAmt = Utilities.GetStringValue(curDr[""]);
+                        otherDetails.CheckNumber = Utilities.GetStringValue(curDr["check_nbr"]);
+                        otherDetails.ActualFinanceChrg = Utilities.GetStringValue(curDr["actfc_acq"]);
+                        otherDetails.OrigMastringFee = Utilities.GetStringValue(curDr["orig_fee"]);
+                        otherDetails.ActualFinanceChrgRate = Utilities.GetStringValue(curDr["actual_fc_rate"]);
+                        otherDetails.APR = Utilities.GetStringValue(curDr["apr"]);
+                        otherDetails.EstRefinanceAmt = Utilities.GetStringValue(curDr["est_refi_amt"]);
+                        //otherDetails.StatusChgDate = Utilities.GetStringValue(curDr[""]);
+                        otherDetails.CollectionStatusDesc = Utilities.GetStringValue(curDr["collection_status"]);
+                        otherDetails.InsOnDate = Utilities.GetStringValue(curDr["ins_on"]);
+                        otherDetails.RefisAvailable = Utilities.GetStringValue(curDr["refi_remaining"]);
+                        otherDetails.PaymentFrequency = Utilities.GetStringValue(curDr["freq_paid"]);
+                        otherDetails.SuspendACH = Utilities.GetStringValue(curDr["auto_susp_ach"]);
+                        otherDetails.ActualBrokerAmt = Utilities.GetStringValue(curDr["actual_broker_amt"]);
+                        otherDetails.BrokerRate = Utilities.GetStringValue(curDr["broker_rate"]);
+                        pdLoan.GetPDLoanOtherDetails = otherDetails;
                     }
 
                     DataTable dTXPP = outputDataSet.Tables[PDLOAN_XPP];
@@ -309,6 +366,166 @@ namespace Support.Controllers.Database.Procedures
             errorCode = "GetPDLoanKeysFailed";
             errorText = "Operation failed";
             return (false);
+        }
+
+        /// <summary>
+        /// Provides back stored Loan Key data into a DataSet.
+        /// </summary>
+        /// <param name="customerNumber"></param>
+        /// <param name="loanKeys"></param>
+        /// <param name="errorCode"></param>
+        /// <param name="errorText"></param>
+        /// <returns></returns>
+        public static bool GetExtendDepositDateInfo(
+            string loanNumber,
+            DepositDateExtensionDetails extended_date,
+            out string errorCode,
+            out string errorText)
+        {
+            //Set default output values
+            errorCode = string.Empty;
+            errorText = string.Empty;
+            if (extended_date == null)
+            {
+                errorCode = "NullLoanNumber";
+                errorText = "The DepositDateExtensionDetails object is null.";
+                return false;
+            }  
+
+            DataSet outputDataSet = null;
+
+            //Verify that the accessor is valid
+            if (GlobalDataAccessor.Instance.OracleDA == null)
+            {
+                errorCode = "get_extend_info";
+                errorText = "Invalid desktop session or data accessor instance";
+                BasicExceptionHandler.Instance.AddException("GetExtendDepositDateInfo", new ApplicationException("Cannot execute the Get Extended Deposit Date stored procedure"));
+                return (false);
+            }
+
+            //Get data accessor object
+            var dA = GlobalDataAccessor.Instance.OracleDA;
+
+            //Create input list
+            var inParams = new List<OracleProcParam>();
+
+            //Add cat pointer
+            inParams.Add(new OracleProcParam("p_loan_number", loanNumber));
+            inParams.Add(new OracleProcParam("o_max_extend_date", OracleDbType.Varchar2, DBNull.Value, ParameterDirection.Output, 256));
+            inParams.Add(new OracleProcParam("o_current_dep_date", OracleDbType.Varchar2, DBNull.Value, ParameterDirection.Output, 256));
+
+            //Setup ref cursor array
+            var refCursors = new List<PairType<string, string>>
+            {
+                new PairType<string, string>("o_extend_reasons", EXTENDED_REASONS),
+            };
+
+            //Create output data set names
+            bool retVal = false;
+            try
+            {
+                // EDW - CR#11333
+                retVal = dA.issueSqlStoredProcCommand(
+                    "ccsowner", "PAWN_SUPPORT_PRODUCTS", "get_extend_info",
+                    inParams, refCursors, "o_return_code", "o_return_text",
+                    out outputDataSet);
+            }
+            catch (OracleException oEx)
+            {
+                errorCode = "GetExtendDepositDateInfo";
+                errorText = "Invocation of GetExtendDepositDateInfo stored proc failed";
+                BasicExceptionHandler.Instance.AddException("OracleException thrown when invoking get_extend_info stored proc", oEx);
+                return (false);
+            }
+
+            //See if retVal is false
+            if (retVal == false)
+            {
+                errorCode = dA.ErrorCode;
+                errorText = dA.ErrorDescription;
+                return (false);
+            }
+
+            if (outputDataSet != null && outputDataSet.IsInitialized)
+            {
+                if (outputDataSet.Tables != null && outputDataSet.Tables.Count > 0)
+                {
+                    int iRowIdx = 0;
+                    DataTable dT = outputDataSet.Tables[EXTENDED_REASONS];
+
+                    foreach (DataRow curDr in dT.Rows)
+                    {
+                        var pVO = new ExtendedDateReasons();
+                        pVO.ReasonCode = Utilities.GetStringValue(curDr["reason_code"]);
+                        pVO.Reason_Description = Utilities.GetStringValue(curDr["reason_description"]);
+                        extended_date.GetExtendedDateReasonsList.Add(pVO);
+                    }
+                    var outputDt = outputDataSet.Tables["OUTPUT"];
+
+                    if (outputDt != null && outputDt.IsInitialized && outputDt.Rows != null && outputDt.Rows.Count > 0)
+                    {
+                        var dr = outputDt.Rows[0];
+                        if (dr != null && dr.ItemArray.Length > 0)
+                            extended_date.Max_Extend_Date = dr.ItemArray.GetValue(1).ToString();
+
+                        dr = outputDt.Rows[1];
+                        if (dr != null && dr.ItemArray.Length > 0)
+                            extended_date.Cur_Dep_Date = dr.ItemArray.GetValue(1).ToString();
+                    }
+
+                }
+
+                errorCode = "0";
+                errorText = string.Empty;
+
+                return (true);
+            }
+
+            errorCode = "GetExtendDepositDateInfoFailed";
+            errorText = "Operation failed";
+            return (false);
+        }
+
+        public static bool UpdateDepositExtensionDate(
+        string loanNumber,
+        string extendedDate,
+        string reasonCode,
+        out string errorCode,
+        out string errorMessage)
+        {
+            Boolean retVal = false;
+
+            var oDa = GlobalDataAccessor.Instance.OracleDA;
+
+            errorCode = string.Empty;
+            errorMessage = string.Empty;
+
+            var inParams = new List<OracleProcParam>();
+            inParams.Add(new OracleProcParam("p_loan_number", OracleDbType.Varchar2, loanNumber));
+            inParams.Add(new OracleProcParam("o_max_extend_date", OracleDbType.Varchar2, extendedDate));
+
+            var refCursArr = new List<PairType<string, string>>();
+
+            DataSet outputDataSet;
+            try
+            {
+                retVal = oDa.issueSqlStoredProcCommand(
+                    "ccsowner",
+                    "PAWN_SUPPORT_PRODUCTS",
+                    "",
+                    inParams,
+                    refCursArr,
+                    "o_return_code",
+                    "o_return_text", out outputDataSet);
+
+            }
+            catch (Exception oEx)
+            {
+                BasicExceptionHandler.Instance.AddException("Calling Update Deposit Date stored procedure Faield", oEx);
+                errorCode = "UpdateDepositExtensionDate";
+                errorMessage = "Exception: " + oEx.Message;
+            }
+            return (retVal);
         }
     }
 }

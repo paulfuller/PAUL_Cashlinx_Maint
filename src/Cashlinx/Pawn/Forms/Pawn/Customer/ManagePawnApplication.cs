@@ -1889,6 +1889,7 @@ namespace Pawn.Forms.Pawn.Customer
             GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer = this.Customer;
             GlobalDataAccessor.Instance.DesktopSession.MPNameCheck = false;
             GlobalDataAccessor.Instance.DesktopSession.MPCustomer = null;
+            GlobalDataAccessor.Instance.DesktopSession.CustomerValidated = true;
 
             if (trigger.Equals("LookupTicket", StringComparison.OrdinalIgnoreCase))
             {

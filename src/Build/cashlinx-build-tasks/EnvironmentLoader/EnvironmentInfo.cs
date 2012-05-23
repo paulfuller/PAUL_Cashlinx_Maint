@@ -12,6 +12,7 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
             AuditProjectEnvironment = new ProjectEnvironment();
             AuditQueriesProjectEnvironment = new ProjectEnvironment();
             CommonProjectEnvironment = new ProjectEnvironment();
+            DstrViewerProjectEnvironment = new ProjectEnvironment();
             PawnProjectEnvironment = new ProjectEnvironment();
             SupportProjectEnvironment = new ProjectEnvironment();
             DeploymentType = DeploymentType.Unknown;
@@ -40,11 +41,13 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
             AuditProjectEnvironment.BuildFile = Path.Combine(BranchBuildFilesDirectory, "Audit.build");
             AuditQueriesProjectEnvironment.BuildFile = Path.Combine(BranchBuildFilesDirectory, "AuditQueries.build");
             CommonProjectEnvironment.BuildFile = Path.Combine(BranchBuildFilesDirectory, "Common.build");
+            DstrViewerProjectEnvironment.BuildFile = Path.Combine(BranchBuildFilesDirectory, "DstrViewer.build");
             PawnProjectEnvironment.BuildFile = Path.Combine(BranchBuildFilesDirectory, "Pawn.build");
             SupportProjectEnvironment.BuildFile = Path.Combine(BranchBuildFilesDirectory, "Support.build");
 
             AuditProjectEnvironment.BuildFileExists = AuditProjectEnvironment.DoesBuildFileExist();
             AuditQueriesProjectEnvironment.BuildFileExists = AuditQueriesProjectEnvironment.DoesBuildFileExist();
+            DstrViewerProjectEnvironment.BuildFileExists = DstrViewerProjectEnvironment.DoesBuildFileExist();
             PawnProjectEnvironment.BuildFileExists = PawnProjectEnvironment.DoesBuildFileExist();
             SupportProjectEnvironment.BuildFileExists = SupportProjectEnvironment.DoesBuildFileExist();
 
@@ -59,6 +62,9 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
 
             SupportProjectEnvironment.SourceDirectory = Path.Combine(NantProjectDirectory, "Support");
             SupportProjectEnvironment.BinDirectory = Path.Combine(SupportProjectEnvironment.SourceDirectory, @"bin");
+
+            DstrViewerProjectEnvironment.SourceDirectory = Path.Combine(NantProjectDirectory, "Tools\\DstrViewer");
+            DstrViewerProjectEnvironment.BinDirectory = Path.Combine(DstrViewerProjectEnvironment.SourceDirectory, @"bin");
 
             PawnProjectEnvironment.UnitTestsDirectory = Path.Combine(NantProjectDirectory, "PawnTests");
             PawnProjectEnvironment.UnitTestsFile = "PawnTests.nunit";
@@ -91,6 +97,11 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
             SupportProjectEnvironment.DistMediaDirectory = Path.Combine(SupportProjectEnvironment.DistDirectory, "media");
             SupportProjectEnvironment.DistTemplatesDirectory = Path.Combine(SupportProjectEnvironment.DistDirectory, "templates");
 
+            DstrViewerProjectEnvironment.DistDirectory = Path.Combine(DistBuildDirectory, @"c\Program Files\DSTRViewer");
+            DstrViewerProjectEnvironment.DistLogsDirectory = Path.Combine(DstrViewerProjectEnvironment.DistDirectory, "logs");
+            DstrViewerProjectEnvironment.DistMediaDirectory = Path.Combine(DstrViewerProjectEnvironment.DistDirectory, "media");
+            DstrViewerProjectEnvironment.DistTemplatesDirectory = Path.Combine(DstrViewerProjectEnvironment.DistDirectory, "templates");
+
             if (Project.Properties.Contains("devmode") && Project.Properties["devmode"].Equals("true"))
             {
                 DevMode = true;
@@ -98,6 +109,7 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
                 AuditQueriesProjectEnvironment.StagingDirectory = @"C:\tmp\Staging\AuditQueries\Incoming";
                 PawnProjectEnvironment.StagingDirectory = @"C:\tmp\Staging\Pawn\Incoming";
                 SupportProjectEnvironment.StagingDirectory = @"C:\tmp\Staging\Support\Incoming";
+                DstrViewerProjectEnvironment.StagingDirectory = @"C:\tmp\Staging\DstrViewer\Incoming";
             }
             else
             {
@@ -106,12 +118,14 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
                 AuditQueriesProjectEnvironment.StagingDirectory = @"\\ftw2.casham.com\audit_query_deploy$\Incoming";
                 PawnProjectEnvironment.StagingDirectory = @"\\FTW2.casham.com\clx_deploy$\Incoming";
                 SupportProjectEnvironment.StagingDirectory = @"\\FTW2.casham.com\clx_support_deploy$\Incoming";
+                DstrViewerProjectEnvironment.StagingDirectory = @"\\FTW2.casham.com\dstr_deploy$\Incoming";
             }
         }
 
         public ProjectEnvironment AuditProjectEnvironment { get; private set; }
         public ProjectEnvironment AuditQueriesProjectEnvironment { get; private set; }
         public ProjectEnvironment CommonProjectEnvironment { get; private set; }
+        public ProjectEnvironment DstrViewerProjectEnvironment { get; private set; }
         public ProjectEnvironment PawnProjectEnvironment { get; private set; }
         public ProjectEnvironment SupportProjectEnvironment { get; private set; }
 
@@ -161,6 +175,7 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
             task.Log(level, "Audit Staging Directory: " + AuditProjectEnvironment.StagingDirectory);
             task.Log(level, "Audit Queries Staging Directory: " + AuditQueriesProjectEnvironment.StagingDirectory);
             task.Log(level, "Support Staging Directory: " + SupportProjectEnvironment.StagingDirectory);
+            task.Log(level, "DSTR Viewer Staging Directory: " + DstrViewerProjectEnvironment.StagingDirectory);
             task.Log(level, "Deployment Type: " + DeploymentType.ToString());
             task.Log(level, "Full Name: " + utilities.GetUserFullName());
             task.Log(level, "Email Address: " + utilities.GetUserEmailAddress());

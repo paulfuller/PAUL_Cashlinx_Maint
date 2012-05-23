@@ -10,7 +10,6 @@
  **********************************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 using Common.Controllers.Application;
@@ -18,7 +17,6 @@ using Common.Controllers.Application.ApplicationFlow.Navigation;
 using Common.Controllers.Database.Procedures;
 using Common.Libraries.Objects.Authorization;
 using Common.Libraries.Utility;
-using Common.Libraries.Utility.Collection;
 using Common.Libraries.Utility.Exception;
 using Common.Libraries.Utility.Logger;
 using Common.Libraries.Utility.Shared;
@@ -203,8 +201,8 @@ namespace Pawn.Forms.Pawn.ShopAdministration.Assignments
 
         private void addEmployeeButton_Click(object sender, EventArgs e)
         {
-            this.errorLabel.Text = string.Empty;
-            var myForm = new EmployeeAdd();
+            errorLabel.Text = "";
+            EmployeeAdd myForm = new EmployeeAdd();
             myForm.ShowDialog();
             GetEmployeeProfiles();
 
@@ -212,7 +210,7 @@ namespace Pawn.Forms.Pawn.ShopAdministration.Assignments
 
         private void SelectEmployee_Load(object sender, EventArgs e)
         {
-            this.errorLabel.Text = string.Empty;
+            errorLabel.Text = "";
             this.NavControlBox.Owner = this;
             _UserVO = GlobalDataAccessor.Instance.DesktopSession.LoggedInUserSecurityProfile;
             //If logged in user is a shop user allow add and delete else disable add and delete
@@ -235,66 +233,6 @@ namespace Pawn.Forms.Pawn.ShopAdministration.Assignments
             customButtonAddEmployee.Visible = _EnableAddEmployeeButton;
         }
 
-        private bool RemoveDuplicateEmployees(string colName)
-        {
-            if (string.IsNullOrEmpty(colName))
-            {
-                //Must assume that duplicates exist
-                return (false);
-            }
-            var rowsToRemove = new List<DataRow>();
-            var existingEmps = new Dictionary<string, int>();
-
-            try
-            {
-
-                //Construct count bucket and duplicate list
-                foreach (DataRow dr in _ShopVisitingEmployees.Rows)
-                {
-                    if (dr == null) continue;
-                    var usId = dr["userid"];
-                    if (usId == null) continue;
-                    var usIdStr = usId.ToString();
-                    if (CollectionUtilities.isNotEmptyContainsKey(existingEmps, usIdStr))
-                    {
-                        existingEmps[usIdStr]++;
-
-                    }
-                    else
-                    {
-                        existingEmps.Add(usIdStr, 1);
-                    }
-
-                    //See what the updated count looks like
-                    if (existingEmps[usIdStr] > 1)
-                    {
-                        rowsToRemove.Add(dr);
-                    }
-                }
-
-                //Now that we've created the removal list, we need to execute the removals
-                if (CollectionUtilities.isNotEmpty(rowsToRemove))
-                {
-                    foreach (var dr in rowsToRemove)
-                    {
-                        if (dr == null) continue;
-                        _ShopVisitingEmployees.Rows.Remove(dr);
-                    }
-                }
-            }
-            catch (Exception eX)
-            {
-                if (FileLogger.Instance.IsLogError)
-                {
-                    FileLogger.Instance.logMessage(LogLevel.ERROR, this, "Could not filter employee list. Exception: {0}", eX.Message);
-                }
-                //Must assume at this point that some duplicates exist and could not be removed
-                return (false);
-            }
-            //Can safely assume here that any duplicates were removed successfully
-            return (true);
-        }
-
         private void GetEmployeeProfiles()
         {
             string sErrorCode;
@@ -311,25 +249,9 @@ namespace Pawn.Forms.Pawn.ShopAdministration.Assignments
                     if (sErrorCode == "0")
                     {
                         _ShopVisitingEmployees.DefaultView.Sort = "employeenumber";
-                        //If we have filtered the duplicates, assign the primary key
-                        if (RemoveDuplicateEmployees("userid"))
-                        {
-                            var key = new DataColumn[1];
-                            key[0] = _ShopVisitingEmployees.Columns["userid"];
-                            _ShopVisitingEmployees.PrimaryKey = key;
-                        }
-                        else
-                        {
-                            var res = MessageBox.Show(
-                                "There are duplicate employee entries in this shop.  Would you still like to view the employee list?",
-                                "Employee Profile Request Warning", MessageBoxButtons.YesNo);
-                            if (res == DialogResult.No)
-                            {
-                                NavControlBox.Action = NavBox.NavAction.CANCEL;
-                                return;
-                            }
-                        }
-                        //Allow the shop employees to be shown
+                        DataColumn[] key = new DataColumn[1];
+                        key[0] = _ShopVisitingEmployees.Columns["userid"];
+                        _ShopVisitingEmployees.PrimaryKey = key;                        
                         PopulateShopEmployees();
                         PopulateVisitingEmployees();
                     }

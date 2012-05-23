@@ -28,14 +28,10 @@
     <AssemblyName>CashlinxDesktopLoadTester</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName></SccProjectName>
+    <SccLocalPath></SccLocalPath>
+    <SccAuxPath></SccAuxPath>
+    <SccProvider></SccProvider>
     <StartupObject>CashlinxDesktopLoadTester.Program</StartupObject>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>

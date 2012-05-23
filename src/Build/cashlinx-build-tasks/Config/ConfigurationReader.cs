@@ -68,6 +68,7 @@ namespace Cashlinx.Build.Tasks.Config
                 case ClxApplication.Audit: return Path.Combine(env.AuditProjectEnvironment.SourceDirectory, "app.config");
                 case ClxApplication.AuditQueries: return Path.Combine(env.AuditQueriesProjectEnvironment.SourceDirectory, "app.config");
                 case ClxApplication.Cashlinx: return Path.Combine(env.PawnProjectEnvironment.SourceDirectory, "app.config");
+                case ClxApplication.DSTRViewer: return Path.Combine(env.DstrViewerProjectEnvironment.SourceDirectory, "app.config");
                 case ClxApplication.Support: return Path.Combine(env.SupportProjectEnvironment.SourceDirectory, "app.config");
                 default:
                     throw new BuildException("Application not supported: " + application);

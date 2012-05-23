@@ -137,7 +137,7 @@ namespace Common.Controllers.Database
                         {
                             decimal maxLoan = bVo.InterestValue.MaxAmount;
                             decimal minLoan = bVo.InterestValue.MinAmount;
-                            decimal tieredLoanAmt = maxLoan-minLoan;
+                            decimal tieredLoanAmt = maxLoan-Math.Truncate(minLoan);
                             if (loanAmountCopy >= tieredLoanAmt)
                             {
                                 businessRules.getComponentValue(str, ref componentValue);
@@ -163,7 +163,7 @@ namespace Common.Controllers.Database
                 
                 
                 this.PawnLoanVO.APR = (tieredInterestValues.Sum() / loanAmount) * 100;
-                InterestAmountForLoanTermCycle = loanAmount * ((this.PawnLoanVO.APR / 12) / 100);
+                InterestAmountForLoanTermCycle = loanAmount * ((Math.Round(this.PawnLoanVO.APR,2) / 12) / 100);
                 decimal minIntAmount=0.0m;
                 //Added ythe logic below to account for the minimum interest amount for the state
                 if (businessRules.getComponentValue("CL_PWN_0013_MININTAMT", ref componentValue))
@@ -698,7 +698,7 @@ namespace Common.Controllers.Database
             //
             /////////////////////////////////////////////////////
             string CL_PWN_0061_LOANTERMCYCLE = "";
-            DateTime currentDate = newPawnItem.Date;
+            DateTime currentDate = ShopDateTime.Instance.ShopDate;
             DateTime dueDate = currentDate;
             int val;
             bool result = false;

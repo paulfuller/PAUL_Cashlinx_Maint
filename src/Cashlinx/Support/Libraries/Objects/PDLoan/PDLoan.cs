@@ -10,6 +10,25 @@ namespace Support.Libraries.Objects.PDLoan
     [Serializable]
     public class PDLoan
     {
+        private bool sqldataretrieved;
+        private int pdlstate;
+
+        public PDLoan()
+        {
+            GetPDLoanXPPScheduleList = new List<PDLoanXPPScheduleList>();
+            //GetPDLoanEvents = new List<PDLoanEvents>();
+            GetPDLoanHistoryList = new List<PDLoanHistoryList>();
+            PdlState = 0;
+        }
+
+        public bool SqlDataRetrieved { get; set; }
+        public int PdlState { get; set; }
+
+        public string LoanApplicationId
+        {
+            get;
+            set;
+        }
         public string PDLLoanNumber
         {
             get;
@@ -25,13 +44,33 @@ namespace Support.Libraries.Objects.PDLoan
             get;
             set;
         }
+        public string open_closed
+        {
+            get;
+            set;
+        }
         public DateTime StatusDate
         {
             get;
             set;
         }
-
+        public string Decline_Reason
+        {
+            get;
+            set;
+        }
+        public string Decline_Description
+        {
+            get;
+            set;
+        }
         public PDLoanDetails GetPDLoanDetails
+        {
+            get;
+            set;
+        }
+
+        public PDLoanOtherDetails GetPDLoanOtherDetails
         {
             get;
             set;
@@ -54,14 +93,6 @@ namespace Support.Libraries.Objects.PDLoan
             get;
             set;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        public PDLoan()
-        {
-            GetPDLoanXPPScheduleList = new List<PDLoanXPPScheduleList>();
-            //GetPDLoanEvents = new List<PDLoanEvents>();
-            GetPDLoanHistoryList = new List<PDLoanHistoryList>();
-        }
+
     }
 }

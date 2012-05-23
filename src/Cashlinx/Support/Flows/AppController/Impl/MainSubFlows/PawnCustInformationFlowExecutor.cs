@@ -46,12 +46,15 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
             ViewPersonalInformationHistory,
             Controller_ProductServices,
             ProductServices,
+            PDLoanOtherDetails,
+            ExtendedDepositDate,
             ViewPawnCustomerInfo, 
             UpdateAddress, // WCM 4/20/12 From here and above moved from LookupCustomerFlowExecutor.cs
             AddViewSupportCustomerComment,
             Controller_ProductHistory,
             Controller_ItemHistory,
             Controller_Stats,
+
             ViewReadOnlyCustomerInformation,        
             ViewCustomerInformation,
             ViewPawnCustomerProductDetails,
@@ -66,6 +69,7 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
             ExitFlow,
             CancelFlow,
             Cancel,
+            PreviousState,
             Error
         }
 
@@ -240,9 +244,7 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
                         throw new ApplicationException("Cannot execute CustomerContactDetails block");
                     }
                     break;
-    
 
-    
                 #endregion
                 /*_________________________________________________*/
                 case PawnCustInformationFlowState.UpdateAddress:
@@ -284,6 +286,26 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
                                                                             FlowTabController.State.ProductsAndServices);
 
                     break;
+
+                    //PDLoanOtherDetails,
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.PDLoanOtherDetails:
+                    ShowForm PDLoanOtherDetailsResBlk = CommonAppBlocks.Instance.PDLoanOtherDetailsShowBlock(this.parentForm, this.PDLoanOtherDetailsFormNavAction);
+                    if (!PDLoanOtherDetailsResBlk.execute())
+                    {
+                        throw new ApplicationException("Cannot execute PDL Other Details block");
+                    }
+                    break;
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.ExtendedDepositDate:
+                    //CommonAppBlocks.Instance.HideFlowTabController();
+                    ShowForm ExtendedDepositDateResBlk = CommonAppBlocks.Instance.ExtendedDepositDateShowBlock(this.parentForm, this.ExtendedDepositDateFormNavAction);
+                    if (!ExtendedDepositDateResBlk.execute())
+                    {
+                        throw new ApplicationException("Cannot execute PD Loan Other Details block");
+                    }
+                    break;
+                    //ExtendedDepositDate,
                 
                 /*_________________________________________________*/
                 case PawnCustInformationFlowState.Controller_ProductHistory:
@@ -458,6 +480,9 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
                      break;
                      */
                 #endregion
+                /*_________________________________________________*/
+                case PawnCustInformationFlowState.PreviousState:
+                    break;
                 /*_________________________________________________*/
                 case PawnCustInformationFlowState.CancelFlow:
                     CommonAppBlocks.Instance.HideFlowTabController();
@@ -880,6 +905,23 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
                         this.nextState = PawnCustInformationFlowState.SupportCustomerComment;
                     }
                     break;
+
+                case NavBox.NavAction.SUBMIT:
+                    CommonAppBlocks.Instance.HideFlowTabController();
+                    string ButtonSelectSub = senderNavBox.CustomDetail;
+                    /*_________________________________________________*/
+                    if (ButtonSelectSub.Equals("PDLoanOtherDetails"))
+                    {
+                        //GoBack = false;
+                        this.nextState = PawnCustInformationFlowState.PDLoanOtherDetails;
+                    }
+                    /*_________________________________________________*/
+                    else if (ButtonSelectSub.Equals("ExtendedDepositDate"))
+                    {
+                        this.nextState = PawnCustInformationFlowState.ExtendedDepositDate;
+                    }
+                    break;
+
                 case NavBox.NavAction.CANCEL:
                     this.nextState = PawnCustInformationFlowState.Cancel;
                     break;
@@ -1125,7 +1167,6 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
                         GoBack = false;
                         this.nextState = PawnCustInformationFlowState.AddViewSupportCustomerComment;
                     }
-
                     if (GoBack)
                         GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
 
@@ -1154,6 +1195,62 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
                     this.nextState = PawnCustInformationFlowState.SupportCustomerComment;
                     break;
 
+
+                default:
+                    throw new ApplicationException("" + action.ToString() + " is not a valid state for Customer Status");
+            }
+
+            this.executeNextState();
+        }
+        /*__________________________________________________________________________________________*/
+        private void PDLoanOtherDetailsFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("PD Loan Other Details form navigation action handler received invalid data");
+            }
+
+            NavBox senderNavBox = (NavBox)sender;
+            PDLoanOtherDetails PDLoanOtherDetailsForm = (PDLoanOtherDetails)data;
+            NavBox.NavAction action = senderNavBox.Action;
+            switch (action)
+            {
+                case NavBox.NavAction.BACK:
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+
+                    this.nextState = PawnCustInformationFlowState.PreviousState;
+                    //this.nextState = PawnCustInformationFlowState.ProductServices;
+                    break;
+
+
+                default:
+                    throw new ApplicationException("" + action.ToString() + " is not a valid state for Customer Status");
+            }
+
+            this.executeNextState();
+        }
+        //ExtendedDepositDate
+        /*__________________________________________________________________________________________*/
+        private void ExtendedDepositDateFormNavAction(object sender, object data)
+        {
+            if (sender == null || data == null)
+            {
+                throw new ApplicationException("PD Loan Other Details form navigation action handler received invalid data");
+            }
+
+            NavBox senderNavBox = (NavBox)sender;
+            //ExtendedDepositDate ExtendedDepositDateForm = (ExtendedDepositDate)data;
+            NavBox.NavAction action = senderNavBox.Action;
+            switch (action)
+            {
+                case NavBox.NavAction.BACK:
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    this.nextState = PawnCustInformationFlowState.PreviousState;
+                    break;
+                case NavBox.NavAction.SUBMIT:
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    this.nextState = PawnCustInformationFlowState.PreviousState;
+                    break;
 
                 default:
                     throw new ApplicationException("" + action.ToString() + " is not a valid state for Customer Status");

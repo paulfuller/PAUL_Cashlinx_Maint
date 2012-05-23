@@ -41,6 +41,10 @@ namespace Cashlinx.Build.Tasks.Config
                 {
                     Application = ClxApplication.Cashlinx;
                 }
+                else if (App.Equals("dstrviewer", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    Application = ClxApplication.DSTRViewer;
+                }
                 else if (App.Equals("support", StringComparison.InvariantCultureIgnoreCase))
                 {
                     Application = ClxApplication.Support;

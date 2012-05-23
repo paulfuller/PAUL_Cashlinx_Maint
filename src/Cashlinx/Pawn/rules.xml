@@ -2270,6 +2270,210 @@
       <InterestType />
     </Interest>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="49c9594b-7294-479e-9f83-7baa69f0e06c" Id="db6d3ae3-c53a-43fe-8197-5ffb940f9af3">
+    <Alias>IN_30_CLPL</Alias>
+    <FromDate>07/01/2012</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>0.01</MinAmount>
+      <MaxAmount>1080.0</MaxAmount>
+      <InterestRate>36.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="49c9594b-7294-479e-9f83-7baa69f0e06c" Id="c311c776-9004-4f87-b27d-75046d4f752f">
+    <Alias>REGION1</Alias>
+    <FromDate>07/01/2011</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>0.1</MinAmount>
+      <MaxAmount>189.0</MaxAmount>
+      <InterestRate>240.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="49c9594b-7294-479e-9f83-7baa69f0e06c" Id="087bb2fa-c2a6-411e-83f4-9e88e5cdc5cc">
+    <Alias>ELPASO</Alias>
+    <FromDate>07/01/2011</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>0.01</MinAmount>
+      <MaxAmount>189.0</MaxAmount>
+      <InterestRate>240.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="49c9594b-7294-479e-9f83-7baa69f0e06c" Id="1ecaee10-341d-455d-a39b-4a88f6f7e476">
+    <Alias>PDA</Alias>
+    <FromDate>07/01/2011</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>0.01</MinAmount>
+      <MaxAmount>189.0</MaxAmount>
+      <InterestRate>240.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="084a34f3-6c34-48d9-a841-d09ca9a9404f" Id="8334ef75-7333-446c-9e75-f0cacecdc990">
+    <Alias>ELPASO</Alias>
+    <FromDate>07/01/2011</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>189.01</MinAmount>
+      <MaxAmount>1260.0</MaxAmount>
+      <InterestRate>180.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="084a34f3-6c34-48d9-a841-d09ca9a9404f" Id="a834dd2a-8db0-4c76-b8df-3caea627ef29">
+    <Alias>REGION1</Alias>
+    <FromDate>07/01/2011</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>189.01</MinAmount>
+      <MaxAmount>1260.0</MaxAmount>
+      <InterestRate>180.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="084a34f3-6c34-48d9-a841-d09ca9a9404f" Id="0eb02912-5ba9-4fad-95e1-ef940299e063">
+    <Alias>PDA</Alias>
+    <FromDate>07/01/2011</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>189.01</MinAmount>
+      <MaxAmount>1260.0</MaxAmount>
+      <InterestRate>180.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="79383b7e-a0cb-45c9-9668-a7a0328d863e" Id="92bfa192-ade6-4010-a45c-bffdcfe24d88">
+    <Alias>ELPASO</Alias>
+    <FromDate>07/01/2011</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>1260.01</MinAmount>
+      <MaxAmount>1890.0</MaxAmount>
+      <InterestRate>30.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="79383b7e-a0cb-45c9-9668-a7a0328d863e" Id="4a134757-8509-4764-80be-7fd1d648742b">
+    <Alias>REGION1</Alias>
+    <FromDate>07/01/2011</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>1260.01</MinAmount>
+      <MaxAmount>1890.0</MaxAmount>
+      <InterestRate>30.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="79383b7e-a0cb-45c9-9668-a7a0328d863e" Id="1b8dd24e-e5cd-45a1-a474-db4ce0907b3b">
+    <Alias>PDA</Alias>
+    <FromDate>07/01/2011</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>1260.01</MinAmount>
+      <MaxAmount>1890.0</MaxAmount>
+      <InterestRate>30.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="e00fd6cf-86b8-44d1-bea8-83c63dd490c9" Id="91aa5398-a025-4ddf-9a30-7b57c564122b">
+    <Alias>ELPASO</Alias>
+    <FromDate>07/01/2011</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>1890.01</MinAmount>
+      <MaxAmount>15750.0</MaxAmount>
+      <InterestRate>12.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="e00fd6cf-86b8-44d1-bea8-83c63dd490c9" Id="9105f4f1-1f4e-4a8f-9e2d-3cfb93dc7ff0">
+    <Alias>REGION1</Alias>
+    <FromDate>07/01/2011</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>1890.01</MinAmount>
+      <MaxAmount>15750.0</MaxAmount>
+      <InterestRate>12.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_0009_INTAMT" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="03804f09-7714-41db-bdfe-2c43d7e99758">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -9044,6 +9248,51 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_PMETAL_FILE" ParentAlias="" ParentId="e10d37a9-fa77-43cc-b94b-8be9bbf3e521" Id="10f89cbc-13b0-4fc3-ba61-e5631d2f9c0a">
+    <Alias>ELPASO</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>pmetal002</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_PMETAL_FILE" ParentAlias="" ParentId="e10d37a9-fa77-43cc-b94b-8be9bbf3e521" Id="3ceae545-40cd-4076-9c51-66fb5151c6e8">
+    <Alias>REGION1</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>pmetalR1</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_PMETAL_FILE" ParentAlias="" ParentId="e10d37a9-fa77-43cc-b94b-8be9bbf3e521" Id="765f65c6-766b-4470-b149-eb744722ee72">
+    <Alias>PDA</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>pmetalPDA</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="PK_SS1_ADJ" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="b072194f-7f09-465c-af5f-b9fef28b15b7">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -9218,6 +9467,21 @@
     <Param>
       <DataType />
       <Value>stonesCLPL</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="PK_STONES_FILE" ParentAlias="" ParentId="393c829b-4254-4ce9-a678-9a39997fcab9" Id="6c160c60-7bd4-48e5-ba4b-5dcba55ab7b3">
+    <Alias>ELPASO</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>stones002</Value>
       <StoreNumber />
       <State />
       <Company />
@@ -10484,16 +10748,16 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
-  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="49c9594b-7294-479e-9f83-7baa69f0e06c" Id="db6d3ae3-c53a-43fe-8197-5ffb940f9af3">
-    <Alias>IN_30_CLPL</Alias>
-    <FromDate>07/01/2012</FromDate>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="e00fd6cf-86b8-44d1-bea8-83c63dd490c9" Id="e01d2d97-8df3-4610-884d-07cf6fec8210">
+    <Alias>PDA</Alias>
+    <FromDate>07/01/2011</FromDate>
     <ToDate>01/01/2050</ToDate>
     <ComponentType>INTEREST</ComponentType>
     <IsEditable>true</IsEditable>
     <Interest>
-      <MinAmount>0.01</MinAmount>
-      <MaxAmount>1080.0</MaxAmount>
-      <InterestRate>36.0</InterestRate>
+      <MinAmount>1890.01</MinAmount>
+      <MaxAmount>15750.0</MaxAmount>
+      <InterestRate>12.0</InterestRate>
       <InterestAmount>0.0</InterestAmount>
       <ServiceAmount>0.0</ServiceAmount>
       <ServiceRate>0.0</ServiceRate>

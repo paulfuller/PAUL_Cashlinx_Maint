@@ -78,7 +78,9 @@ namespace Support.Flows.AppController.Impl
             AddViewSupportCustomerComment,
             Controller_ProductHistory,
             Controller_ItemHistory,
-            Controller_Stats
+            Controller_Stats,
+            PDLoanOtherDetails,
+            ExtendedDepositDate
         }
         /// <summary>
         /// Static constructor - forces compiler to initialize the object prior to any code access
@@ -390,7 +392,38 @@ namespace Support.Flows.AppController.Impl
 
             return (AddViewSupportCustomerCommentResultsBlk);
         }
+        /*__________________________________________________________________________________________*/
+        public ShowForm PDLoanOtherDetailsShowBlock(
+            Form parentForm,
+            NavBox.NavBoxActionFired fxn)
+        {
+            PDLoanOtherDetails PDLOanOtherDetailsResFm = new PDLoanOtherDetails();
+            ShowForm PDLoanOtherDetailsResultsBlk =
+                this.createShowFormBlock(
+                    (uint)ValidFormBlockTypes.PDLoanOtherDetails,
+                    parentForm,
+                    PDLOanOtherDetailsResFm,
+                    PDLOanOtherDetailsResFm.NavControlBox,
+                    fxn, true);
 
+            return (PDLoanOtherDetailsResultsBlk);
+        }
+        /*__________________________________________________________________________________________*/
+        public ShowForm ExtendedDepositDateShowBlock(
+            Form parentForm,
+            NavBox.NavBoxActionFired fxn)
+        {
+            ExtendedDepositDate ExtendedDepositDateResFm = new ExtendedDepositDate();
+            ShowForm ExtendedDepositDateResultsBlk =
+                this.createShowFormBlock(
+                    (uint)ValidFormBlockTypes.ExtendedDepositDate,
+                    parentForm,
+                    ExtendedDepositDateResFm,
+                    ExtendedDepositDateResFm.NavControlBox,
+                    fxn, true);
+
+            return (ExtendedDepositDateResultsBlk);
+        }
 #endregion
         #endregion
         #region Class Block Methods

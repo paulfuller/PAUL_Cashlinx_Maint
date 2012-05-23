@@ -5,6 +5,7 @@ namespace Cashlinx.Build.Tasks
     {
         Audit,
         AuditQueries,
+        DSTRViewer,
         Cashlinx,
         Support
     }

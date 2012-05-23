@@ -20,79 +20,85 @@ namespace Support.Libraries.Objects.PDLoan
             set;
         }
 	
-        public decimal LoanApr
+        public string LoanApr
         {
             get;
             set;
         }
 	
-        public bool MultipleLoan
+        public string MultipleLoan
         {
             get;
             set;
         }
 	
-        public decimal ApprovedFinanceChrgRate
+        public string ApprovedFinanceChrgRate
         {
             get;
             set;
         }
 	
-        public decimal RefunedServiceChrgAmt
+        public string RefunedServiceChrgAmt
         {
             get;
             set;
         }
 	
-        public decimal CourtCostAmt
+        public string CourtCostAmt
         {
             get;
             set;
         }
 	
-        public decimal RequestedLoanAmt
+        public string RequestedLoanAmt
         {
             get;
             set;
         }
 	
-        public decimal ApprovedLoanAmt
+        public string ApprovedLoanAmt
+        {
+            get;
+            set;
+        }
+
+        public string CheckNumber
+        {
+            get;
+            set;
+        }
+
+        public string ActualFinanceChrg
         {
             get;
             set;
         }
 	
-        public decimal ActualFinanceChrg
+        public string OrigMastringFee
         {
             get;
             set;
         }
 	
-        public decimal OrigMaintFee
+        public string ActualFinanceChrgRate
         {
             get;
             set;
         }
 	
-        public decimal ActualFinanceChrgRate
+        public string APR
         {
             get;
             set;
         }
 	
-        public decimal APR
+        public string EstRefinanceAmt
         {
             get;
             set;
         }
 	
-        public decimal EstRefinanceAmt
-        {
-            get;
-            set;
-        }
-	
-        public DateTime StatusChgDate
+        public string StatusChgDate
         {
             get;
             set;
@@ -110,13 +116,13 @@ namespace Support.Libraries.Objects.PDLoan
             set;
         }
 	
-        public DateTime InsOnDate
+        public string InsOnDate
         {
             get;
             set;
         }
 	
-        public int RefisAvailable
+        public string RefisAvailable
         {
             get;
             set;
@@ -128,19 +134,19 @@ namespace Support.Libraries.Objects.PDLoan
             set;
         }
 	
-        public bool SuspendACH
+        public string SuspendACH
         {
             get;
             set;
         }
 	
-        public decimal ActualBrokerAmt
+        public string ActualBrokerAmt
         {
             get;
             set;
         }
 
-        public decimal BrokerRate
+        public string BrokerRate
         {
             get;
             set;

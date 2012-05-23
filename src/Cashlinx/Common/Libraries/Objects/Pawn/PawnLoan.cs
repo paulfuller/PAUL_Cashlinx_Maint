@@ -170,8 +170,9 @@ namespace Common.Libraries.Objects.Pawn
         public DateTime LastExtensionPaid;
 
 
-
         public DateTime LastPartialPaymentDate;
+        public DateTime OrigDueDate;
+        public DateTime OrigPfiDate;
 
 
         /// <summary>

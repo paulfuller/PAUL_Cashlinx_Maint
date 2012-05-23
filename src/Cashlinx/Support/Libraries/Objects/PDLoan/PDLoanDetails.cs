@@ -58,17 +58,17 @@ namespace Support.Libraries.Objects.PDLoan
             set;
         }
 
-	    public string DeclineReasonDescription
+	    public string Status_Reason //DeclineReasonDescription
         {
             get;
             set;
         }
 
-        public string DeclineReasonCode
-        {
-            get;
-            set;
-        }
+        //public string DeclineReasonCode
+        //{
+        //    get;
+        //    set;
+        //}
 
         public string LoanRolloverNotes
         {
@@ -94,6 +94,21 @@ namespace Support.Libraries.Objects.PDLoan
             set;
         }
 
+        public string XPP_Start_Date
+        {
+            get;
+            set;
+        }
+        public string XPP_End_Date
+        {
+            get;
+            set;
+        }
+        public string XPP_Fee_Amount
+        {
+            get;
+            set;
+        }
         public decimal ActualFinanceChrgAmt
         {
             get;

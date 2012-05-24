@@ -84,7 +84,6 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
         private decimal _totalPickupAmount = 0.0M;
         private decimal _totalRenewalAmount = 0.0M;
         private decimal _totalServiceAmount;
-        private bool ctrlKeyPressed;
         private SiteId currentStoreSiteId;
         private bool extensionServiceAllowed;
         private bool paydownAllowed;
@@ -364,11 +363,11 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                             Properties.Resources.MultipleLoanSelection,
                             Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
                         {
-                            if (_SelectedLoans.Count > 0 && ctrlKeyPressed)
+                            if (_SelectedLoans.Count > 0 && (ModifierKeys == Keys.Shift || ModifierKeys == Keys.Control))
                             {
                                 _SelectedLoans.Add(ploan);
                             }
-                            if (_SelectedLoans.Count > 0 && !ctrlKeyPressed)
+                            if (_SelectedLoans.Count > 0 && !(ModifierKeys == Keys.Shift || ModifierKeys == Keys.Control))
                             {
                                 //If the ctrl key was not pressed remove all the 
                                 //selected loans and place the newly selected loan
@@ -380,6 +379,7 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                                 PS_TicketsDataGridView.Rows.Cast<DataGridViewRow>()
                                     .Where(row => row.DefaultCellStyle.BackColor == Color.FromArgb(51, 153, 255)).ToList()
                                     .ForEach(row => row.DefaultCellStyle.BackColor = Color.White);
+
 
                                 //Set the background color for the currently selected row.  If we're in this branch of the code there should only be 1 selected row.
                                 PS_TicketsDataGridView.SelectedRows[0].DefaultCellStyle.BackColor = Color.FromArgb(51, 153, 255);
@@ -491,11 +491,11 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                             Properties.Resources.MultipleLoanSelection,
                             Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
                         {
-                            if (_SelectedLayaways.Count > 0 && ctrlKeyPressed)
+                            if (_SelectedLayaways.Count > 0 && (ModifierKeys == Keys.Shift || ModifierKeys == Keys.Control))
                             {
                                 _SelectedLayaways.Add(lway);
                             }
-                            if (_SelectedLayaways.Count > 0 && !ctrlKeyPressed)
+                            if (_SelectedLayaways.Count > 0 && !(ModifierKeys == Keys.Shift || ModifierKeys == Keys.Control))
                             {
                                 //If the ctrl key was not pressed remove all the 
                                 //selected loans and place the newly selected loan
@@ -589,7 +589,7 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 if (IsLayawayPawnKey(selectedRow)) // Layaway
                 {
                     ApplyLayawayBusinessRules(sStoreNumber, iTicketNumber, true);
-                    PS_TicketsDataGridView.Rows[rowIndex].DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(51, 153, 255); 
+                    PS_TicketsDataGridView.Rows[rowIndex].DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(51, 153, 255);
                     UpdateActiveLayawayInformation(iTicketNumber);
                     PS_TicketsDataGridView.Rows[rowIndex].Cells[3].Value = lastLayawayPayment;
                     LoadDocuments(iTicketNumber, ProductType.LAYAWAY);
@@ -1791,7 +1791,6 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 Properties.Resources.MultipleLoanSelection,
                 Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
             {
-                ctrlKeyPressed = true;
                 PS_AddTicketsDataGridView.MultiSelect = true;
                 e.Handled = false;
             }
@@ -1801,11 +1800,10 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
 
         private void PS_AddTicketsDataGridView_KeyUp(object sender, KeyEventArgs e)
         {
-            if (ctrlKeyPressed && e.KeyValue == 17 && string.Equals(
+            if ((ModifierKeys == Keys.Shift || ModifierKeys == Keys.Control) && e.KeyValue == 17 && string.Equals(
                 Properties.Resources.MultipleLoanSelection,
                 Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
             {
-                ctrlKeyPressed = false;
                 e.Handled = false;
             }
         }
@@ -2467,24 +2465,22 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
 
         private void PS_TicketsDataGridView_KeyDown(object sender, KeyEventArgs e)
         {
-            if ((e.Control || e.Shift) && string.Equals(
-                Properties.Resources.MultipleLoanSelection,
-                Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
+            //Ignore arrow up and down keys
+            if (e.KeyValue == 38 || e.KeyValue == 40)
             {
-                ctrlKeyPressed = true;
-                e.Handled = false;
+                e.Handled = true;
+                return;
             }
             PS_TicketsDataGridView.MultiSelect = false;
         }
 
         private void PS_TicketsDataGridView_KeyUp(object sender, KeyEventArgs e)
         {
-            if (ctrlKeyPressed && (e.KeyValue == 16 || e.KeyValue == 17) && string.Equals(
-                Properties.Resources.MultipleLoanSelection,
-                Boolean.TrueString, StringComparison.OrdinalIgnoreCase))
+            //Ignore arrow up and down keys
+            if (e.KeyValue == 38 || e.KeyValue == 40)
             {
-                ctrlKeyPressed = false;
-                e.Handled = false;
+                e.Handled = true;
+                return;
             }
         }
 
@@ -3969,7 +3965,6 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
 
                 }
             }
-
         }
     }
 }

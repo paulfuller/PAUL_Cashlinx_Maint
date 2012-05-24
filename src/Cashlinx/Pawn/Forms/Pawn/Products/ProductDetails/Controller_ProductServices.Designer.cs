@@ -42,8 +42,6 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -53,7 +51,11 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.PS_LoanStatsLayoutPanel = new System.Windows.Forms.Panel();
+            this.lblCurrentPrincipalAmount = new System.Windows.Forms.Label();
+            this.lblCurrentPrincipalAmountTitle = new System.Windows.Forms.Label();
             this.PS_ServiceMessageLabel = new System.Windows.Forms.Label();
             this.PS_PickupAmountValue = new System.Windows.Forms.LinkLabel();
             this.PS_ReceiptNoValue = new System.Windows.Forms.LinkLabel();
@@ -109,11 +111,6 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
             this.PS_ShowComboBox = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.PS_TicketsDataGridView = new System.Windows.Forms.DataGridView();
-            this.PS_Tickets_ServiceIndicatorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PS_Tickets_Extend = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PS_Tickets_TicketNumberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PS_Tickets_LastDayColumn = new Common.Libraries.Forms.Components.CalendarColumn();
-            this.PS_Tickets_Refresh = new System.Windows.Forms.DataGridViewImageColumn();
             this.PS_AddTicketsDataGridView = new System.Windows.Forms.DataGridView();
             this.PS_AddTickets_ServiceIndicator = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PS_AddTickets_Extend = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -166,8 +163,11 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
             this.LW_TotalAmountOfLayawayValue = new System.Windows.Forms.Label();
             this.LW_DownPaymentValue = new System.Windows.Forms.Label();
             this.LW_DownPaymentLabel = new System.Windows.Forms.Label();
-            this.lblCurrentPrincipalAmount = new System.Windows.Forms.Label();
-            this.lblCurrentPrincipalAmountTitle = new System.Windows.Forms.Label();
+            this.PS_Tickets_ServiceIndicatorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PS_Tickets_Extend = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PS_Tickets_TicketNumberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PS_Tickets_LastDayColumn = new Common.Libraries.Forms.Components.CalendarColumn();
+            this.PS_Tickets_Refresh = new System.Windows.Forms.DataGridViewImageColumn();
             this.PS_LoanStatsLayoutPanel.SuspendLayout();
             this.PS_SubTabControl.SuspendLayout();
             this.PS_ServiceOptionsTab.SuspendLayout();
@@ -211,6 +211,30 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
             this.PS_LoanStatsLayoutPanel.Name = "PS_LoanStatsLayoutPanel";
             this.PS_LoanStatsLayoutPanel.Size = new System.Drawing.Size(626, 143);
             this.PS_LoanStatsLayoutPanel.TabIndex = 141;
+            // 
+            // lblCurrentPrincipalAmount
+            // 
+            this.lblCurrentPrincipalAmount.BackColor = System.Drawing.Color.Transparent;
+            this.lblCurrentPrincipalAmount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentPrincipalAmount.ForeColor = System.Drawing.Color.Black;
+            this.lblCurrentPrincipalAmount.Location = new System.Drawing.Point(485, 89);
+            this.lblCurrentPrincipalAmount.Name = "lblCurrentPrincipalAmount";
+            this.lblCurrentPrincipalAmount.Size = new System.Drawing.Size(80, 13);
+            this.lblCurrentPrincipalAmount.TabIndex = 158;
+            this.lblCurrentPrincipalAmount.Text = "$100.00";
+            this.lblCurrentPrincipalAmount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblCurrentPrincipalAmountTitle
+            // 
+            this.lblCurrentPrincipalAmountTitle.BackColor = System.Drawing.Color.Transparent;
+            this.lblCurrentPrincipalAmountTitle.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentPrincipalAmountTitle.ForeColor = System.Drawing.Color.Black;
+            this.lblCurrentPrincipalAmountTitle.Location = new System.Drawing.Point(315, 89);
+            this.lblCurrentPrincipalAmountTitle.Name = "lblCurrentPrincipalAmountTitle";
+            this.lblCurrentPrincipalAmountTitle.Size = new System.Drawing.Size(164, 13);
+            this.lblCurrentPrincipalAmountTitle.TabIndex = 157;
+            this.lblCurrentPrincipalAmountTitle.Text = "Current Principal Amount:";
+            this.lblCurrentPrincipalAmountTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // PS_ServiceMessageLabel
             // 
@@ -1121,65 +1145,6 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
             this.PS_TicketsDataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PS_TicketsDataGridView_KeyDown);
             this.PS_TicketsDataGridView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PS_TicketsDataGridView_KeyUp);
             // 
-            // PS_Tickets_ServiceIndicatorColumn
-            // 
-            this.PS_Tickets_ServiceIndicatorColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Red;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Red;
-            this.PS_Tickets_ServiceIndicatorColumn.DefaultCellStyle = dataGridViewCellStyle8;
-            this.PS_Tickets_ServiceIndicatorColumn.FillWeight = 103.0928F;
-            this.PS_Tickets_ServiceIndicatorColumn.HeaderText = global::Pawn.Properties.Resources.OverrideMachineName;
-            this.PS_Tickets_ServiceIndicatorColumn.Name = "PS_Tickets_ServiceIndicatorColumn";
-            this.PS_Tickets_ServiceIndicatorColumn.ReadOnly = true;
-            this.PS_Tickets_ServiceIndicatorColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.PS_Tickets_ServiceIndicatorColumn.Width = 5;
-            // 
-            // PS_Tickets_Extend
-            // 
-            this.PS_Tickets_Extend.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_Tickets_Extend.DefaultCellStyle = dataGridViewCellStyle9;
-            this.PS_Tickets_Extend.HeaderText = global::Pawn.Properties.Resources.OverrideMachineName;
-            this.PS_Tickets_Extend.Name = "PS_Tickets_Extend";
-            this.PS_Tickets_Extend.ReadOnly = true;
-            this.PS_Tickets_Extend.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.PS_Tickets_Extend.Width = 5;
-            // 
-            // PS_Tickets_TicketNumberColumn
-            // 
-            this.PS_Tickets_TicketNumberColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.PS_Tickets_TicketNumberColumn.DataPropertyName = "PS_Tickets_TicketNumberColumn";
-            this.PS_Tickets_TicketNumberColumn.FillWeight = 96.90721F;
-            this.PS_Tickets_TicketNumberColumn.HeaderText = "Ticket Number";
-            this.PS_Tickets_TicketNumberColumn.Name = "PS_Tickets_TicketNumberColumn";
-            this.PS_Tickets_TicketNumberColumn.ReadOnly = true;
-            this.PS_Tickets_TicketNumberColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // PS_Tickets_LastDayColumn
-            // 
-            this.PS_Tickets_LastDayColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.PS_Tickets_LastDayColumn.DataPropertyName = "PS_Tickets_LastDayColumn";
-            this.PS_Tickets_LastDayColumn.HeaderText = "Last Day";
-            this.PS_Tickets_LastDayColumn.Name = "PS_Tickets_LastDayColumn";
-            this.PS_Tickets_LastDayColumn.ReadOnly = true;
-            this.PS_Tickets_LastDayColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.PS_Tickets_LastDayColumn.Width = 55;
-            // 
-            // PS_Tickets_Refresh
-            // 
-            this.PS_Tickets_Refresh.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.PS_Tickets_Refresh.HeaderText = global::Pawn.Properties.Resources.OverrideMachineName;
-            this.PS_Tickets_Refresh.Image = global::Pawn.Properties.Resources.blank;
-            this.PS_Tickets_Refresh.Name = "PS_Tickets_Refresh";
-            this.PS_Tickets_Refresh.Width = 5;
-            // 
             // PS_AddTicketsDataGridView
             // 
             this.PS_AddTicketsDataGridView.AllowUserToAddRows = false;
@@ -1801,29 +1766,64 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
             this.LW_DownPaymentLabel.TabIndex = 10;
             this.LW_DownPaymentLabel.Text = "Down Payment:";
             // 
-            // lblCurrentPrincipalAmount
+            // PS_Tickets_ServiceIndicatorColumn
             // 
-            this.lblCurrentPrincipalAmount.BackColor = System.Drawing.Color.Transparent;
-            this.lblCurrentPrincipalAmount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentPrincipalAmount.ForeColor = System.Drawing.Color.Black;
-            this.lblCurrentPrincipalAmount.Location = new System.Drawing.Point(485, 89);
-            this.lblCurrentPrincipalAmount.Name = "lblCurrentPrincipalAmount";
-            this.lblCurrentPrincipalAmount.Size = new System.Drawing.Size(80, 13);
-            this.lblCurrentPrincipalAmount.TabIndex = 158;
-            this.lblCurrentPrincipalAmount.Text = "$100.00";
-            this.lblCurrentPrincipalAmount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PS_Tickets_ServiceIndicatorColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Red;
+            this.PS_Tickets_ServiceIndicatorColumn.DefaultCellStyle = dataGridViewCellStyle8;
+            this.PS_Tickets_ServiceIndicatorColumn.FillWeight = 103.0928F;
+            this.PS_Tickets_ServiceIndicatorColumn.HeaderText = global::Pawn.Properties.Resources.OverrideMachineName;
+            this.PS_Tickets_ServiceIndicatorColumn.Name = "PS_Tickets_ServiceIndicatorColumn";
+            this.PS_Tickets_ServiceIndicatorColumn.ReadOnly = true;
+            this.PS_Tickets_ServiceIndicatorColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.PS_Tickets_ServiceIndicatorColumn.Width = 5;
             // 
-            // lblCurrentPrincipalAmountTitle
+            // PS_Tickets_Extend
             // 
-            this.lblCurrentPrincipalAmountTitle.BackColor = System.Drawing.Color.Transparent;
-            this.lblCurrentPrincipalAmountTitle.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentPrincipalAmountTitle.ForeColor = System.Drawing.Color.Black;
-            this.lblCurrentPrincipalAmountTitle.Location = new System.Drawing.Point(315, 89);
-            this.lblCurrentPrincipalAmountTitle.Name = "lblCurrentPrincipalAmountTitle";
-            this.lblCurrentPrincipalAmountTitle.Size = new System.Drawing.Size(164, 13);
-            this.lblCurrentPrincipalAmountTitle.TabIndex = 157;
-            this.lblCurrentPrincipalAmountTitle.Text = "Current Principal Amount:";
-            this.lblCurrentPrincipalAmountTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.PS_Tickets_Extend.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_Tickets_Extend.DefaultCellStyle = dataGridViewCellStyle9;
+            this.PS_Tickets_Extend.HeaderText = global::Pawn.Properties.Resources.OverrideMachineName;
+            this.PS_Tickets_Extend.Name = "PS_Tickets_Extend";
+            this.PS_Tickets_Extend.ReadOnly = true;
+            this.PS_Tickets_Extend.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.PS_Tickets_Extend.Width = 5;
+            // 
+            // PS_Tickets_TicketNumberColumn
+            // 
+            this.PS_Tickets_TicketNumberColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.PS_Tickets_TicketNumberColumn.DataPropertyName = "PS_Tickets_TicketNumberColumn";
+            this.PS_Tickets_TicketNumberColumn.FillWeight = 96.90721F;
+            this.PS_Tickets_TicketNumberColumn.HeaderText = "Ticket Number";
+            this.PS_Tickets_TicketNumberColumn.Name = "PS_Tickets_TicketNumberColumn";
+            this.PS_Tickets_TicketNumberColumn.ReadOnly = true;
+            // 
+            // PS_Tickets_LastDayColumn
+            // 
+            this.PS_Tickets_LastDayColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.PS_Tickets_LastDayColumn.DataPropertyName = "PS_Tickets_LastDayColumn";
+            this.PS_Tickets_LastDayColumn.HeaderText = "Last Day";
+            this.PS_Tickets_LastDayColumn.Name = "PS_Tickets_LastDayColumn";
+            this.PS_Tickets_LastDayColumn.ReadOnly = true;
+            this.PS_Tickets_LastDayColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.PS_Tickets_LastDayColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.PS_Tickets_LastDayColumn.Width = 74;
+            // 
+            // PS_Tickets_Refresh
+            // 
+            this.PS_Tickets_Refresh.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.PS_Tickets_Refresh.HeaderText = global::Pawn.Properties.Resources.OverrideMachineName;
+            this.PS_Tickets_Refresh.Image = global::Pawn.Properties.Resources.blank;
+            this.PS_Tickets_Refresh.Name = "PS_Tickets_Refresh";
+            this.PS_Tickets_Refresh.Width = 5;
             // 
             // Controller_ProductServices
             // 
@@ -1943,11 +1943,6 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
         private System.Windows.Forms.DataGridViewTextBoxColumn PS_AddTickets_TicketNumberColumn;
         private CalendarColumn PS_AddTickets_LastDayColumn;
         private System.Windows.Forms.DataGridViewImageColumn PS_AddTickets_Refresh;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_ServiceIndicatorColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_Extend;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_TicketNumberColumn;
-        private CalendarColumn PS_Tickets_LastDayColumn;
-        private System.Windows.Forms.DataGridViewImageColumn PS_Tickets_Refresh;
         private CalendarColumn calendarColumn1;
         private CalendarColumn calendarColumn2;
         private System.Windows.Forms.TableLayoutPanel tlpDocuments;
@@ -1997,5 +1992,10 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
         private System.Windows.Forms.Button PS_PartPmntButton;
         private System.Windows.Forms.Label lblCurrentPrincipalAmount;
         private System.Windows.Forms.Label lblCurrentPrincipalAmountTitle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_ServiceIndicatorColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_Extend;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_TicketNumberColumn;
+        private CalendarColumn PS_Tickets_LastDayColumn;
+        private System.Windows.Forms.DataGridViewImageColumn PS_Tickets_Refresh;
     }
 }

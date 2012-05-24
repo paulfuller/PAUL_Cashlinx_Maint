@@ -12,17 +12,11 @@
     <AssemblyName>PawnTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-<<<<<<< HEAD
     <SccProjectName>
     </SccProjectName>
     <SccLocalPath>
     </SccLocalPath>
     <SccAuxPath>
-=======
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
->>>>>>> origin/master
     </SccAuxPath>
     <SccProvider>
     </SccProvider>

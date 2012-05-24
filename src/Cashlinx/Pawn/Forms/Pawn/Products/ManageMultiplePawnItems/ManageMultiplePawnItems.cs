@@ -956,6 +956,10 @@ namespace Pawn.Forms.Pawn.Products.ManageMultiplePawnItems
 
                             activeCustomer.ActiveLoanCount = loanCount;
                         }
+
+                        var customerSurvey = new IssueCustomerCommentsCard();
+                        customerSurvey.ShowDialog();
+
                         GlobalDataAccessor.Instance.DesktopSession.HistorySession.Desktop();
                         GlobalDataAccessor.Instance.DesktopSession.showProcessTender(ProcessTenderProcedures.ProcessTenderMode.NEWLOAN);
                     }

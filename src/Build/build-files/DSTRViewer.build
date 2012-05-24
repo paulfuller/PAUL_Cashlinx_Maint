@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<project name="DSTRViewer" basedir="." xmlns="http://nant.sf.net/release/0.91-alpha2/nant.xsd">
+
+  <property name="deploy.dstr.viewer.app.key.update" value="true"/>
+  <property name="src.dstr.viewer.exe.file" value="${src.dstr.viewer.bin.dir}\${msbuild.param.configuration}\DSTRViewer.exe"/>
+
+  <target name="deploy-dstr-viewer">
+    <call target="__ensure.dstr.viewer.assembly.version"/>
+    <call target="__update.dstr.viewer.app.key"/>
+    <call target="__pause.for.dstr.viewer.application.testing"/>
+    <call target="__deploy.dstr.viewer.to.staging"/>
+    <call target="__deploy.dstr.viewer.to.staging.hash.validation"/>
+    <call target="__send.dstr.viewer.deployment.emails"/>
+  </target>
+
+  <target name="dist-dstr-viewer">
+    <echo message="${src.dstr.viewer.exe.file}"/>
+    <call target="__ensure.dstr.viewer.assembly.version"/>
+    <call target="__dist.dstr.viewer"/>
+    <call target="__dist.dstr.viewer.config.files"/>
+    <call target="__generate.dstr.viewer.hash.list"/>
+    <call target="__generate.dstr.viewer.sql.update.script"/>
+  </target>
+
+  <target name="__compress-dstr-viewer">
+    <call target="__ensure.dstr.viewer.assembly.version"/>
+    <property name="dist.dstr.viewer.zip.file" value="${dist.root.dir}\DSTRViewer_Build_${timestamp.suffix}_(${dstr.viewer.assembly.version}).zip"/>
+    <zip zipfile="${dist.dstr.viewer.zip.file}" includeemptydirs="true">
+      <fileset basedir="${dist.build.dir}">
+        <include name="**/c/Program Files/DSTRViewer/*" />
+        <include name="dstrviewer_version_script*.txt"/>
+        <include name="dstrviewer.exe.config*"/>
+        <include name="digestDSTRViewer_*.txt"/>
+      </fileset>
+    </zip>
+  </target>
+
+  <target name="__create.dstr.viewer.directory.structure">
+    <mkdir dir="${dist.dstr.viewer.dir}" />
+    <mkdir dir="${dist.dstr.viewer.logs.dir}" />
+  </target>
+
+  <target name="__deploy.dstr.viewer.to.staging">
+    <call target="__pause.for.deploy.dstr.viewer.to.staging"/>
+    <if test="${deploy.dstr.viewer.to.staging}">
+
+      <delete>
+        <fileset basedir="${deploy.dstr.viewer.staging.dir}">
+          <include name="**/c/Program Files/DSTRViewer/**"/>
+          <include name="digestDSTRViewer_*.txt"/>
+          <include name="dstrviewer.exe.config*"/>
+        </fileset>
+      </delete>
+
+      <copy todir="${deploy.dstr.viewer.staging.dir}" includeemptydirs="true" verbose="${verbose}">
+        <fileset basedir="${dist.build.dir}">
+          <include name="**/c/Program Files/DSTRViewer/**"/>
+          <include name="digestDSTRViewer_*.txt"/>
+          <include name="dstrviewer.exe.config*" if="${include.environment.staging}"/>
+          <exclude name="**/ldap_details*.log"/>
+          <exclude name="**/pawnsec_details*.log"/>
+        </fileset>
+      </copy>
+    </if>
+  </target>
+
+  <target name="__deploy.dstr.viewer.to.staging.hash.validation">
+    <call target="__ensure.dstr.viewer.assembly.version" />
+    <md5Validator hashfile="${deploy.dstr.viewer.staging.dir}\digestDSTRViewer_${dstr.viewer.assembly.version.short}.txt" basepath="${deploy.dstr.viewer.staging.dir}\c" />
+  </target>
+
+  <target name="__dist.dstr.viewer">
+    <copy todir="${dist.dstr.viewer.dir}" verbose="${verbose}">
+      <fileset basedir="${src.dstr.viewer.bin.dir}\${msbuild.param.configuration}">
+        <!--<include name="**/*."/>-->
+        <include name="DSTRViewer.exe" />
+        <include name="*.dll" />
+        <include name="*.resources" />
+        <include name="*.xml" />
+        <include name="*.pdb" />
+        <include name="Libraries**/*" />
+        <!--<exclude name="JsonFx.Json.xml"/>-->
+      </fileset>
+    </copy>
+
+    <configwriter file="${dist.dstr.viewer.dir}\DSTRViewer.exe.config" configkey="${staging.database.key}" application="DSTRViewer" />
+  </target>
+
+  <target name="__dist.dstr.viewer.config.files">
+    <!--<configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXD" configkey="CLXD" application="DSTRViewer" />
+    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXD2" configkey="CLXD2" application="DSTRViewer" />
+    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXD3" configkey="CLXD3" application="DSTRViewer" />
+    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXI" configkey="CLXI" application="DSTRViewer" />
+    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXP" configkey="CLXP" application="DSTRViewer" />
+    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXPG" configkey="CLXPG" application="DSTRViewer" />
+    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXPP" configkey="CLXPP" application="DSTRViewer" />
+    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXQ" configkey="CLXQ" application="DSTRViewer" />
+    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXR2" configkey="CLXR2" application="DSTRViewer" />
+    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXT" configkey="CLXT" application="DSTRViewer" />
+    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXT2" configkey="CLXT2" application="DSTRViewer" />-->
+  </target>
+
+  <target name="__ensure.dstr.viewer.assembly.version">
+    <if test="${not property::exists('dstr.viewer.assembly.version')}">
+      <call target="__read.dstr.viewer.assembly.version"/>
+    </if>
+  </target>
+
+  <target name="__generate.dstr.viewer.hash.list">
+    <call target="__ensure.dstr.viewer.assembly.version"/>
+    <property name="dist.output.hashlist.file" value="${dist.build.dir}\digestDSTRViewer_${dstr.viewer.assembly.version.short}.txt"/>
+    
+    <writefile file="${dist.output.hashlist.file}" value="${Cashlinx::GenerateHashFileList(dist.dstr.viewer.dir, dist.build.dir + '\c\', '*.*', true)}"/>
+    
+  </target>
+
+  <target name="__generate.dstr.viewer.sql.update.script">
+    <call target="__ensure.dstr.viewer.assembly.version"/>
+    <loadfile file="${version_template.sql.file}" property="version_template.sql" />
+
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[APPID]', 5)}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[DESCRIPTION]', 'DSTR Viewer')}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[APPVERSION]', dstr.viewer.assembly.version)}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[APPVERSIONHASH]', dstr.viewer.assembly.version.hash)}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[TIMESTAMP]', Cashlinx::FormatDateTime(datetime::now(), 'M/d/yyyy h:mm:ss.000000 tt -05:00'))}" />
+
+    <writefile file="${dist.dstr.viewer.sql.update.script.file}" value="${version_template.sql}" />
+
+    <echo message="DSTR Viewer Sql update script generated"/>
+  </target>
+
+  <target name="__read.dstr.viewer.assembly.version">
+    <property name="dstr.viewer.assembly.version" value="${assemblyname::get-version(assemblyname::get-assembly-name(src.dstr.viewer.exe.file))}"/>
+    <property name="dstr.viewer.assembly.version.hash" value="${Cashlinx::GenerateHash(dstr.viewer.assembly.version)}"/>
+    <property name="dstr.viewer.assembly.version.short" value="${string::substring(dstr.viewer.assembly.version,0,string::last-index-of(dstr.viewer.assembly.version, '.'))}"/>
+
+    <property name="dist.dstr.viewer.sql.update.script.file" value="${dist.build.dir}\dstrviewer_version_script_${dstr.viewer.assembly.version.short}.sql"/>
+
+    <echo message="DSTR Viewer Assembly version: ${dstr.viewer.assembly.version}"/>
+    <echo message="DSTR Viewer Assembly version short: ${dstr.viewer.assembly.version.short}"/>
+    <echo message="DSTR Viewer Assembly version hash: ${dstr.viewer.assembly.version.hash}"/>
+  </target>
+
+  <target name="__email.dstr.viewer.update.branches">
+    <call target="__ensure.dstr.viewer.assembly.version"/>
+    <property name="email.from" value="${user.email.address}"/>
+
+    <property name="email.to" value="jmunta@casham.com;pbccr@casham.com;tmcconnell@casham.com;amadueke@casham.com;srengarajan@casham.com;dstandley@casham.com;ewaltmon@casham.com;hkollipara@casham.com;eguillory@casham.com;ascribner@casham.com;jyandell@casham.com;mholder@casham.com;bmcvey@casham.com;mveldanda@casham.com;rbrickler@casham.com;nsiddaiah@casham.com" />
+    <property name="email.cc" value="mmoorman@casham.com;tlepage@casham.com;glepage@casham.com"/>
+
+    <if test="${dev.mode}">
+      <property name="email.to" value="${user.email.address}"/>
+      <property name="email.cc" value=""/>
+    </if>
+
+    <mail
+      from="${email.from}"
+      tolist="${email.to}"
+      cclist="${email.cc}"
+      subject="Update work branches for DSTR Viewer ${dstr.viewer.assembly.version.short}"
+      mailhost="mail.casham.com"
+      message="All,&lt;br/&gt;&lt;br/&gt;Please update your work branches to pick up the latest app key changes for DSTR Viewer ${dstr.viewer.assembly.version.short}.&lt;br/&gt;&lt;br/&gt;Thanks,&lt;br/&gt;${user.full.name}"
+      format="Html">
+    </mail>
+  </target>
+
+  <target name="__email.dstr.viewer.staging.updated">
+    <call target="__ensure.dstr.viewer.assembly.version"/>
+    <property name="email.from" value="${user.email.address}"/>
+
+    <property name="email.to" value="jmunta@casham.com;lfranks@casham.com"/>
+    <property name="email.cc" value="${user.email.address}"/>
+
+    <if test="${dev.mode}">
+      <property name="email.to" value="${user.email.address}"/>
+      <property name="email.cc" value=""/>
+    </if>
+
+    <echo message="${dist.dstr.viewer.sql.update.script.file}"/>
+
+    <mail
+      from="${email.from}"
+      tolist="${email.to}"
+      cclist="${email.cc}"
+      subject="${dstr.viewer.assembly.version.short} Staging"
+      mailhost="mail.casham.com"
+      message="Jake/Lance,&lt;br/&gt;&lt;br/&gt;The build for DSTR Viewer ${dstr.viewer.assembly.version.short} has been copied to the staging area and ${dev.database.key} has been updated to reflect the latest app key.&lt;br/&gt;&lt;br/&gt;Thanks,&lt;br/&gt;${user.full.name}"
+      format="Html">
+      <attachments basedir=".">
+        <include name="${dist.dstr.viewer.sql.update.script.file}"/>
+      </attachments>
+    </mail>
+  </target>
+
+  <target name="__update.dstr.viewer.app.key">
+    <call target="__pause.for.dstr.viewer.sql.update"/>
+
+    <if test="${deploy.dstr.viewer.app.key.update}">
+      <appkeyupdate sqlfilename="${dist.dstr.viewer.sql.update.script.file}" configkey="${dev.database.key}"></appkeyupdate>
+    </if>
+  </target>
+
+  <target name="__print.merge.instructions">
+    <echo message="Merging Instructions"></echo>
+    <echo/>
+    <echo message="    Now you need to update binaries_staged.7z in devint/bin"></echo>
+    <echo/>
+    <echo message="    Now you need to merge the code up using the following branch mappings"></echo>
+    <echo/>
+    <echo message="    1.  DevIntToDevWork"></echo>
+    <echo message="    2.  ReleaseToNewDevIntBranch"></echo>
+    <echo message="    3.  ReleaseToNewDevIntBinary"></echo>
+    <echo message="    4.  MainToReleaseBranch"></echo>
+    <echo message="    5.  MainToReleaseBinary"></echo>
+    <echo message="    6.  MainToProdBranch"></echo>
+    <echo message="    7.  MainToProdBinary"/>
+  </target>
+
+  <target name="__pause.for.deploy.dstr.viewer.to.staging">
+    <property name="pause.deploy.dstr.viewer.to.staging.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Do you wish to copy this build to the staging area?  If so, make sure you have an explorer window open and browse to ${deploy.dstr.viewer.staging.dir}.  Press 'Y' to continue or 'N' to skip"
+      property="pause.deploy.dstr.viewer.to.staging.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.deploy.dstr.viewer.to.staging.successful=='Y'}">
+      <property name="deploy.dstr.viewer.to.staging" value="true"/>
+    </if>
+    <if test="${pause.deploy.dstr.viewer.to.staging.successful=='N'}">
+      <property name="deploy.dstr.viewer.to.staging" value="false"/>
+    </if>
+  </target>
+
+  <target name="__pause.for.dstr.viewer.email.question">
+    <property name="pause.dstr.viewer.email.question.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Do you wish to send emails during this DSTR Viewer deployment?  Press 'Y' to continue or 'N' to skip"
+      property="pause.dstr.viewer.email.question.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.dstr.viewer.email.question.successful=='Y'}">
+      <property name="deploy.dstr.viewer.send.emails" value="true"/>
+    </if>
+    <if test="${pause.dstr.viewer.email.question.successful=='N'}">
+      <property name="deploy.dstr.viewer.send.emails" value="false"/>
+    </if>
+  </target>
+
+  <target name="__pause.for.dstr.viewer.sql.update">
+    <property name="pause.dstr.viewer.sql.update.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Do you want to update ${dev.database.key} with the latest DSTR Viewer app key?  Press 'Y' to continue or 'N' to skip"
+      property="pause.dstr.viewer.sql.update.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.dstr.viewer.sql.update.successful=='Y'}">
+      <property name="deploy.dstr.viewer.app.key.update" value="true"/>
+    </if>
+    <if test="${pause.dstr.viewer.sql.update.successful=='N'}">
+      <property name="deploy.dstr.viewer.app.key.update" value="false"/>
+    </if>
+  </target>
+
+  <target name="__pause.for.dstr.viewer.application.testing">
+    <exec
+      program="${dist.dstr.viewer.dir}\DSTRViewer.exe"
+      workingdir="${dist.dstr.viewer.dir}"
+      commandline='"${dist.build.dir}\DSTRViewer.exe.config - ${dev.database.key}"' ></exec>
+
+    <property name="pause.dstr.viewer.application.testing.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Verify the DSTR Viewer application runs correctly and press 'Y' to continue or 'N' to fail the build"
+      property="pause.dstr.viewer.application.testing.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.dstr.viewer.application.testing.successful!='Y'}">
+      <fail message="The build has failed due to a failed application test."/>
+    </if>
+
+  </target>
+
+  <target name="__send.dstr.viewer.deployment.emails">
+    <call target="__pause.for.dstr.viewer.email.question"/>
+
+    <if test="${deploy.dstr.viewer.send.emails}">
+      <call target="__email.dstr.viewer.staging.updated"/>
+      <call target="__email.dstr.viewer.update.branches"/>
+    </if>
+  </target>
+</project>

@@ -1,0 +1,405 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8B124972-BD88-4366-9E87-49B487EEC65E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Audit</RootNamespace>
+    <AssemblyName>Audit</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName></SccProjectName>
+    <SccLocalPath></SccLocalPath>
+    <SccAuxPath></SccAuxPath>
+    <SccProvider></SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="itextsharp">
+      <HintPath>..\Common\Libraries\External\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.DataAccess, Version=2.111.7.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\oracle11\product\11.2.0\client_1\odp.net\bin\2.x\Oracle.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ButtonResources.Designer.cs" />
+    <Compile Include="Flows\Impl\CommonAppBlocks.cs" />
+    <Compile Include="Flows\Impl\MainFlowExecutor.cs" />
+    <Compile Include="Flows\Impl\MainSubFlows\InventoryAuditFlowExecutor.cs" />
+    <Compile Include="Forms\AuditWindowBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AuditWindowBase.Designer.cs">
+      <DependentUpon>AuditWindowBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\AuditManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\AuditManager.Designer.cs">
+      <DependentUpon>AuditManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\ClosedAudit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\ClosedAudit.Designer.cs">
+      <DependentUpon>ClosedAudit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\ConfirmTrakker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\ConfirmTrakker.Designer.cs">
+      <DependentUpon>ConfirmTrakker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\DownloadToTrakker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\DownloadToTrakker.Designer.cs">
+      <DependentUpon>DownloadToTrakker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\EnterCaccItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\EnterCaccItems.Designer.cs">
+      <DependentUpon>EnterCaccItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\EnterRetailPrice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\EnterRetailPrice.Designer.cs">
+      <DependentUpon>EnterRetailPrice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\InitiateAudit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\InitiateAudit.Designer.cs">
+      <DependentUpon>InitiateAudit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\InventoryQuestions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\InventoryQuestions.Designer.cs">
+      <DependentUpon>InventoryQuestions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\InventoryResponses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\InventoryResponses.Designer.cs">
+      <DependentUpon>InventoryResponses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\InventorySummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\InventorySummary.Designer.cs">
+      <DependentUpon>InventorySummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\PreviousAuditTrakker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\PreviousAuditTrakker.Designer.cs">
+      <DependentUpon>PreviousAuditTrakker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\ProcessMissingItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\ProcessMissingItems.Designer.cs">
+      <DependentUpon>ProcessMissingItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\ProcessUnexpectedItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\ProcessUnexpectedItems.Designer.cs">
+      <DependentUpon>ProcessUnexpectedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\SelectAudit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\SelectAudit.Designer.cs">
+      <DependentUpon>SelectAudit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\SelectCategory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\SelectCategory.Designer.cs">
+      <DependentUpon>SelectCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\SelectStore.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\SelectStore.Designer.cs">
+      <DependentUpon>SelectStore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\SelectTempIcn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\SelectTempIcn.Designer.cs">
+      <DependentUpon>SelectTempIcn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\TrakkerInstructions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\TrakkerInstructions.Designer.cs">
+      <DependentUpon>TrakkerInstructions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\TrakkerTransferBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\TrakkerTransferBase.Designer.cs">
+      <DependentUpon>TrakkerTransferBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inventory\UploadFromTrakker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inventory\UploadFromTrakker.Designer.cs">
+      <DependentUpon>UploadFromTrakker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MainDesktop.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainDesktop.Designer.cs">
+      <DependentUpon>MainDesktop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MainDesktopBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainDesktopBase.Designer.cs">
+      <DependentUpon>MainDesktopBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Menu\MainMenuPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Menu\MainMenuPanel.Designer.cs">
+      <DependentUpon>MainMenuPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Menu\MenuPanelBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Menu\MenuPanelBase.Designer.cs">
+      <DependentUpon>MenuPanelBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\InventoryResponse.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\InventoryResponse.Designer.cs">
+      <DependentUpon>InventoryResponse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\YesNoDropDownList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\YesNoDropDownList.Designer.cs">
+      <DependentUpon>YesNoDropDownList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\AuditDesktopSession.cs" />
+    <Compile Include="Logic\ButtonResourceManagerHelper.cs" />
+    <Compile Include="Logic\FormHelper.cs" />
+    <Compile Include="Logic\FormsExtensionMethods.cs" />
+    <Compile Include="Logic\FtpHelper.cs" />
+    <Compile Include="Logic\InventoryAnswer.cs" />
+    <Compile Include="Logic\InventoryQuestion.cs" />
+    <Compile Include="Logic\Reports\CallAuditReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logic\Reports\InventorySummaryReport.cs" />
+    <Compile Include="Logic\Reports\InventorySummaryResponseReport.cs" />
+    <Compile Include="Logic\Reports\MissingItemsReport.cs" />
+    <Compile Include="Logic\Reports\PostAuditReport.cs" />
+    <Compile Include="Logic\Reports\PreAuditReport.cs" />
+    <Compile Include="Logic\Reports\TrakkerUploadReport.cs" />
+    <Compile Include="Logic\TagXRefWriter.cs" />
+    <Compile Include="Logic\TrakkerFileHelperBase.cs" />
+    <Compile Include="Logic\TrakkerFileReader.cs" />
+    <Compile Include="Logic\TrakkerFileWriter.cs" />
+    <Compile Include="Logic\TrakkerScFileWriter.cs" />
+    <Compile Include="Logic\TransferMode.cs" />
+    <Compile Include="Procedures\AuditProcedures.cs" />
+    <Compile Include="Procedures\AuditReportsProcedures.cs" />
+    <Compile Include="Procedures\InventoryAuditProcedures.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ButtonResources.resx" />
+    <EmbeddedResource Include="Forms\AuditWindowBase.resx">
+      <DependentUpon>AuditWindowBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\AuditManager.resx">
+      <DependentUpon>AuditManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\ClosedAudit.resx">
+      <DependentUpon>ClosedAudit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\ConfirmTrakker.resx">
+      <DependentUpon>ConfirmTrakker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\DownloadToTrakker.resx">
+      <DependentUpon>DownloadToTrakker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\EnterCaccItems.resx">
+      <DependentUpon>EnterCaccItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\EnterRetailPrice.resx">
+      <DependentUpon>EnterRetailPrice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\InitiateAudit.resx">
+      <DependentUpon>InitiateAudit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\InventoryQuestions.resx">
+      <DependentUpon>InventoryQuestions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\InventoryResponses.resx">
+      <DependentUpon>InventoryResponses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\InventorySummary.resx">
+      <DependentUpon>InventorySummary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\PreviousAuditTrakker.resx">
+      <DependentUpon>PreviousAuditTrakker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\ProcessMissingItems.resx">
+      <DependentUpon>ProcessMissingItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\ProcessUnexpectedItems.resx">
+      <DependentUpon>ProcessUnexpectedItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\SelectAudit.resx">
+      <DependentUpon>SelectAudit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\SelectCategory.resx">
+      <DependentUpon>SelectCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\SelectStore.resx">
+      <DependentUpon>SelectStore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\SelectTempIcn.resx">
+      <DependentUpon>SelectTempIcn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\TrakkerInstructions.resx">
+      <DependentUpon>TrakkerInstructions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\TrakkerTransferBase.resx">
+      <DependentUpon>TrakkerTransferBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inventory\UploadFromTrakker.resx">
+      <DependentUpon>UploadFromTrakker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MainDesktop.resx">
+      <DependentUpon>MainDesktop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MainDesktopBase.resx">
+      <DependentUpon>MainDesktopBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Menu\MainMenuPanel.resx">
+      <DependentUpon>MainMenuPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Menu\MenuPanelBase.resx">
+      <DependentUpon>MenuPanelBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\InventoryResponse.resx">
+      <DependentUpon>InventoryResponse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\YesNoDropDownList.resx">
+      <DependentUpon>YesNoDropDownList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{FE916264-3E31-433B-B458-048342150DFE}</Project>
+      <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Reports\Reports.csproj">
+      <Project>{76730532-DBCE-4000-BA96-657E001D41BD}</Project>
+      <Name>Reports %28Reports\Reports%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\blueglossy_small.png" />
+    <Content Include="Resources\category.xml" />
+    <Content Include="Resources\cl1.png" />
+    <Content Include="Resources\cl2.png" />
+    <Content Include="Resources\cl3.png" />
+    <Content Include="Resources\cl4.png" />
+    <Content Include="Resources\cl5.png" />
+    <Content Include="Resources\DemoBackground.png" />
+    <Content Include="Resources\DP.png" />
+    <Content Include="Resources\HB.png" />
+    <Content Include="Resources\HP.png" />
+    <Content Include="Resources\inventoryaudit_button_depressed.png" />
+    <Content Include="Resources\inventoryaudit_button_hover.png" />
+    <Content Include="Resources\inventoryaudit_button_normal.png" />
+    <Content Include="Resources\line.png" />
+    <Content Include="Resources\logo.png" />
+    <Content Include="Resources\logo3.png" />
+    <Content Include="Resources\logo31.png" />
+    <Content Include="Resources\newDialog_320_BlueScale.png" />
+    <Content Include="Resources\newDialog_400_BlueScale.png" />
+    <Content Include="Resources\newDialog_440_BlueScale.png" />
+    <Content Include="Resources\newDialog_480_BlueScale.png" />
+    <Content Include="Resources\newDialog_512_BlueScale.png" />
+    <Content Include="Resources\newDialog_600_BlueScale.png" />
+    <Content Include="Resources\newDialog_768_BlueScale.png" />
+    <Content Include="Resources\oldvistabutton_blue.png" />
+    <Content Include="Resources\pdf_icon.png" />
+    <Content Include="Resources\Pearl.png" />
+    <Content Include="Resources\vistabutton_blue.png" />
+    <Content Include="rules.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

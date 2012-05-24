@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<project name="Audit" basedir="." xmlns="http://nant.sf.net/release/0.91-alpha2/nant.xsd">
+
+  <property name="deploy.audit.app.key.update" value="true"/>
+  <property name="src.audit.exe.file" value="${src.audit.bin.dir}\${msbuild.param.configuration}\Audit.exe"/>
+
+  <target name="deploy-audit">
+    <call target="__ensure.audit.assembly.version"/>
+    <call target="__update.audit.app.key"/>
+    <call target="__pause.for.audit.application.testing"/>
+    <call target="__deploy.audit.to.staging"/>
+    <call target="__deploy.audit.to.staging.hash.validation"/>
+    <call target="__send.audit.deployment.emails"/>
+  </target>
+
+  <target name="dist-audit">
+    <call target="__ensure.audit.assembly.version"/>
+    <call target="__dist.audit"/>
+    <call target="__dist.audit.config.files"/>
+    <call target="__generate.audit.hash.list"/>
+    <call target="__generate.audit.sql.update.script"/>
+  </target>
+
+  <target name="__compress-audit">
+    <call target="__ensure.audit.assembly.version"/>
+    <property name="dist.audit.zip.file" value="${dist.root.dir}\Audit_Build_${timestamp.suffix}_(${audit.assembly.version}).zip"/>
+    <zip zipfile="${dist.audit.zip.file}" includeemptydirs="true">
+      <fileset basedir="${dist.build.dir}">
+        <include name="**/c/Program Files/Audit/*" />
+        <include name="audit_version_script*.txt"/>
+        <include name="audit.exe.config*"/>
+        <include name="digestAudit_*.txt"/>
+      </fileset>
+    </zip>
+  </target>
+
+  <target name="__create.audit.directory.structure">
+    <mkdir dir="${dist.audit.dir}" />
+    <mkdir dir="${dist.audit.logs.dir}" />
+    <mkdir dir="${dist.audit.templates.dir}" />
+  </target>
+
+  <target name="__deploy.audit.to.staging">
+    <call target="__pause.for.deploy.audit.to.staging"/>
+    <if test="${deploy.audit.to.staging}">
+      
+      <delete>
+        <fileset basedir="${deploy.audit.staging.dir}">
+          <include name="**/c/Program Files/Audit/**"/>
+          <include name="digestAudit_*.txt"/>
+          <include name="Audit.exe.config*"/>
+        </fileset>
+      </delete>
+
+      <copy todir="${deploy.audit.staging.dir}" includeemptydirs="true" verbose="${verbose}">
+        <fileset basedir="${dist.build.dir}">
+          <include name="**/c/Program Files/Audit/**"/>
+          <include name="digestAudit_*.txt"/>
+          <include name="Audit.exe.config*"/>
+          <exclude name="**/ldap_details*.log"/>
+          <exclude name="**/pawnsec_details*.log"/>
+        </fileset>
+      </copy>
+    </if>
+  </target>
+
+  <target name="__deploy.audit.to.staging.hash.validation">
+    <call target="__ensure.audit.assembly.version" />
+    <md5Validator hashfile="${deploy.audit.staging.dir}\digestAudit_${audit.assembly.version.short}.txt" basepath="${deploy.audit.staging.dir}\c" />
+    <md5Validator hashfile="${deploy.audit.staging.dir}\digestAudit_ENV.txt" basepath="${deploy.audit.staging.dir}" skipextrafilescheck="true" />
+  </target>
+
+  <target name="__dist.audit">
+    <copy todir="${dist.audit.dir}" verbose="${verbose}">
+      <fileset basedir="${src.audit.bin.dir}\${msbuild.param.configuration}">
+        <!--<include name="**/*."/>-->
+        <include name="Audit.exe" />
+        <include name="*.dll" />
+        <include name="*.resources" />
+        <include name="*.xml" />
+        <include name="*.pdb" />
+        <!--<exclude name="JsonFx.Json.xml"/>-->
+      </fileset>
+    </copy>
+
+    <configwriter file="${dist.audit.dir}\Audit.exe.config" configkey="CLXT2" application="Audit" />
+  </target>
+
+  <target name="__dist.audit.config.files">
+    <configwriter file="${dist.build.dir}\Audit.exe.config - CLXD" configkey="CLXD" application="Audit" />
+    <configwriter file="${dist.build.dir}\Audit.exe.config - CLXD3" configkey="CLXD3" application="Audit" />
+    <configwriter file="${dist.build.dir}\Audit.exe.config - CLXP" configkey="CLXP" application="Audit" />
+    <configwriter file="${dist.build.dir}\Audit.exe.config - CLXPG" configkey="CLXPG" application="Audit" />
+    <configwriter file="${dist.build.dir}\Audit.exe.config - CLXPP" configkey="CLXPP" application="Audit" />
+    <configwriter file="${dist.build.dir}\Audit.exe.config - CLXQ" configkey="CLXQ" application="Audit" />
+    <configwriter file="${dist.build.dir}\Audit.exe.config - CLXR2" configkey="CLXR2" application="Audit" />
+    <configwriter file="${dist.build.dir}\Audit.exe.config - CLXT" configkey="CLXT" application="Audit" />
+    <configwriter file="${dist.build.dir}\Audit.exe.config - CLXT2" configkey="CLXT2" application="Audit" />
+  </target>
+
+  <target name="__ensure.audit.assembly.version">
+    <if test="${not property::exists('audit.assembly.version')}">
+      <call target="__read.audit.assembly.version"/>
+    </if>
+  </target>
+
+  <target name="__generate.audit.hash.list">
+    <call target="__ensure.audit.assembly.version"/>
+    <property name="dist.output.hashlist.file" value="${dist.build.dir}\digestAudit_${audit.assembly.version.short}.txt"/>
+    <property name="dist.config.hashlist.file" value="${dist.build.dir}\digestAudit_ENV.txt"/>
+    <writefile file="${dist.output.hashlist.file}" value="${Cashlinx::GenerateHashFileList(dist.audit.dir, dist.build.dir + '\c\', '*.*', true)}"/>
+    <writefile file="${dist.config.hashlist.file}" value="${Cashlinx::GenerateHashFileList(dist.build.dir, dist.build.dir + '\','Audit.exe.config*', false)}"/>
+  </target>
+
+  <target name="__generate.audit.sql.update.script">
+    <call target="__ensure.audit.assembly.version"/>
+    <loadfile file="${version_template.sql.file}" property="version_template.sql" />
+
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[APPID]', 3)}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[DESCRIPTION]', 'Audit')}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[APPVERSION]', audit.assembly.version)}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[APPVERSIONHASH]', audit.assembly.version.hash)}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[TIMESTAMP]', Cashlinx::FormatDateTime(datetime::now(), 'M/d/yyyy h:mm:ss.000000 tt -05:00'))}" />
+
+    <writefile file="${dist.audit.sql.update.script.file}" value="${version_template.sql}" />
+
+    <echo message="Audit Sql update script generated"/>
+  </target>
+
+  <target name="__read.audit.assembly.version">
+    <property name="audit.assembly.version" value="${assemblyname::get-version(assemblyname::get-assembly-name(src.audit.exe.file))}"/>
+    <property name="audit.assembly.version.hash" value="${Cashlinx::GenerateHash(audit.assembly.version)}"/>
+    <property name="audit.assembly.version.short" value="${string::substring(audit.assembly.version,0,string::last-index-of(audit.assembly.version, '.'))}"/>
+
+    <property name="dist.audit.sql.update.script.file" value="${dist.build.dir}\audit_version_script_${audit.assembly.version.short}.sql"/>
+    
+    <echo message="Audit Assembly version: ${audit.assembly.version}"/>
+    <echo message="Audit Assembly version short: ${audit.assembly.version.short}"/>
+    <echo message="Audit Assembly version hash: ${audit.assembly.version.hash}"/>
+  </target>
+
+  <target name="__email.audit.update.branches">
+    <call target="__ensure.audit.assembly.version"/>
+    <property name="email.from" value="${user.email.address}"/>
+
+    <property name="email.to" value="jmunta@casham.com;pbccr@casham.com;tmcconnell@casham.com;amadueke@casham.com;srengarajan@casham.com;ewaltmon@casham.com;jmillikan@casham.com;mholder@casham.com;jjackson2@casham.com;bmcvey@casham.com;mveldanda@casham.com;rbrickler@casham.com;nsiddaiah@casham.com" />
+    <property name="email.cc" value="mmoorman@casham.com;tlepage@casham.com;glepage@casham.com"/>
+
+    <if test="${dev.mode}">
+      <property name="email.to" value="${user.email.address}"/>
+      <property name="email.cc" value=""/>
+    </if>
+
+    <mail
+      from="${email.from}"
+      tolist="${email.to}"
+      cclist="${email.cc}"
+      subject="Update work branches for Audit ${audit.assembly.version.short}"
+      mailhost="mail.casham.com"
+      message="All,&lt;br/&gt;&lt;br/&gt;Please update your work branches to pick up the latest app key changes for Audit ${audit.assembly.version.short}.&lt;br/&gt;&lt;br/&gt;Thanks,&lt;br/&gt;${user.full.name}"
+      format="Html">
+    </mail>
+  </target>
+
+  <target name="__email.audit.staging.updated">
+    <call target="__ensure.audit.assembly.version"/>
+    <property name="email.from" value="${user.email.address}"/>
+
+    <property name="email.to" value="jmunta@casham.com;lfranks@casham.com"/>
+    <property name="email.cc" value="${user.email.address}"/>
+
+    <if test="${dev.mode}">
+      <property name="email.to" value="${user.email.address}"/>
+      <property name="email.cc" value=""/>
+    </if>
+
+    <mail
+      from="${email.from}"
+      tolist="${email.to}"
+      cclist="${email.cc}"
+      subject="${audit.assembly.version.short} Staging"
+      mailhost="mail.casham.com"
+      message="Jake/Lance,&lt;br/&gt;&lt;br/&gt;The build for Audit ${audit.assembly.version.short} has been copied to the staging area and CLXD3 has been updated to reflect the latest app key.&lt;br/&gt;&lt;br/&gt;Thanks,&lt;br/&gt;${user.full.name}"
+      format="Html">
+      <attachments basedir=".">
+        <include name="${dist.audit.sql.update.script.file}"/>
+      </attachments>
+    </mail>
+  </target>
+
+  <target name="__update.audit.app.key">
+    <call target="__pause.for.audit.sql.update"/>
+
+    <if test="${deploy.audit.app.key.update}">
+      <appkeyupdate sqlfilename="${dist.audit.sql.update.script.file}"></appkeyupdate>
+    </if>
+  </target>
+
+  <target name="__pause.for.deploy.audit.to.staging">
+    <property name="pause.deploy.audit.to.staging.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Do you wish to copy this build to the staging area?  If so, make sure you have an explorer window open and browse to ${deploy.audit.staging.dir}.  Press 'Y' to continue or 'N' to skip"
+      property="pause.deploy.audit.to.staging.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.deploy.audit.to.staging.successful=='Y'}">
+      <property name="deploy.audit.to.staging" value="true"/>
+    </if>
+    <if test="${pause.deploy.audit.to.staging.successful=='N'}">
+      <property name="deploy.audit.to.staging" value="false"/>
+    </if>
+  </target>
+
+  <target name="__pause.for.audit.email.question">
+    <property name="pause.audit.email.question.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Do you wish to send emails during this Audit deployment?  Press 'Y' to continue or 'N' to skip"
+      property="pause.audit.email.question.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.audit.email.question.successful=='Y'}">
+      <property name="deploy.audit.send.emails" value="true"/>
+    </if>
+    <if test="${pause.audit.email.question.successful=='N'}">
+      <property name="deploy.audit.send.emails" value="false"/>
+    </if>
+  </target>
+
+  <target name="__pause.for.audit.sql.update">
+    <property name="pause.audit.sql.update.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Do you want to update CLXD3 with the latest Audit app key?  Press 'Y' to continue or 'N' to skip"
+      property="pause.audit.sql.update.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.audit.sql.update.successful=='Y'}">
+      <property name="deploy.audit.app.key.update" value="true"/>
+    </if>
+    <if test="${pause.audit.sql.update.successful=='N'}">
+      <property name="deploy.audit.app.key.update" value="false"/>
+    </if>
+  </target>
+
+  <target name="__pause.for.audit.application.testing">
+    <exec
+      program="${dist.audit.dir}\Audit.exe"
+      workingdir="${dist.audit.dir}"
+      commandline='"${dist.build.dir}\Audit.exe.config - CLXD3"' ></exec>
+
+    <property name="pause.audit.application.testing.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Verify the Audit application runs correctly and press 'Y' to continue or 'N' to fail the build"
+      property="pause.audit.application.testing.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.audit.application.testing.successful!='Y'}">
+      <fail message="The build has failed due to a failed application test."/>
+    </if>
+
+  </target>
+
+  <target name="__send.audit.deployment.emails">
+    <call target="__pause.for.audit.email.question"/>
+
+    <if test="${deploy.audit.send.emails}">
+      <call target="__email.audit.staging.updated"/>
+      <call target="__email.audit.update.branches"/>
+    </if>
+  </target>
+</project>

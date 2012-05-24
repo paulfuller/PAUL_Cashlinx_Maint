@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<project name="Support" basedir="." xmlns="http://nant.sf.net/release/0.91-alpha2/nant.xsd">
+
+  <property name="deploy.support.app.key.update" value="true"/>
+  <property name="src.support.exe.file" value="${src.support.bin.dir}\${msbuild.param.configuration}\Support.exe"/>
+
+  <target name="deploy-support">
+    <call target="__ensure.support.assembly.version"/>
+    <call target="__update.support.app.key"/>
+    <call target="__pause.for.support.application.testing"/>
+    <call target="__deploy.support.to.staging"/>
+    <call target="__deploy.support.to.staging.hash.validation"/>
+    <call target="__send.support.deployment.emails"/>
+  </target>
+
+  <target name="dist-support">
+    <call target="__ensure.support.assembly.version"/>
+    <call target="__dist.support"/>
+    <call target="__dist.support.config.files"/>
+    <call target="__generate.support.hash.list"/>
+    <call target="__generate.support.sql.update.script"/>
+  </target>
+
+  <target name="__compress-support">
+    <call target="__ensure.support.assembly.version"/>
+    <property name="dist.support.zip.file" value="${dist.root.dir}\Support_Build_${timestamp.suffix}_(${support.assembly.version}).zip"/>
+    <zip zipfile="${dist.support.zip.file}" includeemptydirs="true">
+      <fileset basedir="${dist.build.dir}">
+        <include name="**/c/Program Files/SupportApp/*" />
+        <include name="support_version_script*.txt"/>
+        <include name="support.exe.config*"/>
+        <include name="digestSupport_*.txt"/>
+      </fileset>
+    </zip>
+  </target>
+
+  <target name="__create.support.directory.structure">
+    <mkdir dir="${dist.support.dir}" />
+    <mkdir dir="${dist.support.logs.dir}" />
+    <mkdir dir="${dist.support.templates.dir}" />
+  </target>
+
+  <target name="__deploy.support.to.staging">
+    <call target="__pause.for.deploy.support.to.staging"/>
+    <if test="${deploy.support.to.staging}">
+
+      <delete>
+        <fileset basedir="${deploy.support.staging.dir}">
+          <include name="**/c/Program Files/Support/**"/>
+          <include name="digestSupport_*.txt"/>
+          <include name="Support.exe.config*"/>
+        </fileset>
+      </delete>
+
+      <copy todir="${deploy.support.staging.dir}" includeemptydirs="true" verbose="${verbose}">
+        <fileset basedir="${dist.build.dir}">
+          <include name="**/c/Program Files/SupportApp/**"/>
+          <include name="digestSupport_*.txt"/>
+          <include name="Support.exe.config*" if="${include.environment.staging}"/>
+          <exclude name="**/ldap_details*.log"/>
+          <exclude name="**/pawnsec_details*.log"/>
+        </fileset>
+      </copy>
+    </if>
+  </target>
+
+  <target name="__deploy.support.to.staging.hash.validation">
+    <call target="__ensure.support.assembly.version" />
+    <md5Validator hashfile="${deploy.support.staging.dir}\digestSupport_${support.assembly.version.short}.txt" basepath="${deploy.support.staging.dir}\c" />
+    <if test="${include.environment.staging}">
+      <md5Validator hashfile="${deploy.support.staging.dir}\digestSupport_ENV.txt" basepath="${deploy.support.staging.dir}" skipextrafilescheck="true" />
+    </if>
+  </target>
+
+  <target name="__dist.support">
+    <copy todir="${dist.support.dir}" verbose="${verbose}">
+      <fileset basedir="${src.support.bin.dir}\${msbuild.param.configuration}">
+        <!--<include name="**/*."/>-->
+        <include name="Support.exe" />
+        <include name="*.dll" />
+        <include name="*.resources" />
+        <include name="*.xml" />
+        <include name="*.pdb" />
+        <!--<exclude name="JsonFx.Json.xml"/>-->
+      </fileset>
+    </copy>
+
+    <configwriter file="${dist.support.dir}\Support.exe.config" configkey="${staging.database.key}" application="Support" />
+
+    <copy todir="${dist.support.templates.dir}" verbose="${verbose}" flatten="true">
+      <fileset basedir="${src.support.bin.dir}\${msbuild.param.configuration}">
+        <include name="*.tx"/>
+        <include name="*.ok"/>
+        <include name="*.oh"/>
+        <include name="*.cl"/>
+        <include name="*.pdf"/>
+        <include name="*.tpl"/>
+        <include name="*.txt"/>
+        <include name="*.resources"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="__dist.support.config.files">
+    <configwriter file="${dist.build.dir}\Support.exe.config - CLXD" configkey="CLXD" application="Support" />
+    <configwriter file="${dist.build.dir}\Support.exe.config - CLXD2" configkey="CLXD2" application="Support" />
+    <configwriter file="${dist.build.dir}\Support.exe.config - CLXD3" configkey="CLXD3" application="Support" />
+    <configwriter file="${dist.build.dir}\Support.exe.config - CLXI" configkey="CLXI" application="Support" />
+    <configwriter file="${dist.build.dir}\Support.exe.config - CLXP" configkey="CLXP" application="Support" />
+    <configwriter file="${dist.build.dir}\Support.exe.config - CLXPG" configkey="CLXPG" application="Support" />
+    <configwriter file="${dist.build.dir}\Support.exe.config - CLXPP" configkey="CLXPP" application="Support" />
+    <configwriter file="${dist.build.dir}\Support.exe.config - CLXQ" configkey="CLXQ" application="Support" />
+    <configwriter file="${dist.build.dir}\Support.exe.config - CLXR2" configkey="CLXR2" application="Support" />
+    <configwriter file="${dist.build.dir}\Support.exe.config - CLXT" configkey="CLXT" application="Support" />
+    <configwriter file="${dist.build.dir}\Support.exe.config - CLXT2" configkey="CLXT2" application="Support" />
+  </target>
+
+  <target name="__ensure.support.assembly.version">
+    <if test="${not property::exists('support.assembly.version')}">
+      <call target="__read.support.assembly.version"/>
+    </if>
+  </target>
+
+  <target name="__generate.support.hash.list">
+    <call target="__ensure.support.assembly.version"/>
+    <property name="dist.output.hashlist.file" value="${dist.build.dir}\digestSupport_${support.assembly.version.short}.txt"/>
+    <property name="dist.config.hashlist.file" value="${dist.build.dir}\digestSupport_ENV.txt"/>
+    <writefile file="${dist.output.hashlist.file}" value="${Cashlinx::GenerateHashFileList(dist.support.dir, dist.build.dir + '\c\', '*.*', true)}"/>
+    <if test="${include.environment.staging}">
+      <writefile file="${dist.config.hashlist.file}" value="${Cashlinx::GenerateHashFileList(dist.build.dir, dist.build.dir + '\','Support.exe.config*', false)}"/>
+    </if>
+  </target>
+
+  <target name="__generate.support.sql.update.script">
+    <call target="__ensure.support.assembly.version"/>
+    <loadfile file="${version_template.sql.file}" property="version_template.sql" />
+
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[APPID]', 2)}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[DESCRIPTION]', 'Support App')}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[APPVERSION]', support.assembly.version)}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[APPVERSIONHASH]', support.assembly.version.hash)}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[TIMESTAMP]', Cashlinx::FormatDateTime(datetime::now(), 'M/d/yyyy h:mm:ss.000000 tt -05:00'))}" />
+
+    <writefile file="${dist.support.sql.update.script.file}" value="${version_template.sql}" />
+
+    <echo message="Support Sql update script generated"/>
+  </target>
+
+  <target name="__read.support.assembly.version">
+    <property name="support.assembly.version" value="${assemblyname::get-version(assemblyname::get-assembly-name(src.support.exe.file))}"/>
+    <property name="support.assembly.version.hash" value="${Cashlinx::GenerateHash(support.assembly.version)}"/>
+    <property name="support.assembly.version.short" value="${string::substring(support.assembly.version,0,string::last-index-of(support.assembly.version, '.'))}"/>
+
+    <property name="dist.support.sql.update.script.file" value="${dist.build.dir}\support_version_script_${support.assembly.version.short}.sql"/>
+
+    <echo message="Support Assembly version: ${support.assembly.version}"/>
+    <echo message="Support Assembly version short: ${support.assembly.version.short}"/>
+    <echo message="Support Assembly version hash: ${support.assembly.version.hash}"/>
+  </target>
+
+  <target name="__email.support.update.branches">
+    <call target="__ensure.support.assembly.version"/>
+    <property name="email.from" value="${user.email.address}"/>
+
+    <property name="email.to" value="jmunta@casham.com;pbccr@casham.com;tmcconnell@casham.com;amadueke@casham.com;srengarajan@casham.com;dstandley@casham.com;ewaltmon@casham.com;hkollipara@casham.com;eguillory@casham.com;ascribner@casham.com;jyandell@casham.com;mholder@casham.com;bmcvey@casham.com;mveldanda@casham.com;rbrickler@casham.com;nsiddaiah@casham.com" />
+    <property name="email.cc" value="mmoorman@casham.com;tlepage@casham.com;glepage@casham.com"/>
+
+    <if test="${dev.mode}">
+      <property name="email.to" value="${user.email.address}"/>
+      <property name="email.cc" value=""/>
+    </if>
+
+    <mail
+      from="${email.from}"
+      tolist="${email.to}"
+      cclist="${email.cc}"
+      subject="Update work branches for Support ${support.assembly.version.short}"
+      mailhost="mail.casham.com"
+      message="All,&lt;br/&gt;&lt;br/&gt;Please update your work branches to pick up the latest app key changes for Support ${support.assembly.version.short}.&lt;br/&gt;&lt;br/&gt;Thanks,&lt;br/&gt;${user.full.name}"
+      format="Html">
+    </mail>
+  </target>
+
+  <target name="__email.support.staging.updated">
+    <call target="__ensure.support.assembly.version"/>
+    <property name="email.from" value="${user.email.address}"/>
+
+    <property name="email.to" value="jmunta@casham.com;lfranks@casham.com;trichardson@casham.com"/>
+    <property name="email.cc" value="${user.email.address}"/>
+
+    <if test="${dev.mode}">
+      <property name="email.to" value="${user.email.address}"/>
+      <property name="email.cc" value=""/>
+    </if>
+
+    <mail
+      from="${email.from}"
+      tolist="${email.to}"
+      cclist="${email.cc}"
+      subject="${support.assembly.version.short} Staging"
+      mailhost="mail.casham.com"
+      message="Jake/Lance,&lt;br/&gt;&lt;br/&gt;The build for Support ${support.assembly.version.short} has been copied to the staging area and ${dev.database.key} has been updated to reflect the latest app key.&lt;br/&gt;&lt;br/&gt;Thanks,&lt;br/&gt;${user.full.name}"
+      format="Html">
+      <attachments basedir=".">
+        <include name="${dist.support.sql.update.script.file}"/>
+      </attachments>
+    </mail>
+  </target>
+
+  <target name="__update.support.app.key">
+    <call target="__pause.for.support.sql.update"/>
+
+    <if test="${deploy.support.app.key.update}">
+      <appkeyupdate sqlfilename="${dist.support.sql.update.script.file}" configkey="${dev.database.key}"></appkeyupdate>
+    </if>
+  </target>
+
+  <target name="__print.merge.instructions">
+    <echo message="Merging Instructions"></echo>
+    <echo/>
+    <echo message="    Now you need to update binaries_staged.7z in devint/bin"></echo>
+    <echo/>
+    <echo message="    Now you need to merge the code up using the following branch mappings"></echo>
+    <echo/>
+    <echo message="    1.  DevIntToDevWork"></echo>
+    <echo message="    2.  ReleaseToNewDevIntBranch"></echo>
+    <echo message="    3.  ReleaseToNewDevIntBinary"></echo>
+    <echo message="    4.  MainToReleaseBranch"></echo>
+    <echo message="    5.  MainToReleaseBinary"></echo>
+    <echo message="    6.  MainToProdBranch"></echo>
+    <echo message="    7.  MainToProdBinary"/>
+  </target>
+
+  <target name="__pause.for.deploy.support.to.staging">
+    <property name="pause.deploy.support.to.staging.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Do you wish to copy this build to the staging area?  If so, make sure you have an explorer window open and browse to ${deploy.support.staging.dir}.  Press 'Y' to continue or 'N' to skip"
+      property="pause.deploy.support.to.staging.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.deploy.support.to.staging.successful=='Y'}">
+      <property name="deploy.support.to.staging" value="true"/>
+    </if>
+    <if test="${pause.deploy.support.to.staging.successful=='N'}">
+      <property name="deploy.support.to.staging" value="false"/>
+    </if>
+  </target>
+
+  <target name="__pause.for.support.email.question">
+    <property name="pause.support.email.question.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Do you wish to send emails during this Support deployment?  Press 'Y' to continue or 'N' to skip"
+      property="pause.support.email.question.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.support.email.question.successful=='Y'}">
+      <property name="deploy.support.send.emails" value="true"/>
+    </if>
+    <if test="${pause.support.email.question.successful=='N'}">
+      <property name="deploy.support.send.emails" value="false"/>
+    </if>
+  </target>
+
+  <target name="__pause.for.support.sql.update">
+    <property name="pause.support.sql.update.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Do you want to update ${dev.database.key} with the latest Support app key?  Press 'Y' to continue or 'N' to skip"
+      property="pause.support.sql.update.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.support.sql.update.successful=='Y'}">
+      <property name="deploy.support.app.key.update" value="true"/>
+    </if>
+    <if test="${pause.support.sql.update.successful=='N'}">
+      <property name="deploy.support.app.key.update" value="false"/>
+    </if>
+  </target>
+
+  <target name="__pause.for.support.application.testing">
+    <exec
+      program="${dist.support.dir}\Support.exe"
+      workingdir="${dist.support.dir}"
+      commandline='"${dist.build.dir}\Support.exe.config - {dev.database.key}"' ></exec>
+
+    <property name="pause.support.application.testing.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Verify the Support application runs correctly and press 'Y' to continue or 'N' to fail the build"
+      property="pause.support.application.testing.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.support.application.testing.successful!='Y'}">
+      <fail message="The build has failed due to a failed application test."/>
+    </if>
+
+  </target>
+
+  <target name="__send.support.deployment.emails">
+    <call target="__pause.for.support.email.question"/>
+
+    <if test="${deploy.support.send.emails}">
+      <call target="__email.support.staging.updated"/>
+      <call target="__email.support.update.branches"/>
+    </if>
+  </target>
+</project>

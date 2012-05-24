@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CouchConsoleApp.DocArchService">
+    <Position X="5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>CBAAAAAAAAAAAgAQAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>DocArchService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CouchConsoleApp.PawnDocRegVO">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEACAAAAAAAEAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PawnDocRegVO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CouchConsoleApp.CouchUtil">
+    <Position X="6.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAADAhCIAAAAEABAAAAIAAgAAAEAAABggAAAAAAA=</HashCode>
+      <FileName>CouchUtil.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PawnObjects.Doc.Document">
+    <Position X="0.5" Y="4.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="PawnObjects.Doc.Document.DocTypeNames" Collapsed="true">
+        <TypeIdentifier />
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CouchConsoleApp.PawnDocRegArchStatVO">
+    <Position X="2.5" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAABABEAABEgAIEAAAAAAgAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>PawnDocRegArchStatVO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CouchConsoleApp.PawnDocRegArchLog">
+    <Position X="8" Y="1" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PawnDocRegArchLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

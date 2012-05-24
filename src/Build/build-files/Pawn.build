@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<project name="Pawn" basedir="." xmlns="http://nant.sf.net/release/0.91-alpha2/nant.xsd">
+
+  <property name="pawn.unit.tests.results.file" value="pawn.unit.tests.results.xml" />
+  <property name="deploy.pawn.app.key.update" value="true"/>
+  <property name="deploy.pawn.send.emails" value="true"/>
+  <property name="deploy.pawn.to.staging" value="true"/>
+
+  <property name="src.pawn.exe.file" value="${src.pawn.bin.dir}\${msbuild.param.configuration}\Pawn.exe"/>
+  
+  <target name="deploy-pawn">
+    <call target="__ensure.pawn.assembly.version"/>
+    <call target="__update.pawn.app.key"/>
+    <call target="__pause.for.pawn.application.testing"/>
+    <call target="__deploy.pawn.to.staging"/>
+    <call target="__deploy.pawn.to.staging.hash.validation"/>
+    <call target="__send.pawn.deployment.emails"/>
+  </target>
+
+  <target name="dist-pawn">
+    <call target="__ensure.pawn.assembly.version"/>
+    <call target="__dist.pawn"/>
+    <call target="__dist.pawn.config.files"/>
+    <call target="__generate.pawn.hash.list"/>
+    <call target="__generate.pawn.sql.update.script"/>
+  </target>
+
+  <target name="test-pawn">
+    <call target="__execute.pawn.desktop.nunit.tests"/>
+  </target>
+
+  <target name="__clean-pawn-test-results">
+    <delete file="${dist.results.dir}\${pawn.unit.tests.results.file}" />
+  </target>
+
+  <target name="__compress-pawn">
+    <call target="__ensure.pawn.assembly.version"/>
+    <property name="dist.pawn.zip.file" value="${dist.root.dir}\Pawn_Build_${timestamp.suffix}_(${pawn.assembly.version}).zip"/>
+    <zip zipfile="${dist.pawn.zip.file}" includeemptydirs="true">
+      <fileset basedir="${dist.build.dir}">
+        <include name="**/c/Program Files/Phase2App/"/>
+        <include name="pawn_version_script*.txt"/>
+        <include name="pawn.exe.config*"/>
+        <include name="digestPWN*.txt"/>
+      </fileset>
+    </zip>
+  </target>
+
+  <target name="__create.pawn.directory.structure">
+    <mkdir dir="${dist.pawn.dir}" />
+    <mkdir dir="${dist.pawn.logs.dir}" />
+    <mkdir dir="${dist.pawn.media.dir}" />
+    <mkdir dir="${dist.pawn.templates.dir}" />
+  </target>
+
+  <target name="__deploy.pawn.to.staging">
+    <call target="__pause.for.deploy.pawn.to.staging"/>
+    <if test="${deploy.pawn.to.staging}">
+
+      <delete>
+        <fileset basedir="${deploy.pawn.staging.dir}">
+          <include name="**/c/Program Files/Phase2App/**"/>
+          <include name="digestPWN*.txt"/>
+          <include name="Pawn.exe.config*"/>
+        </fileset>
+      </delete>
+
+      <copy todir="${deploy.pawn.staging.dir}" includeemptydirs="true" verbose="${verbose}">
+        <fileset basedir="${dist.build.dir}">
+          <include name="**/c/Program Files/Phase2App/**"/>
+          <include name="digestPWN*.txt"/>
+          <include name="Pawn.exe.config*" if="${include.environment.staging}"/>
+          <exclude name="**/ldap_details*.log"/>
+          <exclude name="**/pawnsec_details*.log"/>
+        </fileset>
+      </copy>
+    </if>
+  </target>
+
+  <target name="__deploy.pawn.to.staging.hash.validation">
+    <call target="__ensure.pawn.assembly.version" />
+    <md5Validator hashfile="${deploy.pawn.staging.dir}\digestPWN_${pawn.assembly.version.short}.txt" basepath="${deploy.pawn.staging.dir}\c" />
+    <if test="${include.environment.staging}">
+      <md5Validator hashfile="${deploy.pawn.staging.dir}\digestPWN_ENV.txt" basepath="${deploy.pawn.staging.dir}" skipextrafilescheck="true" />
+    </if>
+  </target>
+
+  <target name="__dist.pawn">
+    <copy todir="${dist.pawn.dir}" verbose="${verbose}">
+      <fileset basedir="${src.pawn.bin.dir}\${msbuild.param.configuration}">
+        <!--<include name="**/*."/>-->
+        <include name="Pawn.exe" />
+        <!--<include name="Pawn.exe.config"/>-->
+        <include name="*.dll" />
+        <include name="*.resources" />
+        <include name="*.xml" />
+        <include name="*.pdb" />
+        <include name="resourcenames.*"/>
+        <!--<exclude name="JsonFx.Json.xml"/>-->
+      </fileset>
+    </copy>
+
+    <configwriter file="${dist.pawn.dir}\Pawn.exe.config" configkey="${staging.database.key}" application="Cashlinx" />
+
+    <copy todir="${dist.pawn.templates.dir}" verbose="${verbose}" flatten="true">
+      <fileset basedir="${src.pawn.bin.dir}\${msbuild.param.configuration}">
+        <include name="*.tx"/>
+        <include name="*.ok"/>
+        <include name="*.oh"/>
+        <include name="*.cl"/>
+        <include name="*.pdf"/>
+        <include name="*.ps"/>
+        <include name="*.tpl"/>
+        <include name="*.txt"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${dist.pawn.templates.dir}" verbose="${verbose}" flatten="true">
+      <fileset basedir="${dist.pawn.dir}">
+        <include name="RoleHierarchy.xml"/>
+        <include name="rules.xml"/>
+        <include name="resourcenames.*"/>
+        <include name="category.xml"/>
+        <include name="variance.xml"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="__dist.pawn.config.files">
+    <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXD" configkey="CLXD" application="Cashlinx" />
+    <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXD2" configkey="CLXD2" application="Cashlinx" />
+    <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXD3" configkey="CLXD3" application="Cashlinx" />
+    <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXI" configkey="CLXI" application="Cashlinx" />
+    <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXP" configkey="CLXP" application="Cashlinx" />
+    <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXPG" configkey="CLXPG" application="Cashlinx" />
+    <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXPP" configkey="CLXPP" application="Cashlinx" />
+    <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXQ" configkey="CLXQ" application="Cashlinx" />
+    <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXR2" configkey="CLXR2" application="Cashlinx" />
+    <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXT" configkey="CLXT" application="Cashlinx" />
+    <configwriter file="${dist.build.dir}\Pawn.exe.config - CLXT2" configkey="CLXT2" application="Cashlinx" />
+  </target>
+
+  <target name="__ensure.pawn.assembly.version">
+    <if test="${not property::exists('pawn.assembly.version')}">
+      <call target="__read.pawn.assembly.version"/>
+    </if>
+  </target>
+
+  <target name="__execute.pawn.desktop.ms.tests">
+    <mkdir dir="${dist.results.dir}" />
+    <delete file="${dist.results.dir}\CashlinxDesktopUnitTests.results.xml" verbose="${verbose}" />
+    <exec  verbose="${verbose}"
+      workingdir="${dist.results.dir}"
+      program="${mstest.exe.file}">
+      <arg value='"/testcontainer:${pawn.desktop.unit.tests.file}"' />
+      <arg value='"/resultsfile:${dist.results.dir}\CashlinxDesktopUnitTests.results.xml"' />
+    </exec>
+  </target>
+
+  <target name="__execute.pawn.desktop.nunit.tests">
+    <exec
+      workingdir="${dist.results.dir}"
+      program="${thirdparty.nunit.basedir}\nunit-console-x86.exe">
+      <arg value='"/config=${msbuild.param.configuration}"' />
+      <arg value='"${src.pawn.unit.tests.dir}\${src.pawn.unit.tests.file}"' />
+      <!--<arg line='//a "${ncover.assembly.name}"' />-->
+      <!--<arg line='//x "${ncover-results.aspnetwebcommon.xml.file}"' />-->
+      <arg line='/xml "${pawn.unit.tests.results.file}"' />
+    </exec>
+
+    <!--<move overwrite="true"
+        file="${dist.results.dir}/TestResult.xml"
+        tofile="${test-results.aspnetwebcommon.xml.file}" />-->
+  </target>
+
+  <target name="__generate.pawn.hash.list">
+    <call target="__ensure.pawn.assembly.version"/>
+    <property name="dist.output.hashlist.file" value="${dist.build.dir}\digestPWN_${pawn.assembly.version.short}.txt"/>
+    <property name="dist.config.hashlist.file" value="${dist.build.dir}\digestPWN_ENV.txt"/>
+    <writefile file="${dist.output.hashlist.file}" value="${Cashlinx::GenerateHashFileList(dist.pawn.dir, dist.build.dir + '\c\', '*.*', true)}"/>
+    <if test="${include.environment.staging}">
+      <writefile file="${dist.config.hashlist.file}" value="${Cashlinx::GenerateHashFileList(dist.build.dir, dist.build.dir + '\','Pawn.exe.config*', false)}"/>
+    </if>
+  </target>
+
+  <target name="__generate.pawn.sql.update.script">
+    <call target="__ensure.pawn.assembly.version"/>
+    <loadfile file="${version_template.sql.file}" property="version_template.sql" />
+
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[APPID]', 1)}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[DESCRIPTION]', 'Phase II')}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[APPVERSION]', pawn.assembly.version)}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[APPVERSIONHASH]', pawn.assembly.version.hash)}" />
+    <property name="version_template.sql" value="${string::replace(version_template.sql, '[TIMESTAMP]', Cashlinx::FormatDateTime(datetime::now(), 'M/d/yyyy h:mm:ss.000000 tt -05:00'))}" />
+
+    <writefile file="${dist.pawn.sql.update.script.file}" value="${version_template.sql}" />
+
+    <echo message="Pawn Sql update script generated"/>
+  </target>
+
+  <target name="__read.pawn.assembly.version">
+    <property name="pawn.assembly.version" value="${assemblyname::get-version(assemblyname::get-assembly-name(src.pawn.exe.file))}"/>
+    <property name="pawn.assembly.version.hash" value="${Cashlinx::GenerateHash(pawn.assembly.version)}"/>
+    <property name="pawn.assembly.version.short" value="${string::substring(pawn.assembly.version,0,string::last-index-of(pawn.assembly.version, '.'))}"/>
+
+    <property name="dist.pawn.sql.update.script.file" value="${dist.build.dir}\pawn_version_script_${pawn.assembly.version.short}.sql"/>
+
+    <echo message="Pawn Assembly version: ${pawn.assembly.version}"/>
+    <echo message="Pawn Assembly version short: ${pawn.assembly.version.short}"/>
+    <echo message="Pawn Assembly version hash: ${pawn.assembly.version.hash}"/>
+  </target>
+
+  <target name="__email.pawn.update.branches">
+    <call target="__ensure.pawn.assembly.version"/>
+    <property name="email.from" value="${user.email.address}"/>
+
+    <property name="email.to" value="jmunta@casham.com;pbccr@casham.com;tmcconnell@casham.com;amadueke@casham.com;srengarajan@casham.com;dstandley@casham.com;ewaltmon@casham.com;hkollipara@casham.com;eguillory@casham.com;ascribner@casham.com;jyandell@casham.com;mholder@casham.com;bmcvey@casham.com;mveldanda@casham.com;rbrickler@casham.com;nsiddaiah@casham.com" />
+    <property name="email.cc" value="mmoorman@casham.com;tlepage@casham.com;glepage@casham.com"/>
+
+    <if test="${dev.mode}">
+      <property name="email.to" value="${user.email.address}"/>
+      <property name="email.cc" value=""/>
+    </if>
+
+    <mail
+      from="${email.from}"
+      tolist="${email.to}"
+      cclist="${email.cc}"
+      subject="Update work branches for Pawn ${pawn.assembly.version.short}"
+      mailhost="mail.casham.com"
+      message="All,&lt;br/&gt;&lt;br/&gt;Please update your work branches to pick up the latest app key changes for Pawn ${pawn.assembly.version.short}.&lt;br/&gt;&lt;br/&gt;Thanks,&lt;br/&gt;${user.full.name}"
+      format="Html">
+    </mail>
+  </target>
+
+  <target name="__email.pawn.staging.updated">
+    <call target="__ensure.pawn.assembly.version"/>
+    <property name="email.from" value="${user.email.address}"/>
+
+    <property name="email.to" value="jmunta@casham.com;lfranks@casham.com"/>
+
+    <if test="${deployment.type == 'MaintDev'}">
+      <property name="email.to" value="jmunta@casham.com;lfranks@casham.com;tmcconnell@casham.com"/>  
+    </if>
+    
+    <property name="email.cc" value="${user.email.address}"/>
+
+    <if test="${dev.mode}">
+      <property name="email.to" value="${user.email.address}"/>
+      <property name="email.cc" value=""/>
+    </if>
+
+    <mail
+      from="${email.from}"
+      tolist="${email.to}"
+      cclist="${email.cc}"
+      subject="${pawn.assembly.version.short} Staging"
+      mailhost="mail.casham.com"
+      message="Jake/Lance,&lt;br/&gt;&lt;br/&gt;The build for Pawn ${pawn.assembly.version.short} has been copied to the staging area and ${dev.database.key} has been updated to reflect the latest app key.&lt;br/&gt;&lt;br/&gt;Thanks,&lt;br/&gt;${user.full.name}"
+      format="Html">
+      <attachments basedir=".">
+        <include name="${dist.pawn.sql.update.script.file}"/>
+      </attachments>
+    </mail>
+  </target>
+
+  <target name="__update.pawn.app.key">
+    <call target="__pause.for.pawn.sql.update"/>
+
+    <if test="${deploy.pawn.app.key.update}">
+      <appkeyupdate sqlfilename="${dist.pawn.sql.update.script.file}" configkey="${dev.database.key}"></appkeyupdate>
+    </if>
+  </target>
+
+  <target name="__print.merge.instructions">
+    <echo message="Merging Instructions"></echo>
+    <echo/>
+    <echo message="    Now you need to update binaries_staged.7z in devint/bin"></echo>
+    <echo/>
+    <echo message="    Now you need to merge the code up using the following branch mappings"></echo>
+    <echo/>
+    <echo message="    1.  DevIntToDevWork"></echo>
+    <echo message="    2.  ReleaseToNewDevIntBranch"></echo>
+    <echo message="    3.  ReleaseToNewDevIntBinary"></echo>
+    <echo message="    4.  MainToReleaseBranch"></echo>
+    <echo message="    5.  MainToReleaseBinary"></echo>
+    <echo message="    6.  MainToProdBranch"></echo>
+    <echo message="    7.  MainToProdBinary"/>
+  </target>
+  
+  <target name="__pause.for.deploy.pawn.to.staging">
+    <property name="pause.deploy.pawn.to.staging.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Do you wish to copy this build to the staging area?  If so, make sure you have an explorer window open and browse to ${deploy.pawn.staging.dir}.  Press 'Y' to continue or 'N' to skip"
+      property="pause.deploy.pawn.to.staging.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.deploy.pawn.to.staging.successful=='Y'}">
+      <property name="deploy.pawn.to.staging" value="true"/>
+    </if>
+    <if test="${pause.deploy.pawn.to.staging.successful=='N'}">
+      <property name="deploy.pawn.to.staging" value="false"/>
+    </if>
+  </target>
+
+  <target name="__pause.for.pawn.email.question">
+    <property name="pause.pawn.email.question.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Do you wish to send emails during this Pawn deployment?  Press 'Y' to continue or 'N' to skip"
+      property="pause.pawn.email.question.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.pawn.email.question.successful=='Y'}">
+      <property name="deploy.pawn.send.emails" value="true"/>
+    </if>
+    <if test="${pause.pawn.email.question.successful=='N'}">
+      <property name="deploy.pawn.send.emails" value="false"/>
+    </if>
+  </target>
+
+  <target name="__pause.for.pawn.sql.update">
+    <property name="pause.pawn.sql.update.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Do you want to update ${dev.database.key} with the latest Pawn app key?  Press 'Y' to continue or 'N' to skip"
+      property="pause.pawn.sql.update.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.pawn.sql.update.successful=='Y'}">
+      <property name="deploy.pawn.app.key.update" value="true"/>
+    </if>
+    <if test="${pause.pawn.sql.update.successful=='N'}">
+      <property name="deploy.pawn.app.key.update" value="false"/>
+    </if>
+  </target>
+
+  <target name="__pause.for.pawn.application.testing">
+    <exec
+      program="${dist.pawn.dir}\Pawn.exe"
+      workingdir="${dist.pawn.dir}"
+      commandline='"${dist.build.dir}\Pawn.exe.config - ${dev.database.key}"' ></exec>
+
+    <property name="pause.pawn.application.testing.successful" value="null"/>
+    <input
+      forceuppercase="true"
+      prompt="Verify the Pawn application runs correctly and press 'Y' to continue or 'N' to fail the build"
+      property="pause.pawn.application.testing.successful"
+      validentries="Y,N">
+    </input>
+    <if test="${pause.pawn.application.testing.successful!='Y'}">
+      <fail message="The build has failed due to a failed application test."/>
+    </if>
+
+  </target>
+
+  <target name="__send.pawn.deployment.emails">
+    <call target="__pause.for.pawn.email.question"/>
+
+    <if test="${deploy.pawn.send.emails}">
+      <call target="__email.pawn.staging.updated"/>
+      <call target="__email.pawn.update.branches"/>
+    </if>
+  </target>
+
+</project>

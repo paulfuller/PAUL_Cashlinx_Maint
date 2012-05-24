@@ -20,6 +20,7 @@ namespace Common.Controllers.Database.Procedures
             "PWN_BR-014",
             "PWN_BR-016", 
             "PWN_BR-017",
+            "PWN_BR-018",
             "PWN_BR-019",
             "PWN_BR-020", 
             "PWN_BR-023",
@@ -389,6 +390,17 @@ namespace Common.Controllers.Database.Procedures
             var brObject = GetBusinessRule(siteID, "PWN_BR-016");
             if (brObject != null)
                 brObject.getComponentValue("CL_PWN_0076_MINWAITINPAWN", ref value);
+
+            return Utilities.GetIntegerValue(value, 0);
+        }
+
+        public int GetGracePeriod(SiteId siteID)
+        {
+            var value = string.Empty;
+
+            var brObject = GetBusinessRule(siteID, "PWN_BR-018");
+            if (brObject != null)
+                brObject.getComponentValue("CL_PWN_077_GRACEPERIOD", ref value);
 
             return Utilities.GetIntegerValue(value, 0);
         }

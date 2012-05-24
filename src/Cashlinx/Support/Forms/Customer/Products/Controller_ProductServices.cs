@@ -472,9 +472,14 @@ namespace Support.Forms.Customer.Products
                 MapPDL_LoanStatsFromProperties(new PDLoanDetails());
                 MapPDL_EventsFromProperties(new PDLoanDetails());
                 MapPDL_xppLoanScheduleFromProperties(new List<PDLoanXPPScheduleList>());
+                MapPDL_HistoryFromProperties(new List<PDLoanHistoryList>());
 
                 this.LnkOtherDetails.Enabled = false;
                 this.btnExtendDeposit.Enabled = false;
+                this.ChkBGetAllHistory.Checked = false;
+                this.ChkBGetAllHistory.Enabled = false;
+                this.CmbHistoryLoanEvents.SelectedIndex = 0;
+                this.CmbHistoryLoanEvents.Enabled = false;
 
                 for (int i = 0; i < tempLoanKeys.Count(); i++)
                 {
@@ -1209,7 +1214,7 @@ namespace Support.Forms.Customer.Products
 
             this.TxbLoanNumberOrig.Text = Record.LoanNumberOrig;
             this.TxbLoanNumberPrev.Text = Record.LoanNumberPrev;
-            this.TxbLoanStatus.Text = PDLoan.Status;
+            this.TxbLoanStatus.Text = Record.Status;
             this.TxbLoanStatusReason.Text = Record.Status_Reason;
             this.TxbLoanRolloverNotes.Text = Record.LoanRolloverNotes;
             this.TxbLoanRollOverAmt.Text = Record.LoanRollOverAmt.ToString("C");
@@ -1243,22 +1248,7 @@ namespace Support.Forms.Customer.Products
         /*__________________________________________________________________________________________*/
         private void MapPDL_xppLoanScheduleFromProperties(List<PDLoanXPPScheduleList> Records)
         {
-           
-
-             //this.lblxppSchdStartDteNoTxt.Text = "1";
-             //this.lblxppSchdEndDteNoTxt.Text = "2";
-
-             //this.lblxppSchdStartDtePymtIDTxt.Text = "123";
-             //this.lblxppSchdEndDtePymtIDTxt.Text = "124";
-
-             //this.lblxppSchdStartDteDateTxt.Text = DateTime.Now.FormatDate();
-             //this.lblxppSchdEndDteDateTxt.Text = DateTime.Now.FormatDate();
-
-             //this.lblxppSchdStartDteAmountTxt.Text = "100.00";
-             //this.lblxppSchdEndDteAmountTxt.Text = "200.00";
-             //this.lblxppSchdFeeAmtAmountTxt.Text = "300.00";
-
-            DGVxxpPaySchedule.Rows.Clear();
+            this.DGVxxpPaySchedule.Rows.Clear();
             for (int index = 0; index < Records.Count(); index++)
             {
                 int gvIdx = DGVxxpPaySchedule.Rows.Add();
@@ -1284,24 +1274,19 @@ namespace Support.Forms.Customer.Products
             this.TxbShopState.Text = Record.ShopState;
         }
         /*__________________________________________________________________________________________*/
-        private void MapPDL_HistoryFromProperties()
+        private void MapPDL_HistoryFromProperties(List<PDLoanHistoryList> eventsList)
         {
-            foreach (var PDLRecord in PDLLoanList)
+            this.DGVHistoryLoanEvents.Rows.Clear();
+            for (int index = 0; index < eventsList.Count(); index++)
             {
-                List<PDLoanHistoryList> Records;
-                Records = PDLRecord.GetPDLoanHistoryList;
-
-                for (int index = 0; index < Records.Count(); index++)
-                {
                     int gvIdx = DGVHistoryLoanEvents.Rows.Add();
                     DataGridViewRow GridRow = DGVHistoryLoanEvents.Rows[gvIdx];
-                    GridRow.Cells["DgvColHistDate"].Value = Records[index].Date == DateTime.MaxValue ? "" : (Records[index].Date).FormatDate(); ;
-                    GridRow.Cells["DgvColHistEventType"].Value = Records[index].EventType;
-                    GridRow.Cells["DgvColHistDetails"].Value = Records[index].Details;
-                    GridRow.Cells["DgvColHistAmount"].Value = Records[index].Amount.ToString();
-                    GridRow.Cells["DgvColHistSource"].Value = Records[index].Source;
-                    GridRow.Cells["DgvColHistReceipt"].Value = Records[index].Receipt;
-                }
+                    GridRow.Cells["DgvColHistDate"].Value = eventsList[index].Date == DateTime.MaxValue ? "" : (eventsList[index].Date).FormatDate(); ;
+                    GridRow.Cells["DgvColHistEventType"].Value = eventsList[index].EventType;
+                    GridRow.Cells["DgvColHistDetails"].Value = eventsList[index].Details;
+                    GridRow.Cells["DgvColHistAmoutPaid"].Value = eventsList[index].Amount.ToString();
+                    GridRow.Cells["DgvColHistSource"].Value = eventsList[index].Source;
+                    GridRow.Cells["DgvColHistReceipt"].Value = eventsList[index].Receipt;
             }
         }
         /*__________________________________________________________________________________________*/
@@ -1807,7 +1792,7 @@ namespace Support.Forms.Customer.Products
         #region ACTIONS
         private string checkNull(string value)
         {
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value) || "null".Equals(value))
                 value = string.Empty;
 
             return value;
@@ -1839,8 +1824,13 @@ namespace Support.Forms.Customer.Products
                     MapPDL_LoanStatsFromProperties(new PDLoanDetails());
                     MapPDL_EventsFromProperties(new PDLoanDetails());
                     MapPDL_xppLoanScheduleFromProperties(new List<PDLoanXPPScheduleList>());
+                    MapPDL_HistoryFromProperties(new List<PDLoanHistoryList>());
                     this.LnkOtherDetails.Enabled = false;
                     this.btnExtendDeposit.Enabled = false;
+                    this.ChkBGetAllHistory.Checked = false;
+                    this.ChkBGetAllHistory.Enabled = false;
+                    this.CmbHistoryLoanEvents.SelectedIndex = 0;
+                    this.CmbHistoryLoanEvents.Enabled = false;
                     return;
                 }
 
@@ -1869,8 +1859,13 @@ namespace Support.Forms.Customer.Products
                     MapPDL_LoanStatsFromProperties(pdLoan.GetPDLoanDetails);
                     MapPDL_EventsFromProperties(pdLoan.GetPDLoanDetails);
                     MapPDL_xppLoanScheduleFromProperties(pdLoan.GetPDLoanXPPScheduleList);
+                    MapPDL_HistoryFromProperties(pdLoan.GetPDLoanHistorySummaryList);
                     this.LnkOtherDetails.Enabled = true;
                     this.btnExtendDeposit.Enabled = true;
+                    this.ChkBGetAllHistory.Checked = false;
+                    this.ChkBGetAllHistory.Enabled = true;
+                    this.CmbHistoryLoanEvents.SelectedIndex = 0;
+                    this.CmbHistoryLoanEvents.Enabled = true;
                 //}
             }
             //TODO revisit this - Madhu
@@ -4271,6 +4266,89 @@ namespace Support.Forms.Customer.Products
                     MessageBox.Show(errorDesc, "Database call failed.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
+        }
+
+        private void ChkBGetAllHistory_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan != null)
+            {
+                int iDx = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys.FindIndex(
+                    delegate(PDLoan p)
+                    {
+                        return p.PDLLoanNumber.Equals(Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.PDLLoanNumber);
+                    });
+                PDLoan pdLoan = new PDLoan();
+                if (iDx >= 0)
+                    pdLoan = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx];
+
+                // logic to only get data if not already recieved.
+                if (Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx].EventHistoryRetrieved)
+                {
+                    pdLoan = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx];
+                }
+                else
+                {
+                    string errorCode;
+                    string errorDesc;
+                    if (Support.Controllers.Database.Procedures.CustomerLoans.GetPDLoanEventDetails(
+                        pdLoan, out errorCode, out errorDesc))
+                    {
+                        Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx].EventHistoryRetrieved = true;
+                        Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan = pdLoan;
+                    }
+                    else
+                    {
+                        MessageBox.Show(errorDesc, "Error while retreiving the data.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+
+                if (this.ChkBGetAllHistory.Checked)
+                {
+                    MapPDL_HistoryFromProperties(pdLoan.GetPDLoanHistoryList);
+                }
+                else
+                {
+                    MapPDL_HistoryFromProperties(pdLoan.GetPDLoanHistorySummaryList);
+                }
+                this.CmbHistoryLoanEvents.SelectedIndex = 0;
+                this.DGVHistoryLoanEvents.Refresh();
+            }
+        }
+        private void CmbHistoryLoanEvents_SelectedValueChanged(object sender, EventArgs e)
+        {
+            string filterValue = checkNull(this.CmbHistoryLoanEvents.SelectedItem.ToString());
+
+            if (!filterValue.Equals(string.Empty))
+            {
+                var historyList = new List<PDLoanHistoryList>();
+                var tempLoanHistory = new List<PDLoanHistoryList>();
+                if (this.ChkBGetAllHistory.Checked)
+                {
+                    tempLoanHistory = Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.GetPDLoanHistoryList;
+                    historyList = Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.GetPDLoanHistoryList;
+                }
+                else
+                {
+                    tempLoanHistory = Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.GetPDLoanHistorySummaryList;
+                    historyList = Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.GetPDLoanHistorySummaryList;
+                }
+
+                if (filterValue.Equals("POS"))
+                {
+                    historyList = new List<PDLoanHistoryList>();
+                    historyList = tempLoanHistory.FindAll(plk => (plk.Source.ToUpperInvariant() == "POS"));
+                }
+                else if (filterValue.Equals("NIGHTLY"))
+                {
+                    historyList = new List<PDLoanHistoryList>();
+                    historyList = tempLoanHistory.FindAll(plk => (plk.Source.ToUpperInvariant() == "NIGHTLY"));
+                }
+
+                MapPDL_HistoryFromProperties(historyList);
+                this.DGVHistoryLoanEvents.Refresh();
+            }
+       
         }
     }
 }

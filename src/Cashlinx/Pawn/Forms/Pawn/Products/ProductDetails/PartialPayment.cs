@@ -182,13 +182,7 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 refundAmt = 0;
                 extensionsPaid = 0;
                 PartialPaymentProcedures.GetExtensionAmountSplit(pawnLoan, out refundAmt, out extensionsPaid, out extensionInterestAmount, out extensionServiceAmount);
-                int daysLate=0;
-                daysLate = (ShopDateTime.Instance.ShopDate - pawnLoan.DueDate).Days;
-                //If the payment date is one day after due date which is the grace period
-                //customer need not pay anything
-                if (daysLate < 0 || daysLate == 1)
-                    daysLate = 0;
-  
+                 int daysLate=0;
    
                 //There is no charge when partial payment is made on loan made date
                 if (ShopDateTime.Instance.ShopDate == pawnLoan.DateMade)
@@ -220,15 +214,12 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                             out days_late);
 
                         int daysToCharge = partialPaymentDaysToPay >= days_late && days_late > 0 ? partialPaymentDaysToPay - days_late : partialPaymentDaysToPay;
-                        //if (previousPartialPaymentDate >= pawnLoan.DueDate)
-                        //{
-                        //    daysToCharge = 0;
-                        //}
                         interestAmt = Math.Round(((pmt.CUR_AMOUNT * 5 / 100) / 30) * (daysToCharge), 2);
                         storageFee = Math.Round(pmt.Cur_Srv_Chg / 30 * daysToCharge, 2);
                         interestAmount.Text = interestAmt.ToString("f2");
                         serviceChargeAmount.Text = storageFee.ToString("f2");
-                        if (days_late > 0)
+                        bool daysLateGreater = days_late > partialPaymentDaysToPay;
+                        if (!daysLateGreater && days_late > 0)
                         {
                             lateInterest = Math.Round(((pmt.CUR_AMOUNT * 5 / 100) / 30) * (days_late), 2);
                             //lateInterest = pawnLoan.OtherTranLateFinAmount;
@@ -247,6 +238,13 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                             ShopDateTime.Instance.ShopDate, pawnLoan.DateMade,
                             pawnLoan.DueDate, pawnLoan.PfiEligible, pawnLoan.PfiNote,
                             out partialPaymentDaysToPay);
+ 
+                daysLate = (ShopDateTime.Instance.ShopDate - pawnLoan.DueDate).Days;
+                //If the payment date is within grace period
+                //customer need not pay anything
+                int graceDays = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetGracePeriod(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId);
+                if (daysLate < 0 || daysLate <= graceDays)
+                    daysLate = 0;
 
                         int monthsToCharge=0;
                         int daysToCharge=0;

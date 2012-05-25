@@ -6762,9 +6762,6 @@ namespace Pawn.Logic.DesktopProcedures
                         if (cds.CurrentSiteId.State == States.Indiana)
                         {
                             //Each month is a 30 day block
-                            //For PFI days though we need to add 1 to the number of days since there is a 1 day grace period for Indiana
-                            //so the PFI date would have been created with that extra day and we would have to account for it
-                            //after calculating the total number of 30 day blocks
                             int totalMonthsTillMaturity = ((ploan.NewDueDate - ploan.DateMade).Days) / 30;
                             int totalMonthsTillGrace = ((ploan.NewPfiEligible - ploan.DateMade).Days) / 30;
                             int extensionPaidDays = (ploan.NewDueDate - ploan.DueDate).Days;
@@ -6773,12 +6770,12 @@ namespace Pawn.Logic.DesktopProcedures
                                 int ppmtPaidDays = (ploan.LastPartialPaymentDate - ploan.DateMade).Days;
                                 int daysToPay = ((totalMonthsTillMaturity * 30) - extensionPaidDays - ppmtPaidDays);
                                 extnInfo.PawnChargeAtMaturity = (ploan.DailyAmount * daysToPay);
-                                extnInfo.PawnChargeAtPfi =ploan.DailyAmount * (((totalMonthsTillGrace * 30) + 1)  - extensionPaidDays - ppmtPaidDays);
+                                extnInfo.PawnChargeAtPfi =ploan.DailyAmount * (((totalMonthsTillGrace * 30))  - extensionPaidDays - ppmtPaidDays);
                             }
                             else
                             {
                                 extnInfo.PawnChargeAtMaturity = (30 * ploan.DailyAmount);
-                                extnInfo.PawnChargeAtPfi = (ploan.DailyAmount * (((totalMonthsTillGrace * 30) + 1) - extensionPaidDays));
+                                extnInfo.PawnChargeAtPfi = (ploan.DailyAmount * (((totalMonthsTillGrace * 30)) - extensionPaidDays));
                             }
                             extnInfo.PawnChargePaidTo = ploan.DateMade.AddDays(extensionPaidDays);
                         }

@@ -40,3 +40,12 @@ Thumbs.db
 *.dat
 *.crc
 *.version
+
+# VS Preferences     #
+######################
+*.suo
+*.DotSettings
+
+# Git Backup Files   #
+######################
+*.bak

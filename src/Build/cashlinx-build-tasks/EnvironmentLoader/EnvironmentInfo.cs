@@ -211,6 +211,14 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
             {
                 return DeploymentType.MaintDev;
             }
+            if (NantProjectDirectory.ToLower().EndsWith(@"champ\src\cashlinx"))
+            {
+                return DeploymentType.NewDev;
+            }
+            if (NantProjectDirectory.ToLower().EndsWith(@"chuff\src\cashlinx"))
+            {
+                return DeploymentType.MaintDev;
+            }
             return DeploymentType.Unknown;
         }
 

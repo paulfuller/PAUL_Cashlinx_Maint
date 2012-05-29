@@ -29,7 +29,7 @@ namespace Cashlinx.Build.Tasks
             SetProperty("buildfile.audit.exists", false);
             SetProperty("buildfile.audit.queries.exists", env.AuditQueriesProjectEnvironment.BuildFileExists);
             SetProperty("buildfile.common.exists", env.CommonProjectEnvironment.BuildFileExists);
-            SetProperty("buildfile.dstr.viewer.exists", false);
+            SetProperty("buildfile.dstr.viewer.exists", env.DstrViewerProjectEnvironment.BuildFileExists);
             SetProperty("buildfile.pawn.exists", env.PawnProjectEnvironment.BuildFileExists);
             SetProperty("buildfile.support.exists", false);
 

@@ -382,7 +382,7 @@
         <echo />
         <exec workingdir="${msbuild.param.buildfile.dir}" program="msbuild" verbose="${verbose}">
           <arg value="${msbuild.param.buildfile.name}" />
-          <arg value="/t:Audit\Audit${msbuild.param.target};Pawn\Pawn${msbuild.param.target};Common\CommonTests${msbuild.param.target};Pawn\PawnTests${msbuild.param.target};AuditQueries\AuditQueries${msbuild.param.target}" />
+          <arg value="/t:Audit\Audit${msbuild.param.target};Pawn\Pawn${msbuild.param.target};Common\CommonTests${msbuild.param.target};Pawn\PawnTests${msbuild.param.target};AuditQueries\AuditQueries${msbuild.param.target};Tools\DSTRViewer${msbuild.param.target}" />
           <arg value="/p:Configuration=${msbuild.param.configuration}" />
           <arg value="/p:Platform=${msbuild.param.platform}" />
           <arg value="/p:WarningLevel=0" />

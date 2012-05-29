@@ -65,7 +65,7 @@ namespace Pawn.Forms.Panels.MenuPanels
                     btnName = Police_ActivitiesButton.Name.Substring(0, idx).ToUpper();
                     this.Police_ActivitiesButton.Enabled = SecurityProfileProcedures.CanUserViewResource(btnName, currUser, dSession);
                 }
-                
+                /* // removed per CQ - 14915
                 //Check if user has access to VOID
                 if (voidTransactionButton != null && voidTransactionButton.Enabled && !string.IsNullOrEmpty(voidTransactionButton.Name))
                 {
@@ -73,6 +73,7 @@ namespace Pawn.Forms.Panels.MenuPanels
                     btnName = voidTransactionButton.Name.Substring(0, idx).ToUpper();
                     this.voidTransactionButton.Enabled = SecurityProfileProcedures.CanUserViewResource(btnName, currUser, dSession);
                 }
+                */
                 
                 this.ManageInventoryButton.Enabled = true;
                 this.ManageCashButton.Enabled = true;

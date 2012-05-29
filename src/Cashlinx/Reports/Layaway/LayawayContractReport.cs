@@ -36,11 +36,13 @@ namespace Reports.Layaway
 
         #endregion
 
+        #region Constructors
         public LayawayContractReport(IPdfLauncher pdfLauncher)
             : base(pdfLauncher)
         {
 
         }
+        #endregion
 
         #region Private Methods
         private void WriteFooter(PdfPTable footerTable, LayawayContractReport layawayContractRpt)
@@ -524,13 +526,33 @@ namespace Reports.Layaway
             cell.Colspan = 7;
             headingtable.AddCell(cell);
 
+
+            Phrase Spacing = new Phrase("", ReportFontMedium);
+            Phrase Spacing2 = new Phrase("", ReportFontMedium);
+            Phrase phraseLayawayNumberText = new Phrase("Layaway #: ", ReportFontMedium);
+            Phrase phraseLayawayNumber = new Phrase(pageEvent.ReportObject.CurrentLayaway.TicketNumber.ToString(), ReportFontLargeBold);
+
+            //Spacing.Add(phraseLayawayNumberText);
+            phraseLayawayNumberText.Add(Spacing);
+            phraseLayawayNumberText.Add(phraseLayawayNumber);
+
+            //phraseCommentsDescription.Add(Spacing);
+            //phraseCommentsDescription.Add(phraseComments);
+            cell = new PdfPCell();
+            cell.AddElement(phraseLayawayNumberText);
+            cell.Border = Rectangle.NO_BORDER;
+            cell.HorizontalAlignment = Element.ALIGN_RIGHT;
+            cell.VerticalAlignment = Rectangle.ALIGN_TOP;
+            cell.Border = Rectangle.NO_BORDER;
+            headingtable.AddCell(cell);
+
             //  heading - row 13
             //empty cell
-            cell = new PdfPCell(new Phrase("Layaway #:" + pageEvent.ReportObject.CurrentLayaway.TicketNumber, ReportFont));
+            /*cell = new PdfPCell(new Phrase("Layaway #: " + pageEvent.ReportObject.CurrentLayaway.TicketNumber, ReportFontLargeSize9));
             cell.Border = Rectangle.NO_BORDER;
             cell.HorizontalAlignment = Element.ALIGN_RIGHT;
             cell.Colspan = 1;
-            headingtable.AddCell(cell);
+            headingtable.AddCell(cell);*/
 
             //Layaway # row
             cell = new PdfPCell(new Phrase(string.Empty, ReportFont));

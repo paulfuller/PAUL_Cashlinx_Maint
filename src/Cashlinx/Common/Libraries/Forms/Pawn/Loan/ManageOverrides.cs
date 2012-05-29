@@ -44,6 +44,7 @@ namespace Common.Libraries.Forms.Pawn.Loan
         public const string DESCRIBEMERCH_TRIGGER = "Describe Item";
         public const string PRODUCTDETAILS_TRIGGER = "Product Details";
         public const string OVERRIDE_TRIGGER = "Override";
+        public const string VOID_TRIGGER = "Void";
 
         public DesktopSession DesktopSession { get; private set; }
 

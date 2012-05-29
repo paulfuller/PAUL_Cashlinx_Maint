@@ -298,6 +298,39 @@ namespace Pawn.Logic.DesktopProcedures
             return data;
         }
 
+        public static List<ReportObject.RefurbItem> GetRefurbItemsList(DataTable outputData, ReportObject report)
+        {
+            List<ReportObject.RefurbItem> data = new List<ReportObject.RefurbItem>();
+
+            if (outputData != null && outputData.IsInitialized && outputData.Rows != null && outputData.Rows.Count > 0)
+            {
+                DataRow[] rows = outputData.Select(report.ReportFilter, report.ReportSortSQL);
+
+                for (int i = 0; i < rows.Length; i++)
+                {
+                    try
+                    {
+                        ReportObject.RefurbItem refurbItem = new ReportObject.RefurbItem();
+                        refurbItem.Cost = Convert.ToDecimal(rows[i]["pfi_amount"]);
+                        refurbItem.Description = rows[i]["md_desc"].ToString();
+                        //refurbItem.ExpectedOrNotExpected = rows[i]["loc_aisle"].ToString();
+                        refurbItem.ICN = rows[i]["icn"].ToString();
+                        refurbItem.RefurbNumber = rows[i]["rfb_no"].ToString();
+                        refurbItem.TransferDate = Convert.ToDateTime(rows[i]["transdate"].ToString());
+                        refurbItem.TransferNumber = rows[i]["transticketnum"].ToString();
+                        data.Add(refurbItem);
+                    }
+                    catch (Exception e)
+                    {
+                        report.ReportError = e.Message;
+                        report.ReportErrorLevel = (int)LogLevel.ERROR;
+                    }
+                }
+            }
+            return data;
+        }
+
+
         public static List<ReportObject.GunAuditATFOpenRecords> GetGunAuditATFOpenRecordsData(DataTable outputData, ReportObject report)
         {
             List<ReportObject.GunAuditATFOpenRecords> data = new List<ReportObject.GunAuditATFOpenRecords>();
@@ -614,6 +647,17 @@ namespace Pawn.Logic.DesktopProcedures
 
             switch (report.ReportNumber)
             {
+                case (int)ReportIDs.RefurbList:
+                    package = "PAWN_REPORTS";
+                    procedure = "GetRefurbList";
+                    inParams.Add(new OracleProcParam("p_store_number", report.ReportStore));
+
+                    refCursors = new List<PairType<string, string>>
+                    {
+                        new PairType<string, string>("o_expected", "refurb_items_Expected"),
+                        new PairType<string, string>("o_not_expected", "refurb_items_Not_Expected")
+                    };
+                    break;
                 case (int)ReportIDs.DailySales:
                     package = "PAWN_REPORTS";
                     procedure = "get_discounted_sales";

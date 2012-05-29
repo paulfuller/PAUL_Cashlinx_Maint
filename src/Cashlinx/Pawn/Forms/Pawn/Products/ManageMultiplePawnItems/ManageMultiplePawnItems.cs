@@ -845,13 +845,24 @@ namespace Pawn.Forms.Pawn.Products.ManageMultiplePawnItems
                     {
                         GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.ProductDataComplete =
                         true;
-                        //Go to lookup customer
-                        NavControlBox.IsCustom = true;
-                        NavControlBox.CustomDetail = "LookupCustomer";
-                        NavControlBox.Action = NavBox.NavAction.SUBMIT;
+
+                        CheckForOverrides(false, GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.Amount, out managerOverrideSkipped);
+
+                        if (!managerOverrideSkipped)
+                        {
+                            //Go to lookup customer
+                            NavControlBox.IsCustom = true;
+                            NavControlBox.CustomDetail = "LookupCustomer";
+                            NavControlBox.Action = NavBox.NavAction.SUBMIT;
+                        }
                     }
                     else
                     {
+                        CheckForOverrides(false, GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.Amount, out managerOverrideSkipped);
+
+                        if (managerOverrideSkipped)
+                            return;
+                        /*
                         //SR 3/24/2010
                         //Add check for making sure that the user can only do a loan per the allowed limit
                         //The limit that is assigned to him or to his role
@@ -888,6 +899,9 @@ namespace Pawn.Forms.Pawn.Products.ManageMultiplePawnItems
                                    GlobalDataAccessor.Instance.DesktopSession.ManagerOverrideLoanLimit = true;
                             }
                         }
+
+                       /* */
+
                         if (string.IsNullOrEmpty(GlobalDataAccessor.Instance.DesktopSession.CurPawnAppId))
                         {
                             //check if customer is identified
@@ -970,6 +984,11 @@ namespace Pawn.Forms.Pawn.Products.ManageMultiplePawnItems
                     //The limit that is assigned to him or to his role
                     if (!GlobalDataAccessor.Instance.DesktopSession.ActivePurchase.ProductDataComplete)
                     {
+                        CheckForOverrides(purchaseFlow, GlobalDataAccessor.Instance.DesktopSession.ActivePurchase.Amount, out managerOverrideSkipped);
+                        if (managerOverrideSkipped)
+                            return;
+
+                        /*
                         var loggedInUser = GlobalDataAccessor.Instance.DesktopSession.LoggedInUserSecurityProfile;
                         var purchaseLimitAmount = SecurityProfileProcedures.GetPawnPurchaseLimit(loggedInUser, GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber);
                         if (purchaseLimitAmount != 0)
@@ -1001,7 +1020,9 @@ namespace Pawn.Forms.Pawn.Products.ManageMultiplePawnItems
                                 }
                                 GlobalDataAccessor.Instance.DesktopSession.ManagerOverrideBuyLimit = true;
                             }
+                         
                         }
+                        /* */
                     }
 
                     if (vendorPurchaseFlow)
@@ -1045,6 +1066,112 @@ namespace Pawn.Forms.Pawn.Products.ManageMultiplePawnItems
                     }
                 }
             }
+        }
+
+        public static bool CheckForOverrides(bool purchaseFlow, decimal amount, out bool managerOverrideSkipped, bool forceOverride = false)
+        {
+            bool retval = false;
+
+            var loggedInUser = GlobalDataAccessor.Instance.DesktopSession.LoggedInUserSecurityProfile;
+
+            if (!purchaseFlow)
+            {
+                decimal loanLimitAmount = SecurityProfileProcedures.GetPawnLoanLimit(loggedInUser, GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber, GlobalDataAccessor.Instance.DesktopSession, new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession));
+
+                if (loanLimitAmount != 0 || forceOverride)
+                {
+                    //The loan amount is greater than the max allowed limit for the logged in user 
+                    //Show manager override
+                    if (forceOverride || (amount > loanLimitAmount && !GlobalDataAccessor.Instance.DesktopSession.ManagerOverrideLoanLimit))
+                    {
+                        var overrideTypes = new List<ManagerOverrideType>();
+                        var transactionTypes = new List<ManagerOverrideTransactionType>();
+                        var messageToShow = new StringBuilder();
+
+                        if (forceOverride)
+                            messageToShow.Append("Your role requires a management override for this transaction.");
+                        else
+                            messageToShow.Append("Loan Amount exceeded the amount allowed for the user " + System.Environment.NewLine + " Amount allowed is " + String.Format("{0:c}", loanLimitAmount));
+
+                        overrideTypes.Add(ManagerOverrideType.NLO);
+                        transactionTypes.Add(ManagerOverrideTransactionType.NL);
+                        var overrideFrm = new ManageOverrides(ManageOverrides.OVERRIDE_TRIGGER, amount)
+                        {
+                            MessageToShow = messageToShow.ToString(),
+                            ManagerOverrideTypes = overrideTypes,
+                            ManagerOverrideTransactionTypes = transactionTypes
+
+                        };
+
+                        overrideFrm.ShowDialog();
+                        if (!overrideFrm.OverrideAllowed)
+                        {
+                            managerOverrideSkipped = true;
+                            if (forceOverride)
+                                MessageBox.Show("Error:  Override not authorized.");
+                            else
+                                MessageBox.Show("Error:  Loan Amount exceeds limit ($" + loanLimitAmount.ToString() + ")");
+                            return false;
+                        }
+                        else
+                            GlobalDataAccessor.Instance.DesktopSession.ManagerOverrideLoanLimit = true;
+                    }
+                }
+            }
+
+            else
+            {
+                var purchaseLimitAmount = SecurityProfileProcedures.GetPawnPurchaseLimit(loggedInUser, GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber);
+
+
+                if (purchaseLimitAmount != 0 || forceOverride)
+                {
+                    //The loan amount is greater than the max allowed limit for the logged in user 
+                    //Show manager override
+                    if (forceOverride ||
+                        amount > purchaseLimitAmount &&
+                        !GlobalDataAccessor.Instance.DesktopSession.ManagerOverrideBuyLimit)
+                    {
+                        var overrideTypes = new List<ManagerOverrideType>();
+                        var transactionTypes = new List<ManagerOverrideTransactionType>();
+                        var messageToShow = new StringBuilder();
+
+                        if (forceOverride)
+                            messageToShow.Append("Your role requires a management override for this transaction.");
+                        else
+                            messageToShow.Append(
+                                "The buy Amount of " + String.Format("{0:c}", amount) +
+                                " is over your authorized limit!" + System.Environment.NewLine + "  Manager's Authorization Required. ");
+
+                        overrideTypes.Add(ManagerOverrideType.PURO);
+                        transactionTypes.Add(ManagerOverrideTransactionType.PUR);
+                        var overrideFrm = new ManageOverrides(
+                            ManageOverrides.OVERRIDE_TRIGGER, amount)
+                                          {
+                                              MessageToShow = messageToShow.ToString(),
+                                              ManagerOverrideTypes = overrideTypes,
+                                              ManagerOverrideTransactionTypes = transactionTypes
+
+                                          };
+
+                        overrideFrm.ShowDialog();
+                        if (!overrideFrm.OverrideAllowed)
+                        {
+                            managerOverrideSkipped = true;
+                            MessageBox.Show("Error:  Buy Amount exceeds limit ($" + purchaseLimitAmount.ToString() + ")");
+                            return false;
+                        }
+                        GlobalDataAccessor.Instance.DesktopSession.ManagerOverrideBuyLimit = true;
+                    }
+                }
+
+                
+            
+            }
+
+            managerOverrideSkipped = false;
+
+            return true;
         }
 
         private void showProcessTender()

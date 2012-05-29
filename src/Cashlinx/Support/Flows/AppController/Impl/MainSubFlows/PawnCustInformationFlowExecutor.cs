@@ -482,6 +482,12 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
                 #endregion
                 /*_________________________________________________*/
                 case PawnCustInformationFlowState.PreviousState:
+                    /*_________________________________________________*/
+                    //string ButtonSelect = senderNavBox.CustomDetail;
+                    //if (ButtonSelect.Equals("ProductsAndServices"))
+                    //{
+                    //    this.ReSetTabs();
+                    //}
                     break;
                 /*_________________________________________________*/
                 case PawnCustInformationFlowState.CancelFlow:
@@ -1209,15 +1215,17 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
             {
                 throw new ApplicationException("PD Loan Other Details form navigation action handler received invalid data");
             }
-
+            Form FormInFocus;
+            FormInFocus = GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
             NavBox senderNavBox = (NavBox)sender;
             PDLoanOtherDetails PDLoanOtherDetailsForm = (PDLoanOtherDetails)data;
+
             NavBox.NavAction action = senderNavBox.Action;
             switch (action)
             {
                 case NavBox.NavAction.BACK:
-                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
 
+                    CommonAppBlocks.Instance.ShowFlowTabController(this.parentForm,FormInFocus,FlowTabController.State.ProductsAndServices);
                     this.nextState = PawnCustInformationFlowState.PreviousState;
                     //this.nextState = PawnCustInformationFlowState.ProductServices;
                     break;
@@ -1237,18 +1245,19 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
             {
                 throw new ApplicationException("PD Loan Other Details form navigation action handler received invalid data");
             }
-
+            Form FormInFocus;
+            FormInFocus = GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
             NavBox senderNavBox = (NavBox)sender;
             //ExtendedDepositDate ExtendedDepositDateForm = (ExtendedDepositDate)data;
             NavBox.NavAction action = senderNavBox.Action;
             switch (action)
             {
                 case NavBox.NavAction.BACK:
-                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    CommonAppBlocks.Instance.ShowFlowTabController(this.parentForm, FormInFocus, FlowTabController.State.ProductsAndServices);
                     this.nextState = PawnCustInformationFlowState.PreviousState;
                     break;
                 case NavBox.NavAction.SUBMIT:
-                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Back();
+                    CommonAppBlocks.Instance.ShowFlowTabController(this.parentForm, FormInFocus, FlowTabController.State.ProductsAndServices);
                     this.nextState = PawnCustInformationFlowState.PreviousState;
                     break;
 

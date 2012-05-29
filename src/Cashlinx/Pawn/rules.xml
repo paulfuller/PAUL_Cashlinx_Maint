@@ -1118,6 +1118,11 @@
       <ComponentType>PARAM</ComponentType>
     </BusinessRuleCompRef>
   </BusinessRule>
+  <BusinessRule name="PWN_BR-018" id="8636f6bd-b565-46c7-bd24-625b5cbe3f85">
+    <BusinessRuleCompRef name="CL_PWN_077_GRACEPERIOD">
+      <ComponentType>PARAM</ComponentType>
+    </BusinessRuleCompRef>
+  </BusinessRule>
   <BusinessRuleComponent name="CL_PWN_0001_MAXLOANAMT" ParentAlias="All" ParentId="e9ec5fb2-245b-459c-9ec6-dd5f7d897e27" Id="f319dc4d-0b87-4776-b80e-c101c95dbf97">
     <Alias>TX</Alias>
     <FromDate>01/01/2010</FromDate>
@@ -2459,6 +2464,23 @@
   </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="e00fd6cf-86b8-44d1-bea8-83c63dd490c9" Id="9105f4f1-1f4e-4a8f-9e2d-3cfb93dc7ff0">
     <Alias>REGION1</Alias>
+    <FromDate>07/01/2011</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>INTEREST</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Interest>
+      <MinAmount>1890.01</MinAmount>
+      <MaxAmount>15750.0</MaxAmount>
+      <InterestRate>12.0</InterestRate>
+      <InterestAmount>0.0</InterestAmount>
+      <ServiceAmount>0.0</ServiceAmount>
+      <ServiceRate>0.0</ServiceRate>
+      <InterestLevel />
+      <InterestType />
+    </Interest>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="e00fd6cf-86b8-44d1-bea8-83c63dd490c9" Id="e01d2d97-8df3-4610-884d-07cf6fec8210">
+    <Alias>PDA</Alias>
     <FromDate>07/01/2011</FromDate>
     <ToDate>01/01/2050</ToDate>
     <ComponentType>INTEREST</ComponentType>
@@ -6758,6 +6780,36 @@
       <Cacheable>false</Cacheable>
     </Param>
   </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_077_GRACEPERIOD" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="ae48ef45-ae66-481e-a3ae-9046666c2def">
+    <Alias>All</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>0</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
+  <BusinessRuleComponent name="CL_PWN_077_GRACEPERIOD" ParentAlias="" ParentId="ae48ef45-ae66-481e-a3ae-9046666c2def" Id="1c826fd9-5dc6-45c2-990c-3e4997c7304d">
+    <Alias>OH</Alias>
+    <FromDate>01/01/1950</FromDate>
+    <ToDate>01/01/2050</ToDate>
+    <ComponentType>PARAM</ComponentType>
+    <IsEditable>true</IsEditable>
+    <Param>
+      <DataType />
+      <Value>1</Value>
+      <StoreNumber />
+      <State />
+      <Company />
+      <Cacheable>false</Cacheable>
+    </Param>
+  </BusinessRuleComponent>
   <BusinessRuleComponent name="CL_PWN_086_PFIMAILERREQUIRED" ParentAlias="" ParentId="00000000-0000-0000-0000-000000000000" Id="4b688605-7543-4fe8-96ae-8e57b56f2d95">
     <Alias>All</Alias>
     <FromDate>01/01/1950</FromDate>
@@ -10747,23 +10799,6 @@
       <Company>1</Company>
       <Cacheable>false</Cacheable>
     </Param>
-  </BusinessRuleComponent>
-  <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="e00fd6cf-86b8-44d1-bea8-83c63dd490c9" Id="e01d2d97-8df3-4610-884d-07cf6fec8210">
-    <Alias>PDA</Alias>
-    <FromDate>07/01/2011</FromDate>
-    <ToDate>01/01/2050</ToDate>
-    <ComponentType>INTEREST</ComponentType>
-    <IsEditable>true</IsEditable>
-    <Interest>
-      <MinAmount>1890.01</MinAmount>
-      <MaxAmount>15750.0</MaxAmount>
-      <InterestRate>12.0</InterestRate>
-      <InterestAmount>0.0</InterestAmount>
-      <ServiceAmount>0.0</ServiceAmount>
-      <ServiceRate>0.0</ServiceRate>
-      <InterestLevel />
-      <InterestType />
-    </Interest>
   </BusinessRuleComponent>
   <CheckLoanRangeRef>
     <ComponentName>CL_PWN_0008_INTRATE</ComponentName>

@@ -101,26 +101,26 @@ namespace Support.Forms.Customer.Products.ProductHistory
 
         }
         /*__________________________________________________________________________________________*/
-        private void MapPDL_HistoryFromProperties()
-        {
-            foreach (var PDLRecord in PDLLoanList)
-            {
-                List<PDLoanHistoryList> Records;
-                Records = PDLRecord.GetPDLoanHistoryList;
+        //private void MapPDL_HistoryFromProperties()
+        //{
+        //    foreach (var PDLRecord in PDLLoanList)
+        //    {
+        //        List<PDLoanHistoryList> Records;
+        //        Records = PDLRecord.GetPDLoanHistoryList;
 
-                for (int index = 0; index < Records.Count(); index++)
-                {
-                    int gvIdx = DgvHistoryLoanEvents.Rows.Add();
-                    DataGridViewRow GridRow = DgvHistoryLoanEvents.Rows[gvIdx];
-                    GridRow.Cells["DgvColHistDate"].Value = Records[index].Date == DateTime.MaxValue ? "" : (Records[index].Date).FormatDate(); ;
-                    GridRow.Cells["DgvColHistEventType"].Value = Records[index].EventType;
-                    GridRow.Cells["DgvColHistDetails"].Value = Records[index].Details;
-                    GridRow.Cells["DgvColHistAmount"].Value = Records[index].Amount.ToString();
-                    GridRow.Cells["DgvColHistSource"].Value = Records[index].Source;
-                    GridRow.Cells["DgvColHistReceipt"].Value = Records[index].Receipt;
-                }
-            }
-        }
+        //        for (int index = 0; index < Records.Count(); index++)
+        //        {
+        //            int gvIdx = DgvHistoryLoanEvents.Rows.Add();
+        //            DataGridViewRow GridRow = DgvHistoryLoanEvents.Rows[gvIdx];
+        //            GridRow.Cells["DgvColHistDate"].Value = Records[index].Date == DateTime.MaxValue ? "" : (Records[index].Date).FormatDate(); ;
+        //            GridRow.Cells["DgvColHistEventType"].Value = Records[index].EventType;
+        //            GridRow.Cells["DgvColHistDetails"].Value = Records[index].Details;
+        //            GridRow.Cells["DgvColHistAmount"].Value = Records[index].Amount.ToString();
+        //            GridRow.Cells["DgvColHistSource"].Value = Records[index].Source;
+        //            GridRow.Cells["DgvColHistReceipt"].Value = Records[index].Receipt;
+        //        }
+        //    }
+        //}
         #endregion
 
     }

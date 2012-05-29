@@ -74,14 +74,23 @@ namespace Support.Forms.Customer.Products
             this.PS_OriginationDateValue = new System.Windows.Forms.Label();
             this.PS_SubTabControl = new System.Windows.Forms.TabControl();
             this.PS_ServiceOptionsTab = new System.Windows.Forms.TabPage();
+            this.btnExtendDeposit = new Support.Libraries.Forms.Components.SupportButton();
             this.PS_PawnButtonsPanel = new System.Windows.Forms.Panel();
             this.LW_LayawayButtonsPanel = new System.Windows.Forms.Panel();
             this.CommonServiceButtonsPanel = new System.Windows.Forms.Panel();
             this.PS_HistoryTab = new System.Windows.Forms.TabPage();
             this.PDL_LoanEventsLayoutPanel = new System.Windows.Forms.Panel();
             this.GbExtendedStaticLoanInfo = new System.Windows.Forms.GroupBox();
+            this.ChkBGetAllHistory = new System.Windows.Forms.CheckBox();
             this.CmbHistoryLoanEvents = new System.Windows.Forms.ComboBox();
             this.lblLoanEventsBar = new System.Windows.Forms.Label();
+            this.DGVHistoryLoanEvents = new System.Windows.Forms.DataGridView();
+            this.DgvColHistDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistEventType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistDetails = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistAmoutPaid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistReceipt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TxbOriginationDate = new System.Windows.Forms.TextBox();
             this.lblLastUpdatedBy = new System.Windows.Forms.Label();
             this.lblOriginationDate = new System.Windows.Forms.Label();
@@ -98,13 +107,6 @@ namespace Support.Forms.Customer.Products
             this.lblExtendedDate = new System.Windows.Forms.Label();
             this.TxbShopName = new System.Windows.Forms.TextBox();
             this.TxbDueDate = new System.Windows.Forms.TextBox();
-            this.DGVHistoryLoanEvents = new System.Windows.Forms.DataGridView();
-            this.DgvColHistDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvColHistEventType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvColHistDetails = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvColHistAmoutPaid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvColHistSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvColHistReceipt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PH_ReceiptsDataGridView = new System.Windows.Forms.DataGridView();
             this.PH_Receipt_DateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PH_Receipt_EventColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -185,8 +187,6 @@ namespace Support.Forms.Customer.Products
             this.LW_DownPaymentValue = new System.Windows.Forms.Label();
             this.LW_DownPaymentLabel = new System.Windows.Forms.Label();
             this.PDL_LoanStatsLayoutPanel = new System.Windows.Forms.Panel();
-            this.TxbLoanStatusReason = new System.Windows.Forms.TextBox();
-            this.lblStatusReason = new System.Windows.Forms.Label();
             this.TxbLoanStatus = new System.Windows.Forms.TextBox();
             this.XPPFeeAmountToDisplay = new System.Windows.Forms.Label();
             this.LblLoanNumber = new System.Windows.Forms.Label();
@@ -203,30 +203,18 @@ namespace Support.Forms.Customer.Products
             this.DgvColxppPaymentAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblHeaderBarXpp = new System.Windows.Forms.Label();
             this.LnkOtherDetails = new System.Windows.Forms.LinkLabel();
-            this.TxbEstRolloverAmt = new System.Windows.Forms.TextBox();
             this.TxbACHWaitingToClear = new System.Windows.Forms.TextBox();
             this.TxbNSFFeeAmt = new System.Windows.Forms.TextBox();
             this.TxbLateFeeAmt = new System.Windows.Forms.TextBox();
             this.TxbAccruedFinanceAmt = new System.Windows.Forms.TextBox();
-            this.TxbAcutalServiceChrgAmt = new System.Windows.Forms.TextBox();
-            this.TxbActualFinanceChrgAmt = new System.Windows.Forms.TextBox();
             this.TxbXPPAvailable = new System.Windows.Forms.TextBox();
-            this.TxbRevokeACH = new System.Windows.Forms.TextBox();
-            this.TxbLoanRollOverAmt = new System.Windows.Forms.TextBox();
-            this.TxbLoanRolloverNotes = new System.Windows.Forms.TextBox();
             this.TxbLoanNumberPrev = new System.Windows.Forms.TextBox();
             this.TxbLoanNumberOrig = new System.Windows.Forms.TextBox();
-            this.lblEstRolloverAmt = new System.Windows.Forms.Label();
             this.lblACHWaitingToClear = new System.Windows.Forms.Label();
             this.lblNSFFeeAmt = new System.Windows.Forms.Label();
             this.lblLateFeeAmt = new System.Windows.Forms.Label();
             this.lblAccruedFinanceAmt = new System.Windows.Forms.Label();
-            this.lblAcutalServiceChrgAmt = new System.Windows.Forms.Label();
-            this.lblActualFinanceChrgAmt = new System.Windows.Forms.Label();
             this.lblXPPAvailable = new System.Windows.Forms.Label();
-            this.lblRevokeACH = new System.Windows.Forms.Label();
-            this.lblLoanRollOverAmt = new System.Windows.Forms.Label();
-            this.lblLoanRolloverNotes = new System.Windows.Forms.Label();
             this.lblLoanStatus = new System.Windows.Forms.Label();
             this.lblLoanNumberPrev = new System.Windows.Forms.Label();
             this.lblLoanNumberOrig = new System.Windows.Forms.Label();
@@ -237,6 +225,20 @@ namespace Support.Forms.Customer.Products
             this.lblLoanAmtData = new System.Windows.Forms.Label();
             this.lblLoanPayOffAmtData = new System.Windows.Forms.Label();
             this.lblActualLoanAmtData = new System.Windows.Forms.Label();
+            this.TxbLoanStatusReason = new System.Windows.Forms.TextBox();
+            this.lblStatusReason = new System.Windows.Forms.Label();
+            this.TxbEstRolloverAmt = new System.Windows.Forms.TextBox();
+            this.TxbAcutalServiceChrgAmt = new System.Windows.Forms.TextBox();
+            this.TxbActualFinanceChrgAmt = new System.Windows.Forms.TextBox();
+            this.TxbRevokeACH = new System.Windows.Forms.TextBox();
+            this.TxbLoanRollOverAmt = new System.Windows.Forms.TextBox();
+            this.TxbLoanRolloverNotes = new System.Windows.Forms.TextBox();
+            this.lblEstRolloverAmt = new System.Windows.Forms.Label();
+            this.lblAcutalServiceChrgAmt = new System.Windows.Forms.Label();
+            this.lblActualFinanceChrgAmt = new System.Windows.Forms.Label();
+            this.lblRevokeACH = new System.Windows.Forms.Label();
+            this.lblLoanRollOverAmt = new System.Windows.Forms.Label();
+            this.lblLoanRolloverNotes = new System.Windows.Forms.Label();
             this.lblCustomerSSNData = new System.Windows.Forms.Label();
             this.DgvTxbColxppLineItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvTxbColxppPaymentSeqNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -252,8 +254,8 @@ namespace Support.Forms.Customer.Products
             this.CmbLoanStatus = new System.Windows.Forms.ComboBox();
             this.FormHeaderPanel = new System.Windows.Forms.Panel();
             this.lblHdrLoanNumber = new System.Windows.Forms.Label();
-            this.btnExtendDeposit = new Support.Libraries.Forms.Components.SupportButton();
             this.customButtonCancel = new Support.Libraries.Forms.Components.SupportButton();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.PS_LoanStatsLayoutPanel.SuspendLayout();
             this.PS_SubTabControl.SuspendLayout();
             this.PS_ServiceOptionsTab.SuspendLayout();
@@ -269,6 +271,7 @@ namespace Support.Forms.Customer.Products
             this.PDL_LoanStatsLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGVxxpPaySchedule)).BeginInit();
             this.FormHeaderPanel.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // PS_LoanStatsLayoutPanel
@@ -557,6 +560,31 @@ namespace Support.Forms.Customer.Products
             this.PS_ServiceOptionsTab.Text = "Service Options";
             this.PS_ServiceOptionsTab.UseVisualStyleBackColor = true;
             // 
+            // btnExtendDeposit
+            // 
+            this.btnExtendDeposit.BackColor = System.Drawing.Color.Transparent;
+            this.btnExtendDeposit.BackgroundImage = global::Support.Properties.Resources.Red_button_100_50;
+            this.btnExtendDeposit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnExtendDeposit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnExtendDeposit.Enabled = false;
+            this.btnExtendDeposit.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnExtendDeposit.FlatAppearance.BorderSize = 0;
+            this.btnExtendDeposit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnExtendDeposit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnExtendDeposit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExtendDeposit.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExtendDeposit.ForeColor = System.Drawing.Color.White;
+            this.btnExtendDeposit.Location = new System.Drawing.Point(44, 54);
+            this.btnExtendDeposit.Margin = new System.Windows.Forms.Padding(0);
+            this.btnExtendDeposit.MaximumSize = new System.Drawing.Size(90, 40);
+            this.btnExtendDeposit.MinimumSize = new System.Drawing.Size(90, 40);
+            this.btnExtendDeposit.Name = "btnExtendDeposit";
+            this.btnExtendDeposit.Size = new System.Drawing.Size(90, 40);
+            this.btnExtendDeposit.TabIndex = 58;
+            this.btnExtendDeposit.Text = "Extend Deposit Date";
+            this.btnExtendDeposit.UseVisualStyleBackColor = false;
+            this.btnExtendDeposit.Click += new System.EventHandler(this.btnExtendDeposit_Click);
+            // 
             // PS_PawnButtonsPanel
             // 
             this.PS_PawnButtonsPanel.BackColor = System.Drawing.Color.MistyRose;
@@ -606,42 +634,44 @@ namespace Support.Forms.Customer.Products
             // 
             // GbExtendedStaticLoanInfo
             // 
+            this.GbExtendedStaticLoanInfo.Controls.Add(this.ChkBGetAllHistory);
             this.GbExtendedStaticLoanInfo.Controls.Add(this.CmbHistoryLoanEvents);
             this.GbExtendedStaticLoanInfo.Controls.Add(this.lblLoanEventsBar);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbOriginationDate);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblLastUpdatedBy);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblOriginationDate);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblShopNo);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbExtendedDate);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblDueDate);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbLastUpdatedBy);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblShopName);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbShopState);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbOrigDepDate);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbShopNo);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblOrigDepDate);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblShopState);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblExtendedDate);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbShopName);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbDueDate);
             this.GbExtendedStaticLoanInfo.Location = new System.Drawing.Point(1, 0);
             this.GbExtendedStaticLoanInfo.Name = "GbExtendedStaticLoanInfo";
-            this.GbExtendedStaticLoanInfo.Size = new System.Drawing.Size(915, 79);
+            this.GbExtendedStaticLoanInfo.Size = new System.Drawing.Size(915, 43);
             this.GbExtendedStaticLoanInfo.TabIndex = 19;
             this.GbExtendedStaticLoanInfo.TabStop = false;
             // 
+            // ChkBGetAllHistory
+            // 
+            this.ChkBGetAllHistory.AutoSize = true;
+            this.ChkBGetAllHistory.BackColor = System.Drawing.Color.Firebrick;
+            this.ChkBGetAllHistory.Enabled = false;
+            this.ChkBGetAllHistory.ForeColor = System.Drawing.Color.White;
+            this.ChkBGetAllHistory.Location = new System.Drawing.Point(264, 8);
+            this.ChkBGetAllHistory.Name = "ChkBGetAllHistory";
+            this.ChkBGetAllHistory.Size = new System.Drawing.Size(157, 20);
+            this.ChkBGetAllHistory.TabIndex = 19;
+            this.ChkBGetAllHistory.Text = "Get All History Records";
+            this.ChkBGetAllHistory.UseVisualStyleBackColor = false;
+            this.ChkBGetAllHistory.CheckStateChanged += new System.EventHandler(this.ChkBGetAllHistory_CheckStateChanged);
+            // 
             // CmbHistoryLoanEvents
             // 
+            this.CmbHistoryLoanEvents.Enabled = false;
             this.CmbHistoryLoanEvents.ForeColor = System.Drawing.Color.Black;
             this.CmbHistoryLoanEvents.FormattingEnabled = true;
             this.CmbHistoryLoanEvents.Items.AddRange(new object[] {
             "ALL",
             "POS",
             "NIGHTLY"});
-            this.CmbHistoryLoanEvents.Location = new System.Drawing.Point(91, 49);
+            this.CmbHistoryLoanEvents.Location = new System.Drawing.Point(93, 6);
             this.CmbHistoryLoanEvents.Name = "CmbHistoryLoanEvents";
             this.CmbHistoryLoanEvents.Size = new System.Drawing.Size(146, 24);
             this.CmbHistoryLoanEvents.TabIndex = 17;
+            this.CmbHistoryLoanEvents.SelectedIndex = 0;
+            this.CmbHistoryLoanEvents.SelectedValueChanged += new System.EventHandler(this.CmbHistoryLoanEvents_SelectedValueChanged);
             // 
             // lblLoanEventsBar
             // 
@@ -649,149 +679,13 @@ namespace Support.Forms.Customer.Products
             this.lblLoanEventsBar.BackColor = System.Drawing.Color.Firebrick;
             this.lblLoanEventsBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLoanEventsBar.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblLoanEventsBar.Location = new System.Drawing.Point(0, 47);
+            this.lblLoanEventsBar.Location = new System.Drawing.Point(-1, 4);
             this.lblLoanEventsBar.Name = "lblLoanEventsBar";
             this.lblLoanEventsBar.Size = new System.Drawing.Size(944, 40);
             this.lblLoanEventsBar.TabIndex = 0;
             this.lblLoanEventsBar.Text = "History \r\n                                                                       " +
                 "                                                                                " +
                 "                                    ";
-            // 
-            // TxbOriginationDate
-            // 
-            this.TxbOriginationDate.Enabled = false;
-            this.TxbOriginationDate.Location = new System.Drawing.Point(9, 21);
-            this.TxbOriginationDate.Name = "TxbOriginationDate";
-            this.TxbOriginationDate.Size = new System.Drawing.Size(137, 23);
-            this.TxbOriginationDate.TabIndex = 9;
-            // 
-            // lblLastUpdatedBy
-            // 
-            this.lblLastUpdatedBy.AutoSize = true;
-            this.lblLastUpdatedBy.Location = new System.Drawing.Point(474, 5);
-            this.lblLastUpdatedBy.Name = "lblLastUpdatedBy";
-            this.lblLastUpdatedBy.Size = new System.Drawing.Size(74, 16);
-            this.lblLastUpdatedBy.TabIndex = 5;
-            this.lblLastUpdatedBy.Text = "Last Upd By";
-            // 
-            // lblOriginationDate
-            // 
-            this.lblOriginationDate.AutoSize = true;
-            this.lblOriginationDate.Location = new System.Drawing.Point(9, 5);
-            this.lblOriginationDate.Name = "lblOriginationDate";
-            this.lblOriginationDate.Size = new System.Drawing.Size(130, 16);
-            this.lblOriginationDate.TabIndex = 1;
-            this.lblOriginationDate.Text = "OriginationDate/Time";
-            // 
-            // lblShopNo
-            // 
-            this.lblShopNo.AutoSize = true;
-            this.lblShopNo.Location = new System.Drawing.Point(581, 5);
-            this.lblShopNo.Name = "lblShopNo";
-            this.lblShopNo.Size = new System.Drawing.Size(56, 16);
-            this.lblShopNo.TabIndex = 6;
-            this.lblShopNo.Text = "Shop No";
-            // 
-            // TxbExtendedDate
-            // 
-            this.TxbExtendedDate.Enabled = false;
-            this.TxbExtendedDate.Location = new System.Drawing.Point(367, 21);
-            this.TxbExtendedDate.Name = "TxbExtendedDate";
-            this.TxbExtendedDate.Size = new System.Drawing.Size(100, 23);
-            this.TxbExtendedDate.TabIndex = 12;
-            // 
-            // lblDueDate
-            // 
-            this.lblDueDate.AutoSize = true;
-            this.lblDueDate.Location = new System.Drawing.Point(153, 5);
-            this.lblDueDate.Name = "lblDueDate";
-            this.lblDueDate.Size = new System.Drawing.Size(60, 16);
-            this.lblDueDate.TabIndex = 2;
-            this.lblDueDate.Text = "Due Date";
-            // 
-            // TxbLastUpdatedBy
-            // 
-            this.TxbLastUpdatedBy.Enabled = false;
-            this.TxbLastUpdatedBy.Location = new System.Drawing.Point(474, 21);
-            this.TxbLastUpdatedBy.Name = "TxbLastUpdatedBy";
-            this.TxbLastUpdatedBy.Size = new System.Drawing.Size(100, 23);
-            this.TxbLastUpdatedBy.TabIndex = 13;
-            // 
-            // lblShopName
-            // 
-            this.lblShopName.AutoSize = true;
-            this.lblShopName.Location = new System.Drawing.Point(688, 5);
-            this.lblShopName.Name = "lblShopName";
-            this.lblShopName.Size = new System.Drawing.Size(74, 16);
-            this.lblShopName.TabIndex = 7;
-            this.lblShopName.Text = "Shop Name";
-            // 
-            // TxbShopState
-            // 
-            this.TxbShopState.Enabled = false;
-            this.TxbShopState.Location = new System.Drawing.Point(795, 21);
-            this.TxbShopState.Name = "TxbShopState";
-            this.TxbShopState.Size = new System.Drawing.Size(100, 23);
-            this.TxbShopState.TabIndex = 16;
-            // 
-            // TxbOrigDepDate
-            // 
-            this.TxbOrigDepDate.Enabled = false;
-            this.TxbOrigDepDate.Location = new System.Drawing.Point(260, 21);
-            this.TxbOrigDepDate.Name = "TxbOrigDepDate";
-            this.TxbOrigDepDate.Size = new System.Drawing.Size(100, 23);
-            this.TxbOrigDepDate.TabIndex = 11;
-            // 
-            // TxbShopNo
-            // 
-            this.TxbShopNo.Enabled = false;
-            this.TxbShopNo.Location = new System.Drawing.Point(581, 21);
-            this.TxbShopNo.Name = "TxbShopNo";
-            this.TxbShopNo.Size = new System.Drawing.Size(100, 23);
-            this.TxbShopNo.TabIndex = 14;
-            // 
-            // lblOrigDepDate
-            // 
-            this.lblOrigDepDate.AutoSize = true;
-            this.lblOrigDepDate.Location = new System.Drawing.Point(260, 5);
-            this.lblOrigDepDate.Name = "lblOrigDepDate";
-            this.lblOrigDepDate.Size = new System.Drawing.Size(88, 16);
-            this.lblOrigDepDate.TabIndex = 3;
-            this.lblOrigDepDate.Text = "Orig Dep Date";
-            // 
-            // lblShopState
-            // 
-            this.lblShopState.AutoSize = true;
-            this.lblShopState.Location = new System.Drawing.Point(795, 5);
-            this.lblShopState.Name = "lblShopState";
-            this.lblShopState.Size = new System.Drawing.Size(71, 16);
-            this.lblShopState.TabIndex = 8;
-            this.lblShopState.Text = "Shop State";
-            // 
-            // lblExtendedDate
-            // 
-            this.lblExtendedDate.AutoSize = true;
-            this.lblExtendedDate.Location = new System.Drawing.Point(367, 5);
-            this.lblExtendedDate.Name = "lblExtendedDate";
-            this.lblExtendedDate.Size = new System.Drawing.Size(90, 16);
-            this.lblExtendedDate.TabIndex = 4;
-            this.lblExtendedDate.Text = "Extended Date";
-            // 
-            // TxbShopName
-            // 
-            this.TxbShopName.Enabled = false;
-            this.TxbShopName.Location = new System.Drawing.Point(688, 21);
-            this.TxbShopName.Name = "TxbShopName";
-            this.TxbShopName.Size = new System.Drawing.Size(100, 23);
-            this.TxbShopName.TabIndex = 15;
-            // 
-            // TxbDueDate
-            // 
-            this.TxbDueDate.Enabled = false;
-            this.TxbDueDate.Location = new System.Drawing.Point(153, 21);
-            this.TxbDueDate.Name = "TxbDueDate";
-            this.TxbDueDate.Size = new System.Drawing.Size(100, 23);
-            this.TxbDueDate.TabIndex = 10;
             // 
             // DGVHistoryLoanEvents
             // 
@@ -807,43 +701,186 @@ namespace Support.Forms.Customer.Products
             this.DgvColHistAmoutPaid,
             this.DgvColHistSource,
             this.DgvColHistReceipt});
-            this.DGVHistoryLoanEvents.Location = new System.Drawing.Point(0, 74);
+            this.DGVHistoryLoanEvents.Location = new System.Drawing.Point(0, 47);
             this.DGVHistoryLoanEvents.Name = "DGVHistoryLoanEvents";
+            this.DGVHistoryLoanEvents.ReadOnly = true;
             this.DGVHistoryLoanEvents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DGVHistoryLoanEvents.Size = new System.Drawing.Size(916, 98);
+            this.DGVHistoryLoanEvents.Size = new System.Drawing.Size(916, 132);
             this.DGVHistoryLoanEvents.TabIndex = 18;
             // 
             // DgvColHistDate
             // 
             this.DgvColHistDate.HeaderText = "Date";
             this.DgvColHistDate.Name = "DgvColHistDate";
+            this.DgvColHistDate.ReadOnly = true;
             // 
             // DgvColHistEventType
             // 
             this.DgvColHistEventType.HeaderText = "Event Type";
             this.DgvColHistEventType.Name = "DgvColHistEventType";
+            this.DgvColHistEventType.ReadOnly = true;
             this.DgvColHistEventType.Width = 150;
             // 
             // DgvColHistDetails
             // 
             this.DgvColHistDetails.HeaderText = "Details";
             this.DgvColHistDetails.Name = "DgvColHistDetails";
+            this.DgvColHistDetails.ReadOnly = true;
             this.DgvColHistDetails.Width = 300;
             // 
             // DgvColHistAmoutPaid
             // 
             this.DgvColHistAmoutPaid.HeaderText = "Amount ";
             this.DgvColHistAmoutPaid.Name = "DgvColHistAmoutPaid";
+            this.DgvColHistAmoutPaid.ReadOnly = true;
             // 
             // DgvColHistSource
             // 
             this.DgvColHistSource.HeaderText = "Source";
             this.DgvColHistSource.Name = "DgvColHistSource";
+            this.DgvColHistSource.ReadOnly = true;
             // 
             // DgvColHistReceipt
             // 
             this.DgvColHistReceipt.HeaderText = "Receipt #";
             this.DgvColHistReceipt.Name = "DgvColHistReceipt";
+            this.DgvColHistReceipt.ReadOnly = true;
+            // 
+            // TxbOriginationDate
+            // 
+            this.TxbOriginationDate.Enabled = false;
+            this.TxbOriginationDate.Location = new System.Drawing.Point(140, 127);
+            this.TxbOriginationDate.Name = "TxbOriginationDate";
+            this.TxbOriginationDate.Size = new System.Drawing.Size(137, 21);
+            this.TxbOriginationDate.TabIndex = 9;
+            // 
+            // lblLastUpdatedBy
+            // 
+            this.lblLastUpdatedBy.AutoSize = true;
+            this.lblLastUpdatedBy.Location = new System.Drawing.Point(379, 52);
+            this.lblLastUpdatedBy.Name = "lblLastUpdatedBy";
+            this.lblLastUpdatedBy.Size = new System.Drawing.Size(64, 13);
+            this.lblLastUpdatedBy.TabIndex = 5;
+            this.lblLastUpdatedBy.Text = "Last Upd By";
+            // 
+            // lblOriginationDate
+            // 
+            this.lblOriginationDate.AutoSize = true;
+            this.lblOriginationDate.Location = new System.Drawing.Point(18, 135);
+            this.lblOriginationDate.Name = "lblOriginationDate";
+            this.lblOriginationDate.Size = new System.Drawing.Size(108, 13);
+            this.lblOriginationDate.TabIndex = 1;
+            this.lblOriginationDate.Text = "OriginationDate/Time";
+            // 
+            // lblShopNo
+            // 
+            this.lblShopNo.AutoSize = true;
+            this.lblShopNo.Location = new System.Drawing.Point(379, 78);
+            this.lblShopNo.Name = "lblShopNo";
+            this.lblShopNo.Size = new System.Drawing.Size(47, 13);
+            this.lblShopNo.TabIndex = 6;
+            this.lblShopNo.Text = "Shop No";
+            // 
+            // TxbExtendedDate
+            // 
+            this.TxbExtendedDate.Enabled = false;
+            this.TxbExtendedDate.Location = new System.Drawing.Point(140, 205);
+            this.TxbExtendedDate.Name = "TxbExtendedDate";
+            this.TxbExtendedDate.Size = new System.Drawing.Size(100, 21);
+            this.TxbExtendedDate.TabIndex = 12;
+            // 
+            // lblDueDate
+            // 
+            this.lblDueDate.AutoSize = true;
+            this.lblDueDate.Location = new System.Drawing.Point(18, 161);
+            this.lblDueDate.Name = "lblDueDate";
+            this.lblDueDate.Size = new System.Drawing.Size(52, 13);
+            this.lblDueDate.TabIndex = 2;
+            this.lblDueDate.Text = "Due Date";
+            // 
+            // TxbLastUpdatedBy
+            // 
+            this.TxbLastUpdatedBy.Enabled = false;
+            this.TxbLastUpdatedBy.Location = new System.Drawing.Point(512, 44);
+            this.TxbLastUpdatedBy.Name = "TxbLastUpdatedBy";
+            this.TxbLastUpdatedBy.Size = new System.Drawing.Size(100, 21);
+            this.TxbLastUpdatedBy.TabIndex = 13;
+            // 
+            // lblShopName
+            // 
+            this.lblShopName.AutoSize = true;
+            this.lblShopName.Location = new System.Drawing.Point(379, 104);
+            this.lblShopName.Name = "lblShopName";
+            this.lblShopName.Size = new System.Drawing.Size(61, 13);
+            this.lblShopName.TabIndex = 7;
+            this.lblShopName.Text = "Shop Name";
+            // 
+            // TxbShopState
+            // 
+            this.TxbShopState.Enabled = false;
+            this.TxbShopState.Location = new System.Drawing.Point(512, 122);
+            this.TxbShopState.Name = "TxbShopState";
+            this.TxbShopState.Size = new System.Drawing.Size(100, 21);
+            this.TxbShopState.TabIndex = 16;
+            // 
+            // TxbOrigDepDate
+            // 
+            this.TxbOrigDepDate.Enabled = false;
+            this.TxbOrigDepDate.Location = new System.Drawing.Point(140, 179);
+            this.TxbOrigDepDate.Name = "TxbOrigDepDate";
+            this.TxbOrigDepDate.Size = new System.Drawing.Size(100, 21);
+            this.TxbOrigDepDate.TabIndex = 11;
+            // 
+            // TxbShopNo
+            // 
+            this.TxbShopNo.Enabled = false;
+            this.TxbShopNo.Location = new System.Drawing.Point(512, 70);
+            this.TxbShopNo.Name = "TxbShopNo";
+            this.TxbShopNo.Size = new System.Drawing.Size(100, 21);
+            this.TxbShopNo.TabIndex = 14;
+            // 
+            // lblOrigDepDate
+            // 
+            this.lblOrigDepDate.AutoSize = true;
+            this.lblOrigDepDate.Location = new System.Drawing.Point(18, 187);
+            this.lblOrigDepDate.Name = "lblOrigDepDate";
+            this.lblOrigDepDate.Size = new System.Drawing.Size(75, 13);
+            this.lblOrigDepDate.TabIndex = 3;
+            this.lblOrigDepDate.Text = "Orig Dep Date";
+            // 
+            // lblShopState
+            // 
+            this.lblShopState.AutoSize = true;
+            this.lblShopState.Location = new System.Drawing.Point(379, 130);
+            this.lblShopState.Name = "lblShopState";
+            this.lblShopState.Size = new System.Drawing.Size(60, 13);
+            this.lblShopState.TabIndex = 8;
+            this.lblShopState.Text = "Shop State";
+            // 
+            // lblExtendedDate
+            // 
+            this.lblExtendedDate.AutoSize = true;
+            this.lblExtendedDate.Location = new System.Drawing.Point(18, 213);
+            this.lblExtendedDate.Name = "lblExtendedDate";
+            this.lblExtendedDate.Size = new System.Drawing.Size(79, 13);
+            this.lblExtendedDate.TabIndex = 4;
+            this.lblExtendedDate.Text = "Extended Date";
+            // 
+            // TxbShopName
+            // 
+            this.TxbShopName.Enabled = false;
+            this.TxbShopName.Location = new System.Drawing.Point(512, 96);
+            this.TxbShopName.Name = "TxbShopName";
+            this.TxbShopName.Size = new System.Drawing.Size(100, 21);
+            this.TxbShopName.TabIndex = 15;
+            // 
+            // TxbDueDate
+            // 
+            this.TxbDueDate.Enabled = false;
+            this.TxbDueDate.Location = new System.Drawing.Point(140, 153);
+            this.TxbDueDate.Name = "TxbDueDate";
+            this.TxbDueDate.Size = new System.Drawing.Size(100, 21);
+            this.TxbDueDate.TabIndex = 10;
             // 
             // PH_ReceiptsDataGridView
             // 
@@ -1864,44 +1901,46 @@ namespace Support.Forms.Customer.Products
             // 
             this.PDL_LoanStatsLayoutPanel.BackColor = System.Drawing.Color.MistyRose;
             this.PDL_LoanStatsLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanStatusReason);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblStatusReason);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanStatus);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.XPPFeeAmountToDisplay);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbShopState);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblShopName);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblShopState);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblShopNo);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbShopName);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLastUpdatedBy);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbShopNo);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLastUpdatedBy);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbOriginationDate);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.LblLoanNumber);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbExtendedDate);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.XPPEndDateToDisplay);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblDueDate);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblOriginationDate);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.XPPStartDateToDisplay);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbOrigDepDate);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblOrigDepDate);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblExtendedDate);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblxppSchdFeeAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblxppSchdEndDte);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblxppSchdStartDte);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lnkContractPDF);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.DGVxxpPaySchedule);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblHeaderBarXpp);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbDueDate);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.LnkOtherDetails);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbEstRolloverAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbACHWaitingToClear);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbNSFFeeAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLateFeeAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbAccruedFinanceAmt);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbAcutalServiceChrgAmt);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbActualFinanceChrgAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbXPPAvailable);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbRevokeACH);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanRollOverAmt);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanRolloverNotes);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanNumberPrev);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanNumberOrig);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblEstRolloverAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblACHWaitingToClear);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblNSFFeeAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLateFeeAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblAccruedFinanceAmt);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblAcutalServiceChrgAmt);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblActualFinanceChrgAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblXPPAvailable);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblRevokeACH);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanRollOverAmt);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanRolloverNotes);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanStatus);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanNumberPrev);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanNumberOrig);
@@ -1916,23 +1955,6 @@ namespace Support.Forms.Customer.Products
             this.PDL_LoanStatsLayoutPanel.Name = "PDL_LoanStatsLayoutPanel";
             this.PDL_LoanStatsLayoutPanel.Size = new System.Drawing.Size(625, 423);
             this.PDL_LoanStatsLayoutPanel.TabIndex = 0;
-            // 
-            // TxbLoanStatusReason
-            // 
-            this.TxbLoanStatusReason.Enabled = false;
-            this.TxbLoanStatusReason.Location = new System.Drawing.Point(140, 127);
-            this.TxbLoanStatusReason.Name = "TxbLoanStatusReason";
-            this.TxbLoanStatusReason.Size = new System.Drawing.Size(100, 21);
-            this.TxbLoanStatusReason.TabIndex = 154;
-            // 
-            // lblStatusReason
-            // 
-            this.lblStatusReason.AutoSize = true;
-            this.lblStatusReason.Location = new System.Drawing.Point(18, 135);
-            this.lblStatusReason.Name = "lblStatusReason";
-            this.lblStatusReason.Size = new System.Drawing.Size(81, 13);
-            this.lblStatusReason.TabIndex = 153;
-            this.lblStatusReason.Text = "Status Reason:";
             // 
             // TxbLoanStatus
             // 
@@ -2080,7 +2102,7 @@ namespace Support.Forms.Customer.Products
             // 
             this.LnkOtherDetails.AutoSize = true;
             this.LnkOtherDetails.Enabled = false;
-            this.LnkOtherDetails.Location = new System.Drawing.Point(540, 234);
+            this.LnkOtherDetails.Location = new System.Drawing.Point(268, 235);
             this.LnkOtherDetails.Name = "LnkOtherDetails";
             this.LnkOtherDetails.Size = new System.Drawing.Size(70, 13);
             this.LnkOtherDetails.TabIndex = 36;
@@ -2088,18 +2110,10 @@ namespace Support.Forms.Customer.Products
             this.LnkOtherDetails.Text = "Other Details";
             this.LnkOtherDetails.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ps_OtherDetails_LinkClicked);
             // 
-            // TxbEstRolloverAmt
-            // 
-            this.TxbEstRolloverAmt.Enabled = false;
-            this.TxbEstRolloverAmt.Location = new System.Drawing.Point(511, 205);
-            this.TxbEstRolloverAmt.Name = "TxbEstRolloverAmt";
-            this.TxbEstRolloverAmt.Size = new System.Drawing.Size(100, 21);
-            this.TxbEstRolloverAmt.TabIndex = 35;
-            // 
             // TxbACHWaitingToClear
             // 
             this.TxbACHWaitingToClear.Enabled = false;
-            this.TxbACHWaitingToClear.Location = new System.Drawing.Point(511, 179);
+            this.TxbACHWaitingToClear.Location = new System.Drawing.Point(512, 226);
             this.TxbACHWaitingToClear.Name = "TxbACHWaitingToClear";
             this.TxbACHWaitingToClear.Size = new System.Drawing.Size(100, 21);
             this.TxbACHWaitingToClear.TabIndex = 34;
@@ -2107,7 +2121,7 @@ namespace Support.Forms.Customer.Products
             // TxbNSFFeeAmt
             // 
             this.TxbNSFFeeAmt.Enabled = false;
-            this.TxbNSFFeeAmt.Location = new System.Drawing.Point(511, 153);
+            this.TxbNSFFeeAmt.Location = new System.Drawing.Point(512, 200);
             this.TxbNSFFeeAmt.Name = "TxbNSFFeeAmt";
             this.TxbNSFFeeAmt.Size = new System.Drawing.Size(100, 21);
             this.TxbNSFFeeAmt.TabIndex = 33;
@@ -2115,7 +2129,7 @@ namespace Support.Forms.Customer.Products
             // TxbLateFeeAmt
             // 
             this.TxbLateFeeAmt.Enabled = false;
-            this.TxbLateFeeAmt.Location = new System.Drawing.Point(511, 127);
+            this.TxbLateFeeAmt.Location = new System.Drawing.Point(512, 174);
             this.TxbLateFeeAmt.Name = "TxbLateFeeAmt";
             this.TxbLateFeeAmt.Size = new System.Drawing.Size(100, 21);
             this.TxbLateFeeAmt.TabIndex = 32;
@@ -2123,26 +2137,10 @@ namespace Support.Forms.Customer.Products
             // TxbAccruedFinanceAmt
             // 
             this.TxbAccruedFinanceAmt.Enabled = false;
-            this.TxbAccruedFinanceAmt.Location = new System.Drawing.Point(511, 101);
+            this.TxbAccruedFinanceAmt.Location = new System.Drawing.Point(512, 148);
             this.TxbAccruedFinanceAmt.Name = "TxbAccruedFinanceAmt";
             this.TxbAccruedFinanceAmt.Size = new System.Drawing.Size(100, 21);
             this.TxbAccruedFinanceAmt.TabIndex = 31;
-            // 
-            // TxbAcutalServiceChrgAmt
-            // 
-            this.TxbAcutalServiceChrgAmt.Enabled = false;
-            this.TxbAcutalServiceChrgAmt.Location = new System.Drawing.Point(511, 75);
-            this.TxbAcutalServiceChrgAmt.Name = "TxbAcutalServiceChrgAmt";
-            this.TxbAcutalServiceChrgAmt.Size = new System.Drawing.Size(100, 21);
-            this.TxbAcutalServiceChrgAmt.TabIndex = 30;
-            // 
-            // TxbActualFinanceChrgAmt
-            // 
-            this.TxbActualFinanceChrgAmt.Enabled = false;
-            this.TxbActualFinanceChrgAmt.Location = new System.Drawing.Point(511, 49);
-            this.TxbActualFinanceChrgAmt.Name = "TxbActualFinanceChrgAmt";
-            this.TxbActualFinanceChrgAmt.Size = new System.Drawing.Size(100, 21);
-            this.TxbActualFinanceChrgAmt.TabIndex = 29;
             // 
             // TxbXPPAvailable
             // 
@@ -2151,30 +2149,6 @@ namespace Support.Forms.Customer.Products
             this.TxbXPPAvailable.Name = "TxbXPPAvailable";
             this.TxbXPPAvailable.Size = new System.Drawing.Size(100, 21);
             this.TxbXPPAvailable.TabIndex = 28;
-            // 
-            // TxbRevokeACH
-            // 
-            this.TxbRevokeACH.Enabled = false;
-            this.TxbRevokeACH.Location = new System.Drawing.Point(140, 205);
-            this.TxbRevokeACH.Name = "TxbRevokeACH";
-            this.TxbRevokeACH.Size = new System.Drawing.Size(100, 21);
-            this.TxbRevokeACH.TabIndex = 27;
-            // 
-            // TxbLoanRollOverAmt
-            // 
-            this.TxbLoanRollOverAmt.Enabled = false;
-            this.TxbLoanRollOverAmt.Location = new System.Drawing.Point(140, 179);
-            this.TxbLoanRollOverAmt.Name = "TxbLoanRollOverAmt";
-            this.TxbLoanRollOverAmt.Size = new System.Drawing.Size(100, 21);
-            this.TxbLoanRollOverAmt.TabIndex = 26;
-            // 
-            // TxbLoanRolloverNotes
-            // 
-            this.TxbLoanRolloverNotes.Enabled = false;
-            this.TxbLoanRolloverNotes.Location = new System.Drawing.Point(140, 153);
-            this.TxbLoanRolloverNotes.Name = "TxbLoanRolloverNotes";
-            this.TxbLoanRolloverNotes.Size = new System.Drawing.Size(100, 21);
-            this.TxbLoanRolloverNotes.TabIndex = 25;
             // 
             // TxbLoanNumberPrev
             // 
@@ -2192,19 +2166,10 @@ namespace Support.Forms.Customer.Products
             this.TxbLoanNumberOrig.Size = new System.Drawing.Size(100, 21);
             this.TxbLoanNumberOrig.TabIndex = 22;
             // 
-            // lblEstRolloverAmt
-            // 
-            this.lblEstRolloverAmt.AutoSize = true;
-            this.lblEstRolloverAmt.Location = new System.Drawing.Point(379, 213);
-            this.lblEstRolloverAmt.Name = "lblEstRolloverAmt";
-            this.lblEstRolloverAmt.Size = new System.Drawing.Size(86, 13);
-            this.lblEstRolloverAmt.TabIndex = 21;
-            this.lblEstRolloverAmt.Text = "Est Rollover Amt";
-            // 
             // lblACHWaitingToClear
             // 
             this.lblACHWaitingToClear.AutoSize = true;
-            this.lblACHWaitingToClear.Location = new System.Drawing.Point(379, 187);
+            this.lblACHWaitingToClear.Location = new System.Drawing.Point(379, 235);
             this.lblACHWaitingToClear.Name = "lblACHWaitingToClear";
             this.lblACHWaitingToClear.Size = new System.Drawing.Size(95, 13);
             this.lblACHWaitingToClear.TabIndex = 20;
@@ -2213,7 +2178,7 @@ namespace Support.Forms.Customer.Products
             // lblNSFFeeAmt
             // 
             this.lblNSFFeeAmt.AutoSize = true;
-            this.lblNSFFeeAmt.Location = new System.Drawing.Point(379, 161);
+            this.lblNSFFeeAmt.Location = new System.Drawing.Point(379, 208);
             this.lblNSFFeeAmt.Name = "lblNSFFeeAmt";
             this.lblNSFFeeAmt.Size = new System.Drawing.Size(47, 13);
             this.lblNSFFeeAmt.TabIndex = 19;
@@ -2222,7 +2187,7 @@ namespace Support.Forms.Customer.Products
             // lblLateFeeAmt
             // 
             this.lblLateFeeAmt.AutoSize = true;
-            this.lblLateFeeAmt.Location = new System.Drawing.Point(379, 135);
+            this.lblLateFeeAmt.Location = new System.Drawing.Point(379, 182);
             this.lblLateFeeAmt.Name = "lblLateFeeAmt";
             this.lblLateFeeAmt.Size = new System.Drawing.Size(49, 13);
             this.lblLateFeeAmt.TabIndex = 18;
@@ -2231,29 +2196,11 @@ namespace Support.Forms.Customer.Products
             // lblAccruedFinanceAmt
             // 
             this.lblAccruedFinanceAmt.AutoSize = true;
-            this.lblAccruedFinanceAmt.Location = new System.Drawing.Point(379, 109);
+            this.lblAccruedFinanceAmt.Location = new System.Drawing.Point(379, 156);
             this.lblAccruedFinanceAmt.Name = "lblAccruedFinanceAmt";
             this.lblAccruedFinanceAmt.Size = new System.Drawing.Size(86, 13);
             this.lblAccruedFinanceAmt.TabIndex = 17;
             this.lblAccruedFinanceAmt.Text = "Accrued Finance";
-            // 
-            // lblAcutalServiceChrgAmt
-            // 
-            this.lblAcutalServiceChrgAmt.AutoSize = true;
-            this.lblAcutalServiceChrgAmt.Location = new System.Drawing.Point(379, 83);
-            this.lblAcutalServiceChrgAmt.Name = "lblAcutalServiceChrgAmt";
-            this.lblAcutalServiceChrgAmt.Size = new System.Drawing.Size(53, 13);
-            this.lblAcutalServiceChrgAmt.TabIndex = 16;
-            this.lblAcutalServiceChrgAmt.Text = "Actual SC";
-            // 
-            // lblActualFinanceChrgAmt
-            // 
-            this.lblActualFinanceChrgAmt.AutoSize = true;
-            this.lblActualFinanceChrgAmt.Location = new System.Drawing.Point(379, 57);
-            this.lblActualFinanceChrgAmt.Name = "lblActualFinanceChrgAmt";
-            this.lblActualFinanceChrgAmt.Size = new System.Drawing.Size(53, 13);
-            this.lblActualFinanceChrgAmt.TabIndex = 15;
-            this.lblActualFinanceChrgAmt.Text = "Actual FC";
             // 
             // lblXPPAvailable
             // 
@@ -2263,33 +2210,6 @@ namespace Support.Forms.Customer.Products
             this.lblXPPAvailable.Size = new System.Drawing.Size(75, 13);
             this.lblXPPAvailable.TabIndex = 14;
             this.lblXPPAvailable.Text = "XPP Available:";
-            // 
-            // lblRevokeACH
-            // 
-            this.lblRevokeACH.AutoSize = true;
-            this.lblRevokeACH.Location = new System.Drawing.Point(18, 213);
-            this.lblRevokeACH.Name = "lblRevokeACH";
-            this.lblRevokeACH.Size = new System.Drawing.Size(67, 13);
-            this.lblRevokeACH.TabIndex = 13;
-            this.lblRevokeACH.Text = "Revoke ACH";
-            // 
-            // lblLoanRollOverAmt
-            // 
-            this.lblLoanRollOverAmt.AutoSize = true;
-            this.lblLoanRollOverAmt.Location = new System.Drawing.Point(18, 187);
-            this.lblLoanRollOverAmt.Name = "lblLoanRollOverAmt";
-            this.lblLoanRollOverAmt.Size = new System.Drawing.Size(74, 13);
-            this.lblLoanRollOverAmt.TabIndex = 12;
-            this.lblLoanRollOverAmt.Text = "RollOver Amt:";
-            // 
-            // lblLoanRolloverNotes
-            // 
-            this.lblLoanRolloverNotes.AutoSize = true;
-            this.lblLoanRolloverNotes.Location = new System.Drawing.Point(18, 161);
-            this.lblLoanRolloverNotes.Name = "lblLoanRolloverNotes";
-            this.lblLoanRolloverNotes.Size = new System.Drawing.Size(75, 13);
-            this.lblLoanRolloverNotes.TabIndex = 11;
-            this.lblLoanRolloverNotes.Text = "Rollovers Rem";
             // 
             // lblLoanStatus
             // 
@@ -2384,6 +2304,125 @@ namespace Support.Forms.Customer.Products
             this.lblActualLoanAmtData.Size = new System.Drawing.Size(59, 13);
             this.lblActualLoanAmtData.TabIndex = 5;
             this.lblActualLoanAmtData.Text = "Actual Amt";
+            // 
+            // TxbLoanStatusReason
+            // 
+            this.TxbLoanStatusReason.Enabled = false;
+            this.TxbLoanStatusReason.Location = new System.Drawing.Point(90, 0);
+            this.TxbLoanStatusReason.Name = "TxbLoanStatusReason";
+            this.TxbLoanStatusReason.Size = new System.Drawing.Size(100, 21);
+            this.TxbLoanStatusReason.TabIndex = 154;
+            // 
+            // lblStatusReason
+            // 
+            this.lblStatusReason.AutoSize = true;
+            this.lblStatusReason.Location = new System.Drawing.Point(3, 0);
+            this.lblStatusReason.Name = "lblStatusReason";
+            this.lblStatusReason.Size = new System.Drawing.Size(81, 13);
+            this.lblStatusReason.TabIndex = 153;
+            this.lblStatusReason.Text = "Status Reason:";
+            // 
+            // TxbEstRolloverAmt
+            // 
+            this.TxbEstRolloverAmt.Enabled = false;
+            this.TxbEstRolloverAmt.Location = new System.Drawing.Point(95, 113);
+            this.TxbEstRolloverAmt.Name = "TxbEstRolloverAmt";
+            this.TxbEstRolloverAmt.Size = new System.Drawing.Size(100, 21);
+            this.TxbEstRolloverAmt.TabIndex = 35;
+            // 
+            // TxbAcutalServiceChrgAmt
+            // 
+            this.TxbAcutalServiceChrgAmt.Enabled = false;
+            this.TxbAcutalServiceChrgAmt.Location = new System.Drawing.Point(100, 96);
+            this.TxbAcutalServiceChrgAmt.Name = "TxbAcutalServiceChrgAmt";
+            this.TxbAcutalServiceChrgAmt.Size = new System.Drawing.Size(100, 21);
+            this.TxbAcutalServiceChrgAmt.TabIndex = 30;
+            // 
+            // TxbActualFinanceChrgAmt
+            // 
+            this.TxbActualFinanceChrgAmt.Enabled = false;
+            this.TxbActualFinanceChrgAmt.Location = new System.Drawing.Point(90, 85);
+            this.TxbActualFinanceChrgAmt.Name = "TxbActualFinanceChrgAmt";
+            this.TxbActualFinanceChrgAmt.Size = new System.Drawing.Size(100, 21);
+            this.TxbActualFinanceChrgAmt.TabIndex = 29;
+            // 
+            // TxbRevokeACH
+            // 
+            this.TxbRevokeACH.Enabled = false;
+            this.TxbRevokeACH.Location = new System.Drawing.Point(90, 66);
+            this.TxbRevokeACH.Name = "TxbRevokeACH";
+            this.TxbRevokeACH.Size = new System.Drawing.Size(100, 21);
+            this.TxbRevokeACH.TabIndex = 27;
+            // 
+            // TxbLoanRollOverAmt
+            // 
+            this.TxbLoanRollOverAmt.Enabled = false;
+            this.TxbLoanRollOverAmt.Location = new System.Drawing.Point(90, 43);
+            this.TxbLoanRollOverAmt.Name = "TxbLoanRollOverAmt";
+            this.TxbLoanRollOverAmt.Size = new System.Drawing.Size(100, 21);
+            this.TxbLoanRollOverAmt.TabIndex = 26;
+            // 
+            // TxbLoanRolloverNotes
+            // 
+            this.TxbLoanRolloverNotes.Enabled = false;
+            this.TxbLoanRolloverNotes.Location = new System.Drawing.Point(90, 21);
+            this.TxbLoanRolloverNotes.Name = "TxbLoanRolloverNotes";
+            this.TxbLoanRolloverNotes.Size = new System.Drawing.Size(100, 21);
+            this.TxbLoanRolloverNotes.TabIndex = 25;
+            // 
+            // lblEstRolloverAmt
+            // 
+            this.lblEstRolloverAmt.AutoSize = true;
+            this.lblEstRolloverAmt.Location = new System.Drawing.Point(-2, 116);
+            this.lblEstRolloverAmt.Name = "lblEstRolloverAmt";
+            this.lblEstRolloverAmt.Size = new System.Drawing.Size(86, 13);
+            this.lblEstRolloverAmt.TabIndex = 21;
+            this.lblEstRolloverAmt.Text = "Est Rollover Amt";
+            // 
+            // lblAcutalServiceChrgAmt
+            // 
+            this.lblAcutalServiceChrgAmt.AutoSize = true;
+            this.lblAcutalServiceChrgAmt.Location = new System.Drawing.Point(11, 104);
+            this.lblAcutalServiceChrgAmt.Name = "lblAcutalServiceChrgAmt";
+            this.lblAcutalServiceChrgAmt.Size = new System.Drawing.Size(53, 13);
+            this.lblAcutalServiceChrgAmt.TabIndex = 16;
+            this.lblAcutalServiceChrgAmt.Text = "Actual SC";
+            // 
+            // lblActualFinanceChrgAmt
+            // 
+            this.lblActualFinanceChrgAmt.AutoSize = true;
+            this.lblActualFinanceChrgAmt.Location = new System.Drawing.Point(11, 91);
+            this.lblActualFinanceChrgAmt.Name = "lblActualFinanceChrgAmt";
+            this.lblActualFinanceChrgAmt.Size = new System.Drawing.Size(53, 13);
+            this.lblActualFinanceChrgAmt.TabIndex = 15;
+            this.lblActualFinanceChrgAmt.Text = "Actual FC";
+            // 
+            // lblRevokeACH
+            // 
+            this.lblRevokeACH.AutoSize = true;
+            this.lblRevokeACH.Location = new System.Drawing.Point(11, 74);
+            this.lblRevokeACH.Name = "lblRevokeACH";
+            this.lblRevokeACH.Size = new System.Drawing.Size(67, 13);
+            this.lblRevokeACH.TabIndex = 13;
+            this.lblRevokeACH.Text = "Revoke ACH";
+            // 
+            // lblLoanRollOverAmt
+            // 
+            this.lblLoanRollOverAmt.AutoSize = true;
+            this.lblLoanRollOverAmt.Location = new System.Drawing.Point(6, 51);
+            this.lblLoanRollOverAmt.Name = "lblLoanRollOverAmt";
+            this.lblLoanRollOverAmt.Size = new System.Drawing.Size(74, 13);
+            this.lblLoanRollOverAmt.TabIndex = 12;
+            this.lblLoanRollOverAmt.Text = "RollOver Amt:";
+            // 
+            // lblLoanRolloverNotes
+            // 
+            this.lblLoanRolloverNotes.AutoSize = true;
+            this.lblLoanRolloverNotes.Location = new System.Drawing.Point(3, 21);
+            this.lblLoanRolloverNotes.Name = "lblLoanRolloverNotes";
+            this.lblLoanRolloverNotes.Size = new System.Drawing.Size(75, 13);
+            this.lblLoanRolloverNotes.TabIndex = 11;
+            this.lblLoanRolloverNotes.Text = "Rollovers Rem";
             // 
             // lblCustomerSSNData
             // 
@@ -2505,31 +2544,6 @@ namespace Support.Forms.Customer.Products
             this.lblHdrLoanNumber.Text = "SSN:";
             this.lblHdrLoanNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnExtendDeposit
-            // 
-            this.btnExtendDeposit.BackColor = System.Drawing.Color.Transparent;
-            this.btnExtendDeposit.BackgroundImage = global::Support.Properties.Resources.Red_button_100_50;
-            this.btnExtendDeposit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnExtendDeposit.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnExtendDeposit.Enabled = false;
-            this.btnExtendDeposit.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnExtendDeposit.FlatAppearance.BorderSize = 0;
-            this.btnExtendDeposit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnExtendDeposit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnExtendDeposit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExtendDeposit.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExtendDeposit.ForeColor = System.Drawing.Color.White;
-            this.btnExtendDeposit.Location = new System.Drawing.Point(44, 54);
-            this.btnExtendDeposit.Margin = new System.Windows.Forms.Padding(0);
-            this.btnExtendDeposit.MaximumSize = new System.Drawing.Size(90, 40);
-            this.btnExtendDeposit.MinimumSize = new System.Drawing.Size(90, 40);
-            this.btnExtendDeposit.Name = "btnExtendDeposit";
-            this.btnExtendDeposit.Size = new System.Drawing.Size(90, 40);
-            this.btnExtendDeposit.TabIndex = 58;
-            this.btnExtendDeposit.Text = "Extend Deposit Date";
-            this.btnExtendDeposit.UseVisualStyleBackColor = false;
-            this.btnExtendDeposit.Click += new System.EventHandler(this.btnExtendDeposit_Click);
-            // 
             // customButtonCancel
             // 
             this.customButtonCancel.BackColor = System.Drawing.Color.Transparent;
@@ -2554,6 +2568,28 @@ namespace Support.Forms.Customer.Products
             this.customButtonCancel.UseVisualStyleBackColor = false;
             this.customButtonCancel.Click += new System.EventHandler(this.customButtonCancel_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.TxbLoanStatusReason);
+            this.panel1.Controls.Add(this.lblStatusReason);
+            this.panel1.Controls.Add(this.lblLoanRolloverNotes);
+            this.panel1.Controls.Add(this.TxbLoanRolloverNotes);
+            this.panel1.Controls.Add(this.lblLoanRollOverAmt);
+            this.panel1.Controls.Add(this.TxbLoanRollOverAmt);
+            this.panel1.Controls.Add(this.lblRevokeACH);
+            this.panel1.Controls.Add(this.TxbRevokeACH);
+            this.panel1.Controls.Add(this.lblActualFinanceChrgAmt);
+            this.panel1.Controls.Add(this.TxbActualFinanceChrgAmt);
+            this.panel1.Controls.Add(this.lblAcutalServiceChrgAmt);
+            this.panel1.Controls.Add(this.TxbAcutalServiceChrgAmt);
+            this.panel1.Controls.Add(this.TxbEstRolloverAmt);
+            this.panel1.Controls.Add(this.lblEstRolloverAmt);
+            this.panel1.Location = new System.Drawing.Point(1080, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(200, 136);
+            this.panel1.TabIndex = 149;
+            this.panel1.Visible = false;
+            // 
             // Controller_ProductServices
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2563,6 +2599,7 @@ namespace Support.Forms.Customer.Products
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(940, 750);
             this.ControlBox = false;
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.FormHeaderPanel);
             this.Controls.Add(this.PS_ShowComboBox);
             this.Controls.Add(this.lblCbHeaderShow);
@@ -2608,6 +2645,8 @@ namespace Support.Forms.Customer.Products
             ((System.ComponentModel.ISupportInitialize)(this.DGVxxpPaySchedule)).EndInit();
             this.FormHeaderPanel.ResumeLayout(false);
             this.FormHeaderPanel.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2818,6 +2857,8 @@ namespace Support.Forms.Customer.Products
             private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentNumber;
             private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentDate;
             private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentAmt;
+            private System.Windows.Forms.CheckBox ChkBGetAllHistory;
+            private System.Windows.Forms.Panel panel1;
 
     }
 }

@@ -897,7 +897,10 @@ namespace Pawn.Forms.Report
                         case (int)ReportIDs.GunAuditReportATFOpenRecords://Gun Audit report ATF
                             _report.GunAuditDataATFOpenRecordsData = ReportsProcedures.GetGunAuditATFOpenRecordsData(outputDataSet.Tables["gun_audit"], _report);
                             break;
-
+                        case (int)ReportIDs.RefurbList:
+                            _report.ListRefurbItemsExpected = ReportsProcedures.GetRefurbItemsList(outputDataSet.Tables["refurb_items_Expected"], _report);
+                            _report.ListRefurbItemsNotExpected = ReportsProcedures.GetRefurbItemsList(outputDataSet.Tables["refurb_items_Not_Expected"], _report);
+                            break;
                         case (int)ReportIDs.CACCSales://CACC Sales Report
                             //_report.CACCSalesData = ReportsProcedures.GetCACCSalesData(outputDataSet.Tables["cacc_sales"], _report);
                             _report.CACCSalesData = outputDataSet.Tables["cacc_sales"];
@@ -928,7 +931,7 @@ namespace Pawn.Forms.Report
                         ReportProcessing.DoReport(_report, PdfLauncher.Instance);
                     }
                 }
-
+ 
                 if (_report.ReportErrorLevel != 0)
                 {
                     if ((LogLevel)_report.ReportErrorLevel != LogLevel.DEBUG)
@@ -1192,6 +1195,12 @@ namespace Pawn.Forms.Report
                     case "Multiple Gun Disposition Rifles":
                         _report.ReportNumber = (int)ReportIDs.RifleDispositionReport;
                         _report.ReportTitle = "Multiple Gun Disposition Rifles";
+                        break;
+
+
+                    case "Refurb List":
+                        _report.ReportNumber = (int)ReportIDs.RefurbList;
+                        _report.ReportTitle = "Refurb List";
                         break;
 
                     case "Gun Audit Summary":

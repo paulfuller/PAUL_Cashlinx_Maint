@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Common.Controllers.Application;
 using Common.Libraries.Objects.Pawn;
 using Common.Libraries.Utility.Shared;
 
@@ -66,6 +67,10 @@ namespace Common.Controllers.Database.Procedures
                     {
                         daysToPaySecondMonth = 30;
                     }
+                    //Apply grace period logic if state has grace period set
+                    int graceDays=new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetGracePeriod(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId);
+                    if (daysToPaySecondMonth > 0 && daysToPaySecondMonth <= graceDays) 
+                        daysToPaySecondMonth = 0;
                     if (currentDate > partialPaymentDate && currentDateLoanMonth - ppmtLoanMonth > 1)
                     {
                         int numOfMonths = ((currentDateLoanStartDate - ppmtLoanStartDate).Days / 30 - 1);

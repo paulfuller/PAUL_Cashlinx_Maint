@@ -71,10 +71,22 @@ namespace Common.Controllers.Application
         public List<DetailInventorySummary> DetailInventorySummaryList { set; get; }
         public List<DetailInventoryLines> DetailInventoryLinesList { set; get; }
         public DetailInventoryLinesAndSummary DetailInventoryData { get; set; }
+        public List<RefurbItem> ListRefurbItemsExpected { get; set; }
+        public List<RefurbItem> ListRefurbItemsNotExpected { get; set; }
         //report #206 Loan Audit report
         //report #201 Gun Disposition 
         public DataSet GunDispositionData { set; get; }
         //report #206 Loan Audit 
+
+        public struct RefurbItem
+        {
+            public DateTime TransferDate;
+            public String TransferNumber;
+            public String RefurbNumber;
+            public string ICN;
+            public String Description;
+            public decimal Cost;
+        }
 
         public struct PFIMailer
         {
@@ -479,6 +491,9 @@ namespace Common.Controllers.Application
             ReportParms = new List<object>();
             ReportImage = null;
         }
+
+       
+
         public void CreateTemporaryFullName()
         {
             //ReportTempFileFullName = ReportTempFile + "tmp\\Report" + DateTime.Now.ToString("MMddyyyyhhmmssFFFFFFF") + ".pdf";

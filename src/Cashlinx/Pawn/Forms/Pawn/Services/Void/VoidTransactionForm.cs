@@ -13,6 +13,7 @@ using Common.Libraries.Objects.Purchase;
 using Common.Libraries.Objects.Retail;
 using Common.Libraries.Utility;
 using Common.Libraries.Utility.Shared;
+using Pawn.Forms.Retail;
 using Pawn.Logic;
 using Pawn.Logic.DesktopProcedures;
 

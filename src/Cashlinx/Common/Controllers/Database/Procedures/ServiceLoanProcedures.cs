@@ -20,7 +20,7 @@ namespace Common.Controllers.Database.Procedures
     public static class ServiceLoanProcedures
     {
         //Non DB Functions
-        public static bool CheckForOverrides(ServiceTypes typeOfService, string activeCustomerNumber, ref List<PawnLoan> selectedLoans, ref string loansOverrideFailedMessage)
+        public static bool CheckForOverrides(ServiceTypes typeOfService, string activeCustomerNumber, ref List<PawnLoan> selectedLoans, ref string loansOverrideFailedMessage, bool forceOverride = false)
         {
             List<int> transactionsForServiceOverride = new List<int>();
             List<int> selectedLoanNumbers = new List<int>();
@@ -33,10 +33,13 @@ namespace Common.Controllers.Database.Procedures
                 List<string> overridereason = new List<string>();
                 ManagerOverrideType overridetype = ManagerOverrideType.PFIE;
                 List<ManagerOverrideType> overridetypes = new List<ManagerOverrideType>();
-                if (IsOverrideRequired(typeOfService, pl, activeCustomerNumber, ref overridereason, ref overridetypes))
+                if (forceOverride || IsOverrideRequired(typeOfService, pl, activeCustomerNumber, ref overridereason, ref overridetypes))
                 {
                     OverrideTransaction tran = new OverrideTransaction();
                     tran.ReasonForOverride = new List<Commons.StringValue>();
+                    if (forceOverride)
+                        tran.ReasonForOverride.Add(new Commons.StringValue("Your role requires a management override for this transaction."));
+
                     foreach (var s in overridereason)
                         tran.ReasonForOverride.Add(new Commons.StringValue(s));
 

@@ -8,6 +8,12 @@ namespace Support.Libraries.Objects.PDLoan
     [Serializable]
     public class PDLoanOtherDetails
     {
+        public string Loan_Type
+        {
+            get;
+            set;
+        }
+
         public string ApprovalNumber
         {
             get;

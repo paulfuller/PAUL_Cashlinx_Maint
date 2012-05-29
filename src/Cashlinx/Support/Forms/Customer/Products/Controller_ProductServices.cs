@@ -137,6 +137,8 @@ namespace Support.Forms.Customer.Products
             //"Pawn",
             //"Layaway",
             //"PDL/INST"});
+            this.labelServiceAmountHeading.Visible = false;
+            this.labelServiceAmount.Visible = false;
             this.PS_ShowComboBox.Text = "PDL/INST";
             //PS_ShowComboBox.SelectedIndex = 2;
             this.NavControlBox = new NavBox();
@@ -243,7 +245,7 @@ namespace Support.Forms.Customer.Products
             //SupportProductType loantype = GetSelectedProductType();
             
             LW_LayawayButtonsPanel.Location = PS_PawnButtonsPanel.Location;
-            PS_PawnButtonsPanel.Visible = true;
+            PS_PawnButtonsPanel.Visible = false;
             LW_LayawayButtonsPanel.Visible = false;
             PS_PawnButtonsPanel.BringToFront();
 
@@ -496,6 +498,8 @@ namespace Support.Forms.Customer.Products
                         myRow.Cells["PS_Ticket_Status"].Style.Font = new Font(PS_TicketsDataGridView.Font, FontStyle.Bold);
                     }
                 }
+
+                PS_TicketsDataGridView.ClearSelection();
             }
             else
             {
@@ -1187,8 +1191,10 @@ namespace Support.Forms.Customer.Products
         {
 
             decimal MoneyValue;
-
+            string LegalDeptMsg = "Refer to Legal Department";
+                
             var PDLoan = Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan;
+            //var otherDetails = Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.GetPDLoanOtherDetails;
 
             this.lblCustomerSSNData.Text = Commons.FormatSSN(Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer.SocialSecurityNumber);
 //            this.lblCustomerSSNData.Text = Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer.SocialSecurityNumber;
@@ -1219,6 +1225,7 @@ namespace Support.Forms.Customer.Products
             this.TxbLoanRolloverNotes.Text = Record.LoanRolloverNotes;
             this.TxbLoanRollOverAmt.Text = Record.LoanRollOverAmt.ToString("C");
             this.TxbRevokeACH.Text = Record.RevokeACH.ToString();// == Record.RevokeACH ? "Yes" : "No";
+
             this.TxbXPPAvailable.Text = Record.XPPAvailable.ToString();// == Record.XPPAvailable ? "Yes" : "No";
             this.TxbActualFinanceChrgAmt.Text = Record.ActualFinanceChrgAmt.ToString("C");
             this.TxbAcutalServiceChrgAmt.Text = Record.AcutalServiceChrgAmt.ToString("C");
@@ -1240,6 +1247,10 @@ namespace Support.Forms.Customer.Products
             {
                 this.XPPEndDateToDisplay.Text = DateTime.Parse(Record.XPP_End_Date).FormatDate();
             }
+            //int tempval;
+            //int.TryParse(otherDetails.CourtCostAmt, out tempval);
+            //if (tempval > 0) //otherDetails.CourtCostAmt > 0)
+            //    this.PS_PawnNameLabel.Text = LegalDeptMsg;
 
             //this.XPPEndDateToDisplay.Text = checkNull(Record.XPP_End_Date).ToString();
             this.LblLoanNumber.Text = Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.PDLLoanNumber;
@@ -1264,10 +1275,10 @@ namespace Support.Forms.Customer.Products
         private void MapPDL_EventsFromProperties(PDLoanDetails Record)
         {
             // put these elements in a groupbox for more controll.
-            this.TxbOriginationDate.Text = Record.OrginationDate == DateTime.MaxValue ? "" : (Record.OrginationDate).FormatDateWithTimeZone();
-            this.TxbDueDate.Text = Record.DueDate == DateTime.MaxValue ? "" : (Record.DueDate).FormatDate();
-            this.TxbOrigDepDate.Text = Record.OrigDepDate == DateTime.MaxValue ? "" : (Record.OrigDepDate).FormatDate();
-            this.TxbExtendedDate.Text = Record.ExtendedDate == DateTime.MaxValue ? "" : (Record.ExtendedDate).FormatDate();
+            this.TxbOriginationDate.Text = Record.OrginationDate == DateTime.MinValue ? "" : (Record.OrginationDate).FormatDateWithTimeZone();
+            this.TxbDueDate.Text = Record.DueDate == DateTime.MinValue ? "" : (Record.DueDate).FormatDate();
+            this.TxbOrigDepDate.Text = Record.OrigDepDate == DateTime.MinValue ? "" : (Record.OrigDepDate).FormatDate();
+            this.TxbExtendedDate.Text = Record.ExtendedDate == DateTime.MinValue ? "" : (Record.ExtendedDate).FormatDate();
             this.TxbLastUpdatedBy.Text = Record.LastUpdatedBy;
             this.TxbShopNo.Text = Record.ShopNo;
             this.TxbShopName.Text = Record.ShopName;
@@ -1840,6 +1851,7 @@ namespace Support.Forms.Customer.Products
                 if (Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx].SqlDataRetrieved)
                 {
                     pdLoan = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx];
+                    Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan = pdLoan;
                 }
                 else
                 {
@@ -4270,7 +4282,8 @@ namespace Support.Forms.Customer.Products
 
         private void ChkBGetAllHistory_CheckStateChanged(object sender, EventArgs e)
         {
-            if (Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan != null)
+            if (Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan != null &&
+                Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.PDLLoanNumber != null)
             {
                 int iDx = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys.FindIndex(
                     delegate(PDLoan p)

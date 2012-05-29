@@ -31,7 +31,7 @@ namespace Cashlinx.Build.Tasks
             SetProperty("buildfile.common.exists", env.CommonProjectEnvironment.BuildFileExists);
             SetProperty("buildfile.dstr.viewer.exists", env.DstrViewerProjectEnvironment.BuildFileExists);
             SetProperty("buildfile.pawn.exists", env.PawnProjectEnvironment.BuildFileExists);
-            SetProperty("buildfile.support.exists", false);
+            SetProperty("buildfile.support.exists", env.SupportProjectEnvironment.BuildFileExists);
 
             SetProperty("branch.build.dir", env.BranchBuildDirectory);
             SetProperty("branchName", env.BranchName);

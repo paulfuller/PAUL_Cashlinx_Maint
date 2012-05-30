@@ -1820,9 +1820,13 @@ namespace Support.Forms.Customer.Products
             {
                 PDLoan pdLoan = new PDLoan();
                 int iDx = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys.FindIndex(delegate(PDLoan p)
-                {
-                    return p.PDLLoanNumber.Equals(sCellTicket);
-                });
+                                                                                                     {
+                                                                                                         return
+                                                                                                             p.
+                                                                                                                 PDLLoanNumber
+                                                                                                                 .Equals
+                                                                                                                 (sCellTicket);
+                                                                                                     });
 
                 //int iDx = CashlinxPawnSupportSession.Instance.PDLoanKeys.FindIndex(item => item.PDLLoanNumber == sCellTicket);
 
@@ -1842,30 +1846,31 @@ namespace Support.Forms.Customer.Products
                     this.ChkBGetAllHistory.Enabled = false;
                     this.CmbHistoryLoanEvents.SelectedIndex = 0;
                     this.CmbHistoryLoanEvents.Enabled = false;
-                    return;
-                }
-
-                string errorCode;
-                string errorDesc;
-                // logic to only get data if not already recieved.
-                if (Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx].SqlDataRetrieved)
-                {
-                    pdLoan = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx];
-                    Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan = pdLoan;
+                    //return;
                 }
                 else
                 {
-                    //bool returnVal = 
-                    if (Support.Controllers.Database.Procedures.CustomerLoans.GetPDLoanDetails(
-                    pdLoan, out errorCode, out errorDesc))
+                    string errorCode;
+                    string errorDesc;
+                    // logic to only get data if not already recieved.
+                    if (Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx].SqlDataRetrieved)
                     {
-                        Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx].SqlDataRetrieved = true;
+                        pdLoan = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx];
                         Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan = pdLoan;
                     }
-                }
+                    else
+                    {
+                        //bool returnVal = 
+                        if (Support.Controllers.Database.Procedures.CustomerLoans.GetPDLoanDetails(
+                            pdLoan, out errorCode, out errorDesc))
+                        {
+                            Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx].SqlDataRetrieved = true;
+                            Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan = pdLoan;
+                        }
+                    }
 
-                //if(returnVal)
-                //{
+                    //if(returnVal)
+                    //{
                     //Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan = pdLoan;
                     //var loanDetails = pdLoan.GetPDLoanDetails;
                     MapPDL_LoanStatsFromProperties(pdLoan.GetPDLoanDetails);
@@ -1878,7 +1883,8 @@ namespace Support.Forms.Customer.Products
                     this.ChkBGetAllHistory.Enabled = true;
                     this.CmbHistoryLoanEvents.SelectedIndex = 0;
                     this.CmbHistoryLoanEvents.Enabled = true;
-                //}
+                    //}
+                }
             }
             //TODO revisit this - Madhu
             /*

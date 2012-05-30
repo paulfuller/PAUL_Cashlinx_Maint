@@ -688,8 +688,8 @@ namespace Support.Forms.Customer.Products
             this.lblLoanEventsBar.Size = new System.Drawing.Size(944, 40);
             this.lblLoanEventsBar.TabIndex = 0;
             this.lblLoanEventsBar.Text = "History \r\n                                                                       " +
-                "                                                                                " +
-                "                                    ";
+    "                                                                                " +
+    "                                    ";
             // 
             // DGVHistoryLoanEvents
             // 
@@ -775,9 +775,9 @@ namespace Support.Forms.Customer.Products
             this.lblOriginationDate.AutoSize = true;
             this.lblOriginationDate.Location = new System.Drawing.Point(18, 135);
             this.lblOriginationDate.Name = "lblOriginationDate";
-            this.lblOriginationDate.Size = new System.Drawing.Size(108, 13);
+            this.lblOriginationDate.Size = new System.Drawing.Size(85, 13);
             this.lblOriginationDate.TabIndex = 1;
-            this.lblOriginationDate.Text = "OriginationDate/Time";
+            this.lblOriginationDate.Text = "Origination Date";
             // 
             // lblShopNo
             // 
@@ -2102,7 +2102,7 @@ namespace Support.Forms.Customer.Products
             this.lblHeaderBarXpp.Size = new System.Drawing.Size(624, 13);
             this.lblHeaderBarXpp.TabIndex = 38;
             this.lblHeaderBarXpp.Text = "  XPP                                                        Payment Schedule    " +
-                "                                                            ";
+    "                                                            ";
             // 
             // LnkOtherDetails
             // 
@@ -2264,7 +2264,7 @@ namespace Support.Forms.Customer.Products
             this.lblHeaderBar.Size = new System.Drawing.Size(635, 13);
             this.lblHeaderBar.TabIndex = 6;
             this.lblHeaderBar.Text = "Loan No                 UW Name             Requested Time              Loan Amt " +
-                "        Payoff Amt       Actual Amt    ";
+    "        Payoff Amt       Actual Amt    ";
             // 
             // lblUWNameData
             // 

@@ -55,7 +55,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports", "Reports\Reports.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{41542C68-66DD-4339-B5DB-D379AC5D9168}"
 	ProjectSection(SolutionItems) = preProject
-		..\Build\build-files\Audit.build = ..\Build\build-files\Audit.build
 		..\Build\build-files\AuditQueries.build = ..\Build\build-files\AuditQueries.build
 		Cashlinx.build = Cashlinx.build
 		..\Build\build-files\Common.build = ..\Build\build-files\Common.build

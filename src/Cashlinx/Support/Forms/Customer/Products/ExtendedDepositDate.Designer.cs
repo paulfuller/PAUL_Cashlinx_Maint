@@ -101,9 +101,9 @@
             this.dtpExtendedDate.CustomFormat = "ddd, MMM dd, yyyy";
             this.dtpExtendedDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpExtendedDate.Location = new System.Drawing.Point(269, 154);
-            this.dtpExtendedDate.MaximumSize = new System.Drawing.Size(155, 22);
+            this.dtpExtendedDate.MaximumSize = new System.Drawing.Size(156, 22);
             this.dtpExtendedDate.Name = "dtpExtendedDate";
-            this.dtpExtendedDate.Size = new System.Drawing.Size(155, 22);
+            this.dtpExtendedDate.Size = new System.Drawing.Size(156, 22);
             this.dtpExtendedDate.TabIndex = 7;
             // 
             // lblExtendedDate

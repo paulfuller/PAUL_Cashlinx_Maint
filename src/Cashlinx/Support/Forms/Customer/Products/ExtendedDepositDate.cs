@@ -87,14 +87,14 @@ namespace Support.Forms.Customer.Products
 
             if (extendedDate.Equals(string.Empty) || reasonCode.Equals(string.Empty))
             {
-                MessageBox.Show("Please enter Extended Deposite Date and Reason code and hit submit.", "Form Invalid.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter Extended Deposit Date and Reason code and hit submit.", "Form Invalid.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             else
             {
                 if (DateTime.Parse(originalDepDate) >= DateTime.Parse(extendedDate))
                 {
-                    MessageBox.Show("Inavalid Date, the Extended Deposite Date should be greater than the Origial Deposit Date.", "Invalid Date.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Invalid Date, the Extended Deposit Date should be greater than the Original Deposit Date.", "Invalid Date.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 else if (DateTime.Parse(extendedDate) > DateTime.Parse(this.lblValidExtendedDate.Text))

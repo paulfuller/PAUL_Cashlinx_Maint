@@ -10,6 +10,16 @@ namespace Support.Libraries.Objects.PDLoan
     {
         #region PDL Loan details
 
+        public string Status
+        {
+            get;
+            set;
+        }
+        public string PDLLoanNumber
+        {
+            get;
+            set;
+        }
         public string CustomerSSN
         {
             get;
@@ -89,6 +99,12 @@ namespace Support.Libraries.Objects.PDLoan
         }
 
         public bool XPPAvailable
+        {
+            get;
+            set;
+        }
+
+        public string XPP_Current
         {
             get;
             set;

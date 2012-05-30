@@ -97,7 +97,16 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                     0, 0, lateFeeAmount, 0,
                     newPawnLoan,
                     out uwVO);
-                decimal totalIntAmt = Math.Round(interestAmt + lateInterest - extensionInterestAmount, 2);
+                decimal lastInterestAmount = originalInterestAmount;
+                
+                if (pawnLoan.PartialPaymentPaid)
+                {
+                    lastInterestAmount = (from ppmt in pawnLoan.PartialPayments
+                                                  where ppmt.Time_Made == pawnLoan.LastPartialPaymentDate
+                                                  select ppmt.CUR_FIN_CHG).FirstOrDefault();
+                    
+                }
+                decimal totalIntAmt = Math.Round(interestAmt + lateInterest - (lastInterestAmount * extensionsPaid), 2);
                 //decimal totalServAmt = Math.Round(storageFee + lateService - (originalServiceAmount * extensionsPaid), 2);
                 decimal totalServAmt = Math.Round(subTotal - (principalAmt + totalIntAmt), 2);
                 decimal storageFeeAllowed = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetStorageFee(GlobalDataAccessor.Instance.CurrentSiteId);

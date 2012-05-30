@@ -34,6 +34,8 @@ namespace Reports
         private Font _reportFontSmall;
         private Font _reportFontSmallBold;
         private Font _reportFontLargeBold;
+        private Font _reportFontLargeSize8;
+        private Font _reportFontLargeSize9;
         private Font _reportFontUnderlined;
         private Font _reportFontHeading;
         private Font _reportFontRegular;
@@ -98,6 +100,24 @@ namespace Reports
                 return _reportFontSmallBold;
             }
         }
+        protected Font ReportFontLargeSize9
+        {
+            get
+            {
+                _reportFontLargeSize9 = FontFactory.GetFont("Arial", 9, iTextSharp.text.Font.NORMAL);
+                return _reportFontLargeSize9;
+            }
+        }
+
+        protected Font ReportFontLargeSize8
+        {
+            get
+            {
+                _reportFontLargeSize8 = FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.NORMAL);
+                return _reportFontLargeSize8;
+            }
+        }
+
         protected Font ReportFontLargeBold
         {
             get
@@ -256,6 +276,18 @@ namespace Reports
             cell = new PdfPCell(new Phrase(cellvalue, font));
             cell.Colspan = colSpan;
             cell.HorizontalAlignment = horizontalAlignment;
+            cell.Border = border;
+            table.AddCell(cell);
+        }
+
+        protected void WriteCell(PdfPTable table, string cellvalue, Font font, int colSpan, int horizontalAlignment, int border, Color backgroundcolor)
+        {
+            PdfPCell cell = new PdfPCell();
+
+            cell = new PdfPCell(new Phrase(cellvalue, font));
+            cell.Colspan = colSpan;
+            cell.HorizontalAlignment = horizontalAlignment;
+            cell.BackgroundColor = new BaseColor(System.Drawing.Color.LightGray);
             cell.Border = border;
             table.AddCell(cell);
         }

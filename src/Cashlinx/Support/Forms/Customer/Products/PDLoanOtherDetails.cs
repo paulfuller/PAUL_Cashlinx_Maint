@@ -22,32 +22,33 @@ namespace Support.Forms.Customer.Products
             var otherDetails = Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.GetPDLoanOtherDetails;
             var CustToEdit = Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer;
             this.CustomerLoanNumberAndName.Text = Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.PDLLoanNumber + " " + CustToEdit.FirstName + " " + CustToEdit.MiddleInitial + " " + CustToEdit.LastName;
-            this.ApprovalNo.Text = otherDetails.ApprovalNumber;
+            this.LblHeader.Text = otherDetails.Loan_Type;
+            //this.ApprovalNo.Text = otherDetails.ApprovalNumber;
             this.VeritecTranNumber.Text = otherDetails.ThirdPartyLoanNumber;
-            this.LoanAPR.Text = otherDetails.LoanApr;
-            this.MultipleLoan.Text = otherDetails.MultipleLoan;
-            this.ApprFC.Text = otherDetails.ApprovedFinanceChrgRate;
+            //this.LoanAPR.Text = otherDetails.LoanApr;
+            //this.MultipleLoan.Text = otherDetails.MultipleLoan;
+            //this.ApprFC.Text = otherDetails.ApprovedFinanceChrgRate;
             this.RefundSCAmount.Text = otherDetails.RefunedServiceChrgAmt;
             this.CountFeesAssessed.Text = otherDetails.CourtCostAmt;
             this.RequestedAmount.Text = otherDetails.RequestedLoanAmt;
             //otherDetails.ApprovedLoanAmt ;
             this.CheckNumber.Text = otherDetails.CheckNumber;
-            this.ActualFCRate.Text = otherDetails.ActualFinanceChrg;
+            //this.ActualFCRate.Text = otherDetails.ActualFinanceChrg;
             this.OrigFeesMaint.Text = otherDetails.OrigMastringFee;
             this.ActualFCRate.Text = otherDetails.ActualFinanceChrgRate;
             this.APR.Text = otherDetails.APR;
-            this.EstRefinanceAmt.Text = otherDetails.EstRefinanceAmt;
+            //this.EstRefinanceAmt.Text = otherDetails.EstRefinanceAmt;
             //otherDetails.StatusChgDate ;
-            this.CollectionStatus.Text = otherDetails.CollectionStatusDesc;
-            if (!checkNull(otherDetails.InsOnDate).Equals(string.Empty))
-            {
-                this.InsOn.Text = DateTime.Parse(otherDetails.InsOnDate).FormatDate();//otherDetails.InsOnDate;
-            }
-            this.RefisRemaining.Text = otherDetails.RefisAvailable;
+            //this.CollectionStatus.Text = otherDetails.CollectionStatusDesc;
+            //if (!checkNull(otherDetails.InsOnDate).Equals(string.Empty))
+            //{
+            //    this.InsOn.Text = DateTime.Parse(otherDetails.InsOnDate).FormatDate();//otherDetails.InsOnDate;
+            //}
+            //this.RefisRemaining.Text = otherDetails.RefisAvailable;
             this.FrequencyPaid.Text = otherDetails.PaymentFrequency;
-            this.AutoSuspendACH.Text = otherDetails.SuspendACH;
+            //this.AutoSuspendACH.Text = otherDetails.SuspendACH;
             this.ActualBrokerAmt.Text = otherDetails.ActualBrokerAmt;
-            this.BrokerRate.Text = otherDetails.BrokerRate;
+            //this.BrokerRate.Text = otherDetails.BrokerRate;
 
         }
         private string checkNull(string value)
@@ -74,6 +75,20 @@ namespace Support.Forms.Customer.Products
             this.NavControlBox.IsCustom = true;
             this.NavControlBox.CustomDetail = "ProductsAndServices";
             this.NavControlBox.Action = NavBox.NavAction.BACK;
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void StatusChg_Click(object sender, EventArgs e)
+        {
+            }
+
+        private void FrequencyPaid_Click(object sender, EventArgs e)
+        {
 
         }
     }

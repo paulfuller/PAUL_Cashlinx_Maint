@@ -6,6 +6,7 @@ using Common.Controllers.Application;
 using Common.Controllers.Database.Procedures;
 using Common.Libraries.Forms.Components;
 using Common.Libraries.Forms.Components.EventArgs;
+using Common.Libraries.Forms.Pawn.Loan;
 using Common.Libraries.Objects;
 using Common.Libraries.Objects.Business;
 using Common.Libraries.Objects.Purchase;
@@ -13,6 +14,8 @@ using Common.Libraries.Objects.Retail;
 using Common.Libraries.Utility;
 using Common.Libraries.Utility.Logger;
 using Common.Libraries.Utility.Shared;
+using Pawn.Forms.Pawn.Products.ManageMultiplePawnItems;
+using Pawn.Logic;
 using Pawn.Logic.DesktopProcedures;
 
 namespace Pawn.Forms.Pawn.Services.Void
@@ -286,10 +289,14 @@ namespace Pawn.Forms.Pawn.Services.Void
                 comboBoxReason.Focus();
                 return;
             }
+
             ProcessTenderProcedures.ProcessTenderMode mode;
             List<PurchaseVO> purchaseList = new List<PurchaseVO>();
             purchaseList.Add(currentPurchase);
             bool transactionStarted = false;
+
+            bool skipped;
+
             try
             {
                 if ((voidBuyFlow && !voidVendorBuy) || voidReturnFlow)
@@ -297,12 +304,15 @@ namespace Pawn.Forms.Pawn.Services.Void
                     if (currentPurchase.Receipts != null)
                     {
                         string rcptId;
+
                         if (voidReturnFlow)
                         {
                             rcptId = (from receipt in currentPurchase.Receipts
                                       where (receipt.Event == ReceiptEventTypes.RET.ToString()
                                       && receipt.RefNumber == currentPurchase.TicketNumber.ToString())
                                       select receipt).First().ReceiptDetailNumber;
+
+
                         }
                         else
                         {
@@ -310,6 +320,9 @@ namespace Pawn.Forms.Pawn.Services.Void
                                       where (receipt.Event == ReceiptEventTypes.PUR.ToString()
                                       && receipt.RefNumber == currentPurchase.TicketNumber.ToString())
                                       select receipt).First().ReceiptDetailNumber;
+
+
+                            
                         }
 
                         VoidLoanForm.LoanVoidDetails lvd = new VoidLoanForm.LoanVoidDetails();
@@ -330,7 +343,8 @@ namespace Pawn.Forms.Pawn.Services.Void
                         //BZ # 512 - end
                         string errorCode;
                         string errorText;
-                        bool retValue = VoidProcedures.PerformVoid(lvd, out errorCode, out errorText);
+                        var retValue  = VoidProcedures.PerformVoid(lvd, out errorCode, out errorText);
+
                         if (retValue)
                         {
                             MessageBox.Show(voidReturnFlow
@@ -364,6 +378,7 @@ namespace Pawn.Forms.Pawn.Services.Void
                     string errorText;
                     int receiptNumber;
                     mode = ProcessTenderProcedures.ProcessTenderMode.VOIDBUY;
+
                     GlobalDataAccessor.Instance.beginTransactionBlock();
                     transactionStarted = true;
                     bool retValue = VoidProcedures.VoidVendorPurchase(GlobalDataAccessor.Instance.OracleDA,

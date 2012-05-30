@@ -10,6 +10,7 @@ using Common.Controllers.Application.ApplicationFlow.Blocks.Base;
 using Common.Controllers.Application.ApplicationFlow.Navigation;
 using Common.Controllers.Database.Procedures;
 using Common.Controllers.Security;
+using Common.Libraries.Forms.Pawn.Loan;
 using Common.Libraries.Objects.Authorization;
 using Common.Libraries.Objects.Business;
 using Common.Libraries.Objects.Purchase;
@@ -22,6 +23,7 @@ using Pawn.Forms.Admin;
 using Pawn.Forms.GunUtilities.GunBook;
 using Pawn.Forms.Layaway;
 using Pawn.Forms.Pawn.Products;
+using Pawn.Forms.Pawn.Products.ManageMultiplePawnItems;
 using Pawn.Forms.Pawn.Services.ChargeOff;
 using Pawn.Forms.Pawn.Services.MerchandiseTransfer;
 using Pawn.Forms.Pawn.Services.PFI;
@@ -352,6 +354,184 @@ namespace Pawn.Forms
                 new LookupCustomerSearchData();
 
             return (null);
+        }
+
+        //<summary>
+        //   determines if user has proper "resource" privledges to perfom the action they are looking to void
+        //</summary>
+        private bool canVoid (VoidSelector.VoidTransactionType voidType)
+        {
+            var retval = false;
+            var overrideType = new List<ManagerOverrideType>(1);
+            var overrideTransaction = new List<ManagerOverrideTransactionType>(1);
+
+            var mask = ResourceSecurityMask.NONE;
+
+
+            bool hasResource = false;
+
+
+            switch (voidType)
+            {
+                case VoidSelector.VoidTransactionType.VOIDCASHTRANSSHOPTOBANK:
+                case VoidSelector.VoidTransactionType.VOIDCASHTRANSBANKTOSHOP:
+                case VoidSelector.VoidTransactionType.VOIDCASHTRANSSHOPTOSHOP:
+                    hasResource = Common.Controllers.Database.Procedures.SecurityProfileProcedures.GetUserResourceAccess("SAFEMANAGEMENT", CashlinxDesktopSession.Instance.LoggedInUserSecurityProfile, CashlinxDesktopSession.Instance, out mask);
+                    //if (hasResource && mask != ResourceSecurityMask.NONE)                        
+                    //    hasResource = Common.Controllers.Database.Procedures.SecurityProfileProcedures.GetUserResourceAccess("CASH TRANSFER", CashlinxDesktopSession.Instance.LoggedInUserSecurityProfile, CashlinxDesktopSession.Instance, out mask);
+                    break;
+
+                case VoidSelector.VoidTransactionType.VOIDBUY:
+                    hasResource = Common.Controllers.Database.Procedures.SecurityProfileProcedures.GetUserResourceAccess("CUSTOMERBUY", CashlinxDesktopSession.Instance.LoggedInUserSecurityProfile, CashlinxDesktopSession.Instance, out mask);
+                    if (!hasResource)
+                        hasResource = Common.Controllers.Database.Procedures.SecurityProfileProcedures.GetUserResourceAccess("VENDORBUY", CashlinxDesktopSession.Instance.LoggedInUserSecurityProfile, CashlinxDesktopSession.Instance, out mask);
+                    break;
+
+                case VoidSelector.VoidTransactionType.VOIDMDSETRANSOUT:
+                case VoidSelector.VoidTransactionType.VOIDLAYAWAY:
+                case VoidSelector.VoidTransactionType.VOIDMDSETRANSIN:
+                case VoidSelector.VoidTransactionType.VOIDRETAILSALE:
+                    hasResource = true;
+                    mask = ResourceSecurityMask.VIEW;
+                    break;
+                    
+                case VoidSelector.VoidTransactionType.VOIDPAWNLOAN:
+                    hasResource = Common.Controllers.Database.Procedures.SecurityProfileProcedures.GetUserResourceAccess("SERVICES", CashlinxDesktopSession.Instance.LoggedInUserSecurityProfile, CashlinxDesktopSession.Instance, out mask);
+                    break;
+
+/*
+                case VoidSelector.VoidTransactionType.VOIDMDSETRANSOUT:
+                    hasResource = Common.Controllers.Database.Procedures.SecurityProfileProcedures.GetUserResourceAccess("TRANSFEROUT", CashlinxDesktopSession.Instance.LoggedInUserSecurityProfile, CashlinxDesktopSession.Instance, out mask);
+                    break;
+*/
+                default:
+                    hasResource = false;
+                    break;
+
+            }
+
+            retval = !(!hasResource || (hasResource && mask == ResourceSecurityMask.NONE));
+            
+
+            if (!retval)
+            {
+                MessageBox.Show("Your user role is not authorized to complete this void transaction. ");
+
+            }
+
+
+            return retval; // need to retry
+        }
+
+        //<summary>
+        //   gets Management override, if necessary.   If there are limits enforced for a particular type of void, the 
+        //   resource is only noted, and the override is left for the limits checking to do the override (to avoid multiple overrides).
+        //</summary>
+        public bool checkOverride(VoidSelector.VoidTransactionType voidType, out bool hasResource)
+        {
+            bool hasVoidResource = false;
+            hasResource = false;
+            var mask = ResourceSecurityMask.NONE;
+            bool overrideRqd = Common.Controllers.Database.Procedures.SecurityProfileProcedures.GetUserResourceAccess("VOIDTRANSACTION", CashlinxDesktopSession.Instance.LoggedInUserSecurityProfile, CashlinxDesktopSession.Instance, out mask);
+            bool skipped = false;
+            bool canVoid = false;
+            bool retval = false;
+            bool nxtOverride = false;
+
+            if (!overrideRqd || (overrideRqd && mask == ResourceSecurityMask.NONE))
+                hasVoidResource = false;
+            else
+                hasVoidResource = true;
+
+
+            switch (voidType)
+            {
+                case VoidSelector.VoidTransactionType.VOIDBUY:
+                    if (GlobalDataAccessor.Instance.DesktopSession.Purchases[0].EntityType == "V")
+                    {
+                        hasResource = Common.Controllers.Database.Procedures.SecurityProfileProcedures.GetUserResourceAccess("VENDORBUY", CashlinxDesktopSession.Instance.LoggedInUserSecurityProfile, CashlinxDesktopSession.Instance, out mask);
+
+                    }
+                    else
+                    {
+                        hasResource = Common.Controllers.Database.Procedures.SecurityProfileProcedures.GetUserResourceAccess("CUSTOMERBUY", CashlinxDesktopSession.Instance.LoggedInUserSecurityProfile, CashlinxDesktopSession.Instance, out mask);
+                    }
+
+                    retval = !(!hasResource || (hasResource && mask == ResourceSecurityMask.NONE));
+            
+
+                    if (!retval)
+                    {
+                        MessageBox.Show("Your user role is not authorized to complete this void transaction. ");
+                        return false;
+                    }
+                    canVoid = ManageMultiplePawnItems.CheckForOverrides(true, GlobalDataAccessor.Instance.DesktopSession.ActivePurchase.Amount,  out skipped, !hasVoidResource);
+                    break;
+
+                case VoidSelector.VoidTransactionType.VOIDLAYAWAY:
+                    hasResource = true;
+                    var layawayObj = GlobalDataAccessor.Instance.DesktopSession.Layaways[0];
+                    if (layawayObj != null)  // must handle override difference of 
+                    {
+                        
+                        layawayObj.SalesTaxInfo = new SalesTaxInfo(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId.StoreTaxes);
+                        GlobalDataAccessor.Instance.DesktopSession.LayawayPaymentCalc = new LayawayPaymentCalculator(layawayObj.SalesTaxInfo);
+                        GlobalDataAccessor.Instance.DesktopSession.LayawayPaymentCalc.CalculateDefaultValues(Math.Round(layawayObj.Amount, 2));
+                        GlobalDataAccessor.Instance.DesktopSession.LayawayPaymentCalc.DownPayment = layawayObj.DownPayment;
+                        GlobalDataAccessor.Instance.DesktopSession.LayawayPaymentCalc.NumberOfPayments = layawayObj.NumberOfPayments;
+                        canVoid = ItemSearch.CheckRetailOverides(
+                            layawayObj.RetailItems, true, 1, layawayObj.DownPayment, (layawayObj.SalesTaxAmount == 0), ref nxtOverride, !hasVoidResource);
+                    }
+                    break;
+
+                case VoidSelector.VoidTransactionType.VOIDPAWNLOAN:
+                    hasResource = true;
+                    //GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan
+                    //canVoid = ManageMultiplePawnItems.CheckForOverrides(false, out skipped, !hasVoidResource);
+                    canVoid = hasVoidResource;  
+                    break;
+
+                case VoidSelector.VoidTransactionType.VOIDRETAILSALE:
+                    hasResource = true;
+                    var saleObj = GlobalDataAccessor.Instance.DesktopSession.Sales[0];
+                    if (saleObj != null)
+                        canVoid = ItemSearch.CheckRetailOverides(saleObj.RetailItems, false, 1, saleObj.TotalSaleAmount, (saleObj.SalesTaxAmount == 0), ref nxtOverride, !hasVoidResource);
+
+                    break;
+
+                case VoidSelector.VoidTransactionType.VOIDMDSETRANSOUT:
+                case VoidSelector.VoidTransactionType.VOIDMDSETRANSIN:
+                case VoidSelector.VoidTransactionType.VOIDCASHTRANSSHOPTOBANK:
+                case VoidSelector.VoidTransactionType.VOIDCASHTRANSBANKTOSHOP:
+                case VoidSelector.VoidTransactionType.VOIDCASHTRANSSHOPTOSHOP:
+                    hasResource = true;
+                    if (!hasVoidResource)
+                    {
+                        var overrideType = new List<ManagerOverrideType>(1);
+                        var overrideTransaction = new List<ManagerOverrideTransactionType>(1);
+
+                        overrideType.Add(ManagerOverrideType.EXCASH);
+                        overrideTransaction.Add(ManagerOverrideTransactionType.SAFE);
+
+                        var mgrOverride = new ManageOverrides(GlobalDataAccessor.Instance.DesktopSession, ManageOverrides.VOID_TRIGGER)
+                        {
+                            MessageToShow = "Role requires override",
+                            ManagerOverrideTypes = overrideType,
+                            ManagerOverrideTransactionTypes = overrideTransaction
+                        };
+
+                        mgrOverride.ShowDialog();
+
+                        canVoid = mgrOverride.OverrideAllowed;
+                    }
+                    else
+                        canVoid = true;
+                    break;
+
+
+            }
+
+            return canVoid;
         }
 
         /// <summary>
@@ -728,229 +908,264 @@ namespace Pawn.Forms
                     VoidTransactionForm bTranForm = null;
                     //BZ # 419 end
 
-                    var voidTrxForm = new VoidSelector();
-                    voidTrxForm.ShowDialog();
-                    if (voidTrxForm.DialogResult == DialogResult.OK)
-                    {
-                        var vType =
-                                voidTrxForm.SelectedVoidTransactionType;
-                        switch (vType)
+                    bool retry;
+
+                    do {
+                        retry = false;
+
+                        var voidTrxForm = new VoidSelector();
+                        voidTrxForm.ShowDialog();
+                        if (voidTrxForm.DialogResult == DialogResult.OK)
                         {
-                            //Void Buy Activities
-                            case VoidSelector.VoidTransactionType.VOIDBUY:
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidBuy";
-                                GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
-                                if (!checkPassed)
-                                    break;
-                                var vBuyForm = new VoidTransactionForm();
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(vBuyForm);
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDBUY;
-                                vBuyForm.ShowDialog(this);
-                                if (GlobalDataAccessor.Instance.DesktopSession.Purchases != null && GlobalDataAccessor.Instance.DesktopSession.Purchases.Count > 0)
+                            bool hasVoidResource = false;
+
+
+                            var vType =
+                                    voidTrxForm.SelectedVoidTransactionType;
+
+                            retry = true;
+                            if (canVoid(vType))
+                            {
+                                bool hasResource = false;
+
+                                retry = false;
+
+                                switch (vType)
                                 {
-                                    var voidPRForm = new VoidTransactionDetail();
-                                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(voidPRForm);
-                                    voidPRForm.ShowDialog(this);
-                                }
-                                break;
+                                    //Void Buy Activities
+                                    case VoidSelector.VoidTransactionType.VOIDBUY:
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidBuy";
+                                        GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
+                                        if (!checkPassed)
+                                            break;
+                                        var vBuyForm = new VoidTransactionForm();
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(vBuyForm);
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDBUY;
+                                        vBuyForm.ShowDialog(this);
+                                        if (GlobalDataAccessor.Instance.DesktopSession.Purchases != null &&
+                                            GlobalDataAccessor.Instance.DesktopSession.Purchases.Count > 0)
+                                        {
 
-                            //Void Pawn Loan Activities
-                            case VoidSelector.VoidTransactionType.VOIDPAWNLOAN:
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidLoan";
-                                GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
-                                if (!checkPassed)
-                                    break;
-                                var vForm = new VoidLoanForm();
-                                vForm.ShowDialog(this);
-                                break;
+                                            if (checkOverride(vType, out hasResource))
+                                            {
+                                                if (hasResource)
+                                                {
+                                                    var voidPRForm = new VoidTransactionDetail();
+                                                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(voidPRForm);
+                                                    voidPRForm.ShowDialog(this);
+                                                }
+                                            }
+                                            else
+                                                retry = true;
+                                        }
+                                        break;
 
-                            //Void Retail Sale
-                            case VoidSelector.VoidTransactionType.VOIDRETAILSALE:
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidSale";
-                                GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
-                                if (!checkPassed)
-                                    break;
+                                    //Void Pawn Loan Activities
+                                    case VoidSelector.VoidTransactionType.VOIDPAWNLOAN:
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidLoan";
+                                        GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
+                                        if (!checkPassed)
+                                            break;
 
-                                var vRetSaleForm = new VoidTransactionForm();
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(vRetSaleForm);
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDSALE;
-                                vRetSaleForm.ShowDialog(this);
-                                if (GlobalDataAccessor.Instance.DesktopSession.Sales != null && GlobalDataAccessor.Instance.DesktopSession.Sales.Count > 0)
-                                {
-                                    var voidPRForm = new VoidTransactionDetail();
-                                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(voidPRForm);
-                                    voidPRForm.ShowDialog(this);
-                                }
-                                break;
-
-                            //TODO: Link void item cost revision functionality here
-                            case VoidSelector.VoidTransactionType.VOIDITEMCOSTREV:
-                                MessageBox.Show("** BLOCK - VOID ITEM COST REVISION **");
-                                break;
-
-                            //TODO: Consolidate void merchandise transfer in void selector - build PWN_10
-                            case VoidSelector.VoidTransactionType.VOIDMDSETRANSIN:
-                            case VoidSelector.VoidTransactionType.VOIDMDSETRANSOUT:
-
-
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDMERCHANDISETRANSFER;
-                                GlobalDataAccessor.Instance.DesktopSession.MdseTransferData = null;
-                                VoidTransactionForm mTranForm = new VoidTransactionForm(vType);
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(mTranForm);
-                                mTranForm.ShowDialog(this);
-                                if (GlobalDataAccessor.Instance.DesktopSession.MdseTransferData != null)
-                                {
-                                    VoidMdseTransfer voidmdseTransfer = new VoidMdseTransfer();
-                                    voidmdseTransfer.ShowDialog();
-                                }
-                                break;
-
-                            //TODO: Consolidate void bank cash transfer in void selector - build PWN_10
-                            case VoidSelector.VoidTransactionType.VOIDCASHTRANSSHOPTOBANK:
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidShopToBank"; // BZ # 419
-                                GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
-                                if (!checkPassed)
-                                    break;
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDSHOPTOBANK; // BZ # 419
-                                GlobalDataAccessor.Instance.DesktopSession.CashTransferData = null;
-                                bTranForm = new VoidTransactionForm();
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(bTranForm);
-                                bTranForm.ShowDialog(this);
-
-                                if (GlobalDataAccessor.Instance.DesktopSession.CashTransferData != null)
-                                {
-                                    VoidBankTransfer voidBankTransfer = new VoidBankTransfer(vType);
-                                    voidBankTransfer.ShowDialog();
-                                }
-                                break;
-                            case VoidSelector.VoidTransactionType.VOIDCASHTRANSBANKTOSHOP:
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidBankToShop"; // BZ # 419
-                                GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
-                                if (!checkPassed)
-                                    break;
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDBANKTOSHOP; // BZ # 419
-                                GlobalDataAccessor.Instance.DesktopSession.CashTransferData = null;
-                                bTranForm = new VoidTransactionForm();
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(bTranForm);
-                                bTranForm.ShowDialog(this);
-
-                                if (GlobalDataAccessor.Instance.DesktopSession.CashTransferData != null)
-                                {
-                                    VoidBankTransfer voidBankTransfer = new VoidBankTransfer(vType);
-                                    voidBankTransfer.ShowDialog();
-                                }
-                                break;
-
-                            //Void Shop To Shop Cash Transfer
-                            case VoidSelector.VoidTransactionType.VOIDCASHTRANSSHOPTOSHOP:
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidShopToShopTransfer";
-                                GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
-                                if (!checkPassed)
-                                    break;
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDSHOPTOSHOPTRANSFER;
-                                GlobalDataAccessor.Instance.DesktopSession.CashTransferData = null;
-                                VoidTransactionForm tranForm = new VoidTransactionForm();
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(tranForm);
-                                tranForm.ShowDialog(this);
-
-                                if (GlobalDataAccessor.Instance.DesktopSession.CashTransferData != null)
-                                {
-                                    if (GlobalDataAccessor.Instance.DesktopSession.CashTransferData.TransferStatus == "PENDING")
-                                    {
-                                        ShopTransferOut voidShopTransfer = new ShopTransferOut();
-                                        voidShopTransfer.ShowDialog();
-                                    }
-                                    else
-                                    {
-                                        ShopTransferIn voidShopTransfer = new ShopTransferIn();
-                                        voidShopTransfer.ShowDialog();
-                                    }
-                                }
-                                break;
-
-                            //TODO: Link Void Police Sieze functionality here
-                            case VoidSelector.VoidTransactionType.VOIDPOLICESEIZE:
-                                MessageBox.Show("** BLOCK - VOID POLICE SIEZE **");
-                                break;
-
-                            //TODO: Link Void Restitution functionality here
-                            case VoidSelector.VoidTransactionType.VOIDRESTITUTION:
-                                MessageBox.Show("** BLOCK - VOID RESTITUTION **");
-                                break;
-
-                            //TODO: Link Void Release To Claimant functionality here
-                            case VoidSelector.VoidTransactionType.VOIDRTC:
-                                MessageBox.Show("** BLOCK - VOID RTC **");
-                                break;
-
-                            //Void layaway activities
-                            case VoidSelector.VoidTransactionType.VOIDLAYAWAY:
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidLayaway";
-                                GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
-                                if (!checkPassed)
-                                    break;
-                                var vLayForm = new VoidTransactionForm();
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(vLayForm);
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDLAYAWAY;
-                                vLayForm.ShowDialog(this);
-                                if (GlobalDataAccessor.Instance.DesktopSession.Layaways != null && GlobalDataAccessor.Instance.DesktopSession.Layaways.Count > 0)
-                                {
-                                    var voidPRForm = new VoidLayawayActivity();
-                                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(voidPRForm);
-                                    voidPRForm.ShowDialog(this);
-                                }
-                                break;
-
-                            //TODO: Link Void PFI functionality here
-                            case VoidSelector.VoidTransactionType.VOIDPFI:
-                                MessageBox.Show("** BLOCK - VOID PFI **");
-                                break;
-
-                            case VoidSelector.VoidTransactionType.VOIDRELEASEFINGERPRINTS:
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidReleaseFingerprints";
-                                GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
-                                if (!checkPassed)
-                                    break;
-
-                                var vReleaseFingerprintsForm = new VoidTransactionForm();
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(vReleaseFingerprintsForm);
-                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDRELEASEFINGERPRINTS;
-                                vReleaseFingerprintsForm.ShowDialog(this);
-
-                                if (GlobalDataAccessor.Instance.FingerPrintRelaseAuthorizationInfo != null)
-                                {
-                                    var fprintauth = GlobalDataAccessor.Instance.FingerPrintRelaseAuthorizationInfo;
-                                    var dataContext = new VoidReleaseFingerprintsDataContext
-                                    {
-                                        Agency = fprintauth.Agency,
-                                        AuthorizationNumber = fprintauth.SeizeNumber.ToString(),
-                                        CaseNumber = fprintauth.CaseNumber,
-                                        DateOfAuthorization = DateTime.Now.ToString(),
-                                        EmployeeNumber = GlobalDataAccessor.Instance.DesktopSession.UserName,
-                                        LoanNumber = fprintauth.RefNumber,
-                                        OfficerBadgeNumber = fprintauth.BadgeNumber,
-                                        OfficerName = fprintauth.OfficerLastName + ", " +
-                                              fprintauth.OfficerFirstName,
-                                        OriginalComments = fprintauth.Comment,
-                                        SubpoenaNumber = fprintauth.SubpoenaNumber,
-                                        ReferenceCode =  int.Parse( fprintauth.RefType),
-                                        ReferenceNumber =  fprintauth.RefNumber
                                         
-                                    };
-                                    var ReleaseForm = new VoidReleaseFingerprintsAuthorization(dataContext);
+                                        var vForm = new VoidLoanForm(checkOverride(vType, out hasResource)); 
+                                        vForm.ShowDialog(this);
+                                        
+                                        break;
 
-                                    ReleaseForm.NavControlBox = new NavBox();
-                                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(ReleaseForm);
-                                    if (ReleaseForm.ShowDialog(this) == DialogResult.OK)
-                                    {
+                                    //Void Retail Sale
+                                    case VoidSelector.VoidTransactionType.VOIDRETAILSALE:
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidSale";
+                                        GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
+                                        if (!checkPassed)
+                                            break;
 
-                                    }
+                                        var vRetSaleForm = new VoidTransactionForm();
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(vRetSaleForm);
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDSALE;
+                                        vRetSaleForm.ShowDialog(this);
+                                        if (GlobalDataAccessor.Instance.DesktopSession.Sales != null &&
+                                            GlobalDataAccessor.Instance.DesktopSession.Sales.Count > 0)
+                                        {
+                                            if (checkOverride(vType, out hasResource))
+                                            {
+                                                var voidPRForm = new VoidTransactionDetail();
+                                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(voidPRForm);
+                                                voidPRForm.ShowDialog(this);
+                                            }
+                                            else
+                                                retry = true;
+                                        }
+                                        break;
 
+                                    //TODO: Link void item cost revision functionality here
+                                    case VoidSelector.VoidTransactionType.VOIDITEMCOSTREV:
+                                        MessageBox.Show("** BLOCK - VOID ITEM COST REVISION **");
+                                        break;
+
+                                    //TODO: Consolidate void merchandise transfer in void selector - build PWN_10
+                                    case VoidSelector.VoidTransactionType.VOIDMDSETRANSIN:
+                                    case VoidSelector.VoidTransactionType.VOIDMDSETRANSOUT:
+
+
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDMERCHANDISETRANSFER;
+                                        GlobalDataAccessor.Instance.DesktopSession.MdseTransferData = null;
+                                        VoidTransactionForm mTranForm = new VoidTransactionForm(vType);
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(mTranForm);
+                                        mTranForm.ShowDialog(this);
+                                        if (GlobalDataAccessor.Instance.DesktopSession.MdseTransferData != null)
+                                        {
+                                            if (checkOverride(vType, out hasResource))
+                                            {
+                                                VoidMdseTransfer voidmdseTransfer = new VoidMdseTransfer();
+                                                voidmdseTransfer.ShowDialog();
+                                            }
+                                            else
+                                                retry = true;
+                                        }
+                                        break;
+
+                                    //TODO: Consolidate void bank cash transfer in void selector - build PWN_10
+                                    case VoidSelector.VoidTransactionType.VOIDCASHTRANSSHOPTOBANK:
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidShopToBank"; // BZ # 419
+                                        GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
+                                        if (!checkPassed)
+                                            break;
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDSHOPTOBANK; // BZ # 419
+                                        GlobalDataAccessor.Instance.DesktopSession.CashTransferData = null;
+                                        bTranForm = new VoidTransactionForm();
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(bTranForm);
+                                        bTranForm.ShowDialog(this);
+
+                                        if (GlobalDataAccessor.Instance.DesktopSession.CashTransferData != null)
+                                        {
+                                            if (checkOverride(vType, out hasResource))
+                                            {
+                                                VoidBankTransfer voidBankTransfer = new VoidBankTransfer(vType);
+                                                voidBankTransfer.ShowDialog();
+                                            }
+                                            else
+                                                retry = true;
+                                        }
+                                        break;
+                                    case VoidSelector.VoidTransactionType.VOIDCASHTRANSBANKTOSHOP:
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidBankToShop"; // BZ # 419
+                                        GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
+                                        if (!checkPassed)
+                                            break;
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDBANKTOSHOP; // BZ # 419
+                                        GlobalDataAccessor.Instance.DesktopSession.CashTransferData = null;
+                                        bTranForm = new VoidTransactionForm();
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(bTranForm);
+                                        bTranForm.ShowDialog(this);
+
+                                        if (GlobalDataAccessor.Instance.DesktopSession.CashTransferData != null)
+                                        {
+
+                                            if (checkOverride(vType, out hasResource))
+                                            {
+                                                VoidBankTransfer voidBankTransfer = new VoidBankTransfer(vType);
+                                                voidBankTransfer.ShowDialog();
+                                            }
+                                            else
+                                                retry = true;
+                                        }
+                                        break;
+
+                                    //Void Shop To Shop Cash Transfer
+                                    case VoidSelector.VoidTransactionType.VOIDCASHTRANSSHOPTOSHOP:
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidShopToShopTransfer";
+                                        GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
+                                        if (!checkPassed)
+                                            break;
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDSHOPTOSHOPTRANSFER;
+                                        GlobalDataAccessor.Instance.DesktopSession.CashTransferData = null;
+                                        VoidTransactionForm tranForm = new VoidTransactionForm();
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(tranForm);
+                                        tranForm.ShowDialog(this);
+
+                                        if (GlobalDataAccessor.Instance.DesktopSession.CashTransferData != null )
+                                        {
+                                            if (checkOverride(vType, out hasResource))
+                                            {
+                                                if (GlobalDataAccessor.Instance.DesktopSession.CashTransferData.TransferStatus == "PENDING")
+                                                {
+                                                    ShopTransferOut voidShopTransfer = new ShopTransferOut();
+                                                    voidShopTransfer.ShowDialog();
+                                                }
+                                                else
+                                                {
+                                                    ShopTransferIn voidShopTransfer = new ShopTransferIn();
+                                                    voidShopTransfer.ShowDialog();
+                                                }
+                                            }
+                                            else
+                                                retry = true;
+                                        }
+                                        break;
+
+                                    //TODO: Link Void Police Sieze functionality here
+                                    case VoidSelector.VoidTransactionType.VOIDPOLICESEIZE:
+                                        MessageBox.Show("** BLOCK - VOID POLICE SIEZE **");
+                                        break;
+
+                                    //TODO: Link Void Restitution functionality here
+                                    case VoidSelector.VoidTransactionType.VOIDRESTITUTION:
+                                        MessageBox.Show("** BLOCK - VOID RESTITUTION **");
+                                        break;
+
+                                    //TODO: Link Void Release To Claimant functionality here
+                                    case VoidSelector.VoidTransactionType.VOIDRTC:
+                                        MessageBox.Show("** BLOCK - VOID RTC **");
+                                        break;
+
+                                    //Void layaway activities
+                                    case VoidSelector.VoidTransactionType.VOIDLAYAWAY:
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidLayaway";
+                                        GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
+                                        if (!checkPassed)
+                                            break;
+                                        var vLayForm = new VoidTransactionForm();
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(vLayForm);
+                                        GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDLAYAWAY;
+                                        vLayForm.ShowDialog(this);
+                                        if (GlobalDataAccessor.Instance.DesktopSession.Layaways != null &&
+                                            GlobalDataAccessor.Instance.DesktopSession.Layaways.Count > 0)
+                                        {
+                                            if (checkOverride(vType, out hasResource))
+                                            {
+                                                var voidPRForm = new VoidLayawayActivity(!hasResource);
+                                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(voidPRForm);
+                                                voidPRForm.ShowDialog(this);
+                                            }
+                                            else
+                                                retry = true;
+                                        }
+                                        break;
+
+                                    //TODO: Link Void PFI functionality here
+                                    case VoidSelector.VoidTransactionType.VOIDPFI:
+                                        MessageBox.Show("** BLOCK - VOID PFI **");
+                                        break;
+		                            case VoidSelector.VoidTransactionType.VOIDRELEASEFINGERPRINTS:
+		                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.TriggerName = "VoidReleaseFingerprints";
+		                                GlobalDataAccessor.Instance.DesktopSession.PerformCashDrawerChecks(out checkPassed);
+		                                if (!checkPassed)
+		                                    break;
+		
+		                                var vReleaseFingerprintsForm = new VoidTransactionForm();
+		                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.AddForm(vReleaseFingerprintsForm);
+		                                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = Commons.TriggerTypes.VOIDRELEASEFINGERPRINTS;
+		                                vReleaseFingerprintsForm.ShowDialog(this);
+										break;
                                 }
 
-                                break;
+                            }
+                            else
+                                retry = true;
                         }
-                    }
+                    } while (retry);
+
                     this.handleEndFlow(null);
                     rt = true;
                 }
@@ -1952,7 +2167,7 @@ namespace Pawn.Forms
                 cdSession.ResourceProperties.OverrideMachineName = global::Pawn.Properties.Resources.OverrideMachineName;
 
             }
-            catch (Exception eX)
+            catch(Exception eX)
             {
                 KillApplication("Cashlinx Desktop Session Setup failed: " + eX.Message);
             }

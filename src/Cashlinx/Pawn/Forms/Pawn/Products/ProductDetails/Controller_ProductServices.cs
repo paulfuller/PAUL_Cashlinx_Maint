@@ -837,13 +837,22 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
         private void customButtonCancel_Click(object sender, EventArgs e)
         {
             //If there are any loans set for service undo them
-            if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count > 0)
+            if (GlobalDataAccessor.Instance.DesktopSession.ServiceLoans.Count > 0 || GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways.Count > 0)
             {
                 DialogResult dgr = MessageBox.Show("All loans set for service will be cancelled.Do you want to Continue?", "Prompt", MessageBoxButtons.YesNo);
                 if (dgr == DialogResult.No)
                     return;
 
                 UndoPawnTransactions(GlobalDataAccessor.Instance.DesktopSession.ServiceLoans);
+                
+                // TG (05222012) -> Need to make sure layaways are cancelled as well
+                //UndoLayawayTransactions(GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways);
+                foreach (var layaway in GlobalDataAccessor.Instance.DesktopSession.ServiceLayaways)
+                {
+                    string errorCode;
+                    string errorText;
+                    RetailProcedures.SetLayawayTempStatus(layaway.TicketNumber, layaway.StoreNumber, "", out errorCode, out errorText);
+                }
             }
             DialogResult dR = MessageBox.Show("Do you want to continue processing this customer?", "Products and Services", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dR == DialogResult.No)

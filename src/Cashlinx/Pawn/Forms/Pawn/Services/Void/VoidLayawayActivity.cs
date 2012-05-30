@@ -23,14 +23,16 @@ namespace Pawn.Forms.Pawn.Services.Void
         private LayawayVO currentLayaway;
         private bool maxVoidPassed;
         private bool storeCreditUsed;
+        private bool forceOverride = false;
 
         private DataGridViewRow voidRow;
         ProcessTenderProcedures.ProcessTenderMode mode;
 
         private const string INVALIDCONVERSIONVOIDSALEMESSAGE = "This transaction occurred prior to conversion and is not eligible for void. Consider using a refund transaction.";
 
-        public VoidLayawayActivity()
+        public VoidLayawayActivity(bool hasVoidResource)
         {
+            forceOverride = !hasVoidResource;
             InitializeComponent();
         }
 

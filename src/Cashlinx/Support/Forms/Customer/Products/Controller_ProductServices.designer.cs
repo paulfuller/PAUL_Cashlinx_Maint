@@ -32,26 +32,27 @@ namespace Support.Forms.Customer.Products
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
             this.PS_LoanStatsLayoutPanel = new System.Windows.Forms.Panel();
             this.lblCurrentPrincipalAmount = new System.Windows.Forms.Label();
             this.lblCurrentPrincipalAmountTitle = new System.Windows.Forms.Label();
@@ -254,8 +255,8 @@ namespace Support.Forms.Customer.Products
             this.CmbLoanStatus = new System.Windows.Forms.ComboBox();
             this.FormHeaderPanel = new System.Windows.Forms.Panel();
             this.lblHdrLoanNumber = new System.Windows.Forms.Label();
-            this.customButtonCancel = new Support.Libraries.Forms.Components.SupportButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.customButtonCancel = new Support.Libraries.Forms.Components.SupportButton();
             this.PS_LoanStatsLayoutPanel.SuspendLayout();
             this.PS_SubTabControl.SuspendLayout();
             this.PS_ServiceOptionsTab.SuspendLayout();
@@ -592,6 +593,7 @@ namespace Support.Forms.Customer.Products
             this.PS_PawnButtonsPanel.Name = "PS_PawnButtonsPanel";
             this.PS_PawnButtonsPanel.Size = new System.Drawing.Size(716, 51);
             this.PS_PawnButtonsPanel.TabIndex = 56;
+            this.PS_PawnButtonsPanel.Visible = false;
             // 
             // LW_LayawayButtonsPanel
             // 
@@ -600,6 +602,7 @@ namespace Support.Forms.Customer.Products
             this.LW_LayawayButtonsPanel.Name = "LW_LayawayButtonsPanel";
             this.LW_LayawayButtonsPanel.Size = new System.Drawing.Size(716, 49);
             this.LW_LayawayButtonsPanel.TabIndex = 0;
+            this.LW_LayawayButtonsPanel.Visible = false;
             // 
             // CommonServiceButtonsPanel
             // 
@@ -608,6 +611,7 @@ namespace Support.Forms.Customer.Products
             this.CommonServiceButtonsPanel.Name = "CommonServiceButtonsPanel";
             this.CommonServiceButtonsPanel.Size = new System.Drawing.Size(200, 101);
             this.CommonServiceButtonsPanel.TabIndex = 57;
+            this.CommonServiceButtonsPanel.Visible = false;
             // 
             // PS_HistoryTab
             // 
@@ -651,9 +655,9 @@ namespace Support.Forms.Customer.Products
             this.ChkBGetAllHistory.ForeColor = System.Drawing.Color.White;
             this.ChkBGetAllHistory.Location = new System.Drawing.Point(264, 8);
             this.ChkBGetAllHistory.Name = "ChkBGetAllHistory";
-            this.ChkBGetAllHistory.Size = new System.Drawing.Size(157, 20);
+            this.ChkBGetAllHistory.Size = new System.Drawing.Size(162, 20);
             this.ChkBGetAllHistory.TabIndex = 19;
-            this.ChkBGetAllHistory.Text = "Get All History Records";
+            this.ChkBGetAllHistory.Text = "Get All Interest Records";
             this.ChkBGetAllHistory.UseVisualStyleBackColor = false;
             this.ChkBGetAllHistory.CheckStateChanged += new System.EventHandler(this.ChkBGetAllHistory_CheckStateChanged);
             // 
@@ -670,7 +674,7 @@ namespace Support.Forms.Customer.Products
             this.CmbHistoryLoanEvents.Name = "CmbHistoryLoanEvents";
             this.CmbHistoryLoanEvents.Size = new System.Drawing.Size(146, 24);
             this.CmbHistoryLoanEvents.TabIndex = 17;
-            this.CmbHistoryLoanEvents.SelectedIndex = 0;
+            this.CmbHistoryLoanEvents.Text = "ALL";
             this.CmbHistoryLoanEvents.SelectedValueChanged += new System.EventHandler(this.CmbHistoryLoanEvents_SelectedValueChanged);
             // 
             // lblLoanEventsBar
@@ -704,6 +708,8 @@ namespace Support.Forms.Customer.Products
             this.DGVHistoryLoanEvents.Location = new System.Drawing.Point(0, 47);
             this.DGVHistoryLoanEvents.Name = "DGVHistoryLoanEvents";
             this.DGVHistoryLoanEvents.ReadOnly = true;
+            this.DGVHistoryLoanEvents.RowHeadersVisible = false;
+            this.DGVHistoryLoanEvents.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.DGVHistoryLoanEvents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DGVHistoryLoanEvents.Size = new System.Drawing.Size(916, 132);
             this.DGVHistoryLoanEvents.TabIndex = 18;
@@ -719,7 +725,7 @@ namespace Support.Forms.Customer.Products
             this.DgvColHistEventType.HeaderText = "Event Type";
             this.DgvColHistEventType.Name = "DgvColHistEventType";
             this.DgvColHistEventType.ReadOnly = true;
-            this.DgvColHistEventType.Width = 150;
+            this.DgvColHistEventType.Width = 200;
             // 
             // DgvColHistDetails
             // 
@@ -745,6 +751,7 @@ namespace Support.Forms.Customer.Products
             this.DgvColHistReceipt.HeaderText = "Receipt #";
             this.DgvColHistReceipt.Name = "DgvColHistReceipt";
             this.DgvColHistReceipt.ReadOnly = true;
+            this.DgvColHistReceipt.Width = 120;
             // 
             // TxbOriginationDate
             // 
@@ -892,14 +899,14 @@ namespace Support.Forms.Customer.Products
             this.PH_ReceiptsDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.PH_ReceiptsDataGridView.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.PH_ReceiptsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle21.BackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle21.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle21.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PH_ReceiptsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PH_ReceiptsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.PH_ReceiptsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.PH_ReceiptsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PH_Receipt_DateColumn,
@@ -908,14 +915,14 @@ namespace Support.Forms.Customer.Products
             this.PH_Receipt_EntIDColumn,
             this.PH_Receipt_ReceiptColumn});
             this.PH_ReceiptsDataGridView.Cursor = System.Windows.Forms.Cursors.Arrow;
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle22.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle22.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle22.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PH_ReceiptsDataGridView.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PH_ReceiptsDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.PH_ReceiptsDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.PH_ReceiptsDataGridView.GridColor = System.Drawing.Color.LightGray;
             this.PH_ReceiptsDataGridView.Location = new System.Drawing.Point(0, 39);
@@ -924,8 +931,8 @@ namespace Support.Forms.Customer.Products
             this.PH_ReceiptsDataGridView.RowHeadersVisible = false;
             this.PH_ReceiptsDataGridView.RowHeadersWidth = 20;
             this.PH_ReceiptsDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.PH_ReceiptsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.PH_ReceiptsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.PH_ReceiptsDataGridView.RowTemplate.Height = 25;
             this.PH_ReceiptsDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.PH_ReceiptsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -981,14 +988,14 @@ namespace Support.Forms.Customer.Products
             this.PS_ItemDescriptionDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.PS_ItemDescriptionDataGridView.BackgroundColor = System.Drawing.Color.MistyRose;
             this.PS_ItemDescriptionDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle24.BackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle24.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle24.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_ItemDescriptionDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_ItemDescriptionDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.PS_ItemDescriptionDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.PS_ItemDescriptionDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PS_ItemDescriptionDataGridView_SelectedLoan,
@@ -998,14 +1005,14 @@ namespace Support.Forms.Customer.Products
             this.colLocation,
             this.colItemAmount});
             this.PS_ItemDescriptionDataGridView.Cursor = System.Windows.Forms.Cursors.Arrow;
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle25.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle25.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle25.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle25.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle25.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_ItemDescriptionDataGridView.DefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_ItemDescriptionDataGridView.DefaultCellStyle = dataGridViewCellStyle5;
             this.PS_ItemDescriptionDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.PS_ItemDescriptionDataGridView.GridColor = System.Drawing.Color.LightGray;
             this.PS_ItemDescriptionDataGridView.Location = new System.Drawing.Point(310, 84);
@@ -1014,8 +1021,8 @@ namespace Support.Forms.Customer.Products
             this.PS_ItemDescriptionDataGridView.RowHeadersVisible = false;
             this.PS_ItemDescriptionDataGridView.RowHeadersWidth = 20;
             this.PS_ItemDescriptionDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle26.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.PS_ItemDescriptionDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.PS_ItemDescriptionDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.PS_ItemDescriptionDataGridView.RowTemplate.Height = 25;
             this.PS_ItemDescriptionDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.PS_ItemDescriptionDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1149,19 +1156,17 @@ namespace Support.Forms.Customer.Products
             this.PS_TicketsDataGridView.AllowUserToDeleteRows = false;
             this.PS_TicketsDataGridView.AllowUserToResizeColumns = false;
             this.PS_TicketsDataGridView.AllowUserToResizeRows = false;
-            this.PS_TicketsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
-            this.PS_TicketsDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.PS_TicketsDataGridView.BackgroundColor = System.Drawing.Color.MistyRose;
             this.PS_TicketsDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.PS_TicketsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle27.BackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle27.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle27.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_TicketsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_TicketsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.PS_TicketsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.PS_TicketsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PS_Tickets_ServiceIndicatorColumn,
@@ -1174,33 +1179,33 @@ namespace Support.Forms.Customer.Products
             this.PS_Ticket_Status,
             this.LoanApplicationId});
             this.PS_TicketsDataGridView.Cursor = System.Windows.Forms.Cursors.Arrow;
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle30.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle30.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle30.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle30.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle30.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_TicketsDataGridView.DefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_TicketsDataGridView.DefaultCellStyle = dataGridViewCellStyle11;
             this.PS_TicketsDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.PS_TicketsDataGridView.GridColor = System.Drawing.Color.LightGray;
             this.PS_TicketsDataGridView.Location = new System.Drawing.Point(10, 84);
             this.PS_TicketsDataGridView.Margin = new System.Windows.Forms.Padding(0);
-            this.PS_TicketsDataGridView.MaximumSize = new System.Drawing.Size(300, 283);
-            this.PS_TicketsDataGridView.MinimumSize = new System.Drawing.Size(300, 283);
+            this.PS_TicketsDataGridView.MaximumSize = new System.Drawing.Size(300, 396);
+            this.PS_TicketsDataGridView.MinimumSize = new System.Drawing.Size(300, 396);
             this.PS_TicketsDataGridView.MultiSelect = false;
             this.PS_TicketsDataGridView.Name = "PS_TicketsDataGridView";
             this.PS_TicketsDataGridView.ReadOnly = true;
             this.PS_TicketsDataGridView.RowHeadersVisible = false;
             this.PS_TicketsDataGridView.RowHeadersWidth = 20;
             this.PS_TicketsDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle31.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.PS_TicketsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.PS_TicketsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.PS_TicketsDataGridView.RowTemplate.DividerHeight = 1;
             this.PS_TicketsDataGridView.RowTemplate.Height = 25;
             this.PS_TicketsDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.PS_TicketsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.PS_TicketsDataGridView.Size = new System.Drawing.Size(300, 283);
+            this.PS_TicketsDataGridView.Size = new System.Drawing.Size(300, 396);
             this.PS_TicketsDataGridView.TabIndex = 132;
             this.PS_TicketsDataGridView.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.PS_TicketsDataGridView_CellMouseMove);
             this.PS_TicketsDataGridView.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.PS_TicketsDataGridView_CellMouseUp);
@@ -1210,10 +1215,10 @@ namespace Support.Forms.Customer.Products
             // PS_Tickets_ServiceIndicatorColumn
             // 
             this.PS_Tickets_ServiceIndicatorColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle28.ForeColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.Color.MistyRose;
-            this.PS_Tickets_ServiceIndicatorColumn.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.MistyRose;
+            this.PS_Tickets_ServiceIndicatorColumn.DefaultCellStyle = dataGridViewCellStyle8;
             this.PS_Tickets_ServiceIndicatorColumn.FillWeight = 103.0928F;
             this.PS_Tickets_ServiceIndicatorColumn.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.PS_Tickets_ServiceIndicatorColumn.Name = "PS_Tickets_ServiceIndicatorColumn";
@@ -1224,14 +1229,14 @@ namespace Support.Forms.Customer.Products
             // PS_Tickets_Extend
             // 
             this.PS_Tickets_Extend.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle29.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle29.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle29.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle29.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle29.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_Tickets_Extend.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_Tickets_Extend.DefaultCellStyle = dataGridViewCellStyle9;
             this.PS_Tickets_Extend.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.PS_Tickets_Extend.Name = "PS_Tickets_Extend";
             this.PS_Tickets_Extend.ReadOnly = true;
@@ -1240,21 +1245,23 @@ namespace Support.Forms.Customer.Products
             // 
             // PS_Tickets_TicketNumberColumn
             // 
-            this.PS_Tickets_TicketNumberColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.PS_Tickets_TicketNumberColumn.DataPropertyName = "PS_Tickets_TicketNumberColumn";
-            this.PS_Tickets_TicketNumberColumn.FillWeight = 96.90721F;
-            this.PS_Tickets_TicketNumberColumn.HeaderText = "Ticket Number";
+            this.PS_Tickets_TicketNumberColumn.FillWeight = 90.15079F;
+            this.PS_Tickets_TicketNumberColumn.HeaderText = "Loan Number     ";
             this.PS_Tickets_TicketNumberColumn.Name = "PS_Tickets_TicketNumberColumn";
             this.PS_Tickets_TicketNumberColumn.ReadOnly = true;
             this.PS_Tickets_TicketNumberColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.PS_Tickets_TicketNumberColumn.Width = 91;
             // 
             // PS_Staus_Date
             // 
-            this.PS_Staus_Date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.PS_Staus_Date.FillWeight = 55.79488F;
+            dataGridViewCellStyle10.NullValue = null;
+            this.PS_Staus_Date.DefaultCellStyle = dataGridViewCellStyle10;
+            this.PS_Staus_Date.FillWeight = 55.04397F;
             this.PS_Staus_Date.HeaderText = "Status Date";
             this.PS_Staus_Date.Name = "PS_Staus_Date";
             this.PS_Staus_Date.ReadOnly = true;
+            this.PS_Staus_Date.Width = 89;
             // 
             // PS_Tickets_LastDayColumn
             // 
@@ -1264,7 +1271,7 @@ namespace Support.Forms.Customer.Products
             this.PS_Tickets_LastDayColumn.Name = "PS_Tickets_LastDayColumn";
             this.PS_Tickets_LastDayColumn.ReadOnly = true;
             this.PS_Tickets_LastDayColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.PS_Tickets_LastDayColumn.Width = 55;
+            this.PS_Tickets_LastDayColumn.Visible = false;
             // 
             // PS_Tickets_Refresh
             // 
@@ -1272,24 +1279,24 @@ namespace Support.Forms.Customer.Products
             this.PS_Tickets_Refresh.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.PS_Tickets_Refresh.Name = "PS_Tickets_Refresh";
             this.PS_Tickets_Refresh.ReadOnly = true;
-            this.PS_Tickets_Refresh.Width = 5;
+            this.PS_Tickets_Refresh.Visible = false;
             // 
             // PS_Ticket_Type
             // 
-            this.PS_Ticket_Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.PS_Ticket_Type.FillWeight = 33.79488F;
+            this.PS_Ticket_Type.FillWeight = 26.75079F;
             this.PS_Ticket_Type.HeaderText = "Type";
             this.PS_Ticket_Type.MaxInputLength = 1;
             this.PS_Ticket_Type.Name = "PS_Ticket_Type";
             this.PS_Ticket_Type.ReadOnly = true;
+            this.PS_Ticket_Type.Width = 40;
             // 
             // PS_Ticket_Status
             // 
-            this.PS_Ticket_Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.PS_Ticket_Status.FillWeight = 39.79488F;
+            this.PS_Ticket_Status.FillWeight = 54.34631F;
             this.PS_Ticket_Status.HeaderText = "Status";
             this.PS_Ticket_Status.Name = "PS_Ticket_Status";
             this.PS_Ticket_Status.ReadOnly = true;
+            this.PS_Ticket_Status.Width = 63;
             // 
             // LoanApplicationId
             // 
@@ -1310,14 +1317,14 @@ namespace Support.Forms.Customer.Products
             this.PS_AddTicketsDataGridView.BackgroundColor = System.Drawing.Color.MistyRose;
             this.PS_AddTicketsDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.PS_AddTicketsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle32.BackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle32.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle32.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle32.SelectionBackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle32.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_AddTicketsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_AddTicketsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             this.PS_AddTicketsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.PS_AddTicketsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PS_AddTickets_ServiceIndicator,
@@ -1326,17 +1333,17 @@ namespace Support.Forms.Customer.Products
             this.PS_AddTickets_LastDayColumn,
             this.PS_AddTickets_Refresh});
             this.PS_AddTicketsDataGridView.Cursor = System.Windows.Forms.Cursors.Arrow;
-            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle35.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle35.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle35.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle35.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle35.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle35.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_AddTicketsDataGridView.DefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_AddTicketsDataGridView.DefaultCellStyle = dataGridViewCellStyle16;
             this.PS_AddTicketsDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.PS_AddTicketsDataGridView.GridColor = System.Drawing.Color.LightGray;
-            this.PS_AddTicketsDataGridView.Location = new System.Drawing.Point(10, 385);
+            this.PS_AddTicketsDataGridView.Location = new System.Drawing.Point(11, 390);
             this.PS_AddTicketsDataGridView.Margin = new System.Windows.Forms.Padding(0);
             this.PS_AddTicketsDataGridView.MaximumSize = new System.Drawing.Size(300, 94);
             this.PS_AddTicketsDataGridView.MinimumSize = new System.Drawing.Size(300, 94);
@@ -1345,8 +1352,8 @@ namespace Support.Forms.Customer.Products
             this.PS_AddTicketsDataGridView.RowHeadersVisible = false;
             this.PS_AddTicketsDataGridView.RowHeadersWidth = 20;
             this.PS_AddTicketsDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle36.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.PS_AddTicketsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.PS_AddTicketsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle17;
             this.PS_AddTicketsDataGridView.RowTemplate.Height = 25;
             this.PS_AddTicketsDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.PS_AddTicketsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1360,14 +1367,14 @@ namespace Support.Forms.Customer.Products
             // PS_AddTickets_ServiceIndicator
             // 
             this.PS_AddTickets_ServiceIndicator.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle33.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle33.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle33.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle33.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle33.SelectionForeColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_AddTickets_ServiceIndicator.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_AddTickets_ServiceIndicator.DefaultCellStyle = dataGridViewCellStyle14;
             this.PS_AddTickets_ServiceIndicator.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.PS_AddTickets_ServiceIndicator.Name = "PS_AddTickets_ServiceIndicator";
             this.PS_AddTickets_ServiceIndicator.ReadOnly = true;
@@ -1376,9 +1383,9 @@ namespace Support.Forms.Customer.Products
             // PS_AddTickets_Extend
             // 
             this.PS_AddTickets_Extend.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle34.Font = new System.Drawing.Font("Tahoma", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle34.ForeColor = System.Drawing.Color.Black;
-            this.PS_AddTickets_Extend.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Tahoma", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.Black;
+            this.PS_AddTickets_Extend.DefaultCellStyle = dataGridViewCellStyle15;
             this.PS_AddTickets_Extend.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.PS_AddTickets_Extend.Name = "PS_AddTickets_Extend";
             this.PS_AddTickets_Extend.ReadOnly = true;
@@ -1414,7 +1421,7 @@ namespace Support.Forms.Customer.Products
             this.PS_AddTicketsLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PS_AddTicketsLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PS_AddTicketsLabel.ForeColor = System.Drawing.Color.Black;
-            this.PS_AddTicketsLabel.Location = new System.Drawing.Point(9, 366);
+            this.PS_AddTicketsLabel.Location = new System.Drawing.Point(13, 369);
             this.PS_AddTicketsLabel.Margin = new System.Windows.Forms.Padding(0);
             this.PS_AddTicketsLabel.MaximumSize = new System.Drawing.Size(300, 21);
             this.PS_AddTicketsLabel.MinimumSize = new System.Drawing.Size(300, 21);
@@ -1435,6 +1442,7 @@ namespace Support.Forms.Customer.Products
             this.labelServiceAmountHeading.Size = new System.Drawing.Size(141, 14);
             this.labelServiceAmountHeading.TabIndex = 144;
             this.labelServiceAmountHeading.Text = "Pawn Servicing Amount:";
+            this.labelServiceAmountHeading.Visible = false;
             // 
             // labelServiceAmount
             // 
@@ -1447,16 +1455,17 @@ namespace Support.Forms.Customer.Products
             this.labelServiceAmount.Size = new System.Drawing.Size(21, 14);
             this.labelServiceAmount.TabIndex = 145;
             this.labelServiceAmount.Text = "$0";
+            this.labelServiceAmount.Visible = false;
             // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle37.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle37.ForeColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle37.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle37.SelectionForeColor = System.Drawing.Color.MistyRose;
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.MistyRose;
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle18;
             this.dataGridViewTextBoxColumn1.FillWeight = 128.2051F;
             this.dataGridViewTextBoxColumn1.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
@@ -1467,14 +1476,14 @@ namespace Support.Forms.Customer.Products
             // 
             this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn2.DataPropertyName = "PS_Tickets_TicketNumberColumn";
-            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle38.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle38.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle38.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle38.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle38.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle38.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle19.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle19;
             this.dataGridViewTextBoxColumn2.FillWeight = 25.79488F;
             this.dataGridViewTextBoxColumn2.HeaderText = "Ticket Number";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
@@ -1554,14 +1563,14 @@ namespace Support.Forms.Customer.Products
             // 
             this.dataGridViewTextBoxColumn10.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn10.DataPropertyName = "PS_AddTickets_LastDayColumn";
-            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle39.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle39.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle39.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle39.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle39.SelectionForeColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle39.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle20.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle20;
             this.dataGridViewTextBoxColumn10.HeaderText = "Last Day";
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.ReadOnly = true;
@@ -1570,9 +1579,9 @@ namespace Support.Forms.Customer.Products
             // 
             this.dataGridViewTextBoxColumn11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.dataGridViewTextBoxColumn11.DataPropertyName = "PS_AddTickets_LastDayColumn";
-            dataGridViewCellStyle40.Font = new System.Drawing.Font("Tahoma", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle40.ForeColor = System.Drawing.Color.Black;
-            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle40;
+            dataGridViewCellStyle21.Font = new System.Drawing.Font("Tahoma", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle21.ForeColor = System.Drawing.Color.Black;
+            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle21;
             this.dataGridViewTextBoxColumn11.HeaderText = "Last Day";
             this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
             this.dataGridViewTextBoxColumn11.ReadOnly = true;
@@ -1969,9 +1978,8 @@ namespace Support.Forms.Customer.Products
             this.XPPFeeAmountToDisplay.AutoSize = true;
             this.XPPFeeAmountToDisplay.Location = new System.Drawing.Point(104, 317);
             this.XPPFeeAmountToDisplay.Name = "XPPFeeAmountToDisplay";
-            this.XPPFeeAmountToDisplay.Size = new System.Drawing.Size(35, 13);
+            this.XPPFeeAmountToDisplay.Size = new System.Drawing.Size(0, 13);
             this.XPPFeeAmountToDisplay.TabIndex = 62;
-            this.XPPFeeAmountToDisplay.Text = "00.00";
             // 
             // LblLoanNumber
             // 
@@ -1990,18 +1998,16 @@ namespace Support.Forms.Customer.Products
             this.XPPEndDateToDisplay.AutoSize = true;
             this.XPPEndDateToDisplay.Location = new System.Drawing.Point(82, 299);
             this.XPPEndDateToDisplay.Name = "XPPEndDateToDisplay";
-            this.XPPEndDateToDisplay.Size = new System.Drawing.Size(57, 13);
+            this.XPPEndDateToDisplay.Size = new System.Drawing.Size(0, 13);
             this.XPPEndDateToDisplay.TabIndex = 61;
-            this.XPPEndDateToDisplay.Text = "MM/DD/YY";
             // 
             // XPPStartDateToDisplay
             // 
             this.XPPStartDateToDisplay.AutoSize = true;
             this.XPPStartDateToDisplay.Location = new System.Drawing.Point(82, 283);
             this.XPPStartDateToDisplay.Name = "XPPStartDateToDisplay";
-            this.XPPStartDateToDisplay.Size = new System.Drawing.Size(57, 13);
+            this.XPPStartDateToDisplay.Size = new System.Drawing.Size(0, 13);
             this.XPPStartDateToDisplay.TabIndex = 60;
-            this.XPPStartDateToDisplay.Text = "MM/DD/YY";
             // 
             // lblxppSchdFeeAmt
             // 
@@ -2544,6 +2550,28 @@ namespace Support.Forms.Customer.Products
             this.lblHdrLoanNumber.Text = "SSN:";
             this.lblHdrLoanNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.TxbLoanStatusReason);
+            this.panel1.Controls.Add(this.lblStatusReason);
+            this.panel1.Controls.Add(this.lblLoanRolloverNotes);
+            this.panel1.Controls.Add(this.TxbLoanRolloverNotes);
+            this.panel1.Controls.Add(this.lblLoanRollOverAmt);
+            this.panel1.Controls.Add(this.TxbLoanRollOverAmt);
+            this.panel1.Controls.Add(this.lblRevokeACH);
+            this.panel1.Controls.Add(this.TxbRevokeACH);
+            this.panel1.Controls.Add(this.lblActualFinanceChrgAmt);
+            this.panel1.Controls.Add(this.TxbActualFinanceChrgAmt);
+            this.panel1.Controls.Add(this.lblAcutalServiceChrgAmt);
+            this.panel1.Controls.Add(this.TxbAcutalServiceChrgAmt);
+            this.panel1.Controls.Add(this.TxbEstRolloverAmt);
+            this.panel1.Controls.Add(this.lblEstRolloverAmt);
+            this.panel1.Location = new System.Drawing.Point(1080, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(200, 136);
+            this.panel1.TabIndex = 149;
+            this.panel1.Visible = false;
+            // 
             // customButtonCancel
             // 
             this.customButtonCancel.BackColor = System.Drawing.Color.Transparent;
@@ -2568,28 +2596,6 @@ namespace Support.Forms.Customer.Products
             this.customButtonCancel.UseVisualStyleBackColor = false;
             this.customButtonCancel.Click += new System.EventHandler(this.customButtonCancel_Click);
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.TxbLoanStatusReason);
-            this.panel1.Controls.Add(this.lblStatusReason);
-            this.panel1.Controls.Add(this.lblLoanRolloverNotes);
-            this.panel1.Controls.Add(this.TxbLoanRolloverNotes);
-            this.panel1.Controls.Add(this.lblLoanRollOverAmt);
-            this.panel1.Controls.Add(this.TxbLoanRollOverAmt);
-            this.panel1.Controls.Add(this.lblRevokeACH);
-            this.panel1.Controls.Add(this.TxbRevokeACH);
-            this.panel1.Controls.Add(this.lblActualFinanceChrgAmt);
-            this.panel1.Controls.Add(this.TxbActualFinanceChrgAmt);
-            this.panel1.Controls.Add(this.lblAcutalServiceChrgAmt);
-            this.panel1.Controls.Add(this.TxbAcutalServiceChrgAmt);
-            this.panel1.Controls.Add(this.TxbEstRolloverAmt);
-            this.panel1.Controls.Add(this.lblEstRolloverAmt);
-            this.panel1.Location = new System.Drawing.Point(1080, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 136);
-            this.panel1.TabIndex = 149;
-            this.panel1.Visible = false;
-            // 
             // Controller_ProductServices
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2599,6 +2605,8 @@ namespace Support.Forms.Customer.Products
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(940, 750);
             this.ControlBox = false;
+            this.Controls.Add(this.PS_AddTicketsDataGridView);
+            this.Controls.Add(this.PS_AddTicketsLabel);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.FormHeaderPanel);
             this.Controls.Add(this.PS_ShowComboBox);
@@ -2612,8 +2620,6 @@ namespace Support.Forms.Customer.Products
             this.Controls.Add(this.LW_DetailsLayoutPanel);
             this.Controls.Add(this.PS_PawnLoanLabel);
             this.Controls.Add(this.PS_TicketsDataGridView);
-            this.Controls.Add(this.PS_AddTicketsLabel);
-            this.Controls.Add(this.PS_AddTicketsDataGridView);
             this.Controls.Add(this.PS_SubTabControl);
             this.Controls.Add(this.tlpDocuments);
             this.Controls.Add(this.customButtonCancel);
@@ -2821,13 +2827,6 @@ namespace Support.Forms.Customer.Products
             private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColHistDetails;
             private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColHistAmoutPaid;
             private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColHistReceipt;
-
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistDate;
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistEventType;
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistDetails;
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistAmoutPaid;
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistSource;
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistReceipt;
             private System.Windows.Forms.GroupBox GbExtendedStaticLoanInfo;
             private System.Windows.Forms.Label lblHdrLoanStatus;
             private System.Windows.Forms.ComboBox CmbLoanStatus;
@@ -2841,15 +2840,6 @@ namespace Support.Forms.Customer.Products
             private System.Windows.Forms.Label XPPStartDateToDisplay;
             private System.Windows.Forms.Label XPPFeeAmountToDisplay;
             private System.Windows.Forms.Label XPPEndDateToDisplay;
-            private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_ServiceIndicatorColumn;
-            private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_Extend;
-            private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_TicketNumberColumn;
-            private System.Windows.Forms.DataGridViewTextBoxColumn PS_Staus_Date;
-            private CalendarColumn PS_Tickets_LastDayColumn;
-            private System.Windows.Forms.DataGridViewImageColumn PS_Tickets_Refresh;
-            private System.Windows.Forms.DataGridViewTextBoxColumn PS_Ticket_Type;
-            private System.Windows.Forms.DataGridViewTextBoxColumn PS_Ticket_Status;
-            private System.Windows.Forms.DataGridViewTextBoxColumn LoanApplicationId;
             private System.Windows.Forms.TextBox TxbLoanStatusReason;
             private System.Windows.Forms.Label lblStatusReason;
             private System.Windows.Forms.TextBox TxbLoanStatus;
@@ -2859,6 +2849,21 @@ namespace Support.Forms.Customer.Products
             private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentAmt;
             private System.Windows.Forms.CheckBox ChkBGetAllHistory;
             private System.Windows.Forms.Panel panel1;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistDate;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistEventType;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistDetails;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistAmoutPaid;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistSource;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistReceipt;
+            private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_ServiceIndicatorColumn;
+            private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_Extend;
+            private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_TicketNumberColumn;
+            private System.Windows.Forms.DataGridViewTextBoxColumn PS_Staus_Date;
+            private CalendarColumn PS_Tickets_LastDayColumn;
+            private System.Windows.Forms.DataGridViewImageColumn PS_Tickets_Refresh;
+            private System.Windows.Forms.DataGridViewTextBoxColumn PS_Ticket_Type;
+            private System.Windows.Forms.DataGridViewTextBoxColumn PS_Ticket_Status;
+            private System.Windows.Forms.DataGridViewTextBoxColumn LoanApplicationId;
 
     }
 }

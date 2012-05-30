@@ -321,6 +321,7 @@ namespace Support.Controllers.Database.Procedures
 
                         //Other Details
                         var otherDetails = new PDLoanOtherDetails();
+                        otherDetails.Loan_Type = Utilities.GetStringValue(curDr["loan_type"]);
                         //otherDetails.ApprovalNumber = Utilities.GetStringValue(curDr["approval_no"]);
                         otherDetails.ThirdPartyLoanNumber = Utilities.GetStringValue(curDr["veritec_trans_nbr"]);
                         //otherDetails.LoanApr = Utilities.GetStringValue(curDr["loan_apr"]);

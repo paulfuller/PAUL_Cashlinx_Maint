@@ -1,0 +1,6 @@
+This will be a general information document about the Support App.
+This will not be linked to the support app build.
+
+This will also test out making changes with GIT.
+
+I am making another change

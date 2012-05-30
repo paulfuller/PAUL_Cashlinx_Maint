@@ -18,10 +18,12 @@ namespace Support.Libraries.Objects.PDLoan
             GetPDLoanXPPScheduleList = new List<PDLoanXPPScheduleList>();
             //GetPDLoanEvents = new List<PDLoanEvents>();
             GetPDLoanHistoryList = new List<PDLoanHistoryList>();
+            GetPDLoanHistorySummaryList = new List<PDLoanHistoryList>();
             PdlState = 0;
         }
 
         public bool SqlDataRetrieved { get; set; }
+        public bool EventHistoryRetrieved { get; set; }
         public int PdlState { get; set; }
 
         public string LoanApplicationId
@@ -88,11 +90,18 @@ namespace Support.Libraries.Objects.PDLoan
         //    set;
         //}
 
+        public List<PDLoanHistoryList> GetPDLoanHistorySummaryList
+        {
+            get;
+            set;
+        }
+
         public List<PDLoanHistoryList> GetPDLoanHistoryList
         {
             get;
             set;
         }
+
 
     }
 }

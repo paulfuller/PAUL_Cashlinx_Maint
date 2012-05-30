@@ -1275,7 +1275,7 @@ namespace Support.Forms.Customer.Products
         private void MapPDL_EventsFromProperties(PDLoanDetails Record)
         {
             // put these elements in a groupbox for more controll.
-            this.TxbOriginationDate.Text = Record.OrginationDate == DateTime.MinValue ? "" : (Record.OrginationDate).FormatDateWithTimeZone();
+            this.TxbOriginationDate.Text = Record.OrginationDate == DateTime.MinValue ? "" : (Record.OrginationDate).FormatDate();
             this.TxbDueDate.Text = Record.DueDate == DateTime.MinValue ? "" : (Record.DueDate).FormatDate();
             this.TxbOrigDepDate.Text = Record.OrigDepDate == DateTime.MinValue ? "" : (Record.OrigDepDate).FormatDate();
             this.TxbExtendedDate.Text = Record.ExtendedDate == DateTime.MinValue ? "" : (Record.ExtendedDate).FormatDate();

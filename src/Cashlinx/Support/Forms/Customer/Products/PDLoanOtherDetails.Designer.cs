@@ -77,9 +77,9 @@ namespace Support.Forms.Customer.Products
             this.AutoSuspendACH = new System.Windows.Forms.Label();
             this.ActualBrokerAmt = new System.Windows.Forms.Label();
             this.BrokerRate = new System.Windows.Forms.Label();
-            this.BtnCancel = new Support.Libraries.Forms.Components.SupportButton();
             this.CustomerLoanNumberAndName = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.BtnCancel = new Support.Libraries.Forms.Components.SupportButton();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -126,7 +126,7 @@ namespace Support.Forms.Customer.Products
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(28, 338);
+            this.label3.Location = new System.Drawing.Point(28, 279);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(33, 13);
             this.label3.TabIndex = 11;
@@ -149,7 +149,7 @@ namespace Support.Forms.Customer.Products
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(28, 309);
+            this.label5.Location = new System.Drawing.Point(28, 250);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(97, 13);
             this.label5.TabIndex = 13;
@@ -172,7 +172,7 @@ namespace Support.Forms.Customer.Products
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(28, 161);
+            this.label7.Location = new System.Drawing.Point(28, 102);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(115, 13);
             this.label7.TabIndex = 15;
@@ -183,7 +183,7 @@ namespace Support.Forms.Customer.Products
             this.label8.AutoSize = true;
             this.label8.BackColor = System.Drawing.Color.Transparent;
             this.label8.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(28, 281);
+            this.label8.Location = new System.Drawing.Point(28, 222);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(91, 13);
             this.label8.TabIndex = 16;
@@ -194,7 +194,7 @@ namespace Support.Forms.Customer.Products
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.Color.Transparent;
             this.label9.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(28, 251);
+            this.label9.Location = new System.Drawing.Point(28, 192);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(113, 13);
             this.label9.TabIndex = 17;
@@ -205,7 +205,7 @@ namespace Support.Forms.Customer.Products
             this.label10.AutoSize = true;
             this.label10.BackColor = System.Drawing.Color.Transparent;
             this.label10.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(28, 219);
+            this.label10.Location = new System.Drawing.Point(28, 160);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(119, 13);
             this.label10.TabIndex = 18;
@@ -216,7 +216,7 @@ namespace Support.Forms.Customer.Products
             this.label11.AutoSize = true;
             this.label11.BackColor = System.Drawing.Color.Transparent;
             this.label11.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(28, 186);
+            this.label11.Location = new System.Drawing.Point(28, 127);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(126, 13);
             this.label11.TabIndex = 19;
@@ -227,11 +227,12 @@ namespace Support.Forms.Customer.Products
             this.label12.AutoSize = true;
             this.label12.BackColor = System.Drawing.Color.Transparent;
             this.label12.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(28, 137);
+            this.label12.Location = new System.Drawing.Point(23, 186);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(53, 13);
             this.label12.TabIndex = 20;
             this.label12.Text = "Appr FC:";
+            this.label12.Visible = false;
             // 
             // lblMultipleLoan
             // 
@@ -262,7 +263,7 @@ namespace Support.Forms.Customer.Products
             this.label15.AutoSize = true;
             this.label15.BackColor = System.Drawing.Color.Transparent;
             this.label15.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(28, 108);
+            this.label15.Location = new System.Drawing.Point(28, 77);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(167, 13);
             this.label15.TabIndex = 23;
@@ -285,7 +286,7 @@ namespace Support.Forms.Customer.Products
             this.label18.AutoSize = true;
             this.label18.BackColor = System.Drawing.Color.Transparent;
             this.label18.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(28, 419);
+            this.label18.Location = new System.Drawing.Point(28, 360);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(114, 13);
             this.label18.TabIndex = 26;
@@ -308,7 +309,7 @@ namespace Support.Forms.Customer.Products
             this.label20.AutoSize = true;
             this.label20.BackColor = System.Drawing.Color.Transparent;
             this.label20.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(28, 390);
+            this.label20.Location = new System.Drawing.Point(28, 331);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(96, 13);
             this.label20.TabIndex = 28;
@@ -355,7 +356,7 @@ namespace Support.Forms.Customer.Products
             this.label24.AutoSize = true;
             this.label24.BackColor = System.Drawing.Color.Transparent;
             this.label24.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(28, 365);
+            this.label24.Location = new System.Drawing.Point(28, 306);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(71, 13);
             this.label24.TabIndex = 32;
@@ -378,7 +379,7 @@ namespace Support.Forms.Customer.Products
             this.VeritecTranNumber.AutoSize = true;
             this.VeritecTranNumber.BackColor = System.Drawing.Color.Transparent;
             this.VeritecTranNumber.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.VeritecTranNumber.Location = new System.Drawing.Point(217, 108);
+            this.VeritecTranNumber.Location = new System.Drawing.Point(217, 77);
             this.VeritecTranNumber.Name = "VeritecTranNumber";
             this.VeritecTranNumber.Size = new System.Drawing.Size(0, 13);
             this.VeritecTranNumber.TabIndex = 34;
@@ -412,10 +413,11 @@ namespace Support.Forms.Customer.Products
             this.ApprFC.AutoSize = true;
             this.ApprFC.BackColor = System.Drawing.Color.Transparent;
             this.ApprFC.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.ApprFC.Location = new System.Drawing.Point(217, 137);
+            this.ApprFC.Location = new System.Drawing.Point(147, 186);
             this.ApprFC.Name = "ApprFC";
-            this.ApprFC.Size = new System.Drawing.Size(0, 13);
+            this.ApprFC.Size = new System.Drawing.Size(46, 13);
             this.ApprFC.TabIndex = 37;
+            this.ApprFC.Text = "Appr FC";
             this.ApprFC.Visible = false;
             // 
             // RefundSCAmount
@@ -423,7 +425,7 @@ namespace Support.Forms.Customer.Products
             this.RefundSCAmount.AutoSize = true;
             this.RefundSCAmount.BackColor = System.Drawing.Color.Transparent;
             this.RefundSCAmount.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.RefundSCAmount.Location = new System.Drawing.Point(217, 161);
+            this.RefundSCAmount.Location = new System.Drawing.Point(217, 102);
             this.RefundSCAmount.Name = "RefundSCAmount";
             this.RefundSCAmount.Size = new System.Drawing.Size(0, 13);
             this.RefundSCAmount.TabIndex = 38;
@@ -433,7 +435,7 @@ namespace Support.Forms.Customer.Products
             this.CountFeesAssessed.AutoSize = true;
             this.CountFeesAssessed.BackColor = System.Drawing.Color.Transparent;
             this.CountFeesAssessed.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.CountFeesAssessed.Location = new System.Drawing.Point(217, 186);
+            this.CountFeesAssessed.Location = new System.Drawing.Point(217, 127);
             this.CountFeesAssessed.Name = "CountFeesAssessed";
             this.CountFeesAssessed.Size = new System.Drawing.Size(0, 13);
             this.CountFeesAssessed.TabIndex = 39;
@@ -443,7 +445,7 @@ namespace Support.Forms.Customer.Products
             this.RequestedAmount.AutoSize = true;
             this.RequestedAmount.BackColor = System.Drawing.Color.Transparent;
             this.RequestedAmount.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.RequestedAmount.Location = new System.Drawing.Point(217, 219);
+            this.RequestedAmount.Location = new System.Drawing.Point(217, 160);
             this.RequestedAmount.Name = "RequestedAmount";
             this.RequestedAmount.Size = new System.Drawing.Size(0, 13);
             this.RequestedAmount.TabIndex = 40;
@@ -453,7 +455,7 @@ namespace Support.Forms.Customer.Products
             this.ApprovedAmount.AutoSize = true;
             this.ApprovedAmount.BackColor = System.Drawing.Color.Transparent;
             this.ApprovedAmount.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.ApprovedAmount.Location = new System.Drawing.Point(217, 251);
+            this.ApprovedAmount.Location = new System.Drawing.Point(217, 192);
             this.ApprovedAmount.Name = "ApprovedAmount";
             this.ApprovedAmount.Size = new System.Drawing.Size(0, 13);
             this.ApprovedAmount.TabIndex = 41;
@@ -463,7 +465,7 @@ namespace Support.Forms.Customer.Products
             this.CheckNumber.AutoSize = true;
             this.CheckNumber.BackColor = System.Drawing.Color.Transparent;
             this.CheckNumber.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.CheckNumber.Location = new System.Drawing.Point(217, 281);
+            this.CheckNumber.Location = new System.Drawing.Point(217, 222);
             this.CheckNumber.Name = "CheckNumber";
             this.CheckNumber.Size = new System.Drawing.Size(0, 13);
             this.CheckNumber.TabIndex = 42;
@@ -484,7 +486,7 @@ namespace Support.Forms.Customer.Products
             this.OrigFeesMaint.AutoSize = true;
             this.OrigFeesMaint.BackColor = System.Drawing.Color.Transparent;
             this.OrigFeesMaint.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.OrigFeesMaint.Location = new System.Drawing.Point(217, 309);
+            this.OrigFeesMaint.Location = new System.Drawing.Point(217, 250);
             this.OrigFeesMaint.Name = "OrigFeesMaint";
             this.OrigFeesMaint.Size = new System.Drawing.Size(0, 13);
             this.OrigFeesMaint.TabIndex = 44;
@@ -506,7 +508,7 @@ namespace Support.Forms.Customer.Products
             this.APR.AutoSize = true;
             this.APR.BackColor = System.Drawing.Color.Transparent;
             this.APR.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.APR.Location = new System.Drawing.Point(217, 338);
+            this.APR.Location = new System.Drawing.Point(217, 279);
             this.APR.Name = "APR";
             this.APR.Size = new System.Drawing.Size(0, 13);
             this.APR.TabIndex = 46;
@@ -528,7 +530,7 @@ namespace Support.Forms.Customer.Products
             this.StatusChg.AutoSize = true;
             this.StatusChg.BackColor = System.Drawing.Color.Transparent;
             this.StatusChg.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.StatusChg.Location = new System.Drawing.Point(217, 365);
+            this.StatusChg.Location = new System.Drawing.Point(217, 306);
             this.StatusChg.Name = "StatusChg";
             this.StatusChg.Size = new System.Drawing.Size(0, 13);
             this.StatusChg.TabIndex = 48;
@@ -574,7 +576,7 @@ namespace Support.Forms.Customer.Products
             this.FrequencyPaid.AutoSize = true;
             this.FrequencyPaid.BackColor = System.Drawing.Color.Transparent;
             this.FrequencyPaid.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.FrequencyPaid.Location = new System.Drawing.Point(217, 390);
+            this.FrequencyPaid.Location = new System.Drawing.Point(217, 331);
             this.FrequencyPaid.Name = "FrequencyPaid";
             this.FrequencyPaid.Size = new System.Drawing.Size(0, 13);
             this.FrequencyPaid.TabIndex = 52;
@@ -597,7 +599,7 @@ namespace Support.Forms.Customer.Products
             this.ActualBrokerAmt.AutoSize = true;
             this.ActualBrokerAmt.BackColor = System.Drawing.Color.Transparent;
             this.ActualBrokerAmt.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.ActualBrokerAmt.Location = new System.Drawing.Point(217, 419);
+            this.ActualBrokerAmt.Location = new System.Drawing.Point(217, 360);
             this.ActualBrokerAmt.Name = "ActualBrokerAmt";
             this.ActualBrokerAmt.Size = new System.Drawing.Size(0, 13);
             this.ActualBrokerAmt.TabIndex = 54;
@@ -613,31 +615,6 @@ namespace Support.Forms.Customer.Products
             this.BrokerRate.TabIndex = 55;
             this.BrokerRate.Text = "BrokerRate";
             this.BrokerRate.Visible = false;
-            // 
-            // BtnCancel
-            // 
-            this.BtnCancel.BackColor = System.Drawing.Color.Transparent;
-            this.BtnCancel.BackgroundImage = global::Support.Properties.Resources.Red_button_100_50;
-            this.BtnCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtnCancel.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.BtnCancel.FlatAppearance.BorderSize = 0;
-            this.BtnCancel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BtnCancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BtnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnCancel.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnCancel.ForeColor = System.Drawing.Color.White;
-            this.BtnCancel.Location = new System.Drawing.Point(562, 481);
-            this.BtnCancel.Margin = new System.Windows.Forms.Padding(0);
-            this.BtnCancel.MaximumSize = new System.Drawing.Size(90, 40);
-            this.BtnCancel.MinimumSize = new System.Drawing.Size(90, 40);
-            this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(90, 40);
-            this.BtnCancel.TabIndex = 4;
-            this.BtnCancel.Text = "Close";
-            this.BtnCancel.UseVisualStyleBackColor = false;
-            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // CustomerLoanNumberAndName
             // 
@@ -668,19 +645,46 @@ namespace Support.Forms.Customer.Products
             this.panel1.Controls.Add(this.lblActualFinanceChrgRate);
             this.panel1.Controls.Add(this.InsOn);
             this.panel1.Controls.Add(this.ActualFCRate);
+            this.panel1.Controls.Add(this.ApprFC);
             this.panel1.Controls.Add(this.CollectionStatus);
             this.panel1.Controls.Add(this.lblEstRefinanceAmt);
             this.panel1.Controls.Add(this.EstRefinanceAmt);
             this.panel1.Controls.Add(this.lblCollectionStatusDesc);
+            this.panel1.Controls.Add(this.label12);
             this.panel1.Controls.Add(this.lblInsOnDate);
             this.panel1.Controls.Add(this.lblRefisAvailable);
             this.panel1.Controls.Add(this.lblBrokerRate);
             this.panel1.Controls.Add(this.lblSuspendACH);
-            this.panel1.Location = new System.Drawing.Point(349, 219);
+            this.panel1.Location = new System.Drawing.Point(347, 174);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(333, 183);
+            this.panel1.Size = new System.Drawing.Size(333, 199);
             this.panel1.TabIndex = 58;
             this.panel1.Visible = false;
+            // 
+            // BtnCancel
+            // 
+            this.BtnCancel.BackColor = System.Drawing.Color.Transparent;
+            this.BtnCancel.BackgroundImage = global::Support.Properties.Resources.Red_button_100_50;
+            this.BtnCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.BtnCancel.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.BtnCancel.FlatAppearance.BorderSize = 0;
+            this.BtnCancel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.BtnCancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.BtnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnCancel.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnCancel.ForeColor = System.Drawing.Color.White;
+            this.BtnCancel.Location = new System.Drawing.Point(561, 387);
+            this.BtnCancel.Margin = new System.Windows.Forms.Padding(0);
+            this.BtnCancel.MaximumSize = new System.Drawing.Size(90, 40);
+            this.BtnCancel.MinimumSize = new System.Drawing.Size(90, 40);
+            this.BtnCancel.Name = "BtnCancel";
+            this.BtnCancel.Size = new System.Drawing.Size(90, 40);
+            this.BtnCancel.TabIndex = 4;
+            this.BtnCancel.Text = "Close";
+            this.BtnCancel.UseVisualStyleBackColor = false;
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // PDLoanOtherDetails
             // 
@@ -689,7 +693,7 @@ namespace Support.Forms.Customer.Products
             this.BackColor = System.Drawing.Color.Red;
             this.BackgroundImage = global::Support.Properties.Resources.form_800_600;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(685, 540);
+            this.ClientSize = new System.Drawing.Size(685, 441);
             this.ControlBox = false;
             this.Controls.Add(this.VeritecTranNumber);
             this.Controls.Add(this.label15);
@@ -705,11 +709,9 @@ namespace Support.Forms.Customer.Products
             this.Controls.Add(this.RequestedAmount);
             this.Controls.Add(this.CountFeesAssessed);
             this.Controls.Add(this.RefundSCAmount);
-            this.Controls.Add(this.ApprFC);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.label18);
-            this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);

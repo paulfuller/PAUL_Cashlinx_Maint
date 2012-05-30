@@ -145,8 +145,8 @@
     <call target="__ensure.dstr.viewer.assembly.version"/>
     <property name="email.from" value="${user.email.address}"/>
 
-    <property name="email.to" value="jmunta@casham.com;pbccr@casham.com;tmcconnell@casham.com;amadueke@casham.com;srengarajan@casham.com;dstandley@casham.com;ewaltmon@casham.com;hkollipara@casham.com;eguillory@casham.com;ascribner@casham.com;jyandell@casham.com;mholder@casham.com;bmcvey@casham.com;mveldanda@casham.com;rbrickler@casham.com;nsiddaiah@casham.com" />
-    <property name="email.cc" value="mmoorman@casham.com;tlepage@casham.com;glepage@casham.com"/>
+    <property name="email.to" value="${update.branch.email.list.to}" />
+    <property name="email.cc" value="${udpate.branch.email.list.cc}"/>
 
     <if test="${dev.mode}">
       <property name="email.to" value="${user.email.address}"/>
@@ -168,7 +168,7 @@
     <call target="__ensure.dstr.viewer.assembly.version"/>
     <property name="email.from" value="${user.email.address}"/>
 
-    <property name="email.to" value="jmunta@casham.com;lfranks@casham.com"/>
+    <property name="email.to" value="${staging.email.list.to}"/>
     <property name="email.cc" value="${user.email.address}"/>
 
     <if test="${dev.mode}">

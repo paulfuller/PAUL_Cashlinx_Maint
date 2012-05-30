@@ -140,7 +140,7 @@
     <if test="${buildfile.audit.exists}">
       <call target="__validate.secure.password" />
       <nant buildfile="${buildfile.audit}" target="deploy-audit"/>
-      <nant buildfile="${buildfile.audit}" target="__print.merge.instructions"/>
+      <!--<nant buildfile="${buildfile.audit}" target="__print.merge.instructions"/>-->
     </if>
   </target>
 
@@ -148,7 +148,7 @@
     <if test="${buildfile.audit.queries.exists}">
       <call target="__validate.secure.password" />
       <nant buildfile="${buildfile.audit.queries}" target="deploy-audit-queries"/>
-      <nant buildfile="${buildfile.audit.queries}" target="__print.merge.instructions"/>
+      <!--<nant buildfile="${buildfile.audit.queries}" target="__print.merge.instructions"/>-->
     </if>
   </target>
 
@@ -156,7 +156,7 @@
     <if test="${buildfile.dstr.viewer.exists}">
       <call target="__validate.secure.password" />
       <nant buildfile="${buildfile.dstr.viewer}" target="deploy-dstr-viewer"/>
-      <nant buildfile="${buildfile.dstr.viewer}" target="__print.merge.instructions"/>
+      <!--<nant buildfile="${buildfile.dstr.viewer}" target="__print.merge.instructions"/>-->
     </if>
   </target>
 
@@ -164,7 +164,7 @@
     <if test="${buildfile.pawn.exists}">
       <call target="__validate.secure.password" />
       <nant buildfile="${buildfile.pawn}" target="deploy-pawn"/>
-      <nant buildfile="${buildfile.pawn}" target="__print.merge.instructions"/>
+      <!--<nant buildfile="${buildfile.pawn}" target="__print.merge.instructions"/>-->
     </if>
   </target>
 
@@ -172,7 +172,7 @@
     <if test="${buildfile.support.exists}">
       <call target="__validate.secure.password" />
       <nant buildfile="${buildfile.support}" target="deploy-support"/>
-      <nant buildfile="${buildfile.support}" target="__print.merge.instructions"/>
+      <!--<nant buildfile="${buildfile.support}" target="__print.merge.instructions"/>-->
     </if>
   </target>
 
@@ -391,6 +391,16 @@
       </do>
     </foreach>
 
+  </target>
+
+  <target name="__show.email.recipients">
+    <echo />
+    <echo message="Update Branch To: ${update.branch.email.list.to}" />
+    <echo />
+    <echo message="Update Branch Cc: ${udpate.branch.email.list.cc}" />
+    <echo />
+    <echo message="App Key To: ${staging.email.list.to}" />
+    <echo />
   </target>
 
   <target name="__validate.secure.password">

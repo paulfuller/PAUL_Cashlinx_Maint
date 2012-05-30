@@ -120,6 +120,16 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
                 SupportProjectEnvironment.StagingDirectory = @"\\FTW2.casham.com\clx_support_deploy$\Incoming";
                 DstrViewerProjectEnvironment.StagingDirectory = @"\\FTW2.casham.com\dstr_deploy$\Incoming";
             }
+
+            StagingEmailListTo = "jmunta@casham.com;lfranks@casham.com";
+
+            UpdateBranchEmailListTo = "jmunta@casham.com;pbccr@casham.com;tmcconnell@casham.com;amadueke@casham.com;dgilden@casham.com;srengarajan@casham.com;dstandley@casham.com;ewaltmon@casham.com;hkollipara@casham.com;eguillory@casham.com;ascribner@casham.com;jyandell@casham.com;mholder@casham.com;bmcvey@casham.com;mveldanda@casham.com;rbrickler@casham.com;nsiddaiah@casham.com";
+            UpdateBranchEmailListCc = "mmoorman@casham.com;tlepage@casham.com;glepage@casham.com";
+
+            if (DeploymentType == DeploymentType.MaintDev)
+            {
+                StagingEmailListTo += ";tmcconnell@casham.com";
+            }
         }
 
         public ProjectEnvironment AuditProjectEnvironment { get; private set; }
@@ -158,6 +168,10 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
         }
         public string WorkspaceName { get; set; }
 
+        public string UpdateBranchEmailListCc { get; set; }
+        public string StagingEmailListTo { get; set; }
+        public string UpdateBranchEmailListTo { get; set; }
+
         public void Log(Task task, Level level)
         {
             var utilities = new UtilityFunctions(task.Project, task.Project.Properties);
@@ -190,6 +204,18 @@ namespace Cashlinx.Build.Tasks.EnvironmentLoader
 
         private DeploymentType GetAutomaticDeploymentType()
         {
+            if (Project.Properties.Contains("deployment.type"))
+            {
+                if (Project.Properties["deployment.type"].Equals(DeploymentType.NewDev.ToString()))
+                {
+                    return DeploymentType.NewDev;
+                }
+                if (Project.Properties["deployment.type"].Equals(DeploymentType.MaintDev.ToString()))
+                {
+                    return DeploymentType.MaintDev;
+                }
+            }
+
             if (string.IsNullOrWhiteSpace(NantProjectDirectory))
             {
                 return DeploymentType.Unknown;

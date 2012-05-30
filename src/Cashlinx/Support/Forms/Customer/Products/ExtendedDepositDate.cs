@@ -99,12 +99,12 @@ namespace Support.Forms.Customer.Products
                 }
                 else if (DateTime.Parse(extendedDate) > DateTime.Parse(this.lblValidExtendedDate.Text))
                 {
-                    MessageBox.Show("Inavalid Extended Date, the Extended Deposite Date should be less than " + DateTime.Parse(this.lblValidExtendedDate.Text).FormatDate(), "Invalid Date.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Invalid Extended Date, the Extended Deposit Date should be less than " + DateTime.Parse(this.lblValidExtendedDate.Text).FormatDate(), "Invalid Date.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 else if (DateTime.Parse(extendedDate) < DateTime.Now)
                 {
-                    MessageBox.Show("Inavalid Date, the Extended Deposite Date should be future date.", "Invalid Date.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Invalid Date, the Extended Deposit Date should be future date.", "Invalid Date.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 extendedDate = DateTime.Parse(extendedDate).FormatDate();

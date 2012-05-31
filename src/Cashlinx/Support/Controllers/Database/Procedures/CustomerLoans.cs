@@ -550,6 +550,13 @@ namespace Support.Controllers.Database.Procedures
                     "o_return_code",
                     "o_return_text", out outputDataSet);
 
+                if (retVal == false)
+                {
+                    errorCode = oDa.ErrorCode;
+                    errorMessage = oDa.ErrorDescription;
+                    return (false);
+                }
+
             }
             catch (Exception oEx)
             {
@@ -701,6 +708,13 @@ namespace Support.Controllers.Database.Procedures
                     "o_return_code",
                     "o_return_text", out outputDataSet);
 
+                if (retVal == false)
+                {
+                    errorCode = oDa.ErrorCode;
+                    errorMessage = oDa.ErrorDescription;
+                    return (false);
+                }
+
             }
             catch (Exception oEx)
             {
@@ -743,6 +757,13 @@ namespace Support.Controllers.Database.Procedures
                     refCursArr,
                     "o_return_code",
                     "o_return_text", out outputDataSet);
+
+                if (retVal == false)
+                {
+                    errorCode = oDa.ErrorCode;
+                    errorMessage = oDa.ErrorDescription;
+                    return (false);
+                }
 
                 if (outputDataSet != null && outputDataSet.IsInitialized)
                 {

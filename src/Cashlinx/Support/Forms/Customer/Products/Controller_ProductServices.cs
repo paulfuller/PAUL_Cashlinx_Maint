@@ -4286,6 +4286,10 @@ namespace Support.Forms.Customer.Products
                 this.NavControlBox.IsCustom = true;
                 this.NavControlBox.CustomDetail = "ExtendedDepositDate";
                 this.NavControlBox.Action = NavBox.NavAction.SUBMIT;
+
+                MapPDL_EventsFromProperties(CashlinxPawnSupportSession.Instance.ActivePDLoan.GetPDLoanDetails);
+                this.TxbExtendedDate.Refresh();
+                this.TxbLastUpdatedBy.Refresh();
             }
             else
             {
@@ -4401,55 +4405,65 @@ namespace Support.Forms.Customer.Products
                     }
                     else
                     {
-                        string errorCode;
-                        string errorDesc;
-                        bool returnVal =
-                            Support.Controllers.Database.Procedures.CustomerLoans.ChangeLoanStatus(pdLoan.PDLLoanNumber,
-                                                                                                   CashlinxPawnSupportSession
-                                                                                                       .
-                                                                                                       Instance.
-                                                                                                       ActiveCustomer.
-                                                                                                       CustomerNumber,
-                                                                                                   pdLoan.GetPDLoanDetails.Status,
-                                                                                                   GlobalDataAccessor.
-                                                                                                       Instance.
-                                                                                                       DesktopSession.
-                                                                                                       UserName,
-                                                                                                   out errorCode,
-                                                                                                   out errorDesc);
-                        if (returnVal)
+                        DialogResult dr = MessageBox.Show("Are you sure you want to change the status of loan number " + pdLoan.PDLLoanNumber + " to CLOSED?", "Loan Status Change", MessageBoxButtons.YesNo);
+                        if (dr == DialogResult.Yes)
                         {
-                            this.BtnChangeLoanStatus.Text = UNDO_LOAN_STATUS;
-                            this.BtnChangeLoanStatus.Refresh();
-                            ChangeAndRefreshStaus(CLOSED_STATUS, CLOSED_STATUS);
-                        }
-                        else
-                        {
-                            MessageBox.Show(errorCode + ": " + errorDesc, errorCode, MessageBoxButtons.OK,
-                                            MessageBoxIcon.Warning);
+                            string errorCode;
+                            string errorDesc;
+                            bool returnVal =
+                                Support.Controllers.Database.Procedures.CustomerLoans.ChangeLoanStatus(
+                                    pdLoan.PDLLoanNumber,
+                                    CashlinxPawnSupportSession
+                                        .
+                                        Instance.
+                                        ActiveCustomer.
+                                        CustomerNumber,
+                                    pdLoan.GetPDLoanDetails.Status,
+                                    GlobalDataAccessor.
+                                        Instance.
+                                        DesktopSession.
+                                        UserName,
+                                    out errorCode,
+                                    out errorDesc);
+                            if (returnVal)
+                            {
+                                this.BtnChangeLoanStatus.Text = UNDO_LOAN_STATUS;
+                                this.BtnChangeLoanStatus.Refresh();
+                                ChangeAndRefreshStaus(CLOSED_STATUS, CLOSED_STATUS);
+                            }
+                            else
+                            {
+                                MessageBox.Show(errorCode + ": " + errorDesc, errorCode, MessageBoxButtons.OK,
+                                                MessageBoxIcon.Warning);
+                            }
                         }
                     }
                 }
                 else
                 {
-                    string errorCode;
-                    string errorDesc;
-                    string dbCurrentStatus;
+                    DialogResult dr = MessageBox.Show("Are you sure you want to undo the status of loan number " + pdLoan.PDLLoanNumber + " to previous?", "Loan Status Change", MessageBoxButtons.YesNo);
+                    if (dr == DialogResult.Yes)
+                    {
+
+                        string errorCode;
+                        string errorDesc;
+                        string dbCurrentStatus;
                         bool returnVal =
                             Controllers.Database.Procedures.CustomerLoans.UndoLoanStatus(pdLoan.PDLLoanNumber,
-                                                                                                   GlobalDataAccessor.
-                                                                                                       Instance.
-                                                                                                       DesktopSession.
-                                                                                                       UserName,
-                                                                                                   out dbCurrentStatus,
-                                                                                                   out errorCode,
-                                                                                                   out errorDesc);
+                                                                                            GlobalDataAccessor.
+                                                                                                Instance.
+                                                                                                DesktopSession.
+                                                                                                UserName,
+                                                                                            out dbCurrentStatus,
+                                                                                            out errorCode,
+                                                                                            out errorDesc);
                         if (returnVal)
                         {
                             this.BtnChangeLoanStatus.Text = LOAN_STATUS;
                             this.BtnChangeLoanStatus.Refresh();
                             ChangeAndRefreshStaus(dbCurrentStatus, OPEN_STATUS);
                         }
+                    }
                 }
             }
         }

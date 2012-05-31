@@ -16,11 +16,12 @@ using Common.Libraries.Utility.Logger;
 using Common.Libraries.Utility.Shared;
 using Common.Libraries.Utility.Type;
 using Oracle.DataAccess.Client;
+using Pawn.Forms.Pawn.Products.ManageMultiplePawnItems;
 using Pawn.Forms.Pawn.Services.Void;
 
 namespace Pawn.Logic.DesktopProcedures
 {
-    class VoidProcedures
+    static class VoidProcedures
     {
         public enum VoidCode
         {
@@ -54,12 +55,17 @@ namespace Pawn.Logic.DesktopProcedures
             return (VoidCodeValues[(int)voidCode]);
         }
 
-        public static bool PerformVoid(VoidLoanForm.LoanVoidDetails lvd, out string errCode, out string errText)
+        public static bool PerformVoid(VoidLoanForm.LoanVoidDetails lvd, out string errCode, out string errText, bool forceOverride = false)
         {
             errCode = string.Empty;
             errText = string.Empty;
-            if (lvd == null ||
-                string.IsNullOrEmpty(lvd.OpCode) ||
+            var svcTp = ServiceTypes.RENEW;
+            var checkForOverride = true;
+            bool canVoid = false;
+
+
+            if (lvd == null || 
+                string.IsNullOrEmpty(lvd.OpCode) || 
                 string.IsNullOrEmpty(lvd.OpRef) ||
                 string.IsNullOrEmpty(lvd.TickNum) ||
                 string.IsNullOrEmpty(lvd.StoreNum))
@@ -119,6 +125,7 @@ namespace Pawn.Logic.DesktopProcedures
                 {
                     GetVoidCodeValue(VoidCode.VOID_NEWLOAN)
                 };
+                checkForOverride = false;
             }
             else if (lvd.OpCode.Equals("Paydown", StringComparison.OrdinalIgnoreCase))
             {
@@ -127,6 +134,9 @@ namespace Pawn.Logic.DesktopProcedures
                 {
                     GetVoidCodeValue(VoidCode.VOID_PAYDOWN)
                 };
+
+                svcTp = ServiceTypes.PAYDOWN;
+                
             }
             else if (lvd.OpCode.Equals("Renew", StringComparison.OrdinalIgnoreCase))
             {
@@ -135,6 +145,9 @@ namespace Pawn.Logic.DesktopProcedures
                 {
                     GetVoidCodeValue(VoidCode.VOID_RENEWAL)
                 };
+
+                svcTp = ServiceTypes.RENEW;
+                
             }
             else if (lvd.OpCode.Equals("Pickup", StringComparison.OrdinalIgnoreCase))
             {
@@ -143,6 +156,8 @@ namespace Pawn.Logic.DesktopProcedures
                 {
                     GetVoidCodeValue(VoidCode.VOID_PICKUP)
                 };
+
+                svcTp = ServiceTypes.PICKUP;
             }
             else if (lvd.OpCode.Equals("Extend", StringComparison.OrdinalIgnoreCase))
             {
@@ -151,6 +166,8 @@ namespace Pawn.Logic.DesktopProcedures
                 {
                     GetVoidCodeValue(VoidCode.VOID_EXTEND)
                 };
+
+                svcTp = ServiceTypes.EXTEND;
             }
             else if (lvd.OpCode.Equals("Purchase", StringComparison.OrdinalIgnoreCase))
             {
@@ -159,6 +176,11 @@ namespace Pawn.Logic.DesktopProcedures
                 {
                     GetVoidCodeValue(VoidCode.VOID_PURCHASE)
                 };
+
+                bool skipped;
+
+                canVoid = true; // ManageMultiplePawnItems.CheckForOverrides(out skipped, forceOverride); //  this is redundant
+                checkForOverride = false;
             }
             else if (lvd.OpCode.Equals("Return", StringComparison.OrdinalIgnoreCase))
             {
@@ -167,9 +189,13 @@ namespace Pawn.Logic.DesktopProcedures
                 {
                     GetVoidCodeValue(VoidCode.VOID_PURCHASERETURN)
                 };
+
+                checkForOverride = false;
+
             }
             else if (lvd.OpCode.Equals("PFI", StringComparison.OrdinalIgnoreCase))
             {
+                checkForOverride = false;
                 bool retVal = false;
                 try
                 {
@@ -177,7 +203,7 @@ namespace Pawn.Logic.DesktopProcedures
                     decimal dStatusCode = 0;
                     CashlinxDesktopSession.Instance.beginTransactionBlock();
                     transactStarted = true;
-                    retVal = VoidPFI(Utilities.GetIntegerValue(lvd.TickNum),
+                    retVal= VoidPFI(Utilities.GetIntegerValue(lvd.TickNum),
                         CashlinxDesktopSession.Instance.CurrentSiteId.StoreNumber,
                         "",
                         "",
@@ -204,7 +230,7 @@ namespace Pawn.Logic.DesktopProcedures
                 if (!retVal)
                 {
                     CashlinxDesktopSession.Instance.endTransactionBlock(EndTransactionType.ROLLBACK);
-                    transactStarted = false;
+                    transactStarted = false;                    
                     return false;
                 }
                 CashlinxDesktopSession.Instance.endTransactionBlock(EndTransactionType.COMMIT);
@@ -214,23 +240,56 @@ namespace Pawn.Logic.DesktopProcedures
             else if (lvd.OpCode.Equals("PARTP", StringComparison.OrdinalIgnoreCase))
             {
                 bool retVal = false;
-                int receiptNumber = 0;
+                int receiptNumber=0;
+                PawnLoan pVO = null;
+                PawnAppVO pawnAppVO;
+                CustomerVO custVO = null;
+                string errorCode;
+                string errorMsg;
+
+                svcTp = ServiceTypes.PARTIALPAYMENT;
+
+                CustomerLoans.GetPawnLoan(GlobalDataAccessor.Instance.DesktopSession, Utilities.GetIntegerValue(storeNumber), Utilities.GetIntegerValue(ticketNumber), "0",
+                                          StateStatus.BLNK, false, out pVO, out pawnAppVO, out custVO, out errorCode, out errorMsg);
+                if (pVO != null)
+                {
+                    string origCustomer = pVO.CustomerNumber;
+                    string puCustNumber = pVO.PuCustNumber;
+                    if (origCustomer == puCustNumber || string.IsNullOrEmpty(puCustNumber))
+                        custVO = CustomerProcedures.getCustomerDataByCustomerNumber(GlobalDataAccessor.Instance.DesktopSession, origCustomer);
+                    else
+                        custVO = CustomerProcedures.getCustomerDataByCustomerNumber(GlobalDataAccessor.Instance.DesktopSession, puCustNumber);
+
+                    if (custVO != null)
+                        GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer = custVO;
+                }
+
                 try
                 {
-
+                    
                     decimal dStatusCode = 0;
                     CashlinxDesktopSession.Instance.beginTransactionBlock();
                     transactStarted = true;
-                    retVal = VoidPartialPayment(CashlinxDesktopSession.Instance.CurrentSiteId.StoreNumber,
-                        "",
-                        "",
-                        Utilities.GetIntegerValue(lvd.RecId),
-                       ShopDateTime.Instance.ShopDate.ToShortDateString(),
-                        ShopDateTime.Instance.ShopDate.ToShortDateString() + " " + ShopDateTime.Instance.ShopTime.ToString(),
-                        createdBy,
-                       out receiptNumber,
-                       out errCode,
-                       out errText);
+
+
+                    var toVoid = new List<PawnLoan>();
+
+
+                    toVoid.Add(pVO);
+
+                    canVoid = ServiceLoanProcedures.CheckForOverrides(svcTp, pVO.CustomerNumber, ref toVoid, ref errorMsg, forceOverride);
+
+                    if (canVoid)
+                        retVal = VoidPartialPayment(CashlinxDesktopSession.Instance.CurrentSiteId.StoreNumber,
+                            "",
+                            "",
+                            Utilities.GetIntegerValue(lvd.RecId),
+                           ShopDateTime.Instance.ShopDate.ToShortDateString(),
+                            ShopDateTime.Instance.ShopDate.ToShortDateString() + " " + ShopDateTime.Instance.ShopTime.ToString(),
+                            createdBy,
+                           out receiptNumber,
+                           out errCode,
+                           out errText);
                 }
                 catch (Exception eX)
                 {
@@ -251,25 +310,6 @@ namespace Pawn.Logic.DesktopProcedures
                 }
                 CashlinxDesktopSession.Instance.endTransactionBlock(EndTransactionType.COMMIT);
                 transactStarted = false;
-                PawnLoan pVO = null;
-                PawnAppVO pawnAppVO;
-                CustomerVO custVO = null;
-                string errorCode;
-                string errorMsg;
-                CustomerLoans.GetPawnLoan(GlobalDataAccessor.Instance.DesktopSession, Utilities.GetIntegerValue(storeNumber), Utilities.GetIntegerValue(ticketNumber), "0",
-                                          StateStatus.BLNK, false, out pVO, out pawnAppVO, out custVO, out errorCode, out errorMsg);
-                if (pVO != null)
-                {
-                    string origCustomer = pVO.CustomerNumber;
-                    string puCustNumber = pVO.PuCustNumber;
-                    if (origCustomer == puCustNumber || puCustNumber == string.Empty)
-                        custVO = CustomerProcedures.getCustomerDataByCustomerNumber(GlobalDataAccessor.Instance.DesktopSession, origCustomer);
-                    else
-                        custVO = CustomerProcedures.getCustomerDataByCustomerNumber(GlobalDataAccessor.Instance.DesktopSession, puCustNumber);
-
-                    if (custVO != null)
-                        GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer = custVO;
-                }
 
                 ReceiptDetailsVO rDVO = new ReceiptDetailsVO();
                 rDVO.RefDates.Add(ShopDateTime.Instance.ShopDate.ToShortDateString());
@@ -326,8 +366,9 @@ namespace Pawn.Logic.DesktopProcedures
                     }
                     else
                     {
-                        CustomerLoans.GetPawnLoan(GlobalDataAccessor.Instance.DesktopSession, Utilities.GetIntegerValue(storeNumber), Utilities.GetIntegerValue(ticketNumber), "0",
-                                                  StateStatus.BLNK, false, out pVO, out pawnAppVO, out custVO, out errorCode, out errorMsg);
+                        CustomerLoans.GetPawnLoan(
+                            GlobalDataAccessor.Instance.DesktopSession, Utilities.GetIntegerValue(storeNumber), Utilities.GetIntegerValue(ticketNumber), "0",
+                            StateStatus.BLNK, false, out pVO, out pawnAppVO, out custVO, out errorCode, out errorMsg);
                         if (pVO != null)
                         {
                             string origCustomer = pVO.CustomerNumber;
@@ -340,6 +381,18 @@ namespace Pawn.Logic.DesktopProcedures
                             if (custVO != null)
                                 GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer = custVO;
                         }
+
+                        if (checkForOverride)
+                        {
+                            List<PawnLoan> toVoid = new List<PawnLoan>();
+
+
+                            toVoid.Add(pVO);
+                            canVoid = ServiceLoanProcedures.CheckForOverrides(svcTp, pVO.CustomerNumber, ref toVoid, ref errorMsg);
+                        }
+                        else
+                            canVoid = true;
+
                     }
                     bool callSuccess = false;
                     receiptNumber = "";
@@ -357,87 +410,93 @@ namespace Pawn.Logic.DesktopProcedures
                         return (false);
                     }
 
-                    callSuccess = ExecuteVoidLoanChain(ticketNumber, storeNumber, voidOp, opRef, opAmt, opOrder, recIds, statusDate,
-                                                       statusTime, createdBy, createdBy, lvd.VoidReason, lvd.VoidComment, out receiptNumber,
-                                                       out errCode, out errText);
-
-                    if ((errCode == "0" || errText == "Success") && callSuccess)
+                    if (canVoid)
                     {
-                        //Update teller tables for the void transaction
-                        //bool retValue = true;
-                        bool retValue = TellerProcedures.UpdateTellerOnVoid(lvd.RecId, storeNumber,
-                                                                            GlobalDataAccessor.Instance.DesktopSession.FullUserName,
-                                                                            GlobalDataAccessor.Instance.CurrentSiteId.TerminalId,
-                                                                            receiptNumber,
-                                                                            ShopDateTime.Instance.ShopDate.ToShortDateString(), out errCode,
-                                                                            out errText);
-                        if (retValue)
+                        callSuccess = ExecuteVoidLoanChain(
+                            ticketNumber, storeNumber, voidOp, opRef, opAmt, opOrder, recIds, statusDate,
+                            statusTime, createdBy, createdBy, lvd.VoidReason, lvd.VoidComment, out receiptNumber,
+                            out errCode, out errText);
+
+                        if ((errCode == "0" || errText == "Success") && callSuccess)
                         {
-                            GlobalDataAccessor.Instance.endTransactionBlock(EndTransactionType.COMMIT);
-                            transactStarted = false;
-
-                            //Create the receipt details VO
-                            ReceiptDetailsVO rDVO = new ReceiptDetailsVO();
-                            rDVO.RefDates.Add(ShopDateTime.Instance.ShopDate.ToShortDateString());
-
-                            //add ref time
-                            rDVO.RefTimes.Add(ShopDateTime.Instance.ShopShortTime.ToString());
-
-                            // ref number for new pawn loan is the ticket number
-                            rDVO.RefNumbers.Add("" + ticketNumber);
-
-                            // ref type for  pawn loan is "PAWN" which is "1" in the DB
-                            //and ref type for purchase is 2
-                            if (lvd.OpCode.Equals("Purchase", StringComparison.OrdinalIgnoreCase) ||
-                                lvd.OpCode.Equals("Return", StringComparison.OrdinalIgnoreCase))
-                                rDVO.RefTypes.Add("2");
-                            else
-                                rDVO.RefTypes.Add("1");
-
-                            // ref event will indicate the event we are trying to void
-
-                            rDVO.RefEvents.Add(lvd.OpCd.ToString());
-
-                            // ref amount for pawn loan is the amount we are trying to void
-                            rDVO.RefAmounts.Add(lvd.Amount.ToString());
-
-                            // ref store for pawn loan is the store the receipt was printed at
-                            rDVO.RefStores.Add(storeNumber);
-
-                            //Add the receipt number
-                            rDVO.ReceiptNumber = receiptNumber;
-
-                            //print receipt - DO NOT SPAWN process tender controller object,
-                            //use the instance variable!!!!
-                            ProcessTenderController pCntrl = ProcessTenderController.Instance;
-                            if (lvd.OpCode.Equals("Purchase", StringComparison.OrdinalIgnoreCase) ||
-                                lvd.OpCode.Equals("Return", StringComparison.OrdinalIgnoreCase))
+                            //Update teller tables for the void transaction
+                            //bool retValue = true;
+                            bool retValue = TellerProcedures.UpdateTellerOnVoid(
+                                lvd.RecId, storeNumber,
+                                GlobalDataAccessor.Instance.DesktopSession.FullUserName,
+                                GlobalDataAccessor.Instance.CurrentSiteId.TerminalId,
+                                receiptNumber,
+                                ShopDateTime.Instance.ShopDate.ToShortDateString(), out errCode,
+                                out errText);
+                            if (retValue)
                             {
-                                pCntrl.executeVoidPurchasePrintReceipt(GlobalDataAccessor.Instance.DesktopSession.ActivePurchase, rDVO);
-                            }
-                            else
-                            {
-                                if (pVO != null)
+                                GlobalDataAccessor.Instance.endTransactionBlock(EndTransactionType.COMMIT);
+                                transactStarted = false;
+
+                                //Create the receipt details VO
+                                ReceiptDetailsVO rDVO = new ReceiptDetailsVO();
+                                rDVO.RefDates.Add(ShopDateTime.Instance.ShopDate.ToShortDateString());
+
+                                //add ref time
+                                rDVO.RefTimes.Add(ShopDateTime.Instance.ShopShortTime.ToString());
+
+                                // ref number for new pawn loan is the ticket number
+                                rDVO.RefNumbers.Add("" + ticketNumber);
+
+                                // ref type for  pawn loan is "PAWN" which is "1" in the DB
+                                //and ref type for purchase is 2
+                                if (lvd.OpCode.Equals("Purchase", StringComparison.OrdinalIgnoreCase) ||
+                                    lvd.OpCode.Equals("Return", StringComparison.OrdinalIgnoreCase))
+                                    rDVO.RefTypes.Add("2");
+                                else
+                                    rDVO.RefTypes.Add("1");
+
+                                // ref event will indicate the event we are trying to void
+
+                                rDVO.RefEvents.Add(lvd.OpCd.ToString());
+
+                                // ref amount for pawn loan is the amount we are trying to void
+                                rDVO.RefAmounts.Add(lvd.Amount.ToString());
+
+                                // ref store for pawn loan is the store the receipt was printed at
+                                rDVO.RefStores.Add(storeNumber);
+
+                                //Add the receipt number
+                                rDVO.ReceiptNumber = receiptNumber;
+
+                                //print receipt - DO NOT SPAWN process tender controller object,
+                                //use the instance variable!!!!
+                                ProcessTenderController pCntrl = ProcessTenderController.Instance;
+                                if (lvd.OpCode.Equals("Purchase", StringComparison.OrdinalIgnoreCase) ||
+                                    lvd.OpCode.Equals("Return", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    pCntrl.executeVoidLoanPrintReceipt(pVO, rDVO);
+                                    pCntrl.executeVoidPurchasePrintReceipt(GlobalDataAccessor.Instance.DesktopSession.ActivePurchase, rDVO);
                                 }
-                            }
+                                else
+                                {
+                                    if (pVO != null)
+                                    {
+                                        pCntrl.executeVoidLoanPrintReceipt(pVO, rDVO);
+                                    }
+                                }
 
-                            GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer = null;
-                            return (true);
+                                GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer = null;
+                                return (true);
+                            }
                         }
-                    }
-                    if (FileLogger.Instance.IsLogError)
-                    {
-                        FileLogger.Instance.logMessage(LogLevel.ERROR, "VoidProcedures", "Failed to update teller on void transaction" + errText);
+                        if (FileLogger.Instance.IsLogError)
+                        {
+                            FileLogger.Instance.logMessage(LogLevel.ERROR, "VoidProcedures", "Failed to update teller on void transaction" + errText);
+                        }
                     }
                 }
                 catch (Exception eX)
                 {
                     if (FileLogger.Instance.IsLogError)
                     {
-                        FileLogger.Instance.logMessage(LogLevel.ERROR, "VoidProcedures", "Exception thrown when attempting to void: {0} {1}",
-                                                       eX, eX.StackTrace);
+                        FileLogger.Instance.logMessage(
+                            LogLevel.ERROR, "VoidProcedures", "Exception thrown when attempting to void: {0} {1}",
+                            eX, eX.StackTrace);
                     }
 
                 }

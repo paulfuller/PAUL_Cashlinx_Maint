@@ -96,7 +96,7 @@ if(L_PartPmt_Date is null){ ==> No prior partial payments
             {
                 //partial payment is made and it is not in the daily mode period
                 //or it is in the daily mode period but the extension date is greater than the pfi date
-                if (extensionDate > pfiDate.AddMonths(1) || (partialPmtDate < dailyModePeriod || partialPmtDate > pfiDate))
+                if (extensionDate >= pfiDate.AddMonths(1) || (partialPmtDate < dailyModePeriod || partialPmtDate > pfiDate))
                 {
                     DateTime first_cycle_end = loanDateMade;
                     DateTime next_cycle_end = DateTime.MaxValue;
@@ -112,7 +112,7 @@ if(L_PartPmt_Date is null){ ==> No prior partial payments
                     }
 
                 }
-                if (extensionDate <= pfiDate.AddMonths(1) && (partialPmtDate >= dailyModePeriod && partialPmtDate < pfiDate))
+                if (extensionDate < pfiDate.AddMonths(1) && (partialPmtDate >= dailyModePeriod && partialPmtDate < pfiDate))
                 {
                     //partial payment date is in daily mode period and extension date is less than 1 month from pfi date
                     extensionType = ExtensionTerms.DAILY;

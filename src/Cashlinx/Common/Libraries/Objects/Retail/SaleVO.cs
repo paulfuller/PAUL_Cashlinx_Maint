@@ -17,7 +17,7 @@ namespace Common.Libraries.Objects.Retail
 
         public SalesTaxInfo SalesTaxInfo;
         public decimal TotalSaleAmount;
-        public string StoreNumber;
+        public string StoreNumber { get; set; } // TG - 05/22/2012 - changed to property so the cloning would work through reflection
         public decimal SalesTaxPercentage;
         public decimal SalesTaxAmount;
         public decimal CouponPercentage { get; set; } // changed to property so that the cloning would work through reflection

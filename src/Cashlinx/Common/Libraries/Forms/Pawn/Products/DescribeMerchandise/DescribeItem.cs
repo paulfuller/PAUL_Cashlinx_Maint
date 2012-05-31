@@ -2226,7 +2226,8 @@ namespace Common.Libraries.Forms.Pawn.Products.DescribeMerchandise
                         }
                     });
                 }
-
+                labelGramValueHeading.Visible = false;
+                labelGramValue.Visible = false;
                 if (iMetalInfoIdx >= 0)
                 {
                     dLoanAmountPerGram = DesktopSession.PMetalData[iMetalInfoIdx].Loan_Buy_Per_Gram;

@@ -32,26 +32,27 @@ namespace Support.Forms.Customer.Products
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
             this.PS_LoanStatsLayoutPanel = new System.Windows.Forms.Panel();
             this.lblCurrentPrincipalAmount = new System.Windows.Forms.Label();
             this.lblCurrentPrincipalAmountTitle = new System.Windows.Forms.Label();
@@ -74,14 +75,23 @@ namespace Support.Forms.Customer.Products
             this.PS_OriginationDateValue = new System.Windows.Forms.Label();
             this.PS_SubTabControl = new System.Windows.Forms.TabControl();
             this.PS_ServiceOptionsTab = new System.Windows.Forms.TabPage();
+            this.btnExtendDeposit = new Support.Libraries.Forms.Components.SupportButton();
             this.PS_PawnButtonsPanel = new System.Windows.Forms.Panel();
             this.LW_LayawayButtonsPanel = new System.Windows.Forms.Panel();
             this.CommonServiceButtonsPanel = new System.Windows.Forms.Panel();
             this.PS_HistoryTab = new System.Windows.Forms.TabPage();
             this.PDL_LoanEventsLayoutPanel = new System.Windows.Forms.Panel();
             this.GbExtendedStaticLoanInfo = new System.Windows.Forms.GroupBox();
+            this.ChkBGetAllHistory = new System.Windows.Forms.CheckBox();
             this.CmbHistoryLoanEvents = new System.Windows.Forms.ComboBox();
             this.lblLoanEventsBar = new System.Windows.Forms.Label();
+            this.DGVHistoryLoanEvents = new System.Windows.Forms.DataGridView();
+            this.DgvColHistDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistEventType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistDetails = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistAmoutPaid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DgvColHistReceipt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TxbOriginationDate = new System.Windows.Forms.TextBox();
             this.lblLastUpdatedBy = new System.Windows.Forms.Label();
             this.lblOriginationDate = new System.Windows.Forms.Label();
@@ -98,13 +108,6 @@ namespace Support.Forms.Customer.Products
             this.lblExtendedDate = new System.Windows.Forms.Label();
             this.TxbShopName = new System.Windows.Forms.TextBox();
             this.TxbDueDate = new System.Windows.Forms.TextBox();
-            this.DGVHistoryLoanEvents = new System.Windows.Forms.DataGridView();
-            this.DgvColHistDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvColHistEventType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvColHistDetails = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvColHistAmoutPaid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvColHistSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DgvColHistReceipt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PH_ReceiptsDataGridView = new System.Windows.Forms.DataGridView();
             this.PH_Receipt_DateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PH_Receipt_EventColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -185,8 +188,6 @@ namespace Support.Forms.Customer.Products
             this.LW_DownPaymentValue = new System.Windows.Forms.Label();
             this.LW_DownPaymentLabel = new System.Windows.Forms.Label();
             this.PDL_LoanStatsLayoutPanel = new System.Windows.Forms.Panel();
-            this.TxbLoanStatusReason = new System.Windows.Forms.TextBox();
-            this.lblStatusReason = new System.Windows.Forms.Label();
             this.TxbLoanStatus = new System.Windows.Forms.TextBox();
             this.XPPFeeAmountToDisplay = new System.Windows.Forms.Label();
             this.LblLoanNumber = new System.Windows.Forms.Label();
@@ -203,30 +204,18 @@ namespace Support.Forms.Customer.Products
             this.DgvColxppPaymentAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblHeaderBarXpp = new System.Windows.Forms.Label();
             this.LnkOtherDetails = new System.Windows.Forms.LinkLabel();
-            this.TxbEstRolloverAmt = new System.Windows.Forms.TextBox();
             this.TxbACHWaitingToClear = new System.Windows.Forms.TextBox();
             this.TxbNSFFeeAmt = new System.Windows.Forms.TextBox();
             this.TxbLateFeeAmt = new System.Windows.Forms.TextBox();
             this.TxbAccruedFinanceAmt = new System.Windows.Forms.TextBox();
-            this.TxbAcutalServiceChrgAmt = new System.Windows.Forms.TextBox();
-            this.TxbActualFinanceChrgAmt = new System.Windows.Forms.TextBox();
             this.TxbXPPAvailable = new System.Windows.Forms.TextBox();
-            this.TxbRevokeACH = new System.Windows.Forms.TextBox();
-            this.TxbLoanRollOverAmt = new System.Windows.Forms.TextBox();
-            this.TxbLoanRolloverNotes = new System.Windows.Forms.TextBox();
             this.TxbLoanNumberPrev = new System.Windows.Forms.TextBox();
             this.TxbLoanNumberOrig = new System.Windows.Forms.TextBox();
-            this.lblEstRolloverAmt = new System.Windows.Forms.Label();
             this.lblACHWaitingToClear = new System.Windows.Forms.Label();
             this.lblNSFFeeAmt = new System.Windows.Forms.Label();
             this.lblLateFeeAmt = new System.Windows.Forms.Label();
             this.lblAccruedFinanceAmt = new System.Windows.Forms.Label();
-            this.lblAcutalServiceChrgAmt = new System.Windows.Forms.Label();
-            this.lblActualFinanceChrgAmt = new System.Windows.Forms.Label();
             this.lblXPPAvailable = new System.Windows.Forms.Label();
-            this.lblRevokeACH = new System.Windows.Forms.Label();
-            this.lblLoanRollOverAmt = new System.Windows.Forms.Label();
-            this.lblLoanRolloverNotes = new System.Windows.Forms.Label();
             this.lblLoanStatus = new System.Windows.Forms.Label();
             this.lblLoanNumberPrev = new System.Windows.Forms.Label();
             this.lblLoanNumberOrig = new System.Windows.Forms.Label();
@@ -237,6 +226,20 @@ namespace Support.Forms.Customer.Products
             this.lblLoanAmtData = new System.Windows.Forms.Label();
             this.lblLoanPayOffAmtData = new System.Windows.Forms.Label();
             this.lblActualLoanAmtData = new System.Windows.Forms.Label();
+            this.TxbLoanStatusReason = new System.Windows.Forms.TextBox();
+            this.lblStatusReason = new System.Windows.Forms.Label();
+            this.TxbEstRolloverAmt = new System.Windows.Forms.TextBox();
+            this.TxbAcutalServiceChrgAmt = new System.Windows.Forms.TextBox();
+            this.TxbActualFinanceChrgAmt = new System.Windows.Forms.TextBox();
+            this.TxbRevokeACH = new System.Windows.Forms.TextBox();
+            this.TxbLoanRollOverAmt = new System.Windows.Forms.TextBox();
+            this.TxbLoanRolloverNotes = new System.Windows.Forms.TextBox();
+            this.lblEstRolloverAmt = new System.Windows.Forms.Label();
+            this.lblAcutalServiceChrgAmt = new System.Windows.Forms.Label();
+            this.lblActualFinanceChrgAmt = new System.Windows.Forms.Label();
+            this.lblRevokeACH = new System.Windows.Forms.Label();
+            this.lblLoanRollOverAmt = new System.Windows.Forms.Label();
+            this.lblLoanRolloverNotes = new System.Windows.Forms.Label();
             this.lblCustomerSSNData = new System.Windows.Forms.Label();
             this.DgvTxbColxppLineItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DgvTxbColxppPaymentSeqNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -252,7 +255,7 @@ namespace Support.Forms.Customer.Products
             this.CmbLoanStatus = new System.Windows.Forms.ComboBox();
             this.FormHeaderPanel = new System.Windows.Forms.Panel();
             this.lblHdrLoanNumber = new System.Windows.Forms.Label();
-            this.btnExtendDeposit = new Support.Libraries.Forms.Components.SupportButton();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.customButtonCancel = new Support.Libraries.Forms.Components.SupportButton();
             this.PS_LoanStatsLayoutPanel.SuspendLayout();
             this.PS_SubTabControl.SuspendLayout();
@@ -269,6 +272,7 @@ namespace Support.Forms.Customer.Products
             this.PDL_LoanStatsLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGVxxpPaySchedule)).BeginInit();
             this.FormHeaderPanel.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // PS_LoanStatsLayoutPanel
@@ -557,6 +561,31 @@ namespace Support.Forms.Customer.Products
             this.PS_ServiceOptionsTab.Text = "Service Options";
             this.PS_ServiceOptionsTab.UseVisualStyleBackColor = true;
             // 
+            // btnExtendDeposit
+            // 
+            this.btnExtendDeposit.BackColor = System.Drawing.Color.Transparent;
+            this.btnExtendDeposit.BackgroundImage = global::Support.Properties.Resources.Red_button_100_50;
+            this.btnExtendDeposit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnExtendDeposit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnExtendDeposit.Enabled = false;
+            this.btnExtendDeposit.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnExtendDeposit.FlatAppearance.BorderSize = 0;
+            this.btnExtendDeposit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnExtendDeposit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnExtendDeposit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExtendDeposit.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExtendDeposit.ForeColor = System.Drawing.Color.White;
+            this.btnExtendDeposit.Location = new System.Drawing.Point(44, 54);
+            this.btnExtendDeposit.Margin = new System.Windows.Forms.Padding(0);
+            this.btnExtendDeposit.MaximumSize = new System.Drawing.Size(90, 40);
+            this.btnExtendDeposit.MinimumSize = new System.Drawing.Size(90, 40);
+            this.btnExtendDeposit.Name = "btnExtendDeposit";
+            this.btnExtendDeposit.Size = new System.Drawing.Size(90, 40);
+            this.btnExtendDeposit.TabIndex = 58;
+            this.btnExtendDeposit.Text = "Extend Deposit Date";
+            this.btnExtendDeposit.UseVisualStyleBackColor = false;
+            this.btnExtendDeposit.Click += new System.EventHandler(this.btnExtendDeposit_Click);
+            // 
             // PS_PawnButtonsPanel
             // 
             this.PS_PawnButtonsPanel.BackColor = System.Drawing.Color.MistyRose;
@@ -564,6 +593,7 @@ namespace Support.Forms.Customer.Products
             this.PS_PawnButtonsPanel.Name = "PS_PawnButtonsPanel";
             this.PS_PawnButtonsPanel.Size = new System.Drawing.Size(716, 51);
             this.PS_PawnButtonsPanel.TabIndex = 56;
+            this.PS_PawnButtonsPanel.Visible = false;
             // 
             // LW_LayawayButtonsPanel
             // 
@@ -572,6 +602,7 @@ namespace Support.Forms.Customer.Products
             this.LW_LayawayButtonsPanel.Name = "LW_LayawayButtonsPanel";
             this.LW_LayawayButtonsPanel.Size = new System.Drawing.Size(716, 49);
             this.LW_LayawayButtonsPanel.TabIndex = 0;
+            this.LW_LayawayButtonsPanel.Visible = false;
             // 
             // CommonServiceButtonsPanel
             // 
@@ -580,6 +611,7 @@ namespace Support.Forms.Customer.Products
             this.CommonServiceButtonsPanel.Name = "CommonServiceButtonsPanel";
             this.CommonServiceButtonsPanel.Size = new System.Drawing.Size(200, 101);
             this.CommonServiceButtonsPanel.TabIndex = 57;
+            this.CommonServiceButtonsPanel.Visible = false;
             // 
             // PS_HistoryTab
             // 
@@ -606,42 +638,44 @@ namespace Support.Forms.Customer.Products
             // 
             // GbExtendedStaticLoanInfo
             // 
+            this.GbExtendedStaticLoanInfo.Controls.Add(this.ChkBGetAllHistory);
             this.GbExtendedStaticLoanInfo.Controls.Add(this.CmbHistoryLoanEvents);
             this.GbExtendedStaticLoanInfo.Controls.Add(this.lblLoanEventsBar);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbOriginationDate);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblLastUpdatedBy);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblOriginationDate);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblShopNo);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbExtendedDate);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblDueDate);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbLastUpdatedBy);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblShopName);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbShopState);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbOrigDepDate);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbShopNo);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblOrigDepDate);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblShopState);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.lblExtendedDate);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbShopName);
-            this.GbExtendedStaticLoanInfo.Controls.Add(this.TxbDueDate);
             this.GbExtendedStaticLoanInfo.Location = new System.Drawing.Point(1, 0);
             this.GbExtendedStaticLoanInfo.Name = "GbExtendedStaticLoanInfo";
-            this.GbExtendedStaticLoanInfo.Size = new System.Drawing.Size(915, 79);
+            this.GbExtendedStaticLoanInfo.Size = new System.Drawing.Size(915, 43);
             this.GbExtendedStaticLoanInfo.TabIndex = 19;
             this.GbExtendedStaticLoanInfo.TabStop = false;
             // 
+            // ChkBGetAllHistory
+            // 
+            this.ChkBGetAllHistory.AutoSize = true;
+            this.ChkBGetAllHistory.BackColor = System.Drawing.Color.Firebrick;
+            this.ChkBGetAllHistory.Enabled = false;
+            this.ChkBGetAllHistory.ForeColor = System.Drawing.Color.White;
+            this.ChkBGetAllHistory.Location = new System.Drawing.Point(264, 8);
+            this.ChkBGetAllHistory.Name = "ChkBGetAllHistory";
+            this.ChkBGetAllHistory.Size = new System.Drawing.Size(162, 20);
+            this.ChkBGetAllHistory.TabIndex = 19;
+            this.ChkBGetAllHistory.Text = "Get All Interest Records";
+            this.ChkBGetAllHistory.UseVisualStyleBackColor = false;
+            this.ChkBGetAllHistory.CheckStateChanged += new System.EventHandler(this.ChkBGetAllHistory_CheckStateChanged);
+            // 
             // CmbHistoryLoanEvents
             // 
+            this.CmbHistoryLoanEvents.Enabled = false;
             this.CmbHistoryLoanEvents.ForeColor = System.Drawing.Color.Black;
             this.CmbHistoryLoanEvents.FormattingEnabled = true;
             this.CmbHistoryLoanEvents.Items.AddRange(new object[] {
             "ALL",
             "POS",
             "NIGHTLY"});
-            this.CmbHistoryLoanEvents.Location = new System.Drawing.Point(91, 49);
+            this.CmbHistoryLoanEvents.Location = new System.Drawing.Point(93, 6);
             this.CmbHistoryLoanEvents.Name = "CmbHistoryLoanEvents";
             this.CmbHistoryLoanEvents.Size = new System.Drawing.Size(146, 24);
             this.CmbHistoryLoanEvents.TabIndex = 17;
+            this.CmbHistoryLoanEvents.Text = "ALL";
+            this.CmbHistoryLoanEvents.SelectedValueChanged += new System.EventHandler(this.CmbHistoryLoanEvents_SelectedValueChanged);
             // 
             // lblLoanEventsBar
             // 
@@ -649,149 +683,13 @@ namespace Support.Forms.Customer.Products
             this.lblLoanEventsBar.BackColor = System.Drawing.Color.Firebrick;
             this.lblLoanEventsBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLoanEventsBar.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblLoanEventsBar.Location = new System.Drawing.Point(0, 47);
+            this.lblLoanEventsBar.Location = new System.Drawing.Point(-1, 4);
             this.lblLoanEventsBar.Name = "lblLoanEventsBar";
             this.lblLoanEventsBar.Size = new System.Drawing.Size(944, 40);
             this.lblLoanEventsBar.TabIndex = 0;
             this.lblLoanEventsBar.Text = "History \r\n                                                                       " +
-                "                                                                                " +
-                "                                    ";
-            // 
-            // TxbOriginationDate
-            // 
-            this.TxbOriginationDate.Enabled = false;
-            this.TxbOriginationDate.Location = new System.Drawing.Point(9, 21);
-            this.TxbOriginationDate.Name = "TxbOriginationDate";
-            this.TxbOriginationDate.Size = new System.Drawing.Size(137, 23);
-            this.TxbOriginationDate.TabIndex = 9;
-            // 
-            // lblLastUpdatedBy
-            // 
-            this.lblLastUpdatedBy.AutoSize = true;
-            this.lblLastUpdatedBy.Location = new System.Drawing.Point(474, 5);
-            this.lblLastUpdatedBy.Name = "lblLastUpdatedBy";
-            this.lblLastUpdatedBy.Size = new System.Drawing.Size(74, 16);
-            this.lblLastUpdatedBy.TabIndex = 5;
-            this.lblLastUpdatedBy.Text = "Last Upd By";
-            // 
-            // lblOriginationDate
-            // 
-            this.lblOriginationDate.AutoSize = true;
-            this.lblOriginationDate.Location = new System.Drawing.Point(9, 5);
-            this.lblOriginationDate.Name = "lblOriginationDate";
-            this.lblOriginationDate.Size = new System.Drawing.Size(130, 16);
-            this.lblOriginationDate.TabIndex = 1;
-            this.lblOriginationDate.Text = "OriginationDate/Time";
-            // 
-            // lblShopNo
-            // 
-            this.lblShopNo.AutoSize = true;
-            this.lblShopNo.Location = new System.Drawing.Point(581, 5);
-            this.lblShopNo.Name = "lblShopNo";
-            this.lblShopNo.Size = new System.Drawing.Size(56, 16);
-            this.lblShopNo.TabIndex = 6;
-            this.lblShopNo.Text = "Shop No";
-            // 
-            // TxbExtendedDate
-            // 
-            this.TxbExtendedDate.Enabled = false;
-            this.TxbExtendedDate.Location = new System.Drawing.Point(367, 21);
-            this.TxbExtendedDate.Name = "TxbExtendedDate";
-            this.TxbExtendedDate.Size = new System.Drawing.Size(100, 23);
-            this.TxbExtendedDate.TabIndex = 12;
-            // 
-            // lblDueDate
-            // 
-            this.lblDueDate.AutoSize = true;
-            this.lblDueDate.Location = new System.Drawing.Point(153, 5);
-            this.lblDueDate.Name = "lblDueDate";
-            this.lblDueDate.Size = new System.Drawing.Size(60, 16);
-            this.lblDueDate.TabIndex = 2;
-            this.lblDueDate.Text = "Due Date";
-            // 
-            // TxbLastUpdatedBy
-            // 
-            this.TxbLastUpdatedBy.Enabled = false;
-            this.TxbLastUpdatedBy.Location = new System.Drawing.Point(474, 21);
-            this.TxbLastUpdatedBy.Name = "TxbLastUpdatedBy";
-            this.TxbLastUpdatedBy.Size = new System.Drawing.Size(100, 23);
-            this.TxbLastUpdatedBy.TabIndex = 13;
-            // 
-            // lblShopName
-            // 
-            this.lblShopName.AutoSize = true;
-            this.lblShopName.Location = new System.Drawing.Point(688, 5);
-            this.lblShopName.Name = "lblShopName";
-            this.lblShopName.Size = new System.Drawing.Size(74, 16);
-            this.lblShopName.TabIndex = 7;
-            this.lblShopName.Text = "Shop Name";
-            // 
-            // TxbShopState
-            // 
-            this.TxbShopState.Enabled = false;
-            this.TxbShopState.Location = new System.Drawing.Point(795, 21);
-            this.TxbShopState.Name = "TxbShopState";
-            this.TxbShopState.Size = new System.Drawing.Size(100, 23);
-            this.TxbShopState.TabIndex = 16;
-            // 
-            // TxbOrigDepDate
-            // 
-            this.TxbOrigDepDate.Enabled = false;
-            this.TxbOrigDepDate.Location = new System.Drawing.Point(260, 21);
-            this.TxbOrigDepDate.Name = "TxbOrigDepDate";
-            this.TxbOrigDepDate.Size = new System.Drawing.Size(100, 23);
-            this.TxbOrigDepDate.TabIndex = 11;
-            // 
-            // TxbShopNo
-            // 
-            this.TxbShopNo.Enabled = false;
-            this.TxbShopNo.Location = new System.Drawing.Point(581, 21);
-            this.TxbShopNo.Name = "TxbShopNo";
-            this.TxbShopNo.Size = new System.Drawing.Size(100, 23);
-            this.TxbShopNo.TabIndex = 14;
-            // 
-            // lblOrigDepDate
-            // 
-            this.lblOrigDepDate.AutoSize = true;
-            this.lblOrigDepDate.Location = new System.Drawing.Point(260, 5);
-            this.lblOrigDepDate.Name = "lblOrigDepDate";
-            this.lblOrigDepDate.Size = new System.Drawing.Size(88, 16);
-            this.lblOrigDepDate.TabIndex = 3;
-            this.lblOrigDepDate.Text = "Orig Dep Date";
-            // 
-            // lblShopState
-            // 
-            this.lblShopState.AutoSize = true;
-            this.lblShopState.Location = new System.Drawing.Point(795, 5);
-            this.lblShopState.Name = "lblShopState";
-            this.lblShopState.Size = new System.Drawing.Size(71, 16);
-            this.lblShopState.TabIndex = 8;
-            this.lblShopState.Text = "Shop State";
-            // 
-            // lblExtendedDate
-            // 
-            this.lblExtendedDate.AutoSize = true;
-            this.lblExtendedDate.Location = new System.Drawing.Point(367, 5);
-            this.lblExtendedDate.Name = "lblExtendedDate";
-            this.lblExtendedDate.Size = new System.Drawing.Size(90, 16);
-            this.lblExtendedDate.TabIndex = 4;
-            this.lblExtendedDate.Text = "Extended Date";
-            // 
-            // TxbShopName
-            // 
-            this.TxbShopName.Enabled = false;
-            this.TxbShopName.Location = new System.Drawing.Point(688, 21);
-            this.TxbShopName.Name = "TxbShopName";
-            this.TxbShopName.Size = new System.Drawing.Size(100, 23);
-            this.TxbShopName.TabIndex = 15;
-            // 
-            // TxbDueDate
-            // 
-            this.TxbDueDate.Enabled = false;
-            this.TxbDueDate.Location = new System.Drawing.Point(153, 21);
-            this.TxbDueDate.Name = "TxbDueDate";
-            this.TxbDueDate.Size = new System.Drawing.Size(100, 23);
-            this.TxbDueDate.TabIndex = 10;
+    "                                                                                " +
+    "                                    ";
             // 
             // DGVHistoryLoanEvents
             // 
@@ -807,43 +705,189 @@ namespace Support.Forms.Customer.Products
             this.DgvColHistAmoutPaid,
             this.DgvColHistSource,
             this.DgvColHistReceipt});
-            this.DGVHistoryLoanEvents.Location = new System.Drawing.Point(0, 74);
+            this.DGVHistoryLoanEvents.Location = new System.Drawing.Point(0, 47);
             this.DGVHistoryLoanEvents.Name = "DGVHistoryLoanEvents";
+            this.DGVHistoryLoanEvents.ReadOnly = true;
+            this.DGVHistoryLoanEvents.RowHeadersVisible = false;
+            this.DGVHistoryLoanEvents.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.DGVHistoryLoanEvents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DGVHistoryLoanEvents.Size = new System.Drawing.Size(916, 98);
+            this.DGVHistoryLoanEvents.Size = new System.Drawing.Size(916, 132);
             this.DGVHistoryLoanEvents.TabIndex = 18;
             // 
             // DgvColHistDate
             // 
             this.DgvColHistDate.HeaderText = "Date";
             this.DgvColHistDate.Name = "DgvColHistDate";
+            this.DgvColHistDate.ReadOnly = true;
             // 
             // DgvColHistEventType
             // 
             this.DgvColHistEventType.HeaderText = "Event Type";
             this.DgvColHistEventType.Name = "DgvColHistEventType";
-            this.DgvColHistEventType.Width = 150;
+            this.DgvColHistEventType.ReadOnly = true;
+            this.DgvColHistEventType.Width = 200;
             // 
             // DgvColHistDetails
             // 
             this.DgvColHistDetails.HeaderText = "Details";
             this.DgvColHistDetails.Name = "DgvColHistDetails";
+            this.DgvColHistDetails.ReadOnly = true;
             this.DgvColHistDetails.Width = 300;
             // 
             // DgvColHistAmoutPaid
             // 
             this.DgvColHistAmoutPaid.HeaderText = "Amount ";
             this.DgvColHistAmoutPaid.Name = "DgvColHistAmoutPaid";
+            this.DgvColHistAmoutPaid.ReadOnly = true;
             // 
             // DgvColHistSource
             // 
             this.DgvColHistSource.HeaderText = "Source";
             this.DgvColHistSource.Name = "DgvColHistSource";
+            this.DgvColHistSource.ReadOnly = true;
             // 
             // DgvColHistReceipt
             // 
             this.DgvColHistReceipt.HeaderText = "Receipt #";
             this.DgvColHistReceipt.Name = "DgvColHistReceipt";
+            this.DgvColHistReceipt.ReadOnly = true;
+            this.DgvColHistReceipt.Width = 120;
+            // 
+            // TxbOriginationDate
+            // 
+            this.TxbOriginationDate.Enabled = false;
+            this.TxbOriginationDate.Location = new System.Drawing.Point(140, 127);
+            this.TxbOriginationDate.Name = "TxbOriginationDate";
+            this.TxbOriginationDate.Size = new System.Drawing.Size(137, 21);
+            this.TxbOriginationDate.TabIndex = 9;
+            // 
+            // lblLastUpdatedBy
+            // 
+            this.lblLastUpdatedBy.AutoSize = true;
+            this.lblLastUpdatedBy.Location = new System.Drawing.Point(379, 52);
+            this.lblLastUpdatedBy.Name = "lblLastUpdatedBy";
+            this.lblLastUpdatedBy.Size = new System.Drawing.Size(64, 13);
+            this.lblLastUpdatedBy.TabIndex = 5;
+            this.lblLastUpdatedBy.Text = "Last Upd By";
+            // 
+            // lblOriginationDate
+            // 
+            this.lblOriginationDate.AutoSize = true;
+            this.lblOriginationDate.Location = new System.Drawing.Point(18, 135);
+            this.lblOriginationDate.Name = "lblOriginationDate";
+            this.lblOriginationDate.Size = new System.Drawing.Size(85, 13);
+            this.lblOriginationDate.TabIndex = 1;
+            this.lblOriginationDate.Text = "Origination Date";
+            // 
+            // lblShopNo
+            // 
+            this.lblShopNo.AutoSize = true;
+            this.lblShopNo.Location = new System.Drawing.Point(379, 78);
+            this.lblShopNo.Name = "lblShopNo";
+            this.lblShopNo.Size = new System.Drawing.Size(47, 13);
+            this.lblShopNo.TabIndex = 6;
+            this.lblShopNo.Text = "Shop No";
+            // 
+            // TxbExtendedDate
+            // 
+            this.TxbExtendedDate.Enabled = false;
+            this.TxbExtendedDate.Location = new System.Drawing.Point(140, 205);
+            this.TxbExtendedDate.Name = "TxbExtendedDate";
+            this.TxbExtendedDate.Size = new System.Drawing.Size(100, 21);
+            this.TxbExtendedDate.TabIndex = 12;
+            // 
+            // lblDueDate
+            // 
+            this.lblDueDate.AutoSize = true;
+            this.lblDueDate.Location = new System.Drawing.Point(18, 161);
+            this.lblDueDate.Name = "lblDueDate";
+            this.lblDueDate.Size = new System.Drawing.Size(52, 13);
+            this.lblDueDate.TabIndex = 2;
+            this.lblDueDate.Text = "Due Date";
+            // 
+            // TxbLastUpdatedBy
+            // 
+            this.TxbLastUpdatedBy.Enabled = false;
+            this.TxbLastUpdatedBy.Location = new System.Drawing.Point(512, 44);
+            this.TxbLastUpdatedBy.Name = "TxbLastUpdatedBy";
+            this.TxbLastUpdatedBy.Size = new System.Drawing.Size(100, 21);
+            this.TxbLastUpdatedBy.TabIndex = 13;
+            // 
+            // lblShopName
+            // 
+            this.lblShopName.AutoSize = true;
+            this.lblShopName.Location = new System.Drawing.Point(379, 104);
+            this.lblShopName.Name = "lblShopName";
+            this.lblShopName.Size = new System.Drawing.Size(61, 13);
+            this.lblShopName.TabIndex = 7;
+            this.lblShopName.Text = "Shop Name";
+            // 
+            // TxbShopState
+            // 
+            this.TxbShopState.Enabled = false;
+            this.TxbShopState.Location = new System.Drawing.Point(512, 122);
+            this.TxbShopState.Name = "TxbShopState";
+            this.TxbShopState.Size = new System.Drawing.Size(100, 21);
+            this.TxbShopState.TabIndex = 16;
+            // 
+            // TxbOrigDepDate
+            // 
+            this.TxbOrigDepDate.Enabled = false;
+            this.TxbOrigDepDate.Location = new System.Drawing.Point(140, 179);
+            this.TxbOrigDepDate.Name = "TxbOrigDepDate";
+            this.TxbOrigDepDate.Size = new System.Drawing.Size(100, 21);
+            this.TxbOrigDepDate.TabIndex = 11;
+            // 
+            // TxbShopNo
+            // 
+            this.TxbShopNo.Enabled = false;
+            this.TxbShopNo.Location = new System.Drawing.Point(512, 70);
+            this.TxbShopNo.Name = "TxbShopNo";
+            this.TxbShopNo.Size = new System.Drawing.Size(100, 21);
+            this.TxbShopNo.TabIndex = 14;
+            // 
+            // lblOrigDepDate
+            // 
+            this.lblOrigDepDate.AutoSize = true;
+            this.lblOrigDepDate.Location = new System.Drawing.Point(18, 187);
+            this.lblOrigDepDate.Name = "lblOrigDepDate";
+            this.lblOrigDepDate.Size = new System.Drawing.Size(75, 13);
+            this.lblOrigDepDate.TabIndex = 3;
+            this.lblOrigDepDate.Text = "Orig Dep Date";
+            // 
+            // lblShopState
+            // 
+            this.lblShopState.AutoSize = true;
+            this.lblShopState.Location = new System.Drawing.Point(379, 130);
+            this.lblShopState.Name = "lblShopState";
+            this.lblShopState.Size = new System.Drawing.Size(60, 13);
+            this.lblShopState.TabIndex = 8;
+            this.lblShopState.Text = "Shop State";
+            // 
+            // lblExtendedDate
+            // 
+            this.lblExtendedDate.AutoSize = true;
+            this.lblExtendedDate.Location = new System.Drawing.Point(18, 213);
+            this.lblExtendedDate.Name = "lblExtendedDate";
+            this.lblExtendedDate.Size = new System.Drawing.Size(79, 13);
+            this.lblExtendedDate.TabIndex = 4;
+            this.lblExtendedDate.Text = "Extended Date";
+            // 
+            // TxbShopName
+            // 
+            this.TxbShopName.Enabled = false;
+            this.TxbShopName.Location = new System.Drawing.Point(512, 96);
+            this.TxbShopName.Name = "TxbShopName";
+            this.TxbShopName.Size = new System.Drawing.Size(100, 21);
+            this.TxbShopName.TabIndex = 15;
+            // 
+            // TxbDueDate
+            // 
+            this.TxbDueDate.Enabled = false;
+            this.TxbDueDate.Location = new System.Drawing.Point(140, 153);
+            this.TxbDueDate.Name = "TxbDueDate";
+            this.TxbDueDate.Size = new System.Drawing.Size(100, 21);
+            this.TxbDueDate.TabIndex = 10;
             // 
             // PH_ReceiptsDataGridView
             // 
@@ -855,14 +899,14 @@ namespace Support.Forms.Customer.Products
             this.PH_ReceiptsDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.PH_ReceiptsDataGridView.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.PH_ReceiptsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle21.BackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle21.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle21.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PH_ReceiptsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PH_ReceiptsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.PH_ReceiptsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.PH_ReceiptsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PH_Receipt_DateColumn,
@@ -871,14 +915,14 @@ namespace Support.Forms.Customer.Products
             this.PH_Receipt_EntIDColumn,
             this.PH_Receipt_ReceiptColumn});
             this.PH_ReceiptsDataGridView.Cursor = System.Windows.Forms.Cursors.Arrow;
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle22.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle22.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle22.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PH_ReceiptsDataGridView.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PH_ReceiptsDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.PH_ReceiptsDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.PH_ReceiptsDataGridView.GridColor = System.Drawing.Color.LightGray;
             this.PH_ReceiptsDataGridView.Location = new System.Drawing.Point(0, 39);
@@ -887,8 +931,8 @@ namespace Support.Forms.Customer.Products
             this.PH_ReceiptsDataGridView.RowHeadersVisible = false;
             this.PH_ReceiptsDataGridView.RowHeadersWidth = 20;
             this.PH_ReceiptsDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.PH_ReceiptsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.PH_ReceiptsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.PH_ReceiptsDataGridView.RowTemplate.Height = 25;
             this.PH_ReceiptsDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.PH_ReceiptsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -944,14 +988,14 @@ namespace Support.Forms.Customer.Products
             this.PS_ItemDescriptionDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.PS_ItemDescriptionDataGridView.BackgroundColor = System.Drawing.Color.MistyRose;
             this.PS_ItemDescriptionDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle24.BackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle24.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle24.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_ItemDescriptionDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_ItemDescriptionDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.PS_ItemDescriptionDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.PS_ItemDescriptionDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PS_ItemDescriptionDataGridView_SelectedLoan,
@@ -961,14 +1005,14 @@ namespace Support.Forms.Customer.Products
             this.colLocation,
             this.colItemAmount});
             this.PS_ItemDescriptionDataGridView.Cursor = System.Windows.Forms.Cursors.Arrow;
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle25.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle25.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle25.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle25.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle25.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle25.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_ItemDescriptionDataGridView.DefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_ItemDescriptionDataGridView.DefaultCellStyle = dataGridViewCellStyle5;
             this.PS_ItemDescriptionDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.PS_ItemDescriptionDataGridView.GridColor = System.Drawing.Color.LightGray;
             this.PS_ItemDescriptionDataGridView.Location = new System.Drawing.Point(310, 84);
@@ -977,8 +1021,8 @@ namespace Support.Forms.Customer.Products
             this.PS_ItemDescriptionDataGridView.RowHeadersVisible = false;
             this.PS_ItemDescriptionDataGridView.RowHeadersWidth = 20;
             this.PS_ItemDescriptionDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle26.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.PS_ItemDescriptionDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.PS_ItemDescriptionDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.PS_ItemDescriptionDataGridView.RowTemplate.Height = 25;
             this.PS_ItemDescriptionDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.PS_ItemDescriptionDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1112,19 +1156,17 @@ namespace Support.Forms.Customer.Products
             this.PS_TicketsDataGridView.AllowUserToDeleteRows = false;
             this.PS_TicketsDataGridView.AllowUserToResizeColumns = false;
             this.PS_TicketsDataGridView.AllowUserToResizeRows = false;
-            this.PS_TicketsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
-            this.PS_TicketsDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.PS_TicketsDataGridView.BackgroundColor = System.Drawing.Color.MistyRose;
             this.PS_TicketsDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.PS_TicketsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle27.BackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle27.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle27.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_TicketsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_TicketsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.PS_TicketsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.PS_TicketsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PS_Tickets_ServiceIndicatorColumn,
@@ -1137,33 +1179,33 @@ namespace Support.Forms.Customer.Products
             this.PS_Ticket_Status,
             this.LoanApplicationId});
             this.PS_TicketsDataGridView.Cursor = System.Windows.Forms.Cursors.Arrow;
-            dataGridViewCellStyle30.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle30.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle30.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle30.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle30.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle30.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle30.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_TicketsDataGridView.DefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_TicketsDataGridView.DefaultCellStyle = dataGridViewCellStyle11;
             this.PS_TicketsDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.PS_TicketsDataGridView.GridColor = System.Drawing.Color.LightGray;
             this.PS_TicketsDataGridView.Location = new System.Drawing.Point(10, 84);
             this.PS_TicketsDataGridView.Margin = new System.Windows.Forms.Padding(0);
-            this.PS_TicketsDataGridView.MaximumSize = new System.Drawing.Size(300, 283);
-            this.PS_TicketsDataGridView.MinimumSize = new System.Drawing.Size(300, 283);
+            this.PS_TicketsDataGridView.MaximumSize = new System.Drawing.Size(300, 396);
+            this.PS_TicketsDataGridView.MinimumSize = new System.Drawing.Size(300, 396);
             this.PS_TicketsDataGridView.MultiSelect = false;
             this.PS_TicketsDataGridView.Name = "PS_TicketsDataGridView";
             this.PS_TicketsDataGridView.ReadOnly = true;
             this.PS_TicketsDataGridView.RowHeadersVisible = false;
             this.PS_TicketsDataGridView.RowHeadersWidth = 20;
             this.PS_TicketsDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle31.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.PS_TicketsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.PS_TicketsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.PS_TicketsDataGridView.RowTemplate.DividerHeight = 1;
             this.PS_TicketsDataGridView.RowTemplate.Height = 25;
             this.PS_TicketsDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.PS_TicketsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.PS_TicketsDataGridView.Size = new System.Drawing.Size(300, 283);
+            this.PS_TicketsDataGridView.Size = new System.Drawing.Size(300, 396);
             this.PS_TicketsDataGridView.TabIndex = 132;
             this.PS_TicketsDataGridView.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.PS_TicketsDataGridView_CellMouseMove);
             this.PS_TicketsDataGridView.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.PS_TicketsDataGridView_CellMouseUp);
@@ -1173,10 +1215,10 @@ namespace Support.Forms.Customer.Products
             // PS_Tickets_ServiceIndicatorColumn
             // 
             this.PS_Tickets_ServiceIndicatorColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle28.ForeColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.Color.MistyRose;
-            this.PS_Tickets_ServiceIndicatorColumn.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.MistyRose;
+            this.PS_Tickets_ServiceIndicatorColumn.DefaultCellStyle = dataGridViewCellStyle8;
             this.PS_Tickets_ServiceIndicatorColumn.FillWeight = 103.0928F;
             this.PS_Tickets_ServiceIndicatorColumn.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.PS_Tickets_ServiceIndicatorColumn.Name = "PS_Tickets_ServiceIndicatorColumn";
@@ -1187,14 +1229,14 @@ namespace Support.Forms.Customer.Products
             // PS_Tickets_Extend
             // 
             this.PS_Tickets_Extend.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle29.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle29.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle29.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle29.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle29.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle29.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle29.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_Tickets_Extend.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_Tickets_Extend.DefaultCellStyle = dataGridViewCellStyle9;
             this.PS_Tickets_Extend.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.PS_Tickets_Extend.Name = "PS_Tickets_Extend";
             this.PS_Tickets_Extend.ReadOnly = true;
@@ -1203,21 +1245,23 @@ namespace Support.Forms.Customer.Products
             // 
             // PS_Tickets_TicketNumberColumn
             // 
-            this.PS_Tickets_TicketNumberColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.PS_Tickets_TicketNumberColumn.DataPropertyName = "PS_Tickets_TicketNumberColumn";
-            this.PS_Tickets_TicketNumberColumn.FillWeight = 96.90721F;
-            this.PS_Tickets_TicketNumberColumn.HeaderText = "Ticket Number";
+            this.PS_Tickets_TicketNumberColumn.FillWeight = 90.15079F;
+            this.PS_Tickets_TicketNumberColumn.HeaderText = "Loan Number     ";
             this.PS_Tickets_TicketNumberColumn.Name = "PS_Tickets_TicketNumberColumn";
             this.PS_Tickets_TicketNumberColumn.ReadOnly = true;
             this.PS_Tickets_TicketNumberColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.PS_Tickets_TicketNumberColumn.Width = 91;
             // 
             // PS_Staus_Date
             // 
-            this.PS_Staus_Date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.PS_Staus_Date.FillWeight = 55.79488F;
+            dataGridViewCellStyle10.NullValue = null;
+            this.PS_Staus_Date.DefaultCellStyle = dataGridViewCellStyle10;
+            this.PS_Staus_Date.FillWeight = 55.04397F;
             this.PS_Staus_Date.HeaderText = "Status Date";
             this.PS_Staus_Date.Name = "PS_Staus_Date";
             this.PS_Staus_Date.ReadOnly = true;
+            this.PS_Staus_Date.Width = 89;
             // 
             // PS_Tickets_LastDayColumn
             // 
@@ -1227,7 +1271,7 @@ namespace Support.Forms.Customer.Products
             this.PS_Tickets_LastDayColumn.Name = "PS_Tickets_LastDayColumn";
             this.PS_Tickets_LastDayColumn.ReadOnly = true;
             this.PS_Tickets_LastDayColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.PS_Tickets_LastDayColumn.Width = 55;
+            this.PS_Tickets_LastDayColumn.Visible = false;
             // 
             // PS_Tickets_Refresh
             // 
@@ -1235,24 +1279,24 @@ namespace Support.Forms.Customer.Products
             this.PS_Tickets_Refresh.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.PS_Tickets_Refresh.Name = "PS_Tickets_Refresh";
             this.PS_Tickets_Refresh.ReadOnly = true;
-            this.PS_Tickets_Refresh.Width = 5;
+            this.PS_Tickets_Refresh.Visible = false;
             // 
             // PS_Ticket_Type
             // 
-            this.PS_Ticket_Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.PS_Ticket_Type.FillWeight = 33.79488F;
+            this.PS_Ticket_Type.FillWeight = 26.75079F;
             this.PS_Ticket_Type.HeaderText = "Type";
             this.PS_Ticket_Type.MaxInputLength = 1;
             this.PS_Ticket_Type.Name = "PS_Ticket_Type";
             this.PS_Ticket_Type.ReadOnly = true;
+            this.PS_Ticket_Type.Width = 40;
             // 
             // PS_Ticket_Status
             // 
-            this.PS_Ticket_Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.PS_Ticket_Status.FillWeight = 39.79488F;
+            this.PS_Ticket_Status.FillWeight = 54.34631F;
             this.PS_Ticket_Status.HeaderText = "Status";
             this.PS_Ticket_Status.Name = "PS_Ticket_Status";
             this.PS_Ticket_Status.ReadOnly = true;
+            this.PS_Ticket_Status.Width = 63;
             // 
             // LoanApplicationId
             // 
@@ -1273,14 +1317,14 @@ namespace Support.Forms.Customer.Products
             this.PS_AddTicketsDataGridView.BackgroundColor = System.Drawing.Color.MistyRose;
             this.PS_AddTicketsDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.PS_AddTicketsDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle32.BackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle32.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle32.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle32.SelectionBackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle32.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_AddTicketsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_AddTicketsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             this.PS_AddTicketsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.PS_AddTicketsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PS_AddTickets_ServiceIndicator,
@@ -1289,17 +1333,17 @@ namespace Support.Forms.Customer.Products
             this.PS_AddTickets_LastDayColumn,
             this.PS_AddTickets_Refresh});
             this.PS_AddTicketsDataGridView.Cursor = System.Windows.Forms.Cursors.Arrow;
-            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle35.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle35.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle35.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle35.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle35.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle35.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_AddTicketsDataGridView.DefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_AddTicketsDataGridView.DefaultCellStyle = dataGridViewCellStyle16;
             this.PS_AddTicketsDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.PS_AddTicketsDataGridView.GridColor = System.Drawing.Color.LightGray;
-            this.PS_AddTicketsDataGridView.Location = new System.Drawing.Point(10, 385);
+            this.PS_AddTicketsDataGridView.Location = new System.Drawing.Point(11, 390);
             this.PS_AddTicketsDataGridView.Margin = new System.Windows.Forms.Padding(0);
             this.PS_AddTicketsDataGridView.MaximumSize = new System.Drawing.Size(300, 94);
             this.PS_AddTicketsDataGridView.MinimumSize = new System.Drawing.Size(300, 94);
@@ -1308,8 +1352,8 @@ namespace Support.Forms.Customer.Products
             this.PS_AddTicketsDataGridView.RowHeadersVisible = false;
             this.PS_AddTicketsDataGridView.RowHeadersWidth = 20;
             this.PS_AddTicketsDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle36.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.PS_AddTicketsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.PS_AddTicketsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle17;
             this.PS_AddTicketsDataGridView.RowTemplate.Height = 25;
             this.PS_AddTicketsDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.PS_AddTicketsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1323,14 +1367,14 @@ namespace Support.Forms.Customer.Products
             // PS_AddTickets_ServiceIndicator
             // 
             this.PS_AddTickets_ServiceIndicator.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle33.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle33.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle33.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle33.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle33.SelectionForeColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.PS_AddTickets_ServiceIndicator.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PS_AddTickets_ServiceIndicator.DefaultCellStyle = dataGridViewCellStyle14;
             this.PS_AddTickets_ServiceIndicator.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.PS_AddTickets_ServiceIndicator.Name = "PS_AddTickets_ServiceIndicator";
             this.PS_AddTickets_ServiceIndicator.ReadOnly = true;
@@ -1339,9 +1383,9 @@ namespace Support.Forms.Customer.Products
             // PS_AddTickets_Extend
             // 
             this.PS_AddTickets_Extend.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle34.Font = new System.Drawing.Font("Tahoma", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle34.ForeColor = System.Drawing.Color.Black;
-            this.PS_AddTickets_Extend.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Tahoma", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle15.ForeColor = System.Drawing.Color.Black;
+            this.PS_AddTickets_Extend.DefaultCellStyle = dataGridViewCellStyle15;
             this.PS_AddTickets_Extend.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.PS_AddTickets_Extend.Name = "PS_AddTickets_Extend";
             this.PS_AddTickets_Extend.ReadOnly = true;
@@ -1377,7 +1421,7 @@ namespace Support.Forms.Customer.Products
             this.PS_AddTicketsLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PS_AddTicketsLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PS_AddTicketsLabel.ForeColor = System.Drawing.Color.Black;
-            this.PS_AddTicketsLabel.Location = new System.Drawing.Point(9, 366);
+            this.PS_AddTicketsLabel.Location = new System.Drawing.Point(13, 369);
             this.PS_AddTicketsLabel.Margin = new System.Windows.Forms.Padding(0);
             this.PS_AddTicketsLabel.MaximumSize = new System.Drawing.Size(300, 21);
             this.PS_AddTicketsLabel.MinimumSize = new System.Drawing.Size(300, 21);
@@ -1398,6 +1442,7 @@ namespace Support.Forms.Customer.Products
             this.labelServiceAmountHeading.Size = new System.Drawing.Size(141, 14);
             this.labelServiceAmountHeading.TabIndex = 144;
             this.labelServiceAmountHeading.Text = "Pawn Servicing Amount:";
+            this.labelServiceAmountHeading.Visible = false;
             // 
             // labelServiceAmount
             // 
@@ -1410,16 +1455,17 @@ namespace Support.Forms.Customer.Products
             this.labelServiceAmount.Size = new System.Drawing.Size(21, 14);
             this.labelServiceAmount.TabIndex = 145;
             this.labelServiceAmount.Text = "$0";
+            this.labelServiceAmount.Visible = false;
             // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle37.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle37.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle37.ForeColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle37.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle37.SelectionForeColor = System.Drawing.Color.MistyRose;
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.MistyRose;
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle18;
             this.dataGridViewTextBoxColumn1.FillWeight = 128.2051F;
             this.dataGridViewTextBoxColumn1.HeaderText = global::Support.Properties.Resources.OverrideMachineName;
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
@@ -1430,14 +1476,14 @@ namespace Support.Forms.Customer.Products
             // 
             this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn2.DataPropertyName = "PS_Tickets_TicketNumberColumn";
-            dataGridViewCellStyle38.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle38.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle38.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle38.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle38.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle38.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle38.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle19.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle19;
             this.dataGridViewTextBoxColumn2.FillWeight = 25.79488F;
             this.dataGridViewTextBoxColumn2.HeaderText = "Ticket Number";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
@@ -1517,14 +1563,14 @@ namespace Support.Forms.Customer.Products
             // 
             this.dataGridViewTextBoxColumn10.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn10.DataPropertyName = "PS_AddTickets_LastDayColumn";
-            dataGridViewCellStyle39.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dataGridViewCellStyle39.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle39.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle39.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle39.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle39.SelectionForeColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle39.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            dataGridViewCellStyle20.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle20;
             this.dataGridViewTextBoxColumn10.HeaderText = "Last Day";
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.ReadOnly = true;
@@ -1533,9 +1579,9 @@ namespace Support.Forms.Customer.Products
             // 
             this.dataGridViewTextBoxColumn11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.dataGridViewTextBoxColumn11.DataPropertyName = "PS_AddTickets_LastDayColumn";
-            dataGridViewCellStyle40.Font = new System.Drawing.Font("Tahoma", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle40.ForeColor = System.Drawing.Color.Black;
-            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle40;
+            dataGridViewCellStyle21.Font = new System.Drawing.Font("Tahoma", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle21.ForeColor = System.Drawing.Color.Black;
+            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle21;
             this.dataGridViewTextBoxColumn11.HeaderText = "Last Day";
             this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
             this.dataGridViewTextBoxColumn11.ReadOnly = true;
@@ -1864,44 +1910,46 @@ namespace Support.Forms.Customer.Products
             // 
             this.PDL_LoanStatsLayoutPanel.BackColor = System.Drawing.Color.MistyRose;
             this.PDL_LoanStatsLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanStatusReason);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblStatusReason);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanStatus);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.XPPFeeAmountToDisplay);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbShopState);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblShopName);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblShopState);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblShopNo);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbShopName);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLastUpdatedBy);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbShopNo);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLastUpdatedBy);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbOriginationDate);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.LblLoanNumber);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbExtendedDate);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.XPPEndDateToDisplay);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblDueDate);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblOriginationDate);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.XPPStartDateToDisplay);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbOrigDepDate);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblOrigDepDate);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblExtendedDate);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblxppSchdFeeAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblxppSchdEndDte);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblxppSchdStartDte);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lnkContractPDF);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.DGVxxpPaySchedule);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblHeaderBarXpp);
+            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbDueDate);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.LnkOtherDetails);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbEstRolloverAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbACHWaitingToClear);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbNSFFeeAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLateFeeAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbAccruedFinanceAmt);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbAcutalServiceChrgAmt);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbActualFinanceChrgAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbXPPAvailable);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbRevokeACH);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanRollOverAmt);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanRolloverNotes);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanNumberPrev);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.TxbLoanNumberOrig);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblEstRolloverAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblACHWaitingToClear);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblNSFFeeAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLateFeeAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblAccruedFinanceAmt);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblAcutalServiceChrgAmt);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblActualFinanceChrgAmt);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblXPPAvailable);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblRevokeACH);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanRollOverAmt);
-            this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanRolloverNotes);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanStatus);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanNumberPrev);
             this.PDL_LoanStatsLayoutPanel.Controls.Add(this.lblLoanNumberOrig);
@@ -1917,23 +1965,6 @@ namespace Support.Forms.Customer.Products
             this.PDL_LoanStatsLayoutPanel.Size = new System.Drawing.Size(625, 423);
             this.PDL_LoanStatsLayoutPanel.TabIndex = 0;
             // 
-            // TxbLoanStatusReason
-            // 
-            this.TxbLoanStatusReason.Enabled = false;
-            this.TxbLoanStatusReason.Location = new System.Drawing.Point(140, 127);
-            this.TxbLoanStatusReason.Name = "TxbLoanStatusReason";
-            this.TxbLoanStatusReason.Size = new System.Drawing.Size(100, 21);
-            this.TxbLoanStatusReason.TabIndex = 154;
-            // 
-            // lblStatusReason
-            // 
-            this.lblStatusReason.AutoSize = true;
-            this.lblStatusReason.Location = new System.Drawing.Point(18, 135);
-            this.lblStatusReason.Name = "lblStatusReason";
-            this.lblStatusReason.Size = new System.Drawing.Size(81, 13);
-            this.lblStatusReason.TabIndex = 153;
-            this.lblStatusReason.Text = "Status Reason:";
-            // 
             // TxbLoanStatus
             // 
             this.TxbLoanStatus.Enabled = false;
@@ -1947,9 +1978,8 @@ namespace Support.Forms.Customer.Products
             this.XPPFeeAmountToDisplay.AutoSize = true;
             this.XPPFeeAmountToDisplay.Location = new System.Drawing.Point(104, 317);
             this.XPPFeeAmountToDisplay.Name = "XPPFeeAmountToDisplay";
-            this.XPPFeeAmountToDisplay.Size = new System.Drawing.Size(35, 13);
+            this.XPPFeeAmountToDisplay.Size = new System.Drawing.Size(0, 13);
             this.XPPFeeAmountToDisplay.TabIndex = 62;
-            this.XPPFeeAmountToDisplay.Text = "00.00";
             // 
             // LblLoanNumber
             // 
@@ -1968,18 +1998,16 @@ namespace Support.Forms.Customer.Products
             this.XPPEndDateToDisplay.AutoSize = true;
             this.XPPEndDateToDisplay.Location = new System.Drawing.Point(82, 299);
             this.XPPEndDateToDisplay.Name = "XPPEndDateToDisplay";
-            this.XPPEndDateToDisplay.Size = new System.Drawing.Size(57, 13);
+            this.XPPEndDateToDisplay.Size = new System.Drawing.Size(0, 13);
             this.XPPEndDateToDisplay.TabIndex = 61;
-            this.XPPEndDateToDisplay.Text = "MM/DD/YY";
             // 
             // XPPStartDateToDisplay
             // 
             this.XPPStartDateToDisplay.AutoSize = true;
             this.XPPStartDateToDisplay.Location = new System.Drawing.Point(82, 283);
             this.XPPStartDateToDisplay.Name = "XPPStartDateToDisplay";
-            this.XPPStartDateToDisplay.Size = new System.Drawing.Size(57, 13);
+            this.XPPStartDateToDisplay.Size = new System.Drawing.Size(0, 13);
             this.XPPStartDateToDisplay.TabIndex = 60;
-            this.XPPStartDateToDisplay.Text = "MM/DD/YY";
             // 
             // lblxppSchdFeeAmt
             // 
@@ -2074,13 +2102,13 @@ namespace Support.Forms.Customer.Products
             this.lblHeaderBarXpp.Size = new System.Drawing.Size(624, 13);
             this.lblHeaderBarXpp.TabIndex = 38;
             this.lblHeaderBarXpp.Text = "  XPP                                                        Payment Schedule    " +
-                "                                                            ";
+    "                                                            ";
             // 
             // LnkOtherDetails
             // 
             this.LnkOtherDetails.AutoSize = true;
             this.LnkOtherDetails.Enabled = false;
-            this.LnkOtherDetails.Location = new System.Drawing.Point(540, 234);
+            this.LnkOtherDetails.Location = new System.Drawing.Point(268, 235);
             this.LnkOtherDetails.Name = "LnkOtherDetails";
             this.LnkOtherDetails.Size = new System.Drawing.Size(70, 13);
             this.LnkOtherDetails.TabIndex = 36;
@@ -2088,18 +2116,10 @@ namespace Support.Forms.Customer.Products
             this.LnkOtherDetails.Text = "Other Details";
             this.LnkOtherDetails.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ps_OtherDetails_LinkClicked);
             // 
-            // TxbEstRolloverAmt
-            // 
-            this.TxbEstRolloverAmt.Enabled = false;
-            this.TxbEstRolloverAmt.Location = new System.Drawing.Point(511, 205);
-            this.TxbEstRolloverAmt.Name = "TxbEstRolloverAmt";
-            this.TxbEstRolloverAmt.Size = new System.Drawing.Size(100, 21);
-            this.TxbEstRolloverAmt.TabIndex = 35;
-            // 
             // TxbACHWaitingToClear
             // 
             this.TxbACHWaitingToClear.Enabled = false;
-            this.TxbACHWaitingToClear.Location = new System.Drawing.Point(511, 179);
+            this.TxbACHWaitingToClear.Location = new System.Drawing.Point(512, 226);
             this.TxbACHWaitingToClear.Name = "TxbACHWaitingToClear";
             this.TxbACHWaitingToClear.Size = new System.Drawing.Size(100, 21);
             this.TxbACHWaitingToClear.TabIndex = 34;
@@ -2107,7 +2127,7 @@ namespace Support.Forms.Customer.Products
             // TxbNSFFeeAmt
             // 
             this.TxbNSFFeeAmt.Enabled = false;
-            this.TxbNSFFeeAmt.Location = new System.Drawing.Point(511, 153);
+            this.TxbNSFFeeAmt.Location = new System.Drawing.Point(512, 200);
             this.TxbNSFFeeAmt.Name = "TxbNSFFeeAmt";
             this.TxbNSFFeeAmt.Size = new System.Drawing.Size(100, 21);
             this.TxbNSFFeeAmt.TabIndex = 33;
@@ -2115,7 +2135,7 @@ namespace Support.Forms.Customer.Products
             // TxbLateFeeAmt
             // 
             this.TxbLateFeeAmt.Enabled = false;
-            this.TxbLateFeeAmt.Location = new System.Drawing.Point(511, 127);
+            this.TxbLateFeeAmt.Location = new System.Drawing.Point(512, 174);
             this.TxbLateFeeAmt.Name = "TxbLateFeeAmt";
             this.TxbLateFeeAmt.Size = new System.Drawing.Size(100, 21);
             this.TxbLateFeeAmt.TabIndex = 32;
@@ -2123,26 +2143,10 @@ namespace Support.Forms.Customer.Products
             // TxbAccruedFinanceAmt
             // 
             this.TxbAccruedFinanceAmt.Enabled = false;
-            this.TxbAccruedFinanceAmt.Location = new System.Drawing.Point(511, 101);
+            this.TxbAccruedFinanceAmt.Location = new System.Drawing.Point(512, 148);
             this.TxbAccruedFinanceAmt.Name = "TxbAccruedFinanceAmt";
             this.TxbAccruedFinanceAmt.Size = new System.Drawing.Size(100, 21);
             this.TxbAccruedFinanceAmt.TabIndex = 31;
-            // 
-            // TxbAcutalServiceChrgAmt
-            // 
-            this.TxbAcutalServiceChrgAmt.Enabled = false;
-            this.TxbAcutalServiceChrgAmt.Location = new System.Drawing.Point(511, 75);
-            this.TxbAcutalServiceChrgAmt.Name = "TxbAcutalServiceChrgAmt";
-            this.TxbAcutalServiceChrgAmt.Size = new System.Drawing.Size(100, 21);
-            this.TxbAcutalServiceChrgAmt.TabIndex = 30;
-            // 
-            // TxbActualFinanceChrgAmt
-            // 
-            this.TxbActualFinanceChrgAmt.Enabled = false;
-            this.TxbActualFinanceChrgAmt.Location = new System.Drawing.Point(511, 49);
-            this.TxbActualFinanceChrgAmt.Name = "TxbActualFinanceChrgAmt";
-            this.TxbActualFinanceChrgAmt.Size = new System.Drawing.Size(100, 21);
-            this.TxbActualFinanceChrgAmt.TabIndex = 29;
             // 
             // TxbXPPAvailable
             // 
@@ -2151,30 +2155,6 @@ namespace Support.Forms.Customer.Products
             this.TxbXPPAvailable.Name = "TxbXPPAvailable";
             this.TxbXPPAvailable.Size = new System.Drawing.Size(100, 21);
             this.TxbXPPAvailable.TabIndex = 28;
-            // 
-            // TxbRevokeACH
-            // 
-            this.TxbRevokeACH.Enabled = false;
-            this.TxbRevokeACH.Location = new System.Drawing.Point(140, 205);
-            this.TxbRevokeACH.Name = "TxbRevokeACH";
-            this.TxbRevokeACH.Size = new System.Drawing.Size(100, 21);
-            this.TxbRevokeACH.TabIndex = 27;
-            // 
-            // TxbLoanRollOverAmt
-            // 
-            this.TxbLoanRollOverAmt.Enabled = false;
-            this.TxbLoanRollOverAmt.Location = new System.Drawing.Point(140, 179);
-            this.TxbLoanRollOverAmt.Name = "TxbLoanRollOverAmt";
-            this.TxbLoanRollOverAmt.Size = new System.Drawing.Size(100, 21);
-            this.TxbLoanRollOverAmt.TabIndex = 26;
-            // 
-            // TxbLoanRolloverNotes
-            // 
-            this.TxbLoanRolloverNotes.Enabled = false;
-            this.TxbLoanRolloverNotes.Location = new System.Drawing.Point(140, 153);
-            this.TxbLoanRolloverNotes.Name = "TxbLoanRolloverNotes";
-            this.TxbLoanRolloverNotes.Size = new System.Drawing.Size(100, 21);
-            this.TxbLoanRolloverNotes.TabIndex = 25;
             // 
             // TxbLoanNumberPrev
             // 
@@ -2192,19 +2172,10 @@ namespace Support.Forms.Customer.Products
             this.TxbLoanNumberOrig.Size = new System.Drawing.Size(100, 21);
             this.TxbLoanNumberOrig.TabIndex = 22;
             // 
-            // lblEstRolloverAmt
-            // 
-            this.lblEstRolloverAmt.AutoSize = true;
-            this.lblEstRolloverAmt.Location = new System.Drawing.Point(379, 213);
-            this.lblEstRolloverAmt.Name = "lblEstRolloverAmt";
-            this.lblEstRolloverAmt.Size = new System.Drawing.Size(86, 13);
-            this.lblEstRolloverAmt.TabIndex = 21;
-            this.lblEstRolloverAmt.Text = "Est Rollover Amt";
-            // 
             // lblACHWaitingToClear
             // 
             this.lblACHWaitingToClear.AutoSize = true;
-            this.lblACHWaitingToClear.Location = new System.Drawing.Point(379, 187);
+            this.lblACHWaitingToClear.Location = new System.Drawing.Point(379, 235);
             this.lblACHWaitingToClear.Name = "lblACHWaitingToClear";
             this.lblACHWaitingToClear.Size = new System.Drawing.Size(95, 13);
             this.lblACHWaitingToClear.TabIndex = 20;
@@ -2213,7 +2184,7 @@ namespace Support.Forms.Customer.Products
             // lblNSFFeeAmt
             // 
             this.lblNSFFeeAmt.AutoSize = true;
-            this.lblNSFFeeAmt.Location = new System.Drawing.Point(379, 161);
+            this.lblNSFFeeAmt.Location = new System.Drawing.Point(379, 208);
             this.lblNSFFeeAmt.Name = "lblNSFFeeAmt";
             this.lblNSFFeeAmt.Size = new System.Drawing.Size(47, 13);
             this.lblNSFFeeAmt.TabIndex = 19;
@@ -2222,7 +2193,7 @@ namespace Support.Forms.Customer.Products
             // lblLateFeeAmt
             // 
             this.lblLateFeeAmt.AutoSize = true;
-            this.lblLateFeeAmt.Location = new System.Drawing.Point(379, 135);
+            this.lblLateFeeAmt.Location = new System.Drawing.Point(379, 182);
             this.lblLateFeeAmt.Name = "lblLateFeeAmt";
             this.lblLateFeeAmt.Size = new System.Drawing.Size(49, 13);
             this.lblLateFeeAmt.TabIndex = 18;
@@ -2231,29 +2202,11 @@ namespace Support.Forms.Customer.Products
             // lblAccruedFinanceAmt
             // 
             this.lblAccruedFinanceAmt.AutoSize = true;
-            this.lblAccruedFinanceAmt.Location = new System.Drawing.Point(379, 109);
+            this.lblAccruedFinanceAmt.Location = new System.Drawing.Point(379, 156);
             this.lblAccruedFinanceAmt.Name = "lblAccruedFinanceAmt";
             this.lblAccruedFinanceAmt.Size = new System.Drawing.Size(86, 13);
             this.lblAccruedFinanceAmt.TabIndex = 17;
             this.lblAccruedFinanceAmt.Text = "Accrued Finance";
-            // 
-            // lblAcutalServiceChrgAmt
-            // 
-            this.lblAcutalServiceChrgAmt.AutoSize = true;
-            this.lblAcutalServiceChrgAmt.Location = new System.Drawing.Point(379, 83);
-            this.lblAcutalServiceChrgAmt.Name = "lblAcutalServiceChrgAmt";
-            this.lblAcutalServiceChrgAmt.Size = new System.Drawing.Size(53, 13);
-            this.lblAcutalServiceChrgAmt.TabIndex = 16;
-            this.lblAcutalServiceChrgAmt.Text = "Actual SC";
-            // 
-            // lblActualFinanceChrgAmt
-            // 
-            this.lblActualFinanceChrgAmt.AutoSize = true;
-            this.lblActualFinanceChrgAmt.Location = new System.Drawing.Point(379, 57);
-            this.lblActualFinanceChrgAmt.Name = "lblActualFinanceChrgAmt";
-            this.lblActualFinanceChrgAmt.Size = new System.Drawing.Size(53, 13);
-            this.lblActualFinanceChrgAmt.TabIndex = 15;
-            this.lblActualFinanceChrgAmt.Text = "Actual FC";
             // 
             // lblXPPAvailable
             // 
@@ -2263,33 +2216,6 @@ namespace Support.Forms.Customer.Products
             this.lblXPPAvailable.Size = new System.Drawing.Size(75, 13);
             this.lblXPPAvailable.TabIndex = 14;
             this.lblXPPAvailable.Text = "XPP Available:";
-            // 
-            // lblRevokeACH
-            // 
-            this.lblRevokeACH.AutoSize = true;
-            this.lblRevokeACH.Location = new System.Drawing.Point(18, 213);
-            this.lblRevokeACH.Name = "lblRevokeACH";
-            this.lblRevokeACH.Size = new System.Drawing.Size(67, 13);
-            this.lblRevokeACH.TabIndex = 13;
-            this.lblRevokeACH.Text = "Revoke ACH";
-            // 
-            // lblLoanRollOverAmt
-            // 
-            this.lblLoanRollOverAmt.AutoSize = true;
-            this.lblLoanRollOverAmt.Location = new System.Drawing.Point(18, 187);
-            this.lblLoanRollOverAmt.Name = "lblLoanRollOverAmt";
-            this.lblLoanRollOverAmt.Size = new System.Drawing.Size(74, 13);
-            this.lblLoanRollOverAmt.TabIndex = 12;
-            this.lblLoanRollOverAmt.Text = "RollOver Amt:";
-            // 
-            // lblLoanRolloverNotes
-            // 
-            this.lblLoanRolloverNotes.AutoSize = true;
-            this.lblLoanRolloverNotes.Location = new System.Drawing.Point(18, 161);
-            this.lblLoanRolloverNotes.Name = "lblLoanRolloverNotes";
-            this.lblLoanRolloverNotes.Size = new System.Drawing.Size(75, 13);
-            this.lblLoanRolloverNotes.TabIndex = 11;
-            this.lblLoanRolloverNotes.Text = "Rollovers Rem";
             // 
             // lblLoanStatus
             // 
@@ -2338,7 +2264,7 @@ namespace Support.Forms.Customer.Products
             this.lblHeaderBar.Size = new System.Drawing.Size(635, 13);
             this.lblHeaderBar.TabIndex = 6;
             this.lblHeaderBar.Text = "Loan No                 UW Name             Requested Time              Loan Amt " +
-                "        Payoff Amt       Actual Amt    ";
+    "        Payoff Amt       Actual Amt    ";
             // 
             // lblUWNameData
             // 
@@ -2384,6 +2310,125 @@ namespace Support.Forms.Customer.Products
             this.lblActualLoanAmtData.Size = new System.Drawing.Size(59, 13);
             this.lblActualLoanAmtData.TabIndex = 5;
             this.lblActualLoanAmtData.Text = "Actual Amt";
+            // 
+            // TxbLoanStatusReason
+            // 
+            this.TxbLoanStatusReason.Enabled = false;
+            this.TxbLoanStatusReason.Location = new System.Drawing.Point(90, 0);
+            this.TxbLoanStatusReason.Name = "TxbLoanStatusReason";
+            this.TxbLoanStatusReason.Size = new System.Drawing.Size(100, 21);
+            this.TxbLoanStatusReason.TabIndex = 154;
+            // 
+            // lblStatusReason
+            // 
+            this.lblStatusReason.AutoSize = true;
+            this.lblStatusReason.Location = new System.Drawing.Point(3, 0);
+            this.lblStatusReason.Name = "lblStatusReason";
+            this.lblStatusReason.Size = new System.Drawing.Size(81, 13);
+            this.lblStatusReason.TabIndex = 153;
+            this.lblStatusReason.Text = "Status Reason:";
+            // 
+            // TxbEstRolloverAmt
+            // 
+            this.TxbEstRolloverAmt.Enabled = false;
+            this.TxbEstRolloverAmt.Location = new System.Drawing.Point(95, 113);
+            this.TxbEstRolloverAmt.Name = "TxbEstRolloverAmt";
+            this.TxbEstRolloverAmt.Size = new System.Drawing.Size(100, 21);
+            this.TxbEstRolloverAmt.TabIndex = 35;
+            // 
+            // TxbAcutalServiceChrgAmt
+            // 
+            this.TxbAcutalServiceChrgAmt.Enabled = false;
+            this.TxbAcutalServiceChrgAmt.Location = new System.Drawing.Point(100, 96);
+            this.TxbAcutalServiceChrgAmt.Name = "TxbAcutalServiceChrgAmt";
+            this.TxbAcutalServiceChrgAmt.Size = new System.Drawing.Size(100, 21);
+            this.TxbAcutalServiceChrgAmt.TabIndex = 30;
+            // 
+            // TxbActualFinanceChrgAmt
+            // 
+            this.TxbActualFinanceChrgAmt.Enabled = false;
+            this.TxbActualFinanceChrgAmt.Location = new System.Drawing.Point(90, 85);
+            this.TxbActualFinanceChrgAmt.Name = "TxbActualFinanceChrgAmt";
+            this.TxbActualFinanceChrgAmt.Size = new System.Drawing.Size(100, 21);
+            this.TxbActualFinanceChrgAmt.TabIndex = 29;
+            // 
+            // TxbRevokeACH
+            // 
+            this.TxbRevokeACH.Enabled = false;
+            this.TxbRevokeACH.Location = new System.Drawing.Point(90, 66);
+            this.TxbRevokeACH.Name = "TxbRevokeACH";
+            this.TxbRevokeACH.Size = new System.Drawing.Size(100, 21);
+            this.TxbRevokeACH.TabIndex = 27;
+            // 
+            // TxbLoanRollOverAmt
+            // 
+            this.TxbLoanRollOverAmt.Enabled = false;
+            this.TxbLoanRollOverAmt.Location = new System.Drawing.Point(90, 43);
+            this.TxbLoanRollOverAmt.Name = "TxbLoanRollOverAmt";
+            this.TxbLoanRollOverAmt.Size = new System.Drawing.Size(100, 21);
+            this.TxbLoanRollOverAmt.TabIndex = 26;
+            // 
+            // TxbLoanRolloverNotes
+            // 
+            this.TxbLoanRolloverNotes.Enabled = false;
+            this.TxbLoanRolloverNotes.Location = new System.Drawing.Point(90, 21);
+            this.TxbLoanRolloverNotes.Name = "TxbLoanRolloverNotes";
+            this.TxbLoanRolloverNotes.Size = new System.Drawing.Size(100, 21);
+            this.TxbLoanRolloverNotes.TabIndex = 25;
+            // 
+            // lblEstRolloverAmt
+            // 
+            this.lblEstRolloverAmt.AutoSize = true;
+            this.lblEstRolloverAmt.Location = new System.Drawing.Point(-2, 116);
+            this.lblEstRolloverAmt.Name = "lblEstRolloverAmt";
+            this.lblEstRolloverAmt.Size = new System.Drawing.Size(86, 13);
+            this.lblEstRolloverAmt.TabIndex = 21;
+            this.lblEstRolloverAmt.Text = "Est Rollover Amt";
+            // 
+            // lblAcutalServiceChrgAmt
+            // 
+            this.lblAcutalServiceChrgAmt.AutoSize = true;
+            this.lblAcutalServiceChrgAmt.Location = new System.Drawing.Point(11, 104);
+            this.lblAcutalServiceChrgAmt.Name = "lblAcutalServiceChrgAmt";
+            this.lblAcutalServiceChrgAmt.Size = new System.Drawing.Size(53, 13);
+            this.lblAcutalServiceChrgAmt.TabIndex = 16;
+            this.lblAcutalServiceChrgAmt.Text = "Actual SC";
+            // 
+            // lblActualFinanceChrgAmt
+            // 
+            this.lblActualFinanceChrgAmt.AutoSize = true;
+            this.lblActualFinanceChrgAmt.Location = new System.Drawing.Point(11, 91);
+            this.lblActualFinanceChrgAmt.Name = "lblActualFinanceChrgAmt";
+            this.lblActualFinanceChrgAmt.Size = new System.Drawing.Size(53, 13);
+            this.lblActualFinanceChrgAmt.TabIndex = 15;
+            this.lblActualFinanceChrgAmt.Text = "Actual FC";
+            // 
+            // lblRevokeACH
+            // 
+            this.lblRevokeACH.AutoSize = true;
+            this.lblRevokeACH.Location = new System.Drawing.Point(11, 74);
+            this.lblRevokeACH.Name = "lblRevokeACH";
+            this.lblRevokeACH.Size = new System.Drawing.Size(67, 13);
+            this.lblRevokeACH.TabIndex = 13;
+            this.lblRevokeACH.Text = "Revoke ACH";
+            // 
+            // lblLoanRollOverAmt
+            // 
+            this.lblLoanRollOverAmt.AutoSize = true;
+            this.lblLoanRollOverAmt.Location = new System.Drawing.Point(6, 51);
+            this.lblLoanRollOverAmt.Name = "lblLoanRollOverAmt";
+            this.lblLoanRollOverAmt.Size = new System.Drawing.Size(74, 13);
+            this.lblLoanRollOverAmt.TabIndex = 12;
+            this.lblLoanRollOverAmt.Text = "RollOver Amt:";
+            // 
+            // lblLoanRolloverNotes
+            // 
+            this.lblLoanRolloverNotes.AutoSize = true;
+            this.lblLoanRolloverNotes.Location = new System.Drawing.Point(3, 21);
+            this.lblLoanRolloverNotes.Name = "lblLoanRolloverNotes";
+            this.lblLoanRolloverNotes.Size = new System.Drawing.Size(75, 13);
+            this.lblLoanRolloverNotes.TabIndex = 11;
+            this.lblLoanRolloverNotes.Text = "Rollovers Rem";
             // 
             // lblCustomerSSNData
             // 
@@ -2505,30 +2550,27 @@ namespace Support.Forms.Customer.Products
             this.lblHdrLoanNumber.Text = "SSN:";
             this.lblHdrLoanNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnExtendDeposit
+            // panel1
             // 
-            this.btnExtendDeposit.BackColor = System.Drawing.Color.Transparent;
-            this.btnExtendDeposit.BackgroundImage = global::Support.Properties.Resources.Red_button_100_50;
-            this.btnExtendDeposit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnExtendDeposit.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnExtendDeposit.Enabled = false;
-            this.btnExtendDeposit.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnExtendDeposit.FlatAppearance.BorderSize = 0;
-            this.btnExtendDeposit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnExtendDeposit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnExtendDeposit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExtendDeposit.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExtendDeposit.ForeColor = System.Drawing.Color.White;
-            this.btnExtendDeposit.Location = new System.Drawing.Point(44, 54);
-            this.btnExtendDeposit.Margin = new System.Windows.Forms.Padding(0);
-            this.btnExtendDeposit.MaximumSize = new System.Drawing.Size(90, 40);
-            this.btnExtendDeposit.MinimumSize = new System.Drawing.Size(90, 40);
-            this.btnExtendDeposit.Name = "btnExtendDeposit";
-            this.btnExtendDeposit.Size = new System.Drawing.Size(90, 40);
-            this.btnExtendDeposit.TabIndex = 58;
-            this.btnExtendDeposit.Text = "Extend Deposit Date";
-            this.btnExtendDeposit.UseVisualStyleBackColor = false;
-            this.btnExtendDeposit.Click += new System.EventHandler(this.btnExtendDeposit_Click);
+            this.panel1.Controls.Add(this.TxbLoanStatusReason);
+            this.panel1.Controls.Add(this.lblStatusReason);
+            this.panel1.Controls.Add(this.lblLoanRolloverNotes);
+            this.panel1.Controls.Add(this.TxbLoanRolloverNotes);
+            this.panel1.Controls.Add(this.lblLoanRollOverAmt);
+            this.panel1.Controls.Add(this.TxbLoanRollOverAmt);
+            this.panel1.Controls.Add(this.lblRevokeACH);
+            this.panel1.Controls.Add(this.TxbRevokeACH);
+            this.panel1.Controls.Add(this.lblActualFinanceChrgAmt);
+            this.panel1.Controls.Add(this.TxbActualFinanceChrgAmt);
+            this.panel1.Controls.Add(this.lblAcutalServiceChrgAmt);
+            this.panel1.Controls.Add(this.TxbAcutalServiceChrgAmt);
+            this.panel1.Controls.Add(this.TxbEstRolloverAmt);
+            this.panel1.Controls.Add(this.lblEstRolloverAmt);
+            this.panel1.Location = new System.Drawing.Point(1080, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(200, 136);
+            this.panel1.TabIndex = 149;
+            this.panel1.Visible = false;
             // 
             // customButtonCancel
             // 
@@ -2563,6 +2605,9 @@ namespace Support.Forms.Customer.Products
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(940, 750);
             this.ControlBox = false;
+            this.Controls.Add(this.PS_AddTicketsDataGridView);
+            this.Controls.Add(this.PS_AddTicketsLabel);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.FormHeaderPanel);
             this.Controls.Add(this.PS_ShowComboBox);
             this.Controls.Add(this.lblCbHeaderShow);
@@ -2575,8 +2620,6 @@ namespace Support.Forms.Customer.Products
             this.Controls.Add(this.LW_DetailsLayoutPanel);
             this.Controls.Add(this.PS_PawnLoanLabel);
             this.Controls.Add(this.PS_TicketsDataGridView);
-            this.Controls.Add(this.PS_AddTicketsLabel);
-            this.Controls.Add(this.PS_AddTicketsDataGridView);
             this.Controls.Add(this.PS_SubTabControl);
             this.Controls.Add(this.tlpDocuments);
             this.Controls.Add(this.customButtonCancel);
@@ -2608,6 +2651,8 @@ namespace Support.Forms.Customer.Products
             ((System.ComponentModel.ISupportInitialize)(this.DGVxxpPaySchedule)).EndInit();
             this.FormHeaderPanel.ResumeLayout(false);
             this.FormHeaderPanel.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2782,13 +2827,6 @@ namespace Support.Forms.Customer.Products
             private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColHistDetails;
             private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColHistAmoutPaid;
             private System.Windows.Forms.DataGridViewTextBoxColumn DgvTxbColHistReceipt;
-
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistDate;
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistEventType;
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistDetails;
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistAmoutPaid;
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistSource;
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistReceipt;
             private System.Windows.Forms.GroupBox GbExtendedStaticLoanInfo;
             private System.Windows.Forms.Label lblHdrLoanStatus;
             private System.Windows.Forms.ComboBox CmbLoanStatus;
@@ -2802,6 +2840,21 @@ namespace Support.Forms.Customer.Products
             private System.Windows.Forms.Label XPPStartDateToDisplay;
             private System.Windows.Forms.Label XPPFeeAmountToDisplay;
             private System.Windows.Forms.Label XPPEndDateToDisplay;
+            private System.Windows.Forms.TextBox TxbLoanStatusReason;
+            private System.Windows.Forms.Label lblStatusReason;
+            private System.Windows.Forms.TextBox TxbLoanStatus;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentSeqNumber;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentNumber;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentDate;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentAmt;
+            private System.Windows.Forms.CheckBox ChkBGetAllHistory;
+            private System.Windows.Forms.Panel panel1;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistDate;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistEventType;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistDetails;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistAmoutPaid;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistSource;
+            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColHistReceipt;
             private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_ServiceIndicatorColumn;
             private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_Extend;
             private System.Windows.Forms.DataGridViewTextBoxColumn PS_Tickets_TicketNumberColumn;
@@ -2811,13 +2864,6 @@ namespace Support.Forms.Customer.Products
             private System.Windows.Forms.DataGridViewTextBoxColumn PS_Ticket_Type;
             private System.Windows.Forms.DataGridViewTextBoxColumn PS_Ticket_Status;
             private System.Windows.Forms.DataGridViewTextBoxColumn LoanApplicationId;
-            private System.Windows.Forms.TextBox TxbLoanStatusReason;
-            private System.Windows.Forms.Label lblStatusReason;
-            private System.Windows.Forms.TextBox TxbLoanStatus;
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentSeqNumber;
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentNumber;
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentDate;
-            private System.Windows.Forms.DataGridViewTextBoxColumn DgvColxppPaymentAmt;
 
     }
 }

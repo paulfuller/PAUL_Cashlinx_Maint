@@ -114,6 +114,14 @@ namespace Reports
                 switch (reportObject.ReportNumber)
                 {
                     //no ticket 3/4/2010 S.Murphy Added Gun Disposition
+
+                    case (int)ReportIDs.RefurbList://CACC Sales report
+                        RefurbList refurbList = new RefurbList(pdfLauncher);
+                        reportObject.CreateTemporaryFullName("RefurbList");
+                        refurbList.ReportObject = this.reportObject;
+                        isSuccessful = refurbList.CreateReport();
+
+                        break;
                     case (int)ReportIDs.RifleDispositionReport://Multi Rifle Disposition report
                     case (int)ReportIDs.GunDispositionReport://Gun Disposition report
                         GunDispositionReport gunDispositionReport = new GunDispositionReport(pdfLauncher);

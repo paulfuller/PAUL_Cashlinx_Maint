@@ -7,7 +7,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Common.Controllers.Application;
 using Common.Controllers.Application.ApplicationFlow.Navigation;
+using Common.Libraries.Utility;
 using Support.Libraries.Objects.PDLoan;
 using Support.Logic;
 using Common.Libraries.Utility.Shared;
@@ -81,42 +83,69 @@ namespace Support.Forms.Customer.Products
         {
             var extendedDate = checkNull(this.dtpExtendedDate.Text);
             var reasonCode = checkNull(this.cbReasonCode.Text);
+            var originalDepDate = checkNull(this.tbDepositDate.Text);
 
             if (extendedDate.Equals(string.Empty) || reasonCode.Equals(string.Empty))
             {
-                MessageBox.Show("Please enter Extended Deposite Date and Reason code and hit submit.", "Form Invalid.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter Extended Deposit Date and Reason code and hit submit.", "Form Invalid.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             else
             {
-                if (DateTime.Parse(extendedDate) > DateTime.Parse(this.lblValidExtendedDate.Text))
+                if (DateTime.Parse(originalDepDate) >= DateTime.Parse(extendedDate))
                 {
-                    MessageBox.Show("Inavalid Date, the Extended Deposite Date should be less than " + DateTime.Parse(this.lblValidExtendedDate.Text).FormatDate(), "Invalid Date.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Invalid Date, the Extended Deposit Date should be greater than the Original Deposit Date.", "Invalid Date.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else if (DateTime.Parse(extendedDate) > DateTime.Parse(this.lblValidExtendedDate.Text))
+                {
+                    MessageBox.Show("Invalid Extended Date, the Extended Deposit Date should be less than " + DateTime.Parse(this.lblValidExtendedDate.Text).FormatDate(), "Invalid Date.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 else if (DateTime.Parse(extendedDate) < DateTime.Now)
                 {
-                    MessageBox.Show("Inavalid Date, the Extended Deposite Date should be future date.", "Invalid Date.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Invalid Date, the Extended Deposit Date should be future date.", "Invalid Date.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 extendedDate = DateTime.Parse(extendedDate).FormatDate();
             }
+            string strUserId = GlobalDataAccessor.Instance.DesktopSession.UserName;
             string errorCode;
             string errorDesc;
             var depositDetails = new DepositDateExtensionDetails();
             bool returnVal = Support.Controllers.Database.Procedures.CustomerLoans.UpdateDepositExtensionDate(
                 Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.PDLLoanNumber,
-                extendedDate, reasonCode, out errorCode, out errorDesc);
+                extendedDate, reasonCode, strUserId, out errorCode, out errorDesc);
 
             if (returnVal)
             {
+                PDLoan pdLoan = new PDLoan();
+                int iDx = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys.FindIndex(delegate(PDLoan p)
+                {
+                    return p.PDLLoanNumber.Equals(Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.PDLLoanNumber);
+                });
+
+                if (iDx >= 0)
+                {
+                    pdLoan = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx];
+
+                    pdLoan.GetPDLoanDetails.ExtendedDate = DateTime.Parse(extendedDate);
+                    pdLoan.GetPDLoanDetails.LastUpdatedBy = strUserId;
+                }
                 this.NavControlBox.IsCustom = true;
                 this.NavControlBox.CustomDetail = "ProductsAndServices";
                 this.NavControlBox.Action = NavBox.NavAction.BACK;
             }
             else
             {
-                MessageBox.Show(errorDesc, "Database call failed.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (errorCode.Equals("50"))
+                {
+                    MessageBox.Show(errorDesc, "Not Eligible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show(errorDesc, "Database call failed.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
         }
         private string checkNull(string value)

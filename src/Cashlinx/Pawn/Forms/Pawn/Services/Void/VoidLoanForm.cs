@@ -26,6 +26,8 @@ using Common.Libraries.Utility;
 using Common.Libraries.Utility.Collection;
 using Common.Libraries.Utility.Logger;
 using Common.Libraries.Utility.Shared;
+using Pawn.Forms.Pawn.Products.ManageMultiplePawnItems;
+using Pawn.Logic;
 using Pawn.Logic.DesktopProcedures;
 
 namespace Pawn.Forms.Pawn.Services.Void
@@ -76,6 +78,7 @@ namespace Pawn.Forms.Pawn.Services.Void
             //Output fields
             public bool VoidSuccess { set; get; }
 
+
             public LoanVoidDetails()
             {
             }
@@ -101,6 +104,7 @@ namespace Pawn.Forms.Pawn.Services.Void
         private Int64 maxVoidDays;
         private DateTime maxVoidShopDate;
         private bool pfiRecord;
+        private bool forceOverride = false;
 
         #endregion
 
@@ -396,6 +400,20 @@ namespace Pawn.Forms.Pawn.Services.Void
                         lvd.CanVoid = false;
                         lvd.CantVoidReason = "This is not the last transaction in the loan chain.";
                     }
+                }
+
+                if (lvd.CanVoid   && lvd.OpCode == "New")
+                {
+                    var mask = ResourceSecurityMask.NONE;
+                    lvd.CanVoid = Common.Controllers.Database.Procedures.SecurityProfileProcedures.GetUserResourceAccess("NEWPAWNLOAN", CashlinxDesktopSession.Instance.LoggedInUserSecurityProfile, CashlinxDesktopSession.Instance, out mask);
+
+                    if (!lvd.CanVoid || (lvd.CanVoid && mask == ResourceSecurityMask.NONE))
+                    {
+                        lvd.CanVoid = false;
+                        lvd.CantVoidReason = "User does not have permissions to void new loan.";
+                    }
+                    else
+                        lvd.CanVoid = true;
                 }
 
                 List<LoanVoidDetails> curList;
@@ -741,7 +759,7 @@ namespace Pawn.Forms.Pawn.Services.Void
         /// <summary>
         /// 
         /// </summary>
-        public VoidLoanForm()
+        public VoidLoanForm(bool hasResource)
         {
             this.validTicketNumber = false;
             this.validStoreNumber = false;
@@ -751,6 +769,9 @@ namespace Pawn.Forms.Pawn.Services.Void
                               {
                                   Visible = false
                               };
+
+            this.forceOverride = !hasResource; // if user doesn't have resource force the override
+
             InitializeComponent();
         }
         #endregion

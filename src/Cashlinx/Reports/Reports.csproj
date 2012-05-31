@@ -229,6 +229,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ReleaseToClaimantReport.cs" />
+    <Compile Include="RefurbList.cs" />
     <Compile Include="ReportBase.cs" />
     <Compile Include="RunReport.cs" />
     <Compile Include="SnapshotReport.cs" />

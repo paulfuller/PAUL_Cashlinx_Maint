@@ -667,10 +667,10 @@ namespace Support.Flows.AppController.Impl
         {
             // disable tabs here
             this.flowTabControllerForm.setTabEnabledFlag(FlowTabController.State.Customer, true);
-            this.flowTabControllerForm.setTabEnabledFlag(FlowTabController.State.ProductHistory, true);
+            this.flowTabControllerForm.setTabEnabledFlag(FlowTabController.State.ProductHistory, false);
             this.flowTabControllerForm.setTabEnabledFlag(FlowTabController.State.ProductsAndServices, true);
-            this.flowTabControllerForm.setTabEnabledFlag(FlowTabController.State.ItemHistory, true);
-            this.flowTabControllerForm.setTabEnabledFlag(FlowTabController.State.Stats, true);
+            this.flowTabControllerForm.setTabEnabledFlag(FlowTabController.State.ItemHistory, false);
+            this.flowTabControllerForm.setTabEnabledFlag(FlowTabController.State.Stats, false);
             this.flowTabControllerForm.setTabEnabledFlag(FlowTabController.State.Comments, true);
         }
         /*__________________________________________________________________________________________*/

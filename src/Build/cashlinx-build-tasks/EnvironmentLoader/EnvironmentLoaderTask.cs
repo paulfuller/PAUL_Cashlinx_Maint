@@ -26,7 +26,7 @@ namespace Cashlinx.Build.Tasks
             SetProperty("buildfile.dstr.viewer", env.DstrViewerProjectEnvironment.BuildFile);
             SetProperty("buildfile.pawn", env.PawnProjectEnvironment.BuildFile);
             SetProperty("buildfile.support", env.SupportProjectEnvironment.BuildFile);
-            SetProperty("buildfile.audit.exists", env.AuditProjectEnvironment.BuildFileExists);
+            SetProperty("buildfile.audit.exists", false);
             SetProperty("buildfile.audit.queries.exists", env.AuditQueriesProjectEnvironment.BuildFileExists);
             SetProperty("buildfile.common.exists", env.CommonProjectEnvironment.BuildFileExists);
             SetProperty("buildfile.dstr.viewer.exists", env.DstrViewerProjectEnvironment.BuildFileExists);
@@ -86,6 +86,10 @@ namespace Cashlinx.Build.Tasks
             SetProperty("thirdparty.nunit.basedir", env.NUnitDirectory);
             SetProperty("tools.etc.dir", env.ToolsEtcDirectory);
             SetProperty("version_template.sql.file", env.SqlVersionTemplatePath);
+
+            SetProperty("update.branch.email.list.to", env.UpdateBranchEmailListTo);
+            SetProperty("udpate.branch.email.list.cc", env.UpdateBranchEmailListCc);
+            SetProperty("staging.email.list.to", env.StagingEmailListTo);
         }
 
         private void SetProperty(string name, string value)

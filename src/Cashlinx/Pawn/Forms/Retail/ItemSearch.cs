@@ -589,9 +589,112 @@ namespace Pawn.Forms.Retail
             }
         }
 
+        public static bool CheckRetailOverides(List<RetailItem> RetailItems, bool layawayMode, int nrPayments, decimal downPayment, bool hasTaxExlusions, ref bool nxtItemOverride, bool forceOverride = false)        
+        {
+            var CDS = GlobalDataAccessor.Instance.DesktopSession;
+            
+            //get ActiveSession that checks user's discount percent
+            //throw up message, "Retail amount has decreased by more than 10%. A manager's authorization is required."
+            //pull up the manager override dialog when user clicks ok
+            var loggedInUser = GlobalDataAccessor.Instance.DesktopSession.LoggedInUserSecurityProfile;
+         
+            var userRetailDiscountLimit = SecurityProfileProcedures.GetRetailDiscountPercentLimit(loggedInUser, GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber);
+            var discountPercentGreater = RetailItems.Any(retailItem => retailItem.DiscountPercent > userRetailDiscountLimit);
+            //Check if there are any nxt Items in the sale list
+            string nxtDocType = ((int)DocumentType.NxtAndStandardDescriptor).ToString();
+            bool nxtItems = RetailItems.Any(retailItem => retailItem.mDocType == nxtDocType);
+            int managerApprovalAmt = 0;
+            if (nxtItems)
+            {
+                managerApprovalAmt = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetNXTItemApprovalAmount(CDS.CurrentSiteId);
+                //Check if there are any nxt items whose price is over the manager approval amount
+                nxtItemOverride = RetailItems.Any(retailItem => retailItem.mDocType == nxtDocType && retailItem.NegotiatedPrice > managerApprovalAmt);
 
+            }
+            else
+                nxtItemOverride = false;
+
+            bool downPaymentLessThanDefault = false;
+            bool numberOfPaymentsDifferenceGreater = false;
+            if (layawayMode)
+            {
+                downPaymentLessThanDefault = CDS.LayawayPaymentCalc.DefaultDownPayment > downPayment;
+
+                int userMaxNumberOfPaymentsChangeLimit = SecurityProfileProcedures.GetLayawayNumberOfPaymentsLimit(loggedInUser, CDS.CurrentSiteId.StoreNumber);
+                numberOfPaymentsDifferenceGreater = nrPayments - CDS.LayawayPaymentCalc.DefaultNumberOfPayments > userMaxNumberOfPaymentsChangeLimit;
+            }
+
+            if (discountPercentGreater || hasTaxExlusions || nxtItemOverride || numberOfPaymentsDifferenceGreater || downPaymentLessThanDefault || forceOverride)
+            {
+                StringBuilder messageToShow = new StringBuilder();
+                messageToShow.Append("A manager's authorization is required." + System.Environment.NewLine);
+                if (discountPercentGreater)
+                    messageToShow.Append("Retail amount has decreased by more than " + userRetailDiscountLimit.ToString() + "%." + System.Environment.NewLine);
+                if (hasTaxExlusions)
+                    messageToShow.Append("Tax exemption has been given" + System.Environment.NewLine);
+                if (nxtItemOverride)
+                    messageToShow.Append("One or more of NXT items have a selling price more than " + managerApprovalAmt + System.Environment.NewLine);
+                if (downPaymentLessThanDefault)
+                    messageToShow.AppendLine("To reduce the default down payment a manager's authorization is required");
+                if (numberOfPaymentsDifferenceGreater)
+                    messageToShow.AppendLine("To increase the number of payments a manager's authorization is required");
+                //bring up dialog
+                List<ManagerOverrideType> overrideTypes = new List<ManagerOverrideType>();
+                List<ManagerOverrideTransactionType> transactionTypes = new List<ManagerOverrideTransactionType>();
+
+                if (layawayMode)
+                {
+                    transactionTypes.Add(ManagerOverrideTransactionType.LAY);
+                }
+                else
+                {
+                    transactionTypes.Add(ManagerOverrideTransactionType.SALE);
+                }
+
+                if (discountPercentGreater)
+                    overrideTypes.Add(ManagerOverrideType.DSCPCT);
+                if (hasTaxExlusions)
+                    overrideTypes.Add(ManagerOverrideType.TXEXMP);
+                if (nxtItemOverride)
+                    overrideTypes.Add(ManagerOverrideType.NXT);
+                if (downPaymentLessThanDefault)
+                    overrideTypes.Add(ManagerOverrideType.DWNPMT);
+                if (numberOfPaymentsDifferenceGreater)
+                    overrideTypes.Add(ManagerOverrideType.NOFPMT);
+                if (forceOverride && overrideTypes.Count == 0)
+                    overrideTypes.Add(ManagerOverrideType.DOC);
+                ManageOverrides overrideFrm = new ManageOverrides(ManageOverrides.OVERRIDE_TRIGGER)
+                {
+                    MessageToShow = messageToShow.ToString(),
+                    ManagerOverrideTypes = overrideTypes,
+                    ManagerOverrideTransactionTypes = transactionTypes
+                };
+                overrideFrm.ShowDialog();
+                if (!overrideFrm.OverrideAllowed)
+                {
+                    //SalesTaxInfo = new SalesTaxInfo(CDS.CurrentSiteId.StoreTaxes);
+                    if (CDS.LayawayMode)
+                    {
+                        CDS.LayawayPaymentCalc.ReCalculate();
+                    }
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        
         public bool CheckOverrides(bool layawayMode)
         {
+            /*
+            // The following should be able to replace the contents of this method
+            ItemSearch.CheckRetailOverides(CDS.ActiveRetail.RetailItems, layawayMode, 
+                retailCost1.LayawayPaymentCalc.NumberOfPayments, 
+                retailCost1.LayawayPaymentCalc.DownPayment,
+                SalesTaxInfo.HasExclusions(), ref nxtItemOverride);
+            */
+
             //get ActiveSession that checks user's discount percent
             //throw up message, "Retail amount has decreased by more than 10%. A manager's authorization is required."
             //pull up the manager override dialog when user clicks ok
@@ -677,6 +780,7 @@ namespace Pawn.Forms.Retail
                     return false;
                 }
             }
+            //---------------
 
             //Madhu - fix for BZ # 87 - to display customer survey card to the user.
             //CustomerSurveyCardComments customerSurvey = new CustomerSurveyCardComments();

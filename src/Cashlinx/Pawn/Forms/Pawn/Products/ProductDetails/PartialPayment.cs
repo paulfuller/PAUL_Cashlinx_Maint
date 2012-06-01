@@ -223,14 +223,15 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                             out days_late);
 
                         int daysToCharge = partialPaymentDaysToPay >= days_late && days_late > 0 ? partialPaymentDaysToPay - days_late : partialPaymentDaysToPay;
-                        interestAmt = Math.Round(((pmt.CUR_AMOUNT * 5 / 100) / 30) * (daysToCharge), 2);
+
+                        interestAmt = Math.Round(((pmt.CUR_FIN_CHG / 30) * daysToCharge), 2);
                         storageFee = Math.Round(pmt.Cur_Srv_Chg / 30 * daysToCharge, 2);
                         interestAmount.Text = interestAmt.ToString("f2");
                         serviceChargeAmount.Text = storageFee.ToString("f2");
                         bool daysLateGreater = days_late > partialPaymentDaysToPay;
                         if (!daysLateGreater && days_late > 0)
                         {
-                            lateInterest = Math.Round(((pmt.CUR_AMOUNT * 5 / 100) / 30) * (days_late), 2);
+                            lateInterest = Math.Round(((pmt.CUR_FIN_CHG / 30) * days_late), 2);
                             //lateInterest = pawnLoan.OtherTranLateFinAmount;
                             //lateService = pawnLoan.OtherTranLateServAmount;
                             lateService = Math.Round(pmt.Cur_Srv_Chg / 30 * days_late, 2);

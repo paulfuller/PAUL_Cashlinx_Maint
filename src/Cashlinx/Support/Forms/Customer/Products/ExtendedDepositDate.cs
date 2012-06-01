@@ -122,7 +122,7 @@ namespace Support.Forms.Customer.Products
                 PDLoan pdLoan = new PDLoan();
                 int iDx = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys.FindIndex(delegate(PDLoan p)
                 {
-                    return p.PDLLoanNumber.Equals(Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.PDLLoanNumber);
+                    return p.PDLLoanNumber.Equals(CashlinxPawnSupportSession.Instance.ActivePDLoan.PDLLoanNumber);
                 });
 
                 if (iDx >= 0)

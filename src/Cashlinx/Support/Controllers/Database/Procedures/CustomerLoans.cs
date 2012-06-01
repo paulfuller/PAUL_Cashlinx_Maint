@@ -201,7 +201,8 @@ namespace Support.Controllers.Database.Procedures
             inParams.Add(new OracleProcParam("o_xpp_start_date", OracleDbType.Varchar2, DBNull.Value, ParameterDirection.Output, 256));
             inParams.Add(new OracleProcParam("o_xpp_end_date", OracleDbType.Varchar2, DBNull.Value, ParameterDirection.Output, 256));
             inParams.Add(new OracleProcParam("o_xpp_fee_amt", OracleDbType.Decimal, DBNull.Value, ParameterDirection.Output, 256));
-
+            inParams.Add(new OracleProcParam("o_current_workaround", OracleDbType.Varchar2, DBNull.Value, ParameterDirection.Output, 256));
+             
 
             //Setup ref cursor array
             var refCursors = new List<PairType<string, string>>
@@ -309,6 +310,10 @@ namespace Support.Controllers.Database.Procedures
                             dr = outputDt.Rows[3];
                             if (dr != null && dr.ItemArray.Length > 0)
                                 loanDetails.XPP_Fee_Amount = dr.ItemArray.GetValue(1).ToString();
+
+                            dr = outputDt.Rows[4];
+                            if (dr != null && dr.ItemArray.Length > 0)
+                                loanDetails.CurrentWorkaround = dr.ItemArray.GetValue(1).ToString();
 
                                //loanDetails.XPPAvailable = dr.ItemArray.GetValue(1).ToString();
                         }
@@ -545,6 +550,13 @@ namespace Support.Controllers.Database.Procedures
                     "o_return_code",
                     "o_return_text", out outputDataSet);
 
+                if (retVal == false)
+                {
+                    errorCode = oDa.ErrorCode;
+                    errorMessage = oDa.ErrorDescription;
+                    return (false);
+                }
+
             }
             catch (Exception oEx)
             {
@@ -659,6 +671,125 @@ namespace Support.Controllers.Database.Procedures
             errorCode = "GetPDLoanEventDetailsFailed";
             errorText = "Operation failed";
             return (false);
+        }
+
+        public static bool ChangeLoanStatus(
+        string loanNumber,
+        string customerNumber,
+        string currentLoanStatus,
+        string usedId,
+        out string errorCode,
+        out string errorMessage)
+        {
+            Boolean retVal = false;
+
+            var oDa = GlobalDataAccessor.Instance.OracleDA;
+
+            errorCode = string.Empty;
+            errorMessage = string.Empty;
+
+            var inParams = new List<OracleProcParam>();
+            inParams.Add(new OracleProcParam("p_loan_number", OracleDbType.Varchar2, loanNumber));
+            inParams.Add(new OracleProcParam("p_customer_number", OracleDbType.Varchar2, customerNumber));
+            inParams.Add(new OracleProcParam("p_current_status", OracleDbType.Varchar2, currentLoanStatus));
+            inParams.Add(new OracleProcParam("p_user_id", OracleDbType.Varchar2, usedId));
+
+            var refCursArr = new List<PairType<string, string>>();
+
+            DataSet outputDataSet;
+            try
+            {
+                retVal = oDa.issueSqlStoredProcCommand(
+                    "ccsowner",
+                    "PAWN_SUPPORT_PRODUCTS",
+                    "change_loan_status",
+                    inParams,
+                    refCursArr,
+                    "o_return_code",
+                    "o_return_text", out outputDataSet);
+
+                if (retVal == false)
+                {
+                    errorCode = oDa.ErrorCode;
+                    errorMessage = oDa.ErrorDescription;
+                    return (false);
+                }
+
+            }
+            catch (Exception oEx)
+            {
+                BasicExceptionHandler.Instance.AddException("Calling Change Loan Status stored procedure Faield", oEx);
+                errorCode = "ChangeLoanStaus";
+                errorMessage = "Exception: " + oEx.Message;
+            }
+            return (retVal);
+        }
+
+        public static bool UndoLoanStatus(
+        string loanNumber,
+        string usedId,
+        out string current_status,
+        out string errorCode,
+        out string errorMessage)
+        {
+            Boolean retVal = false;
+            current_status = string.Empty;
+            var oDa = GlobalDataAccessor.Instance.OracleDA;
+
+            errorCode = string.Empty;
+            errorMessage = string.Empty;
+
+            var inParams = new List<OracleProcParam>();
+            inParams.Add(new OracleProcParam("p_loan_number", OracleDbType.Varchar2, loanNumber));
+            inParams.Add(new OracleProcParam("p_user_id", OracleDbType.Varchar2, usedId));
+            inParams.Add(new OracleProcParam("o_original_status", OracleDbType.Varchar2, DBNull.Value, ParameterDirection.Output, 256));
+
+            var refCursArr = new List<PairType<string, string>>();
+
+            DataSet outputDataSet;
+            try
+            {
+                retVal = oDa.issueSqlStoredProcCommand(
+                    "ccsowner",
+                    "PAWN_SUPPORT_PRODUCTS",
+                    "REVERT_LOAN_STATUS",
+                    inParams,
+                    refCursArr,
+                    "o_return_code",
+                    "o_return_text", out outputDataSet);
+
+                if (retVal == false)
+                {
+                    errorCode = oDa.ErrorCode;
+                    errorMessage = oDa.ErrorDescription;
+                    return (false);
+                }
+
+                if (outputDataSet != null && outputDataSet.IsInitialized)
+                {
+                    if (outputDataSet.Tables != null && outputDataSet.Tables.Count > 0)
+                    {
+                        var outputDt = outputDataSet.Tables["OUTPUT"];
+                        if (outputDt != null && outputDt.IsInitialized && outputDt.Rows != null &&
+                            outputDt.Rows.Count > 0)
+                        {
+
+                            var dr = outputDt.Rows[0];
+                            if (dr != null && dr.ItemArray.Length > 0)
+                            {
+                                current_status = dr.ItemArray.GetValue(1).ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception oEx)
+            {
+                BasicExceptionHandler.Instance.AddException("Calling Undo Loan Status stored procedure Faield", oEx);
+                errorCode = "UndoLoanStatus";
+                errorMessage = "Exception: " + oEx.Message;
+            }
+            return (retVal);
         }
     }
 }

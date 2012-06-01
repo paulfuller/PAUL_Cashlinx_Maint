@@ -10,6 +10,11 @@ namespace Support.Libraries.Objects.PDLoan
     {
         #region PDL Loan details
 
+        public string CurrentWorkaround
+        {
+            get; 
+            set;
+        }
         public string Status
         {
             get;

@@ -167,17 +167,6 @@ namespace Pawn.Forms.Pawn.Customer
             Customer = GlobalDataAccessor.Instance.DesktopSession.ActiveCustomer;
             strStoreState = GlobalDataAccessor.Instance.CurrentSiteId.State;
             FormCustomer = GlobalDataAccessor.Instance.DesktopSession.MPCustomer ?? Utilities.CloneObject<CustomerVO>(Customer);
-            //If we are in the process of creating a new pawn loan or purchase or sale then
-            //populate the ID details if the customer has one
-            if ((GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger.Equals(Commons.TriggerTypes.NEWPAWNLOAN.ToString(), StringComparison.OrdinalIgnoreCase) ||
-                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger.Equals(Commons.TriggerTypes.DESCRIBEMERCHANDISE, StringComparison.OrdinalIgnoreCase) ||
-                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger.Equals(Commons.TriggerTypes.CUSTOMERPURCHASE, StringComparison.OrdinalIgnoreCase) ||
-                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger.Equals(Commons.TriggerTypes.DESCRIBEITEMCUSTOMERPURCHASE, StringComparison.OrdinalIgnoreCase) ||
-                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger.Equals(Commons.TriggerTypes.LOOKUPTICKET, StringComparison.OrdinalIgnoreCase)) ||
-                GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger.Equals(Commons.TriggerTypes.RETAIL, StringComparison.OrdinalIgnoreCase))
-            {
-                firstIdentity = FormCustomer.getFirstIdentity();
-            }
 
             //get the store number from desktop session
             strStoreNumber = GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber;
@@ -510,7 +499,7 @@ namespace Pawn.Forms.Pawn.Customer
                 else
                 {
                     this.pwnapp_dateofbirth.Controls[0].Text = (FormCustomer.DateOfBirth).FormatDate();
-                    checkDateOfBirth(); 
+                    checkDateOfBirth();
                 }
 
                 //Fill in address data
@@ -694,27 +683,8 @@ namespace Pawn.Forms.Pawn.Customer
 
                 custHairColor = null;
 
-                //Populate the id details if the first identity cursor is not empty
-                if (firstIdentity != null)
-                {
-                    strIdentIssuerName = firstIdentity.IdIssuer;
-                    strIdentNumber = firstIdentity.IdValue;
-                    ComboBox custId = (ComboBox)this.pwnapp_identificationtype.Controls[0];
-
-                    foreach (ComboBoxData idtype in custId.Items)
-                    {
-                        if (idtype.Code == firstIdentity.IdType)
-                        {
-                            custId.SelectedIndex = custId.Items.IndexOf(idtype);
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    pwnapp_identificationexpirationdate.Enabled = false;
-                    pwnapp_identificationnumber.Enabled = false;
-                }
+                pwnapp_identificationexpirationdate.Enabled = false;
+                pwnapp_identificationnumber.Enabled = false;
 
                 notesRichTextBox.Text = string.Empty;
             }
@@ -1972,7 +1942,7 @@ namespace Pawn.Forms.Pawn.Customer
                         if (GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan != null
                             && GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.Items != null
                             && GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.Items.Count > 0
-                            && GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.TicketNumber==0)
+                            && GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.TicketNumber == 0)
                         {
                             DialogResult dgr = DialogResult.Retry;
                             do
@@ -2769,8 +2739,8 @@ namespace Pawn.Forms.Pawn.Customer
                 checkDateOfBirth();
                 //if (_customerIsUnderAge)
                 //{
-                    //pwnapp_dateofbirth.Focus();
-                    //need action to perform here
+                //pwnapp_dateofbirth.Focus();
+                //need action to perform here
                 //}
             }
             else

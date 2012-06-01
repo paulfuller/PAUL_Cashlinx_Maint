@@ -46,12 +46,15 @@ namespace Pawn.Logic.DesktopProcedures
                 var extnReceipts = (from r in PawnLoan.Receipts
                                     where r.Event == ReceiptEventTypes.Extend.ToString()
                                           && r.RefTime > PawnLoan.LastPartialPaymentDate
-                                    select r).Except(from r in PawnLoan.Receipts
+                                    select r);
+                var voidExtnReceipts = (from r in PawnLoan.Receipts
                                                      where r.Event == ReceiptEventTypes.VEX.ToString()
                                                            && r.RefTime > PawnLoan.LastPartialPaymentDate
                                                      select r);
+                decimal extensionAmount=(from rcpt in extnReceipts select rcpt.Amount).Sum();
+                decimal voidExtensionAmount = (from rcpt in voidExtnReceipts select rcpt.Amount).Sum();
 
-                refundAmount = (from rcpt in extnReceipts select rcpt.Amount).Sum();
+                refundAmount = extensionAmount - voidExtensionAmount;
 
 
             }

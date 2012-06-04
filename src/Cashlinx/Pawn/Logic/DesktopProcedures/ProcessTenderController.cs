@@ -6082,18 +6082,6 @@ namespace Pawn.Logic.DesktopProcedures
                 List<string> newFeeDates = new List<string>();
                 List<string> newFeeStateCodes = new List<string>();
 
-                CustLoanLostTicketFee lostFee = p.LostTicketInfo;
-                if (lostFee != null && p.LostTicketInfo.TicketLost && p.TempStatus == StateStatus.P)
-                {
-                    lostTicketNumbers.Add(p.TicketNumber);
-                    lostTicketStoreNumber.Add(p.OrgShopNumber);
-                    lostTicketFlag.Add(p.LostTicketInfo.LSDTicket);
-                    if (SecurityAccessor.Instance.EncryptConfig.ClientConfig.ClientConfiguration.PrintEnabled)
-                    {
-                        var lostTicketPrinter = new LostTicketPrinter(p, GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId);
-                        lostTicketPrinter.Print();
-                    }
-                }
 
                 //Go through the list of fees in the pawn loan object and insert into fee table
                 string feeOpRevCode = FeeRevOpCodes.PICKUP.ToString();
@@ -6189,6 +6177,36 @@ namespace Pawn.Logic.DesktopProcedures
                         newFeeStateCodes.Add(FeeStates.PAID.ToString());
 
                     }
+
+                    CustLoanLostTicketFee lostFee = p.LostTicketInfo;
+                    int lateFeeIdx = p.Fees.FindIndex(f => f.FeeType == FeeTypes.LATE);
+                    if (lateFeeIdx >= 0)
+                    {
+                        Fee newLateFee = new Fee();
+                        newLateFee.FeeRef = p.Fees[lateFeeIdx].FeeRef;
+                        newLateFee.FeeType = FeeTypes.LATE;
+                        newLateFee.FeeRefType = p.Fees[lateFeeIdx].FeeRefType;
+                        newLateFee.OriginalAmount = lateFeeAmount;
+                        newLateFee.Value = lateFeeAmount;
+                        newLateFee.FeeState = p.Fees[lateFeeIdx].FeeState;
+                        newLateFee.FeeDate = p.Fees[lateFeeIdx].FeeDate;
+                        p.Fees[lateFeeIdx] = newLateFee;
+                    }
+
+                    
+                    
+                    if (lostFee != null && p.LostTicketInfo.TicketLost && p.TempStatus == StateStatus.P)
+                    {
+                        lostTicketNumbers.Add(p.TicketNumber);
+                        lostTicketStoreNumber.Add(p.OrgShopNumber);
+                        lostTicketFlag.Add(p.LostTicketInfo.LSDTicket);
+                        if (SecurityAccessor.Instance.EncryptConfig.ClientConfig.ClientConfiguration.PrintEnabled)
+                        {
+                            var lostTicketPrinter = new LostTicketPrinter(p, GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId);
+                            lostTicketPrinter.Print();
+                        }
+                    }
+
                 }
 
                 if (newFeeTypes.Count > 0)

@@ -141,7 +141,7 @@ namespace Common.Controllers.Database
                             if (loanAmountCopy >= tieredLoanAmt)
                             {
                                 businessRules.getComponentValue(str, ref componentValue);
-                                tieredInterestValue = Math.Round(tieredLoanAmt * (decimal.Parse(componentValue) / 100), 2);
+                                tieredInterestValue = Math.Round(tieredLoanAmt * (decimal.Parse(componentValue) / 12 / 100), 2,MidpointRounding.AwayFromZero);
                                 tieredInterestValues.Add(tieredInterestValue);
                                 loanAmountCopy -= tieredLoanAmt;
                             }
@@ -149,7 +149,7 @@ namespace Common.Controllers.Database
                             {
                                 tieredLoanAmt = loanAmountCopy;
                                 businessRules.getComponentValue(str, ref componentValue);
-                                tieredInterestValue = Math.Round(tieredLoanAmt * (decimal.Parse(componentValue) / 100), 2);
+                                tieredInterestValue = Math.Round(tieredLoanAmt * (decimal.Parse(componentValue) / 12 / 100), 2, MidpointRounding.AwayFromZero);
                                 tieredInterestValues.Add(tieredInterestValue);
                                 loanAmountCopy = 0;
 
@@ -163,7 +163,7 @@ namespace Common.Controllers.Database
                 
                 
                 this.PawnLoanVO.APR = (tieredInterestValues.Sum() / loanAmount) * 100;
-                InterestAmountForLoanTermCycle = loanAmount * ((Math.Round(this.PawnLoanVO.APR,2) / 12) / 100);
+                InterestAmountForLoanTermCycle = Math.Round (loanAmount * (this.PawnLoanVO.APR /100),2,MidpointRounding.AwayFromZero);
                 decimal minIntAmount=0.0m;
                 //Added ythe logic below to account for the minimum interest amount for the state
                 if (businessRules.getComponentValue("CL_PWN_0013_MININTAMT", ref componentValue))

@@ -35,11 +35,6 @@ namespace Support.Forms.Customer.ProductTabs
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.DgvCustomerComments = new Common.Libraries.Forms.Components.CustomDataGridView();
-            this.GvcComments = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GvcEntryDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GvcMadeBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GvcCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GvcEmployeeNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LblCustomerName = new System.Windows.Forms.Label();
             this.LblSSN = new System.Windows.Forms.Label();
             this.customerDisplayLabel = new System.Windows.Forms.Label();
@@ -47,6 +42,11 @@ namespace Support.Forms.Customer.ProductTabs
             this.LblHeader = new System.Windows.Forms.Label();
             this.btnCancel = new Support.Libraries.Forms.Components.SupportButton();
             this.btnAddComment = new Support.Libraries.Forms.Components.SupportButton();
+            this.GvcComments = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GvcEntryDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GvcMadeBy = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GvcCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GvcEmployeeNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DgvCustomerComments)).BeginInit();
             this.SuspendLayout();
             // 
@@ -100,43 +100,6 @@ namespace Support.Forms.Customer.ProductTabs
             this.DgvCustomerComments.TabIndex = 7;
             this.DgvCustomerComments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvCustomerComments_CellContentClick);
             this.DgvCustomerComments.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DgvCustomerComments_CellPainting);
-            // 
-            // GvcComments
-            // 
-            this.GvcComments.HeaderText = "Comments";
-            this.GvcComments.MaxInputLength = 4000;
-            this.GvcComments.Name = "GvcComments";
-            this.GvcComments.ReadOnly = true;
-            this.GvcComments.Width = 530;
-            // 
-            // GvcEntryDate
-            // 
-            this.GvcEntryDate.HeaderText = "Date Made";
-            this.GvcEntryDate.Name = "GvcEntryDate";
-            this.GvcEntryDate.ReadOnly = true;
-            this.GvcEntryDate.Width = 80;
-            // 
-            // GvcMadeBy
-            // 
-            this.GvcMadeBy.HeaderText = "Made By";
-            this.GvcMadeBy.Name = "GvcMadeBy";
-            this.GvcMadeBy.ReadOnly = true;
-            // 
-            // GvcCategory
-            // 
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.GvcCategory.DefaultCellStyle = dataGridViewCellStyle2;
-            this.GvcCategory.HeaderText = "Category";
-            this.GvcCategory.Name = "GvcCategory";
-            this.GvcCategory.ReadOnly = true;
-            this.GvcCategory.Width = 200;
-            // 
-            // GvcEmployeeNumber
-            // 
-            this.GvcEmployeeNumber.HeaderText = "Employee Number";
-            this.GvcEmployeeNumber.Name = "GvcEmployeeNumber";
-            this.GvcEmployeeNumber.ReadOnly = true;
-            this.GvcEmployeeNumber.Width = 120;
             // 
             // LblCustomerName
             // 
@@ -233,6 +196,42 @@ namespace Support.Forms.Customer.ProductTabs
             this.btnAddComment.Text = "Add";
             this.btnAddComment.UseVisualStyleBackColor = false;
             this.btnAddComment.Click += new System.EventHandler(this.btnAddComment_Click);
+            // 
+            // GvcComments
+            // 
+            this.GvcComments.HeaderText = "Comments";
+            this.GvcComments.MaxInputLength = 4000;
+            this.GvcComments.Name = "GvcComments";
+            this.GvcComments.ReadOnly = true;
+            this.GvcComments.Width = 530;
+            // 
+            // GvcEntryDate
+            // 
+            this.GvcEntryDate.HeaderText = "Date Made";
+            this.GvcEntryDate.Name = "GvcEntryDate";
+            this.GvcEntryDate.ReadOnly = true;
+            this.GvcEntryDate.Width = 120;
+            // 
+            // GvcMadeBy
+            // 
+            this.GvcMadeBy.HeaderText = "Made By";
+            this.GvcMadeBy.Name = "GvcMadeBy";
+            this.GvcMadeBy.ReadOnly = true;
+            // 
+            // GvcCategory
+            // 
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.GvcCategory.DefaultCellStyle = dataGridViewCellStyle2;
+            this.GvcCategory.HeaderText = "Category";
+            this.GvcCategory.Name = "GvcCategory";
+            this.GvcCategory.ReadOnly = true;
+            this.GvcCategory.Width = 180;
+            // 
+            // GvcEmployeeNumber
+            // 
+            this.GvcEmployeeNumber.HeaderText = "Employee Number";
+            this.GvcEmployeeNumber.Name = "GvcEmployeeNumber";
+            this.GvcEmployeeNumber.ReadOnly = true;
             // 
             // SupportCustomerComments
             // 

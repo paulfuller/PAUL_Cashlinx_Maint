@@ -2521,6 +2521,12 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 if (selectedServiceLayaways.Count > 0)
                 {
                     UndoLayawayTransactions(selectedServiceLayaways);
+                    foreach (var layaway in selectedServiceLayaways)
+                    {
+                        string errorCode;
+                        string errorText;
+                        RetailProcedures.SetLayawayTempStatus(layaway.TicketNumber, layaway.StoreNumber, "", out errorCode, out errorText);
+                    }
                     UpdateButtonsStates(true);
                 }
                 else

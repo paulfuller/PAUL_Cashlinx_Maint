@@ -638,28 +638,41 @@ namespace Pawn.Forms.Pawn.Services.Void
                 {
                     string errCode;
                     string errText;
-                    var success = VoidProcedures.PerformVoid(lvd, out errCode, out errText);
+                    bool skipped = false;
 
-                    if (success)
+                    //GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan = 
+                    bool canVoid = ManageMultiplePawnItems.CheckForOverrides(false, lvd.Amount, out skipped, forceOverride);
+
+                    if (canVoid && !skipped)
                     {
-                        MessageBox.Show("Void successful of " + treeNode.Text, "Void Success");
-                        rt = true;
-                        break;
+                        var success = VoidProcedures.PerformVoid(lvd, out errCode, out errText, forceOverride);
+
+                        if (success)
+                        {
+                            MessageBox.Show("Void successful of " + treeNode.Text, "Void Success");
+                            rt = true;
+                            break;
+                        }
+                        //SR 08/31/2011 Added the 2 error codes that will be returned by the stored procedure if the
+                        //ticket that we are trying to void is not in the same status as it was when it was pulled in for void 
+                        //in this workstation
+                        if (errCode == "97" || errCode == "98")
+                        {
+                            dR = MessageBox.Show(
+                                "Void failed: Ticket not in the correct status to void", "Void Failure",
+                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                        else
+                            dR = MessageBox.Show(
+                                "Void failed: " + errCode + ", " +
+                                errText + System.Environment.NewLine +
+                                "Would you like to retry?", "Void Failure",
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                     }
-                    //SR 08/31/2011 Added the 2 error codes that will be returned by the stored procedure if the
-                    //ticket that we are trying to void is not in the same status as it was when it was pulled in for void 
-                    //in this workstation
-                    if (errCode == "97" || errCode == "98")
-                    {
-                        dR = MessageBox.Show("Void failed: Ticket not in the correct status to void", "Void Failure",
-                      MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
-                    else
-                    dR = MessageBox.Show("Void failed: " + errCode + ", " +
-                                         errText + System.Environment.NewLine +
-                                         "Would you like to retry?", "Void Failure", 
-                                         MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                    else 
+                        return (false);
                 }
+
             }
             //(2nd case)If node has children and no younger siblings
             //treeNode has not been rolled over but has been serviced

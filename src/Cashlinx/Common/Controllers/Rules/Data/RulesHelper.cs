@@ -653,7 +653,7 @@ namespace Common.Controllers.Rules.Data
                     //}
                     //Add the rule which matches the Alias code
                     var fndAliasCompNumComps = from comp in components
-                                               where comp.Alias.IndexOf(site.State + "_" + site.CompanyNumber, StringComparison.OrdinalIgnoreCase) != -1
+                                               where comp.Alias.Equals(site.State + "_" + site.CompanyNumber, StringComparison.OrdinalIgnoreCase)
                                                select comp;
                     if (fndAliasCompNumComps.Count() <= 0)
                     {

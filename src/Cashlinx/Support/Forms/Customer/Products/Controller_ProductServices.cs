@@ -1236,7 +1236,7 @@ namespace Support.Forms.Customer.Products
             this.TxbLoanRollOverAmt.Text = Record.LoanRollOverAmt.ToString("C");
             this.TxbRevokeACH.Text = Record.RevokeACH.ToString();// == Record.RevokeACH ? "Yes" : "No";
 
-            this.TxbXPPAvailable.Text = Record.XPPAvailable.ToString();// == Record.XPPAvailable ? "Yes" : "No";
+            this.TxbXPPAvailable.Text = Record.XPPAvailable;// == Record.XPPAvailable ? "Yes" : "No";
             this.TxbActualFinanceChrgAmt.Text = Record.ActualFinanceChrgAmt.ToString("C");
             this.TxbAcutalServiceChrgAmt.Text = Record.AcutalServiceChrgAmt.ToString("C");
             this.TxbAccruedFinanceAmt.Text = Record.AccruedFinanceAmt.ToString("C");

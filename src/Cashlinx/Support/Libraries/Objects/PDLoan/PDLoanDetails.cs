@@ -103,7 +103,7 @@ namespace Support.Libraries.Objects.PDLoan
             set;
         }
 
-        public bool XPPAvailable
+        public string XPPAvailable
         {
             get;
             set;

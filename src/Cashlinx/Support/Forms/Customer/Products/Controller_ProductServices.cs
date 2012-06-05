@@ -481,14 +481,15 @@ namespace Support.Forms.Customer.Products
                 MapPDL_xppLoanScheduleFromProperties(new List<PDLoanXPPScheduleList>());
                 MapPDL_HistoryFromProperties(new List<PDLoanHistoryList>());
 
-                this.LnkOtherDetails.Enabled = false;
-                this.btnExtendDeposit.Enabled = false;
-                this.ChkBGetAllHistory.Checked = false;
-                this.ChkBGetAllHistory.Enabled = false;
-                this.CmbHistoryLoanEvents.SelectedIndex = 0;
-                this.CmbHistoryLoanEvents.Enabled = false;
-                this.BtnChangeLoanStatus.Enabled = false;
-                this.BtnChangeLoanStatus.Enabled = false;
+                ChangeControlStatus(false);
+                //this.LnkOtherDetails.Enabled = false;
+                //this.btnExtendDeposit.Enabled = false;
+                //this.ChkBGetAllHistory.Checked = false;
+                //this.ChkBGetAllHistory.Enabled = false;
+                //this.CmbHistoryLoanEvents.SelectedIndex = 0;
+                //this.CmbHistoryLoanEvents.Enabled = false;
+                //this.BtnChangeLoanStatus.Enabled = false;
+                //this.BtnChangeLoanStatus.Enabled = false;
 
                 for (int i = 0; i < tempLoanKeys.Count(); i++)
                 {
@@ -1204,6 +1205,8 @@ namespace Support.Forms.Customer.Products
             //var otherDetails = Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.GetPDLoanOtherDetails;
 
             this.lblCustomerSSNData.Text = Commons.FormatSSN(Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer.SocialSecurityNumber);
+            var CustVO = Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer;
+            LblCustNameDisplay.Text = CustVO.FirstName + " " + CustVO.MiddleInitial + " " + CustVO.LastName; ;
 //            this.lblCustomerSSNData.Text = Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer.SocialSecurityNumber;
             this.lblUWNameData.Text = Record.UWName;
 
@@ -1233,7 +1236,7 @@ namespace Support.Forms.Customer.Products
             this.TxbLoanRollOverAmt.Text = Record.LoanRollOverAmt.ToString("C");
             this.TxbRevokeACH.Text = Record.RevokeACH.ToString();// == Record.RevokeACH ? "Yes" : "No";
 
-            this.TxbXPPAvailable.Text = Record.XPPAvailable.ToString();// == Record.XPPAvailable ? "Yes" : "No";
+            this.TxbXPPAvailable.Text = Record.XPPAvailable;// == Record.XPPAvailable ? "Yes" : "No";
             this.TxbActualFinanceChrgAmt.Text = Record.ActualFinanceChrgAmt.ToString("C");
             this.TxbAcutalServiceChrgAmt.Text = Record.AcutalServiceChrgAmt.ToString("C");
             this.TxbAccruedFinanceAmt.Text = Record.AccruedFinanceAmt.ToString("C");
@@ -1847,13 +1850,14 @@ namespace Support.Forms.Customer.Products
                     MapPDL_EventsFromProperties(new PDLoanDetails());
                     MapPDL_xppLoanScheduleFromProperties(new List<PDLoanXPPScheduleList>());
                     MapPDL_HistoryFromProperties(new List<PDLoanHistoryList>());
-                    this.LnkOtherDetails.Enabled = false;
-                    this.btnExtendDeposit.Enabled = false;
-                    this.ChkBGetAllHistory.Checked = false;
-                    this.ChkBGetAllHistory.Enabled = false;
-                    this.CmbHistoryLoanEvents.SelectedIndex = 0;
-                    this.CmbHistoryLoanEvents.Enabled = false;
-                    this.BtnChangeLoanStatus.Enabled = false;
+                    //this.LnkOtherDetails.Enabled = false;
+                    //this.btnExtendDeposit.Enabled = false;
+                    //this.ChkBGetAllHistory.Checked = false;
+                    //this.ChkBGetAllHistory.Enabled = false;
+                    //this.CmbHistoryLoanEvents.SelectedIndex = 0;
+                    //this.CmbHistoryLoanEvents.Enabled = false;
+                    //this.BtnChangeLoanStatus.Enabled = false;
+                    ChangeControlStatus(false);
                     this.BtnChangeLoanStatus.Text = LOAN_STATUS;
                     //return;
                 }
@@ -1882,13 +1886,17 @@ namespace Support.Forms.Customer.Products
                     MapPDL_EventsFromProperties(pdLoan.GetPDLoanDetails);
                     MapPDL_xppLoanScheduleFromProperties(pdLoan.GetPDLoanXPPScheduleList);
                     MapPDL_HistoryFromProperties(pdLoan.GetPDLoanHistorySummaryList);
-                    this.LnkOtherDetails.Enabled = true;
-                    this.btnExtendDeposit.Enabled = true;
+                    //this.LnkOtherDetails.Enabled = true;
+                    //this.btnExtendDeposit.Enabled = true;
+                    //this.ChkBGetAllHistory.Checked = false;
+                    //this.ChkBGetAllHistory.Enabled = true;
+                    //this.CmbHistoryLoanEvents.SelectedIndex = 0;
+                    //this.CmbHistoryLoanEvents.Enabled = true;
+                    //this.BtnChangeLoanStatus.Enabled = true;
+
+                    ChangeControlStatus(true);
                     this.ChkBGetAllHistory.Checked = false;
-                    this.ChkBGetAllHistory.Enabled = true;
-                    this.CmbHistoryLoanEvents.SelectedIndex = 0;
-                    this.CmbHistoryLoanEvents.Enabled = true;
-                    this.BtnChangeLoanStatus.Enabled = true;
+
                     string undoStatus = checkNull(pdLoan.GetPDLoanDetails.CurrentWorkaround);
                     if (undoStatus.Equals("YES"))
                     {
@@ -3062,7 +3070,7 @@ namespace Support.Forms.Customer.Products
                                 pdLoan = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx];
                                 Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan = pdLoan;
                             }
-                            //MessageBox.Show("Call the new form here....");
+                            ChangeControlStatus(false);
                             DisplayReasonCode displayRC = new DisplayReasonCode();
                             displayRC.ShowDialog();
                             return;
@@ -3071,6 +3079,17 @@ namespace Support.Forms.Customer.Products
                     CelMouseUpActions(e.RowIndex, e.ColumnIndex);
                 }
             }
+        }
+
+        private void ChangeControlStatus(bool disableEnable)
+        {
+            this.LnkOtherDetails.Enabled = disableEnable;
+            this.btnExtendDeposit.Enabled = disableEnable;
+            this.ChkBGetAllHistory.Checked = disableEnable;
+            this.ChkBGetAllHistory.Enabled = disableEnable;
+            this.CmbHistoryLoanEvents.SelectedIndex = 0;
+            this.CmbHistoryLoanEvents.Enabled = disableEnable;
+            this.BtnChangeLoanStatus.Enabled = disableEnable;
         }
         /*__________________________________________________________________________________________*/
         private void PS_TicketsDataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
@@ -4397,7 +4416,12 @@ namespace Support.Forms.Customer.Products
                 string buttonStatus = this.BtnChangeLoanStatus.Text;
                 if (buttonStatus.Equals(LOAN_STATUS))
                 {
-                    string currentStatus = checkNull(pdLoan.GetPDLoanDetails.Status);
+                    string currentStatus = string.Empty;
+
+                    if (pdLoan.GetPDLoanDetails != null)
+                    {
+                        currentStatus = checkNull(pdLoan.GetPDLoanDetails.Status);
+                    }
                     if (!currentStatus.Equals(DEFAULT_STATUS))
                     {
                         MessageBox.Show("Loan status change for non-default loans not supported at this time.",
@@ -4405,7 +4429,10 @@ namespace Support.Forms.Customer.Products
                     }
                     else
                     {
-                        DialogResult dr = MessageBox.Show("Are you sure you want to change the status of loan number " + pdLoan.PDLLoanNumber + " to CLOSED?", "Loan Status Change", MessageBoxButtons.YesNo);
+                        DialogResult dr =
+                            MessageBox.Show(
+                                "Are you sure you want to change the status of loan number " + pdLoan.PDLLoanNumber +
+                                " to CLOSED?", "Loan Status Change", MessageBoxButtons.YesNo);
                         if (dr == DialogResult.Yes)
                         {
                             string errorCode;

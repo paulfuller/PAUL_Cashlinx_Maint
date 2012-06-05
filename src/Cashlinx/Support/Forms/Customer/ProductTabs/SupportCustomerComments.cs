@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Documents;
@@ -139,7 +140,7 @@ namespace Support.Forms.Customer.ProductTabs
         private void LoadCommentsDateToGrid()
         {
             this.customerDisplayLabel.Text = CustToEdit.FirstName + " " + CustToEdit.MiddleInitial + " " + CustToEdit.LastName;
-            this.SSNDisplayLabel.Text = CustToEdit.SocialSecurityNumber;
+            this.SSNDisplayLabel.Text = Commons.FormatSSN(CustToEdit.SocialSecurityNumber);
 
             foreach ( SupportCommentsVO record in  _supportCommentsList )
             {
@@ -158,7 +159,8 @@ namespace Support.Forms.Customer.ProductTabs
                 grComment.Value = comment;
 
                 if (!date.Equals(DateTime.MinValue.FormatDate()) || !date.Equals(DateTime.MaxValue.FormatDate()))
-                    grDate.Value = date.FormatDate();
+                    //grDate.Value = date.FormatDate();
+                    grDate.Value = date.ToString("g", CultureInfo.CreateSpecificCulture("en-us"));
                 else
                     grDate.Value = date;
 

@@ -101,12 +101,12 @@ namespace Pawn.Logic
         //SR 8/26/2009
         private BasicExceptionHandler exHandler;
         private FileLogger fileLogger;
-        private AuditLogger auditLogger;        
+        private AuditLogger auditLogger;
         private Timer forceCloseTimer;
         private MainFlowExecutor mainFlowExecutor;
         //private DataTable CashDrawerAuxAssignments;
         private bool skipLDAP;
-        
+
 
 
         /// <summary>
@@ -385,9 +385,10 @@ namespace Pawn.Logic
             {
                 CurrentSiteId.AvailableButtons = (from tagName in buttonTagNames select tagName.TagName).ToList();
                 TellerOperations = (
-                    from tagName in buttonTagNames 
-                    where tagName.TellerOperation select 
-                    StringUtilities.removeFromString(tagName.TagName.ToLowerInvariant(), "button")).ToList();
+                    from tagName in buttonTagNames
+                    where tagName.TellerOperation
+                    select
+                        StringUtilities.removeFromString(tagName.TagName.ToLowerInvariant(), "button")).ToList();
             }
 
             //Load the sales tax info for the store
@@ -450,6 +451,8 @@ namespace Pawn.Logic
             this.PartialPaymentLoans.Clear();
             if (this.ServiceLayaways != null)
             {
+                var layaways = ServiceLayaways.Where(l => l.TempStatus != StateStatus.BLNK).ToList();
+                ClearActiveLayawaysTempStatus(layaways);
                 this.ServiceLayaways.Clear();
             }
             this.PawnReceipt.Clear();
@@ -494,6 +497,7 @@ namespace Pawn.Logic
                 Sales.Clear();
                 ActiveRetail = null;
             }
+
             if (Layaways != null)
             {
                 Layaways.Clear();
@@ -503,6 +507,22 @@ namespace Pawn.Logic
             instance.ShopCreditFlow = false;
             LastIdUsed = new KeyValuePair<string, string>(String.Empty, String.Empty);
         }
+
+        private void ClearActiveLayawaysTempStatus(IEnumerable<LayawayVO> layaways)
+        {
+            foreach (var layaway in layaways)
+            {
+                string errorCode;
+                string errorText;
+                RetailProcedures.SetLayawayTempStatus(layaway.TicketNumber,
+                                                        layaway.StoreNumber,
+                                                        string.Empty,
+                                                        out errorCode,
+                                                        out errorText);
+            }
+
+        }
+
 
         /// <summary>
         /// 
@@ -881,7 +901,7 @@ namespace Pawn.Logic
                     if (FileLogger.Instance.IsLogInfo)
                     {
                         FileLogger.Instance.logMessage(
-                            LogLevel.INFO, this, 
+                            LogLevel.INFO, this,
                             "Authorization attempt: Count = {0}, IsLockedOut = {1}, NeedsPwdChange = {2}, WantsPwdChange = {3}",
                             attemptCount,
                             lockedOut,
@@ -1004,9 +1024,9 @@ namespace Pawn.Logic
                                     //Acquire intermec printer interface
                                     if (BarcodePrinter.IsValid)
                                     {
-                                        var intermecBarcodeTagPrint = new IntermecBarcodeTagPrint(string.Empty, 
-                                                Convert.ToInt32(GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber), 
-                                                IntermecBarcodeTagPrint.PrinterModel.Intermec_PM4i, 
+                                        var intermecBarcodeTagPrint = new IntermecBarcodeTagPrint("",
+                                                Convert.ToInt32(GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber),
+                                                IntermecBarcodeTagPrint.PrinterModel.Intermec_PM4i,
                                                 BarcodePrinter.IPAddress,
                                                 (uint)BarcodePrinter.Port, GlobalDataAccessor.Instance.DesktopSession);
 
@@ -1019,7 +1039,7 @@ namespace Pawn.Logic
                                     }
                                     else
                                     {
-                                        MessageBox.Show("Cannot print barcode tag for user.  No barcode printer configured", 
+                                        MessageBox.Show("Cannot print barcode tag for user.  No barcode printer configured",
                                             "Application Security", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     }
                                 }
@@ -1190,7 +1210,7 @@ namespace Pawn.Logic
                             if (BarcodePrinter.IsValid)
                             {
                                 //Acquire intermec printer interface
-                                var intermecBarcodeTagPrint = 
+                                var intermecBarcodeTagPrint =
                                     new IntermecBarcodeTagPrint("",
                                         Convert.ToInt32(GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber),
                                         IntermecBarcodeTagPrint.PrinterModel.Intermec_PM4i,
@@ -1200,7 +1220,7 @@ namespace Pawn.Logic
                                 //Print new bar code
                                 intermecBarcodeTagPrint.PrintUserBarCode(sEncryptData, sEmployeeFirstName);
 
-                                if(FileLogger.Instance.IsLogDebug)
+                                if (FileLogger.Instance.IsLogDebug)
                                 {
                                     FileLogger.Instance.logMessage(LogLevel.DEBUG, this, "Printed bar code for user {0}",
                                                                    usrName);
@@ -1231,7 +1251,7 @@ namespace Pawn.Logic
                     }
                 }
             }
-            
+
         }
 
         public override void PerformCashDrawerChecks(out bool checkPassed)
@@ -1645,7 +1665,7 @@ namespace Pawn.Logic
                             retValue = ShopCashProcedures.InsertTellerEvent(StoreSafeID, workstationID, instance.HistorySession.TriggerName, out errorCode, out errorMesg);
                             if (!retValue)
                                 FileLogger.Instance.logMessage(LogLevel.DEBUG, this, "Teller Event could not be inserted");
-                            
+
                         }
 
 
@@ -1669,7 +1689,7 @@ namespace Pawn.Logic
             var openCDNames = new List<PairType<string, string>>();
             var unverifiedCDNames = new List<PairType<string, string>>();
 
-            bool retValue = ShopCashProcedures.GetShopCashPosition(GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber,this,
+            bool retValue = ShopCashProcedures.GetShopCashPosition(GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber, this,
                                                                    out ShopCashDetails,
                                                                    out errorCode, out errorMesg);
             //Check if there are any open cash drawers
@@ -1682,13 +1702,13 @@ namespace Pawn.Logic
                     cdStatus == ((int)CASHDRAWERSTATUS.OPEN).ToString())
                 {
                     openCashDrawerNames.Append(cdName);
-                    openCDNames.Add(new PairType<string,string>(cdId,cdName));
+                    openCDNames.Add(new PairType<string, string>(cdId, cdName));
                 }
                 if (cdName != GlobalDataAccessor.Instance.DesktopSession.StoreSafeName &&
                     cdStatus == ((int)CASHDRAWERSTATUS.CLOSED_UNVERIFIED).ToString())
                 {
                     openCashDrawerNames.Append(cdName);
-                    unverifiedCDNames.Add(new PairType<string,string>(cdId,cdName));
+                    unverifiedCDNames.Add(new PairType<string, string>(cdId, cdName));
                 }
             }
             if (openCDNames.Any() || unverifiedCDNames.Any())
@@ -1840,7 +1860,7 @@ namespace Pawn.Logic
         /// <returns></returns>
         private bool CheckCashDrawerAssigned()
         {
-            
+
             foreach (DataRow dr in CashDrawerAssignments.Rows)
             {
                 if ((Utilities.GetStringValue(dr["username"])) == UserName ||
@@ -2274,7 +2294,8 @@ namespace Pawn.Logic
             {
                 timer = new Timer
                         {
-                            Tag = deskForm, Interval = 60*60*1000
+                            Tag = deskForm,
+                            Interval = 60 * 60 * 1000
                         };
                 timer.Tick += timer_Tick;
                 timer.Start();
@@ -2373,20 +2394,20 @@ namespace Pawn.Logic
                     Application.Exit();
                     return;
                 }
-                
+
                 if (!string.IsNullOrEmpty(storeStatus) && storeStatus.Equals("SIGNEDOFF", StringComparison.OrdinalIgnoreCase))
                 {
                     if (fLog.IsLogWarn)
                     {
                         fLog.logMessage(LogLevel.WARN, this,
-                                        "Application is still active past the force close time. " + 
+                                        "Application is still active past the force close time. " +
                                         "The store is signed off.  No transactions can be run at this time.");
                     }
 
                     //Force close time passed
                     forceCloseTimer.Stop();
                     ShowInfoMessageForSpecifiedTime("Cashlinx Application Closure",
-                                                    "The store is now signed off.  The Cashlinx application is closing.", 
+                                                    "The store is now signed off.  The Cashlinx application is closing.",
                                                     5, deskForm);
                     fLog.logMessage(LogLevel.ERROR, this,
                                     "- Closing the Cashlinx application.  Application was still running even though the store is signed off.");
@@ -2462,17 +2483,17 @@ namespace Pawn.Logic
                         Application.Exit();
                         return;
                     }
-                   /* else if (diff.Minutes == 0 && diff.Seconds == 0)
-                    {
-                        fLog.logMessage(LogLevel.WARN, this, "Application has reached automatic closing time, killing application");
-                        forceCloseTimer.Stop();
-                        ShowInfoMessageForSpecifiedTime("Cashlinx Application Closure",
-                                                        "The application will be automatically closed when this window closes.", 5, deskForm);
-                        fLog.logMessage(LogLevel.ERROR, this,
-                                        "- ShowForceCloseMessageWhenNeeded closing application - At Force Close Window");
-                        Application.Exit();
-                        return;
-                    }*/
+                    /* else if (diff.Minutes == 0 && diff.Seconds == 0)
+                     {
+                         fLog.logMessage(LogLevel.WARN, this, "Application has reached automatic closing time, killing application");
+                         forceCloseTimer.Stop();
+                         ShowInfoMessageForSpecifiedTime("Cashlinx Application Closure",
+                                                         "The application will be automatically closed when this window closes.", 5, deskForm);
+                         fLog.logMessage(LogLevel.ERROR, this,
+                                         "- ShowForceCloseMessageWhenNeeded closing application - At Force Close Window");
+                         Application.Exit();
+                         return;
+                     }*/
                 }
             }
             else
@@ -2595,7 +2616,7 @@ namespace Pawn.Logic
                     }
                 }
                 if (shopDateField != null)
-                shopDateField.Text = ShopDateTime.Instance.ShopDate.ToShortDateString();
+                    shopDateField.Text = ShopDateTime.Instance.ShopDate.ToShortDateString();
                 if (!userInfoGroupBox.Visible)
                 {
                     userInfoGroupBox.Show();
@@ -3128,7 +3149,7 @@ namespace Pawn.Logic
             };
 
             //Invoke generate documents stored proc (set pda flag to true)
-            var laserData = 
+            var laserData =
                 GenerateDocumentsProcedures.GenerateDocumentsEssentialInformation(
                 inParams, true, //<--- setting flag to retrieve PDA mapping
                 out docinfo,
@@ -3619,7 +3640,7 @@ namespace Pawn.Logic
                                                        "Killing active IE processes.  Total number to kill = {0}", ieProcess.Length);
                     }
                     var idx = 0;
-                    foreach(var procIe in ieProcess)
+                    foreach (var procIe in ieProcess)
                     {
                         if (FileLogger.Instance != null && FileLogger.Instance.IsLogInfo)
                         {
@@ -3637,7 +3658,7 @@ namespace Pawn.Logic
                             }
                             ++idx;
                         }
-                        catch(Exception eX)
+                        catch (Exception eX)
                         {
                             var errMsg = string.Format("Could not kill IE process {0} : Exception thrown: {1} {2}", idx, eX,
                                                                eX.StackTrace ?? "No Stack Trace");
@@ -3664,7 +3685,7 @@ namespace Pawn.Logic
                 {
                     FileLogger.Instance.logMessage(LogLevel.DEBUG,
                                                    "CashlinxDesktopSession",
-                                                   "Auth ID is " + msg +  " Machine Name is " + machineName + " IPAddress is " + ipAddress);
+                                                   "Auth ID is " + msg + " Machine Name is " + machineName + " IPAddress is " + ipAddress);
                 }
 
                 var encUrlMsg = HttpUtility.UrlEncode(
@@ -3673,18 +3694,18 @@ namespace Pawn.Logic
                     md5Msg);
 
                 var encMacName = HttpUtility.UrlEncode(
-                    md5Msg + 
-                    StringUtilities.ConverByteArrayToHexString(Encoding.Default.GetBytes(machineName)) + 
+                    md5Msg +
+                    StringUtilities.ConverByteArrayToHexString(Encoding.Default.GetBytes(machineName)) +
                     md5Msg);
-                
+
                 var encIpAddress = HttpUtility.UrlEncode(
-                    md5Msg + 
-                    StringUtilities.ConverByteArrayToHexString(Encoding.Default.GetBytes(ipAddress)) + 
+                    md5Msg +
+                    StringUtilities.ConverByteArrayToHexString(Encoding.Default.GetBytes(ipAddress)) +
                     md5Msg);
 
                 procHandle.StartInfo.FileName = iePath.FullName;
                 procHandle.StartInfo.CreateNoWindow = true;
-                procHandle.StartInfo.Arguments = 
+                procHandle.StartInfo.Arguments =
                     string.Format("\"{0}&AUTHID={1}&MACNAME={2}&IPADDR={3}&EMSG={4}\"", GlobalDataAccessor.Instance.CashlinxPDAURL, encUrlMsg, encMacName, encIpAddress, md5Msg);
 
 
@@ -3716,54 +3737,41 @@ namespace Pawn.Logic
         /// <summary>
         /// 
         /// </summary>
-/*        public bool beginTransactionBlock()
-        {
-            if (GlobalDataAccessor.Instance.OracleDA == null || GlobalDataAccessor.Instance.OracleDA.Initialized != true)
-            {
-                var errMsg = string.Format("Oracle data accessor is invalid or not initialized!");
-                if (FileLogger.Instance.IsLogFatal)
+        /*        public bool beginTransactionBlock()
                 {
-                    FileLogger.Instance.logMessage(LogLevel.FATAL, this, errMsg);
-                }
-                BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
-                return(false);
-            }
-            if (!GlobalDataAccessor.Instance.OracleDA.StartTransactionBlock(IsolationLevel.ReadCommitted, null))
-            {
-                var errMsg = string.Format("Cannot start a database transaction block");
-                if (FileLogger.Instance.IsLogFatal)
-                {
-                    FileLogger.Instance.logMessage(LogLevel.FATAL, this, errMsg);
-                }                
-                BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
-                return (false);
-            }
-            //If we get here, the transaction block was successfully started
-            return (true);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="eType"></param>
-        public bool endTransactionBlock(EndTransactionType eType)
-        {
-            if (GlobalDataAccessor.Instance.OracleDA == null || GlobalDataAccessor.Instance.OracleDA.Initialized != true)
-            {
-                string errMsg = string.Format("Cannot end transaction block with a {0} - database accessor is invalid or not initialized", eType);
-                if (FileLogger.Instance.IsLogFatal)
-                {
-                    FileLogger.Instance.logMessage(LogLevel.FATAL, this, errMsg);
-                }
-                BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
-                return (false);
-            }
-            switch (eType)
-            {
-                case EndTransactionType.COMMIT:
-                    if (!GlobalDataAccessor.Instance.OracleDA.commitTransactionBlock(null))
+                    if (GlobalDataAccessor.Instance.OracleDA == null || GlobalDataAccessor.Instance.OracleDA.Initialized != true)
                     {
-                        string errMsg = string.Format("Cannot end transaction block - database commit operation failed");
+                        var errMsg = string.Format("Oracle data accessor is invalid or not initialized!");
+                        if (FileLogger.Instance.IsLogFatal)
+                        {
+                            FileLogger.Instance.logMessage(LogLevel.FATAL, this, errMsg);
+                        }
+                        BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
+                        return(false);
+                    }
+                    if (!GlobalDataAccessor.Instance.OracleDA.StartTransactionBlock(IsolationLevel.ReadCommitted, null))
+                    {
+                        var errMsg = string.Format("Cannot start a database transaction block");
+                        if (FileLogger.Instance.IsLogFatal)
+                        {
+                            FileLogger.Instance.logMessage(LogLevel.FATAL, this, errMsg);
+                        }                
+                        BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
+                        return (false);
+                    }
+                    //If we get here, the transaction block was successfully started
+                    return (true);
+                }
+
+                /// <summary>
+                /// 
+                /// </summary>
+                /// <param name="eType"></param>
+                public bool endTransactionBlock(EndTransactionType eType)
+                {
+                    if (GlobalDataAccessor.Instance.OracleDA == null || GlobalDataAccessor.Instance.OracleDA.Initialized != true)
+                    {
+                        string errMsg = string.Format("Cannot end transaction block with a {0} - database accessor is invalid or not initialized", eType);
                         if (FileLogger.Instance.IsLogFatal)
                         {
                             FileLogger.Instance.logMessage(LogLevel.FATAL, this, errMsg);
@@ -3771,23 +3779,36 @@ namespace Pawn.Logic
                         BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
                         return (false);
                     }
-                    break;
-                case EndTransactionType.ROLLBACK:
-                    if (!GlobalDataAccessor.Instance.OracleDA.rollbackTransactionBlock(null))
+                    switch (eType)
                     {
-                        string errMsg = string.Format("Cannot end transaction block - database rollback operation failed");
-                        if (FileLogger.Instance.IsLogFatal)
-                        {
-                            FileLogger.Instance.logMessage(LogLevel.FATAL, this, errMsg);
-                        }
-                        BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
-                        return (false);
+                        case EndTransactionType.COMMIT:
+                            if (!GlobalDataAccessor.Instance.OracleDA.commitTransactionBlock(null))
+                            {
+                                string errMsg = string.Format("Cannot end transaction block - database commit operation failed");
+                                if (FileLogger.Instance.IsLogFatal)
+                                {
+                                    FileLogger.Instance.logMessage(LogLevel.FATAL, this, errMsg);
+                                }
+                                BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
+                                return (false);
+                            }
+                            break;
+                        case EndTransactionType.ROLLBACK:
+                            if (!GlobalDataAccessor.Instance.OracleDA.rollbackTransactionBlock(null))
+                            {
+                                string errMsg = string.Format("Cannot end transaction block - database rollback operation failed");
+                                if (FileLogger.Instance.IsLogFatal)
+                                {
+                                    FileLogger.Instance.logMessage(LogLevel.FATAL, this, errMsg);
+                                }
+                                BasicExceptionHandler.Instance.AddException(errMsg, new ApplicationException(errMsg));
+                                return (false);
+                            }
+                            break;
                     }
-                    break;
-            }
 
-            return (true);
-        }*/
+                    return (true);
+                }*/
 
         public override void DeviceArrivedEventHandler(object sender, USBUtilities.DriveDetectorEventArgs e)
         {
@@ -4023,7 +4044,7 @@ namespace Pawn.Logic
                                                 sPrinterModel,
                                                 BarcodePrinter.IPAddress,
                                                 (uint)BarcodePrinter.Port, GlobalDataAccessor.Instance.DesktopSession);
-                    
+
                     string sErrorCode;
                     string sErrorText = "Success";
                     intermecBarcodeTagPrint.PrintTag(ShopDateTime.Instance.ShopDate,
@@ -4049,7 +4070,7 @@ namespace Pawn.Logic
                             sReprintErrorText = "Tag Reprint Success";
                         fileLogger.logMessage(LogLevel.INFO, this, sReprintErrorText);
                     }
-                  
+
                 }
 
             }
@@ -4111,7 +4132,7 @@ namespace Pawn.Logic
             instance.TotalPickupAmount = 0;
             instance.TotalRenewalAmount = 0;
             instance.CustomerValidated = false;
-            
+
         }
 
         //Breaks scanned in text into user name and password.  Scanned text must meet
@@ -4144,9 +4165,9 @@ namespace Pawn.Logic
                 userNameControl.Text = decryptedStr.Substring(0, sepIdx);
                 passwordControl.Text = decryptedStr.Substring(sepIdx + 1);
                 submitBtn.Focus();
-                
-                
-                
+
+
+
             }
             catch (Exception eX)
             {
@@ -4237,7 +4258,7 @@ namespace Pawn.Logic
 
         public override void Dispose()
         {
-            
+
         }
 
     }

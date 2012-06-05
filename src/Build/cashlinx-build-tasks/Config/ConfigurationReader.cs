@@ -46,6 +46,10 @@ namespace Cashlinx.Build.Tasks.Config
                 {
                     settingsNode.FirstChild.InnerText = settings.PawnSecDBUser;
                 }
+                else if (settingsNode.Attributes["name"].Value == "prodEnv")
+                {
+                    settingsNode.FirstChild.InnerText = settings.DstrProdEnv;
+                }
             }
 
             StringBuilder sb = null;

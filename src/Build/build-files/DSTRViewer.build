@@ -67,6 +67,9 @@
   <target name="__deploy.dstr.viewer.to.staging.hash.validation">
     <call target="__ensure.dstr.viewer.assembly.version" />
     <md5Validator hashfile="${deploy.dstr.viewer.staging.dir}\digestDSTRViewer_${dstr.viewer.assembly.version.short}.txt" basepath="${deploy.dstr.viewer.staging.dir}\c" />
+    <if test="${include.environment.staging}">
+      <md5Validator hashfile="${deploy.dstr.viewer.staging.dir}\digestDSTRViewer_ENV.txt" basepath="${deploy.pawn.staging.dir}" skipextrafilescheck="true" />
+    </if>
   </target>
 
   <target name="__dist.dstr.viewer">
@@ -90,14 +93,14 @@
     <!--<configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXD" configkey="CLXD" application="DSTRViewer" />
     <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXD2" configkey="CLXD2" application="DSTRViewer" />
     <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXD3" configkey="CLXD3" application="DSTRViewer" />
-    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXI" configkey="CLXI" application="DSTRViewer" />
+    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXI" configkey="CLXI" application="DSTRViewer" />-->
     <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXP" configkey="CLXP" application="DSTRViewer" />
-    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXPG" configkey="CLXPG" application="DSTRViewer" />
+    <!--<configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXPG" configkey="CLXPG" application="DSTRViewer" />
     <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXPP" configkey="CLXPP" application="DSTRViewer" />
     <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXQ" configkey="CLXQ" application="DSTRViewer" />
     <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXR2" configkey="CLXR2" application="DSTRViewer" />
-    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXT" configkey="CLXT" application="DSTRViewer" />
-    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXT2" configkey="CLXT2" application="DSTRViewer" />-->
+    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXT" configkey="CLXT" application="DSTRViewer" />-->
+    <configwriter file="${dist.build.dir}\DSTRViewer.exe.config - CLXT2" configkey="CLXT2" application="DSTRViewer" />
   </target>
 
   <target name="__ensure.dstr.viewer.assembly.version">
@@ -109,9 +112,11 @@
   <target name="__generate.dstr.viewer.hash.list">
     <call target="__ensure.dstr.viewer.assembly.version"/>
     <property name="dist.output.hashlist.file" value="${dist.build.dir}\digestDSTRViewer_${dstr.viewer.assembly.version.short}.txt"/>
-    
+    <property name="dist.config.hashlist.file" value="${dist.build.dir}\digestDSTRViewer_ENV.txt"/>
     <writefile file="${dist.output.hashlist.file}" value="${Cashlinx::GenerateHashFileList(dist.dstr.viewer.dir, dist.build.dir + '\c\', '*.*', true)}"/>
-    
+    <if test="${include.environment.staging}">
+      <writefile file="${dist.config.hashlist.file}" value="${Cashlinx::GenerateHashFileList(dist.build.dir, dist.build.dir + '\','DSTRViewer.exe.config*', false)}"/>
+    </if>
   </target>
 
   <target name="__generate.dstr.viewer.sql.update.script">

@@ -67,6 +67,17 @@ namespace Pawn.Forms.Layaway
 
         private void btnBack_Click(object sender, EventArgs e)
         {
+            foreach (var layaway in this.EligibleLayaways)
+            {
+                string errorCode;
+                string errorText;
+                // Clear the temp status 
+                Common.Controllers.Database.RetailProcedures.SetLayawayTempStatus(layaway.TicketNumber,
+                                                      layaway.StoreNumber,
+                                                      "",
+                                                      out errorCode,
+                                                      out errorText);
+            }
             this.Close();
         }
 

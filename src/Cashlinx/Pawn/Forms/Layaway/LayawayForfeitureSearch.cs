@@ -234,6 +234,17 @@ namespace Pawn.Forms.Layaway
         void LayawayForfeitureResults_CancelRequested(object sender, EventArgs e)
         {
             LayawayForfeitureResults.Dispose();
+            foreach (var layaway in LayawayForfeitureResults.EligibleLayaways)
+            {
+                string errorCode;
+                string errorText;
+                // Clear the temp status 
+                RetailProcedures.SetLayawayTempStatus(layaway.TicketNumber,
+                                                      layaway.StoreNumber,
+                                                      "",
+                                                      out errorCode,
+                                                      out errorText);
+            }
             this.Close();
         }
 
@@ -248,6 +259,25 @@ namespace Pawn.Forms.Layaway
             {
                 MessageBox.Show("You can only complete Eligible layaways");
                 return;
+            }
+            
+            // Set this so the temp status can be cleared in the clear desktop session
+            if (CDS.ServiceLayaways == null)
+                CDS.ServiceLayaways = layaways;
+            else
+                CDS.ServiceLayaways.AddRange(layaways);
+            
+            // Clear the rest of the layaways
+            foreach (var layaway in LayawayForfeitureResults.EligibleLayaways.Except(layaways))
+            {
+                string errorCode;
+                string errorText;
+                // Clear the temp status 
+                RetailProcedures.SetLayawayTempStatus(layaway.TicketNumber,
+                                                      layaway.StoreNumber,
+                                                      "",
+                                                      out errorCode,
+                                                      out errorText);
             }
 
             LayawayForfeitureResults.Dispose();

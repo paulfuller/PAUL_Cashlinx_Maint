@@ -12,10 +12,14 @@
     <AssemblyName>Common</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName></SccProjectName>
-    <SccLocalPath></SccLocalPath>
-    <SccAuxPath></SccAuxPath>
-    <SccProvider></SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -154,6 +158,7 @@
     <Compile Include="Controllers\Database\PickingSlip.cs" />
     <Compile Include="Controllers\Database\PickingSlipHelper.cs" />
     <Compile Include="Controllers\Database\PrintUtilities.cs" />
+    <Compile Include="Controllers\Database\Procedures\AuditLogProcedures.cs" />
     <Compile Include="Controllers\Database\Procedures\BusinessRulesProcedures.cs" />
     <Compile Include="Controllers\Database\Procedures\CommonDataProcs.cs" />
     <Compile Include="Controllers\Database\Procedures\CPNHSProcedures.cs" />

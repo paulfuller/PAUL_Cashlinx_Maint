@@ -1205,6 +1205,8 @@ namespace Support.Forms.Customer.Products
             //var otherDetails = Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.GetPDLoanOtherDetails;
 
             this.lblCustomerSSNData.Text = Commons.FormatSSN(Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer.SocialSecurityNumber);
+            var CustVO = Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer;
+            LblCustNameDisplay.Text = CustVO.FirstName + " " + CustVO.MiddleInitial + " " + CustVO.LastName; ;
 //            this.lblCustomerSSNData.Text = Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer.SocialSecurityNumber;
             this.lblUWNameData.Text = Record.UWName;
 

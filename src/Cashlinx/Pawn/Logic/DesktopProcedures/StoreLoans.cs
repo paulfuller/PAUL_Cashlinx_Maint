@@ -497,134 +497,6 @@ namespace Pawn.Logic.DesktopProcedures
             return (true);
         }
 
-
-
-        public static bool ManagerOverrideReason(
-            DateTime overrideDateTime,
-            string storeNumber,
-            string overrideID,
-            ManagerOverrideTransactionType[] arManagerOverrideTransactionType,
-            ManagerOverrideType[] arManagerOverrideType,
-            decimal[] arSuggestedValue,
-            decimal[] arApprovedValue,
-            int[] arTransactionNumber,
-            string comment,
-            out string errorCode,
-            out string errorText)
-        {
-            //Set default output values
-            errorCode = string.Empty;
-            errorText = string.Empty;
-
-            //Verify that the accessor is valid
-            if (GlobalDataAccessor.Instance == null ||
-                !GlobalDataAccessor.Instance.IsDataAccessorValid())
-            {
-                errorCode = "ManagerOverrideReason";
-                errorText = "Invalid desktop session or data accessor instance";
-                BasicExceptionHandler.Instance.AddException("ManagerOverrideReason",
-                                                            new ApplicationException(
-                                                                "Cannot execute the Insert Override History stored procedure"));
-                return (false);
-            }
-
-            //Get data accessor object
-            OracleDataAccessor dA = GlobalDataAccessor.Instance.OracleDA;
-
-            //Create input list
-            List<OracleProcParam> inParams = new List<OracleProcParam>();
-
-            OracleProcParam pManagerOverrideTransType = new OracleProcParam(ParameterDirection.Input
-                                                                            , DataTypeConstants.PawnDataType.LISTSTRING
-                                                                            , "p_ovr_tran_cd"
-                                                                            , arManagerOverrideTransactionType.Length);
-            for (int i = 0; i < arManagerOverrideTransactionType.Length; i++)
-            {
-                pManagerOverrideTransType.AddValue(arManagerOverrideTransactionType[i].ToString());
-            }
-            inParams.Add(pManagerOverrideTransType);
-
-            OracleProcParam pManagerOverrideType = new OracleProcParam(ParameterDirection.Input
-                                                                       , DataTypeConstants.PawnDataType.LISTSTRING
-                                                                       , "p_ovr_sub_type_cd"
-                                                                       , arManagerOverrideType.Length);
-            for (int i = 0; i < arManagerOverrideType.Length; i++)
-            {
-                pManagerOverrideType.AddValue(arManagerOverrideType[i].ToString());
-            }
-            inParams.Add(pManagerOverrideType);
-
-            inParams.Add(new OracleProcParam("p_store_number", storeNumber));
-            inParams.Add(new OracleProcParam("p_override_by", overrideID));
-
-            OracleProcParam psuggestedvalue = new OracleProcParam(ParameterDirection.Input
-                                                                  , DataTypeConstants.PawnDataType.LISTFLOAT
-                                                                  , "p_sugg_value"
-                                                                  , arSuggestedValue.Length);
-            for (int i = 0; i < arSuggestedValue.Length; i++)
-            {
-                psuggestedvalue.AddValue(arSuggestedValue[i]);
-            }
-            inParams.Add(psuggestedvalue);
-
-            OracleProcParam papprovedvalue = new OracleProcParam(ParameterDirection.Input
-                                                                 , DataTypeConstants.PawnDataType.LISTFLOAT
-                                                                 , "p_appr_value"
-                                                                 , arApprovedValue.Length);
-            for (int i = 0; i < arApprovedValue.Length; i++)
-            {
-                papprovedvalue.AddValue(arApprovedValue[i]);
-            }
-            inParams.Add(papprovedvalue);
-
-            OracleProcParam ptrxnumber = new OracleProcParam(ParameterDirection.Input
-                                                             , DataTypeConstants.PawnDataType.LISTINT
-                                                             , "p_trx_number"
-                                                             , arTransactionNumber.Length);
-            for (var i = 0; i < arTransactionNumber.Length; i++)
-            {
-                ptrxnumber.AddValue(arTransactionNumber[i]);
-            }
-            inParams.Add(ptrxnumber);
-
-            inParams.Add(new OracleProcParam("p_trx_date", overrideDateTime));
-            inParams.Add(new OracleProcParam("p_user_id", GlobalDataAccessor.Instance.DesktopSession.UserName));
-            inParams.Add(new OracleProcParam("p_workstation_id", GlobalDataAccessor.Instance.CurrentSiteId.TerminalId));
-            inParams.Add(new OracleProcParam("p_ovr_comment", comment));
-
-            //Create output data set names
-            bool retVal = false;
-            try
-            {
-                DataSet outputDataSet = null;
-                retVal = dA.issueSqlStoredProcCommand(
-                    "ccsowner", "pawn_gen_procs", "insert_override_history",
-                    inParams, null, "o_return_code", "o_return_text",
-                    out outputDataSet);
-            }
-            catch (OracleException oEx)
-            {
-                errorCode = "ManagerOverrideReasonFailed";
-                errorText = "Invocation of insert_override_history stored proc failed";
-                BasicExceptionHandler.Instance.AddException("OracleException thrown when invoking insert_override_history stored proc", oEx);
-                return (false);
-            }
-
-            //See if retVal is false
-            if (retVal)
-            {
-                errorCode = "0";
-                errorText = string.Empty;
-                return (true);
-            }
-            else
-            {
-                errorCode = dA.ErrorCode;
-                errorText = dA.ErrorDescription;
-                return (true);
-            }
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -650,7 +522,6 @@ namespace Pawn.Logic.DesktopProcedures
             //Set default output values
             errorCode = string.Empty;
             errorText = string.Empty;
-            DataSet outputDataSet = null;
 
             //Verify that the accessor is valid
             if (GlobalDataAccessor.Instance.DesktopSession == null ||
@@ -689,9 +560,10 @@ namespace Pawn.Logic.DesktopProcedures
             inParams.Add(new OracleProcParam("p_created_by", GlobalDataAccessor.Instance.DesktopSession.UserName));
 
             //Create output data set names
-            bool retVal = false;
+            bool retVal;
             try
             {
+                DataSet outputDataSet;
                 retVal = dA.issueSqlStoredProcCommand(
                     "ccsowner", "PAWN_STORE_PROCS", "insert_loan_transition",
                     inParams, null, "o_error_code", "o_error_text",
@@ -1090,18 +962,18 @@ namespace Pawn.Logic.DesktopProcedures
 
         public static PawnLoan GetCurrentLoanFees(SiteId siteId, PawnLoan pawnLoan, out UnderwritePawnLoanVO underwritePawnLoanVO)
         {
-            decimal currentValue = 0.0M;
+            decimal currentValue;
 
             PawnLoan _PawnLoan = Utilities.CloneObject(pawnLoan);
             // call UnderWrite Pawn Loan
-            UnderwritePawnLoanUtility upw = new UnderwritePawnLoanUtility(GlobalDataAccessor.Instance.DesktopSession);
+            var upw = new UnderwritePawnLoanUtility(GlobalDataAccessor.Instance.DesktopSession);
             upw.RunUWP(siteId);
 
             underwritePawnLoanVO = upw.PawnLoanVO;
 
             // CL_PWN_0013_MININTAMT
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0013_MININTAMT", out currentValue);
-            Fee fee = new Fee()
+            Fee fee = new Fee
             {
                 FeeType = FeeTypes.MINIMUM_INTEREST,
                 Value = currentValue
@@ -1110,7 +982,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             // CL_PWN_0018_SETUPFEEAMT
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0018_SETUPFEEAMT", out currentValue);
-            fee = new Fee()
+            fee = new Fee
             {
                 FeeType = FeeTypes.SETUP,
                 Value = currentValue
@@ -1119,7 +991,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             // CL_PWN_0022_CITYFEEAMT
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0022_CITYFEEAMT", out currentValue);
-            fee = new Fee()
+            fee = new Fee
             {
                 FeeType = FeeTypes.CITY,
                 Value = currentValue
@@ -1128,7 +1000,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             // CL_PWN_0026_FIREARMFEEAMT
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0026_FIREARMFEEAMT", out currentValue);
-            fee = new Fee()
+            fee = new Fee
             {
                 FeeType = FeeTypes.FIREARM,
                 Value = currentValue
@@ -1137,7 +1009,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             // CL_PWN_0040_PFIMAILFEE
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0040_PFIMAILFEE", out currentValue);
-            fee = new Fee()
+            fee = new Fee
             {
                 FeeType = FeeTypes.MAILER_CHARGE,
                 Value = currentValue
@@ -1146,7 +1018,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             // CL_PWN_0101_LOANFEEAMT
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0101_LOANFEEAMT", out currentValue);
-            fee = new Fee()
+            fee = new Fee
             {
                 FeeType = FeeTypes.LOAN,
                 Value = currentValue
@@ -1155,7 +1027,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             // CL_PWN_0103_ORIGINFEEAMT
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0103_ORIGINFEEAMT", out currentValue);
-            fee = new Fee()
+            fee = new Fee
             {
                 FeeType = FeeTypes.ORIGIN,
                 Value = currentValue
@@ -1164,7 +1036,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             // CL_PWN_0104_ADMINFEEAMT
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0104_ADMINFEEAMT", out currentValue);
-            fee = new Fee()
+            fee = new Fee
             {
                 FeeType = FeeTypes.ADMINISTRATIVE,
                 Value = currentValue
@@ -1173,7 +1045,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             // CL_PWN_0105_INITCHGFEEAMT
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0105_INITCHGFEEAMT", out currentValue);
-            fee = new Fee()
+            fee = new Fee
             {
                 FeeType = FeeTypes.INITIAL,
                 Value = currentValue
@@ -1182,7 +1054,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             // CL_PWN_0106_PROCFEEAMT
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0106_PROCFEEAMT", out currentValue);
-            fee = new Fee()
+            fee = new Fee
             {
                 FeeType = FeeTypes.PROCESS,
                 Value = currentValue
@@ -1191,7 +1063,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             // CL_PWN_0115_PPCITYFEEAMT
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0115_PPCITYFEEAMT", out currentValue);
-            fee = new Fee()
+            fee = new Fee
             {
                 FeeType = FeeTypes.PREPAID_CITY,
                 Value = currentValue
@@ -1200,7 +1072,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             // CL_PWN_0030_STRGFEE
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0030_STRGFEE", out currentValue);
-            fee = new Fee()
+            fee = new Fee
             {
                 FeeType = FeeTypes.STORAGE,
                 Value = currentValue
@@ -1209,7 +1081,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             // CL_PWN_0033_MAXSTRGFEE
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0033_MAXSTRGFEE", out currentValue);
-            fee = new Fee()
+            fee = new Fee
             {
                 FeeType = FeeTypes.STORAGE_MAXIMUM,
                 Value = currentValue
@@ -1218,7 +1090,7 @@ namespace Pawn.Logic.DesktopProcedures
 
             // CL_PWN_0037_TICKETFEE
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0037_TICKETFEE", out currentValue);
-            fee = new Fee()
+            fee = new Fee
             {
                 FeeType = FeeTypes.TICKET,
                 Value = currentValue
@@ -1227,24 +1099,24 @@ namespace Pawn.Logic.DesktopProcedures
 
             // CL_PWN_0102_PREPFEEAMT
             underwritePawnLoanVO.feeDictionary.TryGetValue("CL_PWN_0102_PREPFEEAMT", out currentValue);
-            fee = new Fee()
+            fee = new Fee
             {
                 FeeType = FeeTypes.PREPARATION,
                 Value = currentValue
             };
             UpdatePawnLoanFee(_PawnLoan, fee);
 
-            BusinessRuleVO _BusinessRule = GlobalDataAccessor.Instance.DesktopSession.PawnBusinessRuleVO["PWN_BR-054"];
+            BusinessRuleVO businessRule = GlobalDataAccessor.Instance.DesktopSession.PawnBusinessRuleVO["PWN_BR-054"];
             var sComponentValue = string.Empty;
 
             if (sComponentValue.Equals("ROUNDED"))
             {
-                _BusinessRule.getComponentValue("CL_PWN_0021_APRCALCTODEC", ref sComponentValue);
+                businessRule.getComponentValue("CL_PWN_0021_APRCALCTODEC", ref sComponentValue);
                 underwritePawnLoanVO.APR = Math.Round(underwritePawnLoanVO.APR, Convert.ToInt32(sComponentValue));
             }
             else
             {
-                _BusinessRule.getComponentValue("CL_PWN_0025_APRCALCRNDFAC", ref sComponentValue);
+                businessRule.getComponentValue("CL_PWN_0025_APRCALCRNDFAC", ref sComponentValue);
             }
 
             return _PawnLoan;
@@ -1252,7 +1124,7 @@ namespace Pawn.Logic.DesktopProcedures
 
         private static void UpdatePawnLoanFee(PawnLoan pawnLoan, Fee fee)
         {
-            int iDx = pawnLoan.Fees.FindIndex(l => l.FeeType == fee.FeeType);
+            var iDx = pawnLoan.Fees.FindIndex(l => l.FeeType == fee.FeeType);
 
             if (iDx < 0)
                 pawnLoan.Fees.Add(fee);

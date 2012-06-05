@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="timeLimiter" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">300000</Value>
+      <Value Profile="(Default)">120000</Value>
     </Setting>
     <Setting Name="prodRestrict" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>

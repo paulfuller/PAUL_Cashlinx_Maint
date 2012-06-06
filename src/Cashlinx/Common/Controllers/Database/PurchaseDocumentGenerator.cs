@@ -1202,36 +1202,46 @@ namespace Common.Controllers.Database
                     new PdfPCell(new Phrase(@"ID", buyRptStore.StandardFont));
                     setDefault(ref identificationCell, 1, L);
                     pTable.AddCell(identificationCell);*/
+
+                    // Fixed INTG100015612 to include issuer, TLM 2010605
                     if (customPdfHandler.buyRptStore.IdentificationInfo != null)
                     {
                         if (customPdfHandler.buyRptStore.IdentificationInfo.IdType == "DRIVERLIC")
                         {
                             var idTextCell =
-                                new PdfPCell(new Phrase(@"DL", customPdfHandler.buyRptStore.StandardFont));
+                                new PdfPCell(new Phrase(@"DL-" + customPdfHandler.buyRptStore.IdentificationInfo.IdIssuerCode + '-' 
+                                    + customPdfHandler.buyRptStore.IdentificationInfo.IdValue, customPdfHandler.buyRptStore.StandardFont));
                             BuyPdfCustomHandler.setDefault(ref idTextCell, 1, L, customPdfHandler.buyRptStore.IsReturn, customPdfHandler.buyRptStore.IsVendor);
                             idTextCell.FixedHeight = lineHeight;
                             idTextCell.NoWrap = true;
                             idTextCell.BorderWidth = 0.0f;
+                            idTextCell.Colspan = 2;
                             innerIDTable.AddCell(idTextCell);
+
+
                         }
                         else
                         {
                             var idTextCell =
-                                new PdfPCell(new Phrase(@"ID", customPdfHandler.buyRptStore.StandardFont));
+                                new PdfPCell(new Phrase(@"ID-" + customPdfHandler.buyRptStore.IdentificationInfo.IdIssuerCode + '-'
+                                    + customPdfHandler.buyRptStore.IdentificationInfo.IdValue, customPdfHandler.buyRptStore.StandardFont));
                             BuyPdfCustomHandler.setDefault(ref idTextCell, 1, L, customPdfHandler.buyRptStore.IsReturn, customPdfHandler.buyRptStore.IsVendor);
                             idTextCell.FixedHeight = lineHeight;
                             idTextCell.NoWrap = true;
                             idTextCell.BorderWidth = 0.0f;
+                            idTextCell.Colspan = 2;
                             innerIDTable.AddCell(idTextCell);
                             //if(buyRptStore.IdentificationInfo.
                         }
-                        var idCell =
-                            new PdfPCell(new Phrase(customPdfHandler.buyRptStore.IdentificationInfo.IdValue, customPdfHandler.buyRptStore.StandardFont));
+                        /*
+                        var idCell = new PdfPCell(new Phrase(string.Empty, customPdfHandler.buyRptStore.StandardFont));
 
                         BuyPdfCustomHandler.setDefault(ref idCell, 1, L, customPdfHandler.buyRptStore.IsReturn, customPdfHandler.buyRptStore.IsVendor);
                         idCell.FixedHeight = lineHeight;
                         idCell.NoWrap = true;
                         innerIDTable.AddCell(idCell);
+                        
+                      */
                         pTable.AddCell(innerIDTable);
                     }
                 }

@@ -6,22 +6,22 @@
 Scenario Template: Typed three letters
 	Given I have entered <first_two_chars>
 	When I press <third_char>
-	Then the typeahead options should include <typeahead_option>
+	Then the autocomplete suggestions should include <autocomplete_suggestion>
 Examples:
-	| first_two_chars | third_char | typeahead_option |
-	| ya              | m          | Yamaha           |
+	| first_two_chars | third_char | autocomplete_suggestion |
+	| ya              | m          | Yamaha                  |
 
 Scenario Template: Typed two letters
 	Given I have entered <first_char>
 	When I press <second_char>
-	Then the typeahead options should be empty
+	Then the autocomplete suggestions should be empty
 Examples:
 	| first_two_chars | third_char |
 	| y               | a          |
 
 Scenario Template: More than one answer
 	Given I have entered <three_chars>
-	Then there should be <n> typeahead options
+	Then there should be <n> autocomplete suggestions
 Examples:
 	| three_chars | n |
 	| yam         | 1 |
@@ -31,4 +31,4 @@ Scenario: Functionality capture
 	Given a find box
 	And a refactored find box
 	When I enter every permutation of 3 characters
-	Then the typeahead options should be the same
+	Then the autocomplete suggestions should be the same

@@ -171,7 +171,7 @@ namespace PawnTests
             Assert.AreEqual(372.66M, Math.Round(PfiPickupCalculator.PickupAmount, 2));
         }
 
-        [Test]
+        //[Test]
         public void TestTicket115416_1()
         {
             /**********************************************/
@@ -212,7 +212,7 @@ namespace PawnTests
             Assert.AreEqual(85.34M, Math.Round(PfiPickupCalculator.PickupAmount, 2));
         }
 
-        [Test]
+        //[Test]
         public void TestTicket115416_2()
         {
             /**********************************************/

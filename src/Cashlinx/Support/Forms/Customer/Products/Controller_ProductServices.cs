@@ -124,8 +124,8 @@ namespace Support.Forms.Customer.Products
         private bool ticketSearched;
         private string lastLayawayPayment = string.Empty;
         private readonly string DECLINE_VALUE = "DECLINED";
-        private readonly string LOAN_STATUS = "Change Loan Staus";
-        private readonly string UNDO_LOAN_STATUS = "Undo Loan Staus";
+        private readonly string LOAN_STATUS = "Change Loan Status";
+        private readonly string UNDO_LOAN_STATUS = "Undo Loan Status";
         private readonly string CLOSED_STATUS = "CLOSED";
         private readonly string OPEN_STATUS = "OPEN";
         private readonly string DEFAULT_STATUS = "DEFAULT";

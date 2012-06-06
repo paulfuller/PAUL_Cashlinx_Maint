@@ -229,6 +229,7 @@
     </Compile>
     <Compile Include="Libraries\Forms\ChargeOffContext.cs" />
     <Compile Include="Libraries\Forms\ChargeOffEventArgs.cs" />
+    <Compile Include="Libraries\Forms\Components\Behaviors\AutoCompleter.cs" />
     <Compile Include="Libraries\Forms\Components\Behaviors\ControlHighlighter.cs" />
     <Compile Include="Libraries\Forms\Components\CalendarCell.cs" />
     <Compile Include="Libraries\Forms\Components\CalendarCell.Designer.cs">
@@ -358,6 +359,12 @@
     </Compile>
     <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\AlternateManufacturer.Designer.cs">
       <DependentUpon>AlternateManufacturer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\NewFindMerchandise.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\NewFindMerchandise.designer.cs">
+      <DependentUpon>NewFindMerchandise.cs</DependentUpon>
     </Compile>
     <Compile Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeItem.cs">
       <SubType>Form</SubType>
@@ -849,6 +856,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\AlternateManufacturer.resx">
       <DependentUpon>AlternateManufacturer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\NewFindMerchandise.resx">
+      <DependentUpon>NewFindMerchandise.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Libraries\Forms\Pawn\Products\DescribeMerchandise\DescribeItem.resx">
       <DependentUpon>DescribeItem.cs</DependentUpon>

@@ -58,7 +58,7 @@ namespace CommonTests.Libraries.Pawn.Products.DescribeMerchandise
 
         }
 
-        private void DoSomethingSTA(IAutoCompleter completer, Action<IAutoCompleter> action)
+        private void STAAction(IAutoCompleter completer, Action<IAutoCompleter> action)
         {
             var t = new Thread(() => action(completer));
             t.SetApartmentState(ApartmentState.STA);
@@ -67,23 +67,23 @@ namespace CommonTests.Libraries.Pawn.Products.DescribeMerchandise
         }
 
         [Given("I have entered (.*)")]
-        public void given_I_have_entered(string first)
+        public void given_I_have_entered(string text)
         {
             Action<IAutoCompleter> setText = b =>
             {
-                b.Entry.Text = first;
+                b.Entry.Text = text;
             };
 
-            DoSomethingSTA(_old, setText);
-            DoSomethingSTA(_new, setText);
+            STAAction(_old, setText);
+            STAAction(_new, setText);
         }
 
         [When("I press (.*)")]
         public void when_I_press(string key)
         {
             Action<IAutoCompleter> appendText = b => b.Entry.AppendText(key);
-            DoSomethingSTA(_old, appendText);
-            DoSomethingSTA(_new, appendText);
+            STAAction(_old, appendText);
+            STAAction(_new, appendText);
         }
 
         [Then("the autocomplete suggestions should include (.*)")]
@@ -92,8 +92,9 @@ namespace CommonTests.Libraries.Pawn.Products.DescribeMerchandise
             Func<IAutoCompleter, bool> suggestionsContains =
                 b => b.Suggestions.Items.Contains(result);
 
-            Assert.IsTrue(suggestionsContains(_old), result + " was not there");
-            Assert.IsTrue(suggestionsContains(_new), result + " was not there");
+            var error = result + " was not there";
+            Assert.IsTrue(suggestionsContains(_old), error);
+            Assert.IsTrue(suggestionsContains(_new), error);
         }
 
         [Then("there should be (.*) autocomplete suggestions")]

@@ -27,6 +27,12 @@ Examples:
 	| yam         | 1 |
 	| glp         | 0 |
 
+Scenario: Clicking a suggestion in the suggestion window 
+	Given a find box
+	When I have entered yam
+	And I click the top suggestion
+	Then search text is Yamaha
+
 Scenario: Functionality capture
 	Given a find box
 	And a refactored find box

@@ -116,7 +116,7 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 pPmnt.PMT_PRIN_AMT = principalAmt;
                 pPmnt.PMT_SERV_AMT = totalServAmt;
                 pPmnt.CUR_AMOUNT = currentPrincipal - principalAmt;
-                pPmnt.CUR_FIN_CHG = uwVO.totalFinanceCharge;
+                pPmnt.CUR_FIN_CHG = Math.Round(uwVO.totalFinanceCharge,2);
                 pPmnt.Cur_Int_Pct = Math.Round(uwVO.APR,2);
                 if (storageFeeAllowed != 0)
                 {
@@ -126,7 +126,7 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                 }
                 else
                 {
-                    pPmnt.Cur_Srv_Chg=(pPmnt.CUR_AMOUNT * uwVO.feeDictionary["CL_PWN_0010_SVCCHRGRATE"])/100;
+                    pPmnt.Cur_Srv_Chg=Math.Round((pPmnt.CUR_AMOUNT * uwVO.feeDictionary["CL_PWN_0010_SVCCHRGRATE"])/100,2);
                 }
                 pPmnt.Cur_Term_Fin = Utilities.GetIntegerValue(Math.Floor(100 * uwVO.totalFinanceCharge));
                 pPmnt.Status_cde = "New";

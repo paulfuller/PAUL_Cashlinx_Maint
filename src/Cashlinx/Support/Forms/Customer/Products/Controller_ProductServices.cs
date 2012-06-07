@@ -3068,6 +3068,7 @@ namespace Support.Forms.Customer.Products
                             if (iDx >= 0)
                             {
                                 pdLoan = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx];
+                                CelMouseUpActions(e.RowIndex, e.ColumnIndex);
                                 Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan = pdLoan;
                             }
                             ChangeControlStatus(false);

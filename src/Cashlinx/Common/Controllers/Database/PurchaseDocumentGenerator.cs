@@ -186,8 +186,8 @@ namespace Common.Controllers.Database
                      (this.IsVendor ? @"Vendor Buy" : @"Customer Buy"));
                 this.BuyReportTitle =
                     @"Merchandise " +
-                    (this.IsReturn ? @"Return" :
-                     (this.IsVendor ? @"Purchase (Vendor)" : @"Purchase"));
+                    (this.IsReturn ? @"Return Receipt" :
+                     (this.IsVendor ? @"Purchase(Vendor) Receipt" : @"Purchase Receipt"));
                 this.DiscloseStatement =
                     @"This instrument evidences the " +
                     (this.IsReturn ? @"return" : @"sale") +

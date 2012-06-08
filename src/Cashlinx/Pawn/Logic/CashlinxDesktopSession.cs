@@ -699,8 +699,6 @@ namespace Pawn.Logic
 #endif
 
 #if !__MULTI__
-            procMsgFormPwd = new ProcessingMessage("* INITIALIZING APPLICATION *");
-            procMsgFormPwd.Show();
             // Set up the History Session Object
             HistorySession = new HistoryTrack(deskForm);
             // Set CashlinxDesktopSession's desktop form
@@ -710,6 +708,9 @@ namespace Pawn.Logic
 
             //Initialize the force close timer
             InitForceCloseTimer();
+            procMsgFormPwd = new ProcessingMessage("* INITIALIZING APPLICATION *");
+            procMsgFormPwd.Show();
+
 
 #endif
             // Load barcode formats during startup until Admin section created
@@ -2435,7 +2436,7 @@ namespace Pawn.Logic
                     {
                         ShowInfoMessageForSpecifiedTime("Cashlinx Force Closure",
                                                         "The store will be automatically forced close in " + diff.Minutes + " minutes. " +
-                                                        System.Environment.NewLine, 5, deskForm);
+                                                        System.Environment.NewLine, 10, deskForm);
                         this.ForceCloseMessageShown = true;
                     }
                     else if (diff.Minutes == 0 && diff.Seconds >= 0)
@@ -2519,6 +2520,7 @@ namespace Pawn.Logic
                 msg +
                 System.Environment.NewLine +
                 " This window will automatically close in " + cnt + " seconds.";
+         
                 if (!shownAlready)
                 {
                     iDialog.Show(owner);
@@ -2533,7 +2535,7 @@ namespace Pawn.Logic
                 else
                 {
                     break;
-                }
+               }
                 //Wait one second, then update
                 Utilities.WaitMillis(1000);
                 cnt--;

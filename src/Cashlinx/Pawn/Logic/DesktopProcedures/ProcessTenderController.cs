@@ -9637,6 +9637,8 @@ namespace Pawn.Logic.DesktopProcedures
                 }
             }
 
+            decimal refundSaleHeaderAmt = currentSale.RefNumber == 0 ? currentSale.Amount + totalCouponAmount : currentSale.Amount;
+
             //Start transaction block
             GlobalDataAccessor.Instance.DesktopSession.beginTransactionBlock();
 
@@ -9656,7 +9658,7 @@ namespace Pawn.Logic.DesktopProcedures
                                                                currentSale.SalesTaxAmount.ToString(),
                                                                GlobalDataAccessor.Instance.DesktopSession.CashDrawerName,
                                                                "REFUND",
-                                                               (currentSale.Amount + totalCouponAmount).ToString(),
+                                                               refundSaleHeaderAmt.ToString(),
                                                                currentSale.ShippingHandlingCharges.ToString(),
                                                                jewelryCase,
                                                                custDispIdNum, custDispIdType, custDispIDCode,

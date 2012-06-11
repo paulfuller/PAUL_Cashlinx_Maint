@@ -30,12 +30,5 @@
 
         #endregion
 
-        private System.Windows.Forms.Label LblCategory;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label ReasonTypeDisplay;
-        private System.Windows.Forms.Label ReasonCodeDisplay;
-        private System.Windows.Forms.Label DescriptionDisplay;
     }
 }

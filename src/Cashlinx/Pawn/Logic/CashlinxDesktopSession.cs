@@ -1528,7 +1528,7 @@ namespace Pawn.Logic
                         if (errorCode != "100")
                         {
 
-                            MessageBox.Show("There is a cashdrawer event in progress. Please complete that operation first");
+                            MessageBox.Show(cdEvent.ToUpper() + " transaction is in process on " + wrkId + ". Please complete that operation first");
                             checkPassed = false;
                             return;
                         }

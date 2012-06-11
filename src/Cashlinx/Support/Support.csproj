@@ -491,6 +491,12 @@
     <Compile Include="Forms\ReprintTag.designer.cs">
       <DependentUpon>ReprintTag.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ShopAdmin\Products\DescribeMerchandise\GunLookup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ShopAdmin\Products\DescribeMerchandise\GunLookup.Designer.cs">
+      <DependentUpon>GunLookup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SocialSecurityNumber.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -809,6 +815,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ReprintTag.resx">
       <DependentUpon>ReprintTag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ShopAdmin\Products\DescribeMerchandise\GunLookup.resx">
+      <DependentUpon>GunLookup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SocialSecurityNumber.resx">
       <DependentUpon>SocialSecurityNumber.cs</DependentUpon>

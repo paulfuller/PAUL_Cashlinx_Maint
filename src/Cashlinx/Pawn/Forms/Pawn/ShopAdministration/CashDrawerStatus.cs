@@ -81,7 +81,7 @@ namespace Pawn.Forms.Pawn.ShopAdministration
                         if (errorCode != "100")
                         {
 
-                            MessageBox.Show(cdEvent + " transaction is in process on " + wrkId + ". Please complete that operation first");
+                            MessageBox.Show(cdEvent.ToUpper() + " transaction is in process on " + wrkId + ". Please complete that operation first");
                             
                             return;
                         }
@@ -112,6 +112,8 @@ namespace Pawn.Forms.Pawn.ShopAdministration
                 string workstationID = SecurityAccessor.Instance.EncryptConfig.ClientConfig.ClientConfiguration.WorkstationId;
                 ShopCashProcedures.RemoveTellerEvent(GlobalDataAccessor.Instance.DesktopSession.BalanceOtherCashDrawerID, workstationID, out errorCode, out errorMesg);
             }
+            GlobalDataAccessor.Instance.DesktopSession.BalanceOtherCashDrawerID = string.Empty;
+            GlobalDataAccessor.Instance.DesktopSession.BalanceOtherCashDrawerName = string.Empty;
             this.Close();
         }
 

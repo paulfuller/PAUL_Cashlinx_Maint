@@ -12,6 +12,7 @@ using Common.Libraries.Forms;
 using Common.Libraries.Utility.Logger;
 using Common.Libraries.Utility.String;
 using Support.Forms.HardwareConfig;
+using Support.Forms.ShopAdmin.EditGunBook;
 using Support.Logic;
 
 namespace Support.Forms
@@ -268,19 +269,21 @@ namespace Support.Forms
                 }
                 else if (functionalityName.Equals("hardware", StringComparison.OrdinalIgnoreCase))
                 {
+                    GunBookSearch search = new GunBookSearch();
+                    search.ShowDialog();
                     //Need Hardware_Config.cs
                     //var myHardware = new HardwareConfig.Hardware_Config();
-                    var frm_get_shop = new FrmGetShop(CashlinxPawnSupportSession.Instance);
-                    DialogResult shopResult = frm_get_shop.ShowDialog();
-                    if (shopResult == DialogResult.OK)
-                    {
-                        Hardware_Config.Instance.StoreID = frm_get_shop.StoreGuid;
-                        Hardware_Config.Instance.StoreNumber = frm_get_shop.StoreNumber;
-                        var frm_hardware_config = new HardwareConfig.FrmConfig();       // myHardware);
-                        frm_hardware_config.ShowDialog();
+                    //var frm_get_shop = new FrmGetShop(CashlinxPawnSupportSession.Instance);
+                    //DialogResult shopResult = frm_get_shop.ShowDialog();
+                    //if (shopResult == DialogResult.OK)
+                    //{
+                    //    Hardware_Config.Instance.StoreID = frm_get_shop.StoreGuid;
+                    //    Hardware_Config.Instance.StoreNumber = frm_get_shop.StoreNumber;
+                    //    var frm_hardware_config = new HardwareConfig.FrmConfig();       // myHardware);
+                    //    frm_hardware_config.ShowDialog();
                         
-                    }                    
-                    this.handleEndFlow(null);
+                    //}                    
+                    //this.handleEndFlow(null);
                     rt = true;
                 }
                 else

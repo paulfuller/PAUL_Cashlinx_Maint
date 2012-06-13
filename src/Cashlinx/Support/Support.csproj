@@ -78,6 +78,9 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Support, Version=3.1.3.0, Culture=neutral, PublicKeyToken=96ee59855084e05b, processorArchitecture=x86">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -299,6 +302,12 @@
     </Compile>
     <Compile Include="Forms\Customer\ProductTabs\SupportCustomerComments.Designer.cs">
       <DependentUpon>SupportCustomerComments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\GBUtilitiesPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\GBUtilitiesPanel.Designer.cs">
+      <DependentUpon>GBUtilitiesPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ReprintDocument.cs">
       <SubType>Form</SubType>
@@ -746,6 +755,9 @@
     <EmbeddedResource Include="Forms\Customer\ProductTabs\SupportCustomerComments.resx">
       <DependentUpon>SupportCustomerComments.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\GBUtilitiesPanel.resx">
+      <DependentUpon>GBUtilitiesPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ReprintDocument.resx">
       <DependentUpon>ReprintDocument.cs</DependentUpon>
     </EmbeddedResource>
@@ -1033,6 +1045,14 @@
     <Content Include="Resources\form_800_600.png" />
     <Content Include="Resources\form_800_700.png" />
     <Content Include="Resources\form_900_700.png" />
+    <None Include="Resources\gbedit_button_depressed.png" />
+    <None Include="Resources\gbedit_button_disabled.png" />
+    <None Include="Resources\gbedit_button_hover.png" />
+    <None Include="Resources\gbedit_button_normal.png" />
+    <None Include="Resources\gbutilities_button_depressed.png" />
+    <None Include="Resources\gbutilities_button_disabled.png" />
+    <None Include="Resources\gbutilities_button_hover.png" />
+    <None Include="Resources\gbutilities_button_normal.png" />
     <Content Include="Resources\hardware_button_depressed.png" />
     <Content Include="Resources\hardware_button_disabled.png" />
     <Content Include="Resources\hardware_button_hover.png" />

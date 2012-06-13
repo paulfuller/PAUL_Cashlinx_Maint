@@ -317,6 +317,21 @@ namespace Support.Forms.ShopAdmin.EditGunBook
                 GlobalDataAccessor.Instance.DesktopSession.DescribeItemContext = CurrentContext.GUNEDIT;
                 GlobalDataAccessor.Instance.DesktopSession.DescribeItemPawnItemIndex = 0;
 
+                var cdSession = CashlinxPawnSupportSession.Instance;
+                //cdSession.ResourceProperties.oldvistabutton_blue = Properties.Resources.oldvistabutton_blue;
+                cdSession.ResourceProperties.vistabutton_blue = Properties.Resources.vistabutton_blue;
+                cdSession.ResourceProperties.cl1 = Common.Properties.Resources.cl1;
+                cdSession.ResourceProperties.cl2 = Common.Properties.Resources.cl2;
+                cdSession.ResourceProperties.cl3 = Common.Properties.Resources.cl3;
+                cdSession.ResourceProperties.cl4 = Common.Properties.Resources.cl4;
+                cdSession.ResourceProperties.cl5 = Common.Properties.Resources.cl5;
+                cdSession.ResourceProperties.newDialog_400_BlueScale = Common.Properties.Resources.newDialog_400_BlueScale;
+                cdSession.ResourceProperties.newDialog_512_BlueScale = Common.Properties.Resources.newDialog_512_BlueScale;
+                cdSession.ResourceProperties.newDialog_600_BlueScale = Common.Properties.Resources.newDialog_600_BlueScale;
+
+                cdSession.ResourceProperties.OverrideMachineName = global::Support.Properties.Resources.OverrideMachineName;
+                cdSession.HistorySession.Trigger = Commons.TriggerTypes.GUNBOOKEDIT;
+
                 NavControlBox.IsCustom = true;
                 NavControlBox.CustomDetail = "DescribeMerchandise";
                 NavControlBox.Action = NavBox.NavAction.BACKANDSUBMIT;

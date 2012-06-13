@@ -186,6 +186,7 @@ namespace Support.Logic
             {
                 BasicExceptionHandler.Instance.AddException("Error retrieving start up data from the database", new ApplicationException(ex.Message));
             }
+            PopulateCategoryXML();
             procMsgFormPwd.Hide();
             CashlinxPawnSupportSession.instance.PerformAuthorization();
             GetPickListValues();
@@ -226,6 +227,21 @@ namespace Support.Logic
         }
         #endregion
         #region MISC METHODS
+
+        // Until Admin section created, load the barcode formats during startup
+        private void PopulateCategoryXML()
+        {
+            CategoryXML = new CategoryNode();
+            CategoryXML.Setup();
+            if (CategoryXML.Error)
+            {
+                FileLogger.Instance.logMessage(LogLevel.ERROR, this, "Was not able to load the Categories from Category XML!");
+#if !__MULTI__
+                BasicExceptionHandler.Instance.AddException("PopulateCategoryXML", new ApplicationException("Cannot load Categories from Category XML during StartUp. [" + CategoryXML.ErrorMessage + "]"));
+#endif
+            }
+        }
+
         //public System.Windows.Forms.Form.Screen MainWindowScreenBoundry { get; set; }
 
         public int xPosition { get; set; }

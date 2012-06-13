@@ -83,6 +83,14 @@ namespace Support.Forms
                     this.cashlinxAdminPanel2.SendToBack();
                 }
 
+                if (this.gbUtilitiesPanel.Enabled)
+                {
+                    this.gbUtilitiesPanel.Enabled = false;
+                    this.gbUtilitiesPanel.Visible = false;
+                    this.gbUtilitiesPanel.ButtonControllers.resetGroupInitialState();
+                    this.gbUtilitiesPanel.SendToBack();
+                }
+
                 //CashlinxPawnSupportSession.Instance.LoggedInUserSecurityProfile = new UserVO();
                 //CashlinxPawnSupportSession.Instance.ClearLoggedInUser();
 
@@ -334,7 +342,8 @@ namespace Support.Forms
                             this.shopAdminMenuPanel,
                             this.systemAdminMenuPanel,
                             this.configMenuPanel2,
-                            this.cashlinxAdminPanel2
+                            this.cashlinxAdminPanel2,
+                            this.gbUtilitiesPanel
                     };
 
             //Center all panels
@@ -487,6 +496,31 @@ namespace Support.Forms
         }
 
 
+        public void gbUtilitiesMenuPanel_EnabledChanged(object sender, EventArgs e)
+        {
+            if (this.resetFlag)
+                return;
+            //we only care about this event if the panel is being disabled
+            if (this.gbUtilitiesPanel.Enabled == false)
+            {
+                //Disable panel visibility
+                this.gbUtilitiesPanel.Visible = false;
+                this.gbUtilitiesPanel.SendToBack();
+                this.gbUtilitiesPanel.Update();
+
+                //Get menu controller from sender
+                if (!this.triggerNextEvent(this.gbUtilitiesPanel.MenuController))
+                {
+                    //Failure occurred - restore menu
+                    this.gbUtilitiesPanel.Visible = true;
+                    this.gbUtilitiesPanel.Enabled = true;
+                    this.gbUtilitiesPanel.BringToFront();
+                    this.gbUtilitiesPanel.ButtonControllers.resetGroupInitialState();
+                    this.gbUtilitiesPanel.Update();
+                }
+            }
+        }
+
         public void CustomerServiceMenuPanel_EnabledChanged(object sender, EventArgs e)
         {
             if (this.resetFlag)
@@ -511,7 +545,6 @@ namespace Support.Forms
                 }
             }
         }
-
 
         public void userAdminMenuPanel_EnabledChanged(object sender, EventArgs e)
         {

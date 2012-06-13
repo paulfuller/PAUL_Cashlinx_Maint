@@ -11,6 +11,7 @@ using Common.Libraries.Utility.Shared;
 using Support.Flows.AppController.Impl.Common;
 using Support.Forms.Customer.ItemHistory;
 using Support.Forms.Customer.Products.ProductHistory;
+using Support.Forms.ShopAdmin.EditGunBook;
 using Support.Libraries.Forms;
 using Support.Forms.Customer.Products;
 using Support.Forms.Customer;
@@ -80,6 +81,10 @@ namespace Support.Flows.AppController.Impl
             Controller_ItemHistory,
             Controller_Stats,
             PDLoanOtherDetails,
+            GunBookEditBlock,
+            CustReplaceBlock,
+            DescribeItemBlock,
+            DescribeMerchandiseBlock,
             ExtendedDepositDate
         }
         /// <summary>
@@ -940,6 +945,121 @@ namespace Support.Flows.AppController.Impl
     } 
 }
 */
+
+        /// <summary>
+        /// Create a block to show gun book search form
+        /// </summary>
+        /// <returns></returns>
+        public ShowForm GunBookSearchFormBlock(
+            Form parentForm,
+            NavBox.NavBoxActionFired fxn)
+        {
+            GunBookSearch gunBookSearchFrm = new GunBookSearch();
+            ShowForm gunBookSearchBlk =
+                this.createShowFormBlock(
+                    (uint)ValidFormBlockTypes.GunBookEditBlock,
+                    parentForm,
+                    gunBookSearchFrm,
+                    gunBookSearchFrm.NavControlBox,
+                    fxn);
+            return (gunBookSearchBlk);
+        }
+
+        /// <summary>
+        /// Create and return a showform block for Describe merchandise form
+        /// </summary>
+        /// <param name="parentForm"></param>
+        /// <param name="fxn"></param>
+        /// <returns></returns>
+        public ShowForm DescribeMerchandiseGunEditBlock(
+            Form parentForm,
+            NavBox.NavBoxActionFired fxn)
+        {
+            DescribeMerchandise descMerchFrm = new DescribeMerchandise(GlobalDataAccessor.Instance.DesktopSession, CurrentContext.GUNEDIT);
+            ShowForm describeMerchBlk =
+                this.createShowFormBlock(
+                    (uint)ValidFormBlockTypes.DescribeMerchandiseBlock,
+                    parentForm,
+                    descMerchFrm,
+                    descMerchFrm.NavControlBox,
+                    fxn);
+            return (describeMerchBlk);
+
+        }
+        public ShowForm DescribeItemBlock(
+    Form parentForm,
+    NavBox.NavBoxActionFired fxn)
+        {
+            DescribeItem descItemFrm = new DescribeItem(GlobalDataAccessor.Instance.DesktopSession, GlobalDataAccessor.Instance.DesktopSession.DescribeItemContext,
+                GlobalDataAccessor.Instance.DesktopSession.DescribeItemPawnItemIndex);
+            ShowForm describeItemBlk =
+                this.createShowFormBlock(
+                    (uint)ValidFormBlockTypes.DescribeItemBlock,
+                    parentForm,
+                    descItemFrm,
+                    descItemFrm.NavControlBox,
+                    fxn);
+            return (describeItemBlk);
+
+        }
+
+        public ShowForm DescribeItemGunEditBlock(
+    Form parentForm,
+    NavBox.NavBoxActionFired fxn)
+        {
+            DescribeItem descItemFrm = new DescribeItem(GlobalDataAccessor.Instance.DesktopSession, GlobalDataAccessor.Instance.DesktopSession.DescribeItemContext,
+                GlobalDataAccessor.Instance.DesktopSession.DescribeItemPawnItemIndex)
+            {
+                SelectedProKnowMatch = null
+            };
+            ShowForm describeItemBlk =
+                this.createShowFormBlock(
+                    (uint)ValidFormBlockTypes.DescribeItemBlock,
+                    parentForm,
+                    descItemFrm,
+                    descItemFrm.NavControlBox,
+                    fxn, true);
+            return (describeItemBlk);
+
+        }
+
+        /// <summary>
+        /// Create a block to show gun book edit form
+        /// </summary>
+        /// <returns></returns>
+        public ShowForm GunBookEditFormBlock(
+            Form parentForm,
+            NavBox.NavBoxActionFired fxn)
+        {
+            EditGunBookRecord gunBookEditFrm = new EditGunBookRecord();
+            ShowForm gunBookEditBlk =
+                this.createShowFormBlock(
+                    (uint)ValidFormBlockTypes.GunBookEditBlock,
+                    parentForm,
+                    gunBookEditFrm,
+                    gunBookEditFrm.NavControlBox,
+                    fxn);
+            return (gunBookEditBlk);
+        }
+
+        /// <summary>
+        /// Create a block to show customer replace form in edit gun book flow
+        /// </summary>
+        /// <returns></returns>
+        public ShowForm CustomerReplaceBlock(
+            Form parentForm,
+            NavBox.NavBoxActionFired fxn)
+        {
+            CustomerReplace custReplaceFrm = new CustomerReplace();
+            ShowForm custReplaceBlk =
+                this.createShowFormBlock(
+                    (uint)ValidFormBlockTypes.CustReplaceBlock,
+                    parentForm,
+                    custReplaceFrm,
+                    custReplaceFrm.NavControlBox,
+                    fxn);
+            return (custReplaceBlk);
+        }
 
         #endregion
 

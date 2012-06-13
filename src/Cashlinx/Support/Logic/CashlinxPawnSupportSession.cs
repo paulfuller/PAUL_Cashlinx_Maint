@@ -71,7 +71,9 @@ namespace Support.Logic
 
         /// Singleton instance variable
         static readonly CashlinxPawnSupportSession instance = new CashlinxPawnSupportSession();
-        
+
+        //public ResourceProperties ResourceProperties { get; set; }
+
         #region APPLICATION
 
         /// <summary>
@@ -101,6 +103,8 @@ namespace Support.Logic
             this.UserName = string.Empty;
             this.IsoLevel = IsolationLevel.ReadCommitted;
             ButtonResourceManagerHelper = new ButtonResourceManagerHelper();
+            ResourceProperties = new ResourceProperties();
+
             this.MenuEnabled = true;
             this.skipLDAP = false;
             this.timer = null;

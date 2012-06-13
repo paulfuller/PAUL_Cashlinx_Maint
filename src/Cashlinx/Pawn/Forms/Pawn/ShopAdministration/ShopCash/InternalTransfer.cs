@@ -29,6 +29,8 @@ namespace Pawn.Forms.Pawn.ShopAdministration.ShopCash
         private bool TransferToSafe;
         private const int MIN_USERNAME_LEN = 6;
         private const int MIN_PASSWORD_LEN = 7;
+        private bool checkPassed = true;
+        private bool initialValues = true;
 
         public InternalTransfer()
         {
@@ -74,6 +76,8 @@ namespace Pawn.Forms.Pawn.ShopAdministration.ShopCash
                 comboBoxCashDrawerData.DataSource = cdData;
                 comboBoxCashDrawerData.DisplayMember = "Description";
                 comboBoxCashDrawerData.ValueMember = "Code";
+                initialValues = false;
+                comboBoxCashDrawerData.SelectedIndex = -1;
             }
             if (TransferFromSafe)
                 labelCashDrawerName.Text = GlobalDataAccessor.Instance.DesktopSession.StoreSafeName;
@@ -87,6 +91,8 @@ namespace Pawn.Forms.Pawn.ShopAdministration.ShopCash
             pictureBox1.Image = Common.Properties.Resources.plus_icon_small;
             panel1.Location = new Point(13, 97);
             this.Size = new Size(777, 673);
+            if (!checkPassed)
+                this.Close();
         }
 
         void currencyEntry1_Calculate(decimal currencyTotal)
@@ -334,10 +340,55 @@ namespace Pawn.Forms.Pawn.ShopAdministration.ShopCash
 
         private void comboBoxCashDrawerData_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxCashDrawerData.Text.ToString() == GlobalDataAccessor.Instance.DesktopSession.StoreSafeName)
-                TransferToSafe = true;
-            else
-                TransferToSafe = false;
+            if (!initialValues)
+            {
+                if (comboBoxCashDrawerData.Text.ToString() == GlobalDataAccessor.Instance.DesktopSession.StoreSafeName)
+                    TransferToSafe = true;
+                else
+                    TransferToSafe = false;
+                //SR 06/12/2012
+                //Whether it is transfer to safe or transfer to another cashdrawer check that
+                //safe is not being balanced right now. If it is, transfer should not be allowed until balance
+                //operation is complete
+                string wrkId;
+                string cdEvent;
+                string errorCode;
+                string errorMesg;
+
+
+                bool retValue = ShopCashProcedures.GetTellerEvent(GlobalDataAccessor.Instance.DesktopSession.StoreSafeID, GlobalDataAccessor.Instance.DesktopSession, out wrkId, out cdEvent, out errorCode, out errorMesg);
+                if (retValue)
+                {
+
+                    if (errorCode != "100")
+                    {
+                        if (cdEvent.ToUpper().Contains("BALANCE"))
+                        {
+                            MessageBox.Show("There is a safe balance event in progress. Please complete that operation first");
+                            checkPassed = false;
+                            return;
+                        }
+                    }
+                }
+                if (!TransferToSafe && comboBoxCashDrawerData.SelectedIndex >= 0)
+                {
+                    //Check that the destination drawer is not being balanced
+                    retValue = ShopCashProcedures.GetTellerEvent(comboBoxCashDrawerData.SelectedValue.ToString(), GlobalDataAccessor.Instance.DesktopSession, out wrkId, out cdEvent, out errorCode, out errorMesg);
+                    if (retValue)
+                    {
+
+                        if (errorCode != "100")
+                        {
+                            if (cdEvent.ToUpper().Contains("BALANCE"))
+                            {
+                                MessageBox.Show(comboBoxCashDrawerData.Text + " balance event is in progress. Please complete that operation first");
+                                checkPassed = false;
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void customTextBoxDestUser_TextChanged(object sender, EventArgs e)

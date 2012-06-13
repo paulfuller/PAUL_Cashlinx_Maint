@@ -62,9 +62,9 @@ namespace Support.Forms.ShopAdmin.EditGunBook
                 GlobalDataAccessor.Instance.DesktopSession.GunData = gunTableData;
                 CashlinxPawnSupportSession.Instance.GunItemData = gunItemData;
 
-                //NavControlBox.Action = NavBox.NavAction.BACKANDSUBMIT;
-                EditGunBookRecord editRecord = new EditGunBookRecord();
-                editRecord.ShowDialog();
+                NavControlBox.Action = NavBox.NavAction.BACKANDSUBMIT;
+                //EditGunBookRecord editRecord = new EditGunBookRecord();
+                //editRecord.ShowDialog();
             }
 
         }
@@ -90,9 +90,9 @@ namespace Support.Forms.ShopAdmin.EditGunBook
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-   
 
-  
+
+
 
 
     }

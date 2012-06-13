@@ -57,14 +57,16 @@ namespace Support.Forms.ShopAdmin.EditGunBook
         public EditGunBookRecord()
         {
             InitializeComponent();
-            NavControlBox = new NavBox
-            {
-                Owner = this
-            };
+            NavControlBox = new NavBox();
+            //{
+            //    Owner = this
+            //};
+
         }
 
         private void EditGunBookRecord_Load(object sender, EventArgs e)
         {
+            this.NavControlBox.Owner = this;
             gunBookData = GlobalDataAccessor.Instance.DesktopSession.GunData;
             gunItemData = GlobalDataAccessor.Instance.DesktopSession.GunItemData;
             if (gunBookData != null && gunBookData.Rows.Count > 0)
@@ -171,7 +173,7 @@ namespace Support.Forms.ShopAdmin.EditGunBook
 
                 }
 
-                
+
 
             }
             else
@@ -179,8 +181,8 @@ namespace Support.Forms.ShopAdmin.EditGunBook
                 labelErrMessage.Text = "Gun Book data not found";
                 DisableActions();
             }
-            
-            
+
+
         }
 
         private void DisableActions()
@@ -198,7 +200,7 @@ namespace Support.Forms.ShopAdmin.EditGunBook
         {
             string errorCode;
             string errorText;
-            RetailProcedures.LockItem(CashlinxPawnSupportSession.Instance, icn.Text, out errorCode, out errorText, "N");            
+            RetailProcedures.LockItem(CashlinxPawnSupportSession.Instance, icn.Text, out errorCode, out errorText, "N");
             NavControlBox.Action = NavBox.NavAction.BACKANDSUBMIT;
         }
 
@@ -211,7 +213,7 @@ namespace Support.Forms.ShopAdmin.EditGunBook
             gunBookCustomer.LastName = acquireCustLastName;
             gunBookCustomer.MiddleInitial = acquireCustMiddleName;
             AddressVO addr1 = new AddressVO();
-            
+
             addr1.Address1 = acquireCustomerAddress1;
             addr1.City = acquireCustomerCity;
             addr1.State_Code = acquireCustomerState;
@@ -234,7 +236,7 @@ namespace Support.Forms.ShopAdmin.EditGunBook
             NavControlBox.CustomDetail = "EditCustomer";
             NavControlBox.Action = NavBox.NavAction.BACKANDSUBMIT;
 
-            
+
         }
 
         private void DispositionReplace_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -256,7 +258,7 @@ namespace Support.Forms.ShopAdmin.EditGunBook
             NavControlBox.IsCustom = true;
             NavControlBox.CustomDetail = "LookupCustomer";
             NavControlBox.Action = NavBox.NavAction.BACKANDSUBMIT;
-            
+
         }
 
         private void DispositionEdit_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -309,15 +311,18 @@ namespace Support.Forms.ShopAdmin.EditGunBook
                 // Update local PFI Active Loan Pawn Item with Cat5 Info
                 pawnItem.CategoryMask = iCategoryMask;
                 pawnItem.ItemReason = ItemReason.BLNK;
+
                 GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.Items.RemoveAt(0);
                 GlobalDataAccessor.Instance.DesktopSession.ActivePawnLoan.Items.Insert(0, pawnItem);
                 GlobalDataAccessor.Instance.DesktopSession.DescribeItemContext = CurrentContext.GUNEDIT;
                 GlobalDataAccessor.Instance.DesktopSession.DescribeItemPawnItemIndex = 0;
-                //NavControlBox.IsCustom = true;
-                //NavControlBox.CustomDetail = "DescribeMerchandise";
-                //NavControlBox.Action = NavBox.NavAction.BACKANDSUBMIT;
-                DescribeMerchandise descMerchFrm = new DescribeMerchandise(GlobalDataAccessor.Instance.DesktopSession, CurrentContext.GUNEDIT);
-                descMerchFrm.ShowDialog();
+
+                NavControlBox.IsCustom = true;
+                NavControlBox.CustomDetail = "DescribeMerchandise";
+                NavControlBox.Action = NavBox.NavAction.BACKANDSUBMIT;
+
+                //DescribeMerchandise descMerchFrm = new DescribeMerchandise(GlobalDataAccessor.Instance.DesktopSession, CurrentContext.GUNEDIT);
+                //descMerchFrm.ShowDialog();
             }
         }
 

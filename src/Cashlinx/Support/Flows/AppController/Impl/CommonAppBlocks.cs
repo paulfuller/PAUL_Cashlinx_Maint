@@ -144,7 +144,7 @@ namespace Support.Flows.AppController.Impl
             }
         }
 
-  #endregion
+        #endregion
         #region ControlBlocks
         /*__________________________________________________________________________________________*/
         public ShowForm LookupCustomerShowBlock(
@@ -301,7 +301,7 @@ namespace Support.Flows.AppController.Impl
             return (UpdateCustomerIdentificationResultsBlk);
 
         }
-#region PRODUCT TABS
+        #region PRODUCT TABS
         //Controller_ProductServices
         /*__________________________________________________________________________________________*/
         public ShowForm Controller_ProductServicesShowBlock(
@@ -320,7 +320,7 @@ namespace Support.Flows.AppController.Impl
 
         }
         //Controller_ProductHistory
-       /*__________________________________________________________________________________________*/
+        /*__________________________________________________________________________________________*/
         public ShowForm Controller_ProductHistoryShowBlock(
                         Form parentForm,
             NavBox.NavBoxActionFired fxn)
@@ -336,7 +336,7 @@ namespace Support.Flows.AppController.Impl
             return (Controller_ProductHistoryResultsBlk);
         }
         //Controller_ItemHistory
-/*__________________________________________________________________________________________*/
+        /*__________________________________________________________________________________________*/
         public ShowForm Controller_ItemHistoryShowBlock(
                         Form parentForm,
             NavBox.NavBoxActionFired fxn)
@@ -351,7 +351,7 @@ namespace Support.Flows.AppController.Impl
                 fxn);
             return (Controller_ItemHistoryResultsBlk);
         }
-/*__________________________________________________________________________________________*/
+        /*__________________________________________________________________________________________*/
         public ShowForm Controller_StatsShowBlock(
                         Form parentForm,
             NavBox.NavBoxActionFired fxn)
@@ -429,7 +429,7 @@ namespace Support.Flows.AppController.Impl
 
             return (ExtendedDepositDateResultsBlk);
         }
-#endregion
+        #endregion
         #endregion
         #region Class Block Methods
         /*__________________________________________________________________________________________*/
@@ -663,7 +663,7 @@ namespace Support.Flows.AppController.Impl
             this.flowTabControllerForm.BelowForm = belowForm;
             this.flowTabControllerForm.TabState = state;
             SetTabEnabledFlagToggle();
-            
+
             this.flowTabControllerForm.Show();
             this.flowTabControllerForm.BringToFront();
         }
@@ -701,7 +701,7 @@ namespace Support.Flows.AppController.Impl
         {
             this.flowTabControllerForm.TabState = tabName;
         }
-
+        #endregion
 
         /*
     if (curState == FlowTabController.State.Customer)
@@ -971,6 +971,7 @@ namespace Support.Flows.AppController.Impl
         /// <param name="parentForm"></param>
         /// <param name="fxn"></param>
         /// <returns></returns>
+        /*__________________________________________________________________________________________*/
         public ShowForm DescribeMerchandiseGunEditBlock(
             Form parentForm,
             NavBox.NavBoxActionFired fxn)
@@ -1027,6 +1028,7 @@ namespace Support.Flows.AppController.Impl
         /// Create a block to show gun book edit form
         /// </summary>
         /// <returns></returns>
+        /*__________________________________________________________________________________________*/
         public ShowForm GunBookEditFormBlock(
             Form parentForm,
             NavBox.NavBoxActionFired fxn)
@@ -1061,7 +1063,7 @@ namespace Support.Flows.AppController.Impl
             return (custReplaceBlk);
         }
 
-        #endregion
+
 
     }
 }

@@ -210,6 +210,7 @@ namespace Support.Forms
             // gbUtilitiesPanel
             // 
             this.gbUtilitiesPanel.BackColor = System.Drawing.Color.Transparent;
+            this.gbUtilitiesPanel.Enabled = false;
             this.gbUtilitiesPanel.ForeColor = System.Drawing.Color.Black;
             this.gbUtilitiesPanel.Location = new System.Drawing.Point(44, 7);
             this.gbUtilitiesPanel.MaximumSize = new System.Drawing.Size(399, 432);

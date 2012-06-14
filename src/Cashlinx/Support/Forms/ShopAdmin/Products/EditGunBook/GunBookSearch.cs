@@ -17,6 +17,9 @@ namespace Support.Forms.ShopAdmin.EditGunBook
     public partial class GunBookSearch : CustomBaseForm
     {
         public NavBox NavControlBox;
+
+        private string _storeNumber;
+
         public GunBookSearch()
         {
             InitializeComponent();
@@ -33,12 +36,12 @@ namespace Support.Forms.ShopAdmin.EditGunBook
             string errorText;
             DataTable gunTableData;
             Item gunItemData;
-            if (!string.IsNullOrEmpty(txtGunNumber.Text))
+            if (!string.IsNullOrEmpty(txtGunNumber.Text) && !string.IsNullOrEmpty(tboxShopNumber.Text))
             {
 
-
+                _storeNumber = tboxShopNumber.Text.PadLeft(5, '0');
                 bool retVal = MerchandiseProcedures.GetGunData(GlobalDataAccessor.Instance.OracleDA,
-                    GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber,
+                    _storeNumber,  //GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber,
                     Utilities.GetIntegerValue(txtGunNumber.Text),
                     out gunTableData,
                     out gunItemData,
@@ -61,10 +64,8 @@ namespace Support.Forms.ShopAdmin.EditGunBook
 
                 GlobalDataAccessor.Instance.DesktopSession.GunData = gunTableData;
                 CashlinxPawnSupportSession.Instance.GunItemData = gunItemData;
-
                 NavControlBox.Action = NavBox.NavAction.BACKANDSUBMIT;
-                //EditGunBookRecord editRecord = new EditGunBookRecord();
-                //editRecord.ShowDialog();
+
             }
 
         }

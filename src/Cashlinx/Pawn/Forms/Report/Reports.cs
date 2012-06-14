@@ -743,16 +743,6 @@ namespace Pawn.Forms.Report
                         Cursor = Cursors.Default;
                         return;
 
-                    case (int)ReportIDs.GunBookInquiry:
-                        var invGBInquiry = new Inquiry.GunBookInquiry.GunBookInquirySearch();
-                        invGBInquiry.Scale(new SizeF(0.8f,0.8f));
-                        this.Hide();
-                        invGBInquiry.ShowDialog();
-
-                        this.custombuttonView.Enabled = true;
-                        Cursor = Cursors.Default;
-                        return;
-
                     case (int)ReportIDs.RetailInquiry:
                         var retailInquiry = new RetailInquirySearch();
                         // this.NavControlBox.Action = NavBox.NavAction.HIDEANDSHOW;

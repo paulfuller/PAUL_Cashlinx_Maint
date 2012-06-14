@@ -141,7 +141,7 @@ namespace Support.Logic
                                            out buttonTagNames, out errorCode, out errorText);
 
             CurrentSiteId.AvailableButtons = buttonTagNames;
-            
+
 
         }
         /*__________________________________________________________________________________________*/
@@ -245,14 +245,14 @@ namespace Support.Logic
         //public System.Windows.Forms.Form.Screen MainWindowScreenBoundry { get; set; }
 
         public int xPosition { get; set; }
-        public int yPosition {get;set;}
+        public int yPosition { get; set; }
         //WCM Testing Active Screen
         /*__________________________________________________________________________________________*/
         public void SetPrimaryScreenToMain()  //System.Drawing.Rectangle rect, Form ActiveForm)
         {
 
             Screen screen = Screen.AllScreens[0];
-            if ( screen.Primary)
+            if (screen.Primary)
             {
                 Console.WriteLine("test");
             }
@@ -293,7 +293,7 @@ namespace Support.Logic
         /*__________________________________________________________________________________________*/
         public bool getButtonNames(OracleDataAccessor da,
                                    out List<string> buttonNames,
-                                   out string errorCode,out string errorText )
+                                   out string errorCode, out string errorText)
         {
             errorCode = string.Empty;
             errorText = string.Empty;
@@ -569,7 +569,7 @@ namespace Support.Logic
         }
         #endregion
         #region OVERRIDE METHODS
-             //Call to login the user and get their security profile
+        //Call to login the user and get their security profile
         /*__________________________________________________________________________________________*/
         public override void PerformAuthorization(bool chgUsrPasswd)
         {
@@ -815,6 +815,19 @@ namespace Support.Logic
                     //Set the password in the users security profile
                     LoggedInUserSecurityProfile.UserCurrentPassword = password;
                     LoggedInUserSecurityProfile.UserID = username;
+
+                    string errorCode = string.Empty;
+                    string errorMesg = string.Empty;
+                    if (!SecurityProfileProcedures.GetUserSecurityProfile(FullUserName, "", CurrentSiteId.StoreNumber, "N",
+                                                                          this, out errorCode, out errorMesg))
+                    {
+                        BasicExceptionHandler.Instance.AddException(
+                            "Security Profile could not be loaded for the logged in user. Cannot Authorize",
+                            new ApplicationException());
+                        MessageBox.Show(
+                            "User's security profile could not be loaded. Exiting the application");
+                        Application.Exit();
+                    }
                 }
             }
 
@@ -896,7 +909,7 @@ namespace Support.Logic
         /*__________________________________________________________________________________________*/
         public override void showProcessTender(ProcessTenderProcedures.ProcessTenderMode processTenderMode)
         {
-            
+
         }
         /*__________________________________________________________________________________________*/
         public override void PerformCashDrawerChecks(out bool checkPassed)
@@ -911,12 +924,12 @@ namespace Support.Logic
         /*__________________________________________________________________________________________*/
         public override void UpdateShopDate(Form fm)
         {
-            
+
         }
         /*__________________________________________________________________________________________*/
         public override void GetPawnBusinessRules()
         {
-            
+
         }
         #endregion
         #region DATAT OBJECTS

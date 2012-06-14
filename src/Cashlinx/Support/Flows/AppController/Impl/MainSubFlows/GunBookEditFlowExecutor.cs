@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Common.Controllers.Application;
 using Common.Controllers.Application.ApplicationFlow.Blocks.Base;
 using Common.Controllers.Application.ApplicationFlow.Blocks.Executors;
 using Common.Controllers.Application.ApplicationFlow.Impl.Common;
@@ -29,13 +30,24 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
             DescribeItemEdit,
             Exit,
             Cancel,
-            Error
+            Error,
+            ExitFlow
         }
 
         private GunBookEditFlowState nextState;
         private Form parentForm;
         private FxnBlock endStateNotifier;
+        private SingleExecuteBlock parentFlow;
 
+        public GunBookEditFlowExecutor(Form parentForm, FxnBlock eStateNotifier )
+            : base(NAME)
+        {
+            this.parentForm = parentForm;
+            this.endStateNotifier = eStateNotifier;
+            this.nextState = GunBookEditFlowState.GunBookSearch;
+            this.setExecBlock(this.executorFxn);
+            this.executeNextState();
+        }
         /// <summary>
         /// Main execution function for CustomerHoldFlowExecutor
         /// </summary>
@@ -244,7 +256,8 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
                     this.nextState = GunBookEditFlowState.EditGunBookRecord;
                     break;
                 case NavBox.NavAction.CANCEL:
-                    this.nextState = GunBookEditFlowState.Cancel;
+                    CashlinxPawnSupportSession.Instance.HistorySession.Back();
+                    this.nextState = GunBookEditFlowState.Cancel;   
                     break;
                 default:
                     throw new ApplicationException("" + lookupAction.ToString() + " is not a valid state for Gun book search");
@@ -398,7 +411,7 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
                     }
                     break;
                 case NavBox.NavAction.CANCEL:
-                    CashlinxPawnSupportSession.Instance.HistorySession.Back();
+                    
                     this.nextState = GunBookEditFlowState.EditGunBookRecord;
                     break;
                 case NavBox.NavAction.BACK:
@@ -425,15 +438,7 @@ namespace Support.Flows.AppController.Impl.MainSubFlows
             }
         }
 
-        public GunBookEditFlowExecutor(Form parentForm, FxnBlock eStateNotifier)
-            : base(NAME)
-        {
-            this.parentForm = parentForm;
-            this.endStateNotifier = eStateNotifier;
-            this.nextState = GunBookEditFlowState.GunBookSearch;
-            this.setExecBlock(this.executorFxn);
-            this.executeNextState();
-        }
+
     }
 }
 

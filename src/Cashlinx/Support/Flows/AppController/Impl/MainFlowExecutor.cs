@@ -116,7 +116,7 @@ namespace Support.Flows.AppController.Impl
             }
             else if (menuTrigger.Equals(GUNBOOKEDIT, StringComparison.OrdinalIgnoreCase))
             {
-                this.gunBookFlowExecutor = new GunBookEditFlowExecutor(this.ParentForm, this.endStateNotifier);
+                this.gunBookFlowExecutor = new GunBookEditFlowExecutor(this.ParentForm, base.EndStateNotifier);
             }
 
 

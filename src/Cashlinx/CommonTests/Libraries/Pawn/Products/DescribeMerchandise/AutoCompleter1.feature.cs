@@ -119,38 +119,19 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Clicking a suggestion in the suggestion window")]
-        public virtual void ClickingASuggestionInTheSuggestionWindow()
+        [NUnit.Framework.DescriptionAttribute("Functionality capture")]
+        public virtual void FunctionalityCapture()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Clicking a suggestion in the suggestion window", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Functionality capture", ((string[])(null)));
 #line 30
 this.ScenarioSetup(scenarioInfo);
 #line 31
  testRunner.Given("a find box");
 #line 32
- testRunner.When("I have entered yam");
-#line 33
- testRunner.And("I click the top suggestion");
-#line 34
- testRunner.Then("search text is Yamaha");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Functionality capture")]
-        public virtual void FunctionalityCapture()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Functionality capture", ((string[])(null)));
-#line 36
-this.ScenarioSetup(scenarioInfo);
-#line 37
- testRunner.Given("a find box");
-#line 38
  testRunner.And("a refactored find box");
-#line 39
+#line 33
  testRunner.When("I enter every permutation of 3 characters");
-#line 40
+#line 34
  testRunner.Then("the autocomplete suggestions should be the same");
 #line hidden
             this.ScenarioCleanup();

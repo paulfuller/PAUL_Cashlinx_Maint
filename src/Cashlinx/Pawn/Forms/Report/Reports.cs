@@ -35,6 +35,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Windows.Forms;
 using Common.Controllers.Application;
 using Common.Controllers.Application.ApplicationFlow.Navigation;
@@ -737,6 +738,16 @@ namespace Pawn.Forms.Report
                         var invPPInquiry = new Inquiry.PartialPaymentInquiry.PartialPaymentInquirySearch();
                         this.Hide();
                         invPPInquiry.ShowDialog();
+
+                        this.custombuttonView.Enabled = true;
+                        Cursor = Cursors.Default;
+                        return;
+
+                    case (int)ReportIDs.GunBookInquiry:
+                        var invGBInquiry = new Inquiry.GunBookInquiry.GunBookInquirySearch();
+                        invGBInquiry.Scale(new SizeF(0.8f,0.8f));
+                        this.Hide();
+                        invGBInquiry.ShowDialog();
 
                         this.custombuttonView.Enabled = true;
                         Cursor = Cursors.Default;

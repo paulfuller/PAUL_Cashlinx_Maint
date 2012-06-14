@@ -45,10 +45,14 @@ namespace Support.Flows.AppController.Impl
         public const string PAWNCUSTINFO = "pawncustinformation";
         public const string LOOKUPCUSTOMER = "custmaint";
         public const string CUSTOMERPRODUCTS = "Controller_ProductServices";
+        public const string GUNBOOKEDIT = "GunBookSearch";
+
         private LookupCustomerFlowExecutor lookupCustFlowExecutor;
         private PawnCustInformationFlowExecutor pawnCustInfoFlowExecutor;
+        private GunBookEditFlowExecutor gunBookFlowExecutor;
 
-        public MainFlowExecutor() : base(GlobalDataAccessor.Instance.DesktopSession)
+        public MainFlowExecutor()
+            : base(GlobalDataAccessor.Instance.DesktopSession)
         //public MainFlowExecutor(): base(CashlinxPawnSupportSession.Instance)
         {
             //this.newPawnLoanFlowExecutor = null;
@@ -56,7 +60,7 @@ namespace Support.Flows.AppController.Impl
             this.setExecBlock(executorFxn);
             this.endStateNotifier = null;
         }
-        #region OBSOLETE        
+        #region OBSOLETE
         //Madhu Feb 17th
         //private NewPawnLoanFlowExecutor newPawnLoanFlowExecutor;
         //private LookupTicketFlowExecutor lookupTktFlowExecutor;
@@ -106,10 +110,16 @@ namespace Support.Flows.AppController.Impl
                 //this.lookupCustFlowExecutor = new LookupCustomerFlowExecutor(this.ParentForm, this.endStateNotifier);
                 this.lookupCustFlowExecutor = new LookupCustomerFlowExecutor(this.ParentForm, base.EndStateNotifier);
             }
-            else if (menuTrigger.Equals(CUSTOMERPRODUCTS,StringComparison.OrdinalIgnoreCase))
+            else if (menuTrigger.Equals(CUSTOMERPRODUCTS, StringComparison.OrdinalIgnoreCase))
             {
                 this.pawnCustInfoFlowExecutor = new PawnCustInformationFlowExecutor(this.ParentForm, this.endStateNotifier, this.ParentFlowExecutor);
             }
+            else if (menuTrigger.Equals(GUNBOOKEDIT, StringComparison.OrdinalIgnoreCase))
+            {
+                this.gunBookFlowExecutor = new GunBookEditFlowExecutor(this.ParentForm, this.endStateNotifier);
+            }
+
+
             return (null);
             #region OBSOLETE
             //Madhu Feb 17th

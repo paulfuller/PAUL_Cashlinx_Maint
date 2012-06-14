@@ -39,6 +39,11 @@ namespace Support.Forms.Panels.MenuPanels
             this.buttonControllers = new ImageButtonControllerGroup(CashlinxPawnSupportSession.Instance, this.Controls);
         }
 
+        private void gbutilitiesButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
 
     }

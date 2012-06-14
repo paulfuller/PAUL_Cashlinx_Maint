@@ -932,7 +932,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Libraries\Resources\ResourceNames.resx" />
-    <EmbeddedResource Include="Libraries\Resources\RoleResources.resx" />
+    <EmbeddedResource Include="Libraries\Resources\RoleResources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Libraries\Utility\Multimedia\VideoPlayer\VideoPlayer.resx">
       <DependentUpon>VideoPlayer.cs</DependentUpon>
     </EmbeddedResource>

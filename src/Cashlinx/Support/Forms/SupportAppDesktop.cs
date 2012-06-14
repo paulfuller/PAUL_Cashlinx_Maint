@@ -12,6 +12,7 @@ using Common.Libraries.Forms;
 using Common.Libraries.Utility.Logger;
 using Common.Libraries.Utility.String;
 using Support.Forms.HardwareConfig;
+using Support.Forms.ShopAdmin.EditGunBook;
 using Support.Logic;
 
 namespace Support.Forms
@@ -80,6 +81,14 @@ namespace Support.Forms
                     this.cashlinxAdminPanel2.Visible = false;
                     this.cashlinxAdminPanel2.ButtonControllers.resetGroupInitialState();
                     this.cashlinxAdminPanel2.SendToBack();
+                }
+
+                if (this.gbUtilitiesPanel.Enabled)
+                {
+                    this.gbUtilitiesPanel.Enabled = false;
+                    this.gbUtilitiesPanel.Visible = false;
+                    this.gbUtilitiesPanel.ButtonControllers.resetGroupInitialState();
+                    this.gbUtilitiesPanel.SendToBack();
                 }
 
                 //CashlinxPawnSupportSession.Instance.LoggedInUserSecurityProfile = new UserVO();
@@ -268,8 +277,8 @@ namespace Support.Forms
                 }
                 else if (functionalityName.Equals("hardware", StringComparison.OrdinalIgnoreCase))
                 {
-                    //Need Hardware_Config.cs
-                    //var myHardware = new HardwareConfig.Hardware_Config();
+                   //Need Hardware_Config.cs
+                    var myHardware = new HardwareConfig.Hardware_Config();
                     var frm_get_shop = new FrmGetShop(CashlinxPawnSupportSession.Instance);
                     DialogResult shopResult = frm_get_shop.ShowDialog();
                     if (shopResult == DialogResult.OK)
@@ -278,9 +287,21 @@ namespace Support.Forms
                         Hardware_Config.Instance.StoreNumber = frm_get_shop.StoreNumber;
                         var frm_hardware_config = new HardwareConfig.FrmConfig();       // myHardware);
                         frm_hardware_config.ShowDialog();
-                        
-                    }                    
+
+                    }
                     this.handleEndFlow(null);
+                    rt = true;
+                }
+                else if (functionalityName.Equals("gbedit", StringComparison.OrdinalIgnoreCase))
+                {
+                    functionalityName = "GunBookSearch";
+                    GlobalDataAccessor.Instance.DesktopSession.ClearSessionData();
+                    GlobalDataAccessor.Instance.DesktopSession.HistorySession.Trigger = functionalityName;
+                    //GlobalDataAccessor.Instance.DesktopSession.AppController.invokeWorkflow(
+                    //    functionalityName, this, this.endStateNotifier);
+
+                    GlobalDataAccessor.Instance.DesktopSession.AppController.invokeWorkflow(
+                        functionalityName, this, this.endStateNotifier);
                     rt = true;
                 }
                 else
@@ -331,7 +352,8 @@ namespace Support.Forms
                             this.shopAdminMenuPanel,
                             this.systemAdminMenuPanel,
                             this.configMenuPanel2,
-                            this.cashlinxAdminPanel2
+                            this.cashlinxAdminPanel2,
+                            this.gbUtilitiesPanel
                     };
 
             //Center all panels
@@ -484,6 +506,31 @@ namespace Support.Forms
         }
 
 
+        public void gbUtilitiesMenuPanel_EnabledChanged(object sender, EventArgs e)
+        {
+            if (this.resetFlag)
+                return;
+            //we only care about this event if the panel is being disabled
+            if (this.gbUtilitiesPanel.Enabled == false)
+            {
+                //Disable panel visibility
+                this.gbUtilitiesPanel.Visible = false;
+                this.gbUtilitiesPanel.SendToBack();
+                this.gbUtilitiesPanel.Update();
+
+                //Get menu controller from sender
+                if (!this.triggerNextEvent(this.gbUtilitiesPanel.MenuController))
+                {
+                    //Failure occurred - restore menu
+                    this.gbUtilitiesPanel.Visible = true;
+                    this.gbUtilitiesPanel.Enabled = true;
+                    this.gbUtilitiesPanel.BringToFront();
+                    this.gbUtilitiesPanel.ButtonControllers.resetGroupInitialState();
+                    this.gbUtilitiesPanel.Update();
+                }
+            }
+        }
+
         public void CustomerServiceMenuPanel_EnabledChanged(object sender, EventArgs e)
         {
             if (this.resetFlag)
@@ -508,7 +555,6 @@ namespace Support.Forms
                 }
             }
         }
-
 
         public void userAdminMenuPanel_EnabledChanged(object sender, EventArgs e)
         {

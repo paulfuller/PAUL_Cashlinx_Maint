@@ -2157,7 +2157,7 @@ namespace Pawn.Logic.DesktopProcedures
                     detailKey = string.Format("DETAIL{0}", detailCount.ToString().PadLeft(3, '0'));
                     spaceLen = MAX_LEN - ("Grand Total".Length + totalAmount.ToString().Length) - 1;
                     spacer = "".PadLeft(spaceLen, ' ');
-                    detailLine = "Grand Total" + spacer + "$" + totalAmount;
+                    detailLine = "Grand Total" + spacer + totalAmount.ToString("C");
                     data.Add(detailKey, "<R>" + detailLine);
                     ++detailCount;
 
@@ -8352,7 +8352,7 @@ namespace Pawn.Logic.DesktopProcedures
             detailKey = string.Format(
                 "DETAIL{0}", detailCount.ToString().PadLeft(3, '0'));
             ++detailCount;
-            spaceLen = MAX_LEN - (serviceDesc.Length + amount.ToString().Length + 1);
+            spaceLen = MAX_LEN - (serviceDesc.Length + amount.ToString("C").Length + 1);
             spacer = "".PadLeft(spaceLen, ' ');
             detailLine = "<R>" + serviceDesc + spacer + "$" + amount;
             data.Add(detailKey, detailLine);
@@ -9637,6 +9637,8 @@ namespace Pawn.Logic.DesktopProcedures
                 }
             }
 
+            decimal refundSaleHeaderAmt = currentSale.RefNumber == 0 ? currentSale.Amount + totalCouponAmount : currentSale.Amount;
+
             //Start transaction block
             GlobalDataAccessor.Instance.DesktopSession.beginTransactionBlock();
 
@@ -9656,7 +9658,7 @@ namespace Pawn.Logic.DesktopProcedures
                                                                currentSale.SalesTaxAmount.ToString(),
                                                                GlobalDataAccessor.Instance.DesktopSession.CashDrawerName,
                                                                "REFUND",
-                                                               (currentSale.Amount + totalCouponAmount).ToString(),
+                                                               refundSaleHeaderAmt.ToString(),
                                                                currentSale.ShippingHandlingCharges.ToString(),
                                                                jewelryCase,
                                                                custDispIdNum, custDispIdType, custDispIDCode,

@@ -299,7 +299,7 @@ namespace Common.Libraries.Utility
                     return dDefaultValue;
                 }
 
-                return bool.Parse(oValueToParse.ToString());
+                return Boolean.Parse(oValueToParse.ToString());
             }
             catch
             {
@@ -323,7 +323,7 @@ namespace Common.Libraries.Utility
                     return dDefaultValue;
                 }
 
-                return char.Parse(oValueToParse.ToString());
+                return Char.Parse(oValueToParse.ToString());
             }
             catch
             {
@@ -371,7 +371,7 @@ namespace Common.Libraries.Utility
                     return dDefaultValue;
                 }
 
-                return decimal.Parse(oValueToParse.ToString());
+                return Decimal.Parse(oValueToParse.ToString());
             }
             catch
             {
@@ -395,7 +395,7 @@ namespace Common.Libraries.Utility
                     return dDefaultValue;
                 }
 
-                return double.Parse(oValueToParse.ToString());
+                return Double.Parse(oValueToParse.ToString());
             }
             catch
             {
@@ -406,7 +406,7 @@ namespace Common.Libraries.Utility
         // Provides Double value back with MinValue
         public static double GetDoubleValue(object oValueToParse)
         {
-            return GetDoubleValue(oValueToParse, double.MinValue);
+            return GetDoubleValue(oValueToParse, Double.MinValue);
         }
 
         // Provides Float value back.  
@@ -419,7 +419,7 @@ namespace Common.Libraries.Utility
                     return fDefaultValue;
                 }
 
-                return float.Parse(oValueToParse.ToString());
+                return Single.Parse(oValueToParse.ToString());
             }
             catch
             {
@@ -430,7 +430,7 @@ namespace Common.Libraries.Utility
         // Provides Float value back with default minvalue
         public static float GetFloatValue(object oValueToParse)
         {
-            return GetFloatValue(oValueToParse, float.MinValue);
+            return GetFloatValue(oValueToParse, Single.MinValue);
         }
 
         // Provides Integer value back.  
@@ -454,7 +454,7 @@ namespace Common.Libraries.Utility
         // Provides Integer value back with MinValue
         public static int GetIntegerValue(object oValueToParse)
         {
-            return GetIntegerValue(oValueToParse, int.MinValue);
+            return GetIntegerValue(oValueToParse, Int32.MinValue);
         }
 
         // Provides Integer value back.  
@@ -502,7 +502,7 @@ namespace Common.Libraries.Utility
         // Provides String value back as string.Empty
         public static string GetStringValue(object oValueToParse)
         {
-            return GetStringValue(oValueToParse, string.Empty);
+            return GetStringValue(oValueToParse, System.String.Empty);
         }
 
         //provides long value back
@@ -515,7 +515,7 @@ namespace Common.Libraries.Utility
                     return iDefaultValue;
                 }
 
-                return long.Parse(oValueToParse.ToString());
+                return Int64.Parse(oValueToParse.ToString());
             }
             catch
             {
@@ -526,12 +526,12 @@ namespace Common.Libraries.Utility
         //provides long value back with MinValue
         public static long GetLongValue(object oValueToParse)
         {
-            return GetLongValue(oValueToParse, long.MinValue);
+            return GetLongValue(oValueToParse, Int64.MinValue);
         }
 
         public static ulong GetULongValue(object oValueToParse)
         {
-            return GetULongValue(oValueToParse, ulong.MinValue);
+            return GetULongValue(oValueToParse, UInt64.MinValue);
         }
 
         public static ulong GetULongValue(object oValueToParse, ulong iDefaultValue)
@@ -542,7 +542,7 @@ namespace Common.Libraries.Utility
             }
 
             ulong rt;
-            if (!ulong.TryParse(oValueToParse.ToString(), out rt))
+            if (!UInt64.TryParse(oValueToParse.ToString(), out rt))
             {
                 rt = iDefaultValue;
             }
@@ -722,7 +722,7 @@ namespace Common.Libraries.Utility
 
         public static string IcnGenerator(int iStore, int iYear, int iDocNumber, string sDocType, int iItemOrder, int iSubItemOrder)
         {
-            var sYear = string.Empty;
+            var sYear = System.String.Empty;
 
             if (iYear.ToString().Length > 0)
                 sYear = iYear.ToString().Substring(iYear.ToString().Length - 1);
@@ -846,7 +846,7 @@ namespace Common.Libraries.Utility
 
         public static object GetEnumFromConstantName<T>(string inputStr)
         {
-            if (string.IsNullOrEmpty(inputStr))
+            if (System.String.IsNullOrEmpty(inputStr))
                 return (null);
 
             return ((T)Enum.Parse(typeof(T), inputStr, true));
@@ -930,12 +930,36 @@ namespace Common.Libraries.Utility
 
         public static bool IsValidFFL(string ffl)
         {
-            if (string.IsNullOrEmpty(ffl))
+            if (System.String.IsNullOrEmpty(ffl))
             {
                 return false;
             }
 
             return ffl.Trim().Length == 15;
+        }
+
+        public static T X<T>(this Control txt, T @default = default(T))
+        {
+            var text = txt.Text;
+
+            var badCast = new InvalidCastException("Cannot convert '" + text + "' to " + typeof(T));
+
+            var converters = new Dictionary<System.Type, Func<string, object>>();
+            converters.Add(typeof(int), s =>
+                                        {
+                                            int intResult;
+                                            if (Int32.TryParse(text, out intResult)) return intResult;
+                                            return @default;
+                                        });
+            converters.Add(typeof(string), s => s);
+            converters.Add(typeof(DateTime), s =>
+                                             {
+                                                 DateTime dt;
+                                                 if (DateTime.TryParse(text, out dt)) return dt;
+                                                 return @default;
+                                             });
+
+            return (T)converters[typeof(T)](text);
         }
     }
 }

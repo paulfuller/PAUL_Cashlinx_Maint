@@ -149,11 +149,11 @@ namespace Support.Forms.ShopAdmin.EditGunBook
                 if (!SecurityProfileProcedures.CanUserModifyResource("EDIT GUN BOOK", GlobalDataAccessor.Instance.DesktopSession.LoggedInUserSecurityProfile, CashlinxPawnSupportSession.Instance) &&
                     !SecurityProfileProcedures.CanUserModifyResource("EDIT RESTRICTED GUN BOOK FIELDS", GlobalDataAccessor.Instance.DesktopSession.LoggedInUserSecurityProfile, CashlinxPawnSupportSession.Instance))
                 {
-                    //firearmDescEdit.Enabled = false;
-                    //AcquisitionEdit.Enabled = false;
-                    //AcquisitionReplace.Enabled = false;
-                    //DispositionEdit.Enabled = false;
-                    //DispositionReplace.Enabled = false;
+                    firearmDescEdit.Enabled = false;
+                    AcquisitionEdit.Enabled = false;
+                    AcquisitionReplace.Enabled = false;
+                    DispositionEdit.Enabled = false;
+                    DispositionReplace.Enabled = false;
                 }
                 if (string.IsNullOrEmpty(acquireCustNumber))
                 {

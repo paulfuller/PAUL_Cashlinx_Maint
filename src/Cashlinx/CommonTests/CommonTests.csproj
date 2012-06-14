@@ -20,8 +20,6 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -79,12 +77,7 @@
     <Compile Include="DesktopProcedures\LayawayPaymentHistoryBuilderTests.cs" />
     <Compile Include="IcnTests.cs" />
     <Compile Include="ItemReasonFactoryTests.cs" />
-    <Compile Include="Libraries\Pawn\Products\DescribeMerchandise\AutoCompleter1.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AutoCompleter.feature</DependentUpon>
-    </Compile>
-    <Compile Include="Libraries\Pawn\Products\DescribeMerchandise\AutoCompleterSteps.cs">
+    <Compile Include="Libraries\Pawn\Products\DescribeMerchandise\TypeAheadSteps.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Libraries\Utility\RawTextPrinting\MerchandiseDescriptionLineSeparatorTests.cs" />
@@ -96,6 +89,11 @@
     <Compile Include="ShopDateTimeTests.cs" />
     <Compile Include="SocialSecurityNumberTests.cs" />
     <Compile Include="TestEnvironment.cs" />
+    <Compile Include="Libraries\Pawn\Products\DescribeMerchandise\TypeAheadTextBox.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TypeAheadTextBox.feature</DependentUpon>
+    </Compile>
     <Compile Include="UtilitiesTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -106,15 +104,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Libraries\Pawn\Products\DescribeMerchandise\AutoCompleter.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>AutoCompleter1.feature.cs</LastGenOutput>
-    </None>
     <None Include="packages.config" />
+    <None Include="Libraries\Pawn\Products\DescribeMerchandise\TypeAheadTextBox.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TypeAheadTextBox.feature.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

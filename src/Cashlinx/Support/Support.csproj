@@ -78,6 +78,9 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Support, Version=3.1.3.0, Culture=neutral, PublicKeyToken=96ee59855084e05b, processorArchitecture=x86">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -110,6 +113,8 @@
     <Compile Include="Flows\AppController\Impl\Common\IsCustomerLookedUp.cs" />
     <Compile Include="Flows\AppController\Impl\Common\LoadCustomerLoanKeys.cs" />
     <Compile Include="Flows\AppController\Impl\MainFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\GunBookEditFlowExecutor.cs" />
+    <Compile Include="Flows\AppController\Impl\MainSubFlows\GunBookUtilityFlowExecutor.cs" />
     <Compile Include="Flows\AppController\Impl\MainSubFlows\LookupCustomerFlowExecutor.cs" />
     <Compile Include="Flows\AppController\Impl\MainSubFlows\PawnCustInformationFlowExecutor.cs" />
     <Compile Include="Forms\AutoTransfer\FrmAutoTransfer.cs">
@@ -297,6 +302,12 @@
     </Compile>
     <Compile Include="Forms\Customer\ProductTabs\SupportCustomerComments.Designer.cs">
       <DependentUpon>SupportCustomerComments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\GBUtilitiesPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Panels\MenuPanels\GBUtilitiesPanel.Designer.cs">
+      <DependentUpon>GBUtilitiesPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ReprintDocument.cs">
       <SubType>Form</SubType>
@@ -496,6 +507,30 @@
     </Compile>
     <Compile Include="Forms\ShopAdmin\Products\DescribeMerchandise\GunLookup.Designer.cs">
       <DependentUpon>GunLookup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ShopAdmin\Products\EditGunBook\CustomerReplace.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ShopAdmin\Products\EditGunBook\CustomerReplace.designer.cs">
+      <DependentUpon>CustomerReplace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ShopAdmin\Products\EditGunBook\EditGunBookRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ShopAdmin\Products\EditGunBook\EditGunBookRecord.designer.cs">
+      <DependentUpon>EditGunBookRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ShopAdmin\Products\EditGunBook\GunBookCustomer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ShopAdmin\Products\EditGunBook\GunBookCustomer.designer.cs">
+      <DependentUpon>GunBookCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ShopAdmin\Products\EditGunBook\GunBookSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ShopAdmin\Products\EditGunBook\GunBookSearch.designer.cs">
+      <DependentUpon>GunBookSearch.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\SocialSecurityNumber.cs">
       <SubType>UserControl</SubType>
@@ -720,6 +755,9 @@
     <EmbeddedResource Include="Forms\Customer\ProductTabs\SupportCustomerComments.resx">
       <DependentUpon>SupportCustomerComments.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Panels\MenuPanels\GBUtilitiesPanel.resx">
+      <DependentUpon>GBUtilitiesPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ReprintDocument.resx">
       <DependentUpon>ReprintDocument.cs</DependentUpon>
     </EmbeddedResource>
@@ -818,6 +856,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ShopAdmin\Products\DescribeMerchandise\GunLookup.resx">
       <DependentUpon>GunLookup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ShopAdmin\Products\EditGunBook\CustomerReplace.resx">
+      <DependentUpon>CustomerReplace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ShopAdmin\Products\EditGunBook\EditGunBookRecord.resx">
+      <DependentUpon>EditGunBookRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ShopAdmin\Products\EditGunBook\GunBookCustomer.resx">
+      <DependentUpon>GunBookCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ShopAdmin\Products\EditGunBook\GunBookSearch.resx">
+      <DependentUpon>GunBookSearch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SocialSecurityNumber.resx">
       <DependentUpon>SocialSecurityNumber.cs</DependentUpon>
@@ -995,6 +1045,14 @@
     <Content Include="Resources\form_800_600.png" />
     <Content Include="Resources\form_800_700.png" />
     <Content Include="Resources\form_900_700.png" />
+    <None Include="Resources\gbedit_button_depressed.png" />
+    <None Include="Resources\gbedit_button_disabled.png" />
+    <None Include="Resources\gbedit_button_hover.png" />
+    <None Include="Resources\gbedit_button_normal.png" />
+    <None Include="Resources\gbutilities_button_depressed.png" />
+    <None Include="Resources\gbutilities_button_disabled.png" />
+    <None Include="Resources\gbutilities_button_hover.png" />
+    <None Include="Resources\gbutilities_button_normal.png" />
     <Content Include="Resources\hardware_button_depressed.png" />
     <Content Include="Resources\hardware_button_disabled.png" />
     <Content Include="Resources\hardware_button_hover.png" />

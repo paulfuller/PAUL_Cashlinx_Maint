@@ -345,7 +345,16 @@ namespace Support.Properties {
         
         internal static System.Drawing.Bitmap vistabutton_blue {
             get {
-                object obj = ResourceManager.GetObject("vistabutton_blue", resourceCulture);
+                object obj = ResourceManager.GetObject("Red_button_100_50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap oldvistabutton_blue
+        {
+            get
+            {
+                object obj = ResourceManager.GetString("Red_button_100_501", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

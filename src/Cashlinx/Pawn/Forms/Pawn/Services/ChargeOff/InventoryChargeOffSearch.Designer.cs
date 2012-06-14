@@ -195,10 +195,11 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             // 
             // txtQty
             // 
-            this.txtQty.Location = new System.Drawing.Point(478, 63);
+            this.txtQty.CausesValidation = false;
+            this.txtQty.Location = new System.Drawing.Point(455, 58);
             this.txtQty.MaxLength = 3;
             this.txtQty.Name = "txtQty";
-            this.txtQty.Size = new System.Drawing.Size(46, 21);
+            this.txtQty.Size = new System.Drawing.Size(39, 21);
             this.txtQty.TabIndex = 156;
             this.txtQty.Text = "0";
             this.txtQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

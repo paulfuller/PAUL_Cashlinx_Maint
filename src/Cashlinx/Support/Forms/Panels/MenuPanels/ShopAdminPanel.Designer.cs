@@ -33,7 +33,7 @@
             this.busruleparamsButton = new System.Windows.Forms.Button();
             this.BackButton = new System.Windows.Forms.Button();
             this.voidtransactionsButton = new System.Windows.Forms.Button();
-            this.extenddepdatesButton = new System.Windows.Forms.Button();
+            this.gbutilitiesButton = new System.Windows.Forms.Button();
             this.retcheckhandlingButton = new System.Windows.Forms.Button();
             this.configurationButton = new System.Windows.Forms.Button();
             this.facilitymasterButton = new System.Windows.Forms.Button();
@@ -168,31 +168,32 @@
             this.voidtransactionsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.voidtransactionsButton.UseVisualStyleBackColor = false;
             // 
-            // extenddepdatesButton
+            // gbutilitiesButton
             // 
-            this.extenddepdatesButton.BackColor = System.Drawing.Color.Transparent;
-            this.extenddepdatesButton.BackgroundImage = global::Support.MenuButtonResources.extenddepdates_button_normal;
-            this.extenddepdatesButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.extenddepdatesButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.extenddepdatesButton.Enabled = false;
-            this.extenddepdatesButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.extenddepdatesButton.FlatAppearance.BorderSize = 0;
-            this.extenddepdatesButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.extenddepdatesButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.extenddepdatesButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.extenddepdatesButton.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.extenddepdatesButton.ForeColor = System.Drawing.Color.Transparent;
-            this.extenddepdatesButton.Location = new System.Drawing.Point(5, 241);
-            this.extenddepdatesButton.Margin = new System.Windows.Forms.Padding(4);
-            this.extenddepdatesButton.MaximumSize = new System.Drawing.Size(205, 105);
-            this.extenddepdatesButton.MinimumSize = new System.Drawing.Size(205, 105);
-            this.extenddepdatesButton.Name = "extenddepdatesButton";
-            this.extenddepdatesButton.Size = new System.Drawing.Size(205, 105);
-            this.extenddepdatesButton.TabIndex = 16;
-            this.extenddepdatesButton.Tag = "extenddepdatesButton|null";
-            this.extenddepdatesButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.extenddepdatesButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.extenddepdatesButton.UseVisualStyleBackColor = false;
+            this.gbutilitiesButton.BackColor = System.Drawing.Color.Transparent;
+            this.gbutilitiesButton.BackgroundImage = global::Support.MenuButtonResources.gbutilities_button_normal;
+            this.gbutilitiesButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.gbutilitiesButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.gbutilitiesButton.Enabled = false;
+            this.gbutilitiesButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.gbutilitiesButton.FlatAppearance.BorderSize = 0;
+            this.gbutilitiesButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.gbutilitiesButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.gbutilitiesButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.gbutilitiesButton.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbutilitiesButton.ForeColor = System.Drawing.Color.Transparent;
+            this.gbutilitiesButton.Location = new System.Drawing.Point(5, 241);
+            this.gbutilitiesButton.Margin = new System.Windows.Forms.Padding(4);
+            this.gbutilitiesButton.MaximumSize = new System.Drawing.Size(205, 105);
+            this.gbutilitiesButton.MinimumSize = new System.Drawing.Size(205, 105);
+            this.gbutilitiesButton.Name = "gbutilitiesButton";
+            this.gbutilitiesButton.Size = new System.Drawing.Size(205, 105);
+            this.gbutilitiesButton.TabIndex = 16;
+            this.gbutilitiesButton.Tag = "gbutilitiesButton|GBUtilitiesPanel";
+            this.gbutilitiesButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.gbutilitiesButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.gbutilitiesButton.UseVisualStyleBackColor = false;
+            this.gbutilitiesButton.Click += new System.EventHandler(this.gbutilitiesButton_Click);
             // 
             // retcheckhandlingButton
             // 
@@ -280,7 +281,7 @@
             this.Controls.Add(this.busruleparamsButton);
             this.Controls.Add(this.BackButton);
             this.Controls.Add(this.voidtransactionsButton);
-            this.Controls.Add(this.extenddepdatesButton);
+            this.Controls.Add(this.gbutilitiesButton);
             this.Controls.Add(this.retcheckhandlingButton);
             this.Controls.Add(this.configurationButton);
             this.Controls.Add(this.facilitymasterButton);
@@ -300,7 +301,7 @@
         private System.Windows.Forms.Button facilitymasterButton;
         private System.Windows.Forms.Button configurationButton;
         private System.Windows.Forms.Button retcheckhandlingButton;
-        private System.Windows.Forms.Button extenddepdatesButton;
+        private System.Windows.Forms.Button gbutilitiesButton;
         private System.Windows.Forms.Button voidtransactionsButton;
         private System.Windows.Forms.Button BackButton;
         private System.Windows.Forms.Button relocatemerchButton;

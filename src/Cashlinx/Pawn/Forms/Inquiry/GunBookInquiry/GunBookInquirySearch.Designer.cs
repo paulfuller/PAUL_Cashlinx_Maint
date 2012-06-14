@@ -48,6 +48,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             System.Windows.Forms.Label label19;
             System.Windows.Forms.Label label20;
             System.Windows.Forms.Label label21;
+            System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GunBookInquirySearch));
             this.sortDir_cb = new System.Windows.Forms.ComboBox();
             this.sortBy_cb = new System.Windows.Forms.ComboBox();
@@ -55,12 +56,11 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             this.Find_btn = new Common.Libraries.Forms.Components.CustomButton();
             this.Cancel_btn = new Common.Libraries.Forms.Components.CustomButton();
             this.labelHeading = new System.Windows.Forms.Label();
-            this.gunNumber = new System.Windows.Forms.TextBox();
-            this.gunNumberTo = new System.Windows.Forms.TextBox();
-            this.originalGunNumber = new System.Windows.Forms.TextBox();
-            this.originalGunNumberTo = new System.Windows.Forms.TextBox();
+            this.txtGunNumber = new System.Windows.Forms.TextBox();
+            this.txtGunNumberTo = new System.Windows.Forms.TextBox();
+            this.txtOriginalGunNumber = new System.Windows.Forms.TextBox();
+            this.txtOriginalGunNumberTo = new System.Windows.Forms.TextBox();
             this.txtLoanTicketNumber = new System.Windows.Forms.TextBox();
-            this.ucICN = new UserControls.ICN();
             this.txtCaliber = new System.Windows.Forms.TextBox();
             this.txtManufacturer = new System.Windows.Forms.TextBox();
             this.txtModel = new System.Windows.Forms.TextBox();
@@ -69,6 +69,10 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             this.cbStatus = new System.Windows.Forms.ComboBox();
             this.txtGunBookPageTo = new System.Windows.Forms.TextBox();
             this.txtGunBookPage = new System.Windows.Forms.TextBox();
+            this.cbBound = new System.Windows.Forms.ComboBox();
+            this.ucDep = new UserControls.GunOwner();
+            this.ucAcq = new UserControls.GunOwner();
+            this.ucICN = new UserControls.ICN();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             label7 = new System.Windows.Forms.Label();
@@ -83,6 +87,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             label19 = new System.Windows.Forms.Label();
             label20 = new System.Windows.Forms.Label();
             label21 = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label4
@@ -90,7 +95,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             label4.AutoSize = true;
             label4.BackColor = System.Drawing.Color.Transparent;
             label4.Font = new System.Drawing.Font("Tahoma", 11F);
-            label4.Location = new System.Drawing.Point(367, 650);
+            label4.Location = new System.Drawing.Point(451, 650);
             label4.Name = "label4";
             label4.Size = new System.Drawing.Size(90, 27);
             label4.TabIndex = 66;
@@ -123,7 +128,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             label8.AutoSize = true;
             label8.BackColor = System.Drawing.Color.Transparent;
             label8.Font = new System.Drawing.Font("Tahoma", 11F);
-            label8.Location = new System.Drawing.Point(24, 172);
+            label8.Location = new System.Drawing.Point(617, 127);
             label8.Name = "label8";
             label8.Size = new System.Drawing.Size(225, 27);
             label8.TabIndex = 84;
@@ -134,7 +139,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             label9.AutoSize = true;
             label9.BackColor = System.Drawing.Color.Transparent;
             label9.Font = new System.Drawing.Font("Tahoma", 11F);
-            label9.Location = new System.Drawing.Point(472, 169);
+            label9.Location = new System.Drawing.Point(1065, 124);
             label9.Name = "label9";
             label9.Size = new System.Drawing.Size(45, 27);
             label9.TabIndex = 86;
@@ -145,7 +150,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             label14.AutoSize = true;
             label14.BackColor = System.Drawing.Color.Transparent;
             label14.Font = new System.Drawing.Font("Tahoma", 11F);
-            label14.Location = new System.Drawing.Point(33, 221);
+            label14.Location = new System.Drawing.Point(42, 163);
             label14.Name = "label14";
             label14.Size = new System.Drawing.Size(216, 27);
             label14.TabIndex = 88;
@@ -156,7 +161,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             label13.AutoSize = true;
             label13.BackColor = System.Drawing.Color.Transparent;
             label13.Font = new System.Drawing.Font("Tahoma", 11F);
-            label13.Location = new System.Drawing.Point(42, 269);
+            label13.Location = new System.Drawing.Point(42, 209);
             label13.Name = "label13";
             label13.Size = new System.Drawing.Size(87, 27);
             label13.TabIndex = 91;
@@ -167,7 +172,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             label15.AutoSize = true;
             label15.BackColor = System.Drawing.Color.Transparent;
             label15.Font = new System.Drawing.Font("Tahoma", 11F);
-            label15.Location = new System.Drawing.Point(42, 317);
+            label15.Location = new System.Drawing.Point(51, 284);
             label15.Name = "label15";
             label15.Size = new System.Drawing.Size(141, 27);
             label15.TabIndex = 93;
@@ -178,7 +183,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             label16.AutoSize = true;
             label16.BackColor = System.Drawing.Color.Transparent;
             label16.Font = new System.Drawing.Font("Tahoma", 11F);
-            label16.Location = new System.Drawing.Point(472, 317);
+            label16.Location = new System.Drawing.Point(481, 284);
             label16.Name = "label16";
             label16.Size = new System.Drawing.Size(70, 27);
             label16.TabIndex = 95;
@@ -189,7 +194,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             label17.AutoSize = true;
             label17.BackColor = System.Drawing.Color.Transparent;
             label17.Font = new System.Drawing.Font("Tahoma", 11F);
-            label17.Location = new System.Drawing.Point(654, 317);
+            label17.Location = new System.Drawing.Point(663, 284);
             label17.Name = "label17";
             label17.Size = new System.Drawing.Size(150, 27);
             label17.TabIndex = 97;
@@ -200,7 +205,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             label18.AutoSize = true;
             label18.BackColor = System.Drawing.Color.Transparent;
             label18.Font = new System.Drawing.Font("Tahoma", 11F);
-            label18.Location = new System.Drawing.Point(156, 365);
+            label18.Location = new System.Drawing.Point(185, 320);
             label18.Name = "label18";
             label18.Size = new System.Drawing.Size(60, 27);
             label18.TabIndex = 99;
@@ -211,7 +216,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             label19.AutoSize = true;
             label19.BackColor = System.Drawing.Color.Transparent;
             label19.Font = new System.Drawing.Font("Tahoma", 11F);
-            label19.Location = new System.Drawing.Point(156, 405);
+            label19.Location = new System.Drawing.Point(185, 360);
             label19.Name = "label19";
             label19.Size = new System.Drawing.Size(72, 27);
             label19.TabIndex = 101;
@@ -222,7 +227,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             label20.AutoSize = true;
             label20.BackColor = System.Drawing.Color.Transparent;
             label20.Font = new System.Drawing.Font("Tahoma", 11F);
-            label20.Location = new System.Drawing.Point(503, 448);
+            label20.Location = new System.Drawing.Point(481, 404);
             label20.Name = "label20";
             label20.Size = new System.Drawing.Size(45, 27);
             label20.TabIndex = 105;
@@ -233,11 +238,22 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             label21.AutoSize = true;
             label21.BackColor = System.Drawing.Color.Transparent;
             label21.Font = new System.Drawing.Font("Tahoma", 11F);
-            label21.Location = new System.Drawing.Point(73, 448);
+            label21.Location = new System.Drawing.Point(51, 404);
             label21.Name = "label21";
             label21.Size = new System.Drawing.Size(169, 27);
             label21.TabIndex = 103;
             label21.Text = "Gun Book Page:";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = System.Drawing.Color.Transparent;
+            label1.Font = new System.Drawing.Font("Tahoma", 11F);
+            label1.Location = new System.Drawing.Point(42, 244);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(73, 27);
+            label1.TabIndex = 107;
+            label1.Text = "Bound";
             // 
             // sortDir_cb
             // 
@@ -248,10 +264,10 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             this.sortDir_cb.Items.AddRange(new object[] {
             "Ascending",
             "Descending"});
-            this.sortDir_cb.Location = new System.Drawing.Point(605, 651);
+            this.sortDir_cb.Location = new System.Drawing.Point(689, 651);
             this.sortDir_cb.Name = "sortDir_cb";
             this.sortDir_cb.Size = new System.Drawing.Size(87, 29);
-            this.sortDir_cb.TabIndex = 11;
+            this.sortDir_cb.TabIndex = 90;
             // 
             // sortBy_cb
             // 
@@ -262,10 +278,10 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             this.sortBy_cb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.sortBy_cb.ForeColor = System.Drawing.Color.Black;
             this.sortBy_cb.FormattingEnabled = true;
-            this.sortBy_cb.Location = new System.Drawing.Point(444, 651);
+            this.sortBy_cb.Location = new System.Drawing.Point(528, 651);
             this.sortBy_cb.Name = "sortBy_cb";
             this.sortBy_cb.Size = new System.Drawing.Size(144, 29);
-            this.sortBy_cb.TabIndex = 10;
+            this.sortBy_cb.TabIndex = 85;
             // 
             // Clear_btn
             // 
@@ -281,7 +297,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             this.Clear_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Clear_btn.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Clear_btn.ForeColor = System.Drawing.Color.White;
-            this.Clear_btn.Location = new System.Drawing.Point(591, 723);
+            this.Clear_btn.Location = new System.Drawing.Point(591, 688);
             this.Clear_btn.Margin = new System.Windows.Forms.Padding(0);
             this.Clear_btn.MaximumSize = new System.Drawing.Size(100, 50);
             this.Clear_btn.MinimumSize = new System.Drawing.Size(100, 50);
@@ -306,7 +322,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             this.Find_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Find_btn.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Find_btn.ForeColor = System.Drawing.Color.White;
-            this.Find_btn.Location = new System.Drawing.Point(712, 723);
+            this.Find_btn.Location = new System.Drawing.Point(712, 688);
             this.Find_btn.Margin = new System.Windows.Forms.Padding(0);
             this.Find_btn.MaximumSize = new System.Drawing.Size(100, 50);
             this.Find_btn.MinimumSize = new System.Drawing.Size(100, 50);
@@ -332,7 +348,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             this.Cancel_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Cancel_btn.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Cancel_btn.ForeColor = System.Drawing.Color.White;
-            this.Cancel_btn.Location = new System.Drawing.Point(29, 723);
+            this.Cancel_btn.Location = new System.Drawing.Point(29, 688);
             this.Cancel_btn.Margin = new System.Windows.Forms.Padding(0);
             this.Cancel_btn.MaximumSize = new System.Drawing.Size(100, 50);
             this.Cancel_btn.MinimumSize = new System.Drawing.Size(100, 50);
@@ -350,83 +366,72 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             this.labelHeading.BackColor = System.Drawing.Color.Transparent;
             this.labelHeading.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelHeading.ForeColor = System.Drawing.Color.White;
-            this.labelHeading.Location = new System.Drawing.Point(600, 48);
+            this.labelHeading.Location = new System.Drawing.Point(550, 48);
             this.labelHeading.Name = "labelHeading";
             this.labelHeading.Size = new System.Drawing.Size(378, 29);
             this.labelHeading.TabIndex = 49;
             this.labelHeading.Text = "Gun Book Inquiry - Search Criteria";
             this.labelHeading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelHeading.Click += new System.EventHandler(this.labelHeading_Click);
             // 
-            // gunNumber
+            // txtGunNumber
             // 
-            this.gunNumber.Location = new System.Drawing.Point(253, 125);
-            this.gunNumber.Name = "gunNumber";
-            this.gunNumber.Size = new System.Drawing.Size(205, 27);
-            this.gunNumber.TabIndex = 5;
-            this.gunNumber.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.txtGunNumber.Location = new System.Drawing.Point(253, 125);
+            this.txtGunNumber.Name = "txtGunNumber";
+            this.txtGunNumber.Size = new System.Drawing.Size(205, 27);
+            this.txtGunNumber.TabIndex = 5;
             // 
-            // gunNumberTo
+            // txtGunNumberTo
             // 
-            this.gunNumberTo.Location = new System.Drawing.Point(509, 125);
-            this.gunNumberTo.Name = "gunNumberTo";
-            this.gunNumberTo.Size = new System.Drawing.Size(87, 27);
-            this.gunNumberTo.TabIndex = 10;
+            this.txtGunNumberTo.Location = new System.Drawing.Point(509, 125);
+            this.txtGunNumberTo.Name = "txtGunNumberTo";
+            this.txtGunNumberTo.Size = new System.Drawing.Size(87, 27);
+            this.txtGunNumberTo.TabIndex = 10;
             // 
-            // originalGunNumber
+            // txtOriginalGunNumber
             // 
-            this.originalGunNumber.Location = new System.Drawing.Point(253, 174);
-            this.originalGunNumber.Name = "originalGunNumber";
-            this.originalGunNumber.Size = new System.Drawing.Size(205, 27);
-            this.originalGunNumber.TabIndex = 15;
-            this.originalGunNumber.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.txtOriginalGunNumber.Location = new System.Drawing.Point(846, 129);
+            this.txtOriginalGunNumber.Name = "txtOriginalGunNumber";
+            this.txtOriginalGunNumber.Size = new System.Drawing.Size(205, 27);
+            this.txtOriginalGunNumber.TabIndex = 15;
             // 
-            // originalGunNumberTo
+            // txtOriginalGunNumberTo
             // 
-            this.originalGunNumberTo.Location = new System.Drawing.Point(509, 167);
-            this.originalGunNumberTo.Name = "originalGunNumberTo";
-            this.originalGunNumberTo.Size = new System.Drawing.Size(87, 27);
-            this.originalGunNumberTo.TabIndex = 20;
+            this.txtOriginalGunNumberTo.Location = new System.Drawing.Point(1102, 122);
+            this.txtOriginalGunNumberTo.Name = "txtOriginalGunNumberTo";
+            this.txtOriginalGunNumberTo.Size = new System.Drawing.Size(87, 27);
+            this.txtOriginalGunNumberTo.TabIndex = 20;
             // 
             // txtLoanTicketNumber
             // 
-            this.txtLoanTicketNumber.Location = new System.Drawing.Point(253, 223);
+            this.txtLoanTicketNumber.Location = new System.Drawing.Point(262, 165);
             this.txtLoanTicketNumber.Name = "txtLoanTicketNumber";
             this.txtLoanTicketNumber.Size = new System.Drawing.Size(123, 27);
             this.txtLoanTicketNumber.TabIndex = 25;
             // 
-            // ucICN
-            // 
-            this.ucICN.Location = new System.Drawing.Point(474, 220);
-            this.ucICN.Name = "ucICN";
-            this.ucICN.Size = new System.Drawing.Size(380, 48);
-            this.ucICN.TabIndex = 30;
-            // 
             // txtCaliber
             // 
-            this.txtCaliber.Location = new System.Drawing.Point(262, 271);
+            this.txtCaliber.Location = new System.Drawing.Point(262, 211);
             this.txtCaliber.Name = "txtCaliber";
             this.txtCaliber.Size = new System.Drawing.Size(123, 27);
             this.txtCaliber.TabIndex = 35;
             // 
             // txtManufacturer
             // 
-            this.txtManufacturer.Location = new System.Drawing.Point(253, 317);
+            this.txtManufacturer.Location = new System.Drawing.Point(262, 284);
             this.txtManufacturer.Name = "txtManufacturer";
             this.txtManufacturer.Size = new System.Drawing.Size(87, 27);
             this.txtManufacturer.TabIndex = 40;
-            this.txtManufacturer.TextChanged += new System.EventHandler(this.textBox2_TextChanged_1);
             // 
             // txtModel
             // 
-            this.txtModel.Location = new System.Drawing.Point(545, 317);
+            this.txtModel.Location = new System.Drawing.Point(554, 284);
             this.txtModel.Name = "txtModel";
             this.txtModel.Size = new System.Drawing.Size(87, 27);
             this.txtModel.TabIndex = 45;
             // 
             // txtSerialNumber
             // 
-            this.txtSerialNumber.Location = new System.Drawing.Point(810, 317);
+            this.txtSerialNumber.Location = new System.Drawing.Point(819, 284);
             this.txtSerialNumber.Name = "txtSerialNumber";
             this.txtSerialNumber.Size = new System.Drawing.Size(87, 27);
             this.txtSerialNumber.TabIndex = 50;
@@ -441,7 +446,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             this.cbType.ForeColor = System.Drawing.Color.Black;
             this.cbType.FormattingEnabled = true;
             this.cbType.Items.AddRange(new object[] {
-            global::Pawn.Properties.Resources.OverrideMachineName,
+            "",
             "RIFLE W/SC",
             "DERRINGER",
             "REVOLVER",
@@ -450,7 +455,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             "TARGET HAN",
             "SHOTGUN",
             "COMB. RIFL"});
-            this.cbType.Location = new System.Drawing.Point(233, 366);
+            this.cbType.Location = new System.Drawing.Point(262, 321);
             this.cbType.Name = "cbType";
             this.cbType.Size = new System.Drawing.Size(144, 29);
             this.cbType.TabIndex = 55;
@@ -465,7 +470,7 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             this.cbStatus.ForeColor = System.Drawing.Color.Black;
             this.cbStatus.FormattingEnabled = true;
             this.cbStatus.Items.AddRange(new object[] {
-            global::Pawn.Properties.Resources.OverrideMachineName,
+            "",
             "TEMP",
             "PENDING",
             "PICKEDUP",
@@ -482,24 +487,64 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             "CHARGEOFF",
             "VOID",
             "REJ"});
-            this.cbStatus.Location = new System.Drawing.Point(233, 406);
+            this.cbStatus.Location = new System.Drawing.Point(262, 361);
             this.cbStatus.Name = "cbStatus";
             this.cbStatus.Size = new System.Drawing.Size(144, 29);
             this.cbStatus.TabIndex = 60;
             // 
             // txtGunBookPageTo
             // 
-            this.txtGunBookPageTo.Location = new System.Drawing.Point(540, 446);
+            this.txtGunBookPageTo.Location = new System.Drawing.Point(518, 402);
             this.txtGunBookPageTo.Name = "txtGunBookPageTo";
             this.txtGunBookPageTo.Size = new System.Drawing.Size(87, 27);
             this.txtGunBookPageTo.TabIndex = 70;
             // 
             // txtGunBookPage
             // 
-            this.txtGunBookPage.Location = new System.Drawing.Point(284, 446);
+            this.txtGunBookPage.Location = new System.Drawing.Point(262, 402);
             this.txtGunBookPage.Name = "txtGunBookPage";
             this.txtGunBookPage.Size = new System.Drawing.Size(205, 27);
             this.txtGunBookPage.TabIndex = 65;
+            // 
+            // cbBound
+            // 
+            this.cbBound.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cbBound.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbBound.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.cbBound.Cursor = System.Windows.Forms.Cursors.Default;
+            this.cbBound.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBound.ForeColor = System.Drawing.Color.Black;
+            this.cbBound.FormattingEnabled = true;
+            this.cbBound.Items.AddRange(new object[] {
+            "Y",
+            "N",
+            "A"});
+            this.cbBound.Location = new System.Drawing.Point(262, 246);
+            this.cbBound.Name = "cbBound";
+            this.cbBound.Size = new System.Drawing.Size(144, 29);
+            this.cbBound.TabIndex = 36;
+            // 
+            // ucDep
+            // 
+            this.ucDep.Location = new System.Drawing.Point(732, 446);
+            this.ucDep.Name = "ucDep";
+            this.ucDep.Size = new System.Drawing.Size(491, 189);
+            this.ucDep.TabIndex = 80;
+            // 
+            // ucAcq
+            // 
+            this.ucAcq.Location = new System.Drawing.Point(98, 446);
+            this.ucAcq.Name = "ucAcq";
+            this.ucAcq.Size = new System.Drawing.Size(488, 180);
+            this.ucAcq.TabIndex = 75;
+            this.ucAcq.Load += new System.EventHandler(this.gunOwner1_Load);
+            // 
+            // ucICN
+            // 
+            this.ucICN.Location = new System.Drawing.Point(486, 163);
+            this.ucICN.Name = "ucICN";
+            this.ucICN.Size = new System.Drawing.Size(380, 48);
+            this.ucICN.TabIndex = 30;
             // 
             // GunBookInquirySearch
             // 
@@ -510,8 +555,12 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.CancelButton = this.Cancel_btn;
-            this.ClientSize = new System.Drawing.Size(1349, 776);
+            this.ClientSize = new System.Drawing.Size(1248, 741);
             this.ControlBox = false;
+            this.Controls.Add(this.ucDep);
+            this.Controls.Add(this.ucAcq);
+            this.Controls.Add(this.cbBound);
+            this.Controls.Add(label1);
             this.Controls.Add(this.txtGunBookPageTo);
             this.Controls.Add(label20);
             this.Controls.Add(label21);
@@ -531,14 +580,14 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             this.Controls.Add(this.ucICN);
             this.Controls.Add(this.txtLoanTicketNumber);
             this.Controls.Add(label14);
-            this.Controls.Add(this.originalGunNumberTo);
+            this.Controls.Add(this.txtOriginalGunNumberTo);
             this.Controls.Add(label9);
             this.Controls.Add(label8);
-            this.Controls.Add(this.originalGunNumber);
-            this.Controls.Add(this.gunNumberTo);
+            this.Controls.Add(this.txtOriginalGunNumber);
+            this.Controls.Add(this.txtGunNumberTo);
             this.Controls.Add(label7);
             this.Controls.Add(label5);
-            this.Controls.Add(this.gunNumber);
+            this.Controls.Add(this.txtGunNumber);
             this.Controls.Add(this.sortDir_cb);
             this.Controls.Add(this.sortBy_cb);
             this.Controls.Add(label4);
@@ -565,10 +614,10 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
         private CustomButton Find_btn;
         private CustomButton Cancel_btn;
         private System.Windows.Forms.Label labelHeading;
-        private System.Windows.Forms.TextBox gunNumber;
-        private System.Windows.Forms.TextBox gunNumberTo;
-        private System.Windows.Forms.TextBox originalGunNumber;
-        private System.Windows.Forms.TextBox originalGunNumberTo;
+        private System.Windows.Forms.TextBox txtGunNumber;
+        private System.Windows.Forms.TextBox txtGunNumberTo;
+        private System.Windows.Forms.TextBox txtOriginalGunNumber;
+        private System.Windows.Forms.TextBox txtOriginalGunNumberTo;
         private System.Windows.Forms.TextBox txtLoanTicketNumber;
         private ICN ucICN;
         private System.Windows.Forms.TextBox txtCaliber;
@@ -579,6 +628,9 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
         private System.Windows.Forms.ComboBox cbStatus;
         private System.Windows.Forms.TextBox txtGunBookPageTo;
         private System.Windows.Forms.TextBox txtGunBookPage;
+        private System.Windows.Forms.ComboBox cbBound;
+        private GunOwner ucAcq;
+        private GunOwner ucDep;
 
     }
 }

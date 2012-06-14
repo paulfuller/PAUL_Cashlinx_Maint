@@ -85,7 +85,6 @@ namespace Pawn.Forms.UserControls
             this.ICN_year_tb.Name = "ICN_year_tb";
             this.ICN_year_tb.Size = new System.Drawing.Size(26, 26);
             this.ICN_year_tb.TabIndex = 10;
-            this.ICN_year_tb.TextChanged += new System.EventHandler(this.ICN_year_tb_TextChanged);
             // 
             // ICN_shop_tb
             // 
@@ -121,7 +120,6 @@ namespace Pawn.Forms.UserControls
             this.Controls.Add(this.label1);
             this.Name = "ICN";
             this.Size = new System.Drawing.Size(380, 48);
-            this.Load += new System.EventHandler(this.ICN_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

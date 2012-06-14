@@ -74,22 +74,22 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             int icn_item = ucICN.Item;
             int icn_sub_item = ucICN.SubItem;
             string bound = this.cbBound.X<string>();
-            string model = string.Empty;
-            string serialnumber = string.Empty;
-            string type = string.Empty;
-            string status = string.Empty;
-            int gunbook_begin = 0;
-            int gunbook_end = 0;
-            string acq_startDate = string.Empty; // MM/DD/YYYY
-            string acq_endDate = string.Empty;
-            string acq_lastname = string.Empty;
-            string acq_firstname = string.Empty;
-            string acq_customernumber = string.Empty;
-            string disp_startDate = string.Empty; // MM/DD/YYYY
-            string disp_endDate = string.Empty;
-            string disp_lastname = string.Empty;
-            string disp_firstname = string.Empty;
-            string disp_customernumber = string.Empty;
+            string model = this.txtModel.X<string>();
+            string serialnumber = txtSerialNumber.X<string>();
+            string type = cbType.X<string>();
+            string status = cbStatus.X<string>();
+            int gunbook_begin = this.txtGunBookPage.X<int>();
+            int gunbook_end = this.txtGunBookPageTo.X<int>();
+            string acq_startDate = this.ucAcq.StartDate;
+            string acq_endDate = this.ucAcq.EndDate;
+            string acq_lastname = this.ucAcq.LastName;
+            string acq_firstname = this.ucAcq.FirstName;
+            string acq_customernumber = this.ucAcq.CustomerNumber;
+            string disp_startDate = this.ucDep.StartDate; // MM/DD/YYYY
+            string disp_endDate = this.ucDep.EndDate;
+            string disp_lastname = this.ucDep.LastName;
+            string disp_firstname = this.ucDep.FirstName;
+            string disp_customernumber = this.ucDep.CustomerNumber;
             GunBookInquiry.sortField_enum sortBy = GunBookInquiry.sortField_enum.GUNNUMBER;
             Inquiry.sortDir_enum sortDir = Inquiry.sortDir_enum.DESCENDING;
 
@@ -334,6 +334,11 @@ namespace Pawn.Forms.Inquiry.GunBookInquiry
             {
                 this.Visible = true;
             }
+        }
+
+        private void gunOwner1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

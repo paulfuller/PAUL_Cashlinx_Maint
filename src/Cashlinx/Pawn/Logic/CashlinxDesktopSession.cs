@@ -277,7 +277,7 @@ namespace Pawn.Logic
                     //Invoke stored procedure
                     string errorCode;
                     string errorText;
-                    bool sProcSuccess = StoreLoans.ManagerOverrideReason(
+                    bool sProcSuccess = AuditLogProcedures.ManagerOverrideReason(
                         auditDate, storeNumber, overrideID,
                         arManagerOverrideTransactionType,
                         arManagerOverrideType,
@@ -873,7 +873,7 @@ namespace Pawn.Logic
                     if (FileLogger.Instance.IsLogDebug)
                     {
                         FileLogger.Instance.logMessage(LogLevel.DEBUG, this, "- Connecting to LDAP server:{0}{1}",
-                            System.Environment.NewLine, ldapService);
+                            Environment.NewLine, ldapService);
                     }
                     PawnLDAPAccessor.Instance.InitializeConnection(
                         conf.DecryptValue(ldapService.Server),
@@ -908,7 +908,7 @@ namespace Pawn.Logic
                             needPasswordChange,
                             wantsPasswordChange);
                     }
-                    var outVal = 0;
+                    int outVal;
                     string errCode, errTxt;
                     if ((!LoginCancel && fullAuth) || (fullAuth && chgUsrPasswd))
                     {
@@ -1080,10 +1080,7 @@ namespace Pawn.Logic
                         this.userState = UserDesktopState.NOTLOGGEDIN;
                         DialogResult dR =
                         MessageBox.Show(
-                            "You have entered invalid credentials. " +
-                            "This is your " + (attemptCount.FormatNumberWithSuffix()) +
-                            " attempt. " +
-                            "Would you like to retry?",
+                            string.Format("You have entered invalid credentials. " + "This is your {0} attempt. " + "Would you like to retry?", (attemptCount.FormatNumberWithSuffix())),
                             "Application Security",
                             MessageBoxButtons.RetryCancel,
                             MessageBoxIcon.Stop);
@@ -2026,7 +2023,7 @@ namespace Pawn.Logic
 
         private void internalPopulateEmployees(DataTable emps)
         {
-            string sFilter = "homestore = '" + CurrentSiteId.StoreNumber + "'";
+            string sFilter = string.Format("homestore = '{0}'", CurrentSiteId.StoreNumber);
 
             DataRow[] dataRows = emps.Select(sFilter);
             foreach (DataRow dataRow in dataRows)

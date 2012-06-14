@@ -25,7 +25,7 @@ namespace DSTRViewer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("300000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("120000")]
         public string timeLimiter {
             get {
                 return ((string)(this["timeLimiter"]));

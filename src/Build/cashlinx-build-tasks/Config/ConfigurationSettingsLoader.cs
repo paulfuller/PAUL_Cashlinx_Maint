@@ -11,6 +11,7 @@ namespace Cashlinx.Build.Tasks.Config
                 case ConfigurationKey.CLXD:
                     return new ConfigurationSettings()
                     {
+                        DstrProdEnv = key.ToString().ToUpper(),
                         PawnSecDBHost = "1xaOn6Ot6HRjXbIPl7E2WJ3Bs9SmWpEy",
                         PawnSecDBPassword = "jZekk5GlbvfnRVTll7RpCw==",
                         PawnSecDBPort = "c5oa+iWxTPs=",
@@ -21,6 +22,7 @@ namespace Cashlinx.Build.Tasks.Config
                 case ConfigurationKey.CLXD2:
                     return new ConfigurationSettings()
                     {
+                        DstrProdEnv = key.ToString().ToUpper(),
                         PawnSecDBHost = "5HYH35IsmBLxuFKgDA0deV4cSI9w/aeE",
                         PawnSecDBPassword = "jZekk5GlbvfnRVTll7RpCw==",
                         PawnSecDBPort = "c5oa+iWxTPs=",
@@ -31,6 +33,7 @@ namespace Cashlinx.Build.Tasks.Config
                 case ConfigurationKey.CLXD3:
                     return new ConfigurationSettings()
                     {
+                        DstrProdEnv = key.ToString().ToUpper(),
                         PawnSecDBHost = "5HYH35IsmBLxuFKgDA0deV4cSI9w/aeE",
                         PawnSecDBPassword = "jZekk5GlbvfnRVTll7RpCw==",
                         PawnSecDBPort = "c5oa+iWxTPs=",
@@ -41,6 +44,7 @@ namespace Cashlinx.Build.Tasks.Config
                 case ConfigurationKey.CLXI:
                     return new ConfigurationSettings()
                     {
+                        DstrProdEnv = key.ToString().ToUpper(),
                         PawnSecDBHost = "5HYH35IsmBLxuFKgDA0deV4cSI9w/aeE",
                         PawnSecDBPassword = "jZekk5GlbvfnRVTll7RpCw==",
                         PawnSecDBPort = "c5oa+iWxTPs=",
@@ -51,6 +55,7 @@ namespace Cashlinx.Build.Tasks.Config
                 case ConfigurationKey.CLXP:
                     return new ConfigurationSettings()
                     {
+                        DstrProdEnv = key.ToString().ToUpper(),
                         PawnSecDBHost = "bIyV3M7QftbxuFKgDA0deV4cSI9w/aeE",
                         PawnSecDBPassword = "jZekk5GlbvfnRVTll7RpCw==",
                         PawnSecDBPort = "07s4aRvDFLs=",
@@ -61,6 +66,7 @@ namespace Cashlinx.Build.Tasks.Config
                 case ConfigurationKey.CLXPG:
                     return new ConfigurationSettings()
                     {
+                        DstrProdEnv = key.ToString().ToUpper(),
                         PawnSecDBHost = "WTzPYAETxojxuFKgDA0deV4cSI9w/aeE",
                         PawnSecDBPassword = "jZekk5GlbvfnRVTll7RpCw==",
                         PawnSecDBPort = "c5oa+iWxTPs=",
@@ -71,6 +77,7 @@ namespace Cashlinx.Build.Tasks.Config
                 case ConfigurationKey.CLXPP:
                     return new ConfigurationSettings()
                     {
+                        DstrProdEnv = key.ToString().ToUpper(),
                         PawnSecDBHost = "UzeafzXCKVFUiOK4kbZnXSPfSmxEso8X7kK+s12DlYA=",
                         PawnSecDBPassword = "jZekk5GlbvfnRVTll7RpCw==",
                         PawnSecDBPort = "qHuK02GJ/XY=",
@@ -81,6 +88,7 @@ namespace Cashlinx.Build.Tasks.Config
                 case ConfigurationKey.CLXQ:
                     return new ConfigurationSettings()
                     {
+                        DstrProdEnv = key.ToString().ToUpper(),
                         PawnSecDBHost = "bYtNZ/PbgPkj30psRLKPF+5CvrNdg5WA",
                         PawnSecDBPassword = "jZekk5GlbvfnRVTll7RpCw==",
                         PawnSecDBPort = "07s4aRvDFLs=",
@@ -91,6 +99,7 @@ namespace Cashlinx.Build.Tasks.Config
                 case ConfigurationKey.CLXR2:
                     return new ConfigurationSettings()
                     {
+                        DstrProdEnv = key.ToString().ToUpper(),
                         PawnSecDBHost = "O2krnbvpiHLxuFKgDA0deV4cSI9w/aeE",
                         PawnSecDBPassword = "jZekk5GlbvfnRVTll7RpCw==",
                         PawnSecDBPort = "c5oa+iWxTPs=",
@@ -101,6 +110,7 @@ namespace Cashlinx.Build.Tasks.Config
                 case ConfigurationKey.CLXT:
                     return new ConfigurationSettings()
                     {
+                        DstrProdEnv = key.ToString().ToUpper(),
                         PawnSecDBHost = "bYtNZ/PbgPkj30psRLKPF+5CvrNdg5WA",
                         PawnSecDBPassword = "jZekk5GlbvfnRVTll7RpCw==",
                         PawnSecDBPort = "07s4aRvDFLs=",
@@ -111,6 +121,7 @@ namespace Cashlinx.Build.Tasks.Config
                 case ConfigurationKey.CLXT2:
                     return new ConfigurationSettings()
                     {
+                        DstrProdEnv = key.ToString().ToUpper(),
                         PawnSecDBHost = "bYtNZ/PbgPkj30psRLKPF+5CvrNdg5WA",
                         PawnSecDBPassword = "jZekk5GlbvfnRVTll7RpCw==",
                         PawnSecDBPort = "07s4aRvDFLs=",

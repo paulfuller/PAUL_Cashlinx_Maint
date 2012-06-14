@@ -30,11 +30,9 @@
                 <RowDefinition Height="44*" />
                 <RowDefinition Height="33*" />
             </Grid.RowDefinitions>
-            <Label Content="User Name:" Height="28" HorizontalAlignment="Right" Margin="0,6,273,0" Name="label2" VerticalAlignment="Top" Grid.ColumnSpan="2" />
-            <Label Content="Password:" Height="28" HorizontalAlignment="Right" Margin="0,37,273,0" Name="label3" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.RowSpan="2" />
-            <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="62,8,0,0" Name="userNameTextBox" VerticalAlignment="Top" Width="227" TextChanged="userNameTextBox_TextChanged" FontFamily="Segoe UI" TabIndex="2" />
-            <PasswordBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="62,39,0,0" Name="passwordBox" VerticalAlignment="Top" Width="227" PasswordChanged="passwordBox_PasswordChanged" Grid.RowSpan="2" TabIndex="3" />
-            <Label Content="NOTE: You must use your Lawson or Cashlinx credentials to log in" Grid.Column="1" Grid.Row="1" Height="24" HorizontalAlignment="Left" Margin="10,7,0,0" Name="label4" VerticalAlignment="Top" Width="279" FontSize="9" FontStyle="Italic" />
+            <Label Content="Employee Id:" Height="28" HorizontalAlignment="Right" Margin="0,24,273,0" Name="label2" VerticalAlignment="Top" Grid.ColumnSpan="2" />
+            <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="62,26,0,0" Name="userNameTextBox" VerticalAlignment="Top" Width="227" TextChanged="userNameTextBox_TextChanged" FontFamily="Segoe UI" TabIndex="2" />
+            <Label Content="NOTE: You must use your Cash America employee number to log in" Grid.Column="1" Height="24" HorizontalAlignment="Left" Margin="10,51,0,0" Name="label4" VerticalAlignment="Top" Width="279" FontSize="9" FontStyle="Italic" Grid.RowSpan="2" />
         </Grid>
     </Grid>
 </Window>

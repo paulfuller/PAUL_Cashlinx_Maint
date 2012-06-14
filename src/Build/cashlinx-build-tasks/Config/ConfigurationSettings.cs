@@ -7,6 +7,7 @@ namespace Cashlinx.Build.Tasks.Config
 {
     public class ConfigurationSettings
     {
+        public string DstrProdEnv { get; set; }
         public string PawnSecDBUser { get; set; }
         public string PawnSecDBPassword { get; set; }
         public string PawnSecDBSchema { get; set; }

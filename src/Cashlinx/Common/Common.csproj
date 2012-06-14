@@ -158,6 +158,7 @@
     <Compile Include="Controllers\Database\PickingSlip.cs" />
     <Compile Include="Controllers\Database\PickingSlipHelper.cs" />
     <Compile Include="Controllers\Database\PrintUtilities.cs" />
+    <Compile Include="Controllers\Database\Procedures\AuditLogProcedures.cs" />
     <Compile Include="Controllers\Database\Procedures\BusinessRulesProcedures.cs" />
     <Compile Include="Controllers\Database\Procedures\CommonDataProcs.cs" />
     <Compile Include="Controllers\Database\Procedures\CPNHSProcedures.cs" />

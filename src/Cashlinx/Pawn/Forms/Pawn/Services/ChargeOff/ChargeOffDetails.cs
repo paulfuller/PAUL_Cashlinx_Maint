@@ -139,6 +139,8 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
 
         private void customButtonSubmit_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.None;
+
             if (richTextBoxComment.Text.Trim().Count() == 0)
             {
                 MessageBox.Show("Comment should be entered");
@@ -206,6 +208,8 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                     return;
                 }
                 MessageBox.Show("Charge off completed successfully");
+
+                this.DialogResult = DialogResult.OK;
 
                 //set fields
                 InventoryChargeOffFields invFields = new InventoryChargeOffFields();

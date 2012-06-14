@@ -266,11 +266,12 @@ namespace Support.Controllers.Database.Procedures
                         else
                             loanDetails.RevokeACH = false;
 
-                        var xppAvailable = Utilities.GetStringValue(curDr["xpp_available"]);
-                        if (xppAvailable.Equals("Y") || xppAvailable.Equals("YES"))
-                            loanDetails.XPPAvailable = true;
-                        else
-                            loanDetails.XPPAvailable = false;
+                        loanDetails.XPPAvailable = Utilities.GetStringValue(curDr["xpp_available"]);
+                        //var xppAvailable = Utilities.GetStringValue(curDr["xpp_available"]);
+                        //if (xppAvailable.Equals("Y") || xppAvailable.Equals("YES"))
+                        //    loanDetails.XPPAvailable = true;
+                        //else
+                        //    loanDetails.XPPAvailable = false;
 
                         //loanDetails.ActualFinanceChrgAmt = Utilities.GetDecimalValue(curDr["actual_fc"]);
                         //loanDetails.AcutalServiceChrgAmt = Utilities.GetDecimalValue(curDr["actual_sc"]);

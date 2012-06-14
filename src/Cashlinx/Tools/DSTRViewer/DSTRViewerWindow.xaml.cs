@@ -878,7 +878,6 @@ namespace DSTRViewer
                     Application.Current.Shutdown(1);
                     this.Close();
                     return;
-                    break;
                 }
 
                 if (success)

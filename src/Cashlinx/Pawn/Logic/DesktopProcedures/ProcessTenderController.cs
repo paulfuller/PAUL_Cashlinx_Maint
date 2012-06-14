@@ -607,7 +607,15 @@ namespace Pawn.Logic.DesktopProcedures
                 }
                 else
                 {
-                    pawnTicketData.Add("cust_ID", idVo.IdType + "-" + idVo.IdIssuerCode + "-" + idVo.IdValue);
+                    var idType = idVo.IdType;
+                    //For Indiana, display the abbreviated versions
+                    if (state.Equals(States.Indiana))
+                    {
+                        idType = idType.Replace("DRIVERLIC", "DL");
+                        idType = idType.Replace("PASSPORT", "PP");
+                    }
+
+                    pawnTicketData.Add("cust_ID", idType + "-" + idVo.IdIssuerCode + "-" + idVo.IdValue);
                 }
 
                 pawnTicketData.Add("_A_", currentCust.Age);

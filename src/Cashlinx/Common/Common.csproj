@@ -12,10 +12,14 @@
     <AssemblyName>Common</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName></SccProjectName>
-    <SccLocalPath></SccLocalPath>
-    <SccAuxPath></SccAuxPath>
-    <SccProvider></SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -1080,7 +1084,9 @@
     <Folder Include="Controllers\Security\Roles\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Controllers\Rules\DataModel\PawnRulesSystem.xsc">
       <DependentUpon>PawnRulesSystem.xsd</DependentUpon>
     </None>

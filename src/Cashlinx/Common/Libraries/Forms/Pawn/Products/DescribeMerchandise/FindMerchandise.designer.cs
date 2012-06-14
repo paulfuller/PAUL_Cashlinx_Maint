@@ -227,11 +227,11 @@
 
         private System.Windows.Forms.Label manufacturerLabel;
         private System.Windows.Forms.Label modelLabel;
-        private System.Windows.Forms.TextBox manufacturerTextBox;
+        protected System.Windows.Forms.TextBox manufacturerTextBox;
         private System.Windows.Forms.TextBox modelTextBox;
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.Label textEntryErrorLabel;
-        private System.Windows.Forms.ListBox suggestedManufacturerListBox;
+        protected System.Windows.Forms.ListBox suggestedManufacturerListBox;
         private System.Windows.Forms.Label suggestedManufacturerLabel;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button manualEntryButton;

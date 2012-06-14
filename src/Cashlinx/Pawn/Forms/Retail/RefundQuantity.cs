@@ -419,7 +419,11 @@ namespace Pawn.Forms.Retail
             // TG (02-29-2012)-> Added validation to see if at least one item is checked.
             submitButton.Enabled = notAllowedRows != dataGridViewItems.Rows.Count && selectedItemsCount > 0;
 
-            decimal taxRate = Sale.SalesTaxAmount / (Sale.Amount - couponAmt);
+            decimal taxRate;
+            if (Sale.RefNumber == 0)
+                taxRate = Sale.SalesTaxAmount / (Sale.Amount - couponAmt);
+            else
+                taxRate = Sale.SalesTaxAmount / Sale.Amount;
             //decimal taxAmt = Math.Round(subTotal * taxRate, 2);
             decimal taxAmt = 0.0m;
             if (GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.SalesTaxPercentage > 0.0m)
@@ -433,7 +437,7 @@ namespace Pawn.Forms.Retail
 
             if (completeRefund)
             {
-                taxAmt = Math.Round((Sale.Amount - couponAmt) + Sale.SalesTaxAmount - GetRefundedToDate() - subTotal, 2);
+                taxAmt = Sale.RefNumber == 0 ? Math.Round((Sale.Amount - couponAmt) + Sale.SalesTaxAmount - GetRefundedToDate() - subTotal, 2) : Math.Round(Sale.Amount + Sale.SalesTaxAmount - GetRefundedToDate() - subTotal, 2);
             }
 
             lblSubtotal.Text = subTotal.ToString("c");

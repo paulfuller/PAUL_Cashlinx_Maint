@@ -42,6 +42,7 @@ namespace Support.Forms
             this.systemAdminMenuPanel = new Support.Forms.Panels.MenuPanels.SystemAdminMenuPanel();
             this.configMenuPanel2 = new Support.Forms.Panels.MenuPanels.ConfigMenuPanel2();
             this.cashlinxAdminPanel2 = new Support.Forms.Panels.MenuPanels.CashlinxAdminPanel2();
+            this.gbUtilitiesPanel = new Support.Forms.Panels.MenuPanels.GBUtilitiesPanel();
             this.SuspendLayout();
             // 
             // shopTimeLabel
@@ -206,6 +207,21 @@ namespace Support.Forms
             this.cashlinxAdminPanel2.Visible = false;
             this.cashlinxAdminPanel2.EnabledChanged += new System.EventHandler(this.cashlinxAdminPanel2_EnabledChanged);
             // 
+            // gbUtilitiesPanel
+            // 
+            this.gbUtilitiesPanel.BackColor = System.Drawing.Color.Transparent;
+            this.gbUtilitiesPanel.Enabled = false;
+            this.gbUtilitiesPanel.ForeColor = System.Drawing.Color.Black;
+            this.gbUtilitiesPanel.Location = new System.Drawing.Point(44, 7);
+            this.gbUtilitiesPanel.MaximumSize = new System.Drawing.Size(399, 432);
+            this.gbUtilitiesPanel.MinimumSize = new System.Drawing.Size(399, 432);
+            this.gbUtilitiesPanel.Name = "gbUtilitiesPanel";
+            this.gbUtilitiesPanel.Size = new System.Drawing.Size(399, 432);
+            this.gbUtilitiesPanel.TabIndex = 26;
+            this.gbUtilitiesPanel.Tag = "GBUtilitiesPanel|ShopAdminPanel";
+            this.gbUtilitiesPanel.Visible = false;
+            this.gbUtilitiesPanel.EnabledChanged += new System.EventHandler(this.gbUtilitiesMenuPanel_EnabledChanged);
+            // 
             // SupportAppDesktop
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -213,6 +229,7 @@ namespace Support.Forms
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1024, 768);
             this.ControlBox = false;
+            this.Controls.Add(this.gbUtilitiesPanel);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.mainMenuPanel);
             this.Controls.Add(this.shopDateLabel);
@@ -256,6 +273,7 @@ namespace Support.Forms
         private Panels.MenuPanels.ConfigMenuPanel2 configMenuPanel2;
         private Panels.MenuPanels.CashlinxAdminPanel2 cashlinxAdminPanel2;
         private System.Windows.Forms.Label lblVersion;
+        private GBUtilitiesPanel gbUtilitiesPanel;
     }
 }
 

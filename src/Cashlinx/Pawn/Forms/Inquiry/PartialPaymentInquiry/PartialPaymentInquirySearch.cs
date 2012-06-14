@@ -7,9 +7,9 @@ using Common.Controllers.Application.ApplicationFlow.Navigation;
 using Common.Libraries.Utility.Exception;
 using Common.Libraries.Utility.Shared;
 //EDW DSTR TEst
-//using Common.Controllers.Security;
-//using Common.Libraries.Objects.Authorization;
-//using Pawn.Forms.Pawn.ShopAdministration;
+using Common.Controllers.Security;
+using Common.Libraries.Objects.Authorization;
+using Pawn.Forms.Pawn.ShopAdministration;
 namespace Pawn.Forms.Inquiry.PartialPaymentInquiry
 {
     public partial class PartialPaymentInquirySearch : Form
@@ -38,23 +38,135 @@ namespace Pawn.Forms.Inquiry.PartialPaymentInquiry
 
         private void Clear_btn_Click(object sender, EventArgs e)
         {
-//EDW - DSTR Test
-//            var confRef = SecurityAccessor.Instance.EncryptConfig;
-//            var clientConfigDB = confRef.GetOracleDBService();
-//
-//            //Print end of day reports
-//            var credentials = new Credentials
-//            {
-//                UserName = confRef.DecryptValue(clientConfigDB.DbUser),
-//                PassWord = confRef.DecryptValue(clientConfigDB.DbUserPwd),
-//                DBHost = confRef.DecryptValue(clientConfigDB.Server),
-//                DBPort = confRef.DecryptValue(clientConfigDB.Port),
-//                DBService = confRef.DecryptValue(clientConfigDB.AuxInfo),
-//                DBSchema = confRef.DecryptValue(clientConfigDB.Schema)
-//            };
-//            var o = new BalanceCash();
-//            o.ExecuteDSTR(credentials, GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber, true);
+            #region EDW - DSTR Test
+            //var confRef = SecurityAccessor.Instance.EncryptConfig;
+            //var clientConfigDB = confRef.GetOracleDBService();
 
+            ////Print end of day reports
+            //var credentials = new Credentials
+            //{
+            //    UserName = confRef.DecryptValue(clientConfigDB.DbUser),
+            //    PassWord = confRef.DecryptValue(clientConfigDB.DbUserPwd),
+            //    DBHost = confRef.DecryptValue(clientConfigDB.Server),
+            //    DBPort = confRef.DecryptValue(clientConfigDB.Port),
+            //    DBService = confRef.DecryptValue(clientConfigDB.AuxInfo),
+            //    DBSchema = confRef.DecryptValue(clientConfigDB.Schema)
+            //};
+            //var o = new BalanceCash();
+            //o.ExecuteDSTR(credentials, GlobalDataAccessor.Instance.CurrentSiteId.StoreNumber, true);
+            #endregion
+
+            #region EDW Gunbook Inquiry test code
+            // EDW - Gunbook Inquiry test code
+            int gunnumber_begin = 0;
+            int gunnumber_end = 0;
+            int orggunnumber_begin = 0;
+            int orggunnumber_end = 0;
+            int ticketnumber = 0;
+            int icn_store = 0;
+            int icn_year = 0;
+            int icn_doc = 0;
+            string icn_doc_type = string.Empty;
+            int icn_item = 0;
+            int icn_sub_item = -1;
+            string bound = string.Empty;
+            string model = string.Empty;
+            string serialnumber = string.Empty;
+            string type = string.Empty;
+            string status = string.Empty;
+            int gunbook_begin = 0;
+            int gunbook_end = 0;
+            string acq_startDate = string.Empty; // MM/DD/YYYY
+            string acq_endDate = string.Empty;
+            string acq_lastname = string.Empty;
+            string acq_firstname = string.Empty;
+            string acq_customernumber = string.Empty;
+            string disp_startDate = string.Empty; // MM/DD/YYYY
+            string disp_endDate = string.Empty;
+            string disp_lastname = string.Empty;
+            string disp_firstname = string.Empty;
+            string disp_customernumber = string.Empty;
+            PartialPaymentInquiry.sortField_enum_gun sortBy = PartialPaymentInquiry.sortField_enum_gun.GUNNUMBER;
+            Inquiry.sortDir_enum sortDir = Inquiry.sortDir_enum.DESCENDING;
+
+            // EDW - Gunbook Inquiry COUNT test code
+            //DataSet ds = PartialPaymentInquiry.getGunBookTestDataCount(
+            //    gunnumber_begin,
+            //    gunnumber_end,
+            //    orggunnumber_begin,
+            //    orggunnumber_end,
+            //    ticketnumber,
+            //    icn_store,
+            //    icn_year,
+            //    icn_doc,
+            //    icn_doc_type,
+            //    icn_item,
+            //    icn_sub_item,
+            //    bound,
+            //    model,
+            //    serialnumber,
+            //    type,
+            //    status,
+            //    gunbook_begin,
+            //    gunbook_end,
+            //    acq_startDate         , // MM/DD/YYYY
+            //    acq_endDate           ,
+            //    acq_lastname          ,
+            //    acq_firstname         ,
+            //    acq_customernumber    ,
+            //    disp_startDate        , // MM/DD/YYYY
+            //    disp_endDate          ,
+            //    disp_lastname         ,
+            //    disp_firstname        ,
+            //    disp_customernumber   
+            //    );
+
+            //var columnNum = ds.Tables[0].Rows[0][0];
+            //var value = ds.Tables[0].Rows[0][1]; // <-- Count
+
+            // EDW - Gunbook Inquiry DATA test code
+            DataSet ds = PartialPaymentInquiry.getGunBookData(
+                gunnumber_begin,
+                gunnumber_end,
+                orggunnumber_begin,
+                orggunnumber_end,
+                ticketnumber,
+                icn_store,
+                icn_year,
+                icn_doc,
+                icn_doc_type,
+                icn_item,
+                icn_sub_item,
+                bound,
+                model,
+                serialnumber,
+                type,
+                status,
+                gunbook_begin,
+                gunbook_end,
+                acq_startDate, // MM/DD/YYYY
+                acq_endDate,
+                acq_lastname,
+                acq_firstname,
+                acq_customernumber,
+                disp_startDate, // MM/DD/YYYY
+                disp_endDate,
+                disp_lastname,
+                disp_firstname,
+                disp_customernumber,
+                sortBy,
+                sortDir
+                );
+
+            if (ds != null)
+            {
+                var columnNum = ds.Tables[0].Rows[0][0];
+                var value = ds.Tables[0].Rows[0][1];
+            }
+
+            #endregion
+
+            // actual button code (e.g. non-test code)
             clear_fields();
         }
 
@@ -95,7 +207,7 @@ namespace Pawn.Forms.Inquiry.PartialPaymentInquiry
                 dateStartString = string.Empty;
             }
             if (dateCalendarEnd.SelectedDate == "mm/dd/yyyy")
-            {                
+            {
                 dateEndString = string.Empty;
             }
 
@@ -136,7 +248,7 @@ namespace Pawn.Forms.Inquiry.PartialPaymentInquiry
             #region TicketNumber
             int loanTicketNumber = -1;
 
-            if (this.txtLoanTicketNumber.Text.Length !=0 && !int.TryParse(this.txtLoanTicketNumber.Text, out loanTicketNumber))
+            if (this.txtLoanTicketNumber.Text.Length != 0 && !int.TryParse(this.txtLoanTicketNumber.Text, out loanTicketNumber))
             {
                 MessageBox.Show("'Loan Ticket Number:' is not a valid number. Please correct.");
                 return;
@@ -199,13 +311,13 @@ namespace Pawn.Forms.Inquiry.PartialPaymentInquiry
             Cursor.Current = Cursors.Default;
 
             this.Visible = false;
-            
+
             const string tableName = "PARTIAL_PAYMENT_INQ";
 
             var resultsDisplay = new PartialPaymentSearchResults(dataSetReturned, partialPaymentInquiry, tableName);
 
             resultsDisplay.ShowDialog();
-            
+
             if (resultsDisplay.DialogResult == DialogResult.Cancel)
             {
                 this.Close();

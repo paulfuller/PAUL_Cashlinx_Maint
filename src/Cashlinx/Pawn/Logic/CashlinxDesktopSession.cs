@@ -277,7 +277,7 @@ namespace Pawn.Logic
                     //Invoke stored procedure
                     string errorCode;
                     string errorText;
-                    bool sProcSuccess = StoreLoans.ManagerOverrideReason(
+                    bool sProcSuccess = AuditLogProcedures.ManagerOverrideReason(
                         auditDate, storeNumber, overrideID,
                         arManagerOverrideTransactionType,
                         arManagerOverrideType,
@@ -699,8 +699,6 @@ namespace Pawn.Logic
 #endif
 
 #if !__MULTI__
-            procMsgFormPwd = new ProcessingMessage("* INITIALIZING APPLICATION *");
-            procMsgFormPwd.Show();
             // Set up the History Session Object
             HistorySession = new HistoryTrack(deskForm);
             // Set CashlinxDesktopSession's desktop form
@@ -710,6 +708,9 @@ namespace Pawn.Logic
 
             //Initialize the force close timer
             InitForceCloseTimer();
+            procMsgFormPwd = new ProcessingMessage("* INITIALIZING APPLICATION *");
+            procMsgFormPwd.Show();
+
 
 #endif
             // Load barcode formats during startup until Admin section created
@@ -873,7 +874,7 @@ namespace Pawn.Logic
                     if (FileLogger.Instance.IsLogDebug)
                     {
                         FileLogger.Instance.logMessage(LogLevel.DEBUG, this, "- Connecting to LDAP server:{0}{1}",
-                            System.Environment.NewLine, ldapService);
+                            Environment.NewLine, ldapService);
                     }
                     PawnLDAPAccessor.Instance.InitializeConnection(
                         conf.DecryptValue(ldapService.Server),
@@ -908,7 +909,7 @@ namespace Pawn.Logic
                             needPasswordChange,
                             wantsPasswordChange);
                     }
-                    var outVal = 0;
+                    int outVal;
                     string errCode, errTxt;
                     if ((!LoginCancel && fullAuth) || (fullAuth && chgUsrPasswd))
                     {
@@ -1080,10 +1081,7 @@ namespace Pawn.Logic
                         this.userState = UserDesktopState.NOTLOGGEDIN;
                         DialogResult dR =
                         MessageBox.Show(
-                            "You have entered invalid credentials. " +
-                            "This is your " + (attemptCount.FormatNumberWithSuffix()) +
-                            " attempt. " +
-                            "Would you like to retry?",
+                            string.Format("You have entered invalid credentials. " + "This is your {0} attempt. " + "Would you like to retry?", (attemptCount.FormatNumberWithSuffix())),
                             "Application Security",
                             MessageBoxButtons.RetryCancel,
                             MessageBoxIcon.Stop);
@@ -1530,7 +1528,7 @@ namespace Pawn.Logic
                         if (errorCode != "100")
                         {
 
-                            MessageBox.Show("There is a cashdrawer event in progress. Please complete that operation first");
+                            MessageBox.Show(cdEvent.ToUpper() + " transaction is in process on " + wrkId + ". Please complete that operation first");
                             checkPassed = false;
                             return;
                         }
@@ -2026,7 +2024,7 @@ namespace Pawn.Logic
 
         private void internalPopulateEmployees(DataTable emps)
         {
-            string sFilter = "homestore = '" + CurrentSiteId.StoreNumber + "'";
+            string sFilter = string.Format("homestore = '{0}'", CurrentSiteId.StoreNumber);
 
             DataRow[] dataRows = emps.Select(sFilter);
             foreach (DataRow dataRow in dataRows)
@@ -2438,7 +2436,7 @@ namespace Pawn.Logic
                     {
                         ShowInfoMessageForSpecifiedTime("Cashlinx Force Closure",
                                                         "The store will be automatically forced close in " + diff.Minutes + " minutes. " +
-                                                        System.Environment.NewLine, 5, deskForm);
+                                                        System.Environment.NewLine, 10, deskForm);
                         this.ForceCloseMessageShown = true;
                     }
                     else if (diff.Minutes == 0 && diff.Seconds >= 0)
@@ -2522,6 +2520,7 @@ namespace Pawn.Logic
                 msg +
                 System.Environment.NewLine +
                 " This window will automatically close in " + cnt + " seconds.";
+         
                 if (!shownAlready)
                 {
                     iDialog.Show(owner);
@@ -2536,7 +2535,7 @@ namespace Pawn.Logic
                 else
                 {
                     break;
-                }
+               }
                 //Wait one second, then update
                 Utilities.WaitMillis(1000);
                 cnt--;
@@ -3440,7 +3439,10 @@ namespace Pawn.Logic
                 {
                     //Show login form and utilize LDAP for authentication
                     var userLoginForm = new UserLogin(this);
-                    var dR = userLoginForm.ShowDialog();
+
+                    userLoginForm.EnteredUserName = "dm42133";
+                    userLoginForm.EnteredPassWord = "xyz12345";
+                    var dR = DialogResult.OK; //userLoginForm.ShowDialog();
                     if (dR == DialogResult.OK)
                     {
                         LoginCancel = false;

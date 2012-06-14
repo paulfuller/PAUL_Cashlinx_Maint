@@ -12,10 +12,14 @@
     <AssemblyName>CommonTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName></SccProjectName>
-    <SccLocalPath></SccLocalPath>
-    <SccAuxPath></SccAuxPath>
-    <SccProvider></SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,16 +63,23 @@
     <Reference Include="nunit.framework, Version=2.6.0.12017, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TechTalk.SpecFlow">
+      <HintPath>..\packages\SpecFlow.1.8.1\lib\net35\TechTalk.SpecFlow.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DesktopProcedures\LayawayPaymentHistoryBuilderTests.cs" />
     <Compile Include="IcnTests.cs" />
     <Compile Include="ItemReasonFactoryTests.cs" />
+    <Compile Include="Libraries\Pawn\Products\DescribeMerchandise\TypeAheadSteps.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Libraries\Utility\RawTextPrinting\MerchandiseDescriptionLineSeparatorTests.cs" />
     <Compile Include="Libraries\Utility\RawTextPrinting\RawTextCellTests.cs" />
     <Compile Include="Libraries\Utility\RawTextPrinting\RawTextDocumentTests.cs" />
@@ -78,6 +89,11 @@
     <Compile Include="ShopDateTimeTests.cs" />
     <Compile Include="SocialSecurityNumberTests.cs" />
     <Compile Include="TestEnvironment.cs" />
+    <Compile Include="Libraries\Pawn\Products\DescribeMerchandise\TypeAheadTextBox.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TypeAheadTextBox.feature</DependentUpon>
+    </Compile>
     <Compile Include="UtilitiesTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +102,15 @@
       <Name>Common %28Common\Common%29</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Libraries\Pawn\Products\DescribeMerchandise\TypeAheadTextBox.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TypeAheadTextBox.feature.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

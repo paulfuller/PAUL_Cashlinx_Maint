@@ -48,7 +48,6 @@ namespace Common.Libraries.Utility.Shared
         FirearmsReport = 230,
         CashTransferInquiry = 250,
         PartialPaymentInquiry = 251,// This value may change
-        GunBookInquiry = 252,// This value may change
         RefurbList = 231
     }
 
@@ -114,13 +113,13 @@ namespace Common.Libraries.Utility.Shared
 
         public static string[] InquiryTitles = new string[]
         {
-                "Loan", "Loan Servicing", "Inventory", "Partial Payment", "Gun Book"/*, "Retail", "Cash Transfer Inquiry"*/
+                "Loan", "Loan Servicing", "Inventory", "Partial Payment" /*, "Retail", "Cash Transfer Inquiry"*/
         }; 
     
 
         public static int [] InquiryNumbers = new int[]
         {
-                1, 2, 3, 251, 252/*, 4, 250*/
+                1, 2, 3, 251/*, 4, 250*/
         } ;
     }
 

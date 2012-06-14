@@ -3440,9 +3440,9 @@ namespace Pawn.Logic
                     //Show login form and utilize LDAP for authentication
                     var userLoginForm = new UserLogin(this);
 
-                    userLoginForm.EnteredUserName = "dm42133";
-                    userLoginForm.EnteredPassWord = "xyz12345";
-                    var dR = DialogResult.OK; //userLoginForm.ShowDialog();
+                    //userLoginForm.EnteredUserName = "dm42133";
+                    //userLoginForm.EnteredPassWord = "xyz12345";
+                    var dR = userLoginForm.ShowDialog();
                     if (dR == DialogResult.OK)
                     {
                         LoginCancel = false;

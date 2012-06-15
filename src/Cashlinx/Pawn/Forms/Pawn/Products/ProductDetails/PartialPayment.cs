@@ -270,9 +270,9 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
                             lateInterest = Math.Round(((originalInterestAmount / 30) * daysToCharge), 2);
                             lateService = Math.Round(((originalServiceAmount / 30) * daysToCharge), 2);
                             lateFeeFin = lateInterest + lateService;
-                            interestAmt = Math.Round((originalInterestAmount * monthsToCharge));
+                            interestAmt = Math.Round((originalInterestAmount * monthsToCharge),2);
                             interestAmount.Text = interestAmt.ToString("f2");
-                            storageFee = Math.Round((originalServiceAmount * monthsToCharge));
+                            storageFee = Math.Round((originalServiceAmount * monthsToCharge),2);
                             serviceChargeAmount.Text = storageFee.ToString("f2");
                         }
                         else

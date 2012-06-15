@@ -48,44 +48,90 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             List<string> searchFor = new List<string>() { "" };
             List<string> searchValues = new List<string>() { icn };
 
-            FindItem(searchFor, searchValues);
+            
+
+            if (FindItem(searchFor, searchValues))
+                txtICN.Text = ""; // reset txt to simplify for entering a new charge off item
         }
 
         private void txtICN_TextChanged(object sender, EventArgs e)
         {
+            this.customLabelError.Visible = false;
             EnableDisableContinue();
+        }
+
+        private void txtQty_TextChanged(object sender, EventArgs e)
+        {
+            int caccQty = 0;
+
+            if (txtQty.Text.Trim().Length > 0 && int.TryParse(txtQty.Text, out caccQty) && caccQty > 0)
+            {
+                this.customLabelError.Visible = false;
+                EnableDisableContinue();
+            }
+            else
+            {
+                this.customLabelError.Text = "CACC charge off must be a positive integer, greater than 0.";
+                this.customLabelError.Visible = true;
+
+                this.continueButton.Enabled = false;
+            }
         }
 
         private void EnableDisableContinue()
         {
             string icn = this.txtICN.Text.Trim();
+            int qty = 0;
 
-            if (Utilities.IsIcnValid(icn))
+            if (Utilities.IsIcnValid(icn) )
             {
-                continueButton.Enabled = true;
-
-                if (icn.Length == Icn.ICN_LENGTH)
+                if (isCACC (icn) && !txtQty.Visible)
                 {
-                    List<string> searchFor = new List<string>() { "" };
-                    List<string> searchValues = new List<string>() { icn };
-                    FindItem(searchFor, searchValues);
+                    lblQty.Visible = true;
+                    txtQty.Visible = true;
+
+                    return;
                 }
+
+                if (!txtQty.Visible || (txtQty.Visible && txtQty.Text.Trim().Length > 0 && int.TryParse(txtQty.Text, out qty) && qty > 0))
+                {
+                    
+                   continueButton.Enabled = true;
+
+                    if (icn.Length == Icn.ICN_LENGTH)
+                    {
+                        List<string> searchFor = new List<string>() { "" };
+                        List<string> searchValues = new List<string>() { icn };
+                        FindItem(searchFor, searchValues);
+                    }
+                }
+                else
+                    continueButton.Enabled = false;
             }
             else
             {
+                lblQty.Visible = false;
+                txtQty.Visible = false;
+                txtQty.Text = "0";
+
                 continueButton.Enabled = false;
             }
         }
 
-        private void FindItem(List<string> searchFor, List<string> searchValues)
+        private bool FindItem(List<string> searchFor, List<string> searchValues)
         {
+            bool retval = false;
             string errorText = null;
             string errorCode = null;
             List<RetailItem> searchItems;
             string searchFlag = "NORMAL";
             this.customLabelError.Visible = false;
             this.customLabelError.Text = string.Empty;
-            RetailProcedures.SearchForItem(searchFor, searchValues, CDS, searchFlag, false, out searchItems, out errorCode, out errorText);
+
+
+            bool loadQty = this.txtQty.Visible;
+
+            RetailProcedures.SearchForItem(searchFor, searchValues, CDS, searchFlag, loadQty, out searchItems, out errorCode, out errorText);
 
             RetailItem item = null;
             ItemSearchResults searchResults = new ItemSearchResults(GlobalDataAccessor.Instance.DesktopSession, ItemSearchResultsMode.CHARGEOFF);
@@ -93,7 +139,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             {
                 this.customLabelError.Visible = true;
                 this.customLabelError.Text = " This ICN number was not found in the current shop. Please check the number and try again.";
-                return;
+                return retval;
  
             }
 
@@ -101,7 +147,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             {
 
                 searchResults.ShowDialog();
-                return;
+                return retval;
             }
 
             if (searchItems.Count == 1)
@@ -110,7 +156,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                 if (Item.ItemLocked(item))
                 {
                     MessageBox.Show(Item.ItemLockedMessage);
-                    return;
+                    return retval;
                 }
             }
             else if (searchItems.Count > 1)
@@ -130,32 +176,32 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                         {
                             this.customLabelError.Text = Item.ItemLockedMessage;
                             this.customLabelError.Visible = true;
-                            return;
+                            return retval;
                         }
                         if (item.mDocType == "9")
                         {
                             this.customLabelError.Text = "Item is not eligible for Charge off.";
                             this.customLabelError.Visible = true;
-                            return;
+                            return retval;
                         }
                         else if (item.Icn.Substring(Icn.ICN_LENGTH - 1) != "0")
                         {
                             this.customLabelError.Text = "Item is not eligible for Charge off.";
                             this.customLabelError.Visible = true;
-                            return;
+                            return retval;
                         }
 
                         if (item.HoldType == HoldTypes.POLICEHOLD.ToString())
                         {
                             this.customLabelError.Visible = true;
                             this.customLabelError.Text = "This merchandise is on Police Hold. The Police Hold must be released before the item can be charged off.";
-                            return;
+                            return retval;
                         }
 
                     }
                     else
                     {
-                        return;
+                        return retval;
                     }
                 }
                 else
@@ -164,7 +210,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                     if (Item.ItemLocked(item))
                     {
                         MessageBox.Show(Item.ItemLockedMessage);
-                        return;
+                        return retval;
                     }
                 }
             }
@@ -175,30 +221,45 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                 {
                     this.customLabelError.Text = "This merchandise is on Police Hold. The Police Hold must be released before the item can be charged off.";
                     this.customLabelError.Visible = true;
-                    return;
+                    return retval;
                 }
                 else if (item.mDocType == "9")
                 {
                     this.customLabelError.Text = "Cannot charge off NXT items.";
                     this.customLabelError.Visible = true;
-                    return;
+                    return retval;
                 }
                 else if (item.Icn.Substring(Icn.ICN_LENGTH - 1) != "0")
                 {
                     this.customLabelError.Text = "Cannot charge off sub items.";
                     this.customLabelError.Visible = true;
-                    return;
+                    return retval;
+                }
+                else if (int.Parse(this.txtQty.Text) > item.Quantity) 
+                {
+                    this.customLabelError.Text =  item.Quantity + " items were found for this CACC category.  Please revise the charge off quantity.";
+                    this.customLabelError.Visible = true;
+
+                    this.continueButton.Enabled = false;
+
+                    return retval;
                 }
                 else
                 {
+                    if (txtQty.Visible)
+                        item.Quantity = int.Parse(this.txtQty.Text);
+
                     ChargeOffDetails detailsForm = new ChargeOffDetails
                                                    {
                                                        ChargeOffItem = item
                                                    };
                     detailsForm.ShowDialog();
+
+                    retval = (detailsForm.DialogResult == DialogResult.OK);
                 }
             }
- 
+
+            return retval;
         }
 
 
@@ -231,6 +292,59 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
         private void InventoryChargeOffSearch_Load(object sender, EventArgs e)
         {
             txtICN.Text = string.Empty;
+        }
+
+        private void txtICN_Leave(object sender, EventArgs e)
+        {
+            string icn = this.txtICN.Text.Trim();
+
+            if (Utilities.IsIcnValid(icn) && isCACC (icn))
+            {
+                lblQty.Visible = true;
+                txtQty.Visible = true;
+            }
+            else
+            {
+                lblQty.Visible = false;
+                txtQty.Visible = false;
+                txtQty.Text = "0";
+            }
+
+        }
+
+        private bool isCACC (string icn)
+        {
+            bool retval = false;
+
+            Icn thisIcn = new Icn();
+
+            thisIcn.ParseIcn(icn);
+
+
+            if (thisIcn.DocumentNumber == 3362 || thisIcn.DocumentNumber == 3363 ||
+                thisIcn.DocumentNumber == 3350 || thisIcn.DocumentNumber == 3262 ||
+                thisIcn.DocumentNumber == 3380)
+
+                retval = true;
+
+
+            return retval;
+        }
+
+        private void txtQty_Leave(object sender, EventArgs e)
+        {
+            //int caccQty = 0;
+
+            //if (txtQty.Text.Trim().Length > 0 && int.TryParse(txtQty.Text, out caccQty) && caccQty > 0)
+            //{
+            //    this.customLabelError.Visible = false;
+            //    EnableDisableContinue();                   
+            //}
+            //else
+            //{
+            //    this.customLabelError.Text = "CACC charge off must be a positive integer, greater than 0.";
+            //    this.customLabelError.Visible = true;
+            //}
         }
     }
 }

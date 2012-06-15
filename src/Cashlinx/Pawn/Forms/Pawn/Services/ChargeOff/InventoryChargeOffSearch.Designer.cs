@@ -30,6 +30,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InventoryChargeOffSearch));
             this.titleLabel = new System.Windows.Forms.Label();
             this.continueButton = new System.Windows.Forms.Button();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,8 +40,10 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cancelButton = new System.Windows.Forms.Button();
             this.txtICN = new System.Windows.Forms.TextBox();
-            this.customLabel1 = new CustomLabel();
-            this.customLabelError = new CustomLabel();
+            this.customLabel1 = new Common.Libraries.Forms.Components.CustomLabel();
+            this.customLabelError = new Common.Libraries.Forms.Components.CustomLabel();
+            this.lblQty = new Common.Libraries.Forms.Components.CustomLabel();
+            this.txtQty = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // titleLabel
@@ -61,7 +64,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             this.continueButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.continueButton.AutoSize = true;
             this.continueButton.BackColor = System.Drawing.Color.Transparent;
-            this.continueButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.continueButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("continueButton.BackgroundImage")));
             this.continueButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.continueButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.continueButton.FlatAppearance.BorderSize = 0;
@@ -128,7 +131,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cancelButton.AutoSize = true;
             this.cancelButton.BackColor = System.Drawing.Color.Transparent;
-            this.cancelButton.BackgroundImage = global::Common.Properties.Resources.blueglossy_small;
+            this.cancelButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cancelButton.BackgroundImage")));
             this.cancelButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
@@ -153,6 +156,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             this.txtICN.Size = new System.Drawing.Size(227, 21);
             this.txtICN.TabIndex = 152;
             this.txtICN.TextChanged += new System.EventHandler(this.txtICN_TextChanged);
+            this.txtICN.Leave += new System.EventHandler(this.txtICN_Leave);
             // 
             // customLabel1
             // 
@@ -177,13 +181,41 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             this.customLabelError.Text = "Error Message";
             this.customLabelError.Visible = false;
             // 
+            // lblQty
+            // 
+            this.lblQty.AutoSize = true;
+            this.lblQty.BackColor = System.Drawing.Color.Transparent;
+            this.lblQty.Location = new System.Drawing.Point(422, 66);
+            this.lblQty.Name = "lblQty";
+            this.lblQty.Required = true;
+            this.lblQty.Size = new System.Drawing.Size(31, 13);
+            this.lblQty.TabIndex = 155;
+            this.lblQty.Text = "QTY:";
+            this.lblQty.Visible = false;
+            // 
+            // txtQty
+            // 
+            this.txtQty.CausesValidation = false;
+            this.txtQty.Location = new System.Drawing.Point(455, 58);
+            this.txtQty.MaxLength = 3;
+            this.txtQty.Name = "txtQty";
+            this.txtQty.Size = new System.Drawing.Size(39, 21);
+            this.txtQty.TabIndex = 156;
+            this.txtQty.Text = "0";
+            this.txtQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtQty.Visible = false;
+            this.txtQty.TextChanged += new System.EventHandler(this.txtQty_TextChanged);
+            this.txtQty.Leave += new System.EventHandler(this.txtQty_Leave);
+            // 
             // InventoryChargeOffSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Common.Properties.Resources.newDialog_320_BlueScale;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(583, 182);
             this.ControlBox = false;
+            this.Controls.Add(this.txtQty);
+            this.Controls.Add(this.lblQty);
             this.Controls.Add(this.customLabelError);
             this.Controls.Add(this.customLabel1);
             this.Controls.Add(this.txtICN);
@@ -211,5 +243,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
         private System.Windows.Forms.TextBox txtICN;
         private CustomLabel customLabel1;
         private CustomLabel customLabelError;
+        private CustomLabel lblQty;
+        private System.Windows.Forms.TextBox txtQty;
     }
 }

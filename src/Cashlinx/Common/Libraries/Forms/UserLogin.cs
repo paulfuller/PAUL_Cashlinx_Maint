@@ -21,6 +21,11 @@ namespace Common.Libraries.Forms
             {
                 return (enteredUserName);
             }
+            set
+            {
+                enteredUserName = value;
+                userTextBox.Text = value;
+            }
         }
 
         public string EnteredPassWord
@@ -28,6 +33,11 @@ namespace Common.Libraries.Forms
             get
             {
                 return (enteredPassWord);
+            }
+            set
+            {
+                passwordTextBox.Text = value;
+                enteredPassWord = value;
             }
         }
 

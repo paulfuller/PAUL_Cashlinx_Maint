@@ -2149,7 +2149,7 @@ namespace Pawn.Logic.DesktopProcedures
                     detailKey = string.Format("DETAIL{0}", detailCount.ToString().PadLeft(3, '0'));
                     spaceLen = MAX_LEN - ("Grand Total".Length + totalAmount.ToString().Length) - 1;
                     spacer = "".PadLeft(spaceLen, ' ');
-                    detailLine = "Grand Total" + spacer + "$" + totalAmount;
+                    detailLine = "Grand Total" + spacer + totalAmount.ToString("C");
                     data.Add(detailKey, "<R>" + detailLine);
                     ++detailCount;
 
@@ -8344,7 +8344,7 @@ namespace Pawn.Logic.DesktopProcedures
             detailKey = string.Format(
                 "DETAIL{0}", detailCount.ToString().PadLeft(3, '0'));
             ++detailCount;
-            spaceLen = MAX_LEN - (serviceDesc.Length + amount.ToString().Length + 1);
+            spaceLen = MAX_LEN - (serviceDesc.Length + amount.ToString("C").Length + 1);
             spacer = "".PadLeft(spaceLen, ' ');
             detailLine = "<R>" + serviceDesc + spacer + "$" + amount;
             data.Add(detailKey, detailLine);
@@ -9629,6 +9629,8 @@ namespace Pawn.Logic.DesktopProcedures
                 }
             }
 
+            decimal refundSaleHeaderAmt = currentSale.RefNumber == 0 ? currentSale.Amount + totalCouponAmount : currentSale.Amount;
+
             //Start transaction block
             GlobalDataAccessor.Instance.DesktopSession.beginTransactionBlock();
 
@@ -9648,7 +9650,7 @@ namespace Pawn.Logic.DesktopProcedures
                                                                currentSale.SalesTaxAmount.ToString(),
                                                                GlobalDataAccessor.Instance.DesktopSession.CashDrawerName,
                                                                "REFUND",
-                                                               (currentSale.Amount + totalCouponAmount).ToString(),
+                                                               refundSaleHeaderAmt.ToString(),
                                                                currentSale.ShippingHandlingCharges.ToString(),
                                                                jewelryCase,
                                                                custDispIdNum, custDispIdType, custDispIDCode,
@@ -9937,12 +9939,12 @@ namespace Pawn.Logic.DesktopProcedures
                     addlMdseItemRetPrice.Add(rItem.NegotiatedPrice.ToString());
                     addlcouponinfoType.Add(rItem.SaleType.ToString());
                     string opCode = Commons.GetInOpCode(TenderTypes.COUPON.ToString(), TenderTypes.CREDITCARD.ToString());
-                    if (GlobalDataAccessor.Instance.DesktopSession.TenderAmounts != null)
+                    /*if (GlobalDataAccessor.Instance.DesktopSession.TenderAmounts != null)
                         GlobalDataAccessor.Instance.DesktopSession.TenderAmounts.Add(rItem.CouponAmount.ToString());
                     if (GlobalDataAccessor.Instance.DesktopSession.TenderReferenceNumber != null)
                         GlobalDataAccessor.Instance.DesktopSession.TenderReferenceNumber.Add(rItem.CouponCode);
                     if (GlobalDataAccessor.Instance.DesktopSession.TenderTypes != null)
-                        GlobalDataAccessor.Instance.DesktopSession.TenderTypes.Add(opCode);
+                        GlobalDataAccessor.Instance.DesktopSession.TenderTypes.Add(opCode);*/
                     addlMdseCouponIcn.Add(rItem.Icn);
                     addlcouponCodes.Add(rItem.CouponCode);
                     addlcouponAmounts.Add(rItem.CouponAmount.ToString());
@@ -9954,12 +9956,12 @@ namespace Pawn.Logic.DesktopProcedures
             {
 
                 string opCode = Commons.GetInOpCode(TenderTypes.COUPON.ToString(), TenderTypes.CREDITCARD.ToString());
-                if (GlobalDataAccessor.Instance.DesktopSession.TenderAmounts != null)
+                /*if (GlobalDataAccessor.Instance.DesktopSession.TenderAmounts != null)
                     GlobalDataAccessor.Instance.DesktopSession.TenderAmounts.Add(GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.CouponAmount.ToString());
                 if (GlobalDataAccessor.Instance.DesktopSession.TenderReferenceNumber != null)
                     GlobalDataAccessor.Instance.DesktopSession.TenderReferenceNumber.Add(GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.CouponCode);
                 if (GlobalDataAccessor.Instance.DesktopSession.TenderTypes != null)
-                    GlobalDataAccessor.Instance.DesktopSession.TenderTypes.Add(opCode);
+                    GlobalDataAccessor.Instance.DesktopSession.TenderTypes.Add(opCode);*/
                 int i = 1;
                 totalCouponAmt += GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.CouponAmount;
                 decimal couponAmtTotal = 0.0m;
@@ -10230,7 +10232,8 @@ namespace Pawn.Logic.DesktopProcedures
             refEvent.Add(ReceiptEventTypes.LAY.ToString());
 
             // ref amount is the active layaway amount
-            refAmount.Add((currentLayaway.DownPayment + couponTenderAmount).ToString());
+            //refAmount.Add((currentLayaway.DownPayment + couponTenderAmount).ToString());
+            refAmount.Add((currentLayaway.DownPayment).ToString());
 
             // ref store for sale is the store the receipt was printed at
             refStore.Add(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId.StoreNumber);

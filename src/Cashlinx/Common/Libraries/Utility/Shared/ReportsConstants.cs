@@ -113,7 +113,7 @@ namespace Common.Libraries.Utility.Shared
 
         public static string[] InquiryTitles = new string[]
         {
-                "Loan", "Loan Servicing", "Inventory", "Partial Payment"/*, "Retail", "Cash Transfer Inquiry"*/
+                "Loan", "Loan Servicing", "Inventory", "Partial Payment" /*, "Retail", "Cash Transfer Inquiry"*/
         }; 
     
 

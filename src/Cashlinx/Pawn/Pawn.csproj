@@ -221,6 +221,37 @@
       <DependentUpon>ExtensionSearchResults.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Inquiry\ExtInquiry\PawnExtInquiry.cs" />
+    <Compile Include="Forms\UserControls\GunOwner.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\GunOwner.Designer.cs">
+      <DependentUpon>GunOwner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserControls\ICN.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UserControls\ICN.Designer.cs">
+      <DependentUpon>ICN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\GunBookInquiry\GunBookDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\GunBookInquiry\GunBookDetails.Designer.cs">
+      <DependentUpon>GunBookDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\GunBookInquiry\GunBookInquiry.cs" />
+    <Compile Include="Forms\Inquiry\GunBookInquiry\GunBookInquirySearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\GunBookInquiry\GunBookInquirySearch.Designer.cs">
+      <DependentUpon>GunBookInquirySearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Inquiry\GunBookInquiry\GunBookSearchResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Inquiry\GunBookInquiry\GunBookSearchResults.Designer.cs">
+      <DependentUpon>GunBookSearchResults.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Inquiry\Inquiry.cs" />
     <Compile Include="Forms\Inquiry\PartialPaymentInquiry\PartialPaymentDetails.cs">
       <SubType>Form</SubType>
@@ -2125,6 +2156,18 @@
     <EmbeddedResource Include="Forms\Inquiry\ExtInquiry\ExtensionInquirySearch.resx">
       <DependentUpon>ExtensionInquirySearch.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\GunOwner.resx">
+      <DependentUpon>GunOwner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserControls\ICN.resx">
+      <DependentUpon>ICN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\GunBookInquiry\GunBookDetails.resx">
+      <DependentUpon>GunBookDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Inquiry\GunBookInquiry\GunBookInquirySearch.resx">
+      <DependentUpon>GunBookInquirySearch.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Inquiry\InventoryInquiry\CategorySelect.resx">
       <DependentUpon>CategorySelect.cs</DependentUpon>
     </EmbeddedResource>
@@ -3441,6 +3484,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Forms\Inquiry\GunBookInquiry\Controls\" />
     <Folder Include="Forms\Pawn\Customer\HoldRelease\" />
     <Folder Include="Forms\Pawn\Products\DescribeMerchandise\" />
   </ItemGroup>

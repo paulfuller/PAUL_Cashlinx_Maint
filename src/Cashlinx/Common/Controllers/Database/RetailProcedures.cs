@@ -1353,7 +1353,7 @@ namespace Common.Controllers.Database
             //Verify that the accessor is valid
             if (dA == null)
             {
-                errorCode = "is_item_onHold";
+                errorCode = "isSearchItemSellable";
                 errorText = "Invalid desktop session or data accessor instance";
                 BasicExceptionHandler.Instance.AddException("is_item_onHold",
                                                             new ApplicationException("Can not execute the Search For Item stored procedure"));
@@ -1385,7 +1385,7 @@ namespace Common.Controllers.Database
             try
             {
                 retVal = dA.issueSqlStoredProcCommand(
-                    "ccsowner", "david_pawn_retail", "is_item_onHold",
+                    "ccsowner", "pawn_retail", "isItem_Sellable",
                     inParams, refCursors, "o_return_code", "o_return_text",
                     out outputDataSet);
             }

@@ -1323,6 +1323,114 @@ namespace Common.Controllers.Database
             return retVal;
         }
 
+        /// <summary>
+        ///  Check to see if this ICN is Sellable if not 
+        ///  returns a string containing the reason that it is on Hold 
+        ///  DaveG code
+        /// </summary>
+        /// <param name="searchFor"></param>
+        /// <param name="searchValues"></param>
+        /// <param name="HoldType"></param>
+        /// <param name="errorCode"></param>
+        /// <param name="errorText"></param>
+        /// <returns></returns>
+        public static bool isSearchItemSellable(
+        string icn,
+        out string unsellableReason,
+        out string errorCode,
+        out string errorText)
+        {
+            //Set default output values
+            errorCode = string.Empty;
+            errorText = string.Empty;
+            unsellableReason = string.Empty;
+
+            DataSet outputDataSet = null;
+            // searchItems = new List<RetailItem>();
+
+            OracleDataAccessor dA = GlobalDataAccessor.Instance.OracleDA;
+
+            //Verify that the accessor is valid
+            if (dA == null)
+            {
+                errorCode = "is_item_onHold";
+                errorText = "Invalid desktop session or data accessor instance";
+                BasicExceptionHandler.Instance.AddException("is_item_onHold",
+                                                            new ApplicationException("Can not execute the Search For Item stored procedure"));
+                unsellableReason = string.Empty;
+                return (false);
+            }
+
+            //Create input list
+            List<OracleProcParam> inParams = new List<OracleProcParam>();
+
+            inParams.Add(new OracleProcParam("p_icn", icn));
+            //  inParams.Add(new OracleProcParam("p_search_for", true, searchFor));
+            inParams.Add(new OracleProcParam("o_hold_desc", OracleDbType.Varchar2, unsellableReason, ParameterDirection.Output, 255));
+            //  OracleDbType.Varchar2, ParameterDirection.Output, string.Empty));
+            //    oParams.Add(new OracleProcParam("o_receipt_number", OracleDbType.Decimal, DBNull.Value, ParameterDirection.Output, 1));
+
+            //  inParams.Add(new OracleProcParam("p_search_flag", searchFlag));
+
+            //Setup ref cursor array
+            List<PairType<string, string>> refCursors = new List<PairType<string, string>>();
+            //Add general ref cursors
+           // refCursors.Add(new PairType<string, string>("o_hold_desc", "unsellableReason"));
+            //refCursors.Add(new PairType<string, string>("o_return_code", "onHolditem_return_code"));
+            //refCursors.Add(new PairType<string, string>("o_return_text", "onHolditem_text"));
+
+
+            //Create output data set names
+            bool retVal = false;
+            try
+            {
+                retVal = dA.issueSqlStoredProcCommand(
+                    "ccsowner", "david_pawn_retail", "is_item_onHold",
+                    inParams, refCursors, "o_return_code", "o_return_text",
+                    out outputDataSet);
+            }
+            catch (OracleException oEx)
+            {
+                errorCode = " -- is_item_onHold";
+                errorText = " -- Invocation of SearchForItem stored proc failed";
+                BasicExceptionHandler.Instance.AddException(
+                    "OracleException thrown when invoking item_search stored proc", oEx);
+                unsellableReason = string.Empty;
+                return (false);
+            }
+
+            //See if retVal is false
+            if (retVal == false)
+            {
+                errorCode = dA.ErrorCode;
+                errorText = dA.ErrorDescription;
+                unsellableReason = string.Empty;
+                return (false);
+            }
+
+
+            //if (errorCode != "0")
+            //{
+            //    errorCode = "isSearchItemOnHold";
+            //    errorText = "Operation failed";
+            //    unsellableReason = string.Empty;
+            //    return (false);
+            //}
+
+
+            errorCode = "0";
+            errorText = string.Empty;
+
+            unsellableReason = outputDataSet.Tables[0].Rows[0].ItemArray[1].ToString();
+
+            return (true);
+        }
+        // *** End Dave Code ***
+
+
+
+
+
         public static bool SearchForItem(
             List<string> searchFor,
             List<string> searchValues,

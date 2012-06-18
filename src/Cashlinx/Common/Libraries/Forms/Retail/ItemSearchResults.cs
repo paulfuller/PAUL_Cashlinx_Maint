@@ -18,7 +18,7 @@ namespace Common.Libraries.Forms.Retail
 
         public bool ButtonTmpICN
         {
-            set { this.btnTempICN.Enabled = value; }
+            set { this.btnTempICN.Visible = value; }
         }
 
         

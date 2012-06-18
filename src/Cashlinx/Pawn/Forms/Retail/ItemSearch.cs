@@ -212,6 +212,7 @@ namespace Pawn.Forms.Retail
             if (isItemSellable)
             {
                 searchResults.Message = unsellableReason;
+                searchResults.ButtonTmpICN = false;
                 searchResults.ShowDialog();
                 return;
             }
@@ -1039,6 +1040,7 @@ namespace Pawn.Forms.Retail
                         if (isItemUnSellable)
                         {
                             searchResults.Message = unsellableReason;
+                            searchResults.ButtonTmpICN = false;
                             searchResults.ShowDialog();
                             return;
                         }

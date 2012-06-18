@@ -15,6 +15,13 @@ namespace Common.Libraries.Forms.Retail
             set { lblMessage.Text = value; }
         }
 
+
+        public bool ButtonTmpICN
+        {
+            set { this.btnTempICN.Enabled = value; }
+        }
+
+        
         public event ShowDescribeMdse ShowDescMerchandise;
         public ItemSearchResultsMode ResultsMode { get; set; }
 

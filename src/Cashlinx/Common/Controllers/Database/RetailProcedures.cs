@@ -1366,7 +1366,7 @@ namespace Common.Controllers.Database
 
             inParams.Add(new OracleProcParam("p_icn", icn));
             //  inParams.Add(new OracleProcParam("p_search_for", true, searchFor));
-            inParams.Add(new OracleProcParam("o_hold_desc", OracleDbType.Varchar2, unsellableReason, ParameterDirection.Output, 255));
+            inParams.Add(new OracleProcParam("o_Unsellable_Reason", OracleDbType.Varchar2, unsellableReason, ParameterDirection.Output, 255));
             //  OracleDbType.Varchar2, ParameterDirection.Output, string.Empty));
             //    oParams.Add(new OracleProcParam("o_receipt_number", OracleDbType.Decimal, DBNull.Value, ParameterDirection.Output, 1));
 

@@ -174,6 +174,11 @@ namespace Pawn.Forms.Retail
             NavControlBox.Action = NavBox.NavAction.CANCEL;
         }
 
+        /// <summary>
+        /// Find Button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void customButtonFind_Click(object sender, EventArgs e)
         {
             string icn = txtICN.Text.Trim();
@@ -192,7 +197,31 @@ namespace Pawn.Forms.Retail
                 if (!Utilities.IsIcnValid(icn))
                     return;
             }
-            FindItem(searchFor, searchValues);
+
+            // Dave Code added here
+            string errorText = string.Empty;
+            string errorCode = string.Empty;
+            string unsellableReason = string.Empty;
+
+            bool isItemSellable = RetailProcedures.isSearchItemSellable(icn, out unsellableReason, out errorCode, out errorText);
+
+            ItemSearchResults searchResults = new ItemSearchResults(GlobalDataAccessor.Instance.DesktopSession, ItemSearchResultsMode.RETAIL_SALE);
+            //   not sure is the following line is needed....
+            //   searchResults.ShowDescMerchandise += searchResults_ShowDescMerchandise;
+
+            if (isItemSellable)
+            {
+                searchResults.Message = unsellableReason;
+                searchResults.ButtonTmpICN = false;
+                searchResults.ShowDialog();
+                return;
+            }
+            else
+            {
+                FindItem(searchFor, searchValues);
+            }
+
+            // *** End Dave Code 
 
         }
 
@@ -976,8 +1005,11 @@ namespace Pawn.Forms.Retail
             return s;
         }
 
+        /// <summary>
+        ///  updated (DaveG)
+        /// </summary>
         private void EnableDisableFind()
-        {
+            {
             if (IsExpandedSearchPanelVisible)
             {
                 customButtonFind.Enabled = pnlSearchDetails.HasValues();
@@ -994,7 +1026,31 @@ namespace Pawn.Forms.Retail
                     {
                         List<string> searchFor = new List<string>() { "" };
                         List<string> searchValues = new List<string>() { icn };
-                        FindItem(searchFor, searchValues);
+
+                        // Dave Code added here
+                        string errorText = string.Empty;
+                        string errorCode = string.Empty;
+                        string unsellableReason = string.Empty;
+
+                        bool isItemUnSellable = RetailProcedures.isSearchItemSellable(icn, out unsellableReason, out errorCode, out errorText);
+
+                        ItemSearchResults searchResults = new ItemSearchResults(GlobalDataAccessor.Instance.DesktopSession, ItemSearchResultsMode.RETAIL_SALE);
+
+                        // ICN-Item is on hold or has an issue
+                        if (isItemUnSellable)
+                        {
+                            searchResults.Message = unsellableReason;
+                            searchResults.ButtonTmpICN = false;
+                            searchResults.ShowDialog();
+                            return;
+                        }
+                        else
+                        {
+                            FindItem(searchFor, searchValues);
+                        }
+
+                        // *** End Dave Code 
+
                     }
                 }
                 else
@@ -1003,6 +1059,7 @@ namespace Pawn.Forms.Retail
                 }
             }
         }
+
 
         private void EnableDisableSaleAndLayaway()
         {
@@ -1023,6 +1080,7 @@ namespace Pawn.Forms.Retail
             }
         }
 
+  
         private void FindItem(List<string> searchFor, List<string> searchValues)
         {
             string errorText = null;
@@ -1033,6 +1091,10 @@ namespace Pawn.Forms.Retail
                 searchFlag = "NORMAL";
             else
                 searchFlag = "EXPAND";
+
+
+            // If Item is not on hold Search ICN
+
             RetailProcedures.SearchForItem(searchFor, searchValues, CDS, searchFlag, false, out searchItems, out errorCode, out errorText);
 
             RetailItem item = null;

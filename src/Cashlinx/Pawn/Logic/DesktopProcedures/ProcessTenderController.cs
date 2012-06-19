@@ -9188,11 +9188,30 @@ namespace Pawn.Logic.DesktopProcedures
             {
                 foreach (string s in icnToAdd)
                 {
+                 
+
                     Item pItem = (from pawnItem in GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems
                                   where pawnItem.Icn == s
                                   select pawnItem).FirstOrDefault();
+
                     if (pItem != null)
                     {
+                       // *** new DaveG ***
+                        var itemNegotiatedPrice = (from np in GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems
+                                                  where np.Icn == s
+                                                  select np.NegotiatedPrice).FirstOrDefault();
+                          
+                          
+                       // Start here -- DaveG
+                       bool isTmpIcn = false;
+                        
+                        if (pItem.Icn.Substring(12, 1) == "8")
+                        {
+                            isTmpIcn = true;
+                        }
+
+                         // *** END  NEW ****
+
                         QuickCheck pItemQInfo = pItem.QuickInformation;
                         Int64[] primaryMasks = getMasks(pItem);
                         ProKnowMatch pKMatch = pItem.SelectedProKnowMatch;
@@ -9213,7 +9232,12 @@ namespace Pawn.Logic.DesktopProcedures
                         //Insert MDSE record for this pawn item
                         //Calculate the cost amount of the item
                         //Requirement is that cost will be 65% of the amount entered as retail amount
-                        decimal itemCost = COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+                       // decimal itemCost = COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+
+
+                        // *** new DaveG ***
+                        decimal itemCost = (isTmpIcn) ? COSTPERCENTAGEFROMRETAIL * decimal.Parse(itemNegotiatedPrice.ToString()) : COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+                        // *** END ***
 
                         bool curRetValue = ProcessTenderProcedures.ExecuteInsertMDSERecord(
                             pItem.mStore, pItem.mStore, pItem.mYear, pItem.mDocNumber,
@@ -10057,8 +10081,26 @@ namespace Pawn.Logic.DesktopProcedures
                     Item pItem = (from pawnItem in GlobalDataAccessor.Instance.DesktopSession.ActiveLayaway.RetailItems
                                   where pawnItem.Icn == s
                                   select pawnItem).FirstOrDefault();
+
                     if (pItem != null)
                     {
+
+                        // *** new DaveG ***
+                        var itemNegotiatedPrice = (from np in GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems
+                                                   where np.Icn == s
+                                                   select np.NegotiatedPrice).FirstOrDefault();
+
+
+                        // Start here -- DaveG
+                        bool isTmpIcn = false;
+
+                        if (pItem.Icn.Substring(12, 1) == "8")
+                        {
+                            isTmpIcn = true;
+                        }
+
+                        // *** END  NEW ****
+                        
                         QuickCheck pItemQInfo = pItem.QuickInformation;
                         Int64[] primaryMasks = getMasks(pItem);
                         ProKnowMatch pKMatch = pItem.SelectedProKnowMatch;
@@ -10079,7 +10121,14 @@ namespace Pawn.Logic.DesktopProcedures
                         //Insert MDSE record for this pawn item
                         //Calculate the cost amount of the item
                         //Requirement is that cost will be 65% of the amount entered as retail amount
-                        decimal itemCost = COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+                       // decimal itemCost = COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+
+
+                        // *** new DaveG ***
+                        decimal itemCost = (isTmpIcn) ? COSTPERCENTAGEFROMRETAIL * decimal.Parse(itemNegotiatedPrice.ToString()) : COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+                        // *** END ***
+
+
 
                         bool curRetValue = ProcessTenderProcedures.ExecuteInsertMDSERecord(
                             pItem.mStore, pItem.mStore, pItem.mYear, pItem.mDocNumber,

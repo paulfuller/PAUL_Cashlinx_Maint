@@ -1325,15 +1325,14 @@ namespace Common.Controllers.Database
 
         /// <summary>
         ///  Check to see if this ICN is Sellable if not 
-        ///  returns a string containing the reason that it is on Hold 
+        ///  returns a string containing the reason that it is not sellable, if it is not sellable 
         ///  DaveG code
         /// </summary>
-        /// <param name="searchFor"></param>
-        /// <param name="searchValues"></param>
-        /// <param name="HoldType"></param>
-        /// <param name="errorCode"></param>
-        /// <param name="errorText"></param>
-        /// <returns></returns>
+        /// <param name="ICN">ICN to check</param>
+        /// <param name="unsellableReason">The reason text indicating the reason the item is not sellable</param>
+        /// <param name="errorCode">Error code from the database call</param>
+        /// <param name="errorText">Error text from the database call</param>
+        /// <returns>true if the database call succeeds </returns>
         public static bool isSearchItemSellable(
         string icn,
         out string unsellableReason,
@@ -1365,19 +1364,12 @@ namespace Common.Controllers.Database
             List<OracleProcParam> inParams = new List<OracleProcParam>();
 
             inParams.Add(new OracleProcParam("p_icn", icn));
-            //  inParams.Add(new OracleProcParam("p_search_for", true, searchFor));
             inParams.Add(new OracleProcParam("o_Unsellable_Reason", OracleDbType.Varchar2, unsellableReason, ParameterDirection.Output, 255));
-            //  OracleDbType.Varchar2, ParameterDirection.Output, string.Empty));
-            //    oParams.Add(new OracleProcParam("o_receipt_number", OracleDbType.Decimal, DBNull.Value, ParameterDirection.Output, 1));
 
-            //  inParams.Add(new OracleProcParam("p_search_flag", searchFlag));
 
             //Setup ref cursor array
             List<PairType<string, string>> refCursors = new List<PairType<string, string>>();
-            //Add general ref cursors
-           // refCursors.Add(new PairType<string, string>("o_hold_desc", "unsellableReason"));
-            //refCursors.Add(new PairType<string, string>("o_return_code", "onHolditem_return_code"));
-            //refCursors.Add(new PairType<string, string>("o_return_text", "onHolditem_text"));
+
 
 
             //Create output data set names
@@ -1409,15 +1401,6 @@ namespace Common.Controllers.Database
             }
 
 
-            //if (errorCode != "0")
-            //{
-            //    errorCode = "isSearchItemOnHold";
-            //    errorText = "Operation failed";
-            //    unsellableReason = string.Empty;
-            //    return (false);
-            //}
-
-
             errorCode = "0";
             errorText = string.Empty;
 
@@ -1425,7 +1408,6 @@ namespace Common.Controllers.Database
 
             return (true);
         }
-        // *** End Dave Code ***
 
 
 

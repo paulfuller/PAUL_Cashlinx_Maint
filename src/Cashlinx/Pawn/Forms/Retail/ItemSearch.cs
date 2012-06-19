@@ -198,7 +198,7 @@ namespace Pawn.Forms.Retail
                     return;
             }
 
-            // Dave Code added here
+            // added resolution to cq-16179;  DG
             string errorText = string.Empty;
             string errorCode = string.Empty;
             string unsellableReason = string.Empty;
@@ -221,7 +221,7 @@ namespace Pawn.Forms.Retail
                 FindItem(searchFor, searchValues);
             }
 
-            // *** End Dave Code 
+            // *** End cq-16179 fix
 
         }
 
@@ -1006,7 +1006,7 @@ namespace Pawn.Forms.Retail
         }
 
         /// <summary>
-        ///  updated (DaveG)
+        ///  updated to disable find once it has been clicked (DaveG)
         /// </summary>
         private void EnableDisableFind()
             {
@@ -1027,7 +1027,7 @@ namespace Pawn.Forms.Retail
                         List<string> searchFor = new List<string>() { "" };
                         List<string> searchValues = new List<string>() { icn };
 
-                        // Dave Code added here
+                        // cq-16179:   Update to improve usability in midst of 16179 change
                         string errorText = string.Empty;
                         string errorCode = string.Empty;
                         string unsellableReason = string.Empty;
@@ -1049,7 +1049,7 @@ namespace Pawn.Forms.Retail
                             FindItem(searchFor, searchValues);
                         }
 
-                        // *** End Dave Code 
+                        // *** End cq-16179
 
                     }
                 }

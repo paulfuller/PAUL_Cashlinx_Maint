@@ -426,7 +426,7 @@ namespace Pawn.Forms.UserControls
             this.tableLayoutPanelTotalFeeData.ColumnCount = 3;
             this.tableLayoutPanelTotalFeeData.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.9003F));
             this.tableLayoutPanelTotalFeeData.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.0997F));
-            this.tableLayoutPanelTotalFeeData.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 106F));
+            this.tableLayoutPanelTotalFeeData.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 107F));
             this.tableLayoutPanelTotalFeeData.Controls.Add(this.textBoxCouponAmt, 2, 1);
             this.tableLayoutPanelTotalFeeData.Controls.Add(this.txtSubTotal, 2, 0);
             this.tableLayoutPanelTotalFeeData.Controls.Add(this.customButtonCoupon, 0, 0);
@@ -450,7 +450,7 @@ namespace Pawn.Forms.UserControls
             this.textBoxCouponAmt.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.textBoxCouponAmt.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.textBoxCouponAmt.Enabled = false;
-            this.textBoxCouponAmt.Location = new System.Drawing.Point(319, 29);
+            this.textBoxCouponAmt.Location = new System.Drawing.Point(318, 29);
             this.textBoxCouponAmt.Name = "textBoxCouponAmt";
             this.textBoxCouponAmt.Size = new System.Drawing.Size(85, 20);
             this.textBoxCouponAmt.TabIndex = 150;
@@ -461,7 +461,7 @@ namespace Pawn.Forms.UserControls
             this.txtSubTotal.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtSubTotal.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.txtSubTotal.Enabled = false;
-            this.txtSubTotal.Location = new System.Drawing.Point(319, 3);
+            this.txtSubTotal.Location = new System.Drawing.Point(318, 3);
             this.txtSubTotal.Name = "txtSubTotal";
             this.txtSubTotal.Size = new System.Drawing.Size(85, 20);
             this.txtSubTotal.TabIndex = 150;
@@ -498,7 +498,7 @@ namespace Pawn.Forms.UserControls
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(141, 26);
+            this.label11.Location = new System.Drawing.Point(140, 26);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(172, 26);
             this.label11.TabIndex = 1;
@@ -508,7 +508,7 @@ namespace Pawn.Forms.UserControls
             // 
             this.labTaxRate.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labTaxRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labTaxRate.Location = new System.Drawing.Point(162, 61);
+            this.labTaxRate.Location = new System.Drawing.Point(161, 61);
             this.labTaxRate.Name = "labTaxRate";
             this.labTaxRate.Size = new System.Drawing.Size(151, 13);
             this.labTaxRate.TabIndex = 4;
@@ -520,7 +520,7 @@ namespace Pawn.Forms.UserControls
             this.lblSubTotal.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lblSubTotal.AutoSize = true;
             this.lblSubTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSubTotal.Location = new System.Drawing.Point(238, 6);
+            this.lblSubTotal.Location = new System.Drawing.Point(237, 6);
             this.lblSubTotal.Name = "lblSubTotal";
             this.lblSubTotal.Size = new System.Drawing.Size(75, 13);
             this.lblSubTotal.TabIndex = 1;
@@ -531,7 +531,7 @@ namespace Pawn.Forms.UserControls
             this.txtTaxAmount.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtTaxAmount.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.txtTaxAmount.Enabled = false;
-            this.txtTaxAmount.Location = new System.Drawing.Point(319, 57);
+            this.txtTaxAmount.Location = new System.Drawing.Point(318, 57);
             this.txtTaxAmount.Name = "txtTaxAmount";
             this.txtTaxAmount.Size = new System.Drawing.Size(84, 20);
             this.txtTaxAmount.TabIndex = 151;

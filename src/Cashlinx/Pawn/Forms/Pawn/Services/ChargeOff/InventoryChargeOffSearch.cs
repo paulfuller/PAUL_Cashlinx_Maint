@@ -51,7 +51,10 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             
 
             if (FindItem(searchFor, searchValues))
+            {
                 txtICN.Text = ""; // reset txt to simplify for entering a new charge off item
+            }
+
         }
 
         private void txtICN_TextChanged(object sender, EventArgs e)
@@ -69,7 +72,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                 this.customLabelError.Visible = false;
                 EnableDisableContinue();
             }
-            else
+            else if (txtICN.Text.Length > 0)
             {
                 this.customLabelError.Text = "CACC charge off must be a positive integer, greater than 0.";
                 this.customLabelError.Visible = true;

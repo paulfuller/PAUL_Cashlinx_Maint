@@ -688,7 +688,12 @@ namespace Pawn.Logic.DesktopProcedures
                 }
 
                 int minimumHoursInPawn = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetMinimumHoursInPawn(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId);
+                if (minimumHoursInPawn >= 24)
                 pawnTicketData.Add("store_min_inpawn", "MINIMUM TIME IN PAWN IS " + (minimumHoursInPawn / 24).ToString() + " DAYS"); //Indiana
+                else
+                    pawnTicketData.Add("store_min_inpawn", "  "); //write an empty line 
+                
+
 
                 pawnTicketData.Add("_FIN_CHG", totalFinanceCharge); //Oklahoma and OHIO
 
@@ -6786,6 +6791,17 @@ namespace Pawn.Logic.DesktopProcedures
                         extnInfo.OldPfiEligible = ploan.LastDayOfGrace;
                         extnInfo.NewPfiEligible = ploan.NewPfiEligible;
                         extnInfo.TicketNumber = ploan.TicketNumber;
+                        var rcptData = from rcpt in ploan.Receipts
+                                       where rcpt.Event == ReceiptEventTypes.Extend.ToString()
+                                       && (rcpt.ReferenceReceiptNumber == null || string.IsNullOrEmpty(rcpt.ReferenceReceiptNumber))
+                                       select rcpt;
+
+                        var rcptVoidData = from rcpt in ploan.Receipts
+                                           where rcpt.Event == ReceiptEventTypes.VEX.ToString()
+                                           && (rcpt.ReferenceReceiptNumber == null || string.IsNullOrEmpty(rcpt.ReferenceReceiptNumber))
+                                           select rcpt;
+                        decimal previousExtensionAmount = rcptData.Sum(r => r.Amount) - rcptVoidData.Sum(r => r.Amount);
+
                         if (cds.CurrentSiteId.State == States.Indiana)
                         {
                             //Each month is a 30 day block
@@ -6795,16 +6811,20 @@ namespace Pawn.Logic.DesktopProcedures
                             if (ploan.PartialPaymentPaid)
                             {
                                 int ppmtPaidDays = (ploan.LastPartialPaymentDate - ploan.DateMade).Days;
-                                int daysToPay = ((totalMonthsTillMaturity * 30) - extensionPaidDays - ppmtPaidDays);
+                                int daysToPay = ((totalMonthsTillMaturity * 30) - ppmtPaidDays);
                                 extnInfo.PawnChargeAtMaturity = (ploan.DailyAmount * daysToPay);
-                                extnInfo.PawnChargeAtPfi =ploan.DailyAmount * (((totalMonthsTillGrace * 30))  - extensionPaidDays - ppmtPaidDays);
+                                //1 is added to account for grace day
+                                extnInfo.PawnChargeAtPfi = (ploan.DailyAmount * (((totalMonthsTillGrace * 30)) + 1 - ppmtPaidDays)) - previousExtensionAmount - ploan.ExtensionAmount;
                             }
                             else
                             {
                                 extnInfo.PawnChargeAtMaturity = (30 * ploan.DailyAmount);
-                                extnInfo.PawnChargeAtPfi = (ploan.DailyAmount * (((totalMonthsTillGrace * 30)) - extensionPaidDays));
+                                //1 is added to account for grace day
+                                extnInfo.PawnChargeAtPfi = ((ploan.DailyAmount * ((totalMonthsTillGrace * 30) + 1) - previousExtensionAmount - ploan.ExtensionAmount));
                             }
-                            extnInfo.PawnChargePaidTo = ploan.DateMade.AddDays(extensionPaidDays);
+                            extnInfo.PawnChargePaidTo = ploan.NewMadeDate;
+
+ 
                         }
                         else
                         {
@@ -9188,11 +9208,30 @@ namespace Pawn.Logic.DesktopProcedures
             {
                 foreach (string s in icnToAdd)
                 {
+                 
+
                     Item pItem = (from pawnItem in GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems
                                   where pawnItem.Icn == s
                                   select pawnItem).FirstOrDefault();
+
                     if (pItem != null)
                     {
+                       // *** new DaveG ***
+                        var itemNegotiatedPrice = (from np in GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems
+                                                  where np.Icn == s
+                                                  select np.NegotiatedPrice).FirstOrDefault();
+                          
+                          
+                       // Start here -- DaveG
+                       bool isTmpIcn = false;
+                        
+                        if (pItem.Icn.Substring(12, 1) == "8")
+                        {
+                            isTmpIcn = true;
+                        }
+
+                         // *** END  NEW ****
+
                         QuickCheck pItemQInfo = pItem.QuickInformation;
                         Int64[] primaryMasks = getMasks(pItem);
                         ProKnowMatch pKMatch = pItem.SelectedProKnowMatch;
@@ -9213,7 +9252,12 @@ namespace Pawn.Logic.DesktopProcedures
                         //Insert MDSE record for this pawn item
                         //Calculate the cost amount of the item
                         //Requirement is that cost will be 65% of the amount entered as retail amount
-                        decimal itemCost = COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+                       // decimal itemCost = COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+
+
+                        // *** new DaveG ***
+                        decimal itemCost = (isTmpIcn) ? COSTPERCENTAGEFROMRETAIL * decimal.Parse(itemNegotiatedPrice.ToString()) : COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+                        // *** END ***
 
                         bool curRetValue = ProcessTenderProcedures.ExecuteInsertMDSERecord(
                             pItem.mStore, pItem.mStore, pItem.mYear, pItem.mDocNumber,
@@ -10057,8 +10101,26 @@ namespace Pawn.Logic.DesktopProcedures
                     Item pItem = (from pawnItem in GlobalDataAccessor.Instance.DesktopSession.ActiveLayaway.RetailItems
                                   where pawnItem.Icn == s
                                   select pawnItem).FirstOrDefault();
+
                     if (pItem != null)
                     {
+
+                        // *** new DaveG ***
+                        var itemNegotiatedPrice = (from np in GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems
+                                                   where np.Icn == s
+                                                   select np.NegotiatedPrice).FirstOrDefault();
+
+
+                        // Start here -- DaveG
+                        bool isTmpIcn = false;
+
+                        if (pItem.Icn.Substring(12, 1) == "8")
+                        {
+                            isTmpIcn = true;
+                        }
+
+                        // *** END  NEW ****
+                        
                         QuickCheck pItemQInfo = pItem.QuickInformation;
                         Int64[] primaryMasks = getMasks(pItem);
                         ProKnowMatch pKMatch = pItem.SelectedProKnowMatch;
@@ -10079,7 +10141,14 @@ namespace Pawn.Logic.DesktopProcedures
                         //Insert MDSE record for this pawn item
                         //Calculate the cost amount of the item
                         //Requirement is that cost will be 65% of the amount entered as retail amount
-                        decimal itemCost = COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+                       // decimal itemCost = COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+
+
+                        // *** new DaveG ***
+                        decimal itemCost = (isTmpIcn) ? COSTPERCENTAGEFROMRETAIL * decimal.Parse(itemNegotiatedPrice.ToString()) : COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+                        // *** END ***
+
+
 
                         bool curRetValue = ProcessTenderProcedures.ExecuteInsertMDSERecord(
                             pItem.mStore, pItem.mStore, pItem.mYear, pItem.mDocNumber,

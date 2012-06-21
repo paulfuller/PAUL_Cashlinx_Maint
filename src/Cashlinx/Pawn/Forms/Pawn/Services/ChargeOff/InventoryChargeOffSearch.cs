@@ -38,6 +38,11 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
 
         private void continueButton_Click(object sender, EventArgs e)
         {
+
+            if (!continueButton.Enabled)
+            {
+                return;
+            }
             string icn = txtICN.Text.Trim();
 
             if (!Utilities.IsIcnValid(icn))

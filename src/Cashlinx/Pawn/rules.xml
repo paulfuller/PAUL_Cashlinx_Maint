@@ -2295,7 +2295,7 @@
   <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="49c9594b-7294-479e-9f83-7baa69f0e06c" Id="c311c776-9004-4f87-b27d-75046d4f752f">
     <Alias>REGION1</Alias>
     <FromDate>07/01/2011</FromDate>
-    <ToDate>01/01/2050</ToDate>
+    <ToDate>06/30/2012</ToDate>
     <ComponentType>INTEREST</ComponentType>
     <IsEditable>true</IsEditable>
     <Interest>
@@ -2312,7 +2312,7 @@
   <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="49c9594b-7294-479e-9f83-7baa69f0e06c" Id="087bb2fa-c2a6-411e-83f4-9e88e5cdc5cc">
     <Alias>ELPASO</Alias>
     <FromDate>07/01/2011</FromDate>
-    <ToDate>01/01/2050</ToDate>
+    <ToDate>06/30/2012</ToDate>
     <ComponentType>INTEREST</ComponentType>
     <IsEditable>true</IsEditable>
     <Interest>
@@ -2329,7 +2329,7 @@
   <BusinessRuleComponent name="CL_PWN_0008_INTRATE" ParentAlias="" ParentId="49c9594b-7294-479e-9f83-7baa69f0e06c" Id="1ecaee10-341d-455d-a39b-4a88f6f7e476">
     <Alias>PDA</Alias>
     <FromDate>07/01/2011</FromDate>
-    <ToDate>01/01/2050</ToDate>
+    <ToDate>06/30/2012</ToDate>
     <ComponentType>INTEREST</ComponentType>
     <IsEditable>true</IsEditable>
     <Interest>

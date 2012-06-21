@@ -59,7 +59,12 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             {
                 txtICN.Text = ""; // reset txt to simplify for entering a new charge off item
             }
-
+            if (!isCACC(this.txtICN.Text))
+            {
+                txtQty.Text = "0";
+                lblQty.Visible = false;
+                txtQty.Visible = false;
+            }
         }
 
         private void txtICN_TextChanged(object sender, EventArgs e)
@@ -254,8 +259,20 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                 }
                 else
                 {
-                    if (txtQty.Visible)
+                    //if (txtQty.Visible)
+                    if (isCACC(this.txtICN.Text))
+                    {
+
+                        decimal qtyText = 0;
+
+                        if (decimal.TryParse(txtQty.Text, out qtyText) && (item.Quantity > 0))
+                        {
+                            //do we need to check to make sure DB didn't give us 0 or null 
+                            decimal qtyRatio = (qtyText / Convert.ToDecimal(item.Quantity));
+                            item.ItemAmount = item.PfiAmount*qtyRatio;
+                        }
                         item.Quantity = int.Parse(this.txtQty.Text);
+                    }
 
                     ChargeOffDetails detailsForm = new ChargeOffDetails
                                                    {
@@ -264,6 +281,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                     detailsForm.ShowDialog();
 
                     retval = (detailsForm.DialogResult == DialogResult.OK);
+                    txtICN.Text = string.Empty;
                 }
             }
 
@@ -323,7 +341,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
         private bool isCACC (string icn)
         {
             bool retval = false;
-
+            
             Icn thisIcn = new Icn();
 
             thisIcn.ParseIcn(icn);
@@ -334,7 +352,6 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                 thisIcn.DocumentNumber == 3380)
 
                 retval = true;
-
 
             return retval;
         }

@@ -146,12 +146,13 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                 MessageBox.Show("Comment should be entered");
                 return;
             }
-
             if (comboBoxReason.SelectedItem.ToString() == "Donation" && charityOrg == null)
             {
                 MessageBox.Show("Charge-off reason requires additional information that was not provided, please reselect reason and enter required information.");
                 return;
             }
+            System.Windows.Forms.Cursor currentCursor = this.Cursor;
+            this.Cursor = Cursors.WaitCursor;
 
             if (customTextBoxAuthBy.isValid || !customTextBoxAuthBy.Required)
             {
@@ -250,6 +251,8 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                 MessageBox.Show("Authorized by should be entered");
                 return;
             }
+
+
         }
     }
 }

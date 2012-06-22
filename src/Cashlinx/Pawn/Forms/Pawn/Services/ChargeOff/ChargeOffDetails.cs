@@ -64,11 +64,13 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
 
         private void customButtonBack_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.None;
             this.Close();
         }
 
         private void customButtonCancel_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.Abort;
             this.Close();
         }
 

@@ -59,16 +59,17 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             {
                 txtICN.Text = ""; // reset txt to simplify for entering a new charge off item
             }
+
+        }
+
+        private void txtICN_TextChanged(object sender, EventArgs e)
+        {
             if (!isCACC(this.txtICN.Text))
             {
                 txtQty.Text = "0";
                 lblQty.Visible = false;
                 txtQty.Visible = false;
             }
-        }
-
-        private void txtICN_TextChanged(object sender, EventArgs e)
-        {
             this.customLabelError.Visible = false;
             EnableDisableContinue();
         }
@@ -263,15 +264,16 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                     if (isCACC(this.txtICN.Text))
                     {
 
-                        decimal qtyText = 0;
+                        int qty= 0;
 
-                        if (decimal.TryParse(txtQty.Text, out qtyText) && (item.Quantity > 0))
+                        if (int.TryParse(txtQty.Text, out qty) && (item.Quantity > 0))
                         {
                             //do we need to check to make sure DB didn't give us 0 or null 
-                            decimal qtyRatio = (qtyText / Convert.ToDecimal(item.Quantity));
-                            item.ItemAmount = item.PfiAmount*qtyRatio;
+                            decimal qtyRatio = (qty / Convert.ToDecimal(item.Quantity));
+                            item.ItemAmount = item.PfiAmount * qtyRatio; // item.ItemAmount * qty; // 
+                            item.Quantity = qty; // int.Parse(this.txtQty.Text);
                         }
-                        item.Quantity = int.Parse(this.txtQty.Text);
+
                     }
 
                     ChargeOffDetails detailsForm = new ChargeOffDetails
@@ -281,7 +283,8 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                     detailsForm.ShowDialog();
 
                     retval = (detailsForm.DialogResult == DialogResult.OK);
-                    txtICN.Text = string.Empty;
+                    if (retval) 
+                        txtICN.Text = string.Empty;
                 }
             }
 

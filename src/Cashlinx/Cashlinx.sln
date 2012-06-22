@@ -58,6 +58,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{41542C68
 		..\Build\build-files\AuditQueries.build = ..\Build\build-files\AuditQueries.build
 		Cashlinx.build = Cashlinx.build
 		..\Build\build-files\Common.build = ..\Build\build-files\Common.build
+		..\Build\build-files\DSTRViewer.build = ..\Build\build-files\DSTRViewer.build
 		..\Build\build-files\Pawn.build = ..\Build\build-files\Pawn.build
 		..\Build\build-files\Support.build = ..\Build\build-files\Support.build
 	EndProjectSection

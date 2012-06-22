@@ -3912,7 +3912,8 @@ namespace Pawn.Logic.DesktopProcedures
                             if (currentLayaway.SalesTaxPercentage > 0.0m)
                                 retailTaxAmount = Math.Round((currentLayaway.SalesTaxPercentage / 100) * retailAmount, 2);
                             else
-                                retailTaxAmount = Math.Round((8.25m / 100) * retailAmount, 2);
+                                retailTaxAmount = currentLayaway.SalesTaxAmount;
+                                //retailTaxAmount = Math.Round((8.25m / 100) * retailAmount, 2);  
                             retailTotalAmount = retailAmount + retailTaxAmount + layawayServiceFee;
 
                             //retail Price

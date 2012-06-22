@@ -1087,9 +1087,7 @@
     <Folder Include="Controllers\Security\Roles\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="app.config" />
     <None Include="Controllers\Rules\DataModel\PawnRulesSystem.xsc">
       <DependentUpon>PawnRulesSystem.xsd</DependentUpon>
     </None>

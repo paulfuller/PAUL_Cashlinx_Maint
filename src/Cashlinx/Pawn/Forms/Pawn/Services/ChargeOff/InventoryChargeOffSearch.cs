@@ -85,7 +85,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             }
             else if (txtICN.Text.Length > 0)
             {
-                this.customLabelError.Text = "CACC charge off must be a positive integer, greater than 0.";
+                this.customLabelError.Text = "CACC charge off must be a positive number, greater than 0.";
                 this.customLabelError.Visible = true;
 
                 this.continueButton.Enabled = false;
@@ -309,7 +309,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
 
             if (keyData == Keys.Enter)
             {
-                if (this.ActiveControl == this.txtICN)
+                if (this.ActiveControl == this.txtICN || (isCACC(txtICN.Text) && this.ActiveControl == this.txtQty))
                 {
                     this.continueButton_Click(null, new EventArgs());
                 }

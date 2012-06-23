@@ -38,6 +38,11 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
 
         private void continueButton_Click(object sender, EventArgs e)
         {
+
+            if (!continueButton.Enabled)
+            {
+                return;
+            }
             string icn = txtICN.Text.Trim();
 
             if (!Utilities.IsIcnValid(icn))
@@ -59,6 +64,12 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
 
         private void txtICN_TextChanged(object sender, EventArgs e)
         {
+            if (!isCACC(this.txtICN.Text))
+            {
+                txtQty.Text = "0";
+                lblQty.Visible = false;
+                txtQty.Visible = false;
+            }
             this.customLabelError.Visible = false;
             EnableDisableContinue();
         }
@@ -74,7 +85,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
             }
             else if (txtICN.Text.Length > 0)
             {
-                this.customLabelError.Text = "CACC charge off must be a positive integer, greater than 0.";
+                this.customLabelError.Text = "CACC charge off must be a positive number, greater than 0.";
                 this.customLabelError.Visible = true;
 
                 this.continueButton.Enabled = false;
@@ -249,8 +260,21 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                 }
                 else
                 {
-                    if (txtQty.Visible)
-                        item.Quantity = int.Parse(this.txtQty.Text);
+                    //if (txtQty.Visible)
+                    if (isCACC(this.txtICN.Text))
+                    {
+
+                        int qty= 0;
+
+                        if (int.TryParse(txtQty.Text, out qty) && (item.Quantity > 0))
+                        {
+                            //do we need to check to make sure DB didn't give us 0 or null 
+                            decimal qtyRatio = (qty / Convert.ToDecimal(item.Quantity));
+                            item.ItemAmount = item.PfiAmount * qtyRatio; // item.ItemAmount * qty; // 
+                            item.Quantity = qty; // int.Parse(this.txtQty.Text);
+                        }
+
+                    }
 
                     ChargeOffDetails detailsForm = new ChargeOffDetails
                                                    {
@@ -259,6 +283,8 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                     detailsForm.ShowDialog();
 
                     retval = (detailsForm.DialogResult == DialogResult.OK);
+                    if (retval) 
+                        txtICN.Text = string.Empty;
                 }
             }
 
@@ -283,7 +309,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
 
             if (keyData == Keys.Enter)
             {
-                if (this.ActiveControl == this.txtICN)
+                if (this.ActiveControl == this.txtICN || (isCACC(txtICN.Text) && this.ActiveControl == this.txtQty))
                 {
                     this.continueButton_Click(null, new EventArgs());
                 }
@@ -318,7 +344,7 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
         private bool isCACC (string icn)
         {
             bool retval = false;
-
+            
             Icn thisIcn = new Icn();
 
             thisIcn.ParseIcn(icn);
@@ -329,7 +355,6 @@ namespace Pawn.Forms.Pawn.Services.ChargeOff
                 thisIcn.DocumentNumber == 3380)
 
                 retval = true;
-
 
             return retval;
         }

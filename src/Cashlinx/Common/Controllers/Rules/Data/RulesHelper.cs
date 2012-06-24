@@ -679,7 +679,7 @@ namespace Common.Controllers.Rules.Data
                         continue;
                     }
                     var fndStateNumComps = from comp in components
-                                           where comp.Alias.Equals(site.State, StringComparison.OrdinalIgnoreCase)
+                                           where comp.Alias.IndexOf(site.State, StringComparison.OrdinalIgnoreCase) != -1
                                            select comp;
 
                     if (fndStateNumComps.Count() <= 0)

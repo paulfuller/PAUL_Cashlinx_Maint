@@ -687,8 +687,7 @@ namespace Pawn.Forms.Pawn.Services.Extend
                     //Set the selected values for extension into the pawn loan
                     //selectedLoans[currIndex].NewMadeDate = Utilities.GetDateTimeValue(selectedLoans[currIndex].DateMade);
                     int daysToAdjust = (Utilities.GetDateTimeValue(labelAdjustedDueDate.Text) - selectedLoans[currIndex].DueDate).Days;
-                    //selectedLoans[currIndex].NewMadeDate = Utilities.GetDateTimeValue(selectedLoans[currIndex].DateMade).AddDays(daysToAdjust);
-                    selectedLoans[currIndex].NewMadeDate = selectedLoans[currIndex].NewMadeDate.AddDays(daysToAdjust);
+                    selectedLoans[currIndex].NewMadeDate = Utilities.GetDateTimeValue(selectedLoans[currIndex].DateMade).AddDays(daysToAdjust);
                     selectedLoans[currIndex].NewDueDate = Utilities.GetDateTimeValue(labelAdjustedDueDate.Text);
                     selectedLoans[currIndex].NewPfiEligible = Utilities.GetDateTimeValue(dateCalendarLastPickupDate.SelectedDate);
                     selectedLoans[currIndex].IsExtended = true;

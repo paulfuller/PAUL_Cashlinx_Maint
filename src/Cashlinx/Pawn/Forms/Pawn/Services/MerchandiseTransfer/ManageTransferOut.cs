@@ -2344,7 +2344,7 @@ namespace Pawn.Forms.Pawn.Services.MerchandiseTransfer
                     item.RefurbNumber = anItem.RefurbNumber;
                     item.Icn = anItem.Icn;
                     item.TicketDescription = anItem.TicketDescription;
-                    item.ItemAmount = anItem.ItemAmount;
+                    item.ItemAmount = anItem.PfiAmount;
                     item.ItemStatus = anItem.ItemStatus;
                     item.mDocType = anItem.mDocType;
                     item.mStore = anItem.mStore;

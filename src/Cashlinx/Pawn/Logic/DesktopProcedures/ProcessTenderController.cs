@@ -3907,7 +3907,8 @@ namespace Pawn.Logic.DesktopProcedures
                             if (currentLayaway.SalesTaxPercentage > 0.0m)
                                 retailTaxAmount = Math.Round((currentLayaway.SalesTaxPercentage / 100) * retailAmount, 2);
                             else
-                                retailTaxAmount = Math.Round((8.25m / 100) * retailAmount, 2);
+                                retailTaxAmount = currentLayaway.SalesTaxAmount;
+                                //retailTaxAmount = Math.Round((8.25m / 100) * retailAmount, 2);  
                             retailTotalAmount = retailAmount + retailTaxAmount + layawayServiceFee;
 
                             //retail Price
@@ -9188,19 +9189,14 @@ namespace Pawn.Logic.DesktopProcedures
             {
                 foreach (string s in icnToAdd)
                 {
-                 
 
-                    Item pItem = (from pawnItem in GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems
+
+                    RetailItem pItem = (from pawnItem in GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems
                                   where pawnItem.Icn == s
                                   select pawnItem).FirstOrDefault();
 
                     if (pItem != null)
                     {
-                       // *** new DaveG ***
-                        var itemNegotiatedPrice = (from np in GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems
-                                                  where np.Icn == s
-                                                  select np.NegotiatedPrice).FirstOrDefault();
-                          
                           
                        // Start here -- DaveG
                        bool isTmpIcn = false;
@@ -9236,7 +9232,7 @@ namespace Pawn.Logic.DesktopProcedures
 
 
                         // *** new DaveG ***
-                        decimal itemCost = (isTmpIcn) ? COSTPERCENTAGEFROMRETAIL * decimal.Parse(itemNegotiatedPrice.ToString()) : COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+                        decimal itemCost = (isTmpIcn) ? COSTPERCENTAGEFROMRETAIL * decimal.Parse(pItem.NegotiatedPrice.ToString()) : COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
                         // *** END ***
 
                         bool curRetValue = ProcessTenderProcedures.ExecuteInsertMDSERecord(
@@ -10078,17 +10074,12 @@ namespace Pawn.Logic.DesktopProcedures
             {
                 foreach (string s in icnToAdd)
                 {
-                    Item pItem = (from pawnItem in GlobalDataAccessor.Instance.DesktopSession.ActiveLayaway.RetailItems
+                    RetailItem pItem = (from pawnItem in GlobalDataAccessor.Instance.DesktopSession.ActiveLayaway.RetailItems
                                   where pawnItem.Icn == s
                                   select pawnItem).FirstOrDefault();
 
                     if (pItem != null)
                     {
-
-                        // *** new DaveG ***
-                        var itemNegotiatedPrice = (from np in GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems
-                                                   where np.Icn == s
-                                                   select np.NegotiatedPrice).FirstOrDefault();
 
 
                         // Start here -- DaveG
@@ -10125,7 +10116,7 @@ namespace Pawn.Logic.DesktopProcedures
 
 
                         // *** new DaveG ***
-                        decimal itemCost = (isTmpIcn) ? COSTPERCENTAGEFROMRETAIL * decimal.Parse(itemNegotiatedPrice.ToString()) : COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+                        decimal itemCost = (isTmpIcn) ? COSTPERCENTAGEFROMRETAIL * decimal.Parse(pItem.NegotiatedPrice.ToString()) : COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
                         // *** END ***
 
 

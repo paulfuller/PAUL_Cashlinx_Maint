@@ -124,8 +124,8 @@ namespace Support.Forms.Customer.Products
         private bool ticketSearched;
         private string lastLayawayPayment = string.Empty;
         private readonly string DECLINE_VALUE = "DECLINED";
-        private readonly string LOAN_STATUS = "Change Loan Staus";
-        private readonly string UNDO_LOAN_STATUS = "Undo Loan Staus";
+        private readonly string LOAN_STATUS = "Change Loan Status";
+        private readonly string UNDO_LOAN_STATUS = "Undo Loan Status";
         private readonly string CLOSED_STATUS = "CLOSED";
         private readonly string OPEN_STATUS = "OPEN";
         private readonly string DEFAULT_STATUS = "DEFAULT";
@@ -1205,6 +1205,8 @@ namespace Support.Forms.Customer.Products
             //var otherDetails = Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan.GetPDLoanOtherDetails;
 
             this.lblCustomerSSNData.Text = Commons.FormatSSN(Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer.SocialSecurityNumber);
+            var CustVO = Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer;
+            LblCustNameDisplay.Text = CustVO.FirstName + " " + CustVO.MiddleInitial + " " + CustVO.LastName; ;
 //            this.lblCustomerSSNData.Text = Support.Logic.CashlinxPawnSupportSession.Instance.ActiveCustomer.SocialSecurityNumber;
             this.lblUWNameData.Text = Record.UWName;
 
@@ -1234,7 +1236,7 @@ namespace Support.Forms.Customer.Products
             this.TxbLoanRollOverAmt.Text = Record.LoanRollOverAmt.ToString("C");
             this.TxbRevokeACH.Text = Record.RevokeACH.ToString();// == Record.RevokeACH ? "Yes" : "No";
 
-            this.TxbXPPAvailable.Text = Record.XPPAvailable.ToString();// == Record.XPPAvailable ? "Yes" : "No";
+            this.TxbXPPAvailable.Text = Record.XPPAvailable;// == Record.XPPAvailable ? "Yes" : "No";
             this.TxbActualFinanceChrgAmt.Text = Record.ActualFinanceChrgAmt.ToString("C");
             this.TxbAcutalServiceChrgAmt.Text = Record.AcutalServiceChrgAmt.ToString("C");
             this.TxbAccruedFinanceAmt.Text = Record.AccruedFinanceAmt.ToString("C");
@@ -3066,6 +3068,7 @@ namespace Support.Forms.Customer.Products
                             if (iDx >= 0)
                             {
                                 pdLoan = Support.Logic.CashlinxPawnSupportSession.Instance.PDLoanKeys[iDx];
+                                CelMouseUpActions(e.RowIndex, e.ColumnIndex);
                                 Support.Logic.CashlinxPawnSupportSession.Instance.ActivePDLoan = pdLoan;
                             }
                             ChangeControlStatus(false);

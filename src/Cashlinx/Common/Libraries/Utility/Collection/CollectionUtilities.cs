@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Common.Libraries.Utility.Collection
@@ -205,6 +207,16 @@ namespace Common.Libraries.Utility.Collection
             }
 
             return ((W[])(object)mapVal);
+        }
+
+        public static IEnumerable<T> Collect<T>(this IEnumerable<T> collection) where T : class
+        {
+            return collection.Where(t => t != null);
+        }
+
+        public static IEnumerable<U> Map<T,U>(this IEnumerable<T> collection, Func<T,U> map)
+        {
+            return collection.Select(map);
         }
     }
 }

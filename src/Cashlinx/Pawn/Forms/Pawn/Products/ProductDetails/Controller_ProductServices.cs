@@ -216,7 +216,7 @@ namespace Pawn.Forms.Pawn.Products.ProductDetails
 
             var pickupCalculator = new PfiPickupCalculator(pawnLoan, GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId, ShopDateTime.Instance.FullShopDateTime);
             pickupCalculator.Calculate();
-            pawnLoan.PickupAmount = pickupCalculator.PickupAmount;
+            pawnLoan.PickupAmount = Math.Round(pickupCalculator.PickupAmount,2);
         }
 
         private bool AllowLostTicket(PawnLoan pawnLoan)

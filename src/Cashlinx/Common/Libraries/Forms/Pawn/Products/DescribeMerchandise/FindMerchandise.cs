@@ -26,17 +26,20 @@ namespace Common.Libraries.Forms.Pawn.Products.DescribeMerchandise
             this.DesktopSession = desktopSession;
             InitializeComponent();
 
-            this.searchButton.BackgroundImage = this.DesktopSession.ResourceProperties.vistabutton_blue;
-            this.cancelButton.BackgroundImage = this.DesktopSession.ResourceProperties.vistabutton_blue;
-            this.manualEntryButton.BackgroundImage = this.DesktopSession.ResourceProperties.vistabutton_blue;
-            this.BackgroundImage = this.DesktopSession.ResourceProperties.newDialog_400_BlueScale;
+            if (desktopSession != null)
+            {
+                this.searchButton.BackgroundImage = this.DesktopSession.ResourceProperties.vistabutton_blue;
+                this.cancelButton.BackgroundImage = this.DesktopSession.ResourceProperties.vistabutton_blue;
+                this.manualEntryButton.BackgroundImage = this.DesktopSession.ResourceProperties.vistabutton_blue;
+                this.BackgroundImage = this.DesktopSession.ResourceProperties.newDialog_400_BlueScale;
+            }
 
             manufacturerDictionary = new Dictionary<string, string>();
             autoComplete = new AutoCompleteStringCollection();
 
             LoadManufacturerDictionary();
 
-            proKnowWebService = new WebServiceProKnow(this.DesktopSession);
+            proKnowWebService = null;// new WebServiceProKnow(this.DesktopSession);
 
             Action = ACTION_OK;
 

@@ -140,7 +140,7 @@ namespace Support.Forms.Customer.ProductTabs
         private void LoadCommentsDateToGrid()
         {
             this.customerDisplayLabel.Text = CustToEdit.FirstName + " " + CustToEdit.MiddleInitial + " " + CustToEdit.LastName;
-            this.SSNDisplayLabel.Text = CustToEdit.SocialSecurityNumber;
+            this.SSNDisplayLabel.Text = Commons.FormatSSN(CustToEdit.SocialSecurityNumber);
 
             foreach ( SupportCommentsVO record in  _supportCommentsList )
             {

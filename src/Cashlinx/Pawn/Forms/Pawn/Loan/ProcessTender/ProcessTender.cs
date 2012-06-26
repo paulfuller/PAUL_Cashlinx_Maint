@@ -109,8 +109,20 @@ namespace Pawn.Forms.Pawn.Loan.ProcessTender
                     {
                         var ticketData = ProcessTenderController.Instance.ProcessedTickets[cnt];
                         string s = ticketData.Right.ToString();
-                        if (File.Exists(s))
-                            File.Delete(s);
+                        try
+                        {
+                            if (File.Exists(s))
+                                File.Delete(s);
+                        }
+                        catch (IOException iex)
+                        {
+                            MessageBox.Show(@"File is still open", "File Open Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
                     }
                 }
             }

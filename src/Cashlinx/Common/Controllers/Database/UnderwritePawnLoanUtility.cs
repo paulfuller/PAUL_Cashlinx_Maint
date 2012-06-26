@@ -164,6 +164,7 @@ namespace Common.Controllers.Database
                 
                 this.PawnLoanVO.APR = (tieredInterestValues.Sum() / loanAmount) * 100;
                 InterestAmountForLoanTermCycle = Math.Round (loanAmount * (this.PawnLoanVO.APR /100),2,MidpointRounding.AwayFromZero);
+                this.PawnLoanVO.APR = this.PawnLoanVO.APR * 12;
                 decimal minIntAmount=0.0m;
                 //Added ythe logic below to account for the minimum interest amount for the state
                 if (businessRules.getComponentValue("CL_PWN_0013_MININTAMT", ref componentValue))

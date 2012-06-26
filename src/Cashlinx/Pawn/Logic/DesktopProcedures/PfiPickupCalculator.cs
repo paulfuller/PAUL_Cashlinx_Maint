@@ -107,7 +107,7 @@ namespace Pawn.Logic.DesktopProcedures
                                            OriginalAmount = fee.OriginalAmount,
                                            Prorated = fee.Prorated,
                                            Tag = fee.Tag,
-                                           Value = feeValue,
+                                           Value = Math.Round(feeValue,2),
                                            Waived = fee.Waived
                                        });
                 }
@@ -162,10 +162,10 @@ namespace Pawn.Logic.DesktopProcedures
                     {
                         return 0;
                     }
-                    var feeValue = Math.Round(DaysToPay * PawnLoan.InterestAmount / 30, 2);
+                    var feeValue = Math.Round(DaysToPay * PawnLoan.InterestAmount / 30, 4);
                     if (PickupDate.Date <= PawnLoan.DateMade.AddMonths(1))
                     {
-                        feeValue += Math.Round(MonthsToPay * PawnLoan.InterestAmount, 2);
+                        feeValue += Math.Round(MonthsToPay * PawnLoan.InterestAmount, 4);
                     }
                     return feeValue;
                 }
@@ -181,10 +181,10 @@ namespace Pawn.Logic.DesktopProcedures
                     {
                         return 0;
                     }
-                    var feeValue = Math.Round(DaysToPay * PawnLoan.ServiceCharge / 30, 2);
+                    var feeValue = Math.Round(DaysToPay * PawnLoan.ServiceCharge / 30, 4);
                     if (PickupDate.Date <= PawnLoan.DateMade.AddMonths(1))
                     {
-                        feeValue += Math.Round(MonthsToPay * PawnLoan.ServiceCharge, 2);
+                        feeValue += Math.Round(MonthsToPay * PawnLoan.ServiceCharge, 4);
                     }
                     return feeValue;
 

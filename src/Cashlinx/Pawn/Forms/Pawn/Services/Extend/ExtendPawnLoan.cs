@@ -227,10 +227,10 @@ namespace Pawn.Forms.Pawn.Services.Extend
                         //customTextBoxNumDaystoExtend.Visible = false;
                         ddlNumDaystoExtend.Visible = false;
                         lblNumDaysToExtend.Visible = true;
-                        customTextBoxAmtToExtend.Visible = false;
-                        lblAmtToExtend.Visible = true;
+                        //customTextBoxAmtToExtend.Visible = false;
+                        lblAmtToExtend.Visible = false;
                         //lblNumDaysToExtend.Text = fullMonth;
-                        customTextBoxAmtToExtend.Visible = false;
+                        customTextBoxAmtToExtend.Visible = true;
                         customTextBoxAmtToExtend.Text = (daysToPay * dailyAmount).ToString("f2");
                         customTextBoxNumDaystoExtend.Text = (interestAmount + serviceAmount).ToString("f2");
                         labelAdjustedDueDate.Text =

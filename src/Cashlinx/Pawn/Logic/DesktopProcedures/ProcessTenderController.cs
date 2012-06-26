@@ -9540,6 +9540,7 @@ namespace Pawn.Logic.DesktopProcedures
                         couponAmounts.Add("");
                         tranCouponAmounts.Add("");
                         tranCouponCodes.Add("");
+                        addlMdseRetPrice.Add(retItem.NegotiatedPrice.ToString());
                     }
                     if (addlMdseIcn.Count > 0)
                     {
@@ -10416,6 +10417,7 @@ namespace Pawn.Logic.DesktopProcedures
                         couponAmounts.Add("");
                         tranCouponAmounts.Add("");
                         tranCouponCodes.Add("");
+                        addlMdseRetPrice.Add(retItem.NegotiatedPrice.ToString());
                     }
                     if (addlMdseIcn.Count > 0)
                     {

@@ -93,12 +93,12 @@ namespace Common.Libraries.Utility.Shared
         {
                 "Full Locations", "In Pawn Jewelry Locations",
                 "Loan Audit", "Snapshot", "CACC Sales Analysis", "Jewelry Count Detail", "Daily Sales",
-                "Firearm Reports"//, "Refurb List"
+                "Firearm Reports", "Refurb List"
         };
 
         public static int[] DailyNumbers = new int[]
         {
-                209, 213, 206, 211, 219, 217, 227, 230//, 231
+                209, 213, 206, 211, 219, 217, 227, 230, 231
         };
 
         public static string[] MonthlyTitles = new string[]
@@ -113,7 +113,7 @@ namespace Common.Libraries.Utility.Shared
 
         public static string[] InquiryTitles = new string[]
         {
-                "Loan", "Loan Servicing", "Inventory", "Partial Payment"/*, "Retail", "Cash Transfer Inquiry"*/
+                "Loan", "Loan Servicing", "Inventory", "Partial Payment" /*, "Retail", "Cash Transfer Inquiry"*/
         }; 
     
 

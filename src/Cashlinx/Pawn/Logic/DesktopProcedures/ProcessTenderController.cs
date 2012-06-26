@@ -688,12 +688,7 @@ namespace Pawn.Logic.DesktopProcedures
                 }
 
                 int minimumHoursInPawn = new BusinessRulesProcedures(GlobalDataAccessor.Instance.DesktopSession).GetMinimumHoursInPawn(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId);
-                if (minimumHoursInPawn >= 24)
                 pawnTicketData.Add("store_min_inpawn", "MINIMUM TIME IN PAWN IS " + (minimumHoursInPawn / 24).ToString() + " DAYS"); //Indiana
-                else
-                    pawnTicketData.Add("store_min_inpawn", "  "); //write an empty line 
-                
-
 
                 pawnTicketData.Add("_FIN_CHG", totalFinanceCharge); //Oklahoma and OHIO
 
@@ -3912,7 +3907,8 @@ namespace Pawn.Logic.DesktopProcedures
                             if (currentLayaway.SalesTaxPercentage > 0.0m)
                                 retailTaxAmount = Math.Round((currentLayaway.SalesTaxPercentage / 100) * retailAmount, 2);
                             else
-                                retailTaxAmount = Math.Round((8.25m / 100) * retailAmount, 2);
+                                retailTaxAmount = currentLayaway.SalesTaxAmount;
+                                //retailTaxAmount = Math.Round((8.25m / 100) * retailAmount, 2);  
                             retailTotalAmount = retailAmount + retailTaxAmount + layawayServiceFee;
 
                             //retail Price
@@ -6791,17 +6787,6 @@ namespace Pawn.Logic.DesktopProcedures
                         extnInfo.OldPfiEligible = ploan.LastDayOfGrace;
                         extnInfo.NewPfiEligible = ploan.NewPfiEligible;
                         extnInfo.TicketNumber = ploan.TicketNumber;
-                        var rcptData = from rcpt in ploan.Receipts
-                                       where rcpt.Event == ReceiptEventTypes.Extend.ToString()
-                                       && (rcpt.ReferenceReceiptNumber == null || string.IsNullOrEmpty(rcpt.ReferenceReceiptNumber))
-                                       select rcpt;
-
-                        var rcptVoidData = from rcpt in ploan.Receipts
-                                           where rcpt.Event == ReceiptEventTypes.VEX.ToString()
-                                           && (rcpt.ReferenceReceiptNumber == null || string.IsNullOrEmpty(rcpt.ReferenceReceiptNumber))
-                                           select rcpt;
-                        decimal previousExtensionAmount = rcptData.Sum(r => r.Amount) - rcptVoidData.Sum(r => r.Amount);
-
                         if (cds.CurrentSiteId.State == States.Indiana)
                         {
                             //Each month is a 30 day block
@@ -6811,20 +6796,16 @@ namespace Pawn.Logic.DesktopProcedures
                             if (ploan.PartialPaymentPaid)
                             {
                                 int ppmtPaidDays = (ploan.LastPartialPaymentDate - ploan.DateMade).Days;
-                                int daysToPay = ((totalMonthsTillMaturity * 30) - ppmtPaidDays);
+                                int daysToPay = ((totalMonthsTillMaturity * 30) - extensionPaidDays - ppmtPaidDays);
                                 extnInfo.PawnChargeAtMaturity = (ploan.DailyAmount * daysToPay);
-                                //1 is added to account for grace day
-                                extnInfo.PawnChargeAtPfi = (ploan.DailyAmount * (((totalMonthsTillGrace * 30)) + 1 - ppmtPaidDays)) - previousExtensionAmount - ploan.ExtensionAmount;
+                                extnInfo.PawnChargeAtPfi =ploan.DailyAmount * (((totalMonthsTillGrace * 30))  - extensionPaidDays - ppmtPaidDays);
                             }
                             else
                             {
                                 extnInfo.PawnChargeAtMaturity = (30 * ploan.DailyAmount);
-                                //1 is added to account for grace day
-                                extnInfo.PawnChargeAtPfi = ((ploan.DailyAmount * ((totalMonthsTillGrace * 30) + 1) - previousExtensionAmount - ploan.ExtensionAmount));
+                                extnInfo.PawnChargeAtPfi = (ploan.DailyAmount * (((totalMonthsTillGrace * 30)) - extensionPaidDays));
                             }
-                            extnInfo.PawnChargePaidTo = ploan.NewMadeDate;
-
- 
+                            extnInfo.PawnChargePaidTo = ploan.DateMade.AddDays(extensionPaidDays);
                         }
                         else
                         {
@@ -9208,11 +9189,25 @@ namespace Pawn.Logic.DesktopProcedures
             {
                 foreach (string s in icnToAdd)
                 {
-                    Item pItem = (from pawnItem in GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems
+
+
+                    RetailItem pItem = (from pawnItem in GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.RetailItems
                                   where pawnItem.Icn == s
                                   select pawnItem).FirstOrDefault();
+
                     if (pItem != null)
                     {
+                          
+                       // Start here -- DaveG
+                       bool isTmpIcn = false;
+                        
+                        if (pItem.Icn.Substring(12, 1) == "8")
+                        {
+                            isTmpIcn = true;
+                        }
+
+                         // *** END  NEW ****
+
                         QuickCheck pItemQInfo = pItem.QuickInformation;
                         Int64[] primaryMasks = getMasks(pItem);
                         ProKnowMatch pKMatch = pItem.SelectedProKnowMatch;
@@ -9233,7 +9228,12 @@ namespace Pawn.Logic.DesktopProcedures
                         //Insert MDSE record for this pawn item
                         //Calculate the cost amount of the item
                         //Requirement is that cost will be 65% of the amount entered as retail amount
-                        decimal itemCost = COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+                       // decimal itemCost = COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+
+
+                        // *** new DaveG ***
+                        decimal itemCost = (isTmpIcn) ? COSTPERCENTAGEFROMRETAIL * decimal.Parse(pItem.NegotiatedPrice.ToString()) : COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+                        // *** END ***
 
                         bool curRetValue = ProcessTenderProcedures.ExecuteInsertMDSERecord(
                             pItem.mStore, pItem.mStore, pItem.mYear, pItem.mDocNumber,
@@ -9540,6 +9540,7 @@ namespace Pawn.Logic.DesktopProcedures
                         couponAmounts.Add("");
                         tranCouponAmounts.Add("");
                         tranCouponCodes.Add("");
+                        addlMdseRetPrice.Add(retItem.NegotiatedPrice.ToString());
                     }
                     if (addlMdseIcn.Count > 0)
                     {
@@ -9657,6 +9658,8 @@ namespace Pawn.Logic.DesktopProcedures
                 }
             }
 
+            decimal refundSaleHeaderAmt = currentSale.RefNumber == 0 ? currentSale.Amount + totalCouponAmount : currentSale.Amount;
+
             //Start transaction block
             GlobalDataAccessor.Instance.DesktopSession.beginTransactionBlock();
 
@@ -9676,7 +9679,7 @@ namespace Pawn.Logic.DesktopProcedures
                                                                currentSale.SalesTaxAmount.ToString(),
                                                                GlobalDataAccessor.Instance.DesktopSession.CashDrawerName,
                                                                "REFUND",
-                                                               (currentSale.Amount + totalCouponAmount).ToString(),
+                                                               refundSaleHeaderAmt.ToString(),
                                                                currentSale.ShippingHandlingCharges.ToString(),
                                                                jewelryCase,
                                                                custDispIdNum, custDispIdType, custDispIDCode,
@@ -9965,12 +9968,12 @@ namespace Pawn.Logic.DesktopProcedures
                     addlMdseItemRetPrice.Add(rItem.NegotiatedPrice.ToString());
                     addlcouponinfoType.Add(rItem.SaleType.ToString());
                     string opCode = Commons.GetInOpCode(TenderTypes.COUPON.ToString(), TenderTypes.CREDITCARD.ToString());
-                    if (GlobalDataAccessor.Instance.DesktopSession.TenderAmounts != null)
+                    /*if (GlobalDataAccessor.Instance.DesktopSession.TenderAmounts != null)
                         GlobalDataAccessor.Instance.DesktopSession.TenderAmounts.Add(rItem.CouponAmount.ToString());
                     if (GlobalDataAccessor.Instance.DesktopSession.TenderReferenceNumber != null)
                         GlobalDataAccessor.Instance.DesktopSession.TenderReferenceNumber.Add(rItem.CouponCode);
                     if (GlobalDataAccessor.Instance.DesktopSession.TenderTypes != null)
-                        GlobalDataAccessor.Instance.DesktopSession.TenderTypes.Add(opCode);
+                        GlobalDataAccessor.Instance.DesktopSession.TenderTypes.Add(opCode);*/
                     addlMdseCouponIcn.Add(rItem.Icn);
                     addlcouponCodes.Add(rItem.CouponCode);
                     addlcouponAmounts.Add(rItem.CouponAmount.ToString());
@@ -9982,12 +9985,12 @@ namespace Pawn.Logic.DesktopProcedures
             {
 
                 string opCode = Commons.GetInOpCode(TenderTypes.COUPON.ToString(), TenderTypes.CREDITCARD.ToString());
-                if (GlobalDataAccessor.Instance.DesktopSession.TenderAmounts != null)
+                /*if (GlobalDataAccessor.Instance.DesktopSession.TenderAmounts != null)
                     GlobalDataAccessor.Instance.DesktopSession.TenderAmounts.Add(GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.CouponAmount.ToString());
                 if (GlobalDataAccessor.Instance.DesktopSession.TenderReferenceNumber != null)
                     GlobalDataAccessor.Instance.DesktopSession.TenderReferenceNumber.Add(GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.CouponCode);
                 if (GlobalDataAccessor.Instance.DesktopSession.TenderTypes != null)
-                    GlobalDataAccessor.Instance.DesktopSession.TenderTypes.Add(opCode);
+                    GlobalDataAccessor.Instance.DesktopSession.TenderTypes.Add(opCode);*/
                 int i = 1;
                 totalCouponAmt += GlobalDataAccessor.Instance.DesktopSession.ActiveRetail.CouponAmount;
                 decimal couponAmtTotal = 0.0m;
@@ -10072,11 +10075,24 @@ namespace Pawn.Logic.DesktopProcedures
             {
                 foreach (string s in icnToAdd)
                 {
-                    Item pItem = (from pawnItem in GlobalDataAccessor.Instance.DesktopSession.ActiveLayaway.RetailItems
+                    RetailItem pItem = (from pawnItem in GlobalDataAccessor.Instance.DesktopSession.ActiveLayaway.RetailItems
                                   where pawnItem.Icn == s
                                   select pawnItem).FirstOrDefault();
+
                     if (pItem != null)
                     {
+
+
+                        // Start here -- DaveG
+                        bool isTmpIcn = false;
+
+                        if (pItem.Icn.Substring(12, 1) == "8")
+                        {
+                            isTmpIcn = true;
+                        }
+
+                        // *** END  NEW ****
+                        
                         QuickCheck pItemQInfo = pItem.QuickInformation;
                         Int64[] primaryMasks = getMasks(pItem);
                         ProKnowMatch pKMatch = pItem.SelectedProKnowMatch;
@@ -10097,7 +10113,14 @@ namespace Pawn.Logic.DesktopProcedures
                         //Insert MDSE record for this pawn item
                         //Calculate the cost amount of the item
                         //Requirement is that cost will be 65% of the amount entered as retail amount
-                        decimal itemCost = COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+                       // decimal itemCost = COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+
+
+                        // *** new DaveG ***
+                        decimal itemCost = (isTmpIcn) ? COSTPERCENTAGEFROMRETAIL * decimal.Parse(pItem.NegotiatedPrice.ToString()) : COSTPERCENTAGEFROMRETAIL * pItem.ItemAmount;
+                        // *** END ***
+
+
 
                         bool curRetValue = ProcessTenderProcedures.ExecuteInsertMDSERecord(
                             pItem.mStore, pItem.mStore, pItem.mYear, pItem.mDocNumber,
@@ -10258,7 +10281,8 @@ namespace Pawn.Logic.DesktopProcedures
             refEvent.Add(ReceiptEventTypes.LAY.ToString());
 
             // ref amount is the active layaway amount
-            refAmount.Add((currentLayaway.DownPayment + couponTenderAmount).ToString());
+            //refAmount.Add((currentLayaway.DownPayment + couponTenderAmount).ToString());
+            refAmount.Add((currentLayaway.DownPayment).ToString());
 
             // ref store for sale is the store the receipt was printed at
             refStore.Add(GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId.StoreNumber);
@@ -10393,6 +10417,7 @@ namespace Pawn.Logic.DesktopProcedures
                         couponAmounts.Add("");
                         tranCouponAmounts.Add("");
                         tranCouponCodes.Add("");
+                        addlMdseRetPrice.Add(retItem.NegotiatedPrice.ToString());
                     }
                     if (addlMdseIcn.Count > 0)
                     {

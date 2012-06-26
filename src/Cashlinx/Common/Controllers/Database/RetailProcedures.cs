@@ -1323,6 +1323,96 @@ namespace Common.Controllers.Database
             return retVal;
         }
 
+        /// <summary>
+        ///  Check to see if this ICN is Sellable if not 
+        ///  returns a string containing the reason that it is not sellable, if it is not sellable 
+        ///  DaveG code
+        /// </summary>
+        /// <param name="ICN">ICN to check</param>
+        /// <param name="unsellableReason">The reason text indicating the reason the item is not sellable</param>
+        /// <param name="errorCode">Error code from the database call</param>
+        /// <param name="errorText">Error text from the database call</param>
+        /// <returns>true if the database call succeeds </returns>
+        public static bool isSearchItemSellable(
+        string icn,
+        out string unsellableReason,
+        out string errorCode,
+        out string errorText)
+        {
+            //Set default output values
+            errorCode = string.Empty;
+            errorText = string.Empty;
+            unsellableReason = string.Empty;
+
+            DataSet outputDataSet = null;
+            // searchItems = new List<RetailItem>();
+
+            OracleDataAccessor dA = GlobalDataAccessor.Instance.OracleDA;
+
+            //Verify that the accessor is valid
+            if (dA == null)
+            {
+                errorCode = "isSearchItemSellable";
+                errorText = "Invalid desktop session or data accessor instance";
+                BasicExceptionHandler.Instance.AddException("is_item_onHold",
+                                                            new ApplicationException("Can not execute the Search For Item stored procedure"));
+                unsellableReason = string.Empty;
+                return (false);
+            }
+
+            //Create input list
+            List<OracleProcParam> inParams = new List<OracleProcParam>();
+
+            inParams.Add(new OracleProcParam("p_icn", icn));
+            inParams.Add(new OracleProcParam("o_Unsellable_Reason", OracleDbType.Varchar2, unsellableReason, ParameterDirection.Output, 255));
+
+
+            //Setup ref cursor array
+            List<PairType<string, string>> refCursors = new List<PairType<string, string>>();
+
+
+
+            //Create output data set names
+            bool retVal = false;
+            try
+            {
+                retVal = dA.issueSqlStoredProcCommand(
+                    "ccsowner", "pawn_retail", "isItem_Sellable",
+                    inParams, refCursors, "o_return_code", "o_return_text",
+                    out outputDataSet);
+            }
+            catch (OracleException oEx)
+            {
+                errorCode = " -- is_item_onHold";
+                errorText = " -- Invocation of SearchForItem stored proc failed";
+                BasicExceptionHandler.Instance.AddException(
+                    "OracleException thrown when invoking item_search stored proc", oEx);
+                unsellableReason = string.Empty;
+                return (false);
+            }
+
+            //See if retVal is false
+            if (retVal == false)
+            {
+                errorCode = dA.ErrorCode;
+                errorText = dA.ErrorDescription;
+                unsellableReason = string.Empty;
+                return (false);
+            }
+
+
+            errorCode = "0";
+            errorText = string.Empty;
+
+            unsellableReason = outputDataSet.Tables[0].Rows[0].ItemArray[1].ToString();
+
+            return (true);
+        }
+
+
+
+
+
         public static bool SearchForItem(
             List<string> searchFor,
             List<string> searchValues,

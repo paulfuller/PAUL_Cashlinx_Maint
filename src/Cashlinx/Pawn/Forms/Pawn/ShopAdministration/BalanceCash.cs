@@ -479,6 +479,8 @@ namespace Pawn.Forms.Pawn.ShopAdministration
                     if (!overrideFrm.OverrideAllowed)
                     {
                         MessageBox.Show("Manager override needed to proceed with updating the balance");
+                        customButtonSubmit.Enabled = true;
+                        updateClicked = false;
                         return;
                     }
                 }

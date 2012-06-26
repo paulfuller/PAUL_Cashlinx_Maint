@@ -859,11 +859,8 @@ namespace Common.Controllers.Database.Procedures
 
                         //Get time made timestamp
                         storedPawnLoan.DateMade = Utilities.GetDateTimeValue(dataPawnLoanRow["DATE_MADE"], DateTime.MaxValue);
-                        storedPawnLoan.NewMadeDate = Utilities.GetDateTimeValue(dataPawnLoanRow["v_new_made"], storedPawnLoan.DateMade);
-
                         storedPawnLoan.MadeTime = Utilities.GetTimestampValue(dataPawnLoanRow["TIME_MADE"]);
                         storedPawnLoan.UpdatedDate = Utilities.GetDateTimeValue(dataPawnLoanRow["LASTUPDATEDATE"]);
-                        
 
                         //Set the pickup amount to be principal + interest
                         storedPawnLoan.PickupAmount = storedPawnLoan.Amount + storedPawnLoan.InterestAmount;
@@ -953,7 +950,8 @@ namespace Common.Controllers.Database.Procedures
                         {
                             foreach (DataRow dr in outputDataSet.Tables[PAWN_PAYMENTDETAILS_LIST].Rows)
                             {
-                                pPayment = new PartialPayment
+                                pPayment = 
+                                    new PartialPayment
                                                {
                                                    PMT_ID = Utilities.GetIntegerValue(dr["pmt_id"]),
                                                    PMT_AMOUNT = Utilities.GetDecimalValue(dr["pmt_amount"]),

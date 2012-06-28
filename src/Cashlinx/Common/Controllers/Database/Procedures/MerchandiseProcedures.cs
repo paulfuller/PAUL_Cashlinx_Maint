@@ -1370,7 +1370,7 @@ namespace Common.Controllers.Database.Procedures
             try
             {
                 retVal = dA.issueSqlStoredProcCommand(
-                    "ccsowner", "PAWN_MDSE_PROCS", "update_mdse_retail_price",
+                    "ccsowner", "PAUL_PAWN_MDSE_PROCS", "update_mdse_retail_price",
                     inParams, null, "o_error_code", "o_error_text",
                     out outputDataSet);
             }

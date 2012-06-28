@@ -1364,14 +1364,15 @@ namespace Common.Controllers.Database
             List<OracleProcParam> inParams = new List<OracleProcParam>();
 
             inParams.Add(new OracleProcParam("p_icn", icn));
-            inParams.Add(new OracleProcParam("o_Unsellable_Reason", OracleDbType.Varchar2, unsellableReason, ParameterDirection.Output, 255));
-
             /** new dave **/
             string myStoreNumber = GlobalDataAccessor.Instance.DesktopSession.CurrentSiteId.StoreNumber;
 
             inParams.Add(new OracleProcParam("p_StoreNumber", myStoreNumber));
 
             /** END **/
+            
+            inParams.Add(new OracleProcParam("o_Unsellable_Reason", OracleDbType.Varchar2, unsellableReason, ParameterDirection.Output, 255));
+
 
             //Setup ref cursor array
             List<PairType<string, string>> refCursors = new List<PairType<string, string>>();

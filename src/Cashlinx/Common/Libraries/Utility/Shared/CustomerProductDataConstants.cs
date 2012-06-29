@@ -272,8 +272,8 @@ namespace Common.Libraries.Utility.Shared
         BYOUT,
         CON,
         GNEDT,
-        PPMNT
-  
+        PPMNT,
+        COFF
         
     }
     public enum ServiceIndicators

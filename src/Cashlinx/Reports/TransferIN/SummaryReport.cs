@@ -410,10 +410,12 @@ namespace Reports.TransferIN
 
         private void PrintDetailRow(TransferItemVO vo, PdfPTable table, int row)
         {
-            decimal totalCost = vo.PfiAmount;
+            //pf-27 (all below that now use ItemCost)
+            //decimal totalCost = vo.PfiAmount;
+            decimal totalCost = vo.ItemCost;
             decimal totalRetail = vo.RetailPrice;
-            if (Convert.ToInt32(vo.ICNQty) > 0 && vo.PfiAmount > 0.0m)
-                totalCost = Convert.ToInt32(vo.ICNQty) * vo.PfiAmount;
+            if (Convert.ToInt32(vo.ICNQty) > 0 && vo.ItemCost > 0.0m)
+                totalCost = Convert.ToInt32(vo.ICNQty) * vo.ItemCost;
             if (Convert.ToInt32(vo.ICNQty) > 0 && vo.RetailPrice > 0.0m)
                 totalRetail = Convert.ToInt32(vo.ICNQty) * vo.RetailPrice;
 
@@ -446,9 +448,9 @@ namespace Reports.TransferIN
             cell.VerticalAlignment = Element.ALIGN_TOP;
             table.AddCell(cell);
 
-            totalAmt += vo.PfiAmount;
+            totalAmt += vo.ItemCost;
 
-            cell = new PdfPCell(new Paragraph(String.Format("{0:C}", vo.PfiAmount), _reportFont));
+            cell = new PdfPCell(new Paragraph(String.Format("{0:C}", vo.ItemCost), _reportFont));
             //cell.Border = Rectangle.NO_BORDER;
             cell.HorizontalAlignment = Element.ALIGN_LEFT;
             cell.VerticalAlignment = Element.ALIGN_TOP;

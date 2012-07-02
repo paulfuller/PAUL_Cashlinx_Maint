@@ -180,7 +180,9 @@ namespace Pawn.Flows.AppController.Impl.MainSubFlows
                         var transferList = new List<TransferItemVO>();
                         var reportObj = new ReportObject.TransferINReportStruct();
 
-                        reportObj.transDate = ShopDateTime.Instance.ShopDate.ToString();
+                        //reportObj.transDate = ShopDateTime.Instance.ShopDate.ToString();
+                        //pf - 27, no CQ issued as of yet
+                        reportObj.transDate = ShopDateTime.Instance.ShopDateCurTime.ToString("g");
                         reportObj.userID = dSession.FullUserName;
                         reportObj.ToStoreName = GlobalDataAccessor.Instance.CurrentSiteId.StoreNickName;
                         reportObj.ToStoreNo = string.Empty;
@@ -193,7 +195,10 @@ namespace Pawn.Flows.AppController.Impl.MainSubFlows
                         reportObj.storeMgrName = string.Empty;
                         reportObj.transNum = string.Format("{0}", ticketNumber);
                         reportObj.Carrier = dSession.ActiveTransferIn.Carrier;
-                        reportObj.DateReceived = dSession.ActiveTransferIn.StatusDate.ToString();
+                        //pf issue 27
+                        //reportObj.DateReceived = dSession.ActiveTransferIn.StatusDate.ToString();
+                        //reportObj.DateReceived = dSession.ActiveTransferIn.StatusDate.ToString("d");
+                        reportObj.DateReceived = ShopDateTime.Instance.ShopDateCurTime.ToString("d");
                         reportObj.TransferReference = dSession.ActiveTransferIn.TransferTicketNumber.ToString();
                         reportObj.ReceivedBy = string.Empty;
                         reportObj.logPath =

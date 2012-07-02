@@ -614,7 +614,7 @@ namespace Common.Controllers.Database.Procedures
             try
             {
                 retVal = GlobalDataAccessor.Instance.OracleDA.issueSqlStoredProcCommand("ccsowner",
-                                                                                            "transfers", "retrieve_TI_ticket_mdse", oParams, refCursors, "o_return_code",
+                                                                                            "paul_transfers", "retrieve_TI_ticket_mdse", oParams, refCursors, "o_return_code",
                                                                                             "o_return_text", out outputDataSet);
                 errorCode = dA.ErrorCode;
                 errorText = dA.ErrorDescription;
@@ -646,6 +646,9 @@ namespace Common.Controllers.Database.Procedures
                     item.PfiAmount = Utilities.GetDecimalValue(dr["pfi_amount"], 0);
                     item.RefurbNumber = Utilities.GetIntegerValue(dr["rfb_no"], 0);
                     item.ICNQty = Utilities.GetStringValue(dr["quantity"]);
+                    //pf - issue 27, next 2 lines
+                    item.RetailPrice = Utilities.GetDecimalValue(dr["retail_price"]);
+                    item.ItemCost = Utilities.GetDecimalValue(dr["item_amt"]);
                     item.Transfer = transfer;
                     transfer.Items.Add(item);
                 }
